@@ -158,12 +158,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     _rpcOperationQueue = [[NSOperationQueue alloc] init];
     _rpcOperationQueue.name = @"com.sdl.lifecycle.rpcOperation.concurrent";
     _rpcOperationQueue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
-
-    if (@available(iOS 10.0, *)) {
-        _lifecycleQueue = dispatch_queue_create_with_target("com.sdl.lifecycle", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
-    } else {
-        _lifecycleQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
-    }
+    _lifecycleQueue = dispatch_queue_create_with_target("com.sdl.lifecycle", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
 
     _currentVRLanguage = _configuration.lifecycleConfig.language;
     

@@ -64,13 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-
-    if (@available(iOS 10.0, *)) {
-        _readWriteQueue = dispatch_queue_create_with_target("com.sdl.lifecycle.responseDispatcher", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
-    } else {
-        _readWriteQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
-    }
-
+    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.lifecycle.responseDispatcher", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _rpcRequestDictionary = [NSMutableDictionary dictionary];
     _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];

@@ -94,12 +94,7 @@ typedef NSString * SDLServiceID;
         return nil;
     }
 
-    if (@available(iOS 10.0, *)) {
-        _readWriteQueue = dispatch_queue_create_with_target("com.sdl.systemCapabilityManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
-    } else {
-        _readWriteQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
-    }
-
+    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.systemCapabilityManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _connectionManager = manager;
     _shouldConvertDeprecatedDisplayCapabilities = YES;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
