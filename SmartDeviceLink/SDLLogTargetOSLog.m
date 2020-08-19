@@ -38,21 +38,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)setupLogger {
-    // If the iPhone OS is less than 10.0, os_log is not available.
-    NSOperatingSystemVersion osVersion = [NSProcessInfo processInfo].operatingSystemVersion;
-
-    return osVersion.majorVersion >= 10;
+    return YES;
 }
 
 - (void)logWithLog:(SDLLogModel *)log formattedLog:(NSString *)stringLog {
-    if (@available(iOS 10.0, *)) {
-        NSString *moduleName = log.moduleName ? log.moduleName : @"";
-        if (self.clients[moduleName] == nil) {
-            self.clients[moduleName] = os_log_create("com.sdl.log", moduleName.UTF8String);
-        }
-
-        os_log_with_type(self.clients[moduleName], [self oslogLevelForSDLLogLevel:log.level], "%{public}@", log.message);
+    NSString *moduleName = log.moduleName ? log.moduleName : @"";
+    if (self.clients[moduleName] == nil) {
+        self.clients[moduleName] = os_log_create("com.sdl.log", moduleName.UTF8String);
     }
+
+    os_log_with_type(self.clients[moduleName], [self oslogLevelForSDLLogLevel:log.level], "%{public}@", log.message);
 }
 
 - (void)teardownLogger {
