@@ -20,8 +20,8 @@ QuickSpecBegin(SDLStreamingVideoScaleManagerSpec)
 
 describe(@"the streaming video scale manager", ^{
     __block SDLStreamingVideoScaleManager *videoScaleManager = nil;
-    __block float testScale = 2.3;
-    __block CGSize testScreenSize = CGSizeMake(200, 400);
+    const float testScale = 2.3;
+    const CGSize testScreenSize = CGSizeMake(200, 400);
 
     it(@"should initialize correctly with init", ^{
         videoScaleManager = [[SDLStreamingVideoScaleManager alloc] init];
@@ -40,22 +40,24 @@ describe(@"the streaming video scale manager", ^{
     context(@"test scaling a frame", ^{
          it(@"should scale the frame correctly with a scale > 1", ^{
              videoScaleManager.scale = 1.25;
-             CGRect expectedRect = CGRectMake(0, 0, 160, 320);
-             CGRect testRect = videoScaleManager.appViewportFrame;
+             const CGRect expectedRect = CGRectMake(0, 0, 160, 320);
+             const CGRect testRect = videoScaleManager.appViewportFrame;
              expect(@(CGRectEqualToRect(expectedRect, testRect))).to(beTrue());
          });
 
-        it(@"should not scale the frame with a scale < 1", ^{
-            videoScaleManager.scale = 0.3;
-            CGRect expectedRect = CGRectMake(0, 0, testScreenSize.width, testScreenSize.height);
-            CGRect testRect = videoScaleManager.appViewportFrame;
+        it(@"should scale the frame correctly with the scale 0.3", ^{
+            const float scale = 0.3f;
+            videoScaleManager.scale = scale;
+            const CGRect expectedRect = CGRectMake(0, 0, roundf(testScreenSize.width/scale), roundf(testScreenSize.height/scale));
+            const CGRect testRect = videoScaleManager.appViewportFrame;
             expect(@(CGRectEqualToRect(expectedRect, testRect))).to(beTrue());
         });
 
-        it(@"should not scale the frame with a scale = 1", ^{
-            videoScaleManager.scale = 0.3;
-            CGRect expectedRect = CGRectMake(0, 0, testScreenSize.width, testScreenSize.height);
-            CGRect testRect = videoScaleManager.appViewportFrame;
+        it(@"should scale the frame correctly with the scale 1.0", ^{
+            const float scale = 1.0f;
+            videoScaleManager.scale = scale;
+            const CGRect expectedRect = CGRectMake(0, 0, testScreenSize.width, testScreenSize.height);
+            const CGRect testRect = videoScaleManager.appViewportFrame;
             expect(@(CGRectEqualToRect(expectedRect, testRect))).to(beTrue());
         });
     });
@@ -77,7 +79,7 @@ describe(@"the streaming video scale manager", ^{
 
         it(@"should scale the coordinates correctly with a scale > 1", ^{
             videoScaleManager.scale = 1.25;
-            CGPoint expectedCoordinates = CGPointMake(80, 160);
+            const CGPoint expectedCoordinates = CGPointMake(80, 160);
             SDLOnTouchEvent *testOnTouchEvent = [videoScaleManager scaleTouchEventCoordinates:onTouchEvent];
             CGPoint testCoordinates = CGPointMake(testOnTouchEvent.event.firstObject.coord.firstObject.x.floatValue, testOnTouchEvent.event.firstObject.coord.firstObject.y.floatValue);
             expect(@(CGPointEqualToPoint(testCoordinates, expectedCoordinates))).to(beTrue());
@@ -85,26 +87,26 @@ describe(@"the streaming video scale manager", ^{
 
         it(@"should scale the coordinates correctly with a scale < 1", ^{
             videoScaleManager.scale = 0.1;
-            CGPoint expectedCoordinates = CGPointMake(100, 200);
+            const CGPoint expectedCoordinates = CGPointMake(100, 200);
             SDLOnTouchEvent *testOnTouchEvent = [videoScaleManager scaleTouchEventCoordinates:onTouchEvent];
-            CGPoint testCoordinates = CGPointMake(testOnTouchEvent.event.firstObject.coord.firstObject.x.floatValue, testOnTouchEvent.event.firstObject.coord.firstObject.y.floatValue);
+            const CGPoint testCoordinates = CGPointMake(testOnTouchEvent.event.firstObject.coord.firstObject.x.floatValue, testOnTouchEvent.event.firstObject.coord.firstObject.y.floatValue);
             expect(@(CGPointEqualToPoint(testCoordinates, expectedCoordinates))).to(beTrue());
         });
 
         it(@"should scale the coordinates correctly with a scale = 1", ^{
             videoScaleManager.scale = 1.0;
-            CGPoint expectedCoordinates = CGPointMake(100, 200);
+            const CGPoint expectedCoordinates = CGPointMake(100, 200);
             SDLOnTouchEvent *testOnTouchEvent = [videoScaleManager scaleTouchEventCoordinates:onTouchEvent];
-            CGPoint testCoordinates = CGPointMake(testOnTouchEvent.event.firstObject.coord.firstObject.x.floatValue, testOnTouchEvent.event.firstObject.coord.firstObject.y.floatValue);
+            const CGPoint testCoordinates = CGPointMake(testOnTouchEvent.event.firstObject.coord.firstObject.x.floatValue, testOnTouchEvent.event.firstObject.coord.firstObject.y.floatValue);
             expect(@(CGPointEqualToPoint(testCoordinates, expectedCoordinates))).to(beTrue());
         });
     });
 
     context(@"test scaling a haptic rect", ^{
         __block SDLHapticRect *hapticRect = nil;
+        const CGRect rect = CGRectMake(10, 10, 100, 200);
 
          beforeEach(^{
-             CGRect rect = CGRectMake(10, 10, 100, 200);
              SDLRectangle *rectangle = [[SDLRectangle alloc] initWithCGRect:rect];
              hapticRect = [[SDLHapticRect alloc] initWithId:2 rect:rectangle];
          });
@@ -118,7 +120,7 @@ describe(@"the streaming video scale manager", ^{
 
          it(@"should scale the rectangle correctly with a scale < 1", ^{
              videoScaleManager.scale = 0.4;
-             SDLRectangle *expectedRect = [[SDLRectangle alloc] initWithX:10 y:10 width:100 height:200];
+             SDLRectangle *expectedRect = [[SDLRectangle alloc] initWithX:4 y:4 width:40 height:80];
              SDLHapticRect *testRect = [videoScaleManager scaleHapticRect:hapticRect];
              expect(testRect.rect).to(equal(expectedRect));
          });
