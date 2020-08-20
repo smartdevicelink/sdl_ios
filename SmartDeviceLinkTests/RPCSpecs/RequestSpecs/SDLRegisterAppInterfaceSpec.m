@@ -214,54 +214,6 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.nightColorScheme).to(beNil());
         });
 
-        it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
-#pragma clang diagnostic pop
-            expect(testRegisterAppInterface.fullAppID).to(beNil());
-            expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
-            expect(testRegisterAppInterface.appName).to(equal(appName));
-            expect(testRegisterAppInterface.ttsName).to(beNil());
-            expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
-            expect(testRegisterAppInterface.appHMIType).to(contain(SDLAppHMITypeMedia));
-            expect(testRegisterAppInterface.appHMIType).to(contain(SDLAppHMITypeNavigation));
-            expect(testRegisterAppInterface.appHMIType).to(contain(SDLAppHMITypeInformation));
-            expect(testRegisterAppInterface.isMediaApplication).to(equal(isMediaApp));
-            expect(testRegisterAppInterface.hashID).to(beNil());
-            expect(testRegisterAppInterface.languageDesired).to(equal(language));
-            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(language));
-            expect(testRegisterAppInterface.vrSynonyms).to(beNil());
-            expect(testRegisterAppInterface.deviceInfo).toNot(beNil());
-            expect(testRegisterAppInterface.appInfo).toNot(beNil());
-            expect(testRegisterAppInterface.dayColorScheme).to(beNil());
-            expect(testRegisterAppInterface.nightColorScheme).to(beNil());
-        });
-        it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash];
-#pragma clang diagnostic pop
-            expect(testRegisterAppInterface.fullAppID).to(beNil());
-            expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
-            expect(testRegisterAppInterface.appName).to(equal(appName));
-            expect(testRegisterAppInterface.ttsName).to(contain(chunk));
-            expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
-            expect(testRegisterAppInterface.appHMIType).to(contain(SDLAppHMITypeMedia));
-            expect(testRegisterAppInterface.appHMIType).to(contain(SDLAppHMITypeNavigation));
-            expect(testRegisterAppInterface.appHMIType).to(contain(SDLAppHMITypeInformation));
-            expect(testRegisterAppInterface.isMediaApplication).to(equal(isMediaApp));
-            expect(testRegisterAppInterface.hashID).to(match(resumeHash));
-            expect(testRegisterAppInterface.languageDesired).to(equal(language));
-            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(hmiDisplayLanguage));
-            expect(testRegisterAppInterface.vrSynonyms).to(contain(vrSynonyms));
-            expect(testRegisterAppInterface.deviceInfo).toNot(beNil());
-            expect(testRegisterAppInterface.appInfo).toNot(beNil());
-            expect(testRegisterAppInterface.dayColorScheme).to(beNil());
-            expect(testRegisterAppInterface.nightColorScheme).to(beNil());
-        });
         it(@"initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:", ^{
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash dayColorScheme:colorScheme nightColorScheme:colorScheme];
 
