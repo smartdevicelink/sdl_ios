@@ -12,21 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRadioControlData
 
-- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable {
-    self = [self init];
-    if(!self) {
-        return nil;
-    }
-
-    self.frequencyInteger = frequencyInteger;
-    self.frequencyFraction = frequencyFraction;
-    self.band = band;
-    self.hdChannel = hdChannel;
-    self.radioEnable = radioEnable;
-    
-    return self;
-}
-
 - (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable hdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable {
     self = [self init];
     if(!self) {
