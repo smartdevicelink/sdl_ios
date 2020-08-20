@@ -396,7 +396,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             if (capability.maxBitrate != nil) {
                 weakSelf.videoEncoderSettings[(__bridge NSString *) kVTCompressionPropertyKey_AverageBitRate] = [[NSNumber alloc] initWithUnsignedLongLong:(capability.maxBitrate.unsignedLongLongValue * 1000)];
             }
-            NSUInteger  preferredFPS = (capability.preferredFPS.integerValue == 0) ? defaultFrameRate : capability.preferredFPS.integerValue;
+            NSUInteger  preferredFPS = (capability.preferredFPS.integerValue == 0) ? defaultFrameRate : capability.preferredFPS.unsignedIntValue;
             SDLLogD(@"videoEncoderSettings = %@", weakSelf.videoEncoderSettings);
             weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(preferredFPS);
             SDLLogD(@"SDLCarWindow#didEnterStateVideoStreamStarting preferredFPS=%lu", (unsigned long)preferredFPS);
@@ -429,7 +429,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
         for (id key in self.customEncoderSettings.keyEnumerator) {
-            if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] == YES) {
+            if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]) {
                 // do NOT override framerate if custom setting is higher than current setting.
                 if ([self.customEncoderSettings valueForKey:key] < self.videoEncoderSettings[key]) {
                     self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
