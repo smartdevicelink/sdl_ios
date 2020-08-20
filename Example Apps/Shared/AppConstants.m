@@ -19,18 +19,15 @@ NSString * const SmartDeviceLinkText = @"SmartDeviceLink (SDL)";
 NSString * const ExampleAppText = @"Example App";
 
 #pragma mark - SDL Soft Buttons
-NSString * const ToggleSoftButton = @"ToggleSoftButton";
-NSString * const ToggleSoftButtonImageOnState = @"ToggleSoftButtonImageOnState";
-NSString * const ToggleSoftButtonImageOffState = @"ToggleSoftButtonImageOffState";
-NSString * const ToggleSoftButtonTextOnState = @"ToggleSoftButtonTextOnState";
-NSString * const ToggleSoftButtonTextOffState = @"ToggleSoftButtonTextOffState";
-NSString * const ToggleSoftButtonTextTextOnText = @"➖";
-NSString * const ToggleSoftButtonTextTextOffText = @"➕";
+NSString * const SubtleAlertSoftButton = @"SubtleAlertSoftButton";
+NSString * const SubtleAlertSoftButtonImageAndTextState = @"SubtleAlertSoftButtonImageAndTextState";
+NSString * const SubtleAlertSoftButtonTextState = @"SubtleAlertSoftButtonTextState";
+NSString * const SubtleAlertSoftButtonText = @"Check Battery";
 
 NSString * const AlertSoftButton = @"AlertSoftButton";
-NSString * const AlertSoftButtonImageState = @"AlertSoftButtonImageState";
+NSString * const AlertSoftButtonImageAndTextState = @"AlertSoftButtonImageAndTextState";
 NSString * const AlertSoftButtonTextState = @"AlertSoftButtonTextState";
-NSString * const AlertSoftButtonText = @"Tap Me";
+NSString * const AlertSoftButtonText = @"Show Alert";
 
 NSString * const TextVisibleSoftButton = @"TextVisibleSoftButton";
 NSString * const TextVisibleSoftButtonTextOnState = @"TextVisibleSoftButtonTextOnState";
@@ -45,7 +42,21 @@ NSString * const ImagesVisibleSoftButtonImageOnText = @"➖Icons";
 NSString * const ImagesVisibleSoftButtonImageOffText = @"➕Icons";
 
 #pragma mark - Alert
+NSString * const AlertMessageText = @"You pressed the button!";
 NSString * const AlertOKButtonText = @"OK";
+NSString * const SubtleAlertHeaderText = @"Battery Level";
+NSString * const SubtleAlertSubheaderText = @"Almost empty";
+NSString * const AlertDialNumberPermissionsWarningText = @"This app does not have the required permissions to dial a number";
+NSString * const AlertDialNumberUnavailableWarningText = @"The dial number feature is unavailable for this head unit";
+NSString * const AlertSliderTimedOutWarningText = @"Slider timed out";
+NSString * const AlertSliderCancelledWarningText = @"Slider cancelled";
+NSString * const AlertSliderGeneralWarningText = @"Slider could not be displayed";
+NSString * const AlertScrollableMessageTimedOutWarningText = @"Scrollable Message timed out";
+NSString * const AlertScrollableMessageCancelledWarningText = @"Scrollable Message cancelled";
+NSString * const AlertScrollableMessageGeneralWarningText = @"Scrollable Message could not be displayed";
+NSString * const AlertVehicleDataPermissionsWarningText = @"This app does not have the required permissions to access vehicle data";
+NSString * const AlertVehicleDataGeneralWarningText = @"Something went wrong while getting vehicle data";
+NSString * const AlertSpeechPermissionsWarningText = @"You must give this app permission to access Speech Recognition";
 
 #pragma mark - SDL Text-To-Speech
 NSString * const TTSGoodJob = @"Good Job";
@@ -120,8 +131,8 @@ NSString * const MenuBWIconImageName = @"choice_set";
 NSString * const MicrophoneBWIconImageName = @"microphone";
 NSString * const PhoneBWIconImageName = @"phone";
 NSString * const SpeakBWIconImageName = @"speak";
-NSString * const ToggleOffBWIconName = @"toggle_off";
-NSString * const ToggleOnBWIconName = @"toggle_on";
+NSString * const BatteryEmptyBWIconName = @"toggle_off";
+NSString * const BatteryFullBWIconName = @"toggle_on";
 
 #pragma mark - SDL App Name in Different Languages
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";

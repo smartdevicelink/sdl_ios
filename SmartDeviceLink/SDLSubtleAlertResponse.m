@@ -30,20 +30,44 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLImageFieldName.h"
+#import "SDLSubtleAlertResponse.h"
 
-SDLImageFieldName const SDLImageFieldNameAlertIcon = @"alertIcon";
-SDLImageFieldName const SDLImageFieldNameSoftButtonImage = @"softButtonImage";
-SDLImageFieldName const SDLImageFieldNameChoiceImage = @"choiceImage";
-SDLImageFieldName const SDLImageFieldNameChoiceSecondaryImage = @"choiceSecondaryImage";
-SDLImageFieldName const SDLImageFieldNameVoiceRecognitionHelpItem = @"vrHelpItem";
-SDLImageFieldName const SDLImageFieldNameTurnIcon = @"turnIcon";
-SDLImageFieldName const SDLImageFieldNameMenuIcon = @"menuIcon";
-SDLImageFieldName const SDLImageFieldNameCommandIcon = @"cmdIcon";
-SDLImageFieldName const SDLImageFieldNameAppIcon = @"appIcon";
-SDLImageFieldName const SDLImageFieldNameGraphic = @"graphic";
-SDLImageFieldName const SDLImageFieldNameSecondaryGraphic = @"secondaryGraphic";
-SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon = @"showConstantTBTIcon";
-SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon = @"showConstantTBTNextTurnIcon";
-SDLImageFieldName const SDLImageFieldNameLocationImage = @"locationImage";
-SDLImageFieldName const SDLImageFieldNameSubtleAlertIcon = @"subtleAlertIcon";
+#import "NSMutableDictionary+Store.h"
+#import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation SDLSubtleAlertResponse
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (instancetype)init {
+    self = [super initWithName:SDLRPCFunctionNameSubtleAlert];
+    if (!self) {
+        return nil;
+    }
+    return self;
+}
+#pragma clang diagnostic pop
+
+- (instancetype)initWithTryAgainTime:(nullable NSNumber<SDLUInt> *)tryAgainTime {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.tryAgainTime = tryAgainTime;
+    return self;
+}
+
+- (void)setTryAgainTime:(nullable NSNumber<SDLUInt> *)tryAgainTime {
+    [self.parameters sdl_setObject:tryAgainTime forName:SDLRPCParameterNameTryAgainTime];
+}
+
+- (nullable NSNumber<SDLUInt> *)tryAgainTime {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTryAgainTime ofClass:NSNumber.class error:nil];
+}
+
+@end
+
+NS_ASSUME_NONNULL_END

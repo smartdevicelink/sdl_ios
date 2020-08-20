@@ -98,7 +98,7 @@ private extension MenuManager {
         }
 
         return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
-            manager.send(AlertManager.alertWithMessageAndCloseButton("Speech recognition feature only available on iOS 10+"))
+            AlertManager.sendAlert(textField1: "Speech recognition feature only available on iOS 10+", sdlManager: manager)
         })
     }
 
@@ -109,7 +109,7 @@ private extension MenuManager {
     class func menuCellDialNumber(with manager: SDLManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: SDLArtwork(image: UIImage(named: PhoneBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACDialPhoneNumberMenuName], handler: { _ in
             guard RPCPermissionsManager.isDialNumberRPCAllowed(with: manager) else {
-                manager.send(AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to dial a number"))
+                AlertManager.sendAlert(textField1: AlertDialNumberPermissionsWarningText, sdlManager: manager)
                 return
             }
 
@@ -133,7 +133,7 @@ private extension MenuManager {
             let display = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
             manager.send(request: display) { (request, response, error) in
                 guard response?.success.boolValue == .some(true) else {
-                    manager.send(AlertManager.alertWithMessageAndCloseButton(errorMessage))
+                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
                     return
                 }
             }
@@ -145,7 +145,7 @@ private extension MenuManager {
             let display = SDLSetDisplayLayout(predefinedLayout: .graphicWithText)
             manager.send(request: display) { (request, response, error) in
                 guard response?.success.boolValue == .some(true) else {
-                    manager.send(AlertManager.alertWithMessageAndCloseButton(errorMessage))
+                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
                     return
                 }
             }
@@ -166,7 +166,7 @@ private extension MenuManager {
                 let message = "\(submenuTitle) selected!"
                 switch triggerSource {
                 case .menu:
-                    manager.send(AlertManager.alertWithMessageAndCloseButton(message))
+                    AlertManager.sendAlert(textField1: message, sdlManager: manager)
                 case .voiceRecognition:
                     manager.send(SDLSpeak(tts: message))
                 default: break
@@ -184,11 +184,11 @@ private extension MenuManager {
                 guard let response = response else { return }
                 guard response.resultCode == .success else {
                     if response.resultCode == .timedOut {
-                        manager.send(AlertManager.alertWithMessageAndCloseButton("Slider timed out"))
+                        AlertManager.sendAlert(textField1: AlertSliderTimedOutWarningText, sdlManager: manager)
                     } else if response.resultCode == .aborted {
-                        manager.send(AlertManager.alertWithMessageAndCloseButton("Slider cancelled"))
+                        AlertManager.sendAlert(textField1: AlertSliderCancelledWarningText, sdlManager: manager)
                     } else {
-                        manager.send(AlertManager.alertWithMessageAndCloseButton("Slider could not be displayed"))
+                        AlertManager.sendAlert(textField1: AlertSliderGeneralWarningText, sdlManager: manager)
                     }
                     return
                 }
@@ -203,11 +203,11 @@ private extension MenuManager {
                 guard let response = response else { return }
                 guard response.resultCode == .success else {
                     if response.resultCode == .timedOut {
-                        manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message timed out"))
+                        AlertManager.sendAlert(textField1: AlertScrollableMessageTimedOutWarningText, sdlManager: manager)
                     } else if response.resultCode == .aborted {
-                        manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message cancelled"))
+                        AlertManager.sendAlert(textField1: AlertScrollableMessageCancelledWarningText, sdlManager: manager)
                     } else {
-                        manager.send(AlertManager.alertWithMessageAndCloseButton("Scrollable Message could not be displayed"))
+                        AlertManager.sendAlert(textField1: AlertScrollableMessageGeneralWarningText, sdlManager: manager)
                     }
                     return
                 }
@@ -225,7 +225,7 @@ private extension MenuManager {
     /// - Returns: A SDLVoiceCommand object
     class func voiceCommandStart(with manager: SDLManager) -> SDLVoiceCommand {
         return SDLVoiceCommand(voiceCommands: [VCStart], handler: {
-            manager.send(AlertManager.alertWithMessageAndCloseButton("\(VCStart) voice command selected!"))
+            AlertManager.sendAlert(textField1: "\(VCStart) voice command selected!", sdlManager: manager)
         })
     }
 
@@ -235,7 +235,7 @@ private extension MenuManager {
     /// - Returns: A SDLVoiceCommand object
     class func voiceCommandStop(with manager: SDLManager) -> SDLVoiceCommand {
         return SDLVoiceCommand(voiceCommands: [VCStop], handler: {
-            manager.send(AlertManager.alertWithMessageAndCloseButton("\(VCStop) voice command selected!"))
+            AlertManager.sendAlert(textField1: "\(VCStop) voice command selected!", sdlManager: manager)
         })
     }
 }

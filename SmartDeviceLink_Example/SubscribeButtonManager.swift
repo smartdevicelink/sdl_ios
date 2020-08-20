@@ -38,16 +38,13 @@ class SubscribeButtonManager: NSObject {
 
         guard let buttonPress = buttonPress else { return }
 
-        let alert: SDLAlert
         let buttonNameString = buttonName.rawValue.rawValue
         switch buttonPress.buttonPressMode {
         case .short:
-            alert = AlertManager.alertWithMessageAndCloseButton("\(buttonNameString) short pressed")
+            AlertManager.sendAlert(textField1: "\(buttonNameString) short pressed", sdlManager: sdlManager)
         case .long:
-            alert = AlertManager.alertWithMessageAndCloseButton("\(buttonNameString) long pressed")
+            AlertManager.sendAlert(textField1: "\(buttonNameString) long pressed", sdlManager: sdlManager)
         default: fatalError()
         }
-
-        sdlManager.send(alert)
     }
 }

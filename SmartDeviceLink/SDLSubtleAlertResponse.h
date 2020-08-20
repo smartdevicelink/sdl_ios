@@ -30,20 +30,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLImageFieldName.h"
+#import "SDLRPCResponse.h"
 
-SDLImageFieldName const SDLImageFieldNameAlertIcon = @"alertIcon";
-SDLImageFieldName const SDLImageFieldNameSoftButtonImage = @"softButtonImage";
-SDLImageFieldName const SDLImageFieldNameChoiceImage = @"choiceImage";
-SDLImageFieldName const SDLImageFieldNameChoiceSecondaryImage = @"choiceSecondaryImage";
-SDLImageFieldName const SDLImageFieldNameVoiceRecognitionHelpItem = @"vrHelpItem";
-SDLImageFieldName const SDLImageFieldNameTurnIcon = @"turnIcon";
-SDLImageFieldName const SDLImageFieldNameMenuIcon = @"menuIcon";
-SDLImageFieldName const SDLImageFieldNameCommandIcon = @"cmdIcon";
-SDLImageFieldName const SDLImageFieldNameAppIcon = @"appIcon";
-SDLImageFieldName const SDLImageFieldNameGraphic = @"graphic";
-SDLImageFieldName const SDLImageFieldNameSecondaryGraphic = @"secondaryGraphic";
-SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon = @"showConstantTBTIcon";
-SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon = @"showConstantTBTNextTurnIcon";
-SDLImageFieldName const SDLImageFieldNameLocationImage = @"locationImage";
-SDLImageFieldName const SDLImageFieldNameSubtleAlertIcon = @"subtleAlertIcon";
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ * @since SDL 7.0.0
+ */
+@interface SDLSubtleAlertResponse : SDLRPCResponse
+
+/**
+ * @param tryAgainTime - tryAgainTime
+ * @return A SDLSubtleAlertResponse object
+ */
+- (instancetype)initWithTryAgainTime:(nullable NSNumber<SDLUInt> *)tryAgainTime;
+
+/**
+ * Amount of time (in milliseconds) that an app must wait before resending an alert. If provided, another system event or overlay currently has a higher priority than this alert. An app must not send an alert without waiting at least the amount of time dictated.
+ * {"default_value": null, "max_value": 2000000000, "min_value": 0}
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *tryAgainTime;
+
+@end
+
+NS_ASSUME_NONNULL_END

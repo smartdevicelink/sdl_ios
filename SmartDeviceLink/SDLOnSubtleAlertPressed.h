@@ -30,20 +30,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SDLImageFieldName.h"
+#import "SDLRPCNotification.h"
 
-SDLImageFieldName const SDLImageFieldNameAlertIcon = @"alertIcon";
-SDLImageFieldName const SDLImageFieldNameSoftButtonImage = @"softButtonImage";
-SDLImageFieldName const SDLImageFieldNameChoiceImage = @"choiceImage";
-SDLImageFieldName const SDLImageFieldNameChoiceSecondaryImage = @"choiceSecondaryImage";
-SDLImageFieldName const SDLImageFieldNameVoiceRecognitionHelpItem = @"vrHelpItem";
-SDLImageFieldName const SDLImageFieldNameTurnIcon = @"turnIcon";
-SDLImageFieldName const SDLImageFieldNameMenuIcon = @"menuIcon";
-SDLImageFieldName const SDLImageFieldNameCommandIcon = @"cmdIcon";
-SDLImageFieldName const SDLImageFieldNameAppIcon = @"appIcon";
-SDLImageFieldName const SDLImageFieldNameGraphic = @"graphic";
-SDLImageFieldName const SDLImageFieldNameSecondaryGraphic = @"secondaryGraphic";
-SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon = @"showConstantTBTIcon";
-SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon = @"showConstantTBTNextTurnIcon";
-SDLImageFieldName const SDLImageFieldNameLocationImage = @"locationImage";
-SDLImageFieldName const SDLImageFieldNameSubtleAlertIcon = @"subtleAlertIcon";
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ * Sent when the alert itself is touched (outside of a soft button). Touching (or otherwise selecting) the alert should open the app before sending this notification.
+ *
+ * @since SDL 7.0.0
+ */
+@interface SDLOnSubtleAlertPressed : SDLRPCNotification
+
+@end
+
+NS_ASSUME_NONNULL_END

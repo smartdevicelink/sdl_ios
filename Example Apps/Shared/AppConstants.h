@@ -22,16 +22,13 @@ extern NSString * const SmartDeviceLinkText;
 extern NSString * const ExampleAppText;
 
 #pragma mark - SDL Soft Buttons
-extern NSString * const ToggleSoftButton;
-extern NSString * const ToggleSoftButtonImageOnState;
-extern NSString * const ToggleSoftButtonImageOffState;
-extern NSString * const ToggleSoftButtonTextOnState;
-extern NSString * const ToggleSoftButtonTextOffState;
-extern NSString * const ToggleSoftButtonTextTextOnText;
-extern NSString * const ToggleSoftButtonTextTextOffText;
+extern NSString * const SubtleAlertSoftButton;
+extern NSString * const SubtleAlertSoftButtonImageAndTextState;
+extern NSString * const SubtleAlertSoftButtonTextState;
+extern NSString * const SubtleAlertSoftButtonText;
 
 extern NSString * const AlertSoftButton;
-extern NSString * const AlertSoftButtonImageState;
+extern NSString * const AlertSoftButtonImageAndTextState;
 extern NSString * const AlertSoftButtonTextState;
 extern NSString * const AlertSoftButtonText;
 
@@ -48,7 +45,21 @@ extern NSString * const ImagesVisibleSoftButtonImageOnText;
 extern NSString * const ImagesVisibleSoftButtonImageOffText;
 
 #pragma mark - Alert
+extern NSString * const AlertMessageText;
 extern NSString * const AlertOKButtonText;
+extern NSString * const SubtleAlertHeaderText;
+extern NSString * const SubtleAlertSubheaderText;
+extern NSString * const AlertDialNumberPermissionsWarningText;
+extern NSString * const AlertDialNumberUnavailableWarningText;
+extern NSString * const AlertSliderTimedOutWarningText;
+extern NSString * const AlertSliderCancelledWarningText;
+extern NSString * const AlertSliderGeneralWarningText;
+extern NSString * const AlertScrollableMessageTimedOutWarningText;
+extern NSString * const AlertScrollableMessageCancelledWarningText;
+extern NSString * const AlertScrollableMessageGeneralWarningText;
+extern NSString * const AlertVehicleDataPermissionsWarningText;
+extern NSString * const AlertVehicleDataGeneralWarningText;
+extern NSString * const AlertSpeechPermissionsWarningText;
 
 #pragma mark - SDL Text-To-Speech
 extern NSString * const TTSGoodJob;
@@ -123,8 +134,8 @@ extern NSString * const MenuBWIconImageName;
 extern NSString * const MicrophoneBWIconImageName;
 extern NSString * const PhoneBWIconImageName;
 extern NSString * const SpeakBWIconImageName;
-extern NSString * const ToggleOffBWIconName;
-extern NSString * const ToggleOnBWIconName;
+extern NSString * const BatteryEmptyBWIconName;
+extern NSString * const BatteryFullBWIconName;
 
 #pragma mark - SDL App Name in Different Languages
 extern NSString * const ExampleAppNameSpanish;
