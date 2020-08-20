@@ -27,18 +27,16 @@ describe(@"SetMediaClocktimer Spec", ^ {
 
     describe(@"when initialized", ^{
         it(@"should properly initialize with initWithDictionary:", ^{
-            NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
-                                               @{SDLRPCParameterNameParameters:
-                                                     @{SDLRPCParameterNameStartTime:time1,
-                                                       SDLRPCParameterNameEndTime:time2,
-                                                       SDLRPCParameterNameUpdateMode:testUpdateMode,
-                                                       SDLRPCParameterNameAudioStreamingIndicator:testIndicator
-                                                       },
-                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetMediaClockTimer}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
+            NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                       @{SDLRPCParameterNameParameters:
+                                             @{SDLRPCParameterNameStartTime:time1,
+                                               SDLRPCParameterNameEndTime:time2,
+                                               SDLRPCParameterNameUpdateMode:testUpdateMode,
+                                               SDLRPCParameterNameAudioStreamingIndicator:testIndicator
+                                             },
+                                         SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetMediaClockTimer}
+            };
+            SDLSetMediaClockTimer *testRequest = [[SDLSetMediaClockTimer alloc] initWithDictionary:dict];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
