@@ -148,14 +148,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     if (self.isBatchingUpdates) { return; }
 
-    // Don't send if we're in HMI NONE
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
-        self.waitingOnHMILevelUpdateToUpdate = YES;
-        return;
-    } else {
-        self.waitingOnHMILevelUpdateToUpdate = NO;
-    }
-
     if (self.isDirty) {
         self.isDirty = NO;
         [self sdl_updateWithCompletionHandler:handler];
@@ -171,21 +163,28 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] updateCompletionHandler:handler];
-
     __weak typeof(self) weakSelf = self;
+    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLShow * _Nonnull newScreenData) {
+        weakSelf.currentScreenData = newScreenData;
+        [weakSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
+    } updateCompletionHandler:handler];
+
     __weak typeof(updateOperation) weakOp = updateOperation;
     updateOperation.completionBlock = ^{
-        // TODO: Update other pending transactions
-        if (weakOp.currentScreenData != nil) {
-            weakSelf.currentScreenData = weakOp.currentScreenData;
-        }
-
         if (weakOp.error != nil) {
             SDLLogE(@"Update operation failed with error: %@", weakOp.error);
         }
     };
     [self.transactionQueue addOperation:updateOperation];
+}
+
+- (void)sdl_updatePendingOperationsWithNewScreenData:(SDLShow *)newScreenData {
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if (![operation isMemberOfClass:SDLTextAndGraphicUpdateOperation.class] || operation.isExecuting) { continue; }
+        SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
+
+        updateOp.currentScreenData = newScreenData;
+    }
 }
 
 #pragma mark - Convert to State

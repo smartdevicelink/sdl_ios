@@ -26,6 +26,7 @@
 @property (strong, nonatomic) SDLWindowCapability *currentCapabilities;
 @property (strong, nonatomic) SDLTextAndGraphicState *updatedState;
 
+@property (copy, nonatomic, nullable) CurrentDataUpdatedHandler currentDataUpdatedHandler;
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler updateCompletionHandler;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -34,7 +35,7 @@
 
 @implementation SDLTextAndGraphicUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(nonnull SDLTextAndGraphicState *)newState updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(nonnull SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
     self = [self init];
     if (!self) { return nil; }
 
@@ -50,10 +51,7 @@
 
 - (void)start {
     [super start];
-    if (self.cancelled) {
-        [self finishOperation];
-        return;
-    }
+    if (self.cancelled) { return; }
 
     // Build a show with everything from `self.newState`, we'll pull things out later if we can.
     SDLShow *fullShow = [[SDLShow alloc] init];
@@ -407,6 +405,8 @@
     self.currentScreenData.alignment = show.alignment ?: self.currentScreenData.alignment;
     self.currentScreenData.graphic = show.graphic ?: self.currentScreenData.graphic;
     self.currentScreenData.secondaryGraphic = show.secondaryGraphic ?: self.currentScreenData.secondaryGraphic;
+
+    self.currentDataUpdatedHandler(self.currentScreenData);
 }
 
 #pragma mark - Should Update
