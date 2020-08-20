@@ -44,6 +44,7 @@
     _currentCapabilities = currentCapabilities;
     _currentScreenData = currentData;
     _updatedState = newState;
+    _currentDataUpdatedHandler = currentDataUpdatedHandler;
     _updateCompletionHandler = updateCompletionHandler;
 
     return self;
@@ -406,7 +407,9 @@
     self.currentScreenData.graphic = show.graphic ?: self.currentScreenData.graphic;
     self.currentScreenData.secondaryGraphic = show.secondaryGraphic ?: self.currentScreenData.secondaryGraphic;
 
-    self.currentDataUpdatedHandler(self.currentScreenData);
+    if (self.currentDataUpdatedHandler != nil) {
+        self.currentDataUpdatedHandler(self.currentScreenData);
+    }
 }
 
 #pragma mark - Should Update
