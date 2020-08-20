@@ -41,29 +41,21 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.offset).to(equal(@987654321));
         expect(testRequest.length).to(equal(@123456789));
         expect(testRequest.crc).to(equal(0xffffffff));
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-#pragma clang diagnostic pop
     });
     
     it(@"Should get and set correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
-                                           @{SDLRPCParameterNameParameters:
+        NSMutableDictionary *dict = @{SDLRPCParameterNameRequest:
+                                          @{SDLRPCParameterNameParameters:
                                                 @{ SDLRPCParameterNameSyncFileName:@"fileName",
-                                                    SDLRPCParameterNameFileType:SDLFileTypeJPEG,
-                                                    SDLRPCParameterNamePersistentFile:@YES,
-                                                    SDLRPCParameterNameSystemFile:@NO,
-                                                    SDLRPCParameterNameOffset:@987654321,
-                                                    SDLRPCParameterNameLength:@123456789,
+                                                   SDLRPCParameterNameFileType:SDLFileTypeJPEG,
+                                                   SDLRPCParameterNamePersistentFile:@YES,
+                                                   SDLRPCParameterNameSystemFile:@NO,
+                                                   SDLRPCParameterNameOffset:@987654321,
+                                                   SDLRPCParameterNameLength:@123456789,
                                                    SDLRPCParameterNameCRC:@0xffffffff},
-                                                    SDLRPCParameterNameOperationName:SDLRPCFunctionNamePutFile}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
-        
+                                            SDLRPCParameterNameOperationName:SDLRPCFunctionNamePutFile}};
+        SDLPutFile *testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
+
         expect(testRequest.sdlFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));
         expect(testRequest.persistentFile).to(equal(@YES));
@@ -71,11 +63,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.offset).to(equal(@987654321));
         expect(testRequest.length).to(equal(@123456789));
         expect(testRequest.crc).to(equal(@0xffffffff));
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-#pragma clang diagnostic pop
     });
 });
 
@@ -114,11 +101,6 @@ describe(@"initializers", ^{
         expect(testRequest.length).to(beNil());
         expect(testRequest.crc).to(beNil());
         expect(testRequest.bulkData).to(beNil());
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.syncFileName).to(beNil());
-#pragma clang diagnostic pop
     });
 
     context(@"initWithFileName:fileType:", ^{
@@ -132,11 +114,6 @@ describe(@"initializers", ^{
         expect(testRequest.length).to(beNil());
         expect(testRequest.crc).to(beNil());
         expect(testRequest.bulkData).to(beNil());
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-#pragma clang diagnostic pop
     });
 
     context(@"initWithFileName:fileType:persistentFile:", ^{
@@ -150,32 +127,6 @@ describe(@"initializers", ^{
         expect(testRequest.length).to(beNil());
         expect(testRequest.crc).to(beNil());
         expect(testRequest.bulkData).to(beNil());
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-#pragma clang diagnostic pop
-    });
-
-    context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLPutFile *testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeMP3 persistentFile:true systemFile:true offset:45 length:34];
-#pragma clang diagnostic pop
-
-        expect(testRequest.sdlFileName).to(equal(@"fileName"));
-        expect(testRequest.fileType).to(equal(SDLFileTypeMP3));
-        expect(testRequest.persistentFile).to(beTrue());
-        expect(testRequest.systemFile).to(beTrue());
-        expect(testRequest.offset).to(equal(@45));
-        expect(testRequest.length).to(equal(34));
-        expect(testRequest.crc).to(beNil());
-        expect(testRequest.bulkData).to(beNil());
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-#pragma clang diagnostic pop
     });
 
     context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:", ^{
@@ -189,11 +140,6 @@ describe(@"initializers", ^{
         expect(testRequest.length).to(equal(@34));
         expect(testRequest.crc).to(equal(0xffffffff));
         expect(testRequest.bulkData).to(beNil());
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-#pragma clang diagnostic pop
     });
 
     context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:bulkData:", ^{
@@ -210,11 +156,6 @@ describe(@"initializers", ^{
         expect(testRequest.length).to(equal(@4));
         expect(testRequest.bulkData).to(equal(testFileData));
         expect(testRequest.crc).to(equal(testFileCRC32Checksum));
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-#pragma clang diagnostic pop
     });
 });
 

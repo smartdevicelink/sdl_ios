@@ -45,19 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length {
-    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
-    if (!self) {
-        return nil;
-    }
-
-    self.systemFile = @(systemFile);
-    self.offset = @(offset);
-    self.length = @(length);
-
-    return self;
-}
-
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length crc:(UInt64)crc {
     self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
     if (!self) {
@@ -86,17 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Getters and Setters
 
-- (void)setSyncFileName:(NSString *)syncFileName {
-    [self.parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
-}
-
-- (NSString *)syncFileName {
-    NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
-}
-
-- (void)setSdlFileName:(NSString *)syncFileName {
-    [self.parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
+- (void)setSdlFileName:(NSString *)sdlFileName {
+    [self.parameters sdl_setObject:sdlFileName forName:SDLRPCParameterNameSyncFileName];
 }
 
 - (NSString *)sdlFileName {
