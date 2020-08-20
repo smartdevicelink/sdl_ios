@@ -16,11 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMediaServiceData
 
-- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgress:(UInt32)queuePlaybackProgress queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount {
-
-    return [self initWithMediaType:mediaType mediaImage:nil mediaTitle:mediaTitle mediaArtist:mediaArtist mediaAlbum:mediaAlbum playlistName:playlistName isExplicit:isExplicit trackPlaybackProgress:trackPlaybackProgress trackPlaybackDuration:trackPlaybackDuration queuePlaybackProgress:queuePlaybackProgress queuePlaybackDuration:queuePlaybackDuration queueCurrentTrackNumber:queueCurrentTrackNumber queueTotalTrackCount:queueTotalTrackCount];
-}
-
 - (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaImage:(nullable SDLImage *)mediaImage mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgress:(UInt32)queuePlaybackProgress queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount {
     self = [self init];
     if (!self) {
