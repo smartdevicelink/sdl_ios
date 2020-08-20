@@ -48,18 +48,6 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLLightControlCapabilities* testStruct = [[SDLLightControlCapabilities alloc] initWithModuleName:@"moduleName" supportedLights:[@[somelightCapabilities] copy]];
-#pragma clang diagnostic pop
-
-        expect(testStruct.moduleName).to(equal(@"moduleName"));
-        expect(testStruct.moduleInfo).to(beNil());
-        expect(testStruct.supportedLights).to(equal([@[somelightCapabilities] copy]));
-
-    });
-
-    it(@"Should set and get correctly", ^ {
         SDLLightControlCapabilities* testStruct = [[SDLLightControlCapabilities alloc] initWithModuleName:@"moduleName" moduleInfo:testModuleInfo supportedLights:[@[somelightCapabilities] copy]];
         
         expect(testStruct.moduleName).to(equal(@"moduleName"));
@@ -69,14 +57,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName:@"moduleName",
+        NSDictionary *dict = @{SDLRPCParameterNameModuleName:@"moduleName",
                                        SDLRPCParameterNameModuleInfo:testModuleInfo,
                                        SDLRPCParameterNameSupportedLights:[@[somelightCapabilities] copy]
-                                       } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLLightControlCapabilities* testStruct = [[SDLLightControlCapabilities alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
+                                       };
+        SDLLightControlCapabilities *testStruct = [[SDLLightControlCapabilities alloc] initWithDictionary:dict];
 
         expect(testStruct.moduleName).to(equal(@"moduleName"));
         expect(testStruct.moduleInfo).to(equal(testModuleInfo));
