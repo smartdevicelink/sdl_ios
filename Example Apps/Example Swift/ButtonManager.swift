@@ -33,11 +33,11 @@ class ButtonManager: NSObject {
     }
 
     private var isSubtleAlertAllowed: Bool {
-        return self.sdlManager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.subtleAlert)
+        return sdlManager.permissionManager.isRPCNameAllowed(.subtleAlert)
     }
 
     private var isAlertAllowed: Bool {
-        return self.sdlManager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.alert)
+        return sdlManager.permissionManager.isRPCNameAllowed(.alert)
     }
 
     init(sdlManager: SDLManager, updateScreenHandler: RefreshUIHandler? = nil) {
