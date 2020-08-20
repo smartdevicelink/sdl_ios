@@ -60,7 +60,7 @@ describe(@"the text and graphic operation", ^{
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
-        mockFileManager = OCMStrictClassMock([SDLFileManager class]);
+        mockFileManager = OCMClassMock([SDLFileManager class]);
 
         successShowResponse.success = @YES;
         successShowResponse.resultCode = SDLResultSuccess;
@@ -626,6 +626,32 @@ describe(@"the text and graphic operation", ^{
                 });
             });
         });
+
+        // should call the update handler when done
+        context(@"should call the update handler when done", ^{
+            __block BOOL didCallHandler = NO;
+            beforeEach(^{
+                windowCapability = [[SDLWindowCapability alloc] init];
+                windowCapability.textFields = @[fieldLine1, fieldLine2, fieldLine3, fieldLine4];
+
+                updatedState = [[SDLTextAndGraphicState alloc] init];
+                updatedState.textField1 = field1String;
+                updatedState.textField2 = field2String;
+                updatedState.textField3 = field3String;
+                updatedState.textField4 = field4String;
+
+                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState updateCompletionHandler:^(NSError * _Nullable error) {
+                    didCallHandler = YES;
+                }];
+                [testOp start];
+
+                [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+            });
+
+            it(@"should send the text and then call the update handler", ^{
+                expect(didCallHandler).to(equal(YES));
+            });
+        });
     });
 
     // updating image fields
@@ -644,12 +670,48 @@ describe(@"the text and graphic operation", ^{
 
             // when only graphic is supported
             context(@"when only graphic is supported", ^{
+                beforeEach(^{
+                    windowCapability.imageFields = @[fieldGraphic];
 
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.textField1 = field1String;
+                    updatedState.primaryGraphic = testArtwork;
+                    updatedState.secondaryGraphic = testArtwork2;
+
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a show and not upload any artworks", ^{
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                    SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                    expect(firstSentRequest.mainField1).to(equal(field1String));
+                    expect(firstSentRequest.mainField2).to(beEmpty());
+                    expect(firstSentRequest.graphic).toNot(beNil());
+                    expect(firstSentRequest.secondaryGraphic).to(beNil());
+                });
             });
 
             // when both image fields are supported
             context(@"when both image fields are supported", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.textField1 = field1String;
+                    updatedState.primaryGraphic = testArtwork;
+                    updatedState.secondaryGraphic = testArtwork2;
 
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a show and not upload any artworks", ^{
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                    SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                    expect(firstSentRequest.mainField1).to(equal(field1String));
+                    expect(firstSentRequest.mainField2).to(beEmpty());
+                    expect(firstSentRequest.graphic).toNot(beNil());
+                    expect(firstSentRequest.secondaryGraphic).toNot(beNil());
+                });
             });
         }); // TODO
 
@@ -657,6 +719,7 @@ describe(@"the text and graphic operation", ^{
         context(@"when images are not on the head unit", ^{
             beforeEach(^{
                 OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+                OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
             });
 
             // when there is text to update as well
@@ -679,17 +742,67 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
 
                     // Then the images should be uploaded
+                    OCMExpect([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
-                    // Then the full show should be sent
-                }); // TODO
+                    // Then the full show should be sent, this is currently not testable because the `mockFileManager hasUploadedFile` should change mid-call of `uploadArtworks` after the artwork is uploaded but before the final Show is sent in sdl_createImageOnlyShowWithPrimaryArtwork.
+//                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
+//                    SDLShow *secondSentRequest = testConnectionManager.receivedRequests[1];
+//                    expect(secondSentRequest.mainField1).to(beNil());
+//                    expect(secondSentRequest.graphic).toNot(beNil());
+                });
             });
 
             // when there is no text to update
             context(@"when there is no text to update", ^{
-                it(@"should just upload the images, then send the full show", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.primaryGraphic = testArtwork;
 
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState updateCompletionHandler:nil];
+                    [testOp start];
                 });
-            }); // TODO
+
+                it(@"should just upload the images, then send the full show", ^{
+                    // First the text only show should be sent
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                    SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                    expect(firstSentRequest.mainField1).to(beEmpty());
+                    expect(firstSentRequest.graphic).to(beNil());
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+
+                    // Then the images should be uploaded
+                    OCMExpect([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+
+                    // Then the full show should be sent, this is currently not testable because the `mockFileManager hasUploadedFile` should change mid-call of `uploadArtworks` after the artwork is uploaded but before the final Show is sent in sdl_createImageOnlyShowWithPrimaryArtwork.
+//                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
+//                    SDLShow *secondSentRequest = testConnectionManager.receivedRequests[1];
+//                    expect(secondSentRequest.mainField1).to(beEmpty());
+//                    expect(secondSentRequest.graphic).toNot(beNil());
+                });
+            });
+
+            // when the image is a static icon
+            context(@"when the image is a static icon", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.primaryGraphic = testStaticIcon;
+
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should not upload the artwork", ^{
+                    // The full show should be sent immediately
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                    SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                    expect(firstSentRequest.mainField1).to(beEmpty());
+                    expect(firstSentRequest.graphic).toNot(beNil());
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+
+                    // Then the images should be uploaded
+                    OCMReject([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                });
+            });
         });
     });
 });
