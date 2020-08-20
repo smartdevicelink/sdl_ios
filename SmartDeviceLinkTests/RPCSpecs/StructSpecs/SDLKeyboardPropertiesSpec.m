@@ -43,7 +43,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
     });
     
-    it(@"Should get correctly when initialized", ^ {
+    it(@"Should get correctly when initialized with a dictionary", ^ {
         NSDictionary* dict = @{SDLRPCParameterNameLanguage: testLanguage,
                                        SDLRPCParameterNameKeyboardLayout: testLayout,
                                        SDLRPCParameterNameKeypressMode: testMode,
@@ -51,11 +51,19 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameAutoCompleteText: testAutoCompleteText,
                                        SDLRPCParameterNameAutoCompleteList: testAutoCompleteList
                                        };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLKeyboardProperties* testStruct = [[SDLKeyboardProperties alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
-        
+
+        expect(testStruct.language).to(equal(testLanguage));
+        expect(testStruct.keyboardLayout).to(equal(testLayout));
+        expect(testStruct.keypressMode).to(equal(testMode));
+        expect(testStruct.limitedCharacterList).to(equal(testLimitedCharacterList));
+        expect(testStruct.autoCompleteText).to(equal(testAutoCompleteText));
+        expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
+    });
+
+    it(@"Should get correctly when initialized with initWithLanguage:layout:keypressMode:limitedCharacterList:autoCompleteText:autoCompleteList:", ^ {
+        SDLKeyboardProperties *testStruct = [[SDLKeyboardProperties alloc] initWithLanguage:testLanguage layout:testLayout keypressMode:testMode limitedCharacterList:testLimitedCharacterList autoCompleteText:testAutoCompleteText autoCompleteList:testAutoCompleteList];
+
         expect(testStruct.language).to(equal(testLanguage));
         expect(testStruct.keyboardLayout).to(equal(testLayout));
         expect(testStruct.keypressMode).to(equal(testMode));
