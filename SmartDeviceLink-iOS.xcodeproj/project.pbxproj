@@ -451,6 +451,7 @@
 		4A99D0132475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A99D0112475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.m */; };
 		4A9D02BE2497EED400FBE99B /* SDLLifecycleRPCAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A9D02BC2497EED400FBE99B /* SDLLifecycleRPCAdapter.h */; };
 		4A9D02BF2497EED400FBE99B /* SDLLifecycleRPCAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9D02BD2497EED400FBE99B /* SDLLifecycleRPCAdapter.m */; };
+		4AAA5AE324EC686C00837CC7 /* SDLTextAndGraphicUpdateOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAA5AE224EC686C00837CC7 /* SDLTextAndGraphicUpdateOperationSpec.m */; };
 		5D00AC671F140F0A004000D9 /* SDLSystemCapabilityType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D00AC651F140F0A004000D9 /* SDLSystemCapabilityType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D00AC681F140F0A004000D9 /* SDLSystemCapabilityType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D00AC661F140F0A004000D9 /* SDLSystemCapabilityType.m */; };
 		5D00AC6B1F141339004000D9 /* SDLSystemCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D00AC691F141339004000D9 /* SDLSystemCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2206,6 +2207,7 @@
 		4A99D0112475773C009B43E6 /* SDLImageField+ScreenManagerExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDLImageField+ScreenManagerExtensions.m"; sourceTree = "<group>"; };
 		4A9D02BC2497EED400FBE99B /* SDLLifecycleRPCAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLLifecycleRPCAdapter.h; sourceTree = "<group>"; };
 		4A9D02BD2497EED400FBE99B /* SDLLifecycleRPCAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleRPCAdapter.m; sourceTree = "<group>"; };
+		4AAA5AE224EC686C00837CC7 /* SDLTextAndGraphicUpdateOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLTextAndGraphicUpdateOperationSpec.m; path = DevAPISpecs/SDLTextAndGraphicUpdateOperationSpec.m; sourceTree = "<group>"; };
 		5D00AC651F140F0A004000D9 /* SDLSystemCapabilityType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityType.h; sourceTree = "<group>"; };
 		5D00AC661F140F0A004000D9 /* SDLSystemCapabilityType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityType.m; sourceTree = "<group>"; };
 		5D00AC691F141339004000D9 /* SDLSystemCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapability.h; sourceTree = "<group>"; };
@@ -4143,6 +4145,23 @@
 			name = "Status Manager";
 			sourceTree = "<group>";
 		};
+		4AAA5ADF24EC678A00837CC7 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				4AAA5AE224EC686C00837CC7 /* SDLTextAndGraphicUpdateOperationSpec.m */,
+			);
+			name = Operations;
+			sourceTree = "<group>";
+		};
+		4AAA5AE424EC690700837CC7 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				4A89AE1624E589D60017EBDC /* SDLTextAndGraphicUpdateOperation.h */,
+				4A89AE1724E589D60017EBDC /* SDLTextAndGraphicUpdateOperation.m */,
+			);
+			name = Operations;
+			sourceTree = "<group>";
+		};
 		5D0218EB1A8E795700D1BF62 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -4227,12 +4246,11 @@
 		5D0A737D203F23B30001595D /* Text and Graphic */ = {
 			isa = PBXGroup;
 			children = (
+				4AAA5AE424EC690700837CC7 /* Operations */,
 				5D0A7372203F0C730001595D /* SDLTextAndGraphicManager.h */,
 				5D0A7373203F0C730001595D /* SDLTextAndGraphicManager.m */,
 				4A89AE1A24E595410017EBDC /* SDLTextAndGraphicState.h */,
 				4A89AE1B24E595410017EBDC /* SDLTextAndGraphicState.m */,
-				4A89AE1624E589D60017EBDC /* SDLTextAndGraphicUpdateOperation.h */,
-				4A89AE1724E589D60017EBDC /* SDLTextAndGraphicUpdateOperation.m */,
 			);
 			name = "Text and Graphic";
 			sourceTree = "<group>";
@@ -6013,6 +6031,7 @@
 		5DAD5F8320507DF30025624C /* Text and Graphic */ = {
 			isa = PBXGroup;
 			children = (
+				4AAA5ADF24EC678A00837CC7 /* Operations */,
 				5DAD5F86205087430025624C /* SDLTextAndGraphicManagerSpec.m */,
 			);
 			name = "Text and Graphic";
@@ -8246,6 +8265,7 @@
 				88B8657924A102AB003491AD /* TestSubscribeButtonObserver.m in Sources */,
 				5DAE06751BDEC6D600F9B498 /* SDLArtworkSpec.m in Sources */,
 				5DA23FF01F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m in Sources */,
+				4AAA5AE324EC686C00837CC7 /* SDLTextAndGraphicUpdateOperationSpec.m in Sources */,
 				162E83591A9BDE8B00906325 /* SDLListFilesResponseSpec.m in Sources */,
 				162E832A1A9BDE8B00906325 /* SDLDeleteInteractionChoiceSetSpec.m in Sources */,
 				EE460E0A2066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m in Sources */,

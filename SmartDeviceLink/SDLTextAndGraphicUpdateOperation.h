@@ -24,11 +24,8 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 
 @interface SDLTextAndGraphicUpdateOperation : SDLAsynchronousOperation
 
-/// The current state of the screen in Show form. This is passed as a dependency in the init but it may need to be updated if a previous operation updated the state of the screen.
+/// The current state of the screen in Show form. This is passed as a dependency in the init but it may need to be updated if a previous operation updated the state of the screen. This will be updated with new screen data when this operation sends successful shows.
 @property (strong, nonatomic) SDLShow *currentScreenData;
-
-/// An "output" property with the data sent by this operation.
-@property (strong, nonatomic, nullable, readonly) SDLShow *sentShow;
 
 /// Initialize the operation with its dependencies
 /// @param connectionManager The connection manager to send RPCs

@@ -177,8 +177,8 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(updateOperation) weakOp = updateOperation;
     updateOperation.completionBlock = ^{
         // TODO: Update other pending transactions
-        if (weakOp.sentShow != nil) {
-            weakSelf.currentScreenData = weakOp.sentShow;
+        if (weakOp.currentScreenData != nil) {
+            weakSelf.currentScreenData = weakOp.currentScreenData;
         }
 
         if (weakOp.error != nil) {

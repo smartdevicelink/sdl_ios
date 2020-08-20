@@ -50,7 +50,10 @@
 
 - (void)start {
     [super start];
-    if (self.cancelled) { return; }
+    if (self.cancelled) {
+        [self finishOperation];
+        return;
+    }
 
     // Build a show with everything from `self.newState`, we'll pull things out later if we can.
     SDLShow *fullShow = [[SDLShow alloc] init];
@@ -152,8 +155,16 @@
         return handler(nil);
     }
 
-    // TODO: Use progress handler
-    [self.fileManager uploadArtworks:artworksToUpload completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+    __weak typeof(self) weakSelf = self;
+    [self.fileManager uploadArtworks:artworksToUpload progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.isCancelled) {
+            [strongSelf finishOperation];
+            return NO;
+        }
+
+        return YES;
+    } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Text and graphic manager artwork failed to upload with error: %@", error.localizedDescription);
         }
@@ -453,7 +464,9 @@
 
 - (void)finishOperation {
     SDLLogV(@"Finishing text and graphic update operation");
-    self.updateCompletionHandler(self.error);
+    if (self.updateCompletionHandler != nil) {
+        self.updateCompletionHandler(self.error);
+    }
     [super finishOperation];
 }
 
