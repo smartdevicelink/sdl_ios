@@ -9,16 +9,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHMISettingsControlCapabilities
 
-- (instancetype)initWithModuleName:(NSString *)moduleName {
-    self = [self init];
-    if(!self) {
-        return nil;
-    }
-    self.moduleName = moduleName;
-
-    return self;
-}
-
 - (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo {
     self = [self init];
     if(!self) {
@@ -27,19 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.moduleName = moduleName;
     self.moduleInfo = moduleInfo;
     
-    return self;
-}
-
-- (instancetype)initWithModuleName:(NSString *)moduleName distanceUnitAvailable:(BOOL)distanceUnitAvailable temperatureUnitAvailable:(BOOL)temperatureUnitAvailable displayModeUnitAvailable:(BOOL)displayModeUnitAvailable {
-    self = [self init];
-    if(!self) {
-        return nil;
-    }
-    self.moduleName = moduleName;
-    self.distanceUnitAvailable = @(distanceUnitAvailable);
-    self.temperatureUnitAvailable = @(temperatureUnitAvailable);
-    self.displayModeUnitAvailable = @(displayModeUnitAvailable);
-
     return self;
 }
 
