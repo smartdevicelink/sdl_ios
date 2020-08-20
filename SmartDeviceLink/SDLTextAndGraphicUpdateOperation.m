@@ -390,6 +390,7 @@
     newShow.mediaTrack = show.mediaTrack;
     newShow.templateTitle = show.templateTitle;
     newShow.metadataTags = show.metadataTags;
+    newShow.alignment = show.alignment;
 
     return newShow;
 }
