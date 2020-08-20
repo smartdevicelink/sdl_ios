@@ -10,19 +10,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLImage
 
-- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.value = name;
-    self.imageType = imageType;
-    self.isTemplate = @NO;
-
-    return self;
-}
-
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType isTemplate:(BOOL)isTemplate {
     self = [self init];
     if (!self) {
@@ -34,10 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.isTemplate = @(isTemplate);
 
     return self;
-}
-
-- (instancetype)initWithName:(NSString *)name {
-    return [self initWithName:name ofType:SDLImageTypeDynamic];
 }
 
 - (instancetype)initWithName:(NSString *)name isTemplate:(BOOL)isTemplate {
