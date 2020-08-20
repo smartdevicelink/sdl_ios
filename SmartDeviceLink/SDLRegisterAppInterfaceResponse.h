@@ -172,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SDL 3.0
  */
-@property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *supportedDiagModes;
+@property (nullable, strong, nonatomic) NSArray<NSNumber *> *supportedDiagModes;
 
 /**
  * Specifies the HMI capabilities.

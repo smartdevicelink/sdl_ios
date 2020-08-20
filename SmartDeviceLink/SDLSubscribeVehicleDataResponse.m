@@ -16,11 +16,49 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
-    if (self = [super initWithName:SDLRPCFunctionNameSubscribeVehicleData]) {
+    self = [super initWithName:SDLRPCFunctionNameSubscribeVehicleData];
+    if (!self) {
+        return nil;
     }
     return self;
 }
 #pragma clang diagnostic pop
+
+- (instancetype)initWithGps:(nullable SDLVehicleDataResult *)gps speed:(nullable SDLVehicleDataResult *)speed rpm:(nullable SDLVehicleDataResult *)rpm instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption fuelRange:(nullable SDLVehicleDataResult *)fuelRange externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature turnSignal:(nullable SDLVehicleDataResult *)turnSignal prndl:(nullable SDLVehicleDataResult *)prndl tirePressure:(nullable SDLVehicleDataResult *)tirePressure odometer:(nullable SDLVehicleDataResult *)odometer beltStatus:(nullable SDLVehicleDataResult *)beltStatus bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus driverBraking:(nullable SDLVehicleDataResult *)driverBraking wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus engineTorque:(nullable SDLVehicleDataResult *)engineTorque accPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent clusterModes:(nullable SDLVehicleDataResult *)clusterModes myKey:(nullable SDLVehicleDataResult *)myKey handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.gps = gps;
+    self.speed = speed;
+    self.rpm = rpm;
+    self.instantFuelConsumption = instantFuelConsumption;
+    self.fuelRange = fuelRange;
+    self.externalTemperature = externalTemperature;
+    self.turnSignal = turnSignal;
+    self.prndl = prndl;
+    self.tirePressure = tirePressure;
+    self.odometer = odometer;
+    self.beltStatus = beltStatus;
+    self.bodyInformation = bodyInformation;
+    self.deviceStatus = deviceStatus;
+    self.driverBraking = driverBraking;
+    self.wiperStatus = wiperStatus;
+    self.headLampStatus = headLampStatus;
+    self.engineTorque = engineTorque;
+    self.accPedalPosition = accPedalPosition;
+    self.steeringWheelAngle = steeringWheelAngle;
+    self.engineOilLife = engineOilLife;
+    self.electronicParkBrakeStatus = electronicParkBrakeStatus;
+    self.cloudAppVehicleID = cloudAppVehicleID;
+    self.eCallInfo = eCallInfo;
+    self.airbagStatus = airbagStatus;
+    self.emergencyEvent = emergencyEvent;
+    self.clusterModes = clusterModes;
+    self.myKey = myKey;
+    self.handsOffSteering = handsOffSteering;
+    return self;
+}
 
 - (void)setGps:(nullable SDLVehicleDataResult *)gps {
     [self.parameters sdl_setObject:gps forName:SDLRPCParameterNameGPS];
@@ -260,6 +298,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLVehicleDataResult *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
     return [self.parameters sdl_objectForName:vehicleDataName ofClass:SDLVehicleDataResult.class error:nil];
+}
+
+- (void)setHandsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering {
+    [self.parameters sdl_setObject:handsOffSteering forName:SDLRPCParameterNameHandsOffSteering];
+}
+
+- (nullable SDLVehicleDataResult *)handsOffSteering {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameHandsOffSteering ofClass:SDLVehicleDataResult.class error:&error];
 }
 
 @end

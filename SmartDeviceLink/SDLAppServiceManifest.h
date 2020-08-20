@@ -191,7 +191,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Array of Integers, See `SDLFunctionID`, Optional
  */
-@property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *handledRPCs;
+@property (nullable, strong, nonatomic) NSArray<NSNumber *> *handledRPCs;
 
 /**
  *  A media service manifest.

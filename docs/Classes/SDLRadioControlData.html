@@ -5,6 +5,9 @@
 <ul>
   <li><a href="#section--initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:">-initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:</a></li>
   <li><a href="#section--initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:hdRadioEnable:">-initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:hdRadioEnable:</a></li>
+  <li><a href="#section--initFMWithFrequencyInteger:frequencyFraction:hdChannel:">-initFMWithFrequencyInteger:frequencyFraction:hdChannel:</a></li>
+  <li><a href="#section--initAMWithFrequencyInteger:hdChannel:">-initAMWithFrequencyInteger:hdChannel:</a></li>
+  <li><a href="#section--initXMWithFrequencyInteger:">-initXMWithFrequencyInteger:</a></li>
   <li><a href="#section-frequencyInteger">frequencyInteger</a></li>
   <li><a href="#section-frequencyFraction">frequencyFraction</a></li>
   <li><a href="#section-band">band</a></li>
@@ -109,6 +112,99 @@
     <p>An instance of the SDLRadioControlData class</p>
   </div>
   
+  <h3 id="section--initFMWithFrequencyInteger:frequencyFraction:hdChannel:">
+      -initFMWithFrequencyInteger:frequencyFraction:hdChannel:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initFMWithFrequencyInteger</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyInteger</span>
+             <span class="nf">frequencyFraction</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyFraction</span>
+                     <span class="nf">hdChannel</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">hdChannel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">fmWithFrequencyInteger</span> <span class="nv">frequencyInteger</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">frequencyFraction</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">hdChannel</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>frequencyInteger</dt>
+      <dd><p>Must be between 0 and 1710</p></dd>
+      <dt>frequencyFraction</dt>
+      <dd><p>Must be between 0 and 9</p></dd>
+      <dt>hdChannel</dt>
+      <dd><p>Must be between 0 and 7</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLRadioControlData class</p>
+  </div>
+  
+  <h3 id="section--initAMWithFrequencyInteger:hdChannel:">
+      -initAMWithFrequencyInteger:hdChannel:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initAMWithFrequencyInteger</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyInteger</span>
+                     <span class="nf">hdChannel</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">hdChannel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">amWithFrequencyInteger</span> <span class="nv">frequencyInteger</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">hdChannel</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>frequencyInteger</dt>
+      <dd><p>Must be between 0 and 1710</p></dd>
+      <dt>hdChannel</dt>
+      <dd><p>Must be between 0 and 7</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLRadioControlData class</p>
+  </div>
+  
+  <h3 id="section--initXMWithFrequencyInteger:">
+      -initXMWithFrequencyInteger:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initXMWithFrequencyInteger</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frequencyInteger</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">xmWithFrequencyInteger</span> <span class="nv">frequencyInteger</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>frequencyInteger</dt>
+      <dd><p>Must be between 1 and 1710</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLRadioControlData class</p>
+  </div>
+  
   <h3 id="section-frequencyInteger">
       frequencyInteger
   </h3>
@@ -120,8 +216,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">frequencyInteger</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">frequencyInteger</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -141,8 +236,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">frequencyFraction</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">frequencyFraction</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -162,7 +256,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRadioBand.h@T@SDLRadioBand">SDLRadioBand</a></span> <span class="n">band</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRadioBand.h@T@SDLRadioBand">SDLRadioBand</a></span> <span class="n">band</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -187,7 +281,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRDSData.html">SDLRDSData</a></span> <span class="o">*</span><span class="n">rdsData</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRDSData.html">SDLRDSData</a></span> <span class="o">*</span><span class="n">rdsData</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -212,8 +306,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">availableHDs</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">availableHDs</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -238,8 +331,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">availableHDChannels</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">availableHDChannels</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -259,7 +351,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hdChannel</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hdChannel</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -284,8 +376,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">signalStrength</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">signalStrength</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -310,8 +401,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">signalChangeThreshold</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">signalChangeThreshold</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -331,8 +421,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">radioEnable</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">radioEnable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -357,7 +446,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRadioState.h@T@SDLRadioState">SDLRadioState</a></span> <span class="n">state</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLRadioState.h@T@SDLRadioState">SDLRadioState</a></span> <span class="n">state</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -377,8 +466,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hdRadioEnable</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hdRadioEnable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -400,7 +488,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSISData.html">SDLSISData</a></span> <span class="o">*</span><span class="n">sisData</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSISData.html">SDLSISData</a></span> <span class="o">*</span><span class="n">sisData</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

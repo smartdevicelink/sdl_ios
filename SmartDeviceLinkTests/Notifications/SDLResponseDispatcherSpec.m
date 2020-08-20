@@ -701,7 +701,7 @@ describe(@"a response dispatcher", ^{
     });
     
     context(@"storing an audio pass thru handler", ^{
-        __block SDLPerformAudioPassThru* testPerformAudioPassThru = nil;
+        __block SDLPerformAudioPassThru *testPerformAudioPassThru = nil;
         __block NSUInteger numTimesHandlerCalled = 0;
         
         context(@"with a handler", ^{
@@ -713,10 +713,10 @@ describe(@"a response dispatcher", ^{
                 testPerformAudioPassThru.correlationID = @1;
                 [testDispatcher storeRequest:testPerformAudioPassThru handler:nil];
             });
-            
+
             it(@"should store the handler" ,^{
-//                expect(testDispatcher.audioPassThruHandler).toNot(beNil());
-//                expect(testDispatcher.audioPassThruHandler).to(equal(testPerformAudioPassThru.audioDataHandler));
+                expect((id)testDispatcher.audioPassThruHandler).toNot(beNil());
+                expect((id)testDispatcher.audioPassThruHandler).to(equal((id)testPerformAudioPassThru.audioDataHandler));
             });
             
             describe(@"when an on audio data notification arrives", ^{
@@ -728,21 +728,22 @@ describe(@"a response dispatcher", ^{
                 });
                 
                 it(@"should run the handler", ^{
-                    expect(@(numTimesHandlerCalled)).to(equal(@1));
+                    expect(numTimesHandlerCalled).to(equal(1));
                 });
             });
-            
+
             describe(@"when an on audio data response arrives", ^{
                 beforeEach(^{
                     SDLPerformAudioPassThruResponse *performAudioPassThruResponse = [[SDLPerformAudioPassThruResponse alloc] init];
                     performAudioPassThruResponse.success = @YES;
-                    
+
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceivePerformAudioPassThruResponse object:nil rpcResponse:performAudioPassThruResponse];
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
                 });
-                
+
                 it(@"should clear the handler", ^{
-//                    expect(testDispatcher.audioPassThruHandler).to(beNil());
+                    expect((id)testDispatcher.audioPassThruHandler).to(beNil());
+                    expect(@(numTimesHandlerCalled)).to(equal(1));
                 });
             });
         });

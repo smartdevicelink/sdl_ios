@@ -198,6 +198,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLDeviceStatus.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapability.h"
+#import "SDLDriverDistractionCapability.h"
 #import "SDLECallInfo.h"
 #import "SDLEmergencyEvent.h"
 #import "SDLFuelRange.h"
@@ -435,6 +436,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 // Permissions
 #import "SDLPermissionConstants.h"
+#import "SDLPermissionElement.h"
+#import "SDLRPCPermissionStatus.h"
 #import "SDLPermissionManager.h"
 
 // Screen

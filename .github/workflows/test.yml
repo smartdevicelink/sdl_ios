@@ -1,0 +1,79 @@
+name: SmartDeviceLink Tests
+
+# This workflow is triggered on a push or pull request.
+on: [push, pull_request]
+
+env:
+    PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
+    DESTINATION: 'platform=iOS Simulator,name=iPhone 11,OS=13.5'
+
+jobs:
+    build:
+        name: Build Example Apps
+        runs-on: macOS-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                scheme: ['SmartDeviceLink-Example-ObjC', 'SmartDeviceLink-Example-Swift']
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2.3.1
+              with:
+                  submodules: true
+
+            # Print the available Xcode versions
+            - name: Get available Xcode versions on the server
+              run: ls /Applications | grep Xcode
+
+            # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
+            - name: Select Xcode version
+              run: sudo xcode-select -switch /Applications/Xcode_11.5.app
+
+            - name: Build
+              run: set -o pipefail && xcodebuild -scheme "${{ matrix.scheme }}" -destination "$DESTINATION" build | xcpretty --color --simple
+
+    test:
+        name: SmartDeviceLinkTests
+        runs-on: macOS-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                scheme: ['SmartDeviceLink']
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2.3.1
+              with:
+                  submodules: true
+
+            - name: Checking for cached dependencies
+              uses: actions/cache@v2
+              id: carthage-cache
+              with:
+                  path: Carthage
+                  key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+                  restore-keys: ${{ runner.os }}-carthage-
+
+            - name: Installing dependencies
+              if: steps.carthage-cache.outputs.cache-hit != 'true'
+              run: carthage bootstrap --no-use-binaries --platform iOS --cache-builds
+
+            # Print the available Xcode versions
+            - name: Get available Xcode versions on the server
+              run: ls /Applications | grep Xcode
+
+            # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
+            - name: Select Xcode version
+              run: sudo xcode-select -switch /Applications/Xcode_11.5.app
+
+            # Split build into build-only and test-only as it is faster than building and running in one step
+            - name: Building unit tests
+              run: xcodebuild build-for-testing -project "$PROJECT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}"
+
+            - name: Running unit tests
+              run: set -o pipefail && xcodebuild test-without-building -project "$PROJECT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES | xcpretty --color --simple
+
+            # Upload coverage reports to Codecov
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v1.0.10
+              with: 
+                yml: ./codecov.yml

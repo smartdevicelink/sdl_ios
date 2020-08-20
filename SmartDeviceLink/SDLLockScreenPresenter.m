@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakself = self;
-    [self sdl_runOnMainQueue:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         __typeof(weakself) strongself = weakself;
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
             // If the the `UIWindow` is created while the app is backgrounded and the app is using `SceneDelegate` class (iOS 13+), then the window will not be created correctly. Wait until the app is foregrounded before creating the window.
@@ -146,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
             if (completionHandler == nil) { return; }
             return completionHandler();
         }];
-    }];
+    });
 }
 
 
@@ -162,14 +162,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    [self sdl_runOnMainQueue:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         if (UIApplication.sharedApplication.applicationState != UIApplicationStateActive) {
             SDLLogV(@"Application is backgrounded. The lockscreen will not be dismissed until the app is brought to the foreground.");
             if (completionHandler == nil) { return; }
             return completionHandler(NO);
         }
         [weakSelf sdl_dismissLockscreenWithCompletionHandler:completionHandler];
-    }];
+    });
 }
 
 /// Handles the dismissal of the lockscreen with animation.
@@ -206,16 +206,6 @@ NS_ASSUME_NONNULL_BEGIN
         if (completionHandler == nil) { return; }
         return completionHandler(YES);
     }];
-}
-
-#pragma mark - Threading Utilities
-
-- (void)sdl_runOnMainQueue:(void (^)(void))block {
-    if ([NSThread isMainThread]) {
-        block();
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), block);
-    }
 }
 
 #pragma mark - Custom Presented / Dismissed Getters

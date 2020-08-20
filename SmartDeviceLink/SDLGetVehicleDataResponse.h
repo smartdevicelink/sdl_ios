@@ -35,6 +35,43 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetVehicleDataResponse : SDLRPCResponse
 
 /**
+ * initializes a new allocated object of the SDLGetVehicleDataResponse class
+ *
+ *  @param accPedalPosition  Accelerator pedal position (percentage depressed), optional
+ *  @param airbagStatus The status of the air bags, optional
+ *  @param beltStatus  The status of the seat belts, optional
+ *  @param bodyInformation The body information including power modes, optional
+ *  @param cloudAppVehicleID The cloud app vehicle ID, optional
+ *  @param clusterModeStatus The status modes of the cluster, optional
+ *  @param deviceStatus The IVI system status including signal and battery strength, optional
+ *  @param driverBraking The status of the brake pedal, optional
+ *  @param eCallInfo Emergency Call notification and confirmation data, optional
+ *  @param electronicParkBrakeStatus The status of the electronic parking brake, optional
+ *  @param emergencyEvent Information related to an emergency event (and if it occurred), optional
+ *  @param engineOilLife The estimated percentage (0% - 100%) of remaining oil life of the engine, optional
+ *  @param engineTorque Torque value for engine (in Nm) on non-diesel variants, optional
+ *  @param externalTemperature The external temperature in degrees celsius., optional
+ *  @param fuelRange The estimate range in KM the vehicle can travel based on fuel level and consumption. Optional, Array of length 0 - 100, of SDLFuelRange
+ *  @param gps The car current GPS coordinates, optional
+ *  @param handsOffSteering To indicate whether driver hands are off the steering wheel, optional
+ *  @param headLampStatus Status of the head lamps, optional
+ *  @param instantFuelConsumption The instantaneous fuel consumption in microlitres, optional
+ *  @param myKey Information related to the MyKey feature, optional
+ *  @param odometer Odometer reading in km, optional
+ *  @param prndl The current gear shift state of the user's vehicle, optional
+ *  @param rpm The number of revolutions per minute of the engine., optional
+ *  @param speed The vehicle speed in kilometers per hour, optional
+ *  @param steeringWheelAngle Current angle of the steering wheel (in deg), optional
+ *  @param tirePressure The current pressure warnings for the user's vehicle, optional
+ *  @param turnSignal The status of the turn signal, optional
+ *  @param vin The Vehicle Identification Number, optional
+ *  @param wiperStatus The status of the wipers, optional
+ *
+ * @return an initialized object of the SDLGetVehicleDataResponse class or nil
+ */
+- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin prndl:(nullable SDLPRNDL)prndl tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey handsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering;
+
+/**
   The car current GPS coordinates
  */
 @property (nullable, strong, nonatomic) SDLGPSData *gps;
@@ -52,12 +89,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The fuel level in the tank (percentage)
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLFloat> *fuelLevel;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *fuelLevel __deprecated_msg("use fuelRange.level instead on 7.0+ RPC version connections");
 
 /**
  The fuel level state
  */
-@property (nullable, strong, nonatomic) SDLComponentVolumeStatus fuelLevel_State;
+@property (strong, nonatomic, nullable) SDLComponentVolumeStatus fuelLevel_State __deprecated_msg("use fuelRange.levelState instead on 7.0+ RPC version connections");
 
 /**
  The estimate range in KM the vehicle can travel based on fuel level and consumption
@@ -120,6 +157,11 @@ NS_ASSUME_NONNULL_BEGIN
  The status of the wipers
  */
 @property (nullable, strong, nonatomic) SDLWiperStatus wiperStatus;
+
+/**
+ To indicate whether driver hands are off the steering wheel
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *handsOffSteering;
 
 /**
  Status of the head lamps

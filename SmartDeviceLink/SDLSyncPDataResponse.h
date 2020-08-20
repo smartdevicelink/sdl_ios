@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  DEPRECATED
  */
+__deprecated
 @interface SDLSyncPDataResponse : SDLRPCResponse
 
 @end

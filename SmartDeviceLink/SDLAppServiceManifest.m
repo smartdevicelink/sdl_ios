@@ -168,11 +168,11 @@ NS_ASSUME_NONNULL_BEGIN
   return [self.store sdl_objectForName:SDLRPCParameterNameRPCSpecVersion ofClass:SDLMsgVersion.class error:nil];
 }
 
-- (void)setHandledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
+- (void)setHandledRPCs:(nullable NSArray<NSNumber *> *)handledRPCs {
     [self.store sdl_setObject:handledRPCs forName:SDLRPCParameterNameHandledRPCs];
 }
 
-- (nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
+- (nullable NSArray<NSNumber *> *)handledRPCs {
     return [self.store sdl_objectsForName:SDLRPCParameterNameHandledRPCs ofClass:NSNumber.class error:nil];
 }
 

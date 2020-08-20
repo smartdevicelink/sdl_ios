@@ -77,12 +77,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
 
-// Deprecated internal proxy object
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (strong, nonatomic, nullable) SDLProxy *proxy;
-#pragma clang diagnostic pop
-
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
 @property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
 @property (copy, nonatomic, nullable) SDLAudioStreamingState audioStreamingState;

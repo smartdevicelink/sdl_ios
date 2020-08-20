@@ -26,6 +26,9 @@ extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
 extern SDLErrorDomain *const SDLErrorDomainTransport;
 extern SDLErrorDomain *const SDLErrorDomainRPCStore;
+extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
+extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
+
 
 @interface NSError (SDLErrors)
 
@@ -36,14 +39,14 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 
 #pragma mark SDLManager
 
-+ (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
++ (NSError *)sdl_lifecycle_rpcErrorWithDescription:(nullable NSString *)description andReason:(nullable NSString *)reason;
 + (NSError *)sdl_lifecycle_notConnectedError;
 + (NSError *)sdl_lifecycle_notReadyError;
-+ (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
++ (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(nullable NSString *)description andReason:(nullable NSString *)reason;
 + (NSError *)sdl_lifecycle_managersFailedToStart;
-+ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult)result info:(NSString *)info;
-+ (NSError *)sdl_lifecycle_startedWithWarning:(SDLResult)result info:(NSString *)info;
-+ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult)result info:(NSString *)info;
++ (NSError *)sdl_lifecycle_startedWithBadResult:(nullable SDLResult)result info:(nullable NSString *)info;
++ (NSError *)sdl_lifecycle_startedWithWarning:(nullable SDLResult)result info:(nullable NSString *)info;
++ (NSError *)sdl_lifecycle_failedWithBadResult:(nullable SDLResult)result info:(nullable NSString *)info;
 + (NSError *)sdl_lifecycle_multipleRequestsCancelled;
 
 #pragma mark SDLFileManager
@@ -59,9 +62,10 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 + (NSError *)sdl_fileManager_dataMissingError;
 + (NSError *)sdl_fileManager_staticIconError;
 
-#pragma mark Show Managers
+#pragma mark Screen Managers
 
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded;
++ (NSError *)sdl_subscribeButtonManager_notSubscribed;
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded;
 
 #pragma mark Menu Manager
@@ -94,6 +98,14 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 
 + (NSError *)sdl_rpcStore_invalidObjectErrorWithObject:(id)wrongObject expectedType:(Class)type;
 
+#pragma mark Cache File Manager
+
++ (NSError *)sdl_cacheFileManager_updateIconArchiveFileFailed;
+
+#pragma mark Audio Stream Manager
+
++ (NSError *)sdl_audioStreamManager_notConnected;
+
 @end
 
 @interface NSException (SDLExceptions)
@@ -104,7 +116,8 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 + (NSException *)sdl_invalidSoftButtonStateException;
 + (NSException *)sdl_carWindowOrientationException;
 + (NSException *)sdl_invalidLockscreenSetupException;
-+ (NSException *)sdl_invalidSelectorExceptionWithSelector:(SEL)selector;
++ (NSException *)sdl_invalidSystemCapabilitySelectorExceptionWithSelector:(SEL)selector;
++ (NSException *)sdl_invalidSubscribeButtonSelectorExceptionWithSelector:(SEL)selector;
 
 @end
 

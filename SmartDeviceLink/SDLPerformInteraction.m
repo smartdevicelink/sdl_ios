@@ -135,11 +135,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_enumForName:SDLRPCParameterNameInteractionMode error:&error];
 }
 
-- (void)setInteractionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
+- (void)setInteractionChoiceSetIDList:(NSArray<NSNumber *> *)interactionChoiceSetIDList {
     [self.parameters sdl_setObject:interactionChoiceSetIDList forName:SDLRPCParameterNameInteractionChoiceSetIdList];
 }
 
-- (NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
+- (NSArray<NSNumber *> *)interactionChoiceSetIDList {
     NSError *error = nil;
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameInteractionChoiceSetIdList ofClass:NSNumber.class error:&error];
 }

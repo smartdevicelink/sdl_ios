@@ -279,8 +279,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">syncMsgVersion</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">__deprecated_msg</span><span class="p">((</span><span class="s">"Use sdlMsgVersion instead"</span><span class="p">))</span> <span class="n"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="n">syncMsgVersion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -302,7 +301,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLMsgVersion.html">SDLMsgVersion</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">sdlMsgVersion</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLMsgVersion.html">SDLMsgVersion</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">sdlMsgVersion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -331,7 +330,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appName</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appName</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -359,8 +358,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">ttsName</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">ttsName</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -384,8 +382,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSString</span> <span class="o">*</span><span class="n">ngnMediaScreenAppName</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">ngnMediaScreenAppName</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -409,8 +406,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">vrSynonyms</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">vrSynonyms</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -432,8 +428,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
-    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">isMediaApplication</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">isMediaApplication</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -455,7 +450,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="n">_Nonnull</span> <span class="n">languageDesired</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="n">_Nonnull</span> <span class="n">languageDesired</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -477,8 +472,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
-    <span class="n"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="n">_Nonnull</span> <span class="n">hmiDisplayLanguageDesired</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="n">_Nonnull</span> <span class="n">hmiDisplayLanguageDesired</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -500,8 +494,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">appHMIType</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type%20Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">appHMIType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -525,7 +518,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">hashID</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">hashID</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -547,7 +540,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDeviceInfo.html">SDLDeviceInfo</a></span> <span class="o">*</span><span class="n">deviceInfo</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDeviceInfo.html">SDLDeviceInfo</a></span> <span class="o">*</span><span class="n">deviceInfo</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -574,7 +567,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appID</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appID</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -598,7 +591,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">fullAppID</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">fullAppID</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -620,7 +613,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAppInfo.html">SDLAppInfo</a></span> <span class="o">*</span><span class="n">appInfo</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAppInfo.html">SDLAppInfo</a></span> <span class="o">*</span><span class="n">appInfo</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -642,8 +635,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">dayColorScheme</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">dayColorScheme</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -665,8 +657,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">nightColorScheme</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="n">nightColorScheme</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

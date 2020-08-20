@@ -6,7 +6,7 @@
 //  Copyright © 2018 Xevo Inc. All rights reserved.
 //
 
-#import "SDLProtocolListener.h"
+#import "SDLProtocolDelegate.h"
 #import "SDLStreamingProtocolDelegate.h"
 
 @class SDLControlFramePayloadRPCStartServiceAck;
@@ -34,46 +34,25 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  manager with appropriate SDLProtocol instance. When the secondary transport is
  disconnected, this manager retries connection with a regular interval.
  */
-@interface SDLSecondaryTransportManager : NSObject <SDLProtocolListener>
+@interface SDLSecondaryTransportManager : NSObject <SDLProtocolDelegate>
 
-/** state of this manager */
-@property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
-
-/**
- Create a new secondary transport manager.
-
- @param streamingProtocolDelegate a delegate to handle updates on protocol instances
- @param queue a serial dispatch queue that the internal state machine runs on
- @return A new secondary transport manager
- */
+/// Create a new secondary transport manager.
+/// @param streamingProtocolDelegate a delegate to handle updates on protocol instances
+/// @param queue a serial dispatch queue that the internal state machine runs on
 - (instancetype)initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)streamingProtocolDelegate
                                       serialQueue:(dispatch_queue_t)queue;
 
-/**
- *  Start the manager.
-
- @param primaryProtocol protocol that runs on the main (primary) transport
- */
+/// Start the manager.
+/// @param primaryProtocol The protocol that runs on the main (primary) transport
 - (void)startWithPrimaryProtocol:(SDLProtocol *)primaryProtocol;
 
-/**
- *  Stop the manager.
- */
-- (void)stop;
+/// Stop the manager
+/// @param completionHandler Handler called when the manager has shutdown
+- (void)stopWithCompletionHandler:(void (^)(void))completionHandler;
 
-/**
- * Call this method when Start Service ACK control frame is received on primary transport.
-
- @param payload payload of Start Service ACK frame received on the primary transport
- */
-- (void)onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload;
-
-/**
- * Call this method when Transport Event Update control frame is received on primary transport.
-
- @param payload payload of Transport Event Update frame received on the primary transport
- */
-- (void)onTransportEventUpdateReceived:(SDLControlFramePayloadTransportEventUpdate *)payload;
+/// Destroys the secondary transport.
+/// @param completionHandler Handler called when the session has been destroyed
+- (void)disconnectSecondaryTransportWithCompletionHandler:(void (^)(void))completionHandler;
 
 @end
 

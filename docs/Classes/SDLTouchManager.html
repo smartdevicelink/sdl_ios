@@ -33,8 +33,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLTouchManagerDelegate.html">SDLTouchManagerDelegate</a></span><span class="o">&gt;</span>
-    <span class="n">touchEventDelegate</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLTouchManagerDelegate.html">SDLTouchManagerDelegate</a></span><span class="o">&gt;</span> <span class="n">touchEventDelegate</span><span class="p">;</span></code></pre>
 
   
   
@@ -44,14 +43,12 @@
       touchEventHandler
   </h3>
   
-  <p>@abstract
-    Returns all OnTouchEvent notifications as SDLTouch and SDLTouchType objects.</p>
+  <p>Returns all OnTouchEvent notifications as SDLTouch and SDLTouchType objects.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n"><a href="../Type%20Definitions.html#/c:SDLTouchManager.h@T@SDLTouchEventHandler">SDLTouchEventHandler</a></span> <span class="n">touchEventHandler</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTouchManager.h@T@SDLTouchEventHandler">SDLTouchEventHandler</a></span> <span class="n">touchEventHandler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -65,16 +62,13 @@
   </h3>
   
   <p>Distance between two taps on the screen, in the head unit&rsquo;s coordinate system, used for registering double-tap callbacks.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Defaults to 50 px.
 
-</div>
+<p>Defaults to 50 px.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">tapDistanceThreshold</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">tapDistanceThreshold</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -88,16 +82,13 @@
   </h3>
   
   <p>Minimum distance for a pan gesture in the head unit&rsquo;s coordinate system, used for registering pan callbacks.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Defaults to 8 px.
 
-</div>
+<p>Defaults to 8 px.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">panDistanceThreshold</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">panDistanceThreshold</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -110,15 +101,14 @@
       tapTimeThreshold
   </h3>
   
-  <p>@abstract
-    Time (in seconds) between tap events to register a double-tap callback.
-@remark
-    Default is 0.4 seconds.</p>
+  <p>Time (in seconds) between tap events to register a double-tap callback. This must be greater than 0.0.</p>
+
+<p>Default is 0.4 seconds.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">tapTimeThreshold</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">tapTimeThreshold</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -131,16 +121,14 @@
       movementTimeThreshold
   </h3>
   
-  <p>@abstract
-    Time (in seconds) between movement events to register panning or pinching 
-    callbacks.
-@remark
-    Default is 0.05 seconds.</p>
+  <p>Time (in seconds) between movement events to register panning or pinching callbacks.</p>
+
+<p>Default is 0.05 seconds.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">movementTimeThreshold</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">movementTimeThreshold</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -158,7 +146,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">enableSyncedPanning</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">enableSyncedPanning</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -171,17 +159,15 @@
       touchEnabled
   </h3>
   
-  <p>@abstract
-    Boolean denoting whether or not the touch manager should deliver touch event
-    callbacks.
-@remark
-    Default is true.</p>
+  <p>Boolean denoting whether or not the touch manager should deliver touch event callbacks.</p>
+
+<p>Default is true.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">getter</span><span class="o">=</span><span class="n">isTouchEnabled</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
-    <span class="n">BOOL</span> <span class="n">touchEnabled</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">unsafe_unretained</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span>
+          <span class="n">getter</span><span class="o">=</span><span class="n">isTouchEnabled</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">touchEnabled</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -194,10 +180,9 @@
       -cancelPendingTouches
   </h3>
   
-  <p>@abstract
-    Cancels pending touch event timers that may be in progress.
-@remark
-    Currently only impacts the timer used to register single taps.</p>
+  <p>Cancels pending touch event timers that may be in progress.</p>
+
+<p>Currently only impacts the timer used to register single taps.</p>
 
   
   

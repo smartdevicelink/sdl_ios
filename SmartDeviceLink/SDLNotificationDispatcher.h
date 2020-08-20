@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLProxyListener.h"
-
 @class SDLRPCRequest;
 @class SDLRPCResponse;
 @class SDLRPCNotification;
@@ -20,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The SDLNotificationDispatcher subscribes to SDLProxy notifications through SDLProxyListener and sends out actual NSNotifications with those contents. It can also be told to send out other types of notifications.
  */
-@interface SDLNotificationDispatcher : NSObject <SDLProxyListener>
+@interface SDLNotificationDispatcher : NSObject
 
 /**
  *  Posts a notification with a specified name and object.

@@ -22,15 +22,20 @@ describe(@"Getter/Setter Tests", ^ {
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] init];
 #pragma clang diagnostic pop
-
         testNotification.driverDistractionStatus = @NO;
         testNotification.userSelected = @3;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testNotification.lockScreenStatus = SDLLockScreenStatusRequired;
+#pragma clang diagnostic pop
         testNotification.hmiLevel = SDLHMILevelNone;
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testNotification.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+#pragma clang diagnostic pop
         expect(testNotification.hmiLevel).to(equal(SDLHMILevelNone));
     });
     
@@ -39,7 +44,10 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLRPCParameterNameParameters:
                                                  @{@"driverDistractionStatus":@NO,
                                                    @"userSelected":@3,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                                                    @"OnLockScreenStatus":SDLLockScreenStatusRequired,
+#pragma clang diagnostic pop
                                                    @"hmiLevel":SDLHMILevelNone},
                                              SDLRPCParameterNameOperationName:@"OnLockScreenStatus"}} mutableCopy];
 #pragma clang diagnostic push
@@ -49,7 +57,10 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testNotification.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+#pragma clang diagnostic pop
         expect(testNotification.hmiLevel).to(equal(SDLHMILevelNone));
     });
     

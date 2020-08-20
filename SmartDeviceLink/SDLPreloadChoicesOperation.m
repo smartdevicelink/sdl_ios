@@ -19,7 +19,7 @@
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLWindowCapability.h"
-#import "SDLWindowCapability+ShowManagerExtensions.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -87,12 +87,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage]
-            && [self sdl_artworkNeedsUpload:cell.artwork]) {
+        if ([self sdl_shouldSendChoicePrimaryImage] && [self sdl_artworkNeedsUpload:cell.artwork]) {
             [artworksToUpload addObject:cell.artwork];
         }
-        if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
-            && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
+        if ([self sdl_shouldSendChoiceSecondaryImage] && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
             [artworksToUpload addObject:cell.secondaryArtwork];
         }
     }
@@ -185,6 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID.unsignedIntValue choiceSet:@[choice]];
 }
 
+/// Determine if we should send primary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceText {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -193,23 +192,27 @@ NS_ASSUME_NONNULL_BEGIN
     }
 #pragma clang diagnostic pop
 
-    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName] : YES;
+    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName];
 }
 
+/// Determine if we should send secondary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceSecondaryText {
-    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText] : YES;
+    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText];
 }
 
+/// Determine if we should send teriary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceTertiaryText {
-    return (self.windowCapability.textFields != nil) ? [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText] : YES;
+    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText];
 }
 
+/// Determine if we should send the primary image. If imageFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoicePrimaryImage {
-    return (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] : YES;
+    return [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage];
 }
 
+/// Determine if we should send the secondary image. If imageFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceSecondaryImage {
-    return (self.windowCapability.imageFields != nil) ? [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] : YES;
+    return [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage];
 }
 
 #pragma mark - Property Overrides

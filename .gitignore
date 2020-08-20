@@ -44,3 +44,10 @@ infer-out
 Carthage/Build
 
 docs/docsets/
+.idea
+*venv*
+*__pycache__
+*.pytest_cache
+**htmlcov
+**.coverage
+_debug*

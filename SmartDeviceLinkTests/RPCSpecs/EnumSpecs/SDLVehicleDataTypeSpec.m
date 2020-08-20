@@ -17,8 +17,11 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLVehicleDataTypeGPS).to(equal(@"VEHICLEDATA_GPS"));
         expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
         expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLVehicleDataTypeFuelLevel).to(equal(@"VEHICLEDATA_FUELLEVEL"));
         expect(SDLVehicleDataTypeFuelLevelState).to(equal(@"VEHICLEDATA_FUELLEVEL_STATE"));
+#pragma clang diagnostic pop
         expect(SDLVehicleDataTypeFuelConsumption).to(equal(@"VEHICLEDATA_FUELCONSUMPTION"));
         expect(SDLVehicleDataTypeFuelRange).to(equal(@"VEHICLEDATA_FUELRANGE"));
         expect(SDLVehicleDataTypeExternalTemperature).to(equal(@"VEHICLEDATA_EXTERNTEMP"));
@@ -45,6 +48,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLVehicleDataTypeElectronicParkBrakeStatus).to(equal(@"VEHICLEDATA_ELECTRONICPARKBRAKESTATUS"));
         expect(SDLVehicleDataTypeTurnSignal).to(equal(@"VEHICLEDATA_TURNSIGNAL"));
         expect(SDLVehicleDataTypeCloudAppVehicleID).to(equal(@"VEHICLEDATA_CLOUDAPPVEHICLEID"));
+        expect(SDLVehicleDataTypeHandsOffSteering).to(equal(@"VEHICLEDATA_HANDSOFFSTEERING"));
     });
 });
 

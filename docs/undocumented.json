@@ -1,12 +1,6 @@
 {
   "warnings": [
-    {
-      "file": "/Users/joel/Development/Livio/sdl_ios/SmartDeviceLink/SDLTouch.h",
-      "line": 14,
-      "symbol": "SDLTouchIdentifier",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    }
+
   ],
-  "source_directory": "/Users/joel/Development/Livio/sdl_ios"
+  "source_directory": "/Users/joelfischer/Development/livio/sdl/sdl_ios"
 }

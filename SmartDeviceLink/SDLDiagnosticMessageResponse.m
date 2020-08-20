@@ -20,11 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (void)setMessageDataResult:(nullable NSArray<NSNumber<SDLInt> *> *)messageDataResult {
+- (void)setMessageDataResult:(nullable NSArray<NSNumber *> *)messageDataResult {
     [self.parameters sdl_setObject:messageDataResult forName:SDLRPCParameterNameMessageDataResult];
 }
 
-- (nullable NSArray<NSNumber<SDLInt> *> *)messageDataResult {
+- (nullable NSArray<NSNumber *> *)messageDataResult {
     NSError *error = nil;
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameMessageDataResult ofClass:NSNumber.class error:&error];
 }

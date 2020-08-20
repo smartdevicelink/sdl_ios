@@ -88,7 +88,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Required, max length 255 characters
  */
-@property (strong, nonatomic) NSString *syncFileName;
+@property (strong, nonatomic) NSString *syncFileName __deprecated_msg("use sdlFileName instead");
+
+/**
+*  File reference name
+*
+*  Required, max length 255 characters
+*/
+@property (strong, nonatomic) NSString *sdlFileName;
 
 /**
  *  A FileType value representing a selected file type

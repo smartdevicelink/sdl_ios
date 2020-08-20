@@ -51,7 +51,7 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 /**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
  *
- *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
+ *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video session has started).
  *  @discussion Clients may call this once and retain the resulting pool, this call is cheap enough that it's OK to call it once per frame.
  */
 @property (assign, nonatomic, readonly) CVPixelBufferPoolRef CV_NULLABLE pixelBufferPool;

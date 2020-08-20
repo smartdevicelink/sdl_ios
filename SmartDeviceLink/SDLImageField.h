@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param name The name identifying this image field
 /// @param imageTypeSupported The image data types this field supports
 /// @param imageResolution The native resolution of this image field
-- (instancetype)initWithName:(SDLImageFieldName)name imageTypeSupported:(NSArray<SDLFileType> *)imageTypeSupported imageResolution:(SDLImageResolution *)imageResolution;
+- (instancetype)initWithName:(SDLImageFieldName)name imageTypeSupported:(NSArray<SDLFileType> *)imageTypeSupported imageResolution:(nullable SDLImageResolution *)imageResolution;
 
 @end
 

@@ -52,11 +52,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameMessageLength ofClass:NSNumber.class error:&error];
 }
 
-- (void)setMessageData:(NSArray<NSNumber<SDLInt> *> *)messageData {
+- (void)setMessageData:(NSArray<NSNumber *> *)messageData {
     [self.parameters sdl_setObject:messageData forName:SDLRPCParameterNameMessageData];
 }
 
-- (NSArray<NSNumber<SDLInt> *> *)messageData {
+- (NSArray<NSNumber *> *)messageData {
     NSError *error = nil;
     return [self.parameters sdl_objectsForName:SDLRPCParameterNameMessageData ofClass:NSNumber.class error:&error];
 }

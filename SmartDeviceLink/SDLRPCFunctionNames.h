@@ -59,7 +59,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameDiagnosticMessage;
 extern SDLRPCFunctionName const SDLRPCFunctionNameDialNumber;
 
 /// Function name for an CreateInteractionChoiceSet RPC
-extern SDLRPCFunctionName const SDLRPCFunctionNameEncodedSyncPData;
+extern SDLRPCFunctionName const SDLRPCFunctionNameEncodedSyncPData __deprecated;
 
 /// Function name for an EndAudioPassThru RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameEndAudioPassThru;
@@ -119,7 +119,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameOnCommand;
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnDriverDistraction;
 
 /// Function name for an OnEncodedSyncPData notification RPC
-extern SDLRPCFunctionName const SDLRPCFunctionNameOnEncodedSyncPData;
+extern SDLRPCFunctionName const SDLRPCFunctionNameOnEncodedSyncPData __deprecated;
 
 /// Function name for an OnHashChange notification RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnHashChange;
@@ -146,7 +146,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameOnPermissionsChange;
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnRCStatus;
 
 /// Function name for an OnSyncPData notification RPC
-extern SDLRPCFunctionName const SDLRPCFunctionNameOnSyncPData;
+extern SDLRPCFunctionName const SDLRPCFunctionNameOnSyncPData __deprecated;
 
 /// Function name for an OnSystemCapabilityUpdated notification RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnSystemCapabilityUpdated;
@@ -248,7 +248,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameSubscribeVehicleData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameSubscribeWayPoints;
 
 /// Function name for a SyncPData RPC
-extern SDLRPCFunctionName const SDLRPCFunctionNameSyncPData;
+extern SDLRPCFunctionName const SDLRPCFunctionNameSyncPData __deprecated;
 
 /// Function name for a SystemRequest RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameSystemRequest;

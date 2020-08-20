@@ -15,6 +15,7 @@
 @class SDLAudioStreamManager;
 @class SDLConfiguration;
 @class SDLProtocol;
+@class SDLSecondaryTransportManager;
 @class SDLSystemCapabilityManager;
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
@@ -22,11 +23,11 @@
 @protocol SDLFocusableItemLocatorType;
 @protocol SDLConnectionManagerType;
 
+
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark - Interface
 
-/// Manager to help control streaming media services.
+/// Manager to help control streaming (video and audio) media services.
 @interface SDLStreamingMediaManager : NSObject <SDLStreamingAudioManagerType>
 
 /**
@@ -99,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
  *
- *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
+ *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video session has started).
  *  @discussion Clients may call this once and retain the resulting pool, this call is cheap enough that it's OK to call it once per frame.
  */
 @property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
@@ -116,6 +117,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) BOOL showVideoBackgroundDisplay;
 
+
+#pragma mark - Lifecycle
+
 /// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -131,19 +135,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ *  Start the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  */
 - (void)startWithProtocol:(SDLProtocol *)protocol;
-
-/**
- *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
- */
-- (void)startAudioWithProtocol:(SDLProtocol *)protocol;
-
-/**
- *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
- */
-- (void)startVideoWithProtocol:(SDLProtocol *)protocol;
 
 /**
  *  Stop the manager. This method is used internally.
@@ -159,6 +153,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Stop the video feature of the manager. This method is used internally.
  */
 - (void)stopVideo;
+
+#pragma mark - Data Transfer
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
@@ -189,6 +185,18 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return Whether or not the data was successfully sent.
  */
 - (BOOL)sendAudioData:(NSData *)audioData;
+
+#pragma mark - Deprecated Methods
+
+ /**
+  *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+  */
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
+
+ /**
+  *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+  */
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
 
 
 @end
