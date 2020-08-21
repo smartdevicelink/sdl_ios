@@ -61,10 +61,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager {
-    return [self initWithConnectionManager:manager configuration:[SDLFileManagerConfiguration defaultConfiguration]];
-}
-
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager configuration:(SDLFileManagerConfiguration *)configuration {
     self = [super init];
     if (!self) {
