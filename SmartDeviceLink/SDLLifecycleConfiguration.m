@@ -31,16 +31,8 @@ static NSUInteger const AppIdCharacterCount = 10;
 
 #pragma mark Lifecycle
 
-+ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:nil appId:appId];
-}
-
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
     return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId appId:fullAppId];
-}
-
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:nil appId:appId ipAddress:ipAddress port:port];
 }
 
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId ipAddress:(NSString *)ipAddress port:(UInt16)port {
