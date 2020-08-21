@@ -520,8 +520,6 @@ describe(@"the haptic manager", ^{
                  testUpdatedScale = 1.25;
                  hapticManager.videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testUpdatedScale displayViewportResolution:testScreenSize];
                  [hapticManager updateInterfaceLayout];
-
-                 NSLog(@"%@", uiViewController);
              });
 
              it(@"should have sent one view that has been scaled", ^{
