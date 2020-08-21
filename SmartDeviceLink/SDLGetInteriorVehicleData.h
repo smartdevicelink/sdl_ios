@@ -39,24 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An SDLGetInteriorVehicleData object
 - (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId;
 
-/// Convenience init to get information of a particular module type.
-///
-/// @param moduleType The type of a RC module to retrieve module data from the vehicle
-/// @return An SDLGetInteriorVehicleData object
-- (instancetype)initWithModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initWithModuleType:moduleId: instead");
-
-/// Convenience init to get information and subscribe to a particular module type.
-///
-/// @param moduleType The type of a RC module to retrieve module data from the vehicle
-/// @return An SDLGetInteriorVehicleData object
-- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initAndSubscribeToModuleType:moduleId: instead");
-
-/// Convenience init to unsubscribe from particular module type.
-///
-/// @param moduleType The type of a RC module to retrieve module data from the vehicle
-/// @return An SDLGetInteriorVehicleData object
-- (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType __deprecated_msg("Use initAndUnsubscribeToModuleType:moduleId:");
-
 /**
  * The type of a RC module to retrieve module data from the vehicle.
  *
