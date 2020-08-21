@@ -11,6 +11,7 @@
 #import "SDLPutFileResponse.h"
 #import "SDLShow.h"
 #import "SDLTextAndGraphicManager.h"
+#import "SDLTextAndGraphicUpdateOperation.h"
 #import "SDLTextField.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLWindowCapability.h"
@@ -21,15 +22,11 @@
 // Dependencies
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 @property (strong, nonatomic) SDLShow *currentScreenData;
 
-@property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
-@property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler inProgressHandler;
-
-@property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
-@property (assign, nonatomic) BOOL hasQueuedUpdate;
-@property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
 @property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
@@ -53,7 +50,6 @@ describe(@"text and graphic manager", ^{
     __block NSString *testString = @"some string";
     __block NSString *testArtworkName = @"some artwork name";
     __block SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
-    __block SDLArtwork *testStaticIcon = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
 
     beforeEach(^{
         mockFileManager = OCMClassMock([SDLFileManager class]);
@@ -62,6 +58,7 @@ describe(@"text and graphic manager", ^{
         [testManager start];
     });
 
+    // should instantiate correctly
     it(@"should instantiate correctly", ^{
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
         expect(testManager.fileManager).to(equal(mockFileManager));
@@ -81,48 +78,50 @@ describe(@"text and graphic manager", ^{
         expect(testManager.textField4Type).to(beNil());
 
         expect(testManager.currentScreenData).to(equal([[SDLShow alloc] init]));
-        expect(testManager.inProgressUpdate).to(beNil());
-        expect(testManager.queuedImageUpdate).to(beNil());
-        expect(testManager.hasQueuedUpdate).to(beFalse());
+        expect(testManager.transactionQueue).toNot(beNil());
         expect(testManager.windowCapability).to(beNil());
         expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
         expect(testManager.blankArtwork).toNot(beNil());
         expect(testManager.isDirty).to(beFalse());
     });
 
+    // setting setters
     describe(@"setting setters", ^{
         beforeEach(^{
             testManager.currentLevel = SDLHMILevelFull;
         });
 
+        // when in HMI NONE
         context(@"when in HMI NONE", ^{
             beforeEach(^{
                 testManager.currentLevel = SDLHMILevelNone;
             });
 
-            it(@"should not set text field 1", ^{
+            it(@"should set text field 1 but be suspended", ^{
                 testManager.textField1 = testString;
 
                 expect(testManager.textField1).to(equal(testString));
-                expect(testManager.inProgressUpdate).to(beNil());
-                expect(testManager.isDirty).to(beTrue());
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
             });
         });
 
+        // when no HMI level has been received
         context(@"when no HMI level has been received", ^{
             beforeEach(^{
                 testManager.currentLevel = nil;
             });
 
-            it(@"should not set text field 1", ^{
+            it(@"should set text field 1 but be suspended", ^{
                 testManager.textField1 = testString;
 
                 expect(testManager.textField1).to(equal(testString));
-                expect(testManager.inProgressUpdate).to(beNil());
-                expect(testManager.isDirty).to(beTrue());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
             });
         });
 
+        // while batching
         context(@"while batching", ^{
             beforeEach(^{
                 testManager.batchUpdates = YES;
@@ -132,7 +131,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField1 = testString;
 
                 expect(testManager.textField1).to(equal(testString));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -140,7 +139,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField2 = testString;
 
                 expect(testManager.textField2).to(equal(testString));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -148,7 +147,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField3 = testString;
 
                 expect(testManager.textField3).to(equal(testString));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -156,7 +155,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField4 = testString;
 
                 expect(testManager.textField4).to(equal(testString));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -164,7 +163,7 @@ describe(@"text and graphic manager", ^{
                 testManager.mediaTrackTextField = testString;
 
                 expect(testManager.mediaTrackTextField).to(equal(testString));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -172,7 +171,7 @@ describe(@"text and graphic manager", ^{
                 testManager.title = testString;
 
                 expect(testManager.title).to(equal(testString));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -180,7 +179,7 @@ describe(@"text and graphic manager", ^{
                 testManager.primaryGraphic = testArtwork;
 
                 expect(testManager.primaryGraphic.name).to(equal(testArtworkName));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -188,7 +187,7 @@ describe(@"text and graphic manager", ^{
                 testManager.secondaryGraphic = testArtwork;
 
                 expect(testManager.secondaryGraphic.name).to(equal(testArtworkName));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -196,7 +195,7 @@ describe(@"text and graphic manager", ^{
                 testManager.alignment = SDLTextAlignmentLeft;
 
                 expect(testManager.alignment).to(equal(SDLTextAlignmentLeft));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -204,7 +203,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField1Type = SDLMetadataTypeMediaAlbum;
 
                 expect(testManager.textField1Type).to(equal(SDLMetadataTypeMediaAlbum));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -212,7 +211,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField2Type = SDLMetadataTypeMediaAlbum;
 
                 expect(testManager.textField2Type).to(equal(SDLMetadataTypeMediaAlbum));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -220,7 +219,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField3Type = SDLMetadataTypeMediaAlbum;
 
                 expect(testManager.textField3Type).to(equal(SDLMetadataTypeMediaAlbum));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
 
@@ -228,11 +227,12 @@ describe(@"text and graphic manager", ^{
                 testManager.textField4Type = SDLMetadataTypeMediaAlbum;
 
                 expect(testManager.textField4Type).to(equal(SDLMetadataTypeMediaAlbum));
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
                 expect(testManager.isDirty).to(beTrue());
             });
         });
 
+        // while not batching
         context(@"while not batching", ^{
             beforeEach(^{
                 testManager.batchUpdates = NO;
@@ -242,7 +242,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField1 = testString;
 
                 expect(testManager.textField1).to(equal(testString));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -250,7 +250,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField2 = testString;
 
                 expect(testManager.textField2).to(equal(testString));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -258,7 +258,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField3 = testString;
 
                 expect(testManager.textField3).to(equal(testString));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -266,7 +266,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField4 = testString;
 
                 expect(testManager.textField4).to(equal(testString));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -274,7 +274,7 @@ describe(@"text and graphic manager", ^{
                 testManager.mediaTrackTextField = testString;
 
                 expect(testManager.mediaTrackTextField).to(equal(testString));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -282,7 +282,7 @@ describe(@"text and graphic manager", ^{
                 testManager.title = testString;
 
                 expect(testManager.title).to(equal(testString));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -290,7 +290,7 @@ describe(@"text and graphic manager", ^{
                 testManager.primaryGraphic = testArtwork;
 
                 expect(testManager.primaryGraphic.name).to(equal(testArtworkName));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -298,7 +298,7 @@ describe(@"text and graphic manager", ^{
                 testManager.secondaryGraphic = testArtwork;
 
                 expect(testManager.secondaryGraphic.name).to(equal(testArtworkName));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -306,7 +306,7 @@ describe(@"text and graphic manager", ^{
                 testManager.alignment = SDLTextAlignmentLeft;
 
                 expect(testManager.alignment).to(equal(SDLTextAlignmentLeft));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -314,7 +314,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField1Type = SDLMetadataTypeMediaAlbum;
 
                 expect(testManager.textField1Type).to(equal(SDLMetadataTypeMediaAlbum));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -322,7 +322,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField2Type = SDLMetadataTypeMediaAlbum;
 
                 expect(testManager.textField2Type).to(equal(SDLMetadataTypeMediaAlbum));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -330,7 +330,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField3Type = SDLMetadataTypeMediaAlbum;
 
                 expect(testManager.textField3Type).to(equal(SDLMetadataTypeMediaAlbum));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
 
@@ -338,12 +338,13 @@ describe(@"text and graphic manager", ^{
                 testManager.textField4Type = SDLMetadataTypeMediaAlbum;
 
                 expect(testManager.textField4Type).to(equal(SDLMetadataTypeMediaAlbum));
-                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
                 expect(testManager.isDirty).to(beFalse());
             });
         });
     });
 
+    // batching an update
     describe(@"batching an update", ^{
         NSString *textLine1 = @"line1";
         NSString *textLine2 = @"line2";
@@ -361,670 +362,29 @@ describe(@"text and graphic manager", ^{
             testManager.currentLevel = SDLHMILevelFull;
             testManager.batchUpdates = YES;
 
-            testManager.textField1 = nil;
-            testManager.textField2 = nil;
-            testManager.textField3 = nil;
-            testManager.textField4 = nil;
-            testManager.mediaTrackTextField = nil;
-            testManager.title = nil;
-            testManager.textField1Type = nil;
-            testManager.textField2Type = nil;
-            testManager.textField3Type = nil;
-            testManager.textField4Type = nil;
+            testManager.textField1 = textLine1;
+            testManager.textField2 = textLine2;
+            testManager.textField3 = textLine3;
+            testManager.textField4 = textLine4;
+            testManager.mediaTrackTextField = textMediaTrack;
+            testManager.title = textTitle;
+            testManager.textField1Type = line1Type;
+            testManager.textField2Type = line2Type;
+            testManager.textField3Type = line3Type;
+            testManager.textField4Type = line4Type;
         });
 
-        context(@"when textFields are nil", ^{
-            beforeEach(^{
-                testManager.windowCapability = [[SDLWindowCapability alloc] init];
-            });
-
-            it(@"should send nothing", ^{
-                testManager.mediaTrackTextField = textMediaTrack;
-                testManager.title = textTitle;
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField4 = textLine4;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
-                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
-                expect(testManager.inProgressUpdate.mainField1).toNot(equal(textLine1));
-                expect(testManager.inProgressUpdate.mainField2).toNot(equal(textLine2));
-                expect(testManager.inProgressUpdate.mainField3).toNot(equal(textLine3));
-                expect(testManager.inProgressUpdate.mainField4).toNot(equal(textLine4));
-            });
-        });
-
-        context(@"with one line available", ^{
-            beforeEach(^{
-                testManager.windowCapability = [[SDLWindowCapability alloc] init];
-                SDLTextField *lineOneField = [[SDLTextField alloc] init];
-                lineOneField.name = SDLTextFieldNameMainField1;
-                testManager.windowCapability.textFields = @[lineOneField];
-            });
-
-            it(@"should not set mediatrack", ^{
-                testManager.mediaTrackTextField = textMediaTrack;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
-                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
-            });
-
-            it(@"should not set title", ^{
-                testManager.title = textTitle;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
-                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
-            });
-
-            it(@"should format a one line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField1Type = line1Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-            });
-
-            it(@"should format a two line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-            });
-
-            it(@"should format a three line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-                testManager.textField3Type = line3Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", textLine1, textLine2, textLine3]));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[2]).to(equal(line3Type));
-                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-            });
-
-            it(@"should format a four line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField4 = textLine4;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-                testManager.textField3Type = line3Type;
-                testManager.textField4Type = line4Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@ - %@", textLine1, textLine2, textLine3, textLine4]));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[2]).to(equal(line3Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[3]).to(equal(line4Type));
-                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-            });
-
-            context(@"when media track and title are available", ^{
-                beforeEach(^{
-                    NSMutableArray<SDLTextField *> *existingFieldsMutable = [testManager.windowCapability.textFields mutableCopy];
-                    SDLTextField *mediaTrack = [[SDLTextField alloc] init];
-                    mediaTrack.name = SDLTextFieldNameMediaTrack;
-                    [existingFieldsMutable addObject:mediaTrack];
-
-                    SDLTextField *title = [[SDLTextField alloc] init];
-                    title.name = SDLTextFieldNameTemplateTitle;
-                    [existingFieldsMutable addObject:title];
-                    testManager.windowCapability.textFields = [existingFieldsMutable copy];
-                });
-
-                it(@"should set media track and title properly", ^{
-                    testManager.mediaTrackTextField = textMediaTrack;
-                    testManager.title = textTitle;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
-                    expect(testManager.inProgressUpdate.templateTitle).to(equal(textTitle));
-                });
-            });
-        });
-
-        context(@"with two lines available", ^{
-            beforeEach(^{
-                testManager.windowCapability = [[SDLWindowCapability alloc] init];
-                SDLTextField *lineTwoField = [[SDLTextField alloc] init];
-                lineTwoField.name = SDLTextFieldNameMainField2;
-                testManager.windowCapability.textFields = @[lineTwoField];
-            });
-
-            it(@"should not set mediatrack", ^{
-                testManager.mediaTrackTextField = textMediaTrack;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
-                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
-            });
-
-            it(@"should not set title", ^{
-                testManager.title = textTitle;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
-                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
-            });
-
-            it(@"should format a one line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField1Type = line1Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-            });
-
-            it(@"should format a two line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-            });
-
-            it(@"should format a three line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-                testManager.textField3Type = line3Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine3));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(2));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line3Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-            });
-
-            it(@"should format a four line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField4 = textLine4;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-                testManager.textField3Type = line3Type;
-                testManager.textField4Type = line4Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
-                expect(testManager.inProgressUpdate.mainField2).to(equal([NSString stringWithFormat:@"%@ - %@", textLine3, textLine4]));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(2));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line3Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[1]).to(equal(line4Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(2));
-                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-            });
-        });
-
-        context(@"with three lines available", ^{
-            beforeEach(^{
-                testManager.windowCapability = [[SDLWindowCapability alloc] init];
-                SDLTextField *lineThreeField = [[SDLTextField alloc] init];
-                lineThreeField.name = SDLTextFieldNameMainField3;
-                testManager.windowCapability.textFields = @[lineThreeField];
-            });
-
-            it(@"should not set mediatrack", ^{
-                testManager.mediaTrackTextField = textMediaTrack;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
-                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
-            });
-
-            it(@"should not set title", ^{
-                testManager.title = textTitle;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
-                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
-            });
-
-            it(@"should format a one line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField1Type = line1Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-            });
-
-            it(@"should format a two line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-            });
-
-            it(@"should format a three line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-                testManager.textField3Type = line3Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
-            });
-
-            it(@"should format a four line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField4 = textLine4;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-                testManager.textField3Type = line3Type;
-                testManager.textField4Type = line4Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.mainField3).to(equal([NSString stringWithFormat:@"%@ - %@", textLine3, textLine4]));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3[1]).to(equal(line4Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(2));
-                expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
-            });
-        });
-
-        context(@"with four lines available", ^{
-            beforeEach(^{
-                testManager.windowCapability = [[SDLWindowCapability alloc] init];
-                SDLTextField *lineFourField = [[SDLTextField alloc] init];
-                lineFourField.name = SDLTextFieldNameMainField4;
-                testManager.windowCapability.textFields = @[lineFourField];
-            });
-
-            it(@"should not set mediatrack", ^{
-                testManager.mediaTrackTextField = textMediaTrack;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mediaTrack).toNot(equal(textMediaTrack));
-                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
-            });
-
-            it(@"should not set title", ^{
-                testManager.title = textTitle;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.templateTitle).toNot(equal(textTitle));
-                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
-            });
-
-            it(@"should format a one line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField1Type = line1Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-            });
-
-            it(@"should format a two line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-            });
-
-            it(@"should format a three line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-                testManager.textField3Type = line3Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
-                expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
-                expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
-            });
-
-            it(@"should format a four line text and metadata update properly", ^{
-                testManager.textField1 = textLine1;
-                testManager.textField2 = textLine2;
-                testManager.textField3 = textLine3;
-                testManager.textField4 = textLine4;
-                testManager.textField1Type = line1Type;
-                testManager.textField2Type = line2Type;
-                testManager.textField3Type = line3Type;
-                testManager.textField4Type = line4Type;
-
-                testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:nil];
-
-                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
-                expect(testManager.inProgressUpdate.mainField4).to(equal(textLine4));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
-                expect(testManager.inProgressUpdate.metadataTags.mainField4[0]).to(equal(line4Type));
-                expect(testManager.inProgressUpdate.metadataTags.mainField4).to(haveCount(1));
-            });
-        });
-
-        context(@"updating images", ^{
-            __block NSString *testTextFieldText = @"mainFieldText";
-
-            beforeEach(^{
-                testManager.windowCapability = [[SDLWindowCapability alloc] init];
-                SDLImageField *primaryImageField = [[SDLImageField alloc] init];
-                primaryImageField.name = SDLImageFieldNameGraphic;
-                SDLImageField *secondaryImageField = [[SDLImageField alloc] init];
-                secondaryImageField.name = SDLImageFieldNameSecondaryGraphic;
-                testManager.windowCapability.imageFields = @[primaryImageField, secondaryImageField];
-
-                SDLTextField *lineOneField = [[SDLTextField alloc] init];
-                lineOneField.name = SDLTextFieldNameMainField1;
-                testManager.windowCapability.textFields = @[lineOneField];
-
-                testManager.batchUpdates = YES;
-                testManager.textField1 = testTextFieldText;
-            });
-
-            context(@"when imageFields are nil", ^{
-                beforeEach(^{
-                    testManager.windowCapability.imageFields = nil;
-                });
-
-                it(@"should send nothing", ^{
-                    testManager.primaryGraphic = testArtwork;
-                    testManager.secondaryGraphic = testArtwork;
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.graphic).to(beNil());
-                    expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
-                });
-            });
-
-            context(@"when the image is already on the head unit", ^{
-                beforeEach(^{
-                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
-                });
-
-                it(@"should immediately attempt to update", ^{
-                    testManager.primaryGraphic = testArtwork;
-                    testManager.secondaryGraphic = testArtwork;
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
-                    expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
-                });
-            });
-
-            context(@"when the image is a static icon", ^{
-                beforeEach(^{
-                    testManager.primaryGraphic = testStaticIcon;
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-                });
-
-                it(@"should immediately update without uploading the images", ^{
-                    OCMReject([mockFileManager uploadArtwork:[OCMArg any] completionHandler:[OCMArg any]]);
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
-                    expect(testManager.inProgressUpdate.graphic.value).toNot(beNil());
-                });
-            });
-
-            context(@"when the image is not on the head unit", ^{
-                beforeEach(^{
-                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
-
-                    testManager.primaryGraphic = testArtwork;
-                    testManager.secondaryGraphic = testArtwork;
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-                });
-
-                it(@"should immediately attempt to update without the images", ^{
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
-                    expect(testManager.inProgressUpdate.graphic.value).to(beNil());
-                    expect(testManager.inProgressUpdate.secondaryGraphic.value).to(beNil());
-                    expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtworkName));
-                    expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtworkName));
-                });
-            });
-
-            describe(@"When an image fails to upload to the remote", ^{
-                __block SDLArtwork *testArtwork1 = nil;
-                __block SDLArtwork *testArtwork2 = nil;
-
-                beforeEach(^{
-                    testArtwork1 = [[SDLArtwork alloc] initWithData:[@"Test data 1" dataUsingEncoding:NSUTF8StringEncoding] name:@"Test data 1" fileExtension:@"png" persistent:NO];
-                    testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"Test data 2" fileExtension:@"png" persistent:NO];
-                });
-
-                context(@"If the images for the primary and secondary graphics fail the upload process", ^{
-                    it(@"Should skip sending an update", ^{
-                        testManager.primaryGraphic = testArtwork1;
-                        testManager.secondaryGraphic = testArtwork2;
-                        testManager.batchUpdates = NO;
-
-                        OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
-                        NSArray<NSString *> *testSuccessfulArtworks = @[];
-                        NSError *testError = [NSError errorWithDomain:@"errorDomain"
-                                                                 code:9
-                                                             userInfo:@{testArtwork1.name:@"error 1", testArtwork2.name:@"error 2"}
-                                              ];
-                        OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
-                        [testManager updateWithCompletionHandler:nil];
-
-                        expect(testManager.textField1).to(equal(testTextFieldText));
-                        expect(testManager.inProgressUpdate).to(beNil());
-                        expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtwork1.name));
-                        expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
-                    });
-                });
-
-                context(@"If only one of images for the primary and secondary graphics fails to upload", ^{
-                    it(@"Should show the primary graphic even if the secondary graphic upload fails", ^{
-                        testManager.primaryGraphic = testArtwork1;
-                        testManager.secondaryGraphic = testArtwork2;
-                        testManager.batchUpdates = NO;
-
-                        OCMStub([mockFileManager hasUploadedFile:testArtwork1]).andReturn(YES);
-                        OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(NO);
-                        NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork1.name];
-                        NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork2.name:@"error 2"}];
-                        OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
-                        [testManager updateWithCompletionHandler:nil];
-
-                        expect(testManager.textField1).to(equal(testTextFieldText));
-                        expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtwork1.name));
-                        expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
-                        expect(testManager.inProgressUpdate.mainField1).to(beNil());
-                        expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtwork1.name));
-                        expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
-                    });
-
-                    it(@"Should show the secondary graphic even if the primary graphic upload fails", ^{
-                        testManager.primaryGraphic = testArtwork1;
-                        testManager.secondaryGraphic = testArtwork2;
-                        testManager.batchUpdates = NO;
-
-                        OCMStub([mockFileManager hasUploadedFile:testArtwork1]).andReturn(NO);
-                        OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(YES);
-                        NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork2.name];
-                        NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork1.name:@"error 2"}];
-                        OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
-                        [testManager updateWithCompletionHandler:nil];
-
-                        expect(testManager.textField1).to(equal(testTextFieldText));
-                        expect(testManager.inProgressUpdate.graphic).to(beNil());
-                        expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
-                        expect(testManager.inProgressUpdate.mainField1).to(beNil());
-                        expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtwork1.name));
-                        expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
-                    });
-                });
-            });
+        fit(@"should wait until batching ends to create an update operation", ^{
+            expect(testManager.transactionQueue.operationCount).to(equal(0));
+
+            testManager.batchUpdates = NO;
+            [testManager updateWithCompletionHandler:nil];
+            expect(testManager.transactionQueue.operationCount).to(equal(1));
         });
     });
 
-    context(@"On disconnects", ^{
+    // on disconnect
+    context(@"on disconnect", ^{
         beforeEach(^{
             [testManager stop];
         });
@@ -1047,9 +407,6 @@ describe(@"text and graphic manager", ^{
             expect(testManager.textField4Type).to(beNil());
 
             expect(testManager.currentScreenData).to(equal([[SDLShow alloc] init]));
-            expect(testManager.inProgressUpdate).to(beNil());
-            expect(testManager.queuedImageUpdate).to(beNil());
-            expect(testManager.hasQueuedUpdate).to(beFalse());
             expect(testManager.windowCapability).to(beNil());
             expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
             expect(testManager.blankArtwork).toNot(beNil());

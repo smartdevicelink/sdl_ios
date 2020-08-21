@@ -338,6 +338,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     // we won't use the object in the parameter but the convenience method of the system capability manager
     self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
+    [self sdl_updateTransactionQueueSuspended];
     
     // Auto-send an updated show
     if ([self sdl_hasData]) {
@@ -354,6 +355,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLHMILevel oldLevel = self.currentLevel;
     self.currentLevel = hmiStatus.hmiLevel;
+    [self sdl_updateTransactionQueueSuspended];
 
     // Auto-send an updated show if we were in NONE and now we are not
     if ([oldLevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone] && self.waitingOnHMILevelUpdateToUpdate) {

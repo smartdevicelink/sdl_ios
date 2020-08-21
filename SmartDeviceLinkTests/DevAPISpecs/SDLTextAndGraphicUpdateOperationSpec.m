@@ -13,6 +13,7 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLFileManager.h"
+#import "SDLImage.h"
 #import "SDLImageField.h"
 #import "SDLMetadataTags.h"
 #import "SDLResult.h"
@@ -45,25 +46,26 @@ NSString *testArtworkName2 = @"some other artwork name";
 SDLArtwork *testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName2 fileExtension:@"png" persistent:NO];
 SDLArtwork *testStaticIcon = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
 
-SDLShow *emptyCurrentDataShow = [[SDLShow alloc] init];
-
 describe(@"the text and graphic operation", ^{
     __block SDLTextAndGraphicUpdateOperation *testOp = nil;
 
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
-    __block SDLTextAndGraphicUpdateCompletionHandler updateHandler = nil;
     __block SDLWindowCapability *windowCapability = nil;
     __block SDLTextAndGraphicState *updatedState = nil;
 
     __block SDLShowResponse *successShowResponse = [[SDLShowResponse alloc] init];
+    __block SDLShow *emptyCurrentDataShow = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
+        testOp = nil;
+        updatedState = nil;
 
         successShowResponse.success = @YES;
         successShowResponse.resultCode = SDLResultSuccess;
+        emptyCurrentDataShow = [[SDLShow alloc] init];
     });
 
     // updating text fields
@@ -829,6 +831,95 @@ describe(@"the text and graphic operation", ^{
 
                     // Then the images should be uploaded
                     OCMReject([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                });
+            });
+        });
+
+        // when an image fails to upload to the remote
+        describe(@"when an image fails to upload to the remote", ^{
+            context(@"if the images for the primary and secondary graphics fail the upload process", ^{
+                beforeEach(^{
+                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+                    NSArray<NSString *> *testSuccessfulArtworks = @[];
+                    NSError *testError = [NSError errorWithDomain:@"errorDomain"
+                                                             code:9
+                                                         userInfo:@{testArtwork.name:@"error 1", testArtwork2.name:@"error 2"}
+                                          ];
+                    OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
+
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.primaryGraphic = testArtwork;
+                    updatedState.secondaryGraphic = testArtwork2;
+
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should skip sending an update", ^{
+                    // Just the empty text show
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+
+                    SDLShow *sentShow = testConnectionManager.receivedRequests[0];
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                });
+            });
+
+            context(@"if only one of images for the primary and secondary graphics fails to upload", ^{
+                it(@"should show the primary graphic even if the secondary graphic upload fails", ^{
+                    OCMStub([mockFileManager hasUploadedFile:testArtwork]).andReturn(YES);
+                    OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(NO);
+                    NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork.name];
+                    NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork2.name:@"error 2"}];
+                    OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] progressHandler:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.textField1 = field1String;
+                    updatedState.primaryGraphic = testArtwork;
+                    updatedState.secondaryGraphic = testArtwork2;
+
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    [testOp start];
+
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                    SDLShow *receivedShow = testConnectionManager.receivedRequests[0];
+                    expect(receivedShow.mainField1).to(equal(field1String));
+                    expect(receivedShow.graphic.value).to(beNil());
+                    expect(receivedShow.secondaryGraphic).to(beNil());
+
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
+                    SDLShow *secondReceivedShow = testConnectionManager.receivedRequests[1];
+                    expect(secondReceivedShow.mainField1).to(beNil());
+                    expect(secondReceivedShow.graphic.value).to(equal(testArtwork.name));
+                    expect(secondReceivedShow.secondaryGraphic).to(beNil());
+                });
+
+                it(@"Should show the secondary graphic even if the primary graphic upload fails", ^{
+                    OCMStub([mockFileManager hasUploadedFile:testArtwork]).andReturn(NO);
+                    OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(YES);
+                    NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork2.name];
+                    NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork.name:@"error 2"}];
+                    OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] progressHandler:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.textField1 = field1String;
+                    updatedState.primaryGraphic = testArtwork;
+                    updatedState.secondaryGraphic = testArtwork2;
+
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    [testOp start];
+
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                    SDLShow *receivedShow = testConnectionManager.receivedRequests[0];
+                    expect(receivedShow.mainField1).to(equal(field1String));
+                    expect(receivedShow.graphic).to(beNil());
+                    expect(receivedShow.secondaryGraphic).to(beNil());
+
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
+                    SDLShow *secondReceivedShow = testConnectionManager.receivedRequests[1];
+                    expect(secondReceivedShow.mainField1).to(beNil());
+                    expect(secondReceivedShow.graphic).to(beNil());
+                    expect(secondReceivedShow.secondaryGraphic.value).to(equal(testArtwork2.name));
                 });
             });
         });
