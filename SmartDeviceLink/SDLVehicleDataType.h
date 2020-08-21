@@ -10,7 +10,8 @@
 typedef SDLEnum SDLVehicleDataType SDL_SWIFT_ENUM;
 
 /**
- Vehicle Gear Status data
+ * Vehicle Gear Status data
+ * @since SDL 7.0
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeGearStatus;
 

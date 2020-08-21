@@ -186,7 +186,7 @@ describe(@"getter/setter tests", ^{
     });
 });
 
-describe(@"test initializers", ^{
+describe(@"initializers", ^{
     context(@"init", ^{
         SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] init];
 

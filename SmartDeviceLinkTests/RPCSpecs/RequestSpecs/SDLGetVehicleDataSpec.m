@@ -188,7 +188,7 @@ describe(@"getter/setter tests", ^{
     });
 });
 
-describe(@"test initializers", ^{
+describe(@"initializers", ^{
     context(@"init", ^{
         SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
         it(@"expect all properties to be nil", ^{
