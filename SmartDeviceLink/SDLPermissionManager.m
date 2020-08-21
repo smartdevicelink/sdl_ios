@@ -66,10 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Permissions available
 
-- (BOOL)isRPCAllowed:(NSString *)rpcName {
-    return [self isRPCNameAllowed:rpcName];
-}
-
 - (BOOL)isRPCNameAllowed:(SDLRPCFunctionName)rpcName {
     return [self.class isRPCNameAllowed:rpcName permissions:self.permissions hmiLevel:self.currentHMILevel];
 }
@@ -81,10 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLPermissionItem *item = permissions[rpcName];
     return [item.hmiPermissions.allowed containsObject:hmiLevel];
-}
-
-- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames {
-    return [self groupStatusOfRPCPermissions:[self sdl_createPermissionElementsFromRPCNames:rpcNames]];
 }
 
 - (SDLPermissionGroupStatus)groupStatusOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames {
@@ -146,13 +138,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (NSDictionary<SDLPermissionRPCName, NSNumber *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames {
-    NSArray *permissionElementsArray = [self sdl_createPermissionElementsFromRPCNames:rpcNames];
-
-    // Convert the dictionary returned from statusesOfRPCNames: to the correct return type
-    return [self sdl_convertPermissionsStatusDictionaryToPermissionsBoolDictionary:[self statusesOfRPCPermissions:permissionElementsArray]];
-}
-
 - (NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *)statusesOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames {
     NSMutableDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *permissionAllowedDict = [NSMutableDictionary dictionary];
 
@@ -178,18 +163,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Permissions observers
 
 #pragma mark Add Observers
-
-- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(nonnull SDLPermissionsChangedHandler)handler {
-    SDLPermissionFilter *filter = [[SDLPermissionFilter alloc] initWithPermissions:[self sdl_createPermissionElementsFromRPCNames:rpcNames] groupType:groupType permissionsHandler:handler];
-
-    // Store the filter for later use
-    [self.filters addObject:filter];
-
-    // If there are permissions that fit the specifications, send immediately. Then return the identifier.
-    [self sdl_callFilterObserver:filter];
-
-    return filter.identifier;
-}
 
 - (SDLPermissionObserverIdentifier)subscribeToRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLRPCPermissionStatusChangedHandler)handler {
     SDLPermissionFilter *filter = [[SDLPermissionFilter alloc] initWithPermissions:rpcNames groupType:groupType permissionStatusHandler:handler];
@@ -460,10 +433,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     return NO;
-}
-
-- (BOOL)rpcRequiresEncryption:(SDLPermissionRPCName)rpcName {
-    return [self rpcNameRequiresEncryption:rpcName];
 }
 
 - (BOOL)rpcNameRequiresEncryption:(SDLRPCFunctionName)rpcName {
