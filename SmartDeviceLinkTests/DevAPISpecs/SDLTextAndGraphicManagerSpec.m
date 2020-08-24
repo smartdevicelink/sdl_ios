@@ -121,6 +121,22 @@ describe(@"text and graphic manager", ^{
             });
         });
 
+        // when previous updates have bene cancelled
+        context(@"when previous updates have bene cancelled", ^{
+            beforeEach(^{
+                testManager.textField1 = @"Hello";
+
+                // This should cancel the first operation
+                testManager.textField2 = @"Goodbye";
+            });
+
+            it(@"should properly queue the new update", ^{
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+                expect(testManager.transactionQueue.operationCount).to(equal(2));
+                expect(testManager.transactionQueue.operations[0].cancelled).to(beTrue());
+            });
+        });
+
         // while batching
         context(@"while batching", ^{
             beforeEach(^{

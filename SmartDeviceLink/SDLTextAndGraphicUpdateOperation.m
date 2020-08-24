@@ -251,14 +251,12 @@
     }
     show.mainField1 = showString1.copy;
 
-    SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
     NSMutableArray<SDLMetadataType> *metadataArray = [NSMutableArray array];
     self.updatedState.textField1Type ? [metadataArray addObject:self.updatedState.textField1Type] : nil;
     self.updatedState.textField2Type ? [metadataArray addObject:self.updatedState.textField2Type] : nil;
     self.updatedState.textField3Type ? [metadataArray addObject:self.updatedState.textField3Type] : nil;
     self.updatedState.textField4Type ? [metadataArray addObject:self.updatedState.textField4Type] : nil;
-    tags.mainField1 = [metadataArray copy];
-    show.metadataTags = tags;
+    show.metadataTags.mainField1 = [metadataArray copy];
 
     return show;
 }
@@ -380,6 +378,7 @@
     show.mainField4 = @"";
     show.mediaTrack = @"";
     show.templateTitle = @"";
+    show.metadataTags = [[SDLMetadataTags alloc] init];
 
     return show;
 }
