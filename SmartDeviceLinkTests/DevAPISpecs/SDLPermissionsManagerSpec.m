@@ -17,7 +17,7 @@
 
 @interface SDLPermissionManager ()
 
-@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+@property (strong, nonatomic) NSMutableDictionary<SDLRPCFunctionName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (assign, nonatomic) BOOL requiresEncryption;
@@ -818,7 +818,7 @@ describe(@"SDLPermissionsManager", ^{
 
             beforeEach(^{
                 // Add observer
-                SDLPermissionObserverIdentifier observerIdentifier = [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                SDLPermissionObserverIdentifier observerIdentifier = [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
 
@@ -841,11 +841,11 @@ describe(@"SDLPermissionsManager", ^{
 
             beforeEach(^{
                 // Add two observers
-                SDLPermissionObserverIdentifier observerIdentifier1 = [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                SDLPermissionObserverIdentifier observerIdentifier1 = [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                     numberOfTimesObserver1Called++;
                 }];
 
-                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                     numberOfTimesObserver2Called++;
                 }];
 
@@ -869,11 +869,11 @@ describe(@"SDLPermissionsManager", ^{
 
             beforeEach(^{
                 // Add two observers
-                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                     numberOfTimesObserver1Called++;
                 }];
 
-                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                     numberOfTimesObserver2Called++;
                 }];
 
