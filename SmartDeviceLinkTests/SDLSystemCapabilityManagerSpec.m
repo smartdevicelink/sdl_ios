@@ -151,6 +151,14 @@ describe(@"System capability manager", ^{
         testDisplayCapabilityList = @[displayCapability];
     });
 
+    afterEach(^{
+        if (testSystemCapabilityManager) {
+            // just in case unsubscribe from notifications and dealloc the manager
+            [[NSNotificationCenter defaultCenter] removeObserver:testSystemCapabilityManager];
+            testSystemCapabilityManager = nil;
+        }
+    });
+
     it(@"should initialize the system capability manager properties correctly", ^{
         expect(testSystemCapabilityManager.displays).to(beNil());
         expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());

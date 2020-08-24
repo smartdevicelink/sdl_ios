@@ -29,8 +29,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithVersion:(NSUInteger)major :(NSUInteger)minor :(NSUInteger)patch {
+    return [self initWithMajor:major minor:minor patch:patch];
+}
+
 + (instancetype)versionWithMajor:(NSUInteger)major minor:(NSUInteger)minor patch:(NSUInteger)patch {
     return [[self alloc] initWithMajor:major minor:minor patch:patch];
+}
+
++ (instancetype)version:(NSUInteger)major :(NSUInteger)minor :(NSUInteger)patch {
+    return [[self alloc] initWithVersion:major:minor:patch];
 }
 
 - (nullable instancetype)initWithString:(NSString *)versionString {

@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SDLStreamingMediaDelegate <NSObject>
 
 - (void)videoStreamingSizeDidUpdate:(CGSize)displaySize;
-- (void)videoStreamingSizeDoesNotMatch;
 
 @end
 

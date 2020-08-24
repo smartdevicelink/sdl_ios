@@ -312,10 +312,7 @@ typedef NSString * SDLServiceID;
         }
 
         return self.hmiCapabilities.videoStreaming.boolValue;
-    } else {
-        return NO;
     }
-
 
     return NO;
 }
@@ -385,7 +382,7 @@ typedef NSString * SDLServiceID;
             return;
         }
 
-        if (response.success.boolValue == false) {
+        if (!response.success.boolValue) {
             SDLLogE(@"GetSystemCapability failed, type: %@, error: %@", type, error);
             if (handler == nil) { return; }
             handler(nil, NO, error);
@@ -565,8 +562,7 @@ typedef NSString * SDLServiceID;
 
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:observer selector:selector];
 
-    id<NSObject> subscribedObserver = [self sdl_subscribeToCapabilityType:type observerObject:observerObject];
-    return subscribedObserver == nil ? NO : YES;
+    return nil != [self sdl_subscribeToCapabilityType:type observerObject:observerObject];
 }
 
 /// Helper method for subscribing to a system capability type
@@ -580,12 +576,12 @@ typedef NSString * SDLServiceID;
         return nil;
     }
 
-    if (self.capabilityObservers[type] == nil) {
-        SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
+    const NSUInteger observersCount = self.capabilityObservers[type].count;
+    // store the observer
+    [self sdl_addSyncObserver:observerObject ofType:type];
 
-        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-            self.capabilityObservers[type] = [NSMutableArray arrayWithObject:observerObject];
-        }];
+    if (0 == observersCount) {
+        SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
 
         // We don't want to send this for the displays type because that's automatically subscribed
         if (![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
@@ -595,12 +591,12 @@ typedef NSString * SDLServiceID;
             [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
         }
     } else {
-        // Store the observer and call it immediately with the cached value
-        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-            [self.capabilityObservers[type] addObject:observerObject];
-        }];
-
-        [self sdl_invokeObserver:observerObject withCapabilityType:type capability:[self sdl_cachedCapabilityForType:type] error:nil];
+        // Call the observer immediately with the cached value
+        SDLSystemCapability *cachedCapability = [self sdl_cachedCapabilityForType:type];
+        if (!cachedCapability) {
+            SDLLogW(@"No cached capability of type: %@, send a GetSystemCapability request (or wait for one) to fix it", type);
+        }
+        [self sdl_invokeObserver:observerObject withCapabilityType:type capability:cachedCapability error:nil];
     }
 
     return observerObject.observer;
@@ -663,6 +659,20 @@ typedef NSString * SDLServiceID;
             [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
         }
     }
+}
+
+- (void)sdl_addSyncObserver:(SDLSystemCapabilityObserver *)observerObject ofType:(SDLSystemCapabilityType)type {
+    NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *strongObservers = self.capabilityObservers;
+
+    // Store the observer and call it immediately with the cached value
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
+        NSMutableArray<SDLSystemCapabilityObserver *> *typeObservers = strongObservers[type];
+        if (!typeObservers) {
+            typeObservers = [NSMutableArray arrayWithCapacity:4];
+            strongObservers[type] = typeObservers;
+        }
+        [typeObservers addObject:observerObject];
+    }];
 }
 
 #pragma mark Notifying Subscribers

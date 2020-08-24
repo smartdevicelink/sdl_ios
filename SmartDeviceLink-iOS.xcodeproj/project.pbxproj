@@ -1617,7 +1617,10 @@
 		B38D8E61249FE28500B977D0 /* SDLCapacityUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E62249FE28500B977D0 /* SDLCapacityUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
+		B3BDF5E724F43AF3009B85BE /* TestStreamingMediaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BDF5E624F43AF3009B85BE /* TestStreamingMediaDelegate.m */; };
 		B3CD23D724EBB42A00F76A61 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CD23D624EBB42A00F76A61 /* ProxyManager.m */; };
+		B3CDB3D324F11C5900DFF585 /* TestSmartConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDB3D224F11C5900DFF585 /* TestSmartConnectionManager.m */; };
+		B3CDB3D624F11C7A00DFF585 /* TestSmartConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDB3D524F11C7900DFF585 /* TestSmartConnection.m */; };
 		B3E049412492237F00D8CBE1 /* SDLSupportedStreamingRange.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
@@ -3457,9 +3460,15 @@
 		B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLCapacityUnit.h; sourceTree = "<group>"; };
 		B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnit.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
+		B3BDF5E524F43AF3009B85BE /* TestStreamingMediaDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestStreamingMediaDelegate.h; sourceTree = "<group>"; };
+		B3BDF5E624F43AF3009B85BE /* TestStreamingMediaDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestStreamingMediaDelegate.m; sourceTree = "<group>"; };
 		B3CD23D524EBB42A00F76A61 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = "../Example Apps/Example ObjC/ProxyManager.h"; sourceTree = "<group>"; };
 		B3CD23D624EBB42A00F76A61 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProxyManager.m; path = "Example Apps/Example ObjC/ProxyManager.m"; sourceTree = SOURCE_ROOT; };
 		B3CD23D824EBC17500F76A61 /* SDLOnAppCapabilityUpdatedSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnAppCapabilityUpdatedSpec.m; sourceTree = "<group>"; };
+		B3CDB3D124F11C5900DFF585 /* TestSmartConnectionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestSmartConnectionManager.h; sourceTree = "<group>"; };
+		B3CDB3D224F11C5900DFF585 /* TestSmartConnectionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestSmartConnectionManager.m; sourceTree = "<group>"; };
+		B3CDB3D424F11C7900DFF585 /* TestSmartConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestSmartConnection.h; sourceTree = "<group>"; };
+		B3CDB3D524F11C7900DFF585 /* TestSmartConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestSmartConnection.m; sourceTree = "<group>"; };
 		B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSupportedStreamingRange.h; sourceTree = "<group>"; };
 		B3E049402492237F00D8CBE1 /* SDLSupportedStreamingRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedStreamingRange.m; sourceTree = "<group>"; };
 		B3E0494324923AF800D8CBE1 /* SDLStreamingMediaDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStreamingMediaDelegate.h; sourceTree = "<group>"; };
@@ -6172,6 +6181,12 @@
 				8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */,
 				5D6035D3202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.h */,
 				5D6035D4202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.m */,
+				B3CDB3D124F11C5900DFF585 /* TestSmartConnectionManager.h */,
+				B3CDB3D224F11C5900DFF585 /* TestSmartConnectionManager.m */,
+				B3CDB3D424F11C7900DFF585 /* TestSmartConnection.h */,
+				B3CDB3D524F11C7900DFF585 /* TestSmartConnection.m */,
+				B3BDF5E524F43AF3009B85BE /* TestStreamingMediaDelegate.h */,
+				B3BDF5E624F43AF3009B85BE /* TestStreamingMediaDelegate.m */,
 			);
 			name = "Connection Manager";
 			sourceTree = "<group>";
@@ -8364,6 +8379,7 @@
 				9FA0D00322DF06B9009CF344 /* SDLWindowTypeCapabilitiesSpec.m in Sources */,
 				162E83051A9BDE8B00906325 /* SDLVehicleDataActiveStatusSpec.m in Sources */,
 				162E82E61A9BDE8B00906325 /* SDLInteractionModeSpec.m in Sources */,
+				B3CDB3D324F11C5900DFF585 /* TestSmartConnectionManager.m in Sources */,
 				888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */,
 				162E83931A9BDE8B00906325 /* SDLTouchEventSpec.m in Sources */,
 				5DCF76FE1ACDDB5A00BB647B /* SDLSendLocationResponseSpec.m in Sources */,
@@ -8406,6 +8422,7 @@
 				1EAA476820369BCF000FE74B /* SDLLightStateSpec.m in Sources */,
 				1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */,
 				8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */,
+				B3CDB3D624F11C7A00DFF585 /* TestSmartConnection.m in Sources */,
 				162E83181A9BDE8B00906325 /* SDLOnKeyboardInputSpec.m in Sources */,
 				1EE8C4441F34A1B900FDC2CF /* SDLClimateControlDataSpec.m in Sources */,
 				162E83701A9BDE8B00906325 /* SDLUpdateTurnListResponseSpec.m in Sources */,
@@ -8455,6 +8472,7 @@
 				162E836C1A9BDE8B00906325 /* SDLSystemRequestResponseSpec.m in Sources */,
 				162E833C1A9BDE8B00906325 /* SDLSetMediaClockTimerSpec.m in Sources */,
 				5DE35E4A20CB1BF70034BE5A /* SDLChoiceSetManagerSpec.m in Sources */,
+				B3BDF5E724F43AF3009B85BE /* TestStreamingMediaDelegate.m in Sources */,
 				162E83061A9BDE8B00906325 /* SDLVehicleDataEventStatusSpec.m in Sources */,
 				1EAA47742036B31E000FE74B /* SDLAudioControlDataSpec.m in Sources */,
 				162E83911A9BDE8B00906325 /* SDLTouchCoordSpec.m in Sources */,
