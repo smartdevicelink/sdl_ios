@@ -145,6 +145,9 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameOnPermissionsChange;
 /// Function name for an OnRCStatus notification RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnRCStatus;
 
+/// Function name for an SubtleAlertPressed notification RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameOnSubtleAlertPressed;
+
 /// Function name for an OnSyncPData notification RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnSyncPData __deprecated;
 
@@ -252,6 +255,9 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameSubscribeVehicleData;
 
 /// Function name for a SubscribeWayPoints RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameSubscribeWayPoints;
+
+/// Function name for a SubtleAlert RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameSubtleAlert;
 
 /// Function name for a SyncPData RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameSyncPData __deprecated;

@@ -48,3 +48,4 @@ SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon = @"showConstantTBT
 SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon = @"showConstantTBTNextTurnIcon";
 SDLImageFieldName const SDLImageFieldNameLocationImage = @"locationImage";
 SDLImageFieldName const SDLImageFieldNameSubMenuIcon = @"subMenuIcon";
+SDLImageFieldName const SDLImageFieldNameSubtleAlertIcon = @"subtleAlertIcon";

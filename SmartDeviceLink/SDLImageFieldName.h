@@ -34,7 +34,7 @@
 #import "SDLEnum.h"
 
 /**
- The name that identifies the filed. Used in DisplayCapabilities.
+ The name that identifies the field. Used in DisplayCapabilities.
 
  @since SmartDeviceLink 3.0
  */
@@ -118,3 +118,9 @@ extern SDLImageFieldName const SDLImageFieldNameLocationImage;
  * @since SDL 7.0.0
  */
 extern SDLImageFieldName const SDLImageFieldNameSubMenuIcon;
+
+ * The image of the subtle alert; applies to `SubtleAlert` `alertImage`
+ *
+ * @since SDL 7.0
+ */
+extern SDLImageFieldName const SDLImageFieldNameSubtleAlertIcon;

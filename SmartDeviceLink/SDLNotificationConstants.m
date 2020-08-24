@@ -84,6 +84,7 @@ SDLNotificationName const SDLDidReceiveSpeakResponse = @"com.sdl.response.Speak"
 SDLNotificationName const SDLDidReceiveSubscribeButtonResponse = @"com.sdl.response.SubscribeButton";
 SDLNotificationName const SDLDidReceiveSubscribeVehicleDataResponse = @"com.sdl.response.SubscribeVehicleData";
 SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse = @"com.sdl.response.SubscribeWayPoints";
+SDLNotificationName const SDLDidReceiveSubtleAlertResponse = @"com.sdl.response.SubtleAlert";
 SDLNotificationName const SDLDidReceiveSyncPDataResponse = @"com.sdl.response.SyncPData";
 SDLNotificationName const SDLDidReceiveSystemRequestResponse = @"com.sdl.response.SystemRequest";
 SDLNotificationName const SDLDidReceiveUpdateTurnListResponse = @"com.sdl.response.UpdateTurnList";
@@ -149,6 +150,7 @@ SDLNotificationName const SDLDidReceiveSpeakRequest = @"com.sdl.request.Speak";
 SDLNotificationName const SDLDidReceiveSubscribeButtonRequest = @"com.sdl.request.SubscribeButton";
 SDLNotificationName const SDLDidReceiveSubscribeVehicleDataRequest = @"com.sdl.request.SubscribeVehicleData";
 SDLNotificationName const SDLDidReceiveSubscribeWayPointsRequest = @"com.sdl.request.SubscribeWayPoints";
+SDLNotificationName const SDLDidReceiveSubtleAlertRequest = @"com.sdl.request.SubtleAlert";
 SDLNotificationName const SDLDidReceiveSyncPDataRequest = @"com.sdl.request.SyncPData";
 SDLNotificationName const SDLDidReceiveSystemRequestRequest = @"com.sdl.request.SystemRequest";
 SDLNotificationName const SDLDidReceiveUnpublishAppServiceRequest = @"com.sdl.request.UnpublishAppService";
@@ -174,6 +176,7 @@ SDLNotificationName const SDLDidChangeLanguageNotification = @"com.sdl.notificat
 SDLNotificationName const SDLDidReceiveNewHashNotification = @"com.sdl.notification.OnHashChange";
 SDLNotificationName const SDLDidChangePermissionsNotification = @"com.sdl.notification.OnPermissionsChange";
 SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification = @"com.sdl.notification.OnRCStatus";
+SDLNotificationName const SDLDidReceiveSubtleAlertPressedNotification = @"com.sdl.notification.OnSubtleAlertPressed";
 SDLNotificationName const SDLDidReceiveSyncPDataNotification = @"com.sdl.notification.OnSyncPData";
 SDLNotificationName const SDLDidReceiveSystemCapabilityUpdatedNotification = @"com.sdl.notification.OnSystemCapabilityUpdated";
 SDLNotificationName const SDLDidReceiveSystemRequestNotification = @"com.sdl.notification.OnSystemRequest";
@@ -251,6 +254,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
              SDLDidReceiveSyncPDataResponse,
 #pragma clang diagnostic pop
+             SDLDidReceiveSubtleAlertResponse,
              SDLDidReceiveSystemRequestResponse,
              SDLDidReceiveUpdateTurnListResponse,
              SDLDidReceiveUnpublishAppServiceResponse,

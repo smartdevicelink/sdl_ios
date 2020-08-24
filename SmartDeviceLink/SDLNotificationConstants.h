@@ -315,6 +315,9 @@ extern SDLNotificationName const SDLDidReceiveSubscribeVehicleDataResponse;
 /// Name for a SubscribeWaypoints response RPC
 extern SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse;
 
+/// Name for a SubtleAlert response RPC
+extern SDLNotificationName const SDLDidReceiveSubtleAlertResponse;
+
 /// Name for a SyncPData response RPC
 extern SDLNotificationName const SDLDidReceiveSyncPDataResponse __deprecated;
 
@@ -506,8 +509,11 @@ extern SDLNotificationName const SDLDidReceiveSubscribeButtonRequest;
 /// Name for a SubscribeVehicleData request RPC
 extern SDLNotificationName const SDLDidReceiveSubscribeVehicleDataRequest;
 
-/// Name for a ubscribeWayPoints request RPC
+/// Name for a SubscribeWayPoints request RPC
 extern SDLNotificationName const SDLDidReceiveSubscribeWayPointsRequest;
+
+/// Name for a SubtleAlert request RPC
+extern SDLNotificationName const SDLDidReceiveSubtleAlertRequest;
 
 /// Name for a SyncPData request RPC
 extern SDLNotificationName const SDLDidReceiveSyncPDataRequest __deprecated;
@@ -582,6 +588,9 @@ extern SDLNotificationName const SDLDidReceiveVehicleIconNotification;
 
 /// Name for a ChangePermissions notification RPC
 extern SDLNotificationName const SDLDidChangePermissionsNotification;
+
+/// Name for a SubtleAlertPressed notification RPC
+extern SDLNotificationName const SDLDidReceiveSubtleAlertPressedNotification;
 
 /// Name for a RemoteControlStatus notification RPC
 extern SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification;

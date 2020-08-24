@@ -43,6 +43,9 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLTextFieldNameLocationDescription).to(equal(@"locationDescription"));
         expect(SDLTextFieldNameAddressLines).to(equal(@"addressLines"));
         expect(SDLTextFieldNamePhoneNumber).to(equal(@"phoneNumber"));
+        expect(SDLTextFieldNameSubtleAlertText1).to(equal(@"subtleAlertText1"));
+        expect(SDLTextFieldNameSubtleAlertText2).to(equal(@"subtleAlertText2"));
+        expect(SDLTextFieldNameSubtleAlertSoftButtonText).to(equal("subtleAlertSoftButtonText"));
     });
 });
 
