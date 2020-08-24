@@ -159,8 +159,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.transactionQueue.operationCount > 0) {
         SDLLogV(@"Transactions already exist, cancelling them");
         [self.transactionQueue cancelAllOperations];
-
-        return;
     }
 
     __weak typeof(self) weakSelf = self;

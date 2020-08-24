@@ -10,6 +10,7 @@
 
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
@@ -52,12 +53,16 @@
 
 - (void)start {
     [super start];
-    if (self.cancelled) { return; }
+    if (self.cancelled) {
+        // Make sure the update handler is called
+        self.internalError = [NSError sdl_textAndGraphicManager_pendingUpdateSuperseded];
+        [self finishOperation];
+        return;
+    }
 
     // Build a show with everything from `self.newState`, we'll pull things out later if we can.
     SDLShow *fullShow = [[SDLShow alloc] init];
     fullShow.alignment = self.updatedState.alignment;
-    fullShow.metadataTags = [[SDLMetadataTags alloc] init];
     fullShow = [self sdl_assembleShowText:fullShow];
     fullShow = [self sdl_assembleShowImages:fullShow];
 

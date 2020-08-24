@@ -374,7 +374,7 @@ describe(@"text and graphic manager", ^{
             testManager.textField4Type = line4Type;
         });
 
-        fit(@"should wait until batching ends to create an update operation", ^{
+        it(@"should wait until batching ends to create an update operation", ^{
             expect(testManager.transactionQueue.operationCount).to(equal(0));
 
             testManager.batchUpdates = NO;
