@@ -119,6 +119,7 @@ extern SDLImageFieldName const SDLImageFieldNameLocationImage;
  */
 extern SDLImageFieldName const SDLImageFieldNameSubMenuIcon;
 
+/**
  * The image of the subtle alert; applies to `SubtleAlert` `alertImage`
  *
  * @since SDL 7.0
