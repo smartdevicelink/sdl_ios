@@ -58,7 +58,7 @@ extern SDLVehicleDataType const SDLVehicleDataTypeVIN;
 /**
  Vehicle PRNDL data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypePrndl __deprecated_msg("use SDLVehicleDataTypeGearStatus instead on 7.0+ RPC version connections");
+extern SDLVehicleDataType const SDLVehicleDataTypePRNDL __deprecated_msg("use SDLVehicleDataTypeGearStatus instead on 7.0+ RPC version connections");
 
 /**
  Vehicle tire pressure data

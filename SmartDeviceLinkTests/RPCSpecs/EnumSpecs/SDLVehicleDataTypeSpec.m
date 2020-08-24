@@ -42,7 +42,7 @@ describe(@"individual enum value tests", ^{
         expect(SDLVehicleDataTypeOdometer).to(equal(@"VEHICLEDATA_ODOMETER"));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(SDLVehicleDataTypePrndl).to(equal(@"VEHICLEDATA_PRNDL"));
+        expect(SDLVehicleDataTypePRNDL).to(equal(@"VEHICLEDATA_PRNDL"));
 #pragma clang diagnostic pop
         expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
         expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
