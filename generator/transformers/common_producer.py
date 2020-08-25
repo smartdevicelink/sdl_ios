@@ -156,9 +156,10 @@ class InterfaceProducerCommon(ABC):
         """
         if not data:
             return []
-        if isinstance(data, list):
-            data = ' '.join(data)
-        return textwrap.wrap(re.sub(r'(\s{2,}|\n|\[@TODO.+)', ' ', data).strip(), length)
+#        if isinstance(data, list):
+#            data = ' '.join(data)
+#        return textwrap.wrap(re.sub(r'(\s{2,}|\n|\[@TODO.+)', ' ', data).strip(), length)
+        return data
 
     @staticmethod
     def nullable(type_native: str, mandatory: bool) -> str:
