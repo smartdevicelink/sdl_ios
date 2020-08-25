@@ -158,7 +158,10 @@ NS_ASSUME_NONNULL_BEGIN
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:rpcMessageAsDictionary];
 
     // If we were unable to create the message, it's an unknown type; discard it
-    if (newMessage == nil) { return; }
+    if (newMessage == nil) {
+        SDLLogE(@"Unable to create message for RPC: %@", rpcMessageAsDictionary);
+        return;
+    }
 
     // Adapt the incoming message then call the callback
     NSArray<SDLRPCMessage *> *adaptedMessages = [SDLLifecycleRPCAdapter adaptRPC:newMessage direction:SDLRPCDirectionIncoming];

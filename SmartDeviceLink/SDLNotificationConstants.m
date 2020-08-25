@@ -182,6 +182,8 @@ SDLNotificationName const SDLDidReceiveSystemCapabilityUpdatedNotification = @"c
 SDLNotificationName const SDLDidReceiveSystemRequestNotification = @"com.sdl.notification.OnSystemRequest";
 SDLNotificationName const SDLDidChangeTurnByTurnStateNotification = @"com.sdl.notification.OnTBTClientState";
 SDLNotificationName const SDLDidReceiveTouchEventNotification = @"com.sdl.notification.OnTouchEvent";
+SDLNotificationName const SDLDidReceiveUpdateFileNotification = @"com.sdl.notification.OnUpdateFile";
+SDLNotificationName const SDLDidReceiveUpdateSubMenuNotification = @"com.sdl.notification.OnUpdateSubMenu";
 SDLNotificationName const SDLDidReceiveVehicleDataNotification = @"com.sdl.notification.OnVehicleData";
 SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notification.OnWayPointChange";
 
