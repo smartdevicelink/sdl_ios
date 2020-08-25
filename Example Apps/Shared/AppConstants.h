@@ -112,6 +112,7 @@ extern NSString * const ACExternalTemperatureMenuName;
 extern NSString * const ACFuelLevelMenuName;
 extern NSString * const ACFuelLevelStateMenuName;
 extern NSString * const ACFuelRangeMenuName;
+extern NSString * const ACGearStatusMenuName;
 extern NSString * const ACGPSMenuName;
 extern NSString * const ACHeadLampStatusMenuName;
 extern NSString * const ACInstantFuelConsumptionMenuName;
