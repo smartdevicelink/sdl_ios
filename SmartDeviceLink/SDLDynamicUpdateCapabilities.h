@@ -31,13 +31,12 @@
  */
 
 #import "SDLRPCStruct.h"
-
 #import "SDLImageFieldName.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * @since SDL 7.0.0
+ * @since SDL 7.0
  */
 @interface SDLDynamicUpdateCapabilities : SDLRPCStruct
 
@@ -49,18 +48,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSupportedDynamicImageFieldNames:(nullable NSArray<SDLImageFieldName> *)supportedDynamicImageFieldNames supportsDynamicSubMenus:(nullable NSNumber<SDLBool> *)supportsDynamicSubMenus;
 
 /**
- * An array of ImageFieldName values for which the system supports sending OnFileUpdate notifications. If you send
- * an Image struct for that image field with a name without having uploaded the image data using PutFile that
- * matches that name, the system will request that you upload the data with PutFile at a later point when the HMI
- * needs it. The HMI will then display the image in the appropriate field. If not sent, assume false.
+ * An array of ImageFieldName values for which the system supports sending OnFileUpdate notifications. If you send an Image struct for that image field with a name without having uploaded the image data using PutFile that matches that name, the system will request that you upload the data with PutFile at a later point when the HMI needs it. The HMI will then display the image in the appropriate field. If not sent, assume false.
+ * {"array_min_size": 1, "array_max_size": null}
  */
 @property (nullable, strong, nonatomic) NSArray<SDLImageFieldName> *supportedDynamicImageFieldNames;
 
 /**
- * If true, the head unit supports dynamic sub-menus by sending OnUpdateSubMenu notifications. If true, you should
- * not send AddCommands that attach to a parentID for an AddSubMenu until OnUpdateSubMenu is received with the
- * menuID. At that point, you should send all AddCommands with a parentID that match the menuID. If not set, assume
- * false.
+ * If true, the head unit supports dynamic sub-menus by sending OnUpdateSubMenu notifications. If true, you should not send AddCommands that attach to a parentID for an AddSubMenu until OnUpdateSubMenu is received with the menuID. At that point, you should send all AddCommands with a parentID that match the menuID. If not set, assume false.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *supportsDynamicSubMenus;
 

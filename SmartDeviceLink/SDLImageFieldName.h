@@ -115,7 +115,7 @@ extern SDLImageFieldName const SDLImageFieldNameLocationImage;
 /**
  * The image field for AddSubMenu.menuIcon
  *
- * @since SDL 7.0.0
+ * @since SDL 7.0
  */
 extern SDLImageFieldName const SDLImageFieldNameSubMenuIcon;
 

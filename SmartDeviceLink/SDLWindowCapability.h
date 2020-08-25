@@ -130,8 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLMenuLayout> *menuLayoutsAvailable;
 
 /**
- * Contains the head unit's capabilities for dynamic updating features declaring if the module will send dynamic
- * update RPCs.
+ * Contains the head unit's capabilities for dynamic updating features declaring if the module will send dynamic update RPCs.
  *
  * @since SDL 7.0.0
  */

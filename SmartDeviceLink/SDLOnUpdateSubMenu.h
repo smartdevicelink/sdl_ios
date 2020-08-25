@@ -35,10 +35,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This notification tells an app to update the AddSubMenu or its 'sub' AddCommand and AddSubMenus with the
- * requested data
+ * This notification tells an app to update the AddSubMenu or its 'sub' AddCommand and AddSubMenus with the requested data
  *
- * @since SDL 7.0.0
+ * @since SDL 7.0
  */
 @interface SDLOnUpdateSubMenu : SDLRPCNotification
 
@@ -57,13 +56,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * This menuID must match a menuID in the current menu structure
- * {"default_value": null, "max_value": 2000000000, "min_value": 0}
+ * {"num_min_value": 0, "num_max_value": 2000000000}
  */
 @property (strong, nonatomic) NSNumber<SDLUInt> *menuID;
 
 /**
- * If not set, assume false. If true, the app should send AddCommands with parentIDs matching the menuID. These
- * AddCommands will then be attached to the submenu and displayed if the submenu is selected.
+ * If not set, assume false. If true, the app should send AddCommands with parentIDs matching the menuID. These AddCommands will then be attached to the submenu and displayed if the submenu is selected.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *updateSubCells;
 
