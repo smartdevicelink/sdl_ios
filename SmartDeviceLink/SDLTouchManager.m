@@ -106,10 +106,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
 @implementation SDLTouchManager
 
-- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
-    return [self initWithHitTester:hitTester videoScaleManager:[[SDLStreamingVideoScaleManager alloc] init]];
-}
-
 - (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester videoScaleManager:(SDLStreamingVideoScaleManager *)videoScaleManager {
     self = [super init];
     if (!self) {

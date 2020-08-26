@@ -81,14 +81,6 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- Initialize a touch manager with a hit tester if available
-
- @param hitTester The hit tester to be used to correlate a point with a view
- @return The initialized touch manager
- */
-- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester __deprecated_msg("Use initWithHitTester:hitTester videoScaleManager: instead");
-
-/**
  Initialize a touch manager with a hit tester and a video scale manager.
 
  @param hitTester The hit tester to be used to correlate a point with a view
