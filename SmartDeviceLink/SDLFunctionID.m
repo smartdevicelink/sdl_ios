@@ -96,6 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @61: SDLRPCFunctionNameDeleteWindow,
                          @62: SDLRPCFunctionNameGetInteriorVehicleDataConsent,
                          @63: SDLRPCFunctionNameReleaseInteriorVehicleDataModule,
+                         @64: SDLRPCFunctionNameSubtleAlert,
                          @32768: SDLRPCFunctionNameOnHMIStatus,
                          @32769: SDLRPCFunctionNameOnAppInterfaceUnregistered,
                          @32770: SDLRPCFunctionNameOnButtonEvent,
@@ -116,6 +117,9 @@ NS_ASSUME_NONNULL_BEGIN
                          @32785: SDLRPCFunctionNameOnRCStatus,
                          @32786: SDLRPCFunctionNameOnAppServiceData,
                          @32787: SDLRPCFunctionNameOnSystemCapabilityUpdated,
+                         @32788: SDLRPCFunctionNameOnSubtleAlertPressed,
+                         @32789: SDLRPCFunctionNameOnUpdateFile,
+                         @32790: SDLRPCFunctionNameOnUpdateSubMenu,
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                          @65536: SDLRPCFunctionNameEncodedSyncPData,

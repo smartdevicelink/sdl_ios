@@ -62,11 +62,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setFileName:(nullable NSString *)fileName {
-    [self.parameters sdl_setObject:fileName forName:SDLRPCParameterNameFilename];
+    [self.parameters sdl_setObject:fileName forName:SDLRPCParameterNameFileName];
 }
 
 - (nullable NSString *)fileName {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameFilename ofClass:NSString.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameFileName ofClass:NSString.class error:nil];
 }
 
 @end
