@@ -59,14 +59,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 @property (nonatomic, assign) CGFloat tapTimeThreshold;
 
 /**
- Time (in seconds) between movement events to register panning or pinching callbacks.
-
- Default is 0.05 seconds.
- */
-@property (nonatomic, assign) CGFloat movementTimeThreshold __deprecated_msg("This is now unused, the movement time threshold is now synced to the framerate automatically");
-
-/**
- If set to NO, the display link syncing will be ignored and `movementTimeThreshold` will be used. Defaults to YES.
+ If set to NO, the display link syncing will be ignored. Defaults to YES.
  */
 @property (assign, nonatomic) BOOL enableSyncedPanning;
 

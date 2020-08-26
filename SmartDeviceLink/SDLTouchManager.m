@@ -118,7 +118,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     _hitTester = hitTester;
     _videoScaleManager = videoScaleManager;
-    _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
     _panDistanceThreshold = 8.0f;
@@ -257,14 +256,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  @param touch Gesture information
  */
 - (void)sdl_handleTouchMoved:(SDLTouch *)touch {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (!self.enableSyncedPanning &&
-        ((touch.timeStamp - self.previousTouch.timeStamp) <= (self.movementTimeThreshold * NSEC_PER_USEC))) {
-        return; // no-op
-    }
-#pragma clang diagnostic pop
-
     CGFloat xDelta = fabs(touch.location.x - self.firstTouch.location.x);
     CGFloat yDelta = fabs(touch.location.y - self.firstTouch.location.y);
     if (xDelta <= self.panDistanceThreshold && yDelta <= self.panDistanceThreshold) {
