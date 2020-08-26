@@ -8,7 +8,9 @@
 #import "SDLChangeRegistration.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLEncryptionConfiguration.h"
 #import "SDLError.h"
+#import "SDLFileManagerConfiguration.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
@@ -125,7 +127,7 @@ describe(@"a lifecycle manager", ^{
         testLifecycleConfig.shortAppName = @"Short Name";
         testLifecycleConfig.appType = SDLAppHMITypeNavigation;
         
-        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:[SDLStreamingMediaConfiguration insecureConfiguration]];
+        testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:[SDLStreamingMediaConfiguration insecureConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
         testConfig.lifecycleConfig.languagesSupported = @[SDLLanguageEnUs, SDLLanguageEnGb];
         testConfig.lifecycleConfig.language = SDLLanguageEnUs;
         testConfig.lifecycleConfig.minimumProtocolVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
@@ -770,7 +772,7 @@ describe(@"a lifecycle manager", ^{
         context(@"if secondary transport is not allowed", ^{
             beforeEach(^{
                 lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsNone;
-                SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil];
+                SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
                 testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateStarted fromOldState:nil callEnterTransition:YES];
             });
@@ -784,7 +786,7 @@ describe(@"a lifecycle manager", ^{
             beforeEach(^{
                  lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsTCP;
                  lifecycleConfig.appType = SDLAppHMITypeSocial;
-                 SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil];
+                 SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
                  testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
                  [testManager.lifecycleStateMachine setToState:SDLLifecycleStateStarted fromOldState:nil callEnterTransition:YES];
             });
@@ -798,7 +800,7 @@ describe(@"a lifecycle manager", ^{
             beforeEach(^{
                 lifecycleConfig.allowedSecondaryTransports = SDLSecondaryTransportsTCP;
                 lifecycleConfig.appType = SDLAppHMITypeProjection;
-                SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil streamingMedia:SDLStreamingMediaConfiguration.insecureConfiguration fileManager:nil];
+                SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:[SDLStreamingMediaConfiguration insecureConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
                 testManager = [[SDLLifecycleManager alloc] initWithConfiguration:config delegate:nil];
 
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateStarted fromOldState:nil callEnterTransition:YES];
