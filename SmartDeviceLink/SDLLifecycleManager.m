@@ -414,11 +414,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLLanguage actualHMILanguage = self.registerResponse.hmiDisplayLanguage;
     SDLLanguage actualVRLanguage = self.registerResponse.language;
 
-    BOOL oldDelegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
     BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
 
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
-    if ((delegateCanUpdateLifecycle || oldDelegateCanUpdateLifecycle)
+    if (delegateCanUpdateLifecycle
         && ([supportedLanguages containsObject:actualHMILanguage] || [supportedLanguages containsObject:actualVRLanguage])
         && (![actualHMILanguage isEqualToEnum:desiredHMILanguage] || ![actualVRLanguage isEqualToEnum:desiredVRLanguage])) {
         // If the delegate is implemented, AND the new HMI / VR language is a supported language, AND the new HMI / VR language is not the current language, THEN go to the updating configuration state and see if the dev wants to change the registration.
@@ -435,15 +434,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLLogD(@"Updating configuration due to language mismatch. New language: %@, new hmiLanguage: %@", actualLanguage, actualHMILanguage);
 
     SDLLifecycleConfigurationUpdate *configUpdate = nil;
-    BOOL supportsNewDelegate = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
-    BOOL supportsOldDelegate = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
-    if (supportsNewDelegate) {
+    BOOL delegateRespondsToSelector = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
+    if (delegateRespondsToSelector) {
         configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHMILanguage];
-    } else if (supportsOldDelegate) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
-#pragma clang diagnostic pop
     }
 
     if (configUpdate) {
