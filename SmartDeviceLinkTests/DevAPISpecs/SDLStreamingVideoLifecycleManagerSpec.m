@@ -66,6 +66,7 @@ static const uint16_t testVSCResolutionHeight = 69;
 static void postRAINotification(void);
 static void sendNotificationForHMILevel(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState);
 static SDLGetSystemCapabilityResponse *createSystemCapabilityResponse(void);
+static SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData);
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
 
@@ -843,51 +844,11 @@ describe(@"the streaming video manager", ^{
 QuickSpecEnd
 
 
-static void postRAINotification() {
-    SDLRegisterAppInterfaceResponse *rai = [[SDLRegisterAppInterfaceResponse alloc] init];
-    rai.hmiCapabilities = [[SDLHMICapabilities alloc] initWithNavigation:@YES phoneCall:@YES videoStreaming:@YES remoteControl:@YES appServices:@YES displays:@YES seatLocation:@YES driverDistraction:@YES];
-    rai.success = @YES;
-    SDLRPCResponseNotification *note = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:nil rpcResponse:rai];
-    [[NSNotificationCenter defaultCenter] postNotification:note];
-}
-
-static void sendNotificationForHMILevel(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) {
-    SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
-    hmiStatus.hmiLevel = hmiLevel;
-    hmiStatus.videoStreamingState = streamState;
-    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:hmiStatus];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
-};
-
-static SDLGetSystemCapabilityResponse* createSystemCapabilityResponse() {
-    SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:testVSCResolutionWidth height:testVSCResolutionHeight];
-    SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP];
-    SDLVideoStreamingFormat *format2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
-    NSArray<SDLVideoStreamingFormat *> *testFormats = @[format1, format2];
-
-    SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:testVSCMaxBitrate supportedFormats:testFormats hapticDataSupported:YES diagonalScreenSize:8.5 pixelPerInch:117 scale:testVSCScale];
-    SDLGetSystemCapabilityResponse *response = [[SDLGetSystemCapabilityResponse alloc] init];
-    response.success = @YES;
-    response.systemCapability = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:videoStreamingCapability];
-
-    return response;
-}
-
-//.frameData = SDLFrameInfoStartServiceACK;
-SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData) {
-    SDLProtocolHeader *testVideoHeader = nil;
-    testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
-    testVideoHeader.frameType = SDLFrameTypeSingle;
-    testVideoHeader.frameData = frameData;
-    testVideoHeader.encrypted = YES;
-    testVideoHeader.serviceType = SDLServiceTypeVideo;
-    return testVideoHeader;
-}
-
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_GetSystemCapabilities)
 
 const NSInteger testScaledWidth = roundf((float)testVSCResolutionWidth/testVSCScale);
 const NSInteger testScaledHeight = roundf((float)testVSCResolutionHeight/testVSCScale);
+const CGSize testSize = CGSizeMake(testVSCResolutionWidth, testVSCResolutionHeight);
 
 describe(@"after sending GetSystemCapabilities", ^{
     __block SDLStreamingVideoLifecycleManager *streamingLifecycleManager = nil;
@@ -950,14 +911,35 @@ describe(@"after sending GetSystemCapabilities", ^{
     afterEach(^{
         [strongDelegate reset];
         if (streamingLifecycleManager) {
+            // shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
             [streamingLifecycleManager shutDown];
-            // unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
-            [[NSNotificationCenter defaultCenter] removeObserver:streamingLifecycleManager];
             streamingLifecycleManager = nil;
         }
         SDLLogD(@"End of test\n\n");
     });
 
+    it(@"should initialize properties", ^{
+        expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(@(testVSCScale)));
+        expect(streamingLifecycleManager.touchManager).toNot(beNil());
+        expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
+        expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
+        expect(streamingLifecycleManager.isVideoConnected).to(beFalse());
+        expect(streamingLifecycleManager.isVideoEncrypted).to(beFalse());
+        expect(streamingLifecycleManager.isVideoStreamingPaused).to(beTrue());
+        expect(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, testSize)).to(beTrue());
+        expect(streamingLifecycleManager.pixelBufferPool == NULL).to(beTrue());
+        expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
+        expect(streamingLifecycleManager.showVideoBackgroundDisplay).to(beTrue());
+        expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
+        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStarting));
+        expect(streamingLifecycleManager.videoFormat).to(beNil());
+        expect(streamingLifecycleManager.dataSource).to(equal(testDataSource));
+        expect(streamingLifecycleManager.supportedFormats).to(haveCount(2));
+        expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
+        expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
+        expect(streamingLifecycleManager.preferredFormatIndex).to(equal(2));
+        expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
+    });
 
     context(@"and receiving an error response", ^{
         // This happens if the HU doesn't understand GetSystemCapabilities
@@ -1049,3 +1031,46 @@ describe(@"after sending GetSystemCapabilities", ^{
 });
 
 QuickSpecEnd
+
+#pragma mark -- helper functions
+
+static void postRAINotification() {
+    SDLRegisterAppInterfaceResponse *rai = [[SDLRegisterAppInterfaceResponse alloc] init];
+    rai.hmiCapabilities = [[SDLHMICapabilities alloc] initWithNavigation:@YES phoneCall:@YES videoStreaming:@YES remoteControl:@YES appServices:@YES displays:@YES seatLocation:@YES driverDistraction:@YES];
+    rai.success = @YES;
+    SDLRPCResponseNotification *note = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:nil rpcResponse:rai];
+    [[NSNotificationCenter defaultCenter] postNotification:note];
+}
+
+static void sendNotificationForHMILevel(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) {
+    SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
+    hmiStatus.hmiLevel = hmiLevel;
+    hmiStatus.videoStreamingState = streamState;
+    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:hmiStatus];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+};
+
+static SDLGetSystemCapabilityResponse* createSystemCapabilityResponse() {
+    SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:testVSCResolutionWidth height:testVSCResolutionHeight];
+    SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP];
+    SDLVideoStreamingFormat *format2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+    NSArray<SDLVideoStreamingFormat *> *testFormats = @[format1, format2];
+
+    SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:testVSCMaxBitrate supportedFormats:testFormats hapticDataSupported:YES diagonalScreenSize:8.5 pixelPerInch:117 scale:testVSCScale];
+    SDLGetSystemCapabilityResponse *response = [[SDLGetSystemCapabilityResponse alloc] init];
+    response.success = @YES;
+    response.systemCapability = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:videoStreamingCapability];
+
+    return response;
+}
+
+//.frameData = SDLFrameInfoStartServiceACK;
+static SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData) {
+    SDLProtocolHeader *testVideoHeader = nil;
+    testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+    testVideoHeader.frameType = SDLFrameTypeSingle;
+    testVideoHeader.frameData = frameData;
+    testVideoHeader.encrypted = YES;
+    testVideoHeader.serviceType = SDLServiceTypeVideo;
+    return testVideoHeader;
+}
