@@ -50,37 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.menuID = @(menuId);
-    self.menuName = menuName;
-
-    return self;
-}
-
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position {
-    return [self initWithId:menuId menuName:menuName menuLayout:nil menuIcon:nil position:position];
-}
-
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuIcon:(nullable SDLImage *)icon position:(UInt8)position {
-    return [self initWithId:menuId menuName:menuName menuLayout:nil menuIcon:icon position:position];
-}
-
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuLayout:(nullable SDLMenuLayout)menuLayout menuIcon:(nullable SDLImage *)icon position:(UInt8)position {
-    self = [self initWithId:menuId menuName:menuName];
-    if (!self) { return nil; }
-
-    self.position = @(position);
-    self.menuIcon = icon;
-    self.menuLayout = menuLayout;
-
-    return self;
-}
-
 - (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName {
     self = [self init];
     if (!self) {
