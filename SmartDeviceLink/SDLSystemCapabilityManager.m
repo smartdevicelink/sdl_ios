@@ -528,14 +528,6 @@ typedef NSString * SDLServiceID;
 
 #pragma mark Subscribing
 
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block {
-    SDLLogD(@"Subscribing to capability type: %@ with a handler (DEPRECATED)", type);
-    SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] block:block];
-
-    id<NSObject> subscribedObserver = [self sdl_subscribeToCapabilityType:type observerObject:observerObject];
-    return subscribedObserver;
-}
-
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler {
     SDLLogD(@"Subscribing to capability type: %@ with a handler", type);
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] updateHandler:handler];
@@ -673,12 +665,7 @@ typedef NSString * SDLServiceID;
 - (void)sdl_invokeObserver:(SDLSystemCapabilityObserver *)observer withCapabilityType:(SDLSystemCapabilityType)type capability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
     BOOL subscribed = self.subscriptionStatus[type].boolValue || [type isEqualToEnum:SDLSystemCapabilityTypeDisplays];
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (observer.block != nil) {
-        observer.block(capability);
-#pragma clang diagnostic pop
-    } else if (observer.updateBlock != nil) {
+    if (observer.updateBlock != nil) {
         observer.updateBlock(capability, subscribed, error);
     } else {
         if (![observer.observer respondsToSelector:observer.selector]) {

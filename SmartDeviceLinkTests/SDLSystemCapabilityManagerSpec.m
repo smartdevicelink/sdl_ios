@@ -665,14 +665,11 @@ describe(@"System capability manager", ^{
         __block TestSystemCapabilityObserver *navigationObserver = nil;
         __block TestSystemCapabilityObserver *videoStreamingObserver = nil;
         __block TestSystemCapabilityObserver *displaysObserver = nil;
-
-        __block NSUInteger observerTriggeredCount = 0;
         __block NSUInteger handlerTriggeredCount = 0;
 
         beforeEach(^{
             testSystemCapabilityManager.currentHMILevel = SDLHMILevelFull;
 
-            observerTriggeredCount = 0;
             handlerTriggeredCount = 0;
             [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"]; // supports subscriptions
 
@@ -701,17 +698,9 @@ describe(@"System capability manager", ^{
         });
 
         context(@"from a GetSystemCapabilitiesResponse", ^{
-            __block id blockObserver = nil;
             __block id handlerObserver = nil;
 
             beforeEach(^{
- #pragma clang diagnostic push
- #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
-                    observerTriggeredCount++;
-                }];
-#pragma clang diagnostic pop
-
                 handlerObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
                     handlerTriggeredCount++;
                 }];
@@ -725,7 +714,6 @@ describe(@"System capability manager", ^{
 
             it(@"should not notify subscribers of new data because it was sent outside of the SCM", ^{
                 expect(handlerTriggeredCount).toEventually(equal(1));
-                expect(observerTriggeredCount).toEventually(equal(1));
 
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(0));
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
@@ -743,7 +731,6 @@ describe(@"System capability manager", ^{
                 beforeEach(^{
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver];
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:handlerObserver];
-                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:blockObserver];
 
                     SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
                     testResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
@@ -754,7 +741,6 @@ describe(@"System capability manager", ^{
 
                 it(@"should not notify the subscriber of the new data", ^{
                     expect(handlerTriggeredCount).toEventually(equal(1));
-                    expect(observerTriggeredCount).toEventually(equal(1));
 
                     expect(phoneObserver.selectorCalledCount).toEventually(equal(0)); // No change from above
                     expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
@@ -766,17 +752,9 @@ describe(@"System capability manager", ^{
         });
 
         context(@"from an OnSystemCapabilities notification", ^{
-            __block id blockObserver = nil;
             __block id handlerObserver = nil;
 
             beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
-                    observerTriggeredCount++;
-                }];
-#pragma clang diagnostic pop
-
                 handlerObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
                     handlerTriggeredCount++;
                 }];
@@ -789,7 +767,6 @@ describe(@"System capability manager", ^{
 
             it(@"should notify subscribers of the new data", ^{
                 expect(handlerTriggeredCount).toEventually(equal(2));
-                expect(observerTriggeredCount).toEventually(equal(2));
 
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
@@ -806,7 +783,6 @@ describe(@"System capability manager", ^{
             describe(@"unsubscribing", ^{
                 beforeEach(^{
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver];
-                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:blockObserver];
 
                     SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
                     testResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
@@ -817,7 +793,6 @@ describe(@"System capability manager", ^{
 
                 it(@"should not notify the subscriber of the new data", ^{
                     expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(observerTriggeredCount).toEventually(equal(2));
                     expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
                     expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
                     expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
