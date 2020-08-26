@@ -414,11 +414,6 @@ describe(@"a lock screen manager", ^{
 
         context(@"showInOptionalState is true", ^{
             beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testLockScreenConfig.showInOptionalState = true;
-#pragma clang diagnostic pop
-
                 testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:dispatcherMock presenter:mockViewControllerPresenter];
                 testManager.canPresent = YES;
 
@@ -442,11 +437,6 @@ describe(@"a lock screen manager", ^{
 
         context(@"showInOptionalState is false", ^{
             beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                testLockScreenConfig.showInOptionalState = false;
-#pragma clang diagnostic pop
-
                 testManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:dispatcherMock presenter:mockViewControllerPresenter];
                 testManager.canPresent = YES;
 

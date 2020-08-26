@@ -22,9 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _displayMode = mode;
-    _enableAutomaticLockScreen = (mode == SDLLockScreenConfigurationDisplayModeNever) ? NO : YES;
-    _showInOptionalState = (mode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired) ? YES : NO;
-
     _enableDismissGesture = enableDismissGesture;
     _backgroundColor = backgroundColor;
     _appIcon = appIcon;
@@ -61,32 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [UIColor colorWithRed:(57.0 / 255.0) green:(78.0 / 255.0) blue:(96.0 / 255.0) alpha:1.0];
 }
 
-
-#pragma mark - Setters / Getters
-
-- (void)setEnableAutomaticLockScreen:(BOOL)enableAutomaticLockScreen {
-    _enableAutomaticLockScreen = enableAutomaticLockScreen;
-
-    if (!_enableAutomaticLockScreen) {
-        _displayMode = SDLLockScreenConfigurationDisplayModeNever;
-    } else if (_showInOptionalState) {
-        _displayMode = SDLLockScreenConfigurationDisplayModeOptionalOrRequired;
-    } else {
-        _displayMode = SDLLockScreenConfigurationDisplayModeRequiredOnly;
-    }
-}
-
-- (void)setShowInOptionalState:(BOOL)showInOptionalState {
-    _showInOptionalState = showInOptionalState;
-
-    if (!_enableAutomaticLockScreen) {
-        _displayMode = SDLLockScreenConfigurationDisplayModeNever;
-    } else if (_showInOptionalState) {
-        _displayMode = SDLLockScreenConfigurationDisplayModeOptionalOrRequired;
-    } else {
-        _displayMode = SDLLockScreenConfigurationDisplayModeRequiredOnly;
-    }
-}
 
 #pragma mark - NSCopying
 
