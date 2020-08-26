@@ -36,7 +36,6 @@ QuickSpecBegin(SDLStreamingMediaManagerSpec)
 
 describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaManager *testStreamingMediaManager = nil;
-    __block TestConnectionManager *testConnectionManager = nil;
     __block SDLConfiguration *testConfiguration = nil;
     __block SDLSystemCapabilityManager *mockSystemCapabilityManager = nil;
 
@@ -45,10 +44,17 @@ describe(@"the streaming media manager", ^{
     __block id mockVideoLifecycleManager = nil;
     __block id mockAudioLifecycleManager = nil;
 
+    // quick fix to keep test objects alive, it fixes the crash when an object is recreated in beforeEach block (usually on the 2nd pass) and the dealloc method gets called internally
+    NSMutableSet *allTestObjects = [NSMutableSet new];
+    TestConnectionManager *testConnectionManager = [[TestConnectionManager alloc] init];
+    [allTestObjects addObject:testConnectionManager];
+
     beforeEach(^{
         mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
-        testConnectionManager = [[TestConnectionManager alloc] init];
+        [allTestObjects addObject:mockSystemCapabilityManager];
+
         testStreamingMediaManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration systemCapabilityManager:mockSystemCapabilityManager];
+        [allTestObjects addObject:testStreamingMediaManager];
 
         mockVideoLifecycleManager = OCMClassMock([SDLStreamingVideoLifecycleManager class]);
         testStreamingMediaManager.videoLifecycleManager = mockVideoLifecycleManager;
