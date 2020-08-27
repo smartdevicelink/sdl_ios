@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)getAllVehicleDataWithManager:(SDLManager *)manager triggerSource:(SDLTriggerSource)triggerSource vehicleDataType:(NSString *)vehicleDataType {
     SDLLogD(@"Checking if app has permission to access vehicle data...");
     if (![manager.permissionManager isRPCNameAllowed:SDLRPCFunctionNameGetVehicleData]) {
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to access vehicle data" textField2:nil iconName:nil]];
+        [AlertManager sendAlertWithManager:manager image:nil textField1:AlertVehicleDataPermissionsWarningText textField2:nil];
         return;
     }
 
@@ -154,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [manager sendRequest:getAllVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle data" textField2:nil iconName:nil]];
+            [AlertManager sendAlertWithManager:manager image:nil textField1:AlertVehicleDataGeneralWarningText textField2:nil];
             return;
         }
 
@@ -184,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
         alertMessage = [TextValidator validateText:alertMessage length:200];
 
         if ([triggerSource isEqualToEnum:SDLTriggerSourceMenu]) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:alertTitle textField2:alertMessage iconName:nil]];
+            [AlertManager sendAlertWithManager:manager image:nil textField1:alertTitle textField2:alertMessage];
         } else {
             NSString *spokenAlert = alertMessage ?: alertTitle;
             [manager sendRequest:[[SDLSpeak alloc] initWithTTS:spokenAlert]];
@@ -277,7 +277,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Checking phone call capability");
     [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
         if (!systemCapabilityManager.phoneCapability) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The head unit does not support the phone call  capability" textField2:nil iconName:nil]];
+            [AlertManager sendAlertWithManager:manager image:nil textField1:AlertDialNumberPermissionsWarningText textField2:nil];
             return;
         }
 
@@ -285,7 +285,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogD(@"Dialing phone number %@", phoneNumber);
             [self sdlex_dialPhoneNumber:phoneNumber manager:manager];
         } else {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The dial number feature is unavailable for this head unit" textField2:nil iconName:nil]];
+            [AlertManager sendAlertWithManager:manager image:nil textField1:AlertDialNumberUnavailableWarningText textField2:nil];
         }
     }];
 }

@@ -84,7 +84,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testResponse.prndl = prndl;
 #pragma clang diagnostic pop
-        testResponse.gearStatus = gearStatus;
         testResponse.rpm = @(rpm);
         testResponse.speed = @(speed);
         testResponse.steeringWheelAngle = @(steeringWheelAngle);
@@ -126,7 +125,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testResponse.prndl).to(equal(prndl));
 #pragma clang diagnostic pop
-            expect(testResponse.gearStatus).to(equal(gearStatus));
             expect(testResponse.rpm).to(equal(@(rpm)));
             expect(testResponse.speed).to(equal(@(speed)));
             expect(testResponse.steeringWheelAngle).to(equal(@(steeringWheelAngle)));
@@ -161,7 +159,6 @@ describe(@"getter/setter tests", ^{
                                             SDLRPCParameterNameFuelLevelState:fuelLevel_State,
 #pragma clang diagnostic pop
                                             SDLRPCParameterNameFuelRange:fuelRangeArray,
-                                            SDLRPCParameterNameGearStatus:gearStatus,
                                             SDLRPCParameterNameGearStatus:gearStatus,
                                             SDLRPCParameterNameGPS:gps,
                                             SDLRPCParameterNameHandsOffSteering:@(handsOffSteering),
@@ -220,7 +217,6 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testResponse.prndl).to(equal(prndl));
 #pragma clang diagnostic pop
-            expect(testResponse.gearStatus).to(equal(gearStatus));
             expect(testResponse.rpm).to(equal(@(rpm)));
             expect(testResponse.speed).to(equal(@(speed)));
             expect(testResponse.steeringWheelAngle).to(equal(@(steeringWheelAngle)));
@@ -231,7 +227,7 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.wiperStatus).to(equal(wiperStatus));
         });
     });
-    
+
     context(@"init", ^{
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
         it(@"expect all properties to be nil", ^{
@@ -325,6 +321,7 @@ describe(@"getter/setter tests", ^{
     context(@"init and set OEM Custom Vehicle Data", ^{
         SDLGetVehicleDataResponse *testResponse = [[SDLGetVehicleDataResponse alloc] init];
         [testResponse setOEMCustomVehicleData:@"customVehicleData" withVehicleDataState:@"oemVehicleData"];
+    
         it(@"expect OEM Custom Vehicle Data to be set properly", ^{
             expect([testResponse getOEMCustomVehicleData:@"customVehicleData"]).to(equal(@"oemVehicleData"));
         });

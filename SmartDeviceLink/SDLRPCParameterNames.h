@@ -1,3 +1,34 @@
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 //  SDLRPCParameterNames.h
 
 #import <Foundation/Foundation.h>
@@ -186,6 +217,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameDualModeEnable;
 extern SDLRPCParameterName const SDLRPCParameterNameDualModeEnableAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameDuration;
 extern SDLRPCParameterName const SDLRPCParameterNameDuplicateUpdatesFromWindowID;
+extern SDLRPCParameterName const SDLRPCParameterNameDynamicUpdateCapabilities;
 extern SDLRPCParameterName const SDLRPCParameterNameE911Override;
 extern SDLRPCParameterName const SDLRPCParameterNameECallConfirmationStatus;
 extern SDLRPCParameterName const SDLRPCParameterNameECallEventActive;
@@ -211,7 +243,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameExternalTemperature;
 extern SDLRPCParameterName const SDLRPCParameterNameFanSpeed;
 extern SDLRPCParameterName const SDLRPCParameterNameFanSpeedAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameFCCFacilityId;
-extern SDLRPCParameterName const SDLRPCParameterNameFilename;
+extern SDLRPCParameterName const SDLRPCParameterNameFileName;
 extern SDLRPCParameterName const SDLRPCParameterNameFilenames;
 extern SDLRPCParameterName const SDLRPCParameterNameFileType;
 extern SDLRPCParameterName const SDLRPCParameterNameFirmness;
@@ -222,8 +254,8 @@ extern SDLRPCParameterName const SDLRPCParameterNameFrequencyFraction;
 extern SDLRPCParameterName const SDLRPCParameterNameFrontVerticalPosition;
 extern SDLRPCParameterName const SDLRPCParameterNameFrontVerticalPositionAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameFuelCutoffStatus;
-extern SDLRPCParameterName const SDLRPCParameterNameFuelLevel __deprecated;
-extern SDLRPCParameterName const SDLRPCParameterNameFuelLevelState __deprecated;
+extern SDLRPCParameterName const SDLRPCParameterNameFuelLevel;
+extern SDLRPCParameterName const SDLRPCParameterNameFuelLevelState;
 extern SDLRPCParameterName const SDLRPCParameterNameFuelMaintenanceMode;
 extern SDLRPCParameterName const SDLRPCParameterNameFuelRange;
 extern SDLRPCParameterName const SDLRPCParameterNameFullAppID;
@@ -387,7 +419,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameMediaType;
 extern SDLRPCParameterName const SDLRPCParameterNameMemory;
 extern SDLRPCParameterName const SDLRPCParameterNameMemoryAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuIcon;
-extern SDLRPCParameterName const SDLRPCParameterNameMenuId;
+extern SDLRPCParameterName const SDLRPCParameterNameMenuID;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuLayout;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuLayoutsAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameMenuLength;
@@ -494,7 +526,7 @@ extern SDLRPCParameterName const SDLRPCParameterNamePressure;
 extern SDLRPCParameterName const SDLRPCParameterNamePressureTelltale;
 extern SDLRPCParameterName const SDLRPCParameterNamePrimaryAudioSource;
 extern SDLRPCParameterName const SDLRPCParameterNamePrimaryColor;
-extern SDLRPCParameterName const SDLRPCParameterNamePRNDL __deprecated;
+extern SDLRPCParameterName const SDLRPCParameterNamePRNDL;
 extern SDLRPCParameterName const SDLRPCParameterNameProgramIdentification;
 extern SDLRPCParameterName const SDLRPCParameterNameProgressIndicator;
 extern SDLRPCParameterName const SDLRPCParameterNameProperties;
@@ -624,6 +656,8 @@ extern SDLRPCParameterName const SDLRPCParameterNameSubThoroughfare;
 extern SDLRPCParameterName const SDLRPCParameterNameSuccess;
 extern SDLRPCParameterName const SDLRPCParameterNameSummary;
 extern SDLRPCParameterName const SDLRPCParameterNameSupportedDiagnosticModes;
+extern SDLRPCParameterName const SDLRPCParameterNameSupportedDynamicImageFieldNames;
+extern SDLRPCParameterName const SDLRPCParameterNameSupportsDynamicSubMenus;
 extern SDLRPCParameterName const SDLRPCParameterNameSupportedFormats;
 extern SDLRPCParameterName const SDLRPCParameterNameSupportedLights;
 extern SDLRPCParameterName const SDLRPCParameterNameSyncFileName;
@@ -683,6 +717,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameUnsubscribe;
 extern SDLRPCParameterName const SDLRPCParameterNameUpdatedAppServiceRecord;
 extern SDLRPCParameterName const SDLRPCParameterNameUpdateMode;
 extern SDLRPCParameterName const SDLRPCParameterNameUpdateReason;
+extern SDLRPCParameterName const SDLRPCParameterNameUpdateSubCells;
 extern SDLRPCParameterName const SDLRPCParameterNameUpDownAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameURL;
 extern SDLRPCParameterName const SDLRPCParameterNameURLUppercase;

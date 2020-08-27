@@ -47,7 +47,7 @@ describe(@"Getter/Setter Tests", ^{
     it(@"Should initialize correctly with a dictionary", ^{
         NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
                                        SDLRPCParameterNameParameters:@{
-                                               SDLRPCParameterNameFilename:testFileName,
+                                               SDLRPCParameterNameFileName:testFileName,
                                                SDLRPCParameterNameAppServiceId:testAppServiceId,
                                                SDLRPCParameterNameFileType:testFileType,
                                                SDLRPCParameterNameOffset:@(testOffset),

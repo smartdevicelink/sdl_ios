@@ -143,10 +143,10 @@ describe(@"getter/setter tests", ^{
                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-         SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] initWithDictionary:dict];
+        SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
 
-        it(@"expect all properties to be set properly", ^{
+    it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
             expect(testRequest.airbagStatus).to(equal(@YES));
             expect(testRequest.beltStatus).to(equal(@YES));
@@ -189,7 +189,7 @@ describe(@"getter/setter tests", ^{
     });
 });
 
-describe(@"test initializers", ^{
+describe(@"initializers", ^{
     context(@"init", ^{
         SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] init];
         it(@"expect all properties to be nil", ^{
@@ -409,11 +409,10 @@ describe(@"test initializers", ^{
             expect(testRequest.instantFuelConsumption).to(equal(@YES));
             expect(testRequest.myKey).to(equal(@YES));
             expect(testRequest.odometer).to(equal(@YES));
- #pragma clang diagnostic push
- #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.prndl).to(beNil());
- #pragma clang diagnostic pop
-            expect(testRequest.gearStatus).to(equal(@YES));
+#pragma clang diagnostic pop
             expect(testRequest.rpm).to(equal(@YES));
             expect(testRequest.speed).to(equal(@YES));
             expect(testRequest.steeringWheelAngle).to(equal(@YES));

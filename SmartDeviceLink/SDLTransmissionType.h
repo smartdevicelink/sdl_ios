@@ -34,7 +34,9 @@
 
 /**
  * Type of transmission used in the vehicle.
- */
+ *
+ * @since SDL 7.0
+*/
 typedef SDLEnum SDLTransmissionType SDL_SWIFT_ENUM;
 
 /**

@@ -10,7 +10,8 @@
 typedef SDLEnum SDLVehicleDataType SDL_SWIFT_ENUM;
 
 /**
- Vehicle Gear Status data
+ * Vehicle Gear Status data
+ * @since SDL 7.0
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeGearStatus;
 
@@ -57,7 +58,7 @@ extern SDLVehicleDataType const SDLVehicleDataTypeVIN;
 /**
  Vehicle PRNDL data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypePrndl __deprecated_msg("use SDLVehicleDataTypeGearStatus instead on 7.0+ RPC version connections");
+extern SDLVehicleDataType const SDLVehicleDataTypePRNDL __deprecated_msg("use SDLVehicleDataTypeGearStatus instead on 7.0+ RPC version connections");
 
 /**
  Vehicle tire pressure data
