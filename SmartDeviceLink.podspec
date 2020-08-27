@@ -6,7 +6,7 @@ s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
 s.author       = { "SmartDeviceLink Team" => "developer@smartdevicelink.com" }
-s.platform     = :ios, "8.0"
+s.platform     = :ios, "10.0"
 s.dependency     'BiSON', '~> 1.2.0'
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
 s.requires_arc = true
