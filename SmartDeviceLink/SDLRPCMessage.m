@@ -65,16 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (nullable NSString *)getFunctionName {
-    return self.name;
-}
-
 - (void)setFunctionName:(nullable NSString *)functionName {
     [_function sdl_setObject:functionName forName:SDLRPCParameterNameOperationName];
-}
-
-- (nullable NSObject *)getParameters:(NSString *)functionName {
-    return [_parameters sdl_objectForName:functionName ofClass:NSObject.class error:nil];
 }
 
 - (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value {
