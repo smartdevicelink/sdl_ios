@@ -780,7 +780,7 @@
 		5D61FCEF1A84238C00846EE7 /* SDLListFilesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB021A84238A00846EE7 /* SDLListFilesResponse.m */; };
 		5D61FCF01A84238C00846EE7 /* SDLLockScreenStatusManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB031A84238A00846EE7 /* SDLLockScreenStatusManager.h */; };
 		5D61FCF11A84238C00846EE7 /* SDLLockScreenStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB041A84238A00846EE7 /* SDLLockScreenStatusManager.m */; };
-		5D61FCF21A84238C00846EE7 /* SDLLockScreenStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB051A84238A00846EE7 /* SDLLockScreenStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D61FCF21A84238C00846EE7 /* SDLLockScreenStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB051A84238A00846EE7 /* SDLLockScreenStatus.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D61FCF31A84238C00846EE7 /* SDLLockScreenStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB061A84238A00846EE7 /* SDLLockScreenStatus.m */; };
 		5D61FCF41A84238C00846EE7 /* SDLMaintenanceModeStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB071A84238A00846EE7 /* SDLMaintenanceModeStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCF51A84238C00846EE7 /* SDLMaintenanceModeStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB081A84238A00846EE7 /* SDLMaintenanceModeStatus.m */; };
@@ -815,7 +815,7 @@
 		5D61FD121A84238C00846EE7 /* SDLOnKeyboardInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB251A84238B00846EE7 /* SDLOnKeyboardInput.m */; };
 		5D61FD131A84238C00846EE7 /* SDLOnLanguageChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB261A84238B00846EE7 /* SDLOnLanguageChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD141A84238C00846EE7 /* SDLOnLanguageChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB271A84238B00846EE7 /* SDLOnLanguageChange.m */; };
-		5D61FD151A84238C00846EE7 /* SDLOnLockScreenStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB281A84238B00846EE7 /* SDLOnLockScreenStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D61FD151A84238C00846EE7 /* SDLOnLockScreenStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB281A84238B00846EE7 /* SDLOnLockScreenStatus.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D61FD161A84238C00846EE7 /* SDLOnLockScreenStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB291A84238B00846EE7 /* SDLOnLockScreenStatus.m */; };
 		5D61FD171A84238C00846EE7 /* SDLOnPermissionsChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB2A1A84238B00846EE7 /* SDLOnPermissionsChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD181A84238C00846EE7 /* SDLOnPermissionsChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB2B1A84238B00846EE7 /* SDLOnPermissionsChange.m */; };
@@ -3642,7 +3642,6 @@
 				162E82031A9BDE8A00906325 /* SDLLayoutModeSpec.m */,
 				1EAA47712036AEF5000FE74B /* SDLLightNameSpec.m */,
 				1EAA476F2036AE89000FE74B /* SDLLightStatusSpec.m */,
-				162E82041A9BDE8A00906325 /* SDLLockScreenStatusSpec.m */,
 				162E82051A9BDE8A00906325 /* SDLMaintenanceModeStatusSpec.m */,
 				1EB59CCD202DC97900343A61 /* SDLMassageCushionSpec.m */,
 				1EB59CD1202DCA9B00343A61 /* SDLMassageModeSpec.m */,
@@ -3719,7 +3718,6 @@
 				1EE8C4531F38762E00FDC2CF /* SDLOnInteriorVehicleDataSpec.m */,
 				162E82321A9BDE8A00906325 /* SDLOnKeyboardInputSpec.m */,
 				162E82331A9BDE8A00906325 /* SDLOnLanguageChangeSpec.m */,
-				162E82341A9BDE8A00906325 /* SDLOnLockScreenStatusSpec.m */,
 				162E82351A9BDE8A00906325 /* SDLOnPermissionsChangeSpec.m */,
 				1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */,
 				162E82361A9BDE8A00906325 /* SDLOnSyncPDataSpec.m */,
@@ -5153,8 +5151,6 @@
 				5D61FAFC1A84238A00846EE7 /* SDLLanguage.m */,
 				5D61FAFD1A84238A00846EE7 /* SDLLayoutMode.h */,
 				5D61FAFE1A84238A00846EE7 /* SDLLayoutMode.m */,
-				5D61FB051A84238A00846EE7 /* SDLLockScreenStatus.h */,
-				5D61FB061A84238A00846EE7 /* SDLLockScreenStatus.m */,
 				5D61FB071A84238A00846EE7 /* SDLMaintenanceModeStatus.h */,
 				5D61FB081A84238A00846EE7 /* SDLMaintenanceModeStatus.m */,
 				1EB59CA9202D96A200343A61 /* SDLMassageCushion.h */,
@@ -5349,8 +5345,6 @@
 				5D61FB251A84238B00846EE7 /* SDLOnKeyboardInput.m */,
 				5D61FB261A84238B00846EE7 /* SDLOnLanguageChange.h */,
 				5D61FB271A84238B00846EE7 /* SDLOnLanguageChange.m */,
-				5D61FB281A84238B00846EE7 /* SDLOnLockScreenStatus.h */,
-				5D61FB291A84238B00846EE7 /* SDLOnLockScreenStatus.m */,
 				5D61FB2A1A84238B00846EE7 /* SDLOnPermissionsChange.h */,
 				5D61FB2B1A84238B00846EE7 /* SDLOnPermissionsChange.m */,
 				1EAA47092032BAE5000FE74B /* SDLOnRCStatus.h */,
@@ -5616,8 +5610,10 @@
 			isa = PBXGroup;
 			children = (
 				5D76E3261D3D0A4700647CFA /* Utilities */,
+				162E82041A9BDE8A00906325 /* SDLLockScreenStatusSpec.m */,
 				5D76E31B1D3805FF00647CFA /* SDLLockScreenManagerSpec.m */,
 				5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */,
+				162E82341A9BDE8A00906325 /* SDLOnLockScreenStatusSpec.m */,
 			);
 			name = LockScreen;
 			sourceTree = "<group>";
@@ -6107,6 +6103,7 @@
 		5DBAE0A51D355EE700CE00BF /* Lock Screen */ = {
 			isa = PBXGroup;
 			children = (
+				88253E1A24F7D220009ED029 /* Notification */,
 				5D0A7376203F0C8F0001595D /* Configuration */,
 				5D6F7A301BC5B7100070BF37 /* Lock Screen UI */,
 				4A9D02C02497F9AA00FBE99B /* Status Manager */,
@@ -6380,6 +6377,17 @@
 				880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */,
 			);
 			name = "System Capabilities";
+			sourceTree = "<group>";
+		};
+		88253E1A24F7D220009ED029 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				5D61FB281A84238B00846EE7 /* SDLOnLockScreenStatus.h */,
+				5D61FB291A84238B00846EE7 /* SDLOnLockScreenStatus.m */,
+				5D61FB051A84238A00846EE7 /* SDLLockScreenStatus.h */,
+				5D61FB061A84238A00846EE7 /* SDLLockScreenStatus.m */,
+			);
+			name = Notification;
 			sourceTree = "<group>";
 		};
 		88295677207CF46C00EF056C /* Objective-C */ = {

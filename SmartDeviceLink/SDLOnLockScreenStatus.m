@@ -13,54 +13,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SDLOnLockScreenStatus
-#pragma clang diagnostic pop
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)init {
-    if (self = [super initWithName:SDLRPCFunctionNameOnLockScreenStatus]) {
+- (instancetype)initWithDriverDistractionStatus:(nullable NSNumber<SDLBool> *)driverDistractionStatus userSelected:(nullable NSNumber<SDLBool> *)userSelected lockScreenStatus:(nullable SDLLockScreenStatus)lockScreenStatus hmiLevel:(nullable SDLHMILevel)hmiLevel {
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    _driverDistractionStatus = driverDistractionStatus;
+    _userSelected = userSelected;
+    _lockScreenStatus = lockScreenStatus;
+    _hmiLevel = hmiLevel;
+
     return self;
 }
-#pragma clang diagnostic pop
 
-- (void)setLockScreenStatus:(SDLLockScreenStatus)lockScreenStatus {
-    [self.parameters sdl_setObject:lockScreenStatus forName:SDLRPCParameterNameOnLockScreenStatus];
-}
+- (NSString *)description {
+    NSMutableString *description = [NSMutableString stringWithFormat:@"driverDistractionStatus: %@, userSelected: %@, lockScreenStatus: %@, hmiLevel: %@", self.driverDistractionStatus, self.userSelected, self.lockScreenStatus, self.hmiLevel];
 
-- (SDLLockScreenStatus)lockScreenStatus {
-    NSError *error = nil;
-    return [self.parameters sdl_enumForName:SDLRPCParameterNameOnLockScreenStatus error:&error];
-}
-
-- (void)setHmiLevel:(SDLHMILevel)hmiLevel {
-    [self.parameters sdl_setObject:hmiLevel forName:SDLRPCParameterNameHMILevel];
-}
-
-- (SDLHMILevel)hmiLevel {
-    NSError *error = nil;
-    return [self.parameters sdl_enumForName:SDLRPCParameterNameHMILevel error:&error];
-}
-
-- (void)setUserSelected:(NSNumber<SDLBool> *)userSelected {
-    [self.parameters sdl_setObject:userSelected forName:SDLRPCParameterNameUserSelected];
-}
-
-- (NSNumber<SDLBool> *)userSelected {
-    NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameUserSelected ofClass:NSNumber.class error:&error];
-}
-
-- (void)setDriverDistractionStatus:(NSNumber<SDLBool> *)driverDistractionStatus {
-    [self.parameters sdl_setObject:driverDistractionStatus forName:SDLRPCParameterNameDriverDistractionStatus];
-}
-
-- (NSNumber<SDLBool> *)driverDistractionStatus {
-    NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameDriverDistractionStatus ofClass:NSNumber.class error:&error];
+    return description;
 }
 
 @end

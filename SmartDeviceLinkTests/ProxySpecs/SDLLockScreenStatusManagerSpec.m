@@ -108,10 +108,7 @@ describe(@"the lockscreen status manager", ^{
             });
             
             it(@"should return lock screen off", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
-#pragma clang diagnostic pop
             });
         });
         
@@ -121,10 +118,7 @@ describe(@"the lockscreen status manager", ^{
             });
             
             it(@"should return lock screen off", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
-#pragma clang diagnostic pop
             });
         });
         
@@ -140,10 +134,7 @@ describe(@"the lockscreen status manager", ^{
 
                 context(@"if we do not set the driver distraction state", ^{
                     it(@"should return lock screen required", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
-#pragma clang diagnostic pop
                     });
                 });
 
@@ -153,10 +144,7 @@ describe(@"the lockscreen status manager", ^{
                     });
 
                     it(@"should return lock screen optional", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
-#pragma clang diagnostic pop
                     });
                 });
 
@@ -166,10 +154,7 @@ describe(@"the lockscreen status manager", ^{
                     });
 
                     it(@"should return lock screen required", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
-#pragma clang diagnostic pop
                     });
                 });
             });
@@ -180,10 +165,7 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen off", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
-#pragma clang diagnostic pop
                 });
             });
         });
@@ -195,10 +177,7 @@ describe(@"the lockscreen status manager", ^{
             
             context(@"if we do not set the driver distraction state", ^{
                 it(@"should return lock screen required", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
-#pragma clang diagnostic pop
                 });
             });
             
@@ -208,10 +187,7 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen optional", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
-#pragma clang diagnostic pop
                 });
             });
             
@@ -221,10 +197,7 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen required", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
-#pragma clang diagnostic pop
                 });
             });
         });
@@ -236,10 +209,7 @@ describe(@"the lockscreen status manager", ^{
             
             context(@"if we do not set the driver distraction state", ^{
                 it(@"should return lock screen required", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
-#pragma clang diagnostic pop
                 });
             });
             
@@ -249,10 +219,7 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen optional", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
-#pragma clang diagnostic pop
                 });
             });
             
@@ -262,21 +229,14 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen required", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     expect(testManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
-#pragma clang diagnostic pop
                 });
             });
         });
     });
     
     describe(@"when sending a lock screen status notification", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         __block SDLOnLockScreenStatus *onLockScreenStatusNotification = nil;
-#pragma clang diagnostic pop
-        
         beforeEach(^{
             testManager.userSelected = YES;
             testManager.driverDistracted = NO;
@@ -298,10 +258,7 @@ describe(@"the lockscreen status manager", ^{
         });
         
         it(@"should properly return lock screen status", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(onLockScreenStatusNotification.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
-#pragma clang diagnostic pop
         });
     });
 
@@ -312,11 +269,8 @@ describe(@"the lockscreen status manager", ^{
             SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:mockDispatcher rpcNotification:hmiStatus];
 
             lockScreenIconObserver = OCMObserverMock();
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidChangeLockScreenStatusNotification object:testManager];
             [[lockScreenIconObserver expect] notificationWithName:SDLDidChangeLockScreenStatusNotification object:[OCMArg any] userInfo:[OCMArg any]];
-#pragma clang diagnostic pop
 
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         });
@@ -335,11 +289,8 @@ describe(@"the lockscreen status manager", ^{
             SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:mockDispatcher rpcNotification:driverDistraction];
 
             lockScreenIconObserver = OCMObserverMock();
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidChangeLockScreenStatusNotification object:testManager];
             [[lockScreenIconObserver expect] notificationWithName:SDLDidChangeLockScreenStatusNotification object:[OCMArg any] userInfo:[OCMArg any]];
-#pragma clang diagnostic pop
 
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         });

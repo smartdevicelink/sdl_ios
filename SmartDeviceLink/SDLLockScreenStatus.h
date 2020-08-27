@@ -7,23 +7,21 @@
 #import "SDLEnum.h"
 
 /**
- Describes what the status of the lock screen should be
-
- Used in OnLockScreenStatus
+ Describes the status of the lock screen
  */
-typedef SDLEnum SDLLockScreenStatus SDL_SWIFT_ENUM __deprecated;
+typedef SDLEnum SDLLockScreenStatus;
 
 /**
  * LockScreen is Not Required
  */
-extern SDLLockScreenStatus const SDLLockScreenStatusOff __deprecated;
+extern SDLLockScreenStatus const SDLLockScreenStatusOff;
 
 /**
  * LockScreen is Optional
  */
-extern SDLLockScreenStatus const SDLLockScreenStatusOptional __deprecated;
+extern SDLLockScreenStatus const SDLLockScreenStatusOptional;
 
 /**
  * LockScreen is Required
  */
-extern SDLLockScreenStatus const SDLLockScreenStatusRequired __deprecated;
+extern SDLLockScreenStatus const SDLLockScreenStatusRequired;

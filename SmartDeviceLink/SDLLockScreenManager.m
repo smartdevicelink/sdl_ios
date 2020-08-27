@@ -31,11 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 @property (strong, nonatomic) SDLLockScreenStatusManager *statusManager;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
-#pragma clang diagnostic pop
-
 @property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
 @property (assign, nonatomic, readwrite, getter=isLockScreenDismissable) BOOL lockScreenDismissable;
 @property (assign, nonatomic) BOOL lockScreenDismissedByUser;
@@ -58,10 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
     _lockScreenDismissedByUser = NO;
     _statusManager = [[SDLLockScreenStatusManager alloc] initWithNotificationDispatcher:dispatcher];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:_statusManager];
-#pragma clang diagnostic pop
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionStateDidChange:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
@@ -135,14 +128,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (![notification isNotificationMemberOfClass:[SDLOnLockScreenStatus class]]) {
-#pragma clang diagnostic pop
-        return;
-    }
+    SDLOnLockScreenStatus *lockScreenStatus = (SDLOnLockScreenStatus *)notification.notification;
+    if (lockScreenStatus == nil) { return; }
 
-    self.lastLockNotification = notification.notification;
+    self.lastLockNotification = lockScreenStatus;
 
     [self sdl_checkLockScreen];
 }

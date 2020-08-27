@@ -23,29 +23,29 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-__deprecated
 @interface SDLOnLockScreenStatus : SDLRPCNotification
+
+- (instancetype)initWithDriverDistractionStatus:(nullable NSNumber<SDLBool> *)driverDistractionStatus userSelected:(nullable NSNumber<SDLBool> *)userSelected lockScreenStatus:(nullable SDLLockScreenStatus)lockScreenStatus hmiLevel:(nullable SDLHMILevel)hmiLevel;
 
 /**
  Get the current driver distraction status(i.e. whether driver distraction rules are in effect, or not)
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *driverDistractionStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *driverDistractionStatus;
 
 /**
  Get user selection status for the application (has the app been selected via hmi or voice command)
  */
-
-@property (strong, nonatomic) NSNumber<SDLBool> *userSelected;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *userSelected;
 
 /**
  Indicates if the lockscreen should be required, optional or off
  */
-@property (strong, nonatomic) SDLLockScreenStatus lockScreenStatus;
+@property (strong, nonatomic, nullable) SDLLockScreenStatus lockScreenStatus;
 
 /**
  Get HMILevel in effect for the application
  */
-@property (strong, nonatomic) SDLHMILevel hmiLevel;
+@property (strong, nonatomic, nullable) SDLHMILevel hmiLevel;
 
 @end
 
