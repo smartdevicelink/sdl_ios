@@ -110,7 +110,7 @@ describe(@"the streaming video manager", ^{
 
     afterEach(^{
         if (streamingLifecycleManager) {
-            // shutDown to unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
+            // shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
             [streamingLifecycleManager shutDown];
             streamingLifecycleManager = nil;
         }
@@ -915,7 +915,6 @@ describe(@"after sending GetSystemCapabilities", ^{
             [streamingLifecycleManager shutDown];
             streamingLifecycleManager = nil;
         }
-        SDLLogD(@"End of test\n\n");
     });
 
     it(@"should initialize properties", ^{
@@ -926,7 +925,7 @@ describe(@"after sending GetSystemCapabilities", ^{
         expect(streamingLifecycleManager.isVideoConnected).to(beFalse());
         expect(streamingLifecycleManager.isVideoEncrypted).to(beFalse());
         expect(streamingLifecycleManager.isVideoStreamingPaused).to(beTrue());
-        expect(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, testSize)).to(beTrue());
+        expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, testSize))).to(equal(@YES));
         expect(streamingLifecycleManager.pixelBufferPool == NULL).to(beTrue());
         expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
         expect(streamingLifecycleManager.showVideoBackgroundDisplay).to(beTrue());
