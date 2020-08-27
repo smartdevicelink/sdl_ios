@@ -56,8 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
         alertMessage = [NSString stringWithFormat:@"%@ long pressed", buttonName];
     }
 
-    SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil iconName:nil];
-    [self.sdlManager sendRPC:alert];
+    [AlertManager sendAlertWithManager:self.sdlManager image:nil textField1:alertMessage textField2:nil];
 }
 
 + (NSArray<SDLButtonName> *)sdlex_allPresetButtons {

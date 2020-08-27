@@ -30,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized with dictonary", ^ {
         NSDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
                                                            @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNameMenuId:@4345645,
+                                                                 @{SDLRPCParameterNameMenuID:@4345645,
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameShowAppMenu}} mutableCopy];
 #pragma clang diagnostic push

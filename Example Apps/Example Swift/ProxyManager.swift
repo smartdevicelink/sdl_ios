@@ -255,7 +255,7 @@ private extension ProxyManager {
         sdlManager.send(setDisplayLayout)
 
         updateScreen()
-        sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons(with: sdlManager)
+        sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons()
     }
 
     /// Update the UI's textfields, images and soft buttons

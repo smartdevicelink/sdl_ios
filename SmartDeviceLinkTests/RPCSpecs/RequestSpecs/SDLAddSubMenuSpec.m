@@ -69,7 +69,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSDictionary *dict = @{SDLRPCParameterNameRequest:
                                                            @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNameMenuId: @(menuId),
+                                                                 @{SDLRPCParameterNameMenuID: @(menuId),
                                                                    SDLRPCParameterNamePosition: @(position),
                                                                    SDLRPCParameterNameMenuName: menuName,
                                                                    SDLRPCParameterNameMenuIcon: @{
