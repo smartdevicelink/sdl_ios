@@ -488,6 +488,7 @@
 		4A8BD3A624F9485B000945E3 /* SDLVideoStreamingState.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD3A424F9485A000945E3 /* SDLVideoStreamingState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD3A924F948CF000945E3 /* SDLDeleteFileOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD3A724F948CE000945E3 /* SDLDeleteFileOperation.h */; };
 		4A8BD3AA24F948CF000945E3 /* SDLDeleteFileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3A824F948CF000945E3 /* SDLDeleteFileOperation.m */; };
+		4A8BD3AC24F98602000945E3 /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD3AB24F98602000945E3 /* NSNumber+NumberType.h */; };
 		4ABB24BA24F592620061BF55 /* NSMutableArray+Safe.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */; };
 		4ABB24BB24F592620061BF55 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */; };
 		4ABB24BC24F592620061BF55 /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */; };
@@ -496,7 +497,6 @@
 		4ABB24BF24F592620061BF55 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B724F592620061BF55 /* NSMapTable+Subscripting.m */; };
 		4ABB24C024F592620061BF55 /* NSMutableDictionary+SafeRemove.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B824F592620061BF55 /* NSMutableDictionary+SafeRemove.h */; };
 		4ABB24C124F592620061BF55 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B924F592620061BF55 /* NSMapTable+Subscripting.h */; };
-		4ABB24C324F5927C0061BF55 /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24C224F5927C0061BF55 /* NSNumber+NumberType.h */; };
 		4ABB24C624F592900061BF55 /* SDLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24C424F592900061BF55 /* SDLError.h */; };
 		4ABB24C724F592900061BF55 /* SDLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24C524F592900061BF55 /* SDLError.m */; };
 		4ABB24C924F593090061BF55 /* SDLStreamingProtocolDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24C824F593090061BF55 /* SDLStreamingProtocolDelegate.h */; };
@@ -2257,6 +2257,7 @@
 		4A8BD3A424F9485A000945E3 /* SDLVideoStreamingState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLVideoStreamingState.h; path = public/SDLVideoStreamingState.h; sourceTree = "<group>"; };
 		4A8BD3A724F948CE000945E3 /* SDLDeleteFileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLDeleteFileOperation.h; path = private/SDLDeleteFileOperation.h; sourceTree = "<group>"; };
 		4A8BD3A824F948CF000945E3 /* SDLDeleteFileOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDeleteFileOperation.m; path = private/SDLDeleteFileOperation.m; sourceTree = "<group>"; };
+		4A8BD3AB24F98602000945E3 /* NSNumber+NumberType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNumber+NumberType.h"; path = "public/NSNumber+NumberType.h"; sourceTree = "<group>"; };
 		4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Safe.h"; path = "private/NSMutableArray+Safe.h"; sourceTree = "<group>"; };
 		4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Safe.m"; path = "private/NSMutableArray+Safe.m"; sourceTree = "<group>"; };
 		4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+SDLBundle.m"; path = "private/NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
@@ -2265,7 +2266,6 @@
 		4ABB24B724F592620061BF55 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMapTable+Subscripting.m"; path = "private/NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
 		4ABB24B824F592620061BF55 /* NSMutableDictionary+SafeRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+SafeRemove.h"; path = "private/NSMutableDictionary+SafeRemove.h"; sourceTree = "<group>"; };
 		4ABB24B924F592620061BF55 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMapTable+Subscripting.h"; path = "private/NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
-		4ABB24C224F5927C0061BF55 /* NSNumber+NumberType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNumber+NumberType.h"; path = "private/NSNumber+NumberType.h"; sourceTree = "<group>"; };
 		4ABB24C424F592900061BF55 /* SDLError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLError.h; path = private/SDLError.h; sourceTree = "<group>"; };
 		4ABB24C524F592900061BF55 /* SDLError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLError.m; path = private/SDLError.m; sourceTree = "<group>"; };
 		4ABB24C824F593090061BF55 /* SDLStreamingProtocolDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLStreamingProtocolDelegate.h; path = private/SDLStreamingProtocolDelegate.h; sourceTree = "<group>"; };
@@ -3153,7 +3153,6 @@
 		5D0A9F9B1F1565EB00CC80DD /* SDLGetSystemCapabilityResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGetSystemCapabilityResponseSpec.m; sourceTree = "<group>"; };
 		5D1654551D3E754F00554D93 /* SDLLifecycleManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleManagerSpec.m; path = DevAPISpecs/SDLLifecycleManagerSpec.m; sourceTree = "<group>"; };
 		5D1665A01CF5D5DA00CC4CA1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
-		5D1665A11CF5D5DA00CC4CA1 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = SOURCE_ROOT; };
 		5D1665A21CF5D5DA00CC4CA1 /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = SOURCE_ROOT; };
 		5D1665A31CF5D5DA00CC4CA1 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		5D1665A41CF5D5DA00CC4CA1 /* DEPENDENCIES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DEPENDENCIES.md; sourceTree = SOURCE_ROOT; };
@@ -5562,7 +5561,6 @@
 				5D5934F01A85161A00687FB9 /* Transport */,
 				5D61FA201A84237100846EE7 /* SmartDeviceLink.h */,
 				5D1665A01CF5D5DA00CC4CA1 /* .gitignore */,
-				5D1665A11CF5D5DA00CC4CA1 /* .travis.yml */,
 				5D1665A21CF5D5DA00CC4CA1 /* Cartfile.private */,
 				5D1665A31CF5D5DA00CC4CA1 /* CHANGELOG.md */,
 				5D1665A41CF5D5DA00CC4CA1 /* DEPENDENCIES.md */,
@@ -5941,7 +5939,7 @@
 				4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */,
 				4ABB24B824F592620061BF55 /* NSMutableDictionary+SafeRemove.h */,
 				4ABB24B524F592620061BF55 /* NSMutableDictionary+SafeRemove.m */,
-				4ABB24C224F5927C0061BF55 /* NSNumber+NumberType.h */,
+				4A8BD3AB24F98602000945E3 /* NSNumber+NumberType.h */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -6923,10 +6921,10 @@
 				4A8BD2BA24F935BC000945E3 /* SDLSyncMsgVersion.h in Headers */,
 				4ABB25FC24F7E8E10061BF55 /* SDLStreamingVideoScaleManager.h in Headers */,
 				4A8BD2F324F93872000945E3 /* SDLVehicleDataResult.h in Headers */,
+				4A8BD3AC24F98602000945E3 /* NSNumber+NumberType.h in Headers */,
 				4A8BD29A24F93534000945E3 /* SDLSeatControlCapabilities.h in Headers */,
 				4ABB274D24F7FD9C0061BF55 /* SDLEmergencyEventType.h in Headers */,
 				4ABB2AC024F848050061BF55 /* SDLSpeakResponse.h in Headers */,
-				4ABB24C324F5927C0061BF55 /* NSNumber+NumberType.h in Headers */,
 				4A8BD23B24F93135000945E3 /* SDLMassageCushionFirmness.h in Headers */,
 				4ABB2B1924F84D950061BF55 /* SDLAppServiceCapability.h in Headers */,
 				4ABB280124F823F20061BF55 /* SDLResult.h in Headers */,
@@ -8887,7 +8885,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
@@ -8903,7 +8901,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
@@ -8945,7 +8943,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				INFOPLIST_FILE = SmartDeviceLink/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 6.7.0;
@@ -8990,7 +8988,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				INFOPLIST_FILE = SmartDeviceLink/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 6.7.0;
@@ -9150,7 +9148,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				INFOPLIST_FILE = SmartDeviceLinkSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 6.6.0;
@@ -9200,7 +9198,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				INFOPLIST_FILE = SmartDeviceLinkSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 6.6.0;
