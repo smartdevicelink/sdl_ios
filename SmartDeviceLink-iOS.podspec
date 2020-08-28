@@ -457,6 +457,8 @@ s.public_header_files = [
 'SmartDeviceLink/SDLWeatherServiceManifest.h',
 'SmartDeviceLink/SDLWiperStatus.h',
 'SmartDeviceLink/SDLWindowCapability.h',
+'SmartDeviceLink/SDLWindowState.h',
+'SmartDeviceLink/SDLWindowStatus.h',
 'SmartDeviceLink/SDLWindowType.h',
 'SmartDeviceLink/SDLWindowTypeCapabilities.h',
 'SmartDeviceLink/SmartDeviceLink.h',

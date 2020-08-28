@@ -17,7 +17,6 @@ QuickSpecBegin(SDLSubscribeVehicleDataSpec)
 describe(@"getter/setter tests", ^{
     context(@"init and assign", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
-
         testRequest.accPedalPosition = @YES;
         testRequest.airbagStatus = @YES;
         testRequest.beltStatus = @YES;
@@ -54,6 +53,7 @@ describe(@"getter/setter tests", ^{
         testRequest.steeringWheelAngle = @YES;
         testRequest.tirePressure = @YES;
         testRequest.turnSignal = @YES;
+        testRequest.windowStatus = @YES;
         testRequest.wiperStatus = @YES;
 
         it(@"expect all properties to be set properly", ^{
@@ -88,11 +88,13 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.prndl).to(equal(@YES));
 #pragma clang diagnostic pop
+            expect(testRequest.gearStatus).to(equal(@YES));
             expect(testRequest.rpm).to(equal(@YES));
             expect(testRequest.speed).to(equal(@YES));
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
+            expect(testRequest.windowStatus).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
         });
     });
@@ -136,6 +138,7 @@ describe(@"getter/setter tests", ^{
                                                             SDLRPCParameterNameSteeringWheelAngle:@YES,
                                                             SDLRPCParameterNameTirePressure:@YES,
                                                             SDLRPCParameterNameTurnSignal:@YES,
+                                                            SDLRPCParameterNameWindowStatus:@YES,
                                                             SDLRPCParameterNameWiperStatus:@YES,
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
@@ -176,17 +179,19 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testRequest.prndl).to(equal(@YES));
 #pragma clang diagnostic pop
+            expect(testRequest.gearStatus).to(equal(@YES));
             expect(testRequest.rpm).to(equal(@YES));
             expect(testRequest.speed).to(equal(@YES));
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
+            expect(testRequest.windowStatus).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
         });
     });
 });
 
-describe(@"initializers", ^{
+describe(@"test initializers", ^{
     context(@"init", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
@@ -227,6 +232,7 @@ describe(@"initializers", ^{
             expect(testRequest.steeringWheelAngle).to(beNil());
             expect(testRequest.tirePressure).to(beNil());
             expect(testRequest.turnSignal).to(beNil());
+            expect(testRequest.windowStatus).to(beNil());
             expect(testRequest.wiperStatus).to(beNil());
         });
     });
@@ -274,6 +280,7 @@ describe(@"initializers", ^{
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
+            expect(testRequest.windowStatus).to(beNil());
             expect(testRequest.wiperStatus).to(equal(@YES));
         });
     });
@@ -321,12 +328,13 @@ describe(@"initializers", ^{
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(beNil());
+            expect(testRequest.windowStatus).to(beNil());
             expect(testRequest.wiperStatus).to(equal(@YES));
         });
     });
 
-    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:", ^{
-        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES gearStatus:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES];
+    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:windowStatus:", ^{
+        SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES gearStatus:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES windowStatus:@YES];
 
         it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));
@@ -365,6 +373,7 @@ describe(@"initializers", ^{
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
+            expect(testRequest.windowStatus).to(equal(@YES));
             expect(testRequest.wiperStatus).to(equal(@YES));
         });
     });
