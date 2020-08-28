@@ -90,7 +90,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should not send any text", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(beEmpty());
                     expect(testOp.currentScreenData.mainField2).to(beEmpty());
@@ -157,7 +157,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should concatenate the strings into one line", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
                     expect(testOp.currentScreenData.mainField2).to(beEmpty());
@@ -188,7 +188,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should concatenate the strings into one line", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", field1String, field2String, field3String]));
                     expect(testOp.currentScreenData.mainField2).to(beEmpty());
@@ -220,7 +220,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should concatenate the strings into one line", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@ - %@", field1String, field2String, field3String, field4String]));
                     expect(testOp.currentScreenData.mainField2).to(beEmpty());
@@ -287,7 +287,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should send two lines of text", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
@@ -318,7 +318,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should concatenate the strings into two lines", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field3String]));
@@ -350,7 +350,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should concatenate the strings into two lines", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@ - %@", field3String, field4String]));
@@ -417,7 +417,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should send two lines of text", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
@@ -448,7 +448,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should send three lines of text", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
@@ -480,7 +480,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should concatenate the strings into three lines", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
@@ -547,7 +547,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should send two lines of text", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
@@ -578,7 +578,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should send three lines text", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
@@ -610,7 +610,7 @@ describe(@"the text and graphic operation", ^{
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
-                it(@"should only send one line of text", ^{
+                it(@"should send four lines of text", ^{
                     expect(testOp.isFinished).to(beTrue());
                     expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
                     expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
@@ -698,8 +698,8 @@ describe(@"the text and graphic operation", ^{
                 OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
             });
 
-            // when only graphic is supported
-            context(@"when only graphic is supported", ^{
+            // when only the primary graphic is supported
+            context(@"when only the primary graphic is supported", ^{
                 beforeEach(^{
                     windowCapability.imageFields = @[fieldGraphic];
 
