@@ -10,9 +10,11 @@
 
 #import "SDLArtwork.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLTextAndGraphicState
 
-- (instancetype)initWithTextField1:(NSString *)textField1 textField2:(NSString *)textField2 textField3:(NSString *)textField3 textField4:(NSString *)textField4 mediaText:(NSString *)mediaTrackTextField title:(NSString *)title primaryGraphic:(SDLArtwork *)primaryGraphic secondaryGraphic:(SDLArtwork *)secondaryGraphic alignment:(SDLTextAlignment)alignment textField1Type:(SDLMetadataType)textField1Type textField2Type:(SDLMetadataType)textField2Type textField3Type:(SDLMetadataType)textField3Type textField4Type:(SDLMetadataType)textField4Type {
+- (instancetype)initWithTextField1:(nullable NSString *)textField1 textField2:(nullable NSString *)textField2 textField3:(nullable NSString *)textField3 textField4:(nullable NSString *)textField4 mediaText:(nullable NSString *)mediaTrackTextField title:(nullable NSString *)title primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic alignment:(nullable SDLTextAlignment)alignment textField1Type:(nullable SDLMetadataType)textField1Type textField2Type:(nullable SDLMetadataType)textField2Type textField3Type:(nullable SDLMetadataType)textField3Type textField4Type:(nullable SDLMetadataType)textField4Type {
     self = [self init];
     if (!self) { return nil; }
 
@@ -42,3 +44,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

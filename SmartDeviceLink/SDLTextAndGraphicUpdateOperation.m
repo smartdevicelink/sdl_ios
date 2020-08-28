@@ -12,13 +12,17 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLMetadataTags.h"
 #import "SDLShow.h"
 #import "SDLTextAndGraphicState.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTextAndGraphicUpdateOperation ()
 
@@ -436,8 +440,12 @@
     BOOL graphicMatchesExisting = [self.currentScreenData.secondaryGraphic.value isEqualToString:self.updatedState.secondaryGraphic.name];
     BOOL graphicExists = (self.updatedState.secondaryGraphic != nil);
 
-    // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
-    return (templateSupportsSecondaryArtwork && !graphicMatchesExisting && graphicExists);
+    // Cannot detect if there is a secondary image below v5.0, so we'll just try to detect if the primary image is allowed and allow the secondary image if it is.
+    if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]) {
+        return (templateSupportsSecondaryArtwork && !graphicMatchesExisting && graphicExists);
+    } else {
+        return [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic];
+    }
 }
 
 - (BOOL)sdl_shouldUpdateMediaTextField {
@@ -454,16 +462,6 @@
     (self.updatedState.textField2.length > 0) ? [array addObject:self.updatedState.textField2] : nil;
     (self.updatedState.textField3.length > 0) ? [array addObject:self.updatedState.textField3] : nil;
     (self.updatedState.textField4.length > 0) ? [array addObject:self.updatedState.textField4] : nil;
-
-    return [array copy];
-}
-
-- (NSArray<SDLMetadataType> *)sdl_findNonNilMetadataFields {
-    NSMutableArray *array = [NSMutableArray array];
-    (self.updatedState.textField1Type.length) > 0 ? [array addObject:self.updatedState.textField1Type] : nil;
-    (self.updatedState.textField2Type.length) > 0 ? [array addObject:self.updatedState.textField2Type] : nil;
-    (self.updatedState.textField3Type.length) > 0 ? [array addObject:self.updatedState.textField3Type] : nil;
-    (self.updatedState.textField4Type.length) > 0 ? [array addObject:self.updatedState.textField4Type] : nil;
 
     return [array copy];
 }
@@ -491,3 +489,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
