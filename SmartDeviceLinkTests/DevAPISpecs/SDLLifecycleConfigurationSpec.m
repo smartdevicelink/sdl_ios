@@ -29,7 +29,6 @@ QuickSpecBegin(SDLLifecycleConfigurationSpec)
 describe(@"A lifecycle configuration", ^{
     __block SDLLifecycleConfiguration *testConfig = nil;
     __block NSString *testAppName = @"An App Name";
-    __block NSString *testAppId = @"00542596";
     __block NSString *testFullAppId = @"-ab--987-adfa651kj-212346h3kjkaju";
     __block NSString *expectedGeneratedAppId = @"ab987adfa6";
     __block SDLVersion *baseVersion = nil;

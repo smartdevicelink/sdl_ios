@@ -32,16 +32,22 @@ static NSUInteger const AppIdCharacterCount = 10;
 #pragma mark Lifecycle
 
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId appId:fullAppId];
+    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId];
 }
 
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId appId:fullAppId ipAddress:ipAddress port:port];
+    SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId];
+
+    config.tcpDebugMode = YES;
+    config.tcpDebugIPAddress = ipAddress;
+    config.tcpDebugPort = port;
+
+    return config;
 }
 
 #pragma mark Initalization Helpers
 
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(nullable NSString *)fullAppId appId:(NSString *)appId  {
+- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
     self = [super init];
     if (!self) {
         return nil;
@@ -64,19 +70,9 @@ static NSUInteger const AppIdCharacterCount = 10;
     _allowedSecondaryTransports = SDLSecondaryTransportsTCP;
 
     _fullAppId = fullAppId;
-    _appId = fullAppId != nil ? [self.class sdlex_shortAppIdFromFullAppId:fullAppId] : appId;
+    _appId = [self.class sdlex_shortAppIdFromFullAppId:fullAppId];
 
     return self;
-}
-
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(nullable NSString *)fullAppId appId:(nullable NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    SDLLifecycleConfiguration *config = [self initDefaultConfigurationWithAppName:appName fullAppId:fullAppId appId:appId];
-
-    config.tcpDebugMode = YES;
-    config.tcpDebugIPAddress = ipAddress;
-    config.tcpDebugPort = port;
-
-    return config;
 }
 
 #pragma mark - Computed Properties
@@ -135,7 +131,8 @@ static NSUInteger const AppIdCharacterCount = 10;
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName fullAppId:_fullAppId appId:_appId];
+    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName fullAppId:_fullAppId];
+    newConfig->_appId = _appId;
     newConfig->_tcpDebugMode = _tcpDebugMode;
     newConfig->_tcpDebugIPAddress = _tcpDebugIPAddress;
     newConfig->_tcpDebugPort = _tcpDebugPort;
