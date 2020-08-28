@@ -118,6 +118,8 @@ NS_ASSUME_NONNULL_BEGIN
                          @32786: SDLRPCFunctionNameOnAppServiceData,
                          @32787: SDLRPCFunctionNameOnSystemCapabilityUpdated,
                          @32788: SDLRPCFunctionNameOnSubtleAlertPressed,
+                         @32789: SDLRPCFunctionNameOnUpdateFile,
+                         @32790: SDLRPCFunctionNameOnUpdateSubMenu,
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                          @65536: SDLRPCFunctionNameEncodedSyncPData,

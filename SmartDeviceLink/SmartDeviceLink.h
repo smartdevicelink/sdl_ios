@@ -9,8 +9,8 @@ FOUNDATION_EXPORT double SmartDeviceLinkVersionNumber;
 /// Project version string for SmartDeviceLink.
 FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
-/***** RPCs *****/
-// Superclasses
+#pragma mark - RPCs
+#pragma mark Superclasses
 #import "SDLEnum.h"
 #import "SDLRPCMessage.h"
 #import "SDLRPCNotification.h"
@@ -18,7 +18,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLRPCResponse.h"
 #import "SDLRPCStruct.h"
 
-// Requests
+#pragma mark Requests
 #import "SDLAddCommand.h"
 #import "SDLAddSubMenu.h"
 #import "SDLAlert.h"
@@ -84,7 +84,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLUnsubscribeWayPoints.h"
 #import "SDLUpdateTurnList.h"
 
-// Responses
+#pragma mark Responses
 #import "SDLAddCommandResponse.h"
 #import "SDLAddSubMenuResponse.h"
 #import "SDLAlertManeuverResponse.h"
@@ -142,6 +142,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSubscribeWayPointsResponse.h"
 #import "SDLSubtleAlertResponse.h"
 #import "SDLSyncPDataResponse.h"
+#import "SDLSystemRequestResponse.h"
 #import "SDLUnpublishAppServiceResponse.h"
 #import "SDLReleaseInteriorVehicleDataModuleResponse.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
@@ -150,7 +151,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLUnsubscribeWayPointsResponse.h"
 #import "SDLUpdateTurnListResponse.h"
 
-// Notifications
+#pragma mark Notifications
 #import "SDLOnAppInterfaceUnregistered.h"
 #import "SDLOnAppServiceData.h"
 #import "SDLOnAudioPassThru.h"
@@ -173,10 +174,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnSystemRequest.h"
 #import "SDLOnTBTClientState.h"
 #import "SDLOnTouchEvent.h"
+#import "SDLOnUpdateFile.h"
+#import "SDLOnUpdateSubMenu.h"
 #import "SDLOnVehicleData.h"
 #import "SDLOnWayPointChange.h"
 
-// Structs
+#pragma mark Structs
 #import "SDLAirbagStatus.h"
 #import "SDLAppInfo.h"
 #import "SDLAppServiceCapability.h"
@@ -201,6 +204,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLDeviceStatus.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapability.h"
+#import "SDLDynamicUpdateCapabilities.h"
 #import "SDLDriverDistractionCapability.h"
 #import "SDLECallInfo.h"
 #import "SDLEmergencyEvent.h"
@@ -287,7 +291,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWindowCapability.h"
 #import "SDLWindowTypeCapabilities.h"
 
-// Enums
+#pragma mark Enums
 #import "SDLAmbientLightStatus.h"
 #import "SDLAppHMIType.h"
 #import "SDLAppInterfaceUnregisteredReason.h"
@@ -396,8 +400,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWindowType.h"
 #import "SDLWiperStatus.h"
 
-// Developer API
-// Configurations
+#pragma mark - Developer API
+#pragma mark Configurations
 #import "SDLConfiguration.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLFileManagerConfiguration.h"
@@ -406,11 +410,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLockScreenConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
 
-// Encryption
+#pragma mark Encryption
 #import "SDLProtocolConstants.h"
 #import "SDLServiceEncryptionDelegate.h"
 
-// Streaming
+#pragma mark Streaming
 #import "SDLAudioFile.h"
 #import "SDLAudioStreamManager.h"
 #import "SDLAudioStreamManagerDelegate.h"
@@ -423,29 +427,29 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingVideoScaleManager.h"
 
-// Files
+#pragma mark Files
 #import "SDLArtwork.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConstants.h"
 
-// Lockscreen
+#pragma mark Lockscreen
 #import "SDLLockScreenViewController.h"
 
-// Lifecycle
+#pragma mark Lifecycle
 #import "SDLManager.h"
 #import "SDLManagerDelegate.h"
 
-// System Capabilities
+#pragma mark System Capabilities
 #import "SDLSystemCapabilityManager.h"
 
-// Permissions
+#pragma mark Permissions
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionElement.h"
 #import "SDLRPCPermissionStatus.h"
 #import "SDLPermissionManager.h"
 
-// Screen
+#pragma mark Screen
 #import "SDLScreenManager.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
@@ -459,11 +463,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLChoiceSetDelegate.h"
 #import "SDLKeyboardDelegate.h"
 
-// Touches
+#pragma mark Touches
 #import "SDLPinchGesture.h"
 #import "SDLTouch.h"
 
-// Utilities
+#pragma mark - Utilities
 #import "NSNumber+NumberType.h"
 #import "SDLErrorConstants.h"
 #import "SDLFunctionID.h"
@@ -472,12 +476,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLStreamingMediaManagerConstants.h"
 #import "SDLVersion.h"
 
-// Notifications
+#pragma mark Notifications
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLRPCRequestNotification.h"
 
-// Logger
+#pragma mark Logger
 #import "SDLLogConstants.h"
 #import "SDLLogConfiguration.h"
 #import "SDLLogFileModule.h"
@@ -489,5 +493,5 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLogTargetFile.h"
 #import "SDLLogTargetOSLog.h"
 
-// Macros
+#pragma mark Macros
 #import "SDLMacros.h"
