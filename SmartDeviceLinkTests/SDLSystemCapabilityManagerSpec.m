@@ -829,16 +829,16 @@ describe(@"System capability manager", ^{
 
         describe(@"when sending the merge update", ^{
             it(@"should correctly merge", ^{
-                deleteCapability.updateReason = SDLServiceUpdateRemoved;
+                deleteCapability.updateReason = SDLServiceUpdateReasonRemoved;
                 deleteCapability.updatedAppServiceRecord.servicePublished = @NO;
                 deleteCapability.updatedAppServiceRecord.serviceActive = @NO;
 
-                updateCapability.updateReason = SDLServiceUpdateActivated;
+                updateCapability.updateReason = SDLServiceUpdateReasonActivated;
                 updateCapability.updatedAppServiceRecord.serviceActive = @YES;
 
                 SDLAppServiceManifest *newCapabilityManifest = [[SDLAppServiceManifest alloc] initWithMediaServiceName:@"New me" serviceIcon:nil allowAppConsumers:YES maxRPCSpecVersion:nil handledRPCs:nil mediaServiceManifest:[[SDLMediaServiceManifest alloc] init]];
                 SDLAppServiceRecord *newCapabilityRecord = [[SDLAppServiceRecord alloc] initWithServiceID:@"3456" serviceManifest:newCapabilityManifest servicePublished:YES serviceActive:NO];
-                newCapability = [[SDLAppServiceCapability alloc] initWithUpdateReason:SDLServiceUpdatePublished updatedAppServiceRecord:newCapabilityRecord];
+                newCapability = [[SDLAppServiceCapability alloc] initWithUpdateReason:SDLServiceUpdateReasonPublished updatedAppServiceRecord:newCapabilityRecord];
 
                 SDLAppServicesCapabilities *appServicesUpdate = [[SDLAppServicesCapabilities alloc] initWithAppServices:@[deleteCapability, updateCapability, newCapability]];
                 SDLSystemCapability *appServiceCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:appServicesUpdate];
@@ -852,10 +852,10 @@ describe(@"System capability manager", ^{
                 SDLAppServiceCapability *firstCapability = testSystemCapabilityManager.appServicesCapabilities.appServices.firstObject;
                 SDLAppServiceCapability *secondCapability = testSystemCapabilityManager.appServicesCapabilities.appServices.lastObject;
 
-                expect(firstCapability.updateReason).to(equal(SDLServiceUpdatePublished));
+                expect(firstCapability.updateReason).to(equal(SDLServiceUpdateReasonPublished));
                 expect(firstCapability.updatedAppServiceRecord.serviceID).to(equal(@"3456"));
 
-                expect(secondCapability.updateReason).to(equal(SDLServiceUpdateActivated));
+                expect(secondCapability.updateReason).to(equal(SDLServiceUpdateReasonActivated));
                 expect(secondCapability.updatedAppServiceRecord.serviceID).to(equal(@"2345"));
                 expect(secondCapability.updatedAppServiceRecord.serviceActive).to(beTrue());
             });

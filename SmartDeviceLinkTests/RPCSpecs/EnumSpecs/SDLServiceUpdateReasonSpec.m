@@ -15,11 +15,11 @@ QuickSpecBegin(SDLServiceUpdateReasonSpec)
 
 describe(@"Individual Enum Value Tests", ^{
     it(@"Should match internal values", ^{
-        expect(SDLServiceUpdatePublished).to(equal(@"PUBLISHED"));
-        expect(SDLServiceUpdateRemoved).to(equal(@"REMOVED"));
-        expect(SDLServiceUpdateActivated).to(equal(@"ACTIVATED"));
-        expect(SDLServiceUpdateDeactivated).to(equal(@"DEACTIVATED"));
-        expect(SDLServiceUpdateManifestUpdate).to(equal(@"MANIFEST_UPDATE"));
+        expect(SDLServiceUpdateReasonPublished).to(equal(@"PUBLISHED"));
+        expect(SDLServiceUpdateReasonRemoved).to(equal(@"REMOVED"));
+        expect(SDLServiceUpdateReasonActivated).to(equal(@"ACTIVATED"));
+        expect(SDLServiceUpdateReasonDeactivated).to(equal(@"DEACTIVATED"));
+        expect(SDLServiceUpdateReasonManifestUpdate).to(equal(@"MANIFEST_UPDATE"));
     });
 });
 

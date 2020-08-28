@@ -472,7 +472,7 @@ typedef NSString * SDLServiceID;
     SDLLogV(@"Saving app services capability update with new capabilities: %@", newCapabilities);
     for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
         // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
-        SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
+        SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateReasonRemoved] ? nil : capability;
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newCapability;
         }];
