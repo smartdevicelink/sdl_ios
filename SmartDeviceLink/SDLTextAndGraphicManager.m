@@ -131,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
     return queue;
 }
 
-/// Suspend the queue if the soft button capabilities are nil (we assume that soft buttons are not supported)
+/// Suspend the queue if the window capabilities are nil (we assume that text and graphics are not supported yet)
 /// OR if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
 - (void)sdl_updateTransactionQueueSuspended {
     if (self.windowCapability == nil || [self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
@@ -340,7 +340,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Auto-send an updated show
     if ([self sdl_hasData]) {
-        [self updateWithCompletionHandler:nil];
+        [self sdl_updateWithCompletionHandler:nil];
     }
 }
 
@@ -351,14 +351,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLHMILevel oldLevel = self.currentLevel;
     self.currentLevel = hmiStatus.hmiLevel;
     [self sdl_updateTransactionQueueSuspended];
-
-    // Auto-send an updated show if we were in NONE and now we are not
-    if ([oldLevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone] && self.waitingOnHMILevelUpdateToUpdate) {
-        [self sdl_updateWithCompletionHandler:nil];
-    }
 }
 
 @end
