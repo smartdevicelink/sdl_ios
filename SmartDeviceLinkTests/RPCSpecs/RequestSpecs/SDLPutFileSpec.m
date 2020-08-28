@@ -44,7 +44,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get and set correctly when initialized", ^ {
-        NSMutableDictionary *dict = @{SDLRPCParameterNameRequest:
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:
                                           @{SDLRPCParameterNameParameters:
                                                 @{ SDLRPCParameterNameSyncFileName:@"fileName",
                                                    SDLRPCParameterNameFileType:SDLFileTypeJPEG,
