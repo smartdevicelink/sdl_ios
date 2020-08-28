@@ -165,8 +165,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *driverBraking;
 
 /**
- The result of requesting to unsubscribe to the status of the window.
-*/
+ * See WindowStatus
+ *
+ * @since SDL 7.0
+ */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *windowStatus;
 
 /**

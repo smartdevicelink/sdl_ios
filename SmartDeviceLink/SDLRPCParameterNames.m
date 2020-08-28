@@ -763,7 +763,6 @@ SDLRPCParameterName const SDLRPCParameterNameWiperStatus = @"wiperStatus";
 SDLRPCParameterName const SDLRPCParameterNameWindowCapabilities = @"windowCapabilities";
 SDLRPCParameterName const SDLRPCParameterNameWindowId = @"windowID";
 SDLRPCParameterName const SDLRPCParameterNameWindowName = @"windowName";
-SDLRPCParameterName const SDLRPCParameterNameWindowState = @"windowState";
 SDLRPCParameterName const SDLRPCParameterNameWindowStatus = @"windowStatus";
 SDLRPCParameterName const SDLRPCParameterNameWindowTypeSupported = @"windowTypeSupported";
 SDLRPCParameterName const SDLRPCParameterNameX = @"x";

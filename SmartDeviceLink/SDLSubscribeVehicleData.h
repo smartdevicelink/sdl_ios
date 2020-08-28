@@ -243,8 +243,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *driverBraking;
 
 /**
- * A boolean value. If true, subscribes Window Status data.
-*/
+ * See WindowStatus
+ *
+ * @since SDL 7.0
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *windowStatus;
 
 /**

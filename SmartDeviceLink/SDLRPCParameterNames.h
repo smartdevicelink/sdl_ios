@@ -768,7 +768,6 @@ extern SDLRPCParameterName const SDLRPCParameterNameWiperStatus;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowCapabilities;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowId;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowName;
-extern SDLRPCParameterName const SDLRPCParameterNameWindowState;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowStatus;
 extern SDLRPCParameterName const SDLRPCParameterNameWindowTypeSupported;
 extern SDLRPCParameterName const SDLRPCParameterNameX;

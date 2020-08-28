@@ -167,6 +167,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * See WindowStatus
+ * {"array_min_size": 0, "array_max_size": 100}
+ *
+ * @since SDL 7.0
  */
 @property (strong, nonatomic, nullable) NSArray<SDLWindowStatus *> *windowStatus;
 
