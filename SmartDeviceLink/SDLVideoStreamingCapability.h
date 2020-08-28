@@ -104,6 +104,10 @@ Convenience init for creating a video streaming capability.
 
 - (SDLImageResolution *)makeImageResolution;
 
+- (NSArray<SDLImageResolution *> *)allImageResolutionsScaled;
+
+- (NSArray<SDLImageResolution *> *)allImageResolutions;
+
 @end
 
 NS_ASSUME_NONNULL_END

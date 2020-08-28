@@ -99,6 +99,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
 }
 
+- (void)setAdditionalVideoStreamingCapabilities:(nullable NSArray <SDLVideoStreamingCapability*> *)capabilities {
+    [self.store sdl_setObject:capabilities forName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities];
+}
+
+- (nullable NSArray <SDLVideoStreamingCapability*> *)additionalVideoStreamingCapabilities {
+    NSError *error = nil;
+    return [self.store sdl_objectsForName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities ofClass:SDLVideoStreamingCapability.class error:&error];
+}
+
 // note: it does not copy .additionalVideoStreamingCapabilities
 - (instancetype)copy {
     return [[self.class alloc] initWithPreferredResolution:self.preferredResolution maxBitrate:self.maxBitrate supportedFormats:self.supportedFormats hapticDataSupported:self.hapticSpatialDataSupported diagonalScreenSize:self.diagonalScreenSize ppi:self.pixelPerInch scale:self.scale];
@@ -118,6 +127,34 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLImageResolution *)makeImageResolution {
     const CGSize size = [SDLStreamingVideoScaleManager scale:self.scale.floatValue size:self.preferredResolution.makeSize];
     return [[SDLImageResolution alloc] initWithWidth:(uint16_t)size.width height:(uint16_t)size.height];
+}
+
+- (NSArray<SDLImageResolution *> *)allImageResolutions {
+    NSMutableArray<SDLImageResolution *> *resolutions = [NSMutableArray arrayWithCapacity:self.additionalVideoStreamingCapabilities.count + 1];
+    if (self.preferredResolution) {
+        [resolutions addObject:self.preferredResolution];
+    }
+    for (SDLVideoStreamingCapability *nextCapability in self.additionalVideoStreamingCapabilities) {
+        if (nextCapability.preferredResolution) {
+            [resolutions addObject:nextCapability.preferredResolution];
+        }
+    }
+    return resolutions;
+}
+
+- (NSArray<SDLImageResolution *> *)allImageResolutionsScaled {
+    NSMutableArray<SDLImageResolution *> *resolutions = [NSMutableArray arrayWithCapacity:self.additionalVideoStreamingCapabilities.count + 1];
+    SDLImageResolution *imgResolution = [self makeImageResolution];
+    if (imgResolution) {
+        [resolutions addObject:imgResolution];
+    }
+    for (SDLVideoStreamingCapability *nextCapability in self.additionalVideoStreamingCapabilities) {
+        SDLImageResolution *imgResolution = [nextCapability makeImageResolution];
+        if (imgResolution) {
+            [resolutions addObject:imgResolution];
+        }
+    }
+    return resolutions;
 }
 
 

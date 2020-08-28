@@ -85,6 +85,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic, readwrite, getter=isVideoEncrypted) BOOL videoEncrypted;
 
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapabilityUpdated;
 @property (assign, nonatomic) BOOL shouldAutoResume;
 @property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedLandscapeStreamingRange;
 @property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedPortraitStreamingRange;
@@ -392,7 +393,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoEncrypted = NO;
     _videoFormat = nil;
 
-    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self];
+    if (!self.shouldAutoResume) {
+        [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self];
+    }
 
     if (_videoEncoder != nil) {
         [_videoEncoder stop];
@@ -414,7 +417,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     if (self.shouldAutoResume) {
-        self.shouldAutoResume = NO;
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStarting];
     }
 }
@@ -422,7 +424,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamStarting {
     SDLLogD(@"Video stream starting");
 
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    if (self.shouldAutoResume && (nil != self.videoStreamingCapabilityUpdated)) {
+        //apply previously received video capabilities
+        [self sdl_applyVideoCapabilityWhileStarting:self.videoStreamingCapabilityUpdated];
+    } else {
+        [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    }
+    self.shouldAutoResume = NO;
+    self.videoStreamingCapabilityUpdated = nil;
 }
 
 - (void)didEnterStateVideoStreamReady {
@@ -498,8 +507,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (self.shouldAutoResume) {
         self.shouldAutoResume = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.videoStreamingCapability) {
-                [self sdl_applyVideoCapability:self.videoStreamingCapability];
+            SDLVideoStreamingCapability *capability = nil == self.videoStreamingCapabilityUpdated ? self.videoStreamingCapability : self.videoStreamingCapabilityUpdated;
+            if (capability) {
+                [self sdl_applyVideoCapability:capability];
             }
             [self resumeVideo];
         });
@@ -702,7 +712,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     SDLVideoStreamingCapability *videoCapability = systemCapability.videoStreamingCapability;
-//    self.videoStreamingCapability = videoCapability;
+
     if (!videoCapability) {
         SDLLogD(@"Empty video capabilities notification received");
     } else {
@@ -710,51 +720,39 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
-        [self sdl_videoCapabilityDidUpdateStarting:videoCapability];
+        [self sdl_applyVideoCapabilityWhileStarting:videoCapability];
     }
     else if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateReady]) {
-        [self sdl_videoCapabilityDidUpdateReady:videoCapability];
+        [self sdl_applyVideoCapabilityWhenStreaming:videoCapability];
     }
 }
 
 #pragma mark - Video capability logic
 
-- (void)sdl_videoCapabilityDidUpdateStarting:(nullable SDLVideoStreamingCapability *)videoCapabilityUpdated {
+- (void)sdl_applyVideoCapabilityWhileStarting:(nullable SDLVideoStreamingCapability *)videoCapabilityUpdated {
     SDLVideoStreamingCapability *videoCapability = (nil == videoCapabilityUpdated) ? [self sdl_defaultVideoCapability] : videoCapabilityUpdated;
     NSArray<SDLVideoStreamingCapability *>* capabilityMatches = [self matchVideoCapability:videoCapability];
 
-    SDLVideoStreamingCapability *matchedVideoCapability = [capabilityMatches firstObject];
-    if (!matchedVideoCapability) {
-        matchedVideoCapability = [videoCapability copy];
-        matchedVideoCapability.additionalVideoStreamingCapabilities = nil;
+    if (0 == capabilityMatches.count) {
+        // use default video capability if no match found
+        capabilityMatches = @[[self sdl_defaultVideoCapability]];
     }
 
-    SDLVideoStreamingCapability *appCapabilityMatch = [matchedVideoCapability copy];
+    SDLVideoStreamingCapability *matchedVideoCapability = capabilityMatches.firstObject;
     if (1 < capabilityMatches.count) {
         // add the remaining capabilities that match video streaming criteria
-        appCapabilityMatch.additionalVideoStreamingCapabilities = [capabilityMatches subarrayWithRange:NSMakeRange(1, capabilityMatches.count - 1)];
+        matchedVideoCapability.additionalVideoStreamingCapabilities = [capabilityMatches subarrayWithRange:NSMakeRange(1, capabilityMatches.count - 1)];
     } else {
         // add any other possible capabilities here if needed
-        appCapabilityMatch.additionalVideoStreamingCapabilities = @[];
+        matchedVideoCapability.additionalVideoStreamingCapabilities = @[];
     }
 
     // create and send SDLOnAppCapabilityUpdated notification
-    SDLAppCapability *appCapability = [[SDLAppCapability alloc] initWithVideoStreamingCapability:appCapabilityMatch];
+    SDLAppCapability *appCapability = [[SDLAppCapability alloc] initWithVideoStreamingCapability:matchedVideoCapability];
     SDLOnAppCapabilityUpdated *notification = [[SDLOnAppCapabilityUpdated alloc] initWithAppCapability:appCapability];
     [self sdl_postRPCNotification:notification];
 
     [self sdl_applyVideoCapability:matchedVideoCapability];
-
-    // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
-    for (id key in self.customEncoderSettings.keyEnumerator) {
-        self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
-    }
-
-    if (self.dataSource != nil) {
-        SDLLogV(@"Calling data source for modified preferred resolutions");
-        self.preferredResolutions = [self.dataSource resolutionFromHeadUnitPreferredResolution:self.preferredResolutions.firstObject];
-        SDLLogD(@"Got specialized video resolutions: %@", self.preferredResolutions);
-    }
 
     if (self.delegate) {
         __weak typeof(self.delegate) delegate = self.delegate;
@@ -767,7 +765,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_sendVideoStartService];
 }
 
-- (void)sdl_videoCapabilityDidUpdateReady:(nullable SDLVideoStreamingCapability *)videoCapability {
+- (void)sdl_applyVideoCapabilityWhenStreaming:(nullable SDLVideoStreamingCapability *)videoCapability {
+    self.videoStreamingCapabilityUpdated = videoCapability;
     __weak typeof(self) weakSelf = self;
     // restart video session on capability update
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -968,19 +967,30 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     self.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue; // nil capability makes NO
     self.videoScaleManager.scale = capability.scale.floatValue;
     self.videoScaleManager.displayViewportResolution = capability.preferredResolution.makeSize;
-    SDLImageResolution *resolution = self.videoScaleManager.makeScaledResolution;
 
-    // If we got a response, get the head unit's preferred formats and resolutions
-    self.preferredFormats = capability.supportedFormats;
-    self.preferredResolutions = @[resolution];
     if (capability.maxBitrate != nil) {
         const uint64_t bitrate = capability.maxBitrate.unsignedLongLongValue * 1000;
         self.videoEncoderSettings[(id)kVTCompressionPropertyKey_AverageBitRate] = @(bitrate);
     }
 
+    // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
+    for (id key in self.customEncoderSettings.keyEnumerator) {
+        self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+    }
+
+    // If we got a response, get the head unit's preferred formats and resolutions
+    NSArray<SDLImageResolution *> *resolutions = [capability allImageResolutionsScaled];
+    NSArray<SDLVideoStreamingFormat *> *supportedFormats = capability.supportedFormats;
     if (self.dataSource) {
+        SDLLogV(@"Calling data source for modified preferred resolutions");
+        self.preferredResolutions = [self.dataSource resolutionFromHeadUnitPreferredResolution:resolutions.firstObject];
+        SDLLogD(@"Got specialized video resolutions: %@", self.preferredResolutions);
+
         SDLLogV(@"Calling data source for modified preferred formats");
-        self.preferredFormats = [self.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:self.preferredFormats];
+        self.preferredFormats = [self.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:supportedFormats];
+    } else {
+        self.preferredResolutions = resolutions;
+        self.preferredFormats = supportedFormats;
     }
 
     SDLLogD(@"Got specialized video capabilites, preferred formats: %@, haptics %@", self.preferredFormats, (capability.hapticSpatialDataSupported.boolValue ? @"enabled" : @"disabled"));
@@ -1027,6 +1037,18 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (BOOL)isStreamingSupported {
     return (self.systemCapabilityManager != nil) ? [self.systemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming] : YES;
+}
+
+- (void)setPreferredResolutions:(NSArray<SDLImageResolution *> *)resolutions {
+    _preferredResolutions = resolutions;
+    _preferredResolutionIndex = 0;
+    [self didChangeValueForKey:@"preferredResolutions"];
+}
+
+- (void)setPreferredFormats:(NSArray<SDLVideoStreamingFormat *> *)formats {
+    _preferredFormats = formats;
+    _preferredFormatIndex = 0;
+    [self didChangeValueForKey:@"preferredFormats"];
 }
 
 @end

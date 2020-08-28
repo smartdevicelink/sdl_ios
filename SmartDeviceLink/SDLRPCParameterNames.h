@@ -47,6 +47,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameAcceptsWayPoints;
 extern SDLRPCParameterName const SDLRPCParameterNameAction;
 extern SDLRPCParameterName const SDLRPCParameterNameActual;
 extern SDLRPCParameterName const SDLRPCParameterNameActualGear;
+extern SDLRPCParameterName const SDLRPCParameterNameAdditionalVideoStreamingCapabilities;
 extern SDLRPCParameterName const SDLRPCParameterNameAddress;
 extern SDLRPCParameterName const SDLRPCParameterNameAddressLines;
 extern SDLRPCParameterName const SDLRPCParameterNameAdministrativeArea;

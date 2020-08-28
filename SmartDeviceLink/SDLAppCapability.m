@@ -24,20 +24,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setSystemCapabilityType:(SDLAppCapabilityType)type {
+- (void)setAppCapabilityType:(SDLAppCapabilityType)type {
     [self.store sdl_setObject:type forName:SDLRPCParameterNameAppCapabilityType];
 }
 
-- (SDLAppCapabilityType)systemCapabilityType {
+- (SDLAppCapabilityType)appCapabilityType {
     return [self.store sdl_enumForName:SDLRPCParameterNameAppCapabilityType error:NULL];
 }
 
 - (void)setVideoStreamingCapability:(nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    [self.store sdl_setObject:videoStreamingCapability forName:SDLAppCapabilityTypeVideoStreaming];
+    [self.store sdl_setObject:videoStreamingCapability forName:SDLRPCParameterNameVideoStreamingCapability];
 }
 
 - (nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    return [self.store sdl_objectForName:SDLAppCapabilityTypeVideoStreaming ofClass:SDLVideoStreamingCapability.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class error:nil];
 }
 
 @end
