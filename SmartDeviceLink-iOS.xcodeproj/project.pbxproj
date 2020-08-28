@@ -504,6 +504,7 @@
 		4A8BD3C824F998A8000945E3 /* SDLWindowStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD3C424F998A8000945E3 /* SDLWindowStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD3C924F998A8000945E3 /* SDLWindowStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3C524F998A8000945E3 /* SDLWindowStatus.m */; };
 		4A8BD3CA24F998A8000945E3 /* SDLWindowState.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3C624F998A8000945E3 /* SDLWindowState.m */; };
+		4A8BD3CD24F999BE000945E3 /* TestSubscribeButtonObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3CC24F999BE000945E3 /* TestSubscribeButtonObserver.m */; };
 		4ABB24BA24F592620061BF55 /* NSMutableArray+Safe.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */; };
 		4ABB24BB24F592620061BF55 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */; };
 		4ABB24BC24F592620061BF55 /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */; };
@@ -1624,7 +1625,6 @@
 		88B58DC922204C9E0011B063 /* SDLNavigationActionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B58DC822204C9E0011B063 /* SDLNavigationActionSpec.m */; };
 		88B848C31F45E1A600DED768 /* TestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C21F45E1A600DED768 /* TestResponse.m */; };
 		88B848C91F462E3600DED768 /* TestFileProgressResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C81F462E3600DED768 /* TestFileProgressResponse.m */; };
-		88B8657924A102AB003491AD /* TestSubscribeButtonObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B8657624A0FEB7003491AD /* TestSubscribeButtonObserver.m */; };
 		88BCEA952266592D00BB7E70 /* SDLIAPControlSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88BCEA942266592D00BB7E70 /* SDLIAPControlSessionSpec.m */; };
 		88C23E8822297C6000EA171F /* SDLRPCResponseNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C23E8722297C6000EA171F /* SDLRPCResponseNotificationSpec.m */; };
 		88C23E8A22297DE400EA171F /* SDLRPCNotificationNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C23E8922297DE400EA171F /* SDLRPCNotificationNotificationSpec.m */; };
@@ -2283,6 +2283,8 @@
 		4A8BD3C424F998A8000945E3 /* SDLWindowStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLWindowStatus.h; path = public/SDLWindowStatus.h; sourceTree = "<group>"; };
 		4A8BD3C524F998A8000945E3 /* SDLWindowStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLWindowStatus.m; path = public/SDLWindowStatus.m; sourceTree = "<group>"; };
 		4A8BD3C624F998A8000945E3 /* SDLWindowState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLWindowState.m; path = public/SDLWindowState.m; sourceTree = "<group>"; };
+		4A8BD3CB24F999BE000945E3 /* TestSubscribeButtonObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSubscribeButtonObserver.h; sourceTree = "<group>"; };
+		4A8BD3CC24F999BE000945E3 /* TestSubscribeButtonObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSubscribeButtonObserver.m; sourceTree = "<group>"; };
 		4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Safe.h"; path = "private/NSMutableArray+Safe.h"; sourceTree = "<group>"; };
 		4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Safe.m"; path = "private/NSMutableArray+Safe.m"; sourceTree = "<group>"; };
 		4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+SDLBundle.m"; path = "private/NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
@@ -3442,8 +3444,6 @@
 		88B848C21F45E1A600DED768 /* TestResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestResponse.m; sourceTree = "<group>"; };
 		88B848C71F462E3600DED768 /* TestFileProgressResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFileProgressResponse.h; sourceTree = "<group>"; };
 		88B848C81F462E3600DED768 /* TestFileProgressResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFileProgressResponse.m; sourceTree = "<group>"; };
-		88B8657524A0FEB7003491AD /* TestSubscribeButtonObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestSubscribeButtonObserver.h; path = ../SmartDeviceLink/TestSubscribeButtonObserver.h; sourceTree = "<group>"; };
-		88B8657624A0FEB7003491AD /* TestSubscribeButtonObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TestSubscribeButtonObserver.m; path = ../SmartDeviceLink/TestSubscribeButtonObserver.m; sourceTree = "<group>"; };
 		88BCEA942266592D00BB7E70 /* SDLIAPControlSessionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPControlSessionSpec.m; sourceTree = "<group>"; };
 		88C23E8522297BD500EA171F /* SDLRPCRequestNotificationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequestNotificationSpec.m; sourceTree = "<group>"; };
 		88C23E8722297C6000EA171F /* SDLRPCResponseNotificationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCResponseNotificationSpec.m; sourceTree = "<group>"; };
@@ -6059,10 +6059,10 @@
 		5DAD5F8120507DE40025624C /* Screen */ = {
 			isa = PBXGroup;
 			children = (
-				88D0E5D42478656B009469AB /* Subscribe Button */,
 				5DE35E4320CAFBEA0034BE5A /* Choice Set */,
 				5DF40B24208FA7C500DD6FDA /* Menu */,
 				5DAD5F8220507DED0025624C /* Soft Button */,
+				88D0E5D42478656B009469AB /* Subscribe Button */,
 				5DAD5F8320507DF30025624C /* Text and Graphic */,
 				5DAD5F8420507E1F0025624C /* SDLScreenManagerSpec.m */,
 			);
@@ -6640,8 +6640,8 @@
 			children = (
 				88D0E5D524786580009469AB /* SDLSubscribeButtonManagerSpec.m */,
 				88D0E5D724786770009469AB /* SDLSubscribeButtonObserverSpec.m */,
-				88B8657524A0FEB7003491AD /* TestSubscribeButtonObserver.h */,
-				88B8657624A0FEB7003491AD /* TestSubscribeButtonObserver.m */,
+				4A8BD3CB24F999BE000945E3 /* TestSubscribeButtonObserver.h */,
+				4A8BD3CC24F999BE000945E3 /* TestSubscribeButtonObserver.m */,
 			);
 			name = "Subscribe Button";
 			sourceTree = "<group>";
@@ -8243,6 +8243,7 @@
 				5D0A9F951F15585B00CC80DD /* SDLPhoneCapabilitySpec.m in Sources */,
 				1EE8C4561F38788A00FDC2CF /* SDLButtonPressSpec.m in Sources */,
 				1680B1151A9CD7AD00DBD79E /* SDLV2ProtocolHeaderSpec.m in Sources */,
+				4A8BD3CD24F999BE000945E3 /* TestSubscribeButtonObserver.m in Sources */,
 				1EE8C4541F38762E00FDC2CF /* SDLOnInteriorVehicleDataSpec.m in Sources */,
 				5DE35E4720CB0AB90034BE5A /* SDLChoiceSetSpec.m in Sources */,
 				162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */,
@@ -8328,7 +8329,6 @@
 				5D6035D5202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.m in Sources */,
 				162E83691A9BDE8B00906325 /* SDLSubscribeButtonResponseSpec.m in Sources */,
 				9FA0CFFA22DF064D009CF344 /* SDLPredefinedWindowsSpec.m in Sources */,
-				88B8657924A102AB003491AD /* TestSubscribeButtonObserver.m in Sources */,
 				5DAE06751BDEC6D600F9B498 /* SDLArtworkSpec.m in Sources */,
 				5DA23FF01F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m in Sources */,
 				162E83591A9BDE8B00906325 /* SDLListFilesResponseSpec.m in Sources */,
