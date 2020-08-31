@@ -10,6 +10,12 @@
 typedef SDLEnum SDLVehicleDataType SDL_SWIFT_ENUM;
 
 /**
+ * Vehicle Gear Status data
+ * @since SDL 7.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeGearStatus;
+
+/**
  GPS vehicle data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeGPS;
@@ -52,7 +58,7 @@ extern SDLVehicleDataType const SDLVehicleDataTypeVIN;
 /**
  Vehicle PRNDL data
  */
-extern SDLVehicleDataType const SDLVehicleDataTypePRNDL;
+extern SDLVehicleDataType const SDLVehicleDataTypePRNDL __deprecated_msg("use SDLVehicleDataTypeGearStatus instead on 7.0+ RPC version connections");
 
 /**
  Vehicle tire pressure data
@@ -176,3 +182,10 @@ extern SDLVehicleDataType const SDLVehicleDataTypeCloudAppVehicleID;
  Added in SDL 6.0
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;
+
+/**
+ * Describes the status of a window of a door/liftgate etc.
+ *
+ * @since SDL 7.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeWindowStatus;

@@ -9,20 +9,26 @@
 #import <Foundation/Foundation.h>
 
 @class SDLAlert;
+@class SDLManager;
+@class SDLSubtleAlert;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AlertManager : NSObject
 
-/**
- Creates an alert with up to two lines of text, an image, and a close button that will dismiss the alert when tapped.
+/// Sends an alert with up to two lines of text, an image, and a close button that will dismiss the alert when tapped.
+/// @param imageName The name of the image to upload
+/// @param textField1 The first line of text in the alert
+/// @param textField2 The second line of text in the alert
+/// @param sdlManager The SDLManager
++ (void)sendAlertWithManager:(SDLManager *)sdlManager image:(nullable NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2;
 
- @param textField1 The first line of the message to display in the alert
- @param textField2 The second line of the message to display in the alert
- @param iconName An image to show in the alert.
- @return An SDLAlert object
- */
-+ (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 iconName:(nullable NSString *)iconName;
+/// Sends a subtle alert with up to two lines of text, and an image.
+/// @param imageName The name of the image to upload
+/// @param textField1 The first line of text in the alert
+/// @param textField2 The second line of text in the alert
+/// @param sdlManager The SDLManager
++ (void)sendSubtleAlertWithManager:(SDLManager *)sdlManager image:(nullable NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2;
 
 @end
 

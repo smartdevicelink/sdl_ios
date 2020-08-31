@@ -60,7 +60,7 @@ class AudioManager: NSObject {
     func startRecording() {
         guard speechRecognitionAuthState == .authorized else {
             SDLLog.w("This app does not have permission to access the Speech Recognition API")
-            sdlManager.send(AlertManager.alertWithMessageAndCloseButton("You must give this app permission to access Speech Recognition"))
+            AlertManager.sendAlert(textField1: AlertSpeechPermissionsWarningText, sdlManager: sdlManager)
             return
         }
 
@@ -106,20 +106,19 @@ private extension AudioManager {
     /// Called when `PerformAudioPassThru` request times out or when a `EndAudioPassThru` request is sent
     var audioPassThruEndedHandler: SDLResponseHandler? {
         return { [weak self] (request, response, error) in
-            guard let response = response else { return }
+            guard let self = self, let response = response else { return }
 
             switch response.resultCode {
             case .success: // The `PerformAudioPassThru` timed out or the "Done" button was pressed in the pop-up.
                 SDLLog.d("Audio Pass Thru ended successfully")
-                guard let speechTranscription = self?.speechTranscription else { return }
-                self?.sdlManager.send(AlertManager.alertWithMessageAndCloseButton("You said: \(speechTranscription.isEmpty ? "No speech detected" : speechTranscription)"))
+                AlertManager.sendAlert(textField1: "You said: \(self.speechTranscription.isEmpty ? "No speech detected" : self.speechTranscription)", sdlManager: self.sdlManager)
             case .aborted: // The "Cancel" button was pressed in the pop-up. Ignore this audio pass thru.
                 SDLLog.d("Audio recording canceled")
             default:
                 SDLLog.d("Audio recording not successful: \(response.resultCode)")
             }
 
-            self?.stopSpeechRecognitionTask()
+            self.stopSpeechRecognitionTask()
         }
     }
 

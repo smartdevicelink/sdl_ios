@@ -26,7 +26,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                @{SDLRPCParameterNameParameters:
                                                      @{SDLRPCParameterNameRequestType:SDLRequestTypeAuthenticationRequest,
                                                        SDLRPCParameterNameRequestSubType: testSubType,
-                                                       SDLRPCParameterNameFilename:testFileName},
+                                                       SDLRPCParameterNameFileName:testFileName},
                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameSystemRequest}} mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

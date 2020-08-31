@@ -26,7 +26,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
                                                            @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNameMenuId:@25614},
+                                                                 @{SDLRPCParameterNameMenuID:@25614},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameDeleteSubMenu}} mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLUnsubscribeVehicleDataResponse : SDLRPCResponse
 
 /**
- * Convenience init for setting all data on vehicle data items.
+ * Convenience init for setting all possible values on vehicle data items.
  *
  * @param gps - gps
  * @param speed - speed
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param fuelRange - fuelRange
  * @param externalTemperature - externalTemperature
  * @param turnSignal - turnSignal
- * @param prndl - prndl
+ * @param gearStatus - gearStatus
  * @param tirePressure - tirePressure
  * @param odometer - odometer
  * @param beltStatus - beltStatus
@@ -46,9 +46,17 @@ NS_ASSUME_NONNULL_BEGIN
  * @param clusterModes - clusterModes
  * @param myKey - myKey
  * @param handsOffSteering - handsOffSteering
+ * @param windowStatus - windowStatus
  * @return A SDLUnsubscribeVehicleDataResponse object
  */
-- (instancetype)initWithGps:(nullable SDLVehicleDataResult *)gps speed:(nullable SDLVehicleDataResult *)speed rpm:(nullable SDLVehicleDataResult *)rpm instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption fuelRange:(nullable SDLVehicleDataResult *)fuelRange externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature turnSignal:(nullable SDLVehicleDataResult *)turnSignal prndl:(nullable SDLVehicleDataResult *)prndl tirePressure:(nullable SDLVehicleDataResult *)tirePressure odometer:(nullable SDLVehicleDataResult *)odometer beltStatus:(nullable SDLVehicleDataResult *)beltStatus bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus driverBraking:(nullable SDLVehicleDataResult *)driverBraking wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus engineTorque:(nullable SDLVehicleDataResult *)engineTorque accPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent clusterModes:(nullable SDLVehicleDataResult *)clusterModes myKey:(nullable SDLVehicleDataResult *)myKey handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering;
+- (instancetype)initWithGps:(nullable SDLVehicleDataResult *)gps speed:(nullable SDLVehicleDataResult *)speed rpm:(nullable SDLVehicleDataResult *)rpm instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption fuelRange:(nullable SDLVehicleDataResult *)fuelRange externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature turnSignal:(nullable SDLVehicleDataResult *)turnSignal gearStatus:(nullable SDLVehicleDataResult *)gearStatus tirePressure:(nullable SDLVehicleDataResult *)tirePressure odometer:(nullable SDLVehicleDataResult *)odometer beltStatus:(nullable SDLVehicleDataResult *)beltStatus bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus driverBraking:(nullable SDLVehicleDataResult *)driverBraking wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus engineTorque:(nullable SDLVehicleDataResult *)engineTorque accPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent clusterModes:(nullable SDLVehicleDataResult *)clusterModes myKey:(nullable SDLVehicleDataResult *)myKey handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering windowStatus:(nullable SDLVehicleDataResult *)windowStatus;
+
+/**
+ * See GearStatus
+ *
+ * @since SDL 7.0
+*/
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *gearStatus;
 
 /**
  The result of requesting to unsubscribe to the GPSData.
@@ -107,11 +115,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *externalTemperature;
 
 /**
- The result of requesting to unsubscribe to the PRNDL status.
-
- Optional
- */
-@property (strong, nonatomic, nullable) SDLVehicleDataResult *prndl;
+ * See PRNDL. This parameter is deprecated and it is now covered in `gearStatus`
+ *
+ * @deprecated
+ * @since SDL 7.0
+*/
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *prndl __deprecated_msg("use gearStatus instead on 7.0+ RPC version connections");
 
 /**
  The result of requesting to unsubscribe to the tireStatus.
@@ -154,6 +163,13 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *driverBraking;
+
+/**
+ * See WindowStatus
+ *
+ * @since SDL 7.0
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *windowStatus;
 
 /**
  The result of requesting to unsubscribe to the status of the wipers.
