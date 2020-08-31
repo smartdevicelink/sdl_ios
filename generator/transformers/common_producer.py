@@ -156,7 +156,9 @@ class InterfaceProducerCommon(ABC):
         """
         if not data:
             return []
-        return data
+        if isinstance(data, list):
+            data = ' '.join(data)
+        return textwrap.wrap(re.sub(r'(\s{2,}|\n)', ' ', data).strip(), length)
 
     @staticmethod
     def nullable(type_native: str, mandatory: bool) -> str:
@@ -335,7 +337,7 @@ class InterfaceProducerCommon(ABC):
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong'}
-        if isinstance(param.param_type, (Integer, Float, String, Array)):
+        if isinstance(param.param_type, (Integer, Float, String, Array, Boolean)):
             data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
 
         data.update(self.extract_type(param))
