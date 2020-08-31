@@ -444,7 +444,7 @@ NS_ASSUME_NONNULL_BEGIN
     if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]) {
         return (templateSupportsSecondaryArtwork && !graphicMatchesExisting && graphicExists);
     } else {
-        return [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic];
+        return ([self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] && !graphicMatchesExisting && graphicExists);
     }
 }
 
