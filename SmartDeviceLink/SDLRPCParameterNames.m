@@ -1,5 +1,35 @@
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 //  SDLRPCParameterNames.h
-//
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
@@ -14,6 +44,7 @@ SDLRPCParameterName const SDLRPCParameterNameAccelerationPedalPosition = @"accPe
 SDLRPCParameterName const SDLRPCParameterNameAcceptsWayPoints = @"acceptsWayPoints";
 SDLRPCParameterName const SDLRPCParameterNameAction = @"action";
 SDLRPCParameterName const SDLRPCParameterNameActual = @"actual";
+SDLRPCParameterName const SDLRPCParameterNameActualGear = @"actualGear";
 SDLRPCParameterName const SDLRPCParameterNameAddress = @"address";
 SDLRPCParameterName const SDLRPCParameterNameAddressLines = @"addressLines";
 SDLRPCParameterName const SDLRPCParameterNameAdministrativeArea = @"administrativeArea";
@@ -35,6 +66,7 @@ SDLRPCParameterName const SDLRPCParameterNameAmbientLightStatus = @"ambientLight
 SDLRPCParameterName const SDLRPCParameterNameApparentTemperature = @"apparentTemperature";
 SDLRPCParameterName const SDLRPCParameterNameApparentTemperatureHigh = @"apparentTemperatureHigh";
 SDLRPCParameterName const SDLRPCParameterNameApparentTemperatureLow = @"apparentTemperatureLow";
+SDLRPCParameterName const SDLRPCParameterNameApproximatePosition = @"approximatePosition";
 SDLRPCParameterName const SDLRPCParameterNameAppBundleId = @"appBundleID";
 SDLRPCParameterName const SDLRPCParameterNameAppHMIType = @"appHMIType";
 SDLRPCParameterName const SDLRPCParameterNameAppId = @"appID";
@@ -85,6 +117,8 @@ SDLRPCParameterName const SDLRPCParameterNameButtonEventMode = @"buttonEventMode
 SDLRPCParameterName const SDLRPCParameterNameButtonName = @"buttonName";
 SDLRPCParameterName const SDLRPCParameterNameButtonPressMode = @"buttonPressMode";
 SDLRPCParameterName const SDLRPCParameterNameCancelID = @"cancelID";
+SDLRPCParameterName const SDLRPCParameterNameCapacity = @"capacity";
+SDLRPCParameterName const SDLRPCParameterNameCapacityUnit = @"capacityUnit";
 SDLRPCParameterName const SDLRPCParameterNameCoolingEnabled = @"coolingEnabled";
 SDLRPCParameterName const SDLRPCParameterNameCoolingEnabledAvailable = @"coolingEnabledAvailable";
 SDLRPCParameterName const SDLRPCParameterNameCoolingLevel = @"coolingLevel";
@@ -143,6 +177,7 @@ SDLRPCParameterName const SDLRPCParameterNameDestinationETA = @"destinationETA";
 SDLRPCParameterName const SDLRPCParameterNameDeviceInfo = @"deviceInfo";
 SDLRPCParameterName const SDLRPCParameterNameDeviceStatus = @"deviceStatus";
 SDLRPCParameterName const SDLRPCParameterNameDetails = @"details";
+SDLRPCParameterName const SDLRPCParameterNameDeviation = @"deviation";
 SDLRPCParameterName const SDLRPCParameterNameDiagonalScreenSize = @"diagonalScreenSize";
 SDLRPCParameterName const SDLRPCParameterNameDialNumberEnabled = @"dialNumberEnabled";
 SDLRPCParameterName const SDLRPCParameterNameDIDLocation = @"didLocation";
@@ -153,6 +188,7 @@ SDLRPCParameterName const SDLRPCParameterNameDisplayCapabilities = @"displayCapa
 SDLRPCParameterName const SDLRPCParameterNameDisplayLayout = @"displayLayout";
 SDLRPCParameterName const SDLRPCParameterNameDisplayMode = @"displayMode";
 SDLRPCParameterName const SDLRPCParameterNameDisplayModeUnitAvailable = @"displayModeUnitAvailable";
+SDLRPCParameterName const SDLRPCParameterNameDisplayName = @"displayName";
 SDLRPCParameterName const SDLRPCParameterNameDisplayType = @"displayType";
 SDLRPCParameterName const SDLRPCParameterNameDistanceToEmpty = @"distanceToEmpty";
 SDLRPCParameterName const SDLRPCParameterNameDistanceToManeuver = @"distanceToManeuver";
@@ -165,6 +201,8 @@ SDLRPCParameterName const SDLRPCParameterNameDriverBeltDeployed = @"driverBeltDe
 SDLRPCParameterName const SDLRPCParameterNameDriverBraking = @"driverBraking";
 SDLRPCParameterName const SDLRPCParameterNameDriverBuckleBelted = @"driverBuckleBelted";
 SDLRPCParameterName const SDLRPCParameterNameDriverCurtainAirbagDeployed = @"driverCurtainAirbagDeployed";
+SDLRPCParameterName const SDLRPCParameterNameDriverDistraction = @"driverDistraction";
+SDLRPCParameterName const SDLRPCParameterNameDriverDistractionCapability = @"driverDistractionCapability";
 SDLRPCParameterName const SDLRPCParameterNameDriverDistractionStatus = @"driverDistractionStatus";
 SDLRPCParameterName const SDLRPCParameterNameDriverDoorAjar = @"driverDoorAjar";
 SDLRPCParameterName const SDLRPCParameterNameDriverKneeAirbagDeployed = @"driverKneeAirbagDeployed";
@@ -176,6 +214,7 @@ SDLRPCParameterName const SDLRPCParameterNameDualModeEnable = @"dualModeEnable";
 SDLRPCParameterName const SDLRPCParameterNameDualModeEnableAvailable = @"dualModeEnableAvailable";
 SDLRPCParameterName const SDLRPCParameterNameDuration = @"duration";
 SDLRPCParameterName const SDLRPCParameterNameDuplicateUpdatesFromWindowID = @"duplicateUpdatesFromWindowID";
+SDLRPCParameterName const SDLRPCParameterNameDynamicUpdateCapabilities = @"dynamicUpdateCapabilities";
 SDLRPCParameterName const SDLRPCParameterNameE911Override = @"e911Override";
 SDLRPCParameterName const SDLRPCParameterNameECallConfirmationStatus = @"eCallConfirmationStatus";
 SDLRPCParameterName const SDLRPCParameterNameECallEventActive = @"eCallEventActive";
@@ -201,7 +240,7 @@ SDLRPCParameterName const SDLRPCParameterNameExternalTemperature = @"externalTem
 SDLRPCParameterName const SDLRPCParameterNameFanSpeed = @"fanSpeed";
 SDLRPCParameterName const SDLRPCParameterNameFanSpeedAvailable = @"fanSpeedAvailable";
 SDLRPCParameterName const SDLRPCParameterNameFCCFacilityId = @"fccFacilityId";
-SDLRPCParameterName const SDLRPCParameterNameFilename = @"fileName";
+SDLRPCParameterName const SDLRPCParameterNameFileName = @"fileName";
 SDLRPCParameterName const SDLRPCParameterNameFilenames = @"filenames";
 SDLRPCParameterName const SDLRPCParameterNameFileType = @"fileType";
 SDLRPCParameterName const SDLRPCParameterNameFirmness = @"firmness";
@@ -218,6 +257,7 @@ SDLRPCParameterName const SDLRPCParameterNameFuelMaintenanceMode = @"fuelMainten
 SDLRPCParameterName const SDLRPCParameterNameFuelRange = @"fuelRange";
 SDLRPCParameterName const SDLRPCParameterNameFunctionID = @"functionID";
 SDLRPCParameterName const SDLRPCParameterNameFullAppID = @"fullAppID";
+SDLRPCParameterName const SDLRPCParameterNameGearStatus = @"gearStatus";
 SDLRPCParameterName const SDLRPCParameterNameGetWayPointsEnabled = @"getWayPointsEnabled";
 SDLRPCParameterName const SDLRPCParameterNameGPS = @"gps";
 SDLRPCParameterName const SDLRPCParameterNameGraphic = @"graphic";
@@ -225,6 +265,7 @@ SDLRPCParameterName const SDLRPCParameterNameGraphicSupported = @"graphicSupport
 SDLRPCParameterName const SDLRPCParameterNameGreen = @"green";
 SDLRPCParameterName const SDLRPCParameterNameGrid = @"grid";
 SDLRPCParameterName const SDLRPCParameterNameHandledRPCs = @"handledRPCs";
+SDLRPCParameterName const SDLRPCParameterNameHandsOffSteering = @"handsOffSteering";
 SDLRPCParameterName const SDLRPCParameterNameHapticRectData = @"hapticRectData";
 SDLRPCParameterName const SDLRPCParameterNameHapticSpatialDataSupported = @"hapticSpatialDataSupported";
 SDLRPCParameterName const SDLRPCParameterNameHardware = @"hardware";
@@ -318,6 +359,7 @@ SDLRPCParameterName const SDLRPCParameterNameLength = @"length";
 SDLRPCParameterName const SDLRPCParameterNameLevel = @"level";
 SDLRPCParameterName const SDLRPCParameterNameLevels = @"levels";
 SDLRPCParameterName const SDLRPCParameterNameLevelSpan = @"levelspan";
+SDLRPCParameterName const SDLRPCParameterNameLevelState = @"levelState";
 SDLRPCParameterName const SDLRPCParameterNameLightControlCapabilities = @"lightControlCapabilities";
 SDLRPCParameterName const SDLRPCParameterNameLightControlData = @"lightControlData";
 SDLRPCParameterName const SDLRPCParameterNameLightState = @"lightState";
@@ -371,9 +413,10 @@ SDLRPCParameterName const SDLRPCParameterNameMediaType = @"mediaType";
 SDLRPCParameterName const SDLRPCParameterNameMemory = @"memory";
 SDLRPCParameterName const SDLRPCParameterNameMemoryAvailable = @"memoryAvailable";
 SDLRPCParameterName const SDLRPCParameterNameMenuIcon = @"menuIcon";
-SDLRPCParameterName const SDLRPCParameterNameMenuId = @"menuID";
+SDLRPCParameterName const SDLRPCParameterNameMenuID = @"menuID";
 SDLRPCParameterName const SDLRPCParameterNameMenuLayout = @"menuLayout";
 SDLRPCParameterName const SDLRPCParameterNameMenuLayoutsAvailable = @"menuLayoutsAvailable";
+SDLRPCParameterName const SDLRPCParameterNameMenuLength = @"menuLength";
 SDLRPCParameterName const SDLRPCParameterNameMenuName = @"menuName";
 SDLRPCParameterName const SDLRPCParameterNameMenuParams = @"menuParams";
 SDLRPCParameterName const SDLRPCParameterNameMenuTitle = @"menuTitle";
@@ -439,7 +482,7 @@ SDLRPCParameterName const SDLRPCParameterNameOS = @"os";
 SDLRPCParameterName const SDLRPCParameterNameOSVersion = @"osVersion";
 SDLRPCParameterName const SDLRPCParameterNameParameterPermissions = @"parameterPermissions";
 SDLRPCParameterName const SDLRPCParameterNameParameters = @"parameters";
-SDLRPCParameterName const SDLRPCParameterNameParentId = @"parentID";
+SDLRPCParameterName const SDLRPCParameterNameParentID = @"parentID";
 SDLRPCParameterName const SDLRPCParameterNameParkBrakeActive = @"parkBrakeActive";
 SDLRPCParameterName const SDLRPCParameterNamePassengerAirbagDeployed = @"passengerAirbagDeployed";
 SDLRPCParameterName const SDLRPCParameterNamePassengerBeltDeployed = @"passengerBeltDeployed";
@@ -562,7 +605,6 @@ SDLRPCParameterName const SDLRPCParameterNameServicePublished = @"servicePublish
 SDLRPCParameterName const SDLRPCParameterNameServiceSpecificResult = @"serviceSpecificResult";
 SDLRPCParameterName const SDLRPCParameterNameServiceType = @"serviceType";
 SDLRPCParameterName const SDLRPCParameterNameServiceUri = @"serviceUri";
-SDLRPCParameterName const SDLRPCParameterNameDisplayName = @"displayName";
 SDLRPCParameterName const SDLRPCParameterNameSeverity = @"severity";
 SDLRPCParameterName const SDLRPCParameterNameShifted = @"shifted";
 SDLRPCParameterName const SDLRPCParameterNameShortPress = @"shortPress";
@@ -603,11 +645,14 @@ SDLRPCParameterName const SDLRPCParameterNameSteeringWheelAngle = @"steeringWhee
 SDLRPCParameterName const SDLRPCParameterNameStereoAudioOutputMuted = @"stereoAudioOutputMuted";
 SDLRPCParameterName const SDLRPCParameterNameSubAdministrativeArea = @"subAdministrativeArea";
 SDLRPCParameterName const SDLRPCParameterNameSubLocality = @"subLocality";
+SDLRPCParameterName const SDLRPCParameterNameSubMenuDepth = @"subMenuDepth";
 SDLRPCParameterName const SDLRPCParameterNameSubscribe = @"subscribe";
 SDLRPCParameterName const SDLRPCParameterNameSubThoroughfare = @"subThoroughfare";
 SDLRPCParameterName const SDLRPCParameterNameSuccess = @"success";
 SDLRPCParameterName const SDLRPCParameterNameSummary = @"summary";
 SDLRPCParameterName const SDLRPCParameterNameSupportedDiagnosticModes = @"supportedDiagModes";
+SDLRPCParameterName const SDLRPCParameterNameSupportedDynamicImageFieldNames = @"supportedDynamicImageFieldNames";
+SDLRPCParameterName const SDLRPCParameterNameSupportsDynamicSubMenus = @"supportsDynamicSubMenus";
 SDLRPCParameterName const SDLRPCParameterNameSupportedFormats = @"supportedFormats";
 SDLRPCParameterName const SDLRPCParameterNameSupportedLights = @"supportedLights";
 SDLRPCParameterName const SDLRPCParameterNameSyncFileName = @"syncFileName";
@@ -652,6 +697,7 @@ SDLRPCParameterName const SDLRPCParameterNameTotalDistance = @"totalDistance";
 SDLRPCParameterName const SDLRPCParameterNameTouchEventAvailable = @"touchEventAvailable";
 SDLRPCParameterName const SDLRPCParameterNameTPMS = @"tpms";
 SDLRPCParameterName const SDLRPCParameterNameTrafficProgramIdentification = @"TP";
+SDLRPCParameterName const SDLRPCParameterNameTransmissionType = @"transmissionType";
 SDLRPCParameterName const SDLRPCParameterNameTriggerSource = @"triggerSource";
 SDLRPCParameterName const SDLRPCParameterNameTrim = @"trim";
 SDLRPCParameterName const SDLRPCParameterNameTryAgainTime = @"tryAgainTime";
@@ -666,12 +712,14 @@ SDLRPCParameterName const SDLRPCParameterNameUnsubscribe = @"Unsubscribe";
 SDLRPCParameterName const SDLRPCParameterNameUpdatedAppServiceRecord = @"updatedAppServiceRecord";
 SDLRPCParameterName const SDLRPCParameterNameUpdateMode = @"updateMode";
 SDLRPCParameterName const SDLRPCParameterNameUpdateReason= @"updateReason";
+SDLRPCParameterName const SDLRPCParameterNameUpdateSubCells = @"updateSubCells";
 SDLRPCParameterName const SDLRPCParameterNameUpDownAvailable = @"upDownAvailable";
 SDLRPCParameterName const SDLRPCParameterNameURL = @"url";
 SDLRPCParameterName const SDLRPCParameterNameURLUppercase = @"URL";
 SDLRPCParameterName const SDLRPCParameterNameUserDisallowed = @"userDisallowed";
 SDLRPCParameterName const SDLRPCParameterNameUserLocation = @"userLocation";
 SDLRPCParameterName const SDLRPCParameterNameUserSelected = @"userSelected";
+SDLRPCParameterName const SDLRPCParameterNameUserSelectedGear = @"userSelectedGear";
 SDLRPCParameterName const SDLRPCParameterNameUTCDay = @"utcDay";
 SDLRPCParameterName const SDLRPCParameterNameUTCHours = @"utcHours";
 SDLRPCParameterName const SDLRPCParameterNameUTCMinutes = @"utcMinutes";
@@ -715,6 +763,7 @@ SDLRPCParameterName const SDLRPCParameterNameWiperStatus = @"wiperStatus";
 SDLRPCParameterName const SDLRPCParameterNameWindowCapabilities = @"windowCapabilities";
 SDLRPCParameterName const SDLRPCParameterNameWindowId = @"windowID";
 SDLRPCParameterName const SDLRPCParameterNameWindowName = @"windowName";
+SDLRPCParameterName const SDLRPCParameterNameWindowStatus = @"windowStatus";
 SDLRPCParameterName const SDLRPCParameterNameWindowTypeSupported = @"windowTypeSupported";
 SDLRPCParameterName const SDLRPCParameterNameX = @"x";
 SDLRPCParameterName const SDLRPCParameterNameY = @"y";

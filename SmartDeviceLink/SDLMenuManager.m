@@ -665,7 +665,7 @@ UInt32 const MenuCellIdMin = 1;
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
 
-    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuLayout:submenuLayout menuIcon:icon position:(UInt8)position];
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil];
 }
 
 #pragma mark - Calling handlers

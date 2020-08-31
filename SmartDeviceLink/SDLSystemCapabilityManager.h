@@ -19,6 +19,7 @@
 @class SDLButtonCapabilities;
 @class SDLDisplayCapability;
 @class SDLDisplayCapabilities;
+@class SDLDriverDistractionCapability;
 @class SDLHMICapabilities;
 @class SDLNavigationCapability;
 @class SDLPhoneCapability;
@@ -156,58 +157,36 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
 
 /**
  * If returned, the platform supports app services
- *
- * @see SDLAppServicesCapabilities
- *
- * Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLAppServicesCapabilities *appServicesCapabilities;
 
 /**
  If returned, the platform supports navigation
-
- @see SDLNavigationCapability
-
- Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLNavigationCapability *navigationCapability;
 
 /**
  If returned, the platform supports making phone calls
-
- @see SDLPhoneCapability
-
- Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLPhoneCapability *phoneCapability;
 
 /**
  If returned, the platform supports video streaming
-
- @see SDLVideoStreamingCapability
-
- Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLVideoStreamingCapability *videoStreamingCapability;
 
 /**
  If returned, the platform supports remote control capabilities
-
- @see SDLRemoteControlCapabilities
-
- Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLRemoteControlCapabilities *remoteControlCapability;
 
 /**
  If returned, the platform supports remote control capabilities for seats
- 
- @see SDLSeatLocationCapability
- 
- Optional
  */
 @property (nullable, strong, nonatomic, readonly) SDLSeatLocationCapability *seatLocationCapability;
 
+/// If returned, the platform supports driver distraction capabilities
+@property (nullable, strong, nonatomic, readonly) SDLDriverDistractionCapability *driverDistractionCapability;
 
 /**
  * Returns the window capability object of the default main window which is always pre-created by the connected system. This is a convenience method for easily accessing the capabilities of the default main window.

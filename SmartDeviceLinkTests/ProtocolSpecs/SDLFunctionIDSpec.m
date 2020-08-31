@@ -89,6 +89,8 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:32785]).to(equal(SDLRPCFunctionNameOnRCStatus));
         expect([functionID functionNameForId:32786]).to(equal(SDLRPCFunctionNameOnAppServiceData));
         expect([functionID functionNameForId:32787]).to(equal(SDLRPCFunctionNameOnSystemCapabilityUpdated));
+        expect([functionID functionNameForId:32789]).to(equal(SDLRPCFunctionNameOnUpdateFile));
+        expect([functionID functionNameForId:32790]).to(equal(SDLRPCFunctionNameOnUpdateSubMenu));
 
         //Not listed in Spec
 #pragma clang diagnostic push

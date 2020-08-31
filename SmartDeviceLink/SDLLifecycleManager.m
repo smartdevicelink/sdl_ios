@@ -201,7 +201,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_startWithReadyHandler:readyHandler];
     }];
 }
@@ -219,7 +219,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)stop {
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         SDLLogD(@"Lifecycle manager stopped");
         if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
             [self sdl_transitionToState:SDLLifecycleStateUnregistering];
@@ -712,7 +712,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_sendConnectionRequest:rpc withResponseHandler:nil];
     }];
 }
@@ -722,7 +722,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 - (void)sendConnectionManagerRPC:(__kindof SDLRPCMessage *)rpc {
     NSAssert(([rpc isKindOfClass:SDLRPCResponse.class] || [rpc isKindOfClass:SDLRPCNotification.class]), @"Only RPCs of type `Response` or `Notfication` can be sent using this method. To send RPCs of type `Request` use sendConnectionRequest:withResponseHandler:.");
 
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_sendConnectionRequest:rpc withResponseHandler:nil];
     }];
 }
@@ -753,7 +753,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_sendConnectionRequest:request withResponseHandler:handler];
     }];
 }
@@ -762,7 +762,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 /// @param request The request to send
 /// @param handler A callback handler for responses to the request
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_sendConnectionRequest:request withResponseHandler:handler];
     }];
 }
@@ -834,17 +834,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     return YES;
 }
 
-// this is to make sure that the transition happens on the dedicated queue
-- (void)sdl_runOnProcessingQueue:(void (^)(void))block {
-    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
-        block();
-    } else {
-        dispatch_sync(self.lifecycleQueue, block);
-    }
-}
-
 - (void)sdl_transitionToState:(SDLState *)state {
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self.lifecycleStateMachine transitionToState:state];
     }];
 }
@@ -875,7 +866,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 - (void)sdl_transportDidDisconnect {
     SDLLogD(@"Transport Disconnected");
 
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
             [self sdl_transitionToState:SDLLifecycleStateStopped];
         } else {
@@ -885,7 +876,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_hmiStatusDidChange:notification];
     }];
 }
@@ -962,7 +953,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
-    [self sdl_runOnProcessingQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_remoteHardwareDidUnregister:notification];
     }];
 }

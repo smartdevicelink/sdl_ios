@@ -14,6 +14,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapability.h"
+#import "SDLDriverDistractionCapability.h"
 #import "SDLError.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
@@ -68,6 +69,7 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLDriverDistractionCapability *driverDistractionCapability;
 
 @property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
@@ -119,7 +121,7 @@ typedef NSString * SDLServiceID;
  */
 - (void)stop {
     SDLLogD(@"System Capability manager stopped");
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         self.displayCapabilities = nil;
         self.displays = nil;
         self.hmiCapabilities = nil;
@@ -137,6 +139,7 @@ typedef NSString * SDLServiceID;
         self.videoStreamingCapability = nil;
         self.remoteControlCapability = nil;
         self.seatLocationCapability = nil;
+        self.driverDistractionCapability = nil;
 
         self.supportsSubscriptions = NO;
 
@@ -292,6 +295,8 @@ typedef NSString * SDLServiceID;
         return self.hmiCapabilities.remoteControl.boolValue;
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeSeatLocation]) {
         return self.hmiCapabilities.seatLocation.boolValue;
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeDriverDistraction]) {
+        return self.hmiCapabilities.driverDistraction.boolValue;
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
         //This is a corner case that the param was not available in 5.1.0, but the app services feature was available. We have to say it's available because we don't know.
         if ([[SDLGlobals sharedGlobals].rpcVersion isEqualToVersion:[SDLVersion versionWithString:@"5.1.0"]]) {
@@ -325,6 +330,8 @@ typedef NSString * SDLServiceID;
         return [[SDLSystemCapability alloc] initWithDisplayCapabilities:self.displays];
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeSeatLocation] && self.seatLocationCapability != nil) {
         return [[SDLSystemCapability alloc] initWithSeatLocationCapability:self.seatLocationCapability];
+    } else if ([type isEqualToEnum:SDLSystemCapabilityTypeDriverDistraction] && self.driverDistractionCapability != nil) {
+        return [[SDLSystemCapability alloc] initWithDriverDistractionCapability:self.driverDistractionCapability];
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeRemoteControl] && self.remoteControlCapability != nil) {
         return [[SDLSystemCapability alloc] initWithRemoteControlCapability:self.remoteControlCapability];
     } else if ([type isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming] && self.videoStreamingCapability != nil) {
@@ -388,7 +395,7 @@ typedef NSString * SDLServiceID;
         SDLLogD(@"GetSystemCapability response succeeded, type: %@, response: %@", type, getSystemCapabilityResponse);
 
         if (![weakself.subscriptionStatus[type] isEqualToNumber:subscribe] && weakself.supportsSubscriptions) {
-            [self sdl_runSyncOnQueue:^{
+            [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
                 weakself.subscriptionStatus[type] = subscribe;
             }];
         }
@@ -435,6 +442,12 @@ typedef NSString * SDLServiceID;
             return NO;
         }
         self.seatLocationCapability = systemCapability.seatLocationCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeDriverDistraction]) {
+        if ([self.driverDistractionCapability isEqual:systemCapability.driverDistractionCapability]) {
+            [self sdl_callObserversForUpdate:systemCapability error:error handler:handler];
+            return NO;
+        }
+        self.driverDistractionCapability = systemCapability.driverDistractionCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
         if ([self.videoStreamingCapability isEqual:systemCapability.videoStreamingCapability]) {
             [self sdl_callObserversForUpdate:systemCapability error:error handler:handler];
@@ -465,7 +478,7 @@ typedef NSString * SDLServiceID;
     for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
         // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
         SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
-        [self sdl_runSyncOnQueue:^{
+        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newCapability;
         }];
     }
@@ -569,7 +582,7 @@ typedef NSString * SDLServiceID;
     if (self.capabilityObservers[type] == nil) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
 
-        [self sdl_runSyncOnQueue:^{
+        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             self.capabilityObservers[type] = [NSMutableArray arrayWithObject:observerObject];
         }];
 
@@ -582,7 +595,7 @@ typedef NSString * SDLServiceID;
         }
     } else {
         // Store the observer and call it immediately with the cached value
-        [self sdl_runSyncOnQueue:^{
+        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             [self.capabilityObservers[type] addObject:observerObject];
         }];
 
@@ -598,7 +611,7 @@ typedef NSString * SDLServiceID;
     SDLLogD(@"Unsubscribing from capability type: %@", type);
     for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
         if ([observer isEqual:capabilityObserver.observer] && self.capabilityObservers[type] != nil) {
-            [self sdl_runSyncOnQueue:^{
+            [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
                 [self.capabilityObservers[type] removeObject:capabilityObserver];
             }];
 
@@ -613,7 +626,7 @@ typedef NSString * SDLServiceID;
     // Loop through our observers
     for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
         for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
-            [self sdl_runSyncOnQueue:^{
+            [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
                 // If an observer object is nil, remove it
                 if (observer.observer == nil) {
                     [self.capabilityObservers[key] removeObject:observer];
@@ -791,24 +804,12 @@ typedef NSString * SDLServiceID;
     self.currentHMILevel = onHMIStatus.hmiLevel;
 }
 
-#pragma mark Utilities
-
-/// Checks if we are already on the serial readWrite queue. If so, the block is added to the queue; if not, the block is dispatched to the readWrite queue.
-/// @discussion Used to ensure atomic access to global properties.
-/// @param block The block to be executed.
-- (void)sdl_runSyncOnQueue:(void (^)(void))block {
-    if (dispatch_get_specific(SDLProcessingQueueName) != nil) {
-        block();
-    } else {
-        dispatch_sync(self.readWriteQueue, block);
-    }
-}
 
 #pragma mark Getters
 
 - (NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *)capabilityObservers {
     __block NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         dict = self->_capabilityObservers;
     }];
 
@@ -817,7 +818,7 @@ typedef NSString * SDLServiceID;
 
 - (NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *)subscriptionStatus {
     __block NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         dict = self->_subscriptionStatus;
     }];
 
@@ -826,7 +827,7 @@ typedef NSString * SDLServiceID;
 
 - (nullable NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *)appServicesCapabilitiesDictionary {
     __block NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *dict = nil;
-    [self sdl_runSyncOnQueue:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         dict = self->_appServicesCapabilitiesDictionary;
     }];
 

@@ -1,17 +1,64 @@
-//
-//  SDLWindowCapability.m
-//  SmartDeviceLink
+/*
+* Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+* All rights reserved.
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions are met:
+*
+* Redistributions of source code must retain the above copyright notice, this
+* list of conditions and the following disclaimer.
+*
+* Redistributions in binary form must reproduce the above copyright notice,
+* this list of conditions and the following
+* disclaimer in the documentation and/or other materials provided with the
+* distribution.
+*
+* Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+* its contributors may be used to endorse or promote products derived
+* from this software without specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+* POSSIBILITY OF SUCH DAMAGE.
+*/
 
 #import "SDLWindowCapability.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLRPCParameterNames.h"
-#import "SDLTextField.h"
-#import "SDLImageField.h"
 #import "SDLButtonCapabilities.h"
+#import "SDLDynamicUpdateCapabilities.h"
+#import "SDLImageField.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSoftButtonCapabilities.h"
+#import "SDLTextField.h"
 
 @implementation SDLWindowCapability
+
+- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    self.windowID = windowID;
+    self.textFields = textFields;
+    self.imageFields = imageFields;
+    self.imageTypeSupported = imageTypeSupported;
+    self.templatesAvailable = templatesAvailable;
+    self.numCustomPresetsAvailable = numCustomPresetsAvailable;
+    self.buttonCapabilities = buttonCapabilities;
+    self.softButtonCapabilities = softButtonCapabilities;
+    self.menuLayoutsAvailable = menuLayoutsAvailable;
+    self.dynamicUpdateCapabilities = dynamicUpdateCapabilities;
+    return self;
+}
 
 - (void)setWindowID:(nullable NSNumber<SDLUInt> *)windowID {
     [self.store sdl_setObject:windowID forName:SDLRPCParameterNameWindowId];
@@ -84,6 +131,14 @@
 
 - (nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable {
     return [self.store sdl_enumsForName:SDLRPCParameterNameMenuLayoutsAvailable error:nil];
+}
+
+- (void)setDynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
+    [self.store sdl_setObject:dynamicUpdateCapabilities forName:SDLRPCParameterNameDynamicUpdateCapabilities];
+}
+
+- (nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
+    return [self.store sdl_objectForName:SDLRPCParameterNameDynamicUpdateCapabilities ofClass:SDLDynamicUpdateCapabilities.class error:nil];
 }
 
 @end
