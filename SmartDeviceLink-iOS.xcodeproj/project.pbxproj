@@ -1355,6 +1355,7 @@
 		8831FA48220235B000B8FFB7 /* SDLAppServicesCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8831FA49220235B000B8FFB7 /* SDLAppServicesCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */; };
 		8831FA4B2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */; };
+		883397DA24FE887D00DEBB91 /* SDLHapticRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 883397D924FE887D00DEBB91 /* SDLHapticRectViewController.m */; };
 		883468F7234BBBAF003F51E5 /* SDLStreamingVideoScaleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 883468F5234BBBAF003F51E5 /* SDLStreamingVideoScaleManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883468F8234BBBAF003F51E5 /* SDLStreamingVideoScaleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 883468F6234BBBAF003F51E5 /* SDLStreamingVideoScaleManager.m */; };
 		883468FA234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883468F9234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m */; };
@@ -3166,6 +3167,8 @@
 		8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServicesCapabilities.h; sourceTree = "<group>"; };
 		8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilities.m; sourceTree = "<group>"; };
 		8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilitiesSpec.m; sourceTree = "<group>"; };
+		883397D824FE887D00DEBB91 /* SDLHapticRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLHapticRectViewController.h; sourceTree = "<group>"; };
+		883397D924FE887D00DEBB91 /* SDLHapticRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLHapticRectViewController.m; sourceTree = "<group>"; };
 		883468F5234BBBAF003F51E5 /* SDLStreamingVideoScaleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStreamingVideoScaleManager.h; sourceTree = "<group>"; };
 		883468F6234BBBAF003F51E5 /* SDLStreamingVideoScaleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingVideoScaleManager.m; sourceTree = "<group>"; };
 		883468F9234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingVideoScaleManagerSpec.m; sourceTree = "<group>"; };
@@ -6543,6 +6546,15 @@
 			name = "Shared Assets";
 			sourceTree = "<group>";
 		};
+		883397D724FE885100DEBB91 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				883397D824FE887D00DEBB91 /* SDLHapticRectViewController.h */,
+				883397D924FE887D00DEBB91 /* SDLHapticRectViewController.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		884DFBCA2289F6EA00EA8846 /* Control Session */ = {
 			isa = PBXGroup;
 			children = (
@@ -6669,6 +6681,7 @@
 		DA1166D71D14601C00438CEA /* Touches */ = {
 			isa = PBXGroup;
 			children = (
+				883397D724FE885100DEBB91 /* Utilities */,
 				DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */,
 				DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */,
 				DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */,
@@ -8670,6 +8683,7 @@
 				880D267A220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m in Sources */,
 				EED5CA041F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m in Sources */,
 				8855F9E6220CB60700A5C897 /* SDLOnAppServiceDataSpec.m in Sources */,
+				883397DA24FE887D00DEBB91 /* SDLHapticRectViewController.m in Sources */,
 				5DBAE0AB1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m in Sources */,
 				162E83461A9BDE8B00906325 /* SDLUnsubscribeButtonSpec.m in Sources */,
 				1EB59CD0202DC9F200343A61 /* SDLSupportedSeatSpec.m in Sources */,

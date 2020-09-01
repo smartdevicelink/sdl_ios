@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_parseViewHierarchy:self.viewController.view];
 
     // If there is a preferred view, move it to the front of the array
-    NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:self.viewController.view.subviews.lastObject.preferredFocusedView];
+    NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:(UIView *)self.viewController.preferredFocusEnvironments.firstObject];
     if (preferredViewIndex != NSNotFound && self.focusableViews.count > 1) {
         [self.focusableViews exchangeObjectAtIndex:preferredViewIndex withObjectAtIndex:0];
     }
