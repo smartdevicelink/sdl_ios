@@ -32,7 +32,7 @@ class InterfaceProducerCommon(ABC):
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
                                       'method_suffix of_class type_native type_sdl modifier for_name description '
                                       'constructor_argument_override')
-        self.constructor_named = namedtuple('constructor', 'init self arguments all deprecated')
+        self.constructor_named = namedtuple('constructor', 'init self arguments all')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
         self.names = self.struct_names + tuple(map(lambda e: self._replace_sync(e), enum_names))
 
@@ -175,7 +175,7 @@ class InterfaceProducerCommon(ABC):
     def parentheses(self, item):
         """
         Used for wrapping appropriate initiator (constructor) parameter with '@({})'
-        :param item: named tup[le with initiator (constructor) parameter
+        :param item: named tuple with initiator (constructor) parameter
         :return: wrapped parameter
         """
         if re.match(r'\w*Int\d+|BOOL|float|double', item.type_native) or \
@@ -215,8 +215,10 @@ class InterfaceProducerCommon(ABC):
         """
         mandatory = []
         not_mandatory = []
-        deprecated = any([m.deprecated for m in data.values() if getattr(m, 'deprecated', False)])
         for param in data.values():
+            if param.deprecated:
+                # Omit deprecated parameters from the constructors
+                continue
             if param.mandatory:
                 mandatory.append(param)
             else:
@@ -225,13 +227,11 @@ class InterfaceProducerCommon(ABC):
         result = []
         if mandatory:
             mandatory = self.extract_constructor(mandatory, True)
-            mandatory['deprecated'] = deprecated
         else:
             mandatory = OrderedDict()
 
         if not_mandatory:
             not_mandatory = self.extract_constructor(not_mandatory, False)
-            not_mandatory['deprecated'] = deprecated
             if mandatory:
                 not_mandatory['init'] = '{} {}'.format(mandatory['init'], self.minimize_first(not_mandatory['init']))
                 not_mandatory['all'] = mandatory['arguments'] + not_mandatory['arguments']
@@ -337,9 +337,57 @@ class InterfaceProducerCommon(ABC):
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong'}
-        if isinstance(param.param_type, (Integer, Float, String)):
-            data['description'].append(json.dumps(vars(param.param_type), sort_keys=True))
+        if isinstance(param.param_type, (Integer, Float, String, Array)):
+            data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
         return self.param_named(**data)
+
+    def create_param_descriptor(self, param_type, parameterItems):
+        """
+        Recursively creates a documentation string of all the descriptors for a parameter (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
+        :param param_type: param_type from the initial Model
+        :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
+        :return: All the descriptor params from param_type concatenated into one string
+        """
+        # The key is a descriptor (i.e. max_value) and value is the associated value (i.e. 100). Some values will be dictionaries that have to be parsed to get additional descriptors (e.g. the value for an array of strings' data type will be sub-dictionary describing the min_length, max_length, and default value for the strings used in the array)
+        for key, value in param_type.__dict__.items():
+            # If a value contains a dictionary, recurse until all the descriptors have been found. Once a descriptor (i.e. `max_size`) has been found along with its associated value (i.e. 100), add the descriptor/value pair to the parameterItems dictionary
+            if hasattr(value, '__dict__'):
+                if isinstance(value, Enum) or isinstance(value, Struct):
+                    # Skip adding documentation for the data type if it is a struct or enum. This is unnecessary as each enum or struct has its own documentation
+                    continue
+                else:
+                    self.create_param_descriptor(value, parameterItems)
+            else:
+                if key == 'default_value' and value is None:
+                    # Do not add the default_value key/value pair unless it has been explicitly set in the RPC Spec
+                    continue
+                else:
+                    parameterDescriptor = self.update_param_descriptor(key)
+                    parameterItems[parameterDescriptor] = value
+
+        return json.dumps(parameterItems, sort_keys=False)
+
+    def update_param_descriptor(self, parameterName):
+        """
+        Updates the parameter's descriptor name for clarity. This is helpful for array documentation as the descriptors can contain both the size of the array and the size of the array's data type
+        :param parameterName: The name of the parameter
+        :return: All the descriptor params from param_type concatenated into one string
+        """
+        if parameterName == 'min_size':
+            return 'array_min_size'
+        elif parameterName == 'max_size':
+            return 'array_max_size'
+        elif parameterName == 'min_length':
+            return 'string_min_length'
+        elif parameterName == 'max_length':
+            return 'string_max_length'
+        elif parameterName == 'max_value':
+            return 'num_max_value'
+        elif parameterName == 'min_value':
+            return 'num_min_value'
+        else:
+            return parameterName
+

@@ -2,11 +2,9 @@
 //  SDLVehicleDataTypeSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
 #import "SDLVehicleDataType.h"
 
@@ -37,11 +35,15 @@ describe(@"individual enum value tests", ^{
 #pragma clang diagnostic pop
         expect(SDLVehicleDataTypeFuelRange).to(equal(@"VEHICLEDATA_FUELRANGE"));
         expect(SDLVehicleDataTypeGPS).to(equal(@"VEHICLEDATA_GPS"));
+        expect(SDLVehicleDataTypeGearStatus).to(equal(@"VEHICLEDATA_GEARSTATUS"));
         expect(SDLVehicleDataTypeHandsOffSteering).to(equal(@"VEHICLEDATA_HANDSOFFSTEERING"));
         expect(SDLVehicleDataTypeHeadlampStatus).to(equal(@"VEHICLEDATA_HEADLAMPSTATUS"));
         expect(SDLVehicleDataTypeMyKey).to(equal(@"VEHICLEDATA_MYKEY"));
         expect(SDLVehicleDataTypeOdometer).to(equal(@"VEHICLEDATA_ODOMETER"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLVehicleDataTypePRNDL).to(equal(@"VEHICLEDATA_PRNDL"));
+#pragma clang diagnostic pop
         expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
         expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
         expect(SDLVehicleDataTypeStabilityControlsStatus).to(equal(@"VEHICLEDATA_STABILITYCONTROLSSTATUS"));
@@ -49,6 +51,7 @@ describe(@"individual enum value tests", ^{
         expect(SDLVehicleDataTypeTirePressure).to(equal(@"VEHICLEDATA_TIREPRESSURE"));
         expect(SDLVehicleDataTypeTurnSignal).to(equal(@"VEHICLEDATA_TURNSIGNAL"));
         expect(SDLVehicleDataTypeVIN).to(equal(@"VEHICLEDATA_VIN"));
+        expect(SDLVehicleDataTypeWindowStatus).to(equal(@"VEHICLEDATA_WINDOWSTATUS"));
         expect(SDLVehicleDataTypeWiperStatus).to(equal(@"VEHICLEDATA_WIPERSTATUS"));
     });
 });

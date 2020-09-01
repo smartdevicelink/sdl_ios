@@ -13,6 +13,7 @@
 #import "SDLECallInfo.h"
 #import "SDLEmergencyEvent.h"
 #import "SDLFuelRange.h"
+#import "SDLGearStatus.h"
 #import "SDLGPSData.h"
 #import "SDLHeadLampStatus.h"
 #import "SDLMyKey.h"
@@ -20,6 +21,7 @@
 #import "SDLRPCFunctionNames.h"
 #import "SDLStabilityControlsStatus.h"
 #import "SDLTireStatus.h"
+#import "SDLWindowStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin prndl:(nullable SDLPRNDL)prndl tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID stabilityControlsStatus:(nullable SDLStabilityControlsStatus *)stabilityControlsStatus eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey handsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering {
+- (instancetype)initWithGps:(nullable SDLGPSData *)gps speed:(float)speed rpm:(nullable NSNumber<SDLUInt> *)rpm instantFuelConsumption:(float)instantFuelConsumption fuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange externalTemperature:(float)externalTemperature turnSignal:(nullable SDLTurnSignal)turnSignal vin:(nullable NSString *)vin gearStatus:(nullable SDLGearStatus *)gearStatus tirePressure:(nullable SDLTireStatus *)tirePressure odometer:(nullable NSNumber<SDLUInt> *)odometer beltStatus:(nullable SDLBeltStatus *)beltStatus bodyInformation:(nullable SDLBodyInformation *)bodyInformation deviceStatus:(nullable SDLDeviceStatus *)deviceStatus driverBraking:(nullable SDLVehicleDataEventStatus)driverBraking wiperStatus:(nullable SDLWiperStatus)wiperStatus headLampStatus:(nullable SDLHeadLampStatus *)headLampStatus engineTorque:(float)engineTorque accPedalPosition:(float)accPedalPosition steeringWheelAngle:(float)steeringWheelAngle engineOilLife:(float)engineOilLife electronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus cloudAppVehicleID:(nullable NSString *)cloudAppVehicleID stabilityControlsStatus:(nullable SDLStabilityControlsStatus *)stabilityControlsStatus eCallInfo:(nullable SDLECallInfo *)eCallInfo airbagStatus:(nullable SDLAirbagStatus *)airbagStatus emergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent clusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus myKey:(nullable SDLMyKey *)myKey handsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering windowStatus:(nullable NSArray<SDLWindowStatus *> *)windowStatus {
     self = [self init];
     if (!self) {
         return nil;
@@ -49,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.externalTemperature = @(externalTemperature);
     self.turnSignal = turnSignal;
     self.vin = vin;
-    self.prndl = prndl;
+    self.gearStatus = gearStatus;
     self.tirePressure = tirePressure;
     self.odometer = odometer;
     self.beltStatus = beltStatus;
@@ -71,7 +73,17 @@ NS_ASSUME_NONNULL_BEGIN
     self.clusterModeStatus = clusterModeStatus;
     self.myKey = myKey;
     self.handsOffSteering = handsOffSteering;
+    self.windowStatus = windowStatus;
     return self;
+}
+
+- (void)setGearStatus:(nullable SDLGearStatus *)gearStatus {
+    [self.parameters sdl_setObject:gearStatus forName:SDLRPCParameterNameGearStatus];
+}
+
+- (nullable SDLGearStatus *)gearStatus {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameGearStatus ofClass:SDLGearStatus.class error:&error];
 }
 
 - (void)setGps:(nullable SDLGPSData *)gps {
@@ -202,12 +214,30 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_enumForName:SDLRPCParameterNameDriverBraking error:nil];
 }
 
+- (void)setWindowStatus:(nullable NSArray<SDLWindowStatus *> *)windowStatus {
+    [self.parameters sdl_setObject:windowStatus forName:SDLRPCParameterNameWindowStatus];
+}
+
+- (nullable NSArray<SDLWindowStatus *> *)windowStatus {
+    NSError *error = nil;
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameWindowStatus ofClass:SDLWindowStatus.class error:&error];
+}
+
 - (void)setWiperStatus:(nullable SDLWiperStatus)wiperStatus {
     [self.parameters sdl_setObject:wiperStatus forName:SDLRPCParameterNameWiperStatus];
 }
 
 - (nullable SDLWiperStatus)wiperStatus {
     return [self.parameters sdl_enumForName:SDLRPCParameterNameWiperStatus error:nil];
+}
+
+- (void)setHandsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering {
+    [self.parameters sdl_setObject:handsOffSteering forName:SDLRPCParameterNameHandsOffSteering];
+}
+
+- (nullable NSNumber<SDLBool> *)handsOffSteering {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameHandsOffSteering ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHeadLampStatus:(nullable SDLHeadLampStatus *)headLampStatus {
@@ -329,15 +359,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSObject *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
     return [self.parameters sdl_objectForName:vehicleDataName ofClass:NSObject.class error:nil];
-}
-
-- (void)setHandsOffSteering:(nullable NSNumber<SDLBool> *)handsOffSteering {
-    [self.parameters sdl_setObject:handsOffSteering forName:SDLRPCParameterNameHandsOffSteering];
-}
-
-- (nullable NSNumber<SDLBool> *)handsOffSteering {
-    NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameHandsOffSteering ofClass:NSNumber.class error:&error];
 }
 
 @end

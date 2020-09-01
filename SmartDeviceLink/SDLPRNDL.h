@@ -47,9 +47,21 @@ extern SDLPRNDL const SDLPRNDLLowGear;
 extern SDLPRNDL const SDLPRNDLFirst;
 
 /**
+ * Ninth gear
+ * @since SDL 7.0
+*/
+extern SDLPRNDL const SDLPRNDLNinth;
+
+/**
  * Second gear
  */
 extern SDLPRNDL const SDLPRNDLSecond;
+
+/**
+ * Tenth gear
+ * @since SDL 7.0
+*/
+extern SDLPRNDL const SDLPRNDLTenth;
 
 /**
  * Third gear
