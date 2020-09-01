@@ -337,7 +337,7 @@ class InterfaceProducerCommon(ABC):
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong'}
-        if isinstance(param.param_type, (Integer, Float, String, Array, Boolean)):
+        if isinstance(param.param_type, (Integer, Float, String, Array)):
             data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
 
         data.update(self.extract_type(param))
