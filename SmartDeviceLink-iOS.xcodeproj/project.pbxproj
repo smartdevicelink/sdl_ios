@@ -505,6 +505,8 @@
 		4A8BD3C924F998A8000945E3 /* SDLWindowStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3C524F998A8000945E3 /* SDLWindowStatus.m */; };
 		4A8BD3CA24F998A8000945E3 /* SDLWindowState.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3C624F998A8000945E3 /* SDLWindowState.m */; };
 		4A8BD3CD24F999BE000945E3 /* TestSubscribeButtonObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3CC24F999BE000945E3 /* TestSubscribeButtonObserver.m */; };
+		4A8BD3D024FE7CF1000945E3 /* SDLPermissionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD3CE24FE7CF1000945E3 /* SDLPermissionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A8BD3D124FE7CF1000945E3 /* SDLPermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3CF24FE7CF1000945E3 /* SDLPermissionManager.m */; };
 		4ABB24BA24F592620061BF55 /* NSMutableArray+Safe.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */; };
 		4ABB24BB24F592620061BF55 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */; };
 		4ABB24BC24F592620061BF55 /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */; };
@@ -581,8 +583,6 @@
 		4ABB255124F7E52B0061BF55 /* SDLLockScreenConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB254F24F7E52B0061BF55 /* SDLLockScreenConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ABB255424F7E5460061BF55 /* SDLLockScreenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB255224F7E5460061BF55 /* SDLLockScreenManager.m */; };
 		4ABB255524F7E5460061BF55 /* SDLLockScreenManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB255324F7E5460061BF55 /* SDLLockScreenManager.h */; };
-		4ABB255824F7E5780061BF55 /* SDLPermissionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB255624F7E5780061BF55 /* SDLPermissionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4ABB255924F7E5780061BF55 /* SDLPermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB255724F7E5780061BF55 /* SDLPermissionManager.m */; };
 		4ABB255C24F7E5880061BF55 /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB255A24F7E5880061BF55 /* SDLPermissionFilter.m */; };
 		4ABB255D24F7E5880061BF55 /* SDLPermissionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB255B24F7E5880061BF55 /* SDLPermissionFilter.h */; };
 		4ABB255F24F7E59E0061BF55 /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB255E24F7E59E0061BF55 /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2285,6 +2285,8 @@
 		4A8BD3C624F998A8000945E3 /* SDLWindowState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLWindowState.m; path = public/SDLWindowState.m; sourceTree = "<group>"; };
 		4A8BD3CB24F999BE000945E3 /* TestSubscribeButtonObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSubscribeButtonObserver.h; sourceTree = "<group>"; };
 		4A8BD3CC24F999BE000945E3 /* TestSubscribeButtonObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSubscribeButtonObserver.m; sourceTree = "<group>"; };
+		4A8BD3CE24FE7CF1000945E3 /* SDLPermissionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPermissionManager.h; path = public/SDLPermissionManager.h; sourceTree = "<group>"; };
+		4A8BD3CF24FE7CF1000945E3 /* SDLPermissionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionManager.m; path = public/SDLPermissionManager.m; sourceTree = "<group>"; };
 		4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Safe.h"; path = "private/NSMutableArray+Safe.h"; sourceTree = "<group>"; };
 		4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Safe.m"; path = "private/NSMutableArray+Safe.m"; sourceTree = "<group>"; };
 		4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+SDLBundle.m"; path = "private/NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
@@ -2361,8 +2363,6 @@
 		4ABB254F24F7E52B0061BF55 /* SDLLockScreenConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLLockScreenConfiguration.h; path = public/SDLLockScreenConfiguration.h; sourceTree = "<group>"; };
 		4ABB255224F7E5460061BF55 /* SDLLockScreenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenManager.m; path = private/SDLLockScreenManager.m; sourceTree = "<group>"; };
 		4ABB255324F7E5460061BF55 /* SDLLockScreenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLLockScreenManager.h; path = private/SDLLockScreenManager.h; sourceTree = "<group>"; };
-		4ABB255624F7E5780061BF55 /* SDLPermissionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPermissionManager.h; path = private/SDLPermissionManager.h; sourceTree = "<group>"; };
-		4ABB255724F7E5780061BF55 /* SDLPermissionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionManager.m; path = private/SDLPermissionManager.m; sourceTree = "<group>"; };
 		4ABB255A24F7E5880061BF55 /* SDLPermissionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionFilter.m; path = private/SDLPermissionFilter.m; sourceTree = "<group>"; };
 		4ABB255B24F7E5880061BF55 /* SDLPermissionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPermissionFilter.h; path = private/SDLPermissionFilter.h; sourceTree = "<group>"; };
 		4ABB255E24F7E59E0061BF55 /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPermissionConstants.h; path = public/SDLPermissionConstants.h; sourceTree = "<group>"; };
@@ -5775,10 +5775,10 @@
 				4ABB255E24F7E59E0061BF55 /* SDLPermissionConstants.h */,
 				4ABB255B24F7E5880061BF55 /* SDLPermissionFilter.h */,
 				4ABB255A24F7E5880061BF55 /* SDLPermissionFilter.m */,
-				4ABB255624F7E5780061BF55 /* SDLPermissionManager.h */,
-				4ABB255724F7E5780061BF55 /* SDLPermissionManager.m */,
 				4ABB256124F7E5AA0061BF55 /* SDLPermissionElement.h */,
 				4ABB256024F7E5AA0061BF55 /* SDLPermissionElement.m */,
+				4A8BD3CE24FE7CF1000945E3 /* SDLPermissionManager.h */,
+				4A8BD3CF24FE7CF1000945E3 /* SDLPermissionManager.m */,
 				4ABB256524F7E5B80061BF55 /* SDLRPCPermissionStatus.h */,
 				4ABB256424F7E5B70061BF55 /* SDLRPCPermissionStatus.m */,
 			);
@@ -6990,7 +6990,6 @@
 				4ABB2A5924F847B10061BF55 /* SDLGetCloudAppPropertiesResponse.h in Headers */,
 				4ABB29BF24F845DB0061BF55 /* SDLSetMediaClockTimer.h in Headers */,
 				4A8BD39324F94731000945E3 /* SDLIAPTransport.h in Headers */,
-				4ABB255824F7E5780061BF55 /* SDLPermissionManager.h in Headers */,
 				4ABB2A2024F847980061BF55 /* SDLButtonPressResponse.h in Headers */,
 				4ABB258124F7E61E0061BF55 /* SDLChoiceCell.h in Headers */,
 				4ABB270124F7FB8F0061BF55 /* SDLBitsPerSample.h in Headers */,
@@ -7345,6 +7344,7 @@
 				4A8BD25F24F933C7000945E3 /* SDLNavigationServiceData.h in Headers */,
 				4ABB299124F845440061BF55 /* SDLSendLocation.h in Headers */,
 				4ABB2A8724F847DF0061BF55 /* SDLReadDIDResponse.h in Headers */,
+				4A8BD3D024FE7CF1000945E3 /* SDLPermissionManager.h in Headers */,
 				4ABB2A8824F847DF0061BF55 /* SDLReleaseInteriorVehicleDataModuleResponse.h in Headers */,
 				4ABB288C24F82A340061BF55 /* SDLVideoStreamingProtocol.h in Headers */,
 				4A8BD2B424F935BC000945E3 /* SDLSISData.h in Headers */,
@@ -7741,7 +7741,6 @@
 				4ABB25EB24F7E7C20061BF55 /* SDLCarWindowViewController.m in Sources */,
 				4ABB284D24F828630061BF55 /* SDLTransmissionType.m in Sources */,
 				4ABB24F424F595120061BF55 /* SDLFile.m in Sources */,
-				4ABB255924F7E5780061BF55 /* SDLPermissionManager.m in Sources */,
 				4A8BD36324F9461A000945E3 /* SDLV1ProtocolMessage.m in Sources */,
 				4ABB253324F7E43A0061BF55 /* SDLAsynchronousRPCRequestOperation.m in Sources */,
 				4ABB2B1024F84D950061BF55 /* SDLAppServiceManifest.m in Sources */,
@@ -7826,6 +7825,7 @@
 				4ABB24BF24F592620061BF55 /* NSMapTable+Subscripting.m in Sources */,
 				4ABB297524F844D30061BF55 /* SDLPerformAppServiceInteraction.m in Sources */,
 				4ABB2AED24F848270061BF55 /* SDLUnsubscribeVehicleDataResponse.m in Sources */,
+				4A8BD3D124FE7CF1000945E3 /* SDLPermissionManager.m in Sources */,
 				4ABB27FC24F823F20061BF55 /* SDLRequestType.m in Sources */,
 				4ABB260524F7E9650061BF55 /* SDLStreamingMediaManager.m in Sources */,
 				4ABB27FE24F823F20061BF55 /* SDLSamplingRate.m in Sources */,
