@@ -18,7 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// An array of rejected parameters such as: [`hashId`]
 @property (copy, nonatomic, readonly, nullable) NSArray<NSString *> *rejectedParams;
 
-- (instancetype)initWithRejectedParams:(nullable NSArray<NSString *> *)rejectedParams;
+/// A string describing the failure
+@property (copy, nonatomic, readonly, nullable) NSString *reason;
+
+- (instancetype)initWithRejectedParams:(nullable NSArray<NSString *> *)rejectedParams reason:(nullable NSString *)reason;
 
 @end
 

@@ -7554,7 +7554,7 @@
 					};
 					5D61FA1B1A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
-						LastSwiftMigration = 1150;
+						LastSwiftMigration = 1160;
 					};
 					5D61FA251A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
