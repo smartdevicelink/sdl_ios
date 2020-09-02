@@ -23,7 +23,6 @@ SDLVehicleDataResult* customOEMvehicleDataResult = [[SDLVehicleDataResult alloc]
 describe(@"getter/setter tests", ^{
     context(@"init and assign", ^{
         SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] init];
-
         testResponse.accPedalPosition = vehicleDataResult;
         testResponse.airbagStatus = vehicleDataResult;
         testResponse.beltStatus = vehicleDataResult;
@@ -60,6 +59,7 @@ describe(@"getter/setter tests", ^{
         testResponse.steeringWheelAngle = vehicleDataResult;
         testResponse.tirePressure = vehicleDataResult;
         testResponse.turnSignal = vehicleDataResult;
+        testResponse.windowStatus = vehicleDataResult;
         testResponse.wiperStatus = vehicleDataResult;
 
         it(@"expect all properties to be set properly", ^{
@@ -99,6 +99,7 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
             expect(testResponse.tirePressure).to(equal(vehicleDataResult));
             expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+            expect(testResponse.windowStatus).to(equal(vehicleDataResult));
             expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
         });
     });
@@ -142,6 +143,7 @@ describe(@"getter/setter tests", ^{
                                                             SDLRPCParameterNameTirePressure:vehicleDataResult,
                                                             SDLRPCParameterNameTurnSignal:vehicleDataResult,
                                                             SDLRPCParameterNameWiperStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameWindowStatus:vehicleDataResult,
                                                             SDLRPCParameterNameHandsOffSteering:vehicleDataResult
                                                             },
                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
@@ -187,6 +189,7 @@ describe(@"getter/setter tests", ^{
                     expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
                     expect(testResponse.tirePressure).to(equal(vehicleDataResult));
                     expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+                    expect(testResponse.windowStatus).to(equal(vehicleDataResult));
                     expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
                 });
     });
@@ -231,12 +234,13 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.steeringWheelAngle).to(beNil());
             expect(testResponse.tirePressure).to(beNil());
             expect(testResponse.turnSignal).to(beNil());
+            expect(testResponse.windowStatus).to(beNil());
             expect(testResponse.wiperStatus).to(beNil());
         });
     });
 
-    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:prndl:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:handsOffSteering:", ^{
-        SDLSubscribeVehicleDataResponse *testResponse = [[SDLSubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult externalTemperature:vehicleDataResult turnSignal:vehicleDataResult gearStatus:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult handsOffSteering:vehicleDataResult];
+    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:handsOffSteering:windowStatus:", ^{
+        SDLSubscribeVehicleDataResponse *testResponse = [[SDLSubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult externalTemperature:vehicleDataResult turnSignal:vehicleDataResult gearStatus:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult handsOffSteering:vehicleDataResult windowStatus:vehicleDataResult];
 
         it(@"expect all properties to be set properly", ^{
             expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
@@ -275,6 +279,7 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
             expect(testResponse.tirePressure).to(equal(vehicleDataResult));
             expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+            expect(testResponse.windowStatus).to(equal(vehicleDataResult));
             expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
         });
     });
