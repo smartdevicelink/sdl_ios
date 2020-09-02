@@ -118,7 +118,7 @@
 }
 
 + (SDLLogFileModule *)sdl_screenManagerTextAndGraphicModule {
-    return [SDLLogFileModule moduleWithName:@"Screen/TextAndGraphic" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Screen/TextAndGraphic" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager", @"SDLTextAndGraphicUpdateOperation"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerSoftButtonModule {
