@@ -291,6 +291,8 @@
 		4A40254224FFDA660080E159 /* SDLTextAndGraphicUpdateOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A40253E24FFDA660080E159 /* SDLTextAndGraphicUpdateOperation.h */; };
 		4A40254324FFDA660080E159 /* SDLTextAndGraphicUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A40253F24FFDA660080E159 /* SDLTextAndGraphicUpdateOperation.m */; };
 		4A40254424FFDA660080E159 /* SDLTextAndGraphicState.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A40254024FFDA660080E159 /* SDLTextAndGraphicState.h */; };
+		4A402559250026430080E159 /* SubscribeButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A402558250026430080E159 /* SubscribeButtonManager.swift */; };
+		4A40255D250026830080E159 /* SubscribeButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A40255B250026620080E159 /* SubscribeButtonManager.m */; };
 		4A457DC324A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */; };
 		4A457DD324A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */; };
 		4A457DD524A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */; };
@@ -1611,8 +1613,6 @@
 		889D0B9624D065EE008AD494 /* SDLSubtleAlertResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */; };
 		889D0B9824D06E52008AD494 /* SDLSubtleAlertSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */; };
 		889D0B9E24D07FF8008AD494 /* SDLOnSubtleAlertPressedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9D24D07FF8008AD494 /* SDLOnSubtleAlertPressedSpec.m */; };
-		889E7BAF249CEE07002E4BE1 /* SubscribeButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E7BAD249CEDCF002E4BE1 /* SubscribeButtonManager.swift */; };
-		889E7BB2249D0877002E4BE1 /* SubscribeButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 889E7BB1249D0877002E4BE1 /* SubscribeButtonManager.m */; };
 		88A118272412ACAD00B45FB5 /* SDLStreamingMediaManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */; };
 		88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */; };
 		88A4A0FA22242AB400C6F01D /* SDLNavigationServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */; };
@@ -2070,6 +2070,9 @@
 		4A40253E24FFDA660080E159 /* SDLTextAndGraphicUpdateOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLTextAndGraphicUpdateOperation.h; path = private/SDLTextAndGraphicUpdateOperation.h; sourceTree = "<group>"; };
 		4A40253F24FFDA660080E159 /* SDLTextAndGraphicUpdateOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTextAndGraphicUpdateOperation.m; path = private/SDLTextAndGraphicUpdateOperation.m; sourceTree = "<group>"; };
 		4A40254024FFDA660080E159 /* SDLTextAndGraphicState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLTextAndGraphicState.h; path = private/SDLTextAndGraphicState.h; sourceTree = "<group>"; };
+		4A402558250026430080E159 /* SubscribeButtonManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubscribeButtonManager.swift; path = "Example Apps/Example Swift/SubscribeButtonManager.swift"; sourceTree = SOURCE_ROOT; };
+		4A40255A250026620080E159 /* SubscribeButtonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubscribeButtonManager.h; path = "Example Apps/Example ObjC/SubscribeButtonManager.h"; sourceTree = SOURCE_ROOT; };
+		4A40255B250026620080E159 /* SubscribeButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubscribeButtonManager.m; path = "Example Apps/Example ObjC/SubscribeButtonManager.m"; sourceTree = SOURCE_ROOT; };
 		4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleRPCAdapterSpec.m; path = DevAPISpecs/SDLLifecycleRPCAdapterSpec.m; sourceTree = "<group>"; };
 		4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleSyncPDataHandlerSpec.m; path = DevAPISpecs/SDLLifecycleSyncPDataHandlerSpec.m; sourceTree = "<group>"; };
 		4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleMobileHMIStateHandlerSpec.m; path = DevAPISpecs/SDLLifecycleMobileHMIStateHandlerSpec.m; sourceTree = "<group>"; };
@@ -3432,9 +3435,6 @@
 		889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertResponseSpec.m; sourceTree = "<group>"; };
 		889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertSpec.m; sourceTree = "<group>"; };
 		889D0B9D24D07FF8008AD494 /* SDLOnSubtleAlertPressedSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnSubtleAlertPressedSpec.m; sourceTree = "<group>"; };
-		889E7BAD249CEDCF002E4BE1 /* SubscribeButtonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeButtonManager.swift; sourceTree = "<group>"; };
-		889E7BB0249D0877002E4BE1 /* SubscribeButtonManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubscribeButtonManager.h; sourceTree = "<group>"; };
-		889E7BB1249D0877002E4BE1 /* SubscribeButtonManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubscribeButtonManager.m; sourceTree = "<group>"; };
 		88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleConfigurationUpdateSpec.m; sourceTree = "<group>"; };
 		88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceDataSpec.m; sourceTree = "<group>"; };
 		88A5E7F3220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnSystemCapabilityUpdatedSpec.m; sourceTree = "<group>"; };
@@ -4595,8 +4595,8 @@
 				5D1FF29621304514000EB9B4 /* ProxyManager.m */,
 				5D1FF29821304514000EB9B4 /* RPCPermissionsManager.h */,
 				5D1FF29221304513000EB9B4 /* RPCPermissionsManager.m */,
-				889E7BB0249D0877002E4BE1 /* SubscribeButtonManager.h */,
-				889E7BB1249D0877002E4BE1 /* SubscribeButtonManager.m */,
+				4A40255A250026620080E159 /* SubscribeButtonManager.h */,
+				4A40255B250026620080E159 /* SubscribeButtonManager.m */,
 				5D1FF29021304513000EB9B4 /* VehicleDataManager.h */,
 				5D1FF29921304514000EB9B4 /* VehicleDataManager.m */,
 			);
@@ -6532,7 +6532,7 @@
 				5D1FF2D721304746000EB9B4 /* PerformInteractionManager.swift */,
 				5D1FF2D321304745000EB9B4 /* ProxyManager.swift */,
 				5D1FF2D521304746000EB9B4 /* RPCPermissionsManager.swift */,
-				889E7BAD249CEDCF002E4BE1 /* SubscribeButtonManager.swift */,
+				4A402558250026430080E159 /* SubscribeButtonManager.swift */,
 				5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */,
 			);
 			name = SDL;
@@ -7659,7 +7659,7 @@
 				5D1FF2BF21304598000EB9B4 /* ConnectionAnimatedTransition.m in Sources */,
 				5D1FF2A721304531000EB9B4 /* Preferences.m in Sources */,
 				5D1FF2CC2130464E000EB9B4 /* main.m in Sources */,
-				889E7BB2249D0877002E4BE1 /* SubscribeButtonManager.m in Sources */,
+				4A40255D250026830080E159 /* SubscribeButtonManager.m in Sources */,
 				5D1FF2C021304598000EB9B4 /* ConnectionTransitionContext.m in Sources */,
 				5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */,
 				5D1FF2A021304515000EB9B4 /* AudioManager.m in Sources */,
@@ -8741,12 +8741,12 @@
 				5DC49BDD237314B500B2B8F2 /* SceneDelegate.swift in Sources */,
 				5D1FF2DC21304746000EB9B4 /* AlertManager.swift in Sources */,
 				5D1FF2EB2130479C000EB9B4 /* ConnectionContainerViewController.swift in Sources */,
-				889E7BAF249CEE07002E4BE1 /* SubscribeButtonManager.swift in Sources */,
 				5D1FF2E021304746000EB9B4 /* MenuManager.swift in Sources */,
 				5D1FF2DF21304746000EB9B4 /* PerformInteractionManager.swift in Sources */,
 				5D1FF2ED2130479C000EB9B4 /* ConnectionIAPTableViewController.swift in Sources */,
 				5D1FF2DD21304746000EB9B4 /* RPCPermissionsManager.swift in Sources */,
 				5D1FF2E721304761000EB9B4 /* TextValidator.swift in Sources */,
+				4A402559250026430080E159 /* SubscribeButtonManager.swift in Sources */,
 				5D1FF2F8213047C1000EB9B4 /* AppDelegate.swift in Sources */,
 				5D1FF2DE21304746000EB9B4 /* AudioManager.swift in Sources */,
 			);
