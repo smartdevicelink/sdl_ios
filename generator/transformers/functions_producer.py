@@ -58,6 +58,7 @@ class FunctionsProducer(InterfaceProducerCommon):
             render['name'] = name
             render['extends_class'] = extends_class
             render['imports'] = imports
+            render['history'] = item.history
 
         super(FunctionsProducer, self).transform(item, render)
 

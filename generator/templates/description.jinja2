@@ -8,14 +8,17 @@
  {%- if description and ( since or history ) %}
  *
  {%- endif %}
- {%- if deprecated %}
- * @deprecated
- {%- endif %}
- {%- if history %}
- * @history SDL {{ history }}
- {%- endif %}
+ {%- if deprecated is sameas true %}
+ * @deprecated in SmartDeviceLink {{ since }}
+ {%- elif history %}
+ * @added in SmartDeviceLink {{ history[0].since }}
+ {%- elif since is defined %}
  {%- if since %}
- * @since SDL {{ since }}
+ * @added in SmartDeviceLink {{ since }}
+ {%- endif %}
+ {%- endif %}
+ {%- if deprecated is sameas true and history %}
+ * @added in SmartDeviceLink {{ history[0].since }}
  {%- endif %}
  */
 {%- endif -%}
