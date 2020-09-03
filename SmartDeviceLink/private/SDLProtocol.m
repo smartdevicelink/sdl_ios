@@ -513,7 +513,6 @@ NS_ASSUME_NONNULL_BEGIN
         switch (startServiceACK.header.serviceType) {
             case SDLServiceTypeRPC: {
                 SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
                 }
@@ -527,14 +526,16 @@ NS_ASSUME_NONNULL_BEGIN
 
                 // TODO: Hash id?
             }
-            case SDLServiceTypeAudio {
-                if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
-                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
+            case SDLServiceTypeAudio: {
+                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+                if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeAudio];
                 }
             }
-            case SDLServiceTypeVideo {
-                if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
-                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
+            case SDLServiceTypeVideo: {
+                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+                if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeVideo];
                 }
             } break;
             default:
