@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSeatControlData : SDLRPCStruct
 
 /**
+ * Convenience init for setting all possible seat control data
+ *
  * @param heatingEnabled - heatingEnabled
  * @param coolingEnabled - coolingEnabled
  * @param heatingLevel - heatingLevel
