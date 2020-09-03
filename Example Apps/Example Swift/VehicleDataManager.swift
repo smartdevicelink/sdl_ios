@@ -111,7 +111,7 @@ extension VehicleDataManager {
         guard hasPermissionToAccessVehicleData(with: manager) else { return }
 
         SDLLog.d("App has permission to access vehicle data. Requesting all vehicle data...")
-        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, cloudAppVehicleID: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, electronicParkBrakeStatus: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, turnSignal: true, vin: true, wiperStatus: true)
+        let getAllVehicleData = SDLGetVehicleData(gps: NSNumber(true), speed: NSNumber(true), rpm: NSNumber(true), instantFuelConsumption: NSNumber(true), fuelRange: NSNumber(true), externalTemperature: NSNumber(true), turnSignal: NSNumber(true), vin: NSNumber(true), gearStatus: NSNumber(true), tirePressure: NSNumber(true), odometer: NSNumber(true), beltStatus: NSNumber(true), bodyInformation: NSNumber(true), deviceStatus: NSNumber(true), driverBraking: NSNumber(true), wiperStatus: NSNumber(true), headLampStatus: NSNumber(true), engineTorque: NSNumber(true), accPedalPosition: NSNumber(true), steeringWheelAngle: NSNumber(true), engineOilLife: NSNumber(true), electronicParkBrakeStatus: NSNumber(true), cloudAppVehicleID: NSNumber(true), stabilityControlsStatus: NSNumber(true), eCallInfo: NSNumber(true), airbagStatus: NSNumber(true), emergencyEvent: NSNumber(true), clusterModeStatus: NSNumber(true), myKey: NSNumber(true), handsOffSteering: NSNumber(true), windowStatus: NSNumber(true))
 
         manager.send(request: getAllVehicleData) { (request, response, error) in
             guard didAccessVehicleDataSuccessfully(with: manager, response: response, error: error) else { return }
@@ -190,9 +190,9 @@ extension VehicleDataManager {
         case ACExternalTemperatureMenuName:
             vehicleDataDescription = vehicleData.externalTemperature?.description ?? notAvailable
         case ACFuelLevelMenuName:
-            vehicleDataDescription = vehicleData.fuelLevel?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.fuelRange?.first?.level?.description ?? notAvailable
         case ACFuelLevelStateMenuName:
-            vehicleDataDescription = vehicleData.fuelLevel_State?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.fuelRange?.first?.levelState?.rawValue.rawValue ?? notAvailable
         case ACFuelRangeMenuName:
             vehicleDataDescription = vehicleData.fuelRange?.description ?? notAvailable
         case ACGPSMenuName:
@@ -206,7 +206,7 @@ extension VehicleDataManager {
         case ACOdometerMenuName:
             vehicleDataDescription = vehicleData.odometer?.description ?? notAvailable
         case ACPRNDLMenuName:
-            vehicleDataDescription = vehicleData.prndl?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.gearStatus?.actualGear?.rawValue.rawValue ?? notAvailable
         case ACSpeedMenuName:
             vehicleDataDescription = vehicleData.speed?.description ?? notAvailable
         case ACSteeringWheelAngleMenuName:
