@@ -200,7 +200,7 @@ describe(@"a lock screen manager", ^{
                     beforeEach(^{
                         testOffStatus = [[SDLOnLockScreenStatus alloc] init];
                         testOffStatus.lockScreenStatus = SDLLockScreenStatusOff;
-                        SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOffStatus];
+                        SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager rpcNotification:testOffStatus];
 #pragma clang diagnostic pop
                         [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
                     });
