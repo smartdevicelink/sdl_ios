@@ -185,10 +185,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Determine if we should send primary text. If textFields is nil, we don't know the capabilities and we will send everything.
 - (BOOL)sdl_shouldSendChoiceText {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if ([self.displayName isEqualToString:SDLDisplayTypeGen38Inch]) {
         return YES;
     }
-
+#pragma clang diagnostic pop
+    
     return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName];
 }
 

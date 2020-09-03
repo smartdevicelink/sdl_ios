@@ -523,7 +523,10 @@ UInt32 const MenuCellIdMin = 1;
         case SDLDynamicMenuUpdatesModeForceOff:
             return NO;
         case SDLDynamicMenuUpdatesModeOnWithCompatibility:
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             return ![self.systemCapabilityManager.displays.firstObject.displayName isEqualToString:SDLDisplayTypeGen38Inch];
+#pragma clang diagnostic pop
     }
 }
 
