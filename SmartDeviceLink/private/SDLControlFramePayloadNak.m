@@ -17,16 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLControlFramePayloadNak ()
 
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *rejectedParams;
+@property (copy, nonatomic, readwrite, nullable) NSString *reason;
 
 @end
 
 @implementation SDLControlFramePayloadNak
 
-- (instancetype)initWithRejectedParams:(nullable NSArray<NSString *> *)rejectedParams {
+- (instancetype)initWithRejectedParams:(nullable NSArray<NSString *> *)rejectedParams reason:(nullable NSString *)reason {
     self = [super init];
     if (!self) return nil;
 
     _rejectedParams = rejectedParams;
+    _reason = reason;
 
     return self;
 }
@@ -43,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSData *)data {
-    if (self.rejectedParams == nil) {
+    if (self.rejectedParams == nil && self.reason == nil) {
         return nil;
     }
 
@@ -61,6 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
         bson_object_put_array(&payloadObject, SDLControlFrameRejectedParams, &arrayObject);
     }
 
+    if (self.reason != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameReasonKey, (char *)self.reason.UTF8String);
+    }
+
     BytePtr bsonData = bson_object_to_bytes(&payloadObject);
     NSUInteger length = bson_object_size(&payloadObject);
 
@@ -75,7 +81,14 @@ NS_ASSUME_NONNULL_BEGIN
     if (retval <= 0) {
         return;
     }
-    
+
+    // Pull out the reason
+    char *reasonChars = bson_object_get_string(&payloadObject, SDLControlFrameReasonKey);
+    if (reasonChars != NULL) {
+        self.reason = [NSString stringWithUTF8String:reasonChars];
+    }
+
+    // Pull out the rejected params
     BsonArray *arrayObject = bson_object_get_array(&payloadObject, SDLControlFrameRejectedParams);
     if (arrayObject == NULL) {
         return;
@@ -97,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@>: Rejected params: %@", NSStringFromClass(self.class), self.rejectedParams];
+    return [NSString stringWithFormat:@"<%@>: Rejected params: %@, reason: %@", NSStringFromClass(self.class), self.rejectedParams, self.reason];
 }
 
 @end
