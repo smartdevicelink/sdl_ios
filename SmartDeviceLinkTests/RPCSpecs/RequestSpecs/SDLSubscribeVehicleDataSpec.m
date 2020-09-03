@@ -50,6 +50,7 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic pop
         testRequest.rpm = @YES;
         testRequest.speed = @YES;
+        testRequest.stabilityControlsStatus = @YES;
         testRequest.steeringWheelAngle = @YES;
         testRequest.tirePressure = @YES;
         testRequest.turnSignal = @YES;
@@ -90,7 +91,7 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic pop
             expect(testRequest.rpm).to(equal(@YES));
             expect(testRequest.speed).to(equal(@YES));
-            expect(testRequest.stabilityControlsStatus).to(beNil());
+            expect(testRequest.stabilityControlsStatus).to(equal(@YES));
             expect(testRequest.steeringWheelAngle).to(equal(@YES));
             expect(testRequest.tirePressure).to(equal(@YES));
             expect(testRequest.turnSignal).to(equal(@YES));
@@ -122,8 +123,8 @@ describe(@"getter/setter tests", ^{
                                                             SDLRPCParameterNameFuelLevelState:@YES,
 #pragma clang diagnostic pop
                                                             SDLRPCParameterNameFuelRange:@YES,
-                                                            SDLRPCParameterNameGPS:@YES,
                                                             SDLRPCParameterNameGearStatus:@YES,
+                                                            SDLRPCParameterNameGPS:@YES,
                                                             SDLRPCParameterNameHandsOffSteering:@YES,
                                                             SDLRPCParameterNameHeadLampStatus:@YES,
                                                             SDLRPCParameterNameInstantFuelConsumption:@YES,
@@ -141,7 +142,6 @@ describe(@"getter/setter tests", ^{
                                                             SDLRPCParameterNameTurnSignal:@YES,
                                                             SDLRPCParameterNameWindowStatus:@YES,
                                                             SDLRPCParameterNameWiperStatus:@YES,
-
                                                          },
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
 #pragma clang diagnostic push

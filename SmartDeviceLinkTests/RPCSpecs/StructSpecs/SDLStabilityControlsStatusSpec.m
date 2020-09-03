@@ -12,37 +12,53 @@
 
 QuickSpecBegin(SDLStabilityControlsStatusSpec)
 
-describe(@"getter/setter tests", ^ {
-    it(@"should set and get correctly", ^ {
+describe(@"getter/setter tests", ^{
+    // set up test constants
+    SDLVehicleDataStatus escSystem = SDLVehicleDataStatusOn;
+    SDLVehicleDataStatus trailerSwayControl = SDLVehicleDataStatusOn;
+
+    context(@"init and assign", ^{
         SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] init];
-        testStruct.escSystem = SDLVehicleDataStatusOn;
-        testStruct.trailerSwayControl = SDLVehicleDataStatusOn;
-        expect(testStruct.escSystem).to(equal(SDLVehicleDataStatusOn));
-        expect(testStruct.trailerSwayControl).to(equal(SDLVehicleDataStatusOn));
+        testStruct.escSystem = escSystem;
+        testStruct.trailerSwayControl = trailerSwayControl;
+
+        it(@"expect all properties to be set properly", ^{
+            expect(testStruct.escSystem).to(equal(escSystem));
+            expect(testStruct.trailerSwayControl).to(equal(trailerSwayControl));
+        });
     });
 
-    it(@"should get correctly when initialized with a dict", ^ {
-        NSDictionary* dict = @{SDLRPCParameterNameEscSystem:SDLVehicleDataStatusOn, SDLRPCParameterNameTrailerSwayControl:SDLVehicleDataStatusOn};
+    context(@"initWithDictionary:", ^{
+        NSDictionary* dict = @{
+                               SDLRPCParameterNameEscSystem:escSystem,
+                               SDLRPCParameterNameTrailerSwayControl:trailerSwayControl,
+                              };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] initWithDictionary:dict];
+        SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
 
-        expect(testStruct.escSystem).to(equal(SDLVehicleDataStatusOn));
-        expect(testStruct.trailerSwayControl).to(equal(SDLVehicleDataStatusOn));
+        it(@"expect all properties to be set properly", ^{
+            expect(testStruct.escSystem).to(equal(escSystem));
+            expect(testStruct.trailerSwayControl).to(equal(trailerSwayControl));
+        });
     });
 
-    it(@"should return nil if not set", ^ {
+    context(@"init", ^{
         SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] init];
-        expect(testStruct.escSystem).to(beNil());
-        expect(testStruct.trailerSwayControl).to(beNil());
+
+        it(@"expect all properties to be nil", ^{
+            expect(testStruct.escSystem).to(beNil());
+            expect(testStruct.trailerSwayControl).to(beNil());
+        });
     });
 
     context(@"initWithEscSystem:trailerSwayControl:", ^{
-        SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] initWithEscSystem:SDLVehicleDataStatusOff trailerSwayControl:SDLVehicleDataStatusOff];
-        it(@"expect all properties to be set properly", ^ {
-            expect(testStruct.escSystem).to(equal(SDLVehicleDataStatusOff));
-            expect(testStruct.trailerSwayControl).to(equal(SDLVehicleDataStatusOff));
+        SDLStabilityControlsStatus* testStruct = [[SDLStabilityControlsStatus alloc] initWithEscSystem:escSystem trailerSwayControl:trailerSwayControl];
+
+        it(@"expect all properties to be set properly", ^{
+            expect(testStruct.escSystem).to(equal(escSystem));
+            expect(testStruct.trailerSwayControl).to(equal(trailerSwayControl));
         });
     });
 });

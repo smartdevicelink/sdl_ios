@@ -58,4 +58,3 @@ describe(@"individual enum value tests", ^{
 
 QuickSpecEnd
 
-

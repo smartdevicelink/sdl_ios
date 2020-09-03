@@ -106,48 +106,48 @@ describe(@"getter/setter tests", ^{
     });
     
     context(@"initWithDictionary:", ^{
-        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameResponse:@{
-                                                SDLRPCParameterNameParameters:@{
-                                                    SDLRPCParameterNameAccelerationPedalPosition:vehicleDataResult,
-                                                    SDLRPCParameterNameAirbagStatus:vehicleDataResult,
-                                                    SDLRPCParameterNameBeltStatus:vehicleDataResult,
-                                                    SDLRPCParameterNameBodyInformation:vehicleDataResult,
-                                                    SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
-                                                    SDLRPCParameterNameClusterModes:vehicleDataResult,
-                                                    SDLRPCParameterNameDeviceStatus:vehicleDataResult,
-                                                    SDLRPCParameterNameDriverBraking:vehicleDataResult,
-                                                    SDLRPCParameterNameECallInfo:vehicleDataResult,
-                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
-                                                    SDLRPCParameterNameEmergencyEvent:vehicleDataResult,
-                                                    SDLRPCParameterNameEngineOilLife:vehicleDataResult,
-                                                    SDLRPCParameterNameEngineTorque:vehicleDataResult,
-                                                    SDLRPCParameterNameExternalTemperature:vehicleDataResult,
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameResponse:
+                                                    @{SDLRPCParameterNameParameters:@{
+                                                            SDLRPCParameterNameAccelerationPedalPosition:vehicleDataResult,
+                                                            SDLRPCParameterNameAirbagStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameBeltStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameBodyInformation:vehicleDataResult,
+                                                            SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult,
+                                                            SDLRPCParameterNameClusterModes:vehicleDataResult,
+                                                            SDLRPCParameterNameDeviceStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameDriverBraking:vehicleDataResult,
+                                                            SDLRPCParameterNameECallInfo:vehicleDataResult,
+                                                            SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameEmergencyEvent:vehicleDataResult,
+                                                            SDLRPCParameterNameEngineOilLife:vehicleDataResult,
+                                                            SDLRPCParameterNameEngineTorque:vehicleDataResult,
+                                                            SDLRPCParameterNameExternalTemperature:vehicleDataResult,
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                                                    SDLRPCParameterNameFuelLevel:vehicleDataResult,
-                                                    SDLRPCParameterNameFuelLevelState:vehicleDataResult,
+                                                            SDLRPCParameterNameFuelLevel:vehicleDataResult,
+                                                            SDLRPCParameterNameFuelLevelState:vehicleDataResult,
 #pragma clang diagnostic pop
-                                                    SDLRPCParameterNameFuelRange:vehicleDataResult,
-                                                    SDLRPCParameterNameGPS:vehicleDataResult,
-                                                    SDLRPCParameterNameGearStatus:vehicleDataResult,
-                                                    SDLRPCParameterNameHandsOffSteering:vehicleDataResult,
-                                                    SDLRPCParameterNameHeadLampStatus:vehicleDataResult,
-                                                    SDLRPCParameterNameInstantFuelConsumption:vehicleDataResult,
-                                                    SDLRPCParameterNameMyKey:vehicleDataResult,
-                                                    SDLRPCParameterNameOdometer:vehicleDataResult,
+                                                            SDLRPCParameterNameFuelRange:vehicleDataResult,
+                                                            SDLRPCParameterNameGPS:vehicleDataResult,
+                                                            SDLRPCParameterNameGearStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameHandsOffSteering:vehicleDataResult,
+                                                            SDLRPCParameterNameHeadLampStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameInstantFuelConsumption:vehicleDataResult,
+                                                            SDLRPCParameterNameMyKey:vehicleDataResult,
+                                                            SDLRPCParameterNameOdometer:vehicleDataResult,
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                                                    SDLRPCParameterNamePRNDL:vehicleDataResult,
+                                                            SDLRPCParameterNamePRNDL:vehicleDataResult,
 #pragma clang diagnostic pop
-                                                    SDLRPCParameterNameRPM:vehicleDataResult,
-                                                    SDLRPCParameterNameSpeed:vehicleDataResult,
-                                                    SDLRPCParameterNameStabilityControlsStatus:vehicleDataResult,
-                                                    SDLRPCParameterNameSteeringWheelAngle:vehicleDataResult,
-                                                    SDLRPCParameterNameTirePressure:vehicleDataResult,
-                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
-                                                    SDLRPCParameterNameWindowStatus:vehicleDataResult,
-                                                    SDLRPCParameterNameWiperStatus:vehicleDataResult,
-                                                    },
+                                                            SDLRPCParameterNameRPM:vehicleDataResult,
+                                                            SDLRPCParameterNameSpeed:vehicleDataResult,
+                                                            SDLRPCParameterNameStabilityControlsStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameSteeringWheelAngle:vehicleDataResult,
+                                                            SDLRPCParameterNameTirePressure:vehicleDataResult,
+                                                            SDLRPCParameterNameTurnSignal:vehicleDataResult,
+                                                            SDLRPCParameterNameWindowStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameWiperStatus:vehicleDataResult,
+                                                            },
                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
