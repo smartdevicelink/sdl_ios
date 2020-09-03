@@ -260,6 +260,12 @@ NS_ASSUME_NONNULL_BEGIN
     [self.textAndGraphicManager updateWithCompletionHandler:handler];
 }
 
+#pragma mark - Change Layout
+
+- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler {
+    [self.textAndGraphicManager changeLayout:templateConfiguration withCompletionHandler:handler];
+}
+
 #pragma mark - Subscribe Buttons
 
 - (id<NSObject>)subscribeButton:(SDLButtonName)buttonName withUpdateHandler:(SDLSubscribeButtonHandler)updateHandler {

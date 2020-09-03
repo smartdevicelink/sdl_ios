@@ -25,6 +25,7 @@
 #import "SDLShow.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLTemplateConfiguration.h"
 #import "SDLTextField.h"
 #import "SDLTextAndGraphicUpdateOperation.h"
 #import "SDLTextAndGraphicState.h"
@@ -183,6 +184,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         updateOp.currentScreenData = newScreenData;
     }
+}
+
+#pragma mark - Change Layout
+
+- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLTextAndGraphicUpdateOperation)handler {
+
 }
 
 #pragma mark - Convert to State

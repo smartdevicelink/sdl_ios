@@ -13,6 +13,7 @@
 
 @class SDLArtwork;
 @class SDLFileManager;
+@class SDLTemplateConfiguration;
 @class SDLTextAndGraphicConfiguration;
 @class SDLSystemCapabilityManager;
 
@@ -91,6 +92,11 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
  @param handler A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.
  */
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler;
+
+/// Change the current layout to a new layout and optionally update the layout's night and day color schemes. The values set for the text, graphics, buttons and template title persist between layout changes. To update the text, graphics, buttons and template title at the same time as the template, batch all the updates between `beginUpdates` and `endUpdates`. If the layout update fails while batching, then the updated text, graphics, buttons or template title will also not be updated.
+/// @param templateConfiguration The new configuration of the template, including the layout and color scheme.
+/// @param handler A handler that will be called when the layout change finished.
+- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler;
 
 @end
 
