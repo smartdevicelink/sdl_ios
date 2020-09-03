@@ -123,14 +123,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:vin:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:windowStatus: instead");
 
 /**
- *  Convenience init for getting data for all possible vehicle data items.
+ * Convenience init for getting data for all possible vehicle data items.
  *
  * @param gps - gps
- * @param speed - @(speed)
+ * @param speed - speed
  * @param rpm - rpm
- * @param instantFuelConsumption - @(instantFuelConsumption)
+ * @param instantFuelConsumption - instantFuelConsumption
  * @param fuelRange - fuelRange
- * @param externalTemperature - @(externalTemperature)
+ * @param externalTemperature - externalTemperature
  * @param turnSignal - turnSignal
  * @param vin - vin
  * @param gearStatus - gearStatus
@@ -142,10 +142,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param driverBraking - driverBraking
  * @param wiperStatus - wiperStatus
  * @param headLampStatus - headLampStatus
- * @param engineTorque - @(engineTorque)
- * @param accPedalPosition - @(accPedalPosition)
- * @param steeringWheelAngle - @(steeringWheelAngle)
- * @param engineOilLife - @(engineOilLife)
+ * @param engineTorque - engineTorque
+ * @param accPedalPosition - accPedalPosition
+ * @param steeringWheelAngle - steeringWheelAngle
+ * @param engineOilLife - engineOilLife
  * @param electronicParkBrakeStatus - electronicParkBrakeStatus
  * @param cloudAppVehicleID - cloudAppVehicleID
  * @param stabilityControlsStatus - stabilityControlsStatus

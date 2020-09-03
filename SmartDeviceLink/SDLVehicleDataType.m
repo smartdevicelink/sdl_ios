@@ -4,7 +4,6 @@
 
 #import "SDLVehicleDataType.h"
 
-
 SDLVehicleDataType const SDLVehicleDataTypeAccelerationPedal = @"VEHICLEDATA_ACCPEDAL";
 SDLVehicleDataType const SDLVehicleDataTypeAirbagStatus = @"VEHICLEDATA_AIRBAGSTATUS";
 SDLVehicleDataType const SDLVehicleDataTypeBatteryVoltage = @"VEHICLEDATA_BATTVOLTAGE";

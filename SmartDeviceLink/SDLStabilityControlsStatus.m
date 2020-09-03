@@ -54,8 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVehicleDataStatus)escSystem {
-    NSError *error = nil;
-    return [self.store sdl_enumForName:SDLRPCParameterNameEscSystem error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameEscSystem error:nil];
 }
 
 - (void)setTrailerSwayControl:(nullable SDLVehicleDataStatus)trailerSwayControl {
@@ -63,8 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVehicleDataStatus)trailerSwayControl {
-    NSError *error = nil;
-    return [self.store sdl_enumForName:SDLRPCParameterNameTrailerSwayControl error:&error];
+    return [self.store sdl_enumForName:SDLRPCParameterNameTrailerSwayControl error:nil];
 }
 
 @end
