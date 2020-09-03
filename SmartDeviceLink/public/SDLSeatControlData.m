@@ -59,6 +59,34 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithHeatingEnabled:(nullable NSNumber<SDLBool> *)heatingEnabled coolingEnabled:(nullable NSNumber<SDLBool> *)coolingEnabled heatingLevel:(nullable NSNumber<SDLUInt> *)heatingLevel coolingLevel:(nullable NSNumber<SDLUInt> *)coolingLevel horizontalPosition:(nullable NSNumber<SDLUInt> *)horizontalPosition verticalPosition:(nullable NSNumber<SDLUInt> *)verticalPosition frontVerticalPosition:(nullable NSNumber<SDLUInt> *)frontVerticalPosition backVerticalPosition:(nullable NSNumber<SDLUInt> *)backVerticalPosition backTiltAngle:(nullable NSNumber<SDLUInt> *)backTiltAngle headSupportHorizontalPosition:(nullable NSNumber<SDLUInt> *)headSupportHorizontalPosition headSupportVerticalPosition:(nullable NSNumber<SDLUInt> *)headSupportVerticalPosition massageEnabled:(nullable NSNumber<SDLBool> *)massageEnabled massageMode:(nullable NSArray<SDLMassageModeData *> *)massageMode massageCushionFirmness:(nullable NSArray<SDLMassageCushionFirmness *> *)massageCushionFirmness memory:(nullable SDLSeatMemoryAction *)memory {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    self.heatingEnabled = heatingEnabled;
+    self.coolingEnabled = coolingEnabled;
+    self.heatingLevel = heatingLevel;
+    self.coolingLevel = coolingLevel;
+
+    self.horizontalPosition = horizontalPosition;
+    self.verticalPosition = verticalPosition;
+    self.frontVerticalPosition = frontVerticalPosition;
+    self.backVerticalPosition = backVerticalPosition;
+    self.backTiltAngle = backTiltAngle;
+
+    self.headSupportHorizontalPosition = headSupportHorizontalPosition;
+    self.headSupportVerticalPosition = headSupportVerticalPosition;
+
+    self.massageEnabled = massageEnabled;
+    self.massageMode = massageMode;
+    self.massageCushionFirmness = massageCushionFirmness;
+    self.memory = memory;
+
+    return self;
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)setId:(SDLSupportedSeat)id {
