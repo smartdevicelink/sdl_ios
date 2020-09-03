@@ -46,6 +46,7 @@ describe(@"individual enum value tests", ^{
 #pragma clang diagnostic pop
         expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
         expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
+        expect(SDLVehicleDataTypeStabilityControlsStatus).to(equal(@"VEHICLEDATA_STABILITYCONTROLSSTATUS"));
         expect(SDLVehicleDataTypeSteeringWheel).to(equal(@"VEHICLEDATA_STEERINGWHEEL"));
         expect(SDLVehicleDataTypeTirePressure).to(equal(@"VEHICLEDATA_TIREPRESSURE"));
         expect(SDLVehicleDataTypeTurnSignal).to(equal(@"VEHICLEDATA_TURNSIGNAL"));
@@ -56,3 +57,4 @@ describe(@"individual enum value tests", ^{
 });
 
 QuickSpecEnd
+

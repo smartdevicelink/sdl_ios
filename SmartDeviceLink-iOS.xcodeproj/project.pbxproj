@@ -293,6 +293,8 @@
 		4A40254424FFDA660080E159 /* SDLTextAndGraphicState.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A40254024FFDA660080E159 /* SDLTextAndGraphicState.h */; };
 		4A402559250026430080E159 /* SubscribeButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A402558250026430080E159 /* SubscribeButtonManager.swift */; };
 		4A40255D250026830080E159 /* SubscribeButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A40255B250026620080E159 /* SubscribeButtonManager.m */; };
+		4A402560250134CB0080E159 /* SDLStabilityControlsStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A40255E250134CA0080E159 /* SDLStabilityControlsStatus.m */; };
+		4A402561250134CB0080E159 /* SDLStabilityControlsStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A40255F250134CA0080E159 /* SDLStabilityControlsStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A457DC324A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */; };
 		4A457DD324A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */; };
 		4A457DD524A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */; };
@@ -2073,6 +2075,8 @@
 		4A402558250026430080E159 /* SubscribeButtonManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubscribeButtonManager.swift; path = "Example Apps/Example Swift/SubscribeButtonManager.swift"; sourceTree = SOURCE_ROOT; };
 		4A40255A250026620080E159 /* SubscribeButtonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubscribeButtonManager.h; path = "Example Apps/Example ObjC/SubscribeButtonManager.h"; sourceTree = SOURCE_ROOT; };
 		4A40255B250026620080E159 /* SubscribeButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubscribeButtonManager.m; path = "Example Apps/Example ObjC/SubscribeButtonManager.m"; sourceTree = SOURCE_ROOT; };
+		4A40255E250134CA0080E159 /* SDLStabilityControlsStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLStabilityControlsStatus.m; path = public/SDLStabilityControlsStatus.m; sourceTree = "<group>"; };
+		4A40255F250134CA0080E159 /* SDLStabilityControlsStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLStabilityControlsStatus.h; path = public/SDLStabilityControlsStatus.h; sourceTree = "<group>"; };
 		4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleRPCAdapterSpec.m; path = DevAPISpecs/SDLLifecycleRPCAdapterSpec.m; sourceTree = "<group>"; };
 		4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleSyncPDataHandlerSpec.m; path = DevAPISpecs/SDLLifecycleSyncPDataHandlerSpec.m; sourceTree = "<group>"; };
 		4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleMobileHMIStateHandlerSpec.m; path = DevAPISpecs/SDLLifecycleMobileHMIStateHandlerSpec.m; sourceTree = "<group>"; };
@@ -5105,6 +5109,8 @@
 				4A8BD2A924F935BB000945E3 /* SDLSoftButton.m */,
 				4A8BD2A524F935BB000945E3 /* SDLSoftButtonCapabilities.h */,
 				4A8BD2A324F935BB000945E3 /* SDLSoftButtonCapabilities.m */,
+				4A40255F250134CA0080E159 /* SDLStabilityControlsStatus.h */,
+				4A40255E250134CA0080E159 /* SDLStabilityControlsStatus.m */,
 				4A8BD2A424F935BB000945E3 /* SDLStartTime.h */,
 				4A8BD2AF24F935BC000945E3 /* SDLStartTime.m */,
 				4A8BD2AD24F935BC000945E3 /* SDLStationIDNumber.h */,
@@ -7317,6 +7323,7 @@
 				4ABB288824F82A340061BF55 /* SDLVideoStreamingCodec.h in Headers */,
 				4ABB29D724F846880061BF55 /* SDLSubscribeButton.h in Headers */,
 				4ABB2A5224F847B10061BF55 /* SDLGetFileResponse.h in Headers */,
+				4A402561250134CB0080E159 /* SDLStabilityControlsStatus.h in Headers */,
 				4ABB25F724F7E7EF0061BF55 /* SDLTouchManagerDelegate.h in Headers */,
 				4A8BD34424F945CC000945E3 /* SDLControlFramePayloadNak.h in Headers */,
 				4A8BD36624F9461A000945E3 /* SDLProtocolMessage.h in Headers */,
@@ -7803,6 +7810,7 @@
 				4ABB253724F7E4540061BF55 /* SDLSequentialRPCRequestOperation.m in Sources */,
 				4ABB25D524F7E7630061BF55 /* SDLTextField+ScreenManagerExtensions.m in Sources */,
 				4ABB266324F7F6000061BF55 /* SDLResponseDispatcher.m in Sources */,
+				4A402560250134CB0080E159 /* SDLStabilityControlsStatus.m in Sources */,
 				4ABB291424F842160061BF55 /* SDLDeleteCommand.m in Sources */,
 				4A8BD2B524F935BC000945E3 /* SDLStationIDNumber.m in Sources */,
 				4ABB2A6524F847BB0061BF55 /* SDLListFilesResponse.m in Sources */,

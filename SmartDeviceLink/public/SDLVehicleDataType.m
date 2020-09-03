@@ -33,6 +33,7 @@ SDLVehicleDataType const SDLVehicleDataTypeOdometer = @"VEHICLEDATA_ODOMETER";
 SDLVehicleDataType const SDLVehicleDataTypePRNDL = @"VEHICLEDATA_PRNDL";
 SDLVehicleDataType const SDLVehicleDataTypeRPM = @"VEHICLEDATA_RPM";
 SDLVehicleDataType const SDLVehicleDataTypeSpeed = @"VEHICLEDATA_SPEED";
+SDLVehicleDataType const SDLVehicleDataTypeStabilityControlsStatus = @"VEHICLEDATA_STABILITYCONTROLSSTATUS";
 SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel = @"VEHICLEDATA_STEERINGWHEEL";
 SDLVehicleDataType const SDLVehicleDataTypeTirePressure = @"VEHICLEDATA_TIREPRESSURE";
 SDLVehicleDataType const SDLVehicleDataTypeTurnSignal = @"VEHICLEDATA_TURNSIGNAL";
