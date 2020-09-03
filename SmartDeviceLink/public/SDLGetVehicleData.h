@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetVehicleData : SDLRPCRequest
 
 /**
- *  Convenience init for getting data for all possible vehicle data items. KEEP
+ *  Convenience init for getting data for all possible vehicle data items.
  *
  *  @param accelerationPedalPosition   Get accelerationPedalPosition data
  *  @param airbagStatus                Get airbagStatus data

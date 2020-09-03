@@ -23,32 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure wiperStatus:(BOOL)wiperStatus {
-    self = [self initWithGps:@(gps) speed:@(speed) rpm:@(rpm) instantFuelConsumption:@(instantFuelConsumption) fuelRange:nil externalTemperature:@(externalTemperature) turnSignal:nil gearStatus:nil tirePressure:@(tirePressure) odometer:@(odometer) beltStatus:@(beltStatus) bodyInformation:@(bodyInformation) deviceStatus:@(deviceStatus) driverBraking:@(driverBraking) wiperStatus:@(wiperStatus) headLampStatus:@(headLampStatus) engineTorque:@(engineTorque) accPedalPosition:@(accelerationPedalPosition) steeringWheelAngle:@(steeringWheelAngle) engineOilLife:nil electronicParkBrakeStatus:nil cloudAppVehicleID:nil stabilityControlsStatus:nil eCallInfo:@(eCallInfo) airbagStatus:@(airbagStatus) emergencyEvent:@(emergencyEvent) clusterModeStatus:@(clusterModeStatus) myKey:@(myKey) handsOffSteering:nil windowStatus:nil];
-    if (self) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        self.fuelLevel = @(fuelLevel);
-        self.fuelLevel_State = @(fuelLevelState);
-        self.prndl = @(prndl);
-#pragma clang diagnostic pop
-    }
-    return self;
-}
-
-- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal wiperStatus:(BOOL)wiperStatus {
-    self = [self initWithGps:@(gps) speed:@(speed) rpm:@(rpm) instantFuelConsumption:@(instantFuelConsumption) fuelRange:@(fuelRange) externalTemperature:@(externalTemperature) turnSignal:@(turnSignal) gearStatus:nil tirePressure:@(tirePressure) odometer:@(odometer) beltStatus:@(beltStatus) bodyInformation:@(bodyInformation) deviceStatus:@(deviceStatus) driverBraking:@(driverBraking) wiperStatus:@(wiperStatus) headLampStatus:@(headLampStatus) engineTorque:@(engineTorque) accPedalPosition:@(accelerationPedalPosition) steeringWheelAngle:@(steeringWheelAngle) engineOilLife:@(engineOilLife) electronicParkBrakeStatus:@(electronicParkBrakeStatus) cloudAppVehicleID:nil stabilityControlsStatus:nil eCallInfo:@(eCallInfo) airbagStatus:@(airbagStatus) emergencyEvent:@(emergencyEvent) clusterModeStatus:@(clusterModeStatus) myKey:@(myKey) handsOffSteering:nil windowStatus:nil];
-    if (self) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        self.fuelLevel = @(fuelLevel);
-        self.fuelLevel_State = @(fuelLevelState);
-        self.prndl = @(prndl);
-#pragma clang diagnostic pop
-    }
-    return self;
-}
-
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation  cloudAppVehicleID:(BOOL)cloudAppVehicleID clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure turnSignal:(BOOL)turnSignal wiperStatus:(BOOL)wiperStatus {
     self = [self initWithGps:@(gps) speed:@(speed) rpm:@(rpm) instantFuelConsumption:@(instantFuelConsumption) fuelRange:@(fuelRange) externalTemperature:@(externalTemperature) turnSignal:@(turnSignal) gearStatus:nil tirePressure:@(tirePressure) odometer:@(odometer) beltStatus:@(beltStatus) bodyInformation:@(bodyInformation) deviceStatus:@(deviceStatus) driverBraking:@(driverBraking) wiperStatus:@(wiperStatus) headLampStatus:@(headLampStatus) engineTorque:@(engineTorque) accPedalPosition:@(accelerationPedalPosition) steeringWheelAngle:@(steeringWheelAngle) engineOilLife:@(engineOilLife) electronicParkBrakeStatus:@(electronicParkBrakeStatus) cloudAppVehicleID:@(cloudAppVehicleID) stabilityControlsStatus:nil eCallInfo:@(eCallInfo) airbagStatus:@(airbagStatus) emergencyEvent:@(emergencyEvent) clusterModeStatus:@(clusterModeStatus) myKey:@(myKey) handsOffSteering:nil windowStatus:nil];
     if (self) {
