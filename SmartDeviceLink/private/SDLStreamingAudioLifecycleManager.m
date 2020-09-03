@@ -201,10 +201,6 @@ NS_ASSUME_NONNULL_BEGIN
     SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
     SDLLogD(@"Request to start audio service ACKed on transport %@, with payload: %@", protocol.transport, audioAckPayload);
 
-    if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
-        [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
-    }
-
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 

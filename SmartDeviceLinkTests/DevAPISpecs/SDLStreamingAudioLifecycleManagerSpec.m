@@ -315,7 +315,6 @@ describe(@"the streaming audio manager", ^{
             });
 
             it(@"should have set all the right properties", ^{
-                expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeAudio]).to(equal(testMTU));
                 expect(streamingLifecycleManager.audioEncrypted).to(equal(YES));
                 expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
             });

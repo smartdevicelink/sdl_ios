@@ -526,6 +526,16 @@ NS_ASSUME_NONNULL_BEGIN
                 self.authToken = [SDLGlobals.sharedGlobals.maxHeadUnitProtocolVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:5 minor:2 patch:0]] ? startServiceACKPayload.authToken : nil;
 
                 // TODO: Hash id?
+            }
+            case SDLServiceTypeAudio {
+                if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
+                }
+            }
+            case SDLServiceTypeVideo {
+                if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
+                }
             } break;
             default:
                 break;
