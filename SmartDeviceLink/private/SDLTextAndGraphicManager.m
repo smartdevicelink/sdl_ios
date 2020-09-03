@@ -188,8 +188,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Change Layout
 
-- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLTextAndGraphicUpdateOperation)handler {
-
+- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+    
 }
 
 #pragma mark - Convert to State

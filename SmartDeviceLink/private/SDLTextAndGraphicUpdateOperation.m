@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) SDLWindowCapability *currentCapabilities;
 @property (strong, nonatomic) SDLTextAndGraphicState *updatedState;
+@property (strong, nonatomic) SDLTemplateConfiguration *updatedTemplateConfiguration;
 
 @property (copy, nonatomic, nullable) CurrentDataUpdatedHandler currentDataUpdatedHandler;
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler updateCompletionHandler;
@@ -40,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(nonnull SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(SDLTextAndGraphicState *)newState newTemplateConfiguration:(SDLTemplateConfiguration *)templateConfiguration currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
     self = [self init];
     if (!self) { return nil; }
 
@@ -49,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     _currentCapabilities = currentCapabilities;
     _currentScreenData = currentData;
     _updatedState = newState;
+    _updatedTemplateConfiguration = templateConfiguration;
     _currentDataUpdatedHandler = currentDataUpdatedHandler;
     _updateCompletionHandler = updateCompletionHandler;
 

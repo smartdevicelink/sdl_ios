@@ -218,6 +218,14 @@ NS_ASSUME_NONNULL_BEGIN
     return _textAndGraphicManager.textField4Type;
 }
 
+- (nullable NSString *)title {
+    return _textAndGraphicManager.title;
+}
+
+- (nullable NSString *)currentLayout {
+    return _textAndGraphicManager.currentLayout;
+}
+
 - (NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     return _softButtonManager.softButtonObjects;
 }
