@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedManager;
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType;
-- (void)startProxyTCP:(SDLTCPConfig*)tcpConfig;
+- (void)startProxyTCP:(SDLTCPConfig *)tcpConfig;
 - (void)stopConnection;
 
 @end

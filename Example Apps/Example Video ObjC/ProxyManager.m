@@ -64,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
     //#Touch_Input: Pre sdl_ios v6.3
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(touchEventAvailable:) name:SDLDidReceiveTouchEventNotification object:nil];
 
-
     return self;
 }
 
@@ -108,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDL Configuration
 
-- (void)startProxyTCP:(SDLTCPConfig*)tcpConfig {
+- (void)startProxyTCP:(SDLTCPConfig *)tcpConfig {
     assert(nil != tcpConfig);
     if (self.sdlManager) {
         [self.sdlManager stop];
@@ -179,8 +178,6 @@ NS_ASSUME_NONNULL_BEGIN
             weakSelf.sdlManager.streamManager.touchManager.touchEventDelegate = self;
         }
 
-
-
         NSLog(@"SDL started, file manager storage: %lu mb", (long)weakSelf.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
     }];
 }
@@ -202,10 +199,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
     if (self.sdlManager != nil) {
-        // Manager already created, just start it again.
-        //TODO: the ip might change but we still start it with the old config
-        [self sdlex_startManager];
-        return;
+        [self.sdlManager stop];
+        self.sdlManager = nil;
     }
 
     SDLLockScreenConfiguration *lockScreenConfiguration = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil];

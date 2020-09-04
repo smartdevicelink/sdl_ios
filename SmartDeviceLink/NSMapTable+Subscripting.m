@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self objectForKey:key];
 }
 
-- (NSArray*)allKeys {
+- (NSArray *)allKeys {
     return self.dictionaryRepresentation.allKeys;
 }
 

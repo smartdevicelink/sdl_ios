@@ -7747,7 +7747,7 @@
 						ProvisioningStyle = Automatic;
 					};
 					B32B7C3324EB91DC009670C1 = {
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -9208,16 +9208,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = G99VP5HXV7;
+				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
-				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -9227,16 +9225,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = G99VP5HXV7;
+				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
-				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -9550,17 +9546,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = G99VP5HXV7;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
+				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Video ObjC/SmartDeviceLink-Example-Video-ObjC.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestVideoApp;
 				PRODUCT_NAME = "SDL Video Strm";
-				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -9569,17 +9566,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = G99VP5HXV7;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
+				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Video ObjC/SmartDeviceLink-Example-Video-ObjC.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 6.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestVideoApp;
 				PRODUCT_NAME = "SDL Video Strm";
-				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         if ((classType == NSString.class) && [obj respondsToSelector:@selector(stringValue)]) {
             // fix an issue when JSON treats number values as NSNumber and a string expected
-            NSString * numString = [obj stringValue];
+            NSString *numString = [obj stringValue];
             if (numString) {
                 return numString;
             }
