@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithPermissions:_permissionElements groupType:_groupType permissionStatusHandler:_rpcPermissionStatusHandler];
+    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithPermissions:[_permissionElements copyWithZone:zone] groupType:_groupType permissionStatusHandler:[_rpcPermissionStatusHandler copyWithZone:zone]];
     newFilter->_identifier = _identifier;
 
     return newFilter;
