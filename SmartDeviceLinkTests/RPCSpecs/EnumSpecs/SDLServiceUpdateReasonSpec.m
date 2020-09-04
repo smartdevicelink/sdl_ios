@@ -20,6 +20,15 @@ describe(@"Individual Enum Value Tests", ^{
         expect(SDLServiceUpdateReasonActivated).to(equal(@"ACTIVATED"));
         expect(SDLServiceUpdateReasonDeactivated).to(equal(@"DEACTIVATED"));
         expect(SDLServiceUpdateReasonManifestUpdate).to(equal(@"MANIFEST_UPDATE"));
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(SDLServiceUpdatePublished).to(equal(@"PUBLISHED"));
+        expect(SDLServiceUpdateRemoved).to(equal(@"REMOVED"));
+        expect(SDLServiceUpdateActivated).to(equal(@"ACTIVATED"));
+        expect(SDLServiceUpdateDeactivated).to(equal(@"DEACTIVATED"));
+        expect(SDLServiceUpdateManifestUpdate).to(equal(@"MANIFEST_UPDATE"));
+#pragma clang diagnostic pop
     });
 });
 
