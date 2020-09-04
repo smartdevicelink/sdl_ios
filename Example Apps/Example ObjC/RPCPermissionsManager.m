@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return             A unique identifier for the subscription. This can be used to later to unsubscribe from the notifications.
  */
 + (SDLPermissionObserverIdentifier)sdlex_subscribeGroupPermissionsWithManager:(SDLManager *)manager permissionElements:(NSArray<SDLPermissionElement *> *)permissionElements groupType:(SDLPermissionGroupType)groupType {
-    SDLPermissionObserverIdentifier observerId = [manager.permissionManager subscribeToRPCPermissions:permissionElements groupType:groupType withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
+    SDLPermissionObserverIdentifier observerId = [manager.permissionManager subscribeToRPCPermissions:permissionElements groupType:groupType withHandler:^(NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> * _Nonnull change, SDLPermissionGroupStatus status) {
         [self sdlex_logRPCGroupPermissions:permissionElements groupPermissionStatus:status individualPermissionStatuses:change];
     }];
     return observerId;
