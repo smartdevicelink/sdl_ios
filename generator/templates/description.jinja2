@@ -11,14 +11,14 @@
  {%- if deprecated is sameas true %}
  * @deprecated in SmartDeviceLink {{ since }}
  {%- elif history %}
- * @added in SmartDeviceLink {{ history[0].since }}
+ * @added in SmartDeviceLink {{ history }}
  {%- elif since is defined %}
  {%- if since %}
  * @added in SmartDeviceLink {{ since }}
  {%- endif %}
  {%- endif %}
  {%- if deprecated is sameas true and history %}
- * @added in SmartDeviceLink {{ history[0].since }}
+ * @added in SmartDeviceLink {{ history }}
  {%- endif %}
  */
 {%- endif -%}
