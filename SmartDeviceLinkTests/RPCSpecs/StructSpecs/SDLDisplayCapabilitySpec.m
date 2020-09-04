@@ -97,21 +97,6 @@ describe(@"Getter/Setter Tests", ^ {
         SDLDisplayCapability *testStruct = [[SDLDisplayCapability alloc] initWithDisplayName:testDisplayName];
 
         expect(testStruct.displayName).to(equal(testDisplayName));
-        expect(testStruct.windowTypeSupported).to(beNil());
-        expect(testStruct.windowTypeSupported).to(beNil());
-        expect(testStruct.windowCapabilities).to(beNil());
-        expect(testStruct.windowCapabilities).to(beNil());
-        expect(testStruct.windowCapabilities).to(beNil());
-        expect(testStruct.windowCapabilities).to(beNil());
-        expect(testStruct.windowCapabilities).to(beNil());
-        expect(testStruct.windowCapabilities).to(beNil());
-        expect(testStruct.windowCapabilities).to(beNil());
-    });
-
-    it(@"Should initialize correctly with initWithDisplayName:", ^{
-        SDLDisplayCapability *testStruct = [[SDLDisplayCapability alloc] initWithDisplayName:testDisplayName];
-
-        expect(testStruct.displayName).to(equal(testDisplayName));
         expect(testStruct.windowCapabilities).to(beNil());
         expect(testStruct.windowTypeSupported).to(beNil());
     });
@@ -122,6 +107,14 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.displayName).to(equal(testDisplayName));
         expect(testStruct.windowCapabilities).to(equal(@[testWindowCapability]));
         expect(testStruct.windowTypeSupported).to(equal(@[testWindowTypeCapabilities]));
+    });
+
+    it(@"Should be nil if not set", ^{
+        SDLDisplayCapability *testStruct = [[SDLDisplayCapability alloc] init];
+
+        expect(testStruct.displayName).to(beNil());
+        expect(testStruct.windowCapabilities).to(beNil());
+        expect(testStruct.windowTypeSupported).to(beNil());
     });
 });
 
