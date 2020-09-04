@@ -19,7 +19,7 @@
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouch.h"
-#import "SDLHapticRectViewController.h"
+#import "TestHapticRectViewController.h"
 
 BOOL compareRectangle(SDLRectangle *sdlRectangle, CGRect cgRect) {
     expect(sdlRectangle.x).to(equal(cgRect.origin.x));
@@ -47,7 +47,7 @@ QuickSpecBegin(SDLHapticManagerSpec)
 
 describe(@"the haptic manager", ^{
     __block UIWindow *uiWindow;
-    __block SDLHapticRectViewController *testHapticRectViewController;
+    __block TestHapticRectViewController *testHapticRectViewController;
 
     __block SDLFocusableItemLocator *hapticManager;
     __block SDLSendHapticData* sentHapticRequest;
@@ -59,7 +59,7 @@ describe(@"the haptic manager", ^{
 
     beforeEach(^{
         uiWindow = [[UIWindow alloc] init];
-        testHapticRectViewController = [[SDLHapticRectViewController alloc] init];
+        testHapticRectViewController = [[TestHapticRectViewController alloc] init];
         uiWindow.rootViewController = testHapticRectViewController;
 
         sdlLifecycleManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));

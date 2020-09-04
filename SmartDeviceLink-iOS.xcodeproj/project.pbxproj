@@ -1648,7 +1648,7 @@
 		88F65133220C6DC300CAF321 /* SDLWeatherAlertSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F65132220C6DC300CAF321 /* SDLWeatherAlertSpec.m */; };
 		88FBF7C0250132B4005EA0A4 /* SDLLockScreenStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FBF7BF250132B3005EA0A4 /* SDLLockScreenStatusSpec.m */; };
 		88FBF7C2250132C1005EA0A4 /* SDLOnLockScreenStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FBF7C1250132C1005EA0A4 /* SDLOnLockScreenStatusSpec.m */; };
-		88FBF7C52501330F005EA0A4 /* SDLHapticRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FBF7C42501330F005EA0A4 /* SDLHapticRectViewController.m */; };
+		88FBF7C52501330F005EA0A4 /* TestHapticRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FBF7C42501330F005EA0A4 /* TestHapticRectViewController.m */; };
 		8B05F88922DD011300666CD8 /* SDLUnpublishAppServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B05F88822DD011300666CD8 /* SDLUnpublishAppServiceSpec.m */; };
 		8B7B31A91F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31A81F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m */; };
 		8B7B31AB1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31AA1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m */; };
@@ -3472,8 +3472,8 @@
 		88F65132220C6DC300CAF321 /* SDLWeatherAlertSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherAlertSpec.m; sourceTree = "<group>"; };
 		88FBF7BF250132B3005EA0A4 /* SDLLockScreenStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLockScreenStatusSpec.m; sourceTree = "<group>"; };
 		88FBF7C1250132C1005EA0A4 /* SDLOnLockScreenStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnLockScreenStatusSpec.m; sourceTree = "<group>"; };
-		88FBF7C32501330F005EA0A4 /* SDLHapticRectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLHapticRectViewController.h; sourceTree = "<group>"; };
-		88FBF7C42501330F005EA0A4 /* SDLHapticRectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticRectViewController.m; sourceTree = "<group>"; };
+		88FBF7C32501330F005EA0A4 /* TestHapticRectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestHapticRectViewController.h; sourceTree = "<group>"; };
+		88FBF7C42501330F005EA0A4 /* TestHapticRectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestHapticRectViewController.m; sourceTree = "<group>"; };
 		8B05F88822DD011300666CD8 /* SDLUnpublishAppServiceSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLUnpublishAppServiceSpec.m; sourceTree = "<group>"; };
 		8B7B31A81F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingProtocolSpec.m; sourceTree = "<group>"; };
 		8B7B31AA1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCodecSpec.m; sourceTree = "<group>"; };
@@ -6698,8 +6698,8 @@
 		88FBF7C62501343E005EA0A4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				88FBF7C32501330F005EA0A4 /* SDLHapticRectViewController.h */,
-				88FBF7C42501330F005EA0A4 /* SDLHapticRectViewController.m */,
+				88FBF7C32501330F005EA0A4 /* TestHapticRectViewController.h */,
+				88FBF7C42501330F005EA0A4 /* TestHapticRectViewController.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -8327,7 +8327,7 @@
 				162E83721A9BDE8B00906325 /* SDLAudioPassThruCapabilitiesSpec.m in Sources */,
 				162E83681A9BDE8B00906325 /* SDLSpeakResponseSpec.m in Sources */,
 				B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */,
-				88FBF7C52501330F005EA0A4 /* SDLHapticRectViewController.m in Sources */,
+				88FBF7C52501330F005EA0A4 /* TestHapticRectViewController.m in Sources */,
 				1EB59CD8202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m in Sources */,
 				162E83661A9BDE8B00906325 /* SDLShowResponseSpec.m in Sources */,
 				5D9F50831BEA5C6100FEF399 /* SDLFileManagerSpec.m in Sources */,

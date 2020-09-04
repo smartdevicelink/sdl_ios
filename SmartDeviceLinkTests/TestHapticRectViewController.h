@@ -1,5 +1,5 @@
 //
-//  SDLHapticRectViewController.h
+//  TestHapticRectViewController.h
 //  SmartDeviceLinkTests
 //
 //  Created by Nicole on 9/1/20.
@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// Test view controller for testing the SDLFocusableItemLocator's preferredFocusEnvironments
-@interface SDLHapticRectViewController : UIViewController
+@interface TestHapticRectViewController : UIViewController
 
 @end
 

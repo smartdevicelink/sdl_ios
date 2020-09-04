@@ -1,5 +1,5 @@
 //
-//  SDLHapticRectViewController.m
+//  TestHapticRectViewController.m
 //  SmartDeviceLinkTests
 //
 //  Created by Nicole on 9/1/20.
