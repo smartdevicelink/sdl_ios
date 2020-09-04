@@ -39,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties menuLayout:(nullable SDLMenuLayout)menuLayout {
+    return [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:vrHelpTitle vrHelp:vrHelp menuTitle:menuTitle menuIcon:menuIcon keyboardProperties:keyboardProperties userLocation:nil menuLayout:menuLayout];
+}
+
+- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties userLocation:(nullable SDLSeatLocation *)userLocation menuLayout:(nullable SDLMenuLayout)menuLayout {
     self = [self init];
     if (!self) {
         return nil;
@@ -51,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.menuTitle = menuTitle;
     self.menuIcon = menuIcon;
     self.keyboardProperties = keyboardProperties;
+    self.userLocation = userLocation;
     self.menuLayout = menuLayout;
 
     return self;
