@@ -105,6 +105,8 @@
 - (void)updateInteractiveTransition:(CGFloat)percentComplete {}
 - (void)finishInteractiveTransition {}
 - (void)cancelInteractiveTransition {}
+- (void)pauseInteractiveTransition {}
+
 
 
 @end
