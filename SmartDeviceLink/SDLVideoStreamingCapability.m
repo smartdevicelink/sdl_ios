@@ -170,15 +170,17 @@ NS_ASSUME_NONNULL_BEGIN
 @"\thapticSpatialDataSupported:%@\n"
 @"\tdiagonalScreenSize:%@\n"
 @"\tpixelPerInch:%@\n"
-@"\tscale:%@ }",
+@"\tscale:%@\n"
+@"\tadditionalVideoStreamingCapabilities[%d]:%@ }",
             NSStringFromClass(self.class), self,
             formats,
             self.preferredResolution,
             self.maxBitrate,
-            self.hapticSpatialDataSupported,
+            self.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO",
             self.diagonalScreenSize,
             self.pixelPerInch,
-            self.scale];
+            self.scale,
+            (int)self.additionalVideoStreamingCapabilities.count, self.additionalVideoStreamingCapabilities];
 }
 
 @end

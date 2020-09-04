@@ -117,7 +117,8 @@ NS_ASSUME_NONNULL_BEGIN
                          @32785: SDLRPCFunctionNameOnRCStatus,
                          @32786: SDLRPCFunctionNameOnAppServiceData,
                          @32787: SDLRPCFunctionNameOnSystemCapabilityUpdated,
-                         @32788: SDLRPCFunctionNameOnSubtleAlertPressed,
+//                         @32788: SDLRPCFunctionNameOnSubtleAlertPressed,  //Warning: duplicate f-id
+                         @32788: SDLRPCFunctionNameOnAppCapabilityUpdated,
                          @32789: SDLRPCFunctionNameOnUpdateFile,
                          @32790: SDLRPCFunctionNameOnUpdateSubMenu,
 #pragma clang diagnostic push

@@ -13,14 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnAppCapabilityUpdated
 
+- (instancetype)init {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (instancetype)init {
-    if (self = [super initWithName:SDLRPCFunctionNameOnAppCapabilityUpdated]) {
-    }
+    self = [super initWithName:SDLRPCFunctionNameOnAppCapabilityUpdated];
+#pragma clang diagnostic pop
     return self;
 }
-#pragma clang diagnostic pop
 
 - (instancetype)initWithAppCapability:(SDLAppCapability *)appCapability {
     self = [self init];
@@ -38,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAppCapability *)appCapability {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameAppCapability ofClass:SDLAppCapability.class error:NULL];
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameAppCapability ofClass:SDLAppCapability.class error:&error];
 }
 
 @end

@@ -1634,19 +1634,20 @@
 		B34D698D24D03DFB00FE7B40 /* SDLOnSystemRequestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82371A9BDE8A00906325 /* SDLOnSystemRequestSpec.m */; };
 		B38D8E61249FE28500B977D0 /* SDLCapacityUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E62249FE28500B977D0 /* SDLCapacityUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */; };
-		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
-		B3BDF5E724F43AF3009B85BE /* TestStreamingMediaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BDF5E624F43AF3009B85BE /* TestStreamingMediaDelegate.m */; };
-		B3CD23D724EBB42A00F76A61 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CD23D624EBB42A00F76A61 /* ProxyManager.m */; };
-		B3CDB3D324F11C5900DFF585 /* TestSmartConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDB3D224F11C5900DFF585 /* TestSmartConnectionManager.m */; };
-		B3CDB3D624F11C7A00DFF585 /* TestSmartConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDB3D524F11C7900DFF585 /* TestSmartConnection.m */; };
-		B3E049412492237F00D8CBE1 /* SDLSupportedStreamingRange.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		B38D8E6D24A034DB00B977D0 /* SDLGearStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E6B24A034DB00B977D0 /* SDLGearStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E6E24A034DB00B977D0 /* SDLGearStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E6C24A034DB00B977D0 /* SDLGearStatus.m */; };
 		B38D8E7124A0351200B977D0 /* SDLTransmissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E6F24A0351200B977D0 /* SDLTransmissionType.m */; };
 		B38D8E7224A0351200B977D0 /* SDLTransmissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = B38D8E7024A0351200B977D0 /* SDLTransmissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
+		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
+		B3A428B425025F8100571541 /* SDLOnAppCapabilityUpdatedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CD23D824EBC17500F76A61 /* SDLOnAppCapabilityUpdatedSpec.m */; };
+		B3BDF5E724F43AF3009B85BE /* TestStreamingMediaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BDF5E624F43AF3009B85BE /* TestStreamingMediaDelegate.m */; };
+		B3CD23D724EBB42A00F76A61 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CD23D624EBB42A00F76A61 /* ProxyManager.m */; };
+		B3CDB3D324F11C5900DFF585 /* TestSmartConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDB3D224F11C5900DFF585 /* TestSmartConnectionManager.m */; };
+		B3CDB3D624F11C7A00DFF585 /* TestSmartConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDB3D524F11C7900DFF585 /* TestSmartConnection.m */; };
+		B3E049412492237F00D8CBE1 /* SDLSupportedStreamingRange.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -3501,6 +3502,12 @@
 		B3476E1B2474374F0025DC99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLCapacityUnit.h; sourceTree = "<group>"; };
 		B38D8E60249FE28500B977D0 /* SDLCapacityUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnit.m; sourceTree = "<group>"; };
+		B38D8E6B24A034DB00B977D0 /* SDLGearStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLGearStatus.h; sourceTree = "<group>"; };
+		B38D8E6C24A034DB00B977D0 /* SDLGearStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatus.m; sourceTree = "<group>"; };
+		B38D8E6F24A0351200B977D0 /* SDLTransmissionType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionType.m; sourceTree = "<group>"; };
+		B38D8E7024A0351200B977D0 /* SDLTransmissionType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTransmissionType.h; sourceTree = "<group>"; };
+		B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatusSpec.m; sourceTree = "<group>"; };
+		B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionTypeSpec.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
 		B3BDF5E524F43AF3009B85BE /* TestStreamingMediaDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestStreamingMediaDelegate.h; sourceTree = "<group>"; };
 		B3BDF5E624F43AF3009B85BE /* TestStreamingMediaDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestStreamingMediaDelegate.m; sourceTree = "<group>"; };
@@ -3514,12 +3521,6 @@
 		B3E0493F2492237F00D8CBE1 /* SDLSupportedStreamingRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSupportedStreamingRange.h; sourceTree = "<group>"; };
 		B3E049402492237F00D8CBE1 /* SDLSupportedStreamingRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedStreamingRange.m; sourceTree = "<group>"; };
 		B3E0494324923AF800D8CBE1 /* SDLStreamingMediaDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStreamingMediaDelegate.h; sourceTree = "<group>"; };
-		B38D8E6B24A034DB00B977D0 /* SDLGearStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLGearStatus.h; sourceTree = "<group>"; };
-		B38D8E6C24A034DB00B977D0 /* SDLGearStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatus.m; sourceTree = "<group>"; };
-		B38D8E6F24A0351200B977D0 /* SDLTransmissionType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionType.m; sourceTree = "<group>"; };
-		B38D8E7024A0351200B977D0 /* SDLTransmissionType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTransmissionType.h; sourceTree = "<group>"; };
-		B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatusSpec.m; sourceTree = "<group>"; };
-		B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionTypeSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
@@ -8892,6 +8893,7 @@
 				162E837C1A9BDE8B00906325 /* SDLECallInfoSpec.m in Sources */,
 				1EAA47782036BA74000FE74B /* SDLAudioControlCapabilitiesSpec.m in Sources */,
 				5DB1BCD51D243A8E002FFC37 /* SDLUploadFileOperationSpec.m in Sources */,
+				B3A428B425025F8100571541 /* SDLOnAppCapabilityUpdatedSpec.m in Sources */,
 				162E83401A9BDE8B00906325 /* SDLSpeakSpec.m in Sources */,
 				88A5E7F4220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m in Sources */,
 				5DCF76FC1ACDDB4200BB647B /* SDLSendLocationSpec.m in Sources */,

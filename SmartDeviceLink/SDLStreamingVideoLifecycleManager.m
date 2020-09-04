@@ -714,9 +714,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLVideoStreamingCapability *videoCapability = systemCapability.videoStreamingCapability;
 
     if (!videoCapability) {
-        SDLLogD(@"Empty video capabilities notification received");
+        SDLLogD(@"Empty video capabilities notification received (%@)", self.videoStreamStateMachine.currentState);
     } else {
-        SDLLogD(@"Video capabilities notification received: %@", videoCapability);
+        SDLLogD(@"Video capabilities notification received (%@): %@", self.videoStreamStateMachine.currentState, videoCapability);
     }
 
     if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
@@ -750,8 +750,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // create and send SDLOnAppCapabilityUpdated notification
     SDLAppCapability *appCapability = [[SDLAppCapability alloc] initWithVideoStreamingCapability:matchedVideoCapability];
     SDLOnAppCapabilityUpdated *notification = [[SDLOnAppCapabilityUpdated alloc] initWithAppCapability:appCapability];
-    [self sdl_postRPCNotification:notification];
+    [self.protocol sendRPC:notification];
 
+    // take formats from 'parent' since onse may be absent in children
+    matchedVideoCapability.supportedFormats = videoCapabilityUpdated.supportedFormats;
     [self sdl_applyVideoCapability:matchedVideoCapability];
 
     if (self.delegate) {
@@ -785,7 +787,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     if (!self.supportedLandscapeStreamingRange || !self.supportedPortraitStreamingRange) {
         // there is nothing to match, return any (1st) object
-        return @[[allCapabilities firstObject]];
+        return 0 == allCapabilities.count ? @[] : @[[allCapabilities firstObject]];
     }
 
     NSMutableArray *matchCapabilities = [NSMutableArray arrayWithCapacity:allCapabilities.count];
@@ -817,10 +819,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     return matchCapabilities;
-}
-
-- (void)sdl_postRPCNotification:(SDLRPCNotification *)notification {
-    [self.protocol sendRPC:notification];
 }
 
 #pragma mark - SDLVideoEncoderDelegate
