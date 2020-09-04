@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLHMILevel.h"
-#import "SDLLockScreenStatus.h"
+#import "SDLLockScreenConstants.h"
 
 @class SDLNotificationDispatcher;
 @class SDLOnLockScreenStatus;
@@ -21,7 +21,7 @@ static NSString *const SDLDidChangeLockScreenStatusNotification = @"com.sdl.noti
 @property (assign, nonatomic) BOOL userSelected;
 @property (assign, nonatomic) BOOL driverDistracted;
 @property (nullable, strong, nonatomic) SDLHMILevel hmiLevel;
-@property (strong, nonatomic, readonly) SDLLockScreenStatus lockScreenStatus;
+@property (assign, nonatomic, readonly) SDLLockScreenStatus lockScreenStatus;
 @property (strong, nonatomic, readonly) SDLOnLockScreenStatus *lockScreenStatusNotification;
 
 - (instancetype)init NS_UNAVAILABLE;

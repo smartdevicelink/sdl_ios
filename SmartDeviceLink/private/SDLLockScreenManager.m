@@ -12,7 +12,6 @@
 #import "SDLLogMacros.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenStatusManager.h"
-#import "SDLLockScreenStatus.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
@@ -189,17 +188,17 @@ NS_ASSUME_NONNULL_BEGIN
         if (self.canPresent) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
+    } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusRequired) {
         if (self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
+    } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusOptional) {
         if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeOptionalOrRequired && self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         } else if (self.config.displayMode != SDLLockScreenConfigurationDisplayModeOptionalOrRequired) {
             [self.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
+    } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusOff) {
         [self.presenter updateLockScreenToShow:NO withCompletionHandler:nil];
     }
 }

@@ -7,7 +7,6 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLHMILevel.h"
-#import "SDLLockScreenStatus.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
@@ -15,7 +14,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLockScreenStatus
 
-- (instancetype)initWithDriverDistractionStatus:(nullable NSNumber<SDLBool> *)driverDistractionStatus userSelected:(nullable NSNumber<SDLBool> *)userSelected lockScreenStatus:(nullable SDLLockScreenStatus)lockScreenStatus hmiLevel:(nullable SDLHMILevel)hmiLevel {
+- (instancetype)init
+{
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _lockScreenStatus = SDLLockScreenStatusOff;
+    
+    return self;
+}
+- (instancetype)initWithDriverDistractionStatus:(nullable NSNumber<SDLBool> *)driverDistractionStatus userSelected:(nullable NSNumber<SDLBool> *)userSelected lockScreenStatus:(SDLLockScreenStatus)lockScreenStatus hmiLevel:(nullable SDLHMILevel)hmiLevel {
     self = [self init];
     if (!self) {
         return nil;
@@ -29,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    NSMutableString *description = [NSMutableString stringWithFormat:@"driverDistractionStatus: %@, userSelected: %@, lockScreenStatus: %@, hmiLevel: %@", self.driverDistractionStatus, self.userSelected, self.lockScreenStatus, self.hmiLevel];
+    NSMutableString *description = [NSMutableString stringWithFormat:@"driverDistractionStatus: %@, userSelected: %@, lockScreenStatus: %lu, hmiLevel: %@", self.driverDistractionStatus, self.userSelected, (unsigned long)self.lockScreenStatus, self.hmiLevel];
 
     return description;
 }

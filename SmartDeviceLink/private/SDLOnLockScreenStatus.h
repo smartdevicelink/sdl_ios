@@ -6,8 +6,7 @@
 #import "SDLRPCNotification.h"
 
 #import "SDLHMILevel.h"
-#import "SDLLockScreenStatus.h"
-
+#import "SDLLockScreenConstants.h"
 
 /**
  To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.
@@ -25,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLOnLockScreenStatus : SDLRPCNotification
 
-- (instancetype)initWithDriverDistractionStatus:(nullable NSNumber<SDLBool> *)driverDistractionStatus userSelected:(nullable NSNumber<SDLBool> *)userSelected lockScreenStatus:(nullable SDLLockScreenStatus)lockScreenStatus hmiLevel:(nullable SDLHMILevel)hmiLevel;
+- (instancetype)initWithDriverDistractionStatus:(nullable NSNumber<SDLBool> *)driverDistractionStatus userSelected:(nullable NSNumber<SDLBool> *)userSelected lockScreenStatus:(SDLLockScreenStatus)lockScreenStatus hmiLevel:(nullable SDLHMILevel)hmiLevel;
 
 /**
  Get the current driver distraction status(i.e. whether driver distraction rules are in effect, or not)
@@ -40,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Indicates if the lockscreen should be required, optional or off
  */
-@property (strong, nonatomic, nullable) SDLLockScreenStatus lockScreenStatus;
+@property (assign, nonatomic) SDLLockScreenStatus lockScreenStatus;
 
 /**
  Get HMILevel in effect for the application

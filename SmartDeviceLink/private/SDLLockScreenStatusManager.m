@@ -5,7 +5,6 @@
 
 #import "SDLLockScreenStatusManager.h"
 
-#import "SDLLockScreenStatus.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"

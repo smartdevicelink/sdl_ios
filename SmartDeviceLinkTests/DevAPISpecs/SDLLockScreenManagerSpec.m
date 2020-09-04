@@ -5,7 +5,6 @@
 #import "SDLFakeViewControllerPresenter.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
-#import "SDLLockScreenStatus.h"
 #import "SDLLockScreenStatusManager.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
