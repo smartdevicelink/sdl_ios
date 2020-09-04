@@ -19,7 +19,7 @@
 
 @interface SDLLifecycleConfiguration()
 
-+ (NSString *)sdlex_shortAppIdFromFullAppId:(NSString *)fullAppId;
++ (NSString *)sdl_shortAppIdFromFullAppId:(NSString *)fullAppId;
 
 @end
 
@@ -213,31 +213,31 @@ describe(@"A lifecycle configuration", ^{
 describe(@"When generating the `appId` from the `fullAppId`", ^{
     it(@"should return nil if full app id is nil", ^{
         NSString *testFullAppId = nil;
-        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        NSString *appId = [SDLLifecycleConfiguration sdl_shortAppIdFromFullAppId:testFullAppId];
         expect(appId).to(beNil());
     });
 
     it(@"should return an empty string if the full app id is empty", ^{
         NSString *testFullAppId = @"";
-        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        NSString *appId = [SDLLifecycleConfiguration sdl_shortAppIdFromFullAppId:testFullAppId];
         expect(appId).to(beEmpty());
     });
 
     it(@"should return a string truncated to the first non-dash 10 characters", ^{
         NSString *testFullAppId = @"34-uipe--k-rtqwedeftg-1";
-        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        NSString *appId = [SDLLifecycleConfiguration sdl_shortAppIdFromFullAppId:testFullAppId];
         expect(appId).to(match(@"34uipekrtq"));
     });
 
     it(@"should return a string if the full app id is less than 10 characters", ^{
         NSString *testFullAppId = @"a";
-        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        NSString *appId = [SDLLifecycleConfiguration sdl_shortAppIdFromFullAppId:testFullAppId];
         expect(appId).to(match(@"a"));
     });
 
     it(@"should return an empty string if the full app id only has dash characters", ^{
         NSString *testFullAppId = @"-";
-        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        NSString *appId = [SDLLifecycleConfiguration sdl_shortAppIdFromFullAppId:testFullAppId];
         expect(appId).to(beEmpty());
     });
 });

@@ -70,7 +70,7 @@ static NSUInteger const AppIdCharacterCount = 10;
     _allowedSecondaryTransports = SDLSecondaryTransportsTCP;
 
     _fullAppId = fullAppId;
-    _appId = [self.class sdlex_shortAppIdFromFullAppId:fullAppId];
+    _appId = [self.class sdl_shortAppIdFromFullAppId:fullAppId];
 
     return self;
 }
@@ -112,8 +112,8 @@ static NSUInteger const AppIdCharacterCount = 10;
  *  @param fullAppId   A `fullAppId`
  *  @return            An `appID` made of the first 10 non-dash characters of the "fullAppID"
  */
-+ (NSString *)sdlex_shortAppIdFromFullAppId:(NSString *)fullAppId {
-    NSString *filteredString = [self sdlex_filterDashesFromText:fullAppId];
++ (NSString *)sdl_shortAppIdFromFullAppId:(NSString *)fullAppId {
+    NSString *filteredString = [self sdl_filterDashesFromText:fullAppId];
     return [filteredString substringToIndex:MIN(AppIdCharacterCount, filteredString.length)];
 }
 
@@ -123,7 +123,7 @@ static NSUInteger const AppIdCharacterCount = 10;
  *  @param text    The string
  *  @return        The string with all dash characters removed
  */
-+ (NSString *)sdlex_filterDashesFromText:(NSString *)text {
++ (NSString *)sdl_filterDashesFromText:(NSString *)text {
     NSCharacterSet *supportedCharacters = [NSCharacterSet characterSetWithCharactersInString:@"-"];
     return [[text componentsSeparatedByCharactersInSet:supportedCharacters] componentsJoinedByString:@""];
 }
