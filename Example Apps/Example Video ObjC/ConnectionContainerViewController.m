@@ -9,6 +9,8 @@
 #import "ConnectionTransitionContext.h"
 #import "ConnectionAnimatedTransition.h"
 #import "Preferences.h"
+#import "SDLImageResolution.h"
+#import "SDLSupportedStreamingRange.h"
 #import "VideoStreamSettings.h"
 #import "VideoStreamingSettingsViewController.h"
 
@@ -36,8 +38,16 @@
     
     self.navigationController.navigationBar.translucent = NO;
 
+    // setup video settings
     self.videoStreamSettings = [VideoStreamSettings new];
-    
+    SDLImageResolution *minResolutionLand = [[SDLImageResolution alloc] initWithWidth:400 height:300];
+    SDLImageResolution *maxResolutionLand = [[SDLImageResolution alloc] initWithWidth:1000 height:800];
+    self.videoStreamSettings.supportedLandscapeStreamingRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:minResolutionLand maximun:maxResolutionLand];
+
+    SDLImageResolution *minResolutionPort = [[SDLImageResolution alloc] initWithWidth:300 height:400];
+    SDLImageResolution *maxResolutionPort = [[SDLImageResolution alloc] initWithWidth:800 height:1000];
+    self.videoStreamSettings.supportedPortraitStreamingRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:minResolutionPort maximun:maxResolutionPort];
+
     // Setup the child VCs
     UIStoryboard *tcpControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionTCPTableViewController" bundle:nil];
     self.tcpController = [tcpControllerStoryboard instantiateInitialViewController];

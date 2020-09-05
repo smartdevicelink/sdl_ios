@@ -54,12 +54,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLStreamingMediaDelegate
 
-- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize {
+- (void)videoManager:(id)manager didUpdateSize:(CGSize)displaySize {
     NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGSize(displaySize));
+    // Do something with the new size
+    self.view.frame = (CGRect){CGPointZero, displaySize};
 }
 
-- (void)videoStreamingSizeDoesNotMatch {
+- (void)videoManagerDidStop:(id)manager {
     NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

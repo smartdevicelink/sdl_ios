@@ -394,6 +394,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoFormat = nil;
 
     if (!self.shouldAutoResume) {
+        if (self.delegate) {
+            __weak typeof(self) weakSelf = self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.delegate videoManagerDidStop:weakSelf];
+            });
+        }
         [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self];
     }
 
@@ -757,10 +763,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_applyVideoCapability:matchedVideoCapability];
 
     if (self.delegate) {
-        __weak typeof(self.delegate) delegate = self.delegate;
+        __weak typeof(self) weakSelf = self;
         const CGSize displaySize = matchedVideoCapability.makeImageResolution.makeSize;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [delegate videoStreamingSizeDidUpdate:displaySize];
+            [weakSelf.delegate videoManager:weakSelf didUpdateSize:displaySize];
         });
     }
     // start service with new capabilities or without (use old from start service ACK)
@@ -768,6 +774,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)sdl_applyVideoCapabilityWhenStreaming:(nullable SDLVideoStreamingCapability *)videoCapability {
+    if (!videoCapability || 0 == videoCapability.supportedFormats.count) {
+        // continue streaming though core may expect something different
+        SDLLogD(@"Wrong video capabilities received, ignore it: %@", videoCapability);
+        return;
+    }
+
     self.videoStreamingCapabilityUpdated = videoCapability;
     __weak typeof(self) weakSelf = self;
     // restart video session on capability update
@@ -934,6 +946,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (self.preferredFormatIndex >= self.preferredFormats.count
         || self.preferredResolutionIndex >= self.preferredResolutions.count) {
         SDLLogE(@"No preferred format or no preferred resolution found that works: format index %lu, resolution index %lu", (unsigned long)self.preferredFormatIndex, (unsigned long)self.preferredResolutionIndex);
+        self.shouldAutoResume = NO;
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
         return;
     }

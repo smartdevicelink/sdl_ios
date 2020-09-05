@@ -143,11 +143,11 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.videoSourceViewController) {
         streamingConfig = [SDLStreamingMediaConfiguration autostreamingInsecureConfigurationWithInitialViewController:self.videoSourceViewController];
         streamingConfig.delegate = self.videoSourceViewController;
-        streamingConfig.supportedPortraitStreamingRange = self.videoStreamSettings.supportedPortraitStreamingRange;
-        streamingConfig.supportedLandscapeStreamingRange = self.videoStreamSettings.supportedLandscapeStreamingRange;
     } else {
         streamingConfig = [SDLStreamingMediaConfiguration insecureConfiguration];
     }
+    streamingConfig.supportedPortraitStreamingRange = self.videoStreamSettings.supportedPortraitStreamingRange;
+    streamingConfig.supportedLandscapeStreamingRange = self.videoStreamSettings.supportedLandscapeStreamingRange;
 
     SDLEncryptionConfiguration *encryptionConfig = [SDLEncryptionConfiguration defaultConfiguration];
     SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] streamingMedia:streamingConfig fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:encryptionConfig];

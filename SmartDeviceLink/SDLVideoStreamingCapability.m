@@ -108,13 +108,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectsForName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities ofClass:SDLVideoStreamingCapability.class error:&error];
 }
 
-// note: it does not copy .additionalVideoStreamingCapabilities
-- (instancetype)copy {
-    return [[self.class alloc] initWithPreferredResolution:self.preferredResolution maxBitrate:self.maxBitrate supportedFormats:self.supportedFormats hapticDataSupported:self.hapticSpatialDataSupported diagonalScreenSize:self.diagonalScreenSize ppi:self.pixelPerInch scale:self.scale];
+// note: it does not copy everything
+- (instancetype)shortCopy {
+    typeof(self) copyObject = [[self.class alloc] initWithPreferredResolution:self.preferredResolution maxBitrate:self.maxBitrate supportedFormats:self.supportedFormats hapticDataSupported:self.hapticSpatialDataSupported diagonalScreenSize:self.diagonalScreenSize ppi:self.pixelPerInch scale:self.scale];
+    return copyObject;
 }
 
 - (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain {
-    NSMutableArray *capabilitiesArray = [NSMutableArray arrayWithObject:[self copy]];
+    NSMutableArray *capabilitiesArray = [NSMutableArray arrayWithObject:[self shortCopy]];
     for (SDLVideoStreamingCapability *capability in self.additionalVideoStreamingCapabilities) {
         NSArray* childCapabilities = [capability allVideoStreamingCapabilitiesPlain];
         if (childCapabilities.count) {

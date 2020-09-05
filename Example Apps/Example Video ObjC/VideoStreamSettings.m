@@ -14,4 +14,8 @@
     return [NSString stringWithFormat:@"SDLVersion: %@\nsupportedLandscapeStreamingRange: %@\nsupportedPortraitStreamingRange: %@", self.SDLVersion, self.supportedLandscapeStreamingRange, self.supportedPortraitStreamingRange];
 }
 
+- (NSString *)description {
+    return [self detailedDescription];
+}
+
 @end

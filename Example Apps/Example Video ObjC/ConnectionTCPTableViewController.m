@@ -152,7 +152,10 @@
 // start & show / stop & hide video app
 
 - (void)presentVideoApp {
-    [self.navigationController pushViewController:self.videoSourceViewController animated:YES];
+    // dont push it twice
+    if (![self.navigationController.viewControllers containsObject:self.videoSourceViewController]) {
+        [self.navigationController pushViewController:self.videoSourceViewController animated:YES];
+    }
 }
 
 - (void)finishApp {
