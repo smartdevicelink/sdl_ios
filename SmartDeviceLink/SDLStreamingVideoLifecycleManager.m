@@ -608,7 +608,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     if (![self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateShuttingDown]) {
         SDLLogW(@"end service in wrong state %@", self.videoStreamStateMachine.currentState);
-//        return;
     }
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];

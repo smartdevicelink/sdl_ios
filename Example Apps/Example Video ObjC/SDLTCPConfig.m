@@ -9,11 +9,11 @@
 
 @implementation SDLTCPConfig
 
-+ (instancetype)configWithHost:(NSString*)host port:(UInt16)port {
++ (instancetype)configWithHost:(NSString *)host port:(UInt16)port {
     return [[self alloc] initWithHost:host port:port];
 }
 
-- (instancetype)initWithHost:(NSString*)host port:(UInt16)port {
+- (instancetype)initWithHost:(NSString *)host port:(UInt16)port {
     if ((self = [super init])) {
         _ipAddress = host;
         _port = port;

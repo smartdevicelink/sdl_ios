@@ -26,13 +26,19 @@
     return self.recordedSizesImp;
 }
 
-- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize {
-    SDLLogD(@"SDLStreamingMediaDelegate videoStreamingSizeDidUpdate: %@", NSStringFromCGSize(displaySize));
+- (void)reset {
+    [self.recordedSizesImp removeAllObjects];
+}
+
+#pragma mark - SDLStreamingMediaDelegate
+
+- (void)videoManager:(id)manager didUpdateSize:(CGSize)displaySize {
+    SDLLogD(@"SDLStreamingMediaDelegate didUpdateSize: %@", NSStringFromCGSize(displaySize));
     [self.recordedSizesImp addObject:[NSValue valueWithCGSize:displaySize]];
 }
 
-- (void)reset {
-    [self.recordedSizesImp removeAllObjects];
+- (void)videoManagerDidStop:(id)manager {
+    SDLLogD(@"SDLStreamingMediaDelegate videoManagerDidStop");
 }
 
 @end

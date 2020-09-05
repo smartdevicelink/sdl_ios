@@ -6,8 +6,8 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLStreamingVideoScaleManager.h"
 #import <simd/simd.h>
+#import "SDLStreamingVideoScaleManager.h"
 
 #import "SDLImageResolution.h"
 #import "SDLOnTouchEvent.h"

@@ -388,6 +388,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLSubtleAlert.h',
 'SmartDeviceLink/SDLSubtleAlertResponse.h',
 'SmartDeviceLink/SDLSupportedSeat.h',
+'SmartDeviceLink/SDLSupportedStreamingRange.h',
 'SmartDeviceLink/SDLSyncMsgVersion.h',
 'SmartDeviceLink/SDLMsgVersion.h',
 'SmartDeviceLink/SDLSyncPData.h',

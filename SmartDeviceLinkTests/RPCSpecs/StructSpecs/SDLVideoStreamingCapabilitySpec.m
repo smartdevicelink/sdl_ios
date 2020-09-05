@@ -20,7 +20,7 @@
 
 QuickSpecBegin(SDLVideoStreamingCapabilitySpec)
 
-describe(@"Initialization tests", ^{
+describe(@"initialization tests", ^{
     // setup main & additional capabilities
     const int testMaxBitrate = 100;
     const BOOL testHapticDataSupported = NO;
@@ -87,7 +87,7 @@ describe(@"Initialization tests", ^{
     context(@"init", ^{
         SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] init];
 
-        it(@"Should return nil if not set", ^{
+        it(@"expect all properties to be nil", ^{
             expect(testStruct.preferredResolution).to(beNil());
             expect(testStruct.maxBitrate).to(beNil());
             expect(testStruct.supportedFormats).to(beNil());

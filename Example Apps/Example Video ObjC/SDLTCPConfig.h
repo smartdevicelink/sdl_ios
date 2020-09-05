@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTCPConfig : NSObject
 
-+ (instancetype)configWithHost:(NSString*)host port:(UInt16)port;
++ (instancetype)configWithHost:(NSString *)host port:(UInt16)port;
 
 @property (strong, nonatomic) NSString *ipAddress;
 @property (assign, nonatomic) UInt16 port;

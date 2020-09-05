@@ -164,24 +164,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLVideoStreamingFormat * f in self.supportedFormats) {
         [formats appendFormat:@"%@; ", f];
     }
-    return [NSString stringWithFormat:@"<%@:%p>{\n"
-@"\tsupportedFormats:%@\n"
-@"\tpreferredResolution:%@\n"
-@"\tmaxBitrate:%@\n"
-@"\thapticSpatialDataSupported:%@\n"
-@"\tdiagonalScreenSize:%@\n"
-@"\tpixelPerInch:%@\n"
-@"\tscale:%@\n"
-@"\tadditionalVideoStreamingCapabilities[%d]:%@ }",
-            NSStringFromClass(self.class), self,
-            formats,
-            self.preferredResolution,
-            self.maxBitrate,
-            self.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO",
-            self.diagonalScreenSize,
-            self.pixelPerInch,
-            self.scale,
-            (int)self.additionalVideoStreamingCapabilities.count, self.additionalVideoStreamingCapabilities];
+    return [NSString stringWithFormat:@"<%@:%p>{\n\tsupportedFormats:%@\n\tpreferredResolution:%@\n\tmaxBitrate:%@\n\thapticSpatialDataSupported:%@\n\tdiagonalScreenSize:%@\n\tpixelPerInch:%@\n\tscale:%@\n\tadditionalVideoStreamingCapabilities[%d]:%@ }", NSStringFromClass(self.class), self, formats, self.preferredResolution, self.maxBitrate, self.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO", self.diagonalScreenSize, self.pixelPerInch, self.scale, (int)self.additionalVideoStreamingCapabilities.count, self.additionalVideoStreamingCapabilities];
 }
 
 @end
