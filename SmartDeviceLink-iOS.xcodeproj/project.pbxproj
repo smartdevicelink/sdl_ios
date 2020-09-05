@@ -1627,6 +1627,7 @@
 		B3332F2B24C10FDF00A2EEC8 /* SDLAppCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = B3332F2924C10FDF00A2EEC8 /* SDLAppCapability.m */; };
 		B3332F2E24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.h in Headers */ = {isa = PBXBuildFile; fileRef = B3332F2C24C1102000A2EEC8 /* SDLOnAppCapabilityUpdated.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3332F2F24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.m in Sources */ = {isa = PBXBuildFile; fileRef = B3332F2D24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.m */; };
+		B338B4EA250373F1006BB341 /* SDLAppCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B338B4E825037214006BB341 /* SDLAppCapabilitySpec.m */; };
 		B3476E1A247437470025DC99 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E19247437470025DC99 /* AVKit.framework */; };
 		B3476E1C2474374F0025DC99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3476E1B2474374F0025DC99 /* AVFoundation.framework */; };
 		B34D698D24D03DFB00FE7B40 /* SDLOnSystemRequestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82371A9BDE8A00906325 /* SDLOnSystemRequestSpec.m */; };
@@ -3494,6 +3495,7 @@
 		B3332F2924C10FDF00A2EEC8 /* SDLAppCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppCapability.m; sourceTree = "<group>"; };
 		B3332F2C24C1102000A2EEC8 /* SDLOnAppCapabilityUpdated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnAppCapabilityUpdated.h; sourceTree = "<group>"; };
 		B3332F2D24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnAppCapabilityUpdated.m; sourceTree = "<group>"; };
+		B338B4E825037214006BB341 /* SDLAppCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppCapabilitySpec.m; sourceTree = "<group>"; };
 		B3476E19247437470025DC99 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		B3476E1B2474374F0025DC99 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B38D8E5F249FE28500B977D0 /* SDLCapacityUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLCapacityUnit.h; sourceTree = "<group>"; };
@@ -4064,6 +4066,7 @@
 			isa = PBXGroup;
 			children = (
 				162E828F1A9BDE8A00906325 /* SDLAirbagStatusSpec.m */,
+				B338B4E825037214006BB341 /* SDLAppCapabilitySpec.m */,
 				DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */,
 				8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */,
 				8831FA442202307500B8FFB7 /* SDLAppServiceCapabilitySpec.m */,
@@ -8601,6 +8604,7 @@
 				162E83941A9BDE8B00906325 /* SDLTTSChunkSpec.m in Sources */,
 				9FA0D00F22DF0B90009CF344 /* SDLDeleteWindowSpec.m in Sources */,
 				1EAA47702036AE89000FE74B /* SDLLightStatusSpec.m in Sources */,
+				B338B4EA250373F1006BB341 /* SDLAppCapabilitySpec.m in Sources */,
 				162E82DC1A9BDE8B00906325 /* SDLEmergencyEventTypeSpec.m in Sources */,
 				162E82CE1A9BDE8A00906325 /* SDLAudioTypeSpec.m in Sources */,
 				162E831C1A9BDE8B00906325 /* SDLOnSyncPDataSpec.m in Sources */,

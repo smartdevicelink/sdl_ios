@@ -2,37 +2,56 @@
 //  SDLOnAppCapabilityUpdatedSpec.m
 //  SmartDeviceLink
 
-
 #import <Foundation/Foundation.h>
-
-#import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <Quick/Quick.h>
 
+#import "SDLAppCapability.h"
 #import "SDLOnAppCapabilityUpdated.h"
-#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLVideoStreamingCapability.h"
 
 QuickSpecBegin(SDLOnAppCapabilityUpdatedSpec)
 
 describe(@"getter/setter tests", ^{
-    context(@"initWithDictionary:", ^{
+    SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+    SDLAppCapability *appCapability = [[SDLAppCapability alloc] initWithVideoStreamingCapability:videoStreamingCapability];
+
+    context(@"init", ^{
+        SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] init];
+        it(@"expect all properties to be nil", ^{
+            expect(testStruct.appCapability).to(beNil());
+        });
+    });
+
+    context(@"init & assign", ^{
+        SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] init];
+        testStruct.appCapability = appCapability;
         it(@"expect all properties to be set properly", ^{
-            //TODO: implement tests
+            expect(testStruct.appCapability).to(equal(appCapability));
+        });
+    });
+
+    context(@"initWithVideoStreamingCapability:", ^{
+        SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] initWithAppCapability:appCapability];
+        it(@"expect all properties to be set properly", ^{
+            expect(testStruct.appCapability).to(equal(appCapability));
         });
     });
 
     context(@"initWithDictionary:", ^{
-        NSDictionary* dict = @{SDLRPCParameterNameNotification:
-                               @{SDLRPCParameterNameParameters:@{
-                                    SDLRPCParameterNameReason:SDLAppInterfaceUnregisteredReasonAppUnauthorized
-                               },
-                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnAppInterfaceUnregistered}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLOnAppCapabilityUpdated *testNotification = [[SDLOnAppCapabilityUpdated alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
+        NSDictionary *params = @{
+            SDLRPCParameterNameAppCapability: appCapability,
+        };
+        NSDictionary* dict = @{SDLRPCParameterNameNotification: @{
+                                    SDLRPCParameterNameParameters: params,
+                                    SDLRPCParameterNameOperationName: SDLRPCFunctionNameOnAppCapabilityUpdated}
+        };
+        SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] initWithDictionary:dict];
+
         it(@"expect all properties to be set properly", ^{
-            expect(testNotification.reason).to(equal(???));
+            expect(testStruct.appCapability).to(equal(appCapability));
         });
     });
 });
