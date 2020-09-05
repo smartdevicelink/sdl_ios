@@ -4,7 +4,7 @@
 //
 
 #import "SDLRPCStruct.h"
-#import "SDLAppCapabilityType.h"
+#import "SDLSystemCapabilityType.h"
 
 @class SDLVideoStreamingCapability;
 
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Used as a descriptor of what data to expect in this struct. The corresponding param to this enum should be included and the only other param included.
  */
-@property (strong, nonatomic) SDLAppCapabilityType appCapabilityType;
+@property (strong, nonatomic) SDLSystemCapabilityType appCapabilityType;
 
 /**
  *  Describes supported capabilities for video streaming

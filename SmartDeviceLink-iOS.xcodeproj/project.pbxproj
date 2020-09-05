@@ -1623,8 +1623,6 @@
 		B32B7C8724EB9E4B009670C1 /* VideoSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C8524EB9E4A009670C1 /* VideoSourceViewController.m */; };
 		B32B7C8A24EBA0DF009670C1 /* ExampleVideoApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B32B7C8924EBA0DF009670C1 /* ExampleVideoApp.storyboard */; };
 		B32B7C8D24EBA275009670C1 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B32B7C8C24EBA275009670C1 /* ConnectionIAPTableViewController.m */; };
-		B3332F2624C10F9100A2EEC8 /* SDLAppCapabilityType.h in Headers */ = {isa = PBXBuildFile; fileRef = B3332F2424C10F9000A2EEC8 /* SDLAppCapabilityType.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3332F2724C10F9100A2EEC8 /* SDLAppCapabilityType.m in Sources */ = {isa = PBXBuildFile; fileRef = B3332F2524C10F9000A2EEC8 /* SDLAppCapabilityType.m */; };
 		B3332F2A24C10FDF00A2EEC8 /* SDLAppCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = B3332F2824C10FDE00A2EEC8 /* SDLAppCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3332F2B24C10FDF00A2EEC8 /* SDLAppCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = B3332F2924C10FDF00A2EEC8 /* SDLAppCapability.m */; };
 		B3332F2E24C1102100A2EEC8 /* SDLOnAppCapabilityUpdated.h in Headers */ = {isa = PBXBuildFile; fileRef = B3332F2C24C1102000A2EEC8 /* SDLOnAppCapabilityUpdated.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3492,8 +3490,6 @@
 		B32B7C8924EBA0DF009670C1 /* ExampleVideoApp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExampleVideoApp.storyboard; sourceTree = "<group>"; };
 		B32B7C8B24EBA275009670C1 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionIAPTableViewController.h; sourceTree = "<group>"; };
 		B32B7C8C24EBA275009670C1 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionIAPTableViewController.m; sourceTree = "<group>"; };
-		B3332F2424C10F9000A2EEC8 /* SDLAppCapabilityType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAppCapabilityType.h; sourceTree = "<group>"; };
-		B3332F2524C10F9000A2EEC8 /* SDLAppCapabilityType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppCapabilityType.m; sourceTree = "<group>"; };
 		B3332F2824C10FDE00A2EEC8 /* SDLAppCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAppCapability.h; sourceTree = "<group>"; };
 		B3332F2924C10FDF00A2EEC8 /* SDLAppCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppCapability.m; sourceTree = "<group>"; };
 		B3332F2C24C1102000A2EEC8 /* SDLOnAppCapabilityUpdated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnAppCapabilityUpdated.h; sourceTree = "<group>"; };
@@ -5262,8 +5258,6 @@
 			children = (
 				5D61FA521A84238A00846EE7 /* SDLAmbientLightStatus.h */,
 				5D61FA531A84238A00846EE7 /* SDLAmbientLightStatus.m */,
-				B3332F2424C10F9000A2EEC8 /* SDLAppCapabilityType.h */,
-				B3332F2524C10F9000A2EEC8 /* SDLAppCapabilityType.m */,
 				5D61FA541A84238A00846EE7 /* SDLAppHMIType.h */,
 				5D61FA551A84238A00846EE7 /* SDLAppHMIType.m */,
 				5D61FA561A84238A00846EE7 /* SDLAppInterfaceUnregisteredReason.h */,
@@ -7137,7 +7131,6 @@
 				5D4D67B41D30161600468B4A /* SDLLockScreenManager.h in Headers */,
 				5D00AC7B1F15287E004000D9 /* SDLPhoneCapability.h in Headers */,
 				5D61FE111A84238C00846EE7 /* SDLWarningLightStatus.h in Headers */,
-				B3332F2624C10F9100A2EEC8 /* SDLAppCapabilityType.h in Headers */,
 				008DB36922EA8261003F458C /* SDLReleaseInteriorVehicleDataModule.h in Headers */,
 				5D61FC7A1A84238C00846EE7 /* SDLDeleteInteractionChoiceSet.h in Headers */,
 				10893C1A2418188600BA347E /* SDLCacheFileManager.h in Headers */,
@@ -8085,7 +8078,6 @@
 				5D4631151F2136B60092EFDC /* SDLControlFramePayloadNak.m in Sources */,
 				5D61FDB81A84238C00846EE7 /* SDLSyncPData.m in Sources */,
 				880FE6282267AE5300723732 /* SDLIAPConstants.m in Sources */,
-				B3332F2724C10F9100A2EEC8 /* SDLAppCapabilityType.m in Sources */,
 				5D61FD221A84238C00846EE7 /* SDLOnVehicleData.m in Sources */,
 				5D61FCD41A84238C00846EE7 /* SDLImageResolution.m in Sources */,
 				5D61FDF41A84238C00846EE7 /* SDLUpdateTurnListResponse.m in Sources */,

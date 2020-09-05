@@ -7,6 +7,7 @@
 #import "SDLAppCapability.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLVideoStreamingCapability.h"
+#import "SDLSystemCapabilityType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,17 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    self.appCapabilityType = SDLAppCapabilityTypeVideoStreaming;
+    self.appCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
     self.videoStreamingCapability = capability;
 
     return self;
 }
 
-- (void)setAppCapabilityType:(SDLAppCapabilityType)type {
+- (void)setAppCapabilityType:(SDLSystemCapabilityType)type {
     [self.store sdl_setObject:type forName:SDLRPCParameterNameAppCapabilityType];
 }
 
-- (SDLAppCapabilityType)appCapabilityType {
+- (SDLSystemCapabilityType)appCapabilityType {
     return [self.store sdl_enumForName:SDLRPCParameterNameAppCapabilityType error:NULL];
 }
 

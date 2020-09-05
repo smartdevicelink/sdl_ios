@@ -295,7 +295,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 #pragma mark Enums
 #import "SDLAmbientLightStatus.h"
-#import "SDLAppCapabilityType.h"
 #import "SDLAppHMIType.h"
 #import "SDLAppInterfaceUnregisteredReason.h"
 #import "SDLAppServiceType.h"
