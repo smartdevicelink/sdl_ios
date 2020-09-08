@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Convert to State
 
 - (SDLTextAndGraphicState *)currentState {
-    return [[SDLTextAndGraphicState alloc] initWithTextField1:_textField1 textField2:_textField2 textField3:_textField3 textField4:_textField4 mediaText:_mediaTrackTextField title:_title primaryGraphic:_primaryGraphic secondaryGraphic:_secondaryGraphic alignment:_alignment textField1Type:_textField1Type textField2Type:_textField2Type textField3Type:_textField3Type textField4Type:_textField4Type];
+    return [[SDLTextAndGraphicState alloc] initWithTextField1:_textField1 textField2:_textField2 textField3:_textField3 textField4:_textField4 mediaText:_mediaTrackTextField title:_title primaryGraphic:_primaryGraphic secondaryGraphic:_secondaryGraphic alignment:_alignment textField1Type:_textField1Type textField2Type:_textField2Type textField3Type:_textField3Type textField4Type:_textField4Type templateConfiguration:<#(nullable SDLTemplateConfiguration *)#>];
 }
 
 #pragma mark - Helpers

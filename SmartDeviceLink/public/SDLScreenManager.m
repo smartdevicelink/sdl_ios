@@ -222,10 +222,6 @@ NS_ASSUME_NONNULL_BEGIN
     return _textAndGraphicManager.title;
 }
 
-- (nullable NSString *)currentLayout {
-    return _textAndGraphicManager.currentLayout;
-}
-
 - (NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     return _softButtonManager.softButtonObjects;
 }
@@ -270,7 +266,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Change Layout
 
-- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(SDLScreenManagerUpdateCompletionHandler)handler {
+- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler {
     [self.textAndGraphicManager changeLayout:templateConfiguration withCompletionHandler:handler];
 }
 

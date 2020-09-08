@@ -9,12 +9,13 @@
 #import "SDLTextAndGraphicState.h"
 
 #import "SDLArtwork.h"
+#import "SDLTemplateConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicState
 
-- (instancetype)initWithTextField1:(nullable NSString *)textField1 textField2:(nullable NSString *)textField2 textField3:(nullable NSString *)textField3 textField4:(nullable NSString *)textField4 mediaText:(nullable NSString *)mediaTrackTextField title:(nullable NSString *)title primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic alignment:(nullable SDLTextAlignment)alignment textField1Type:(nullable SDLMetadataType)textField1Type textField2Type:(nullable SDLMetadataType)textField2Type textField3Type:(nullable SDLMetadataType)textField3Type textField4Type:(nullable SDLMetadataType)textField4Type {
+- (instancetype)initWithTextField1:(nullable NSString *)textField1 textField2:(nullable NSString *)textField2 textField3:(nullable NSString *)textField3 textField4:(nullable NSString *)textField4 mediaText:(nullable NSString *)mediaTrackTextField title:(nullable NSString *)title primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic alignment:(nullable SDLTextAlignment)alignment textField1Type:(nullable SDLMetadataType)textField1Type textField2Type:(nullable SDLMetadataType)textField2Type textField3Type:(nullable SDLMetadataType)textField3Type textField4Type:(nullable SDLMetadataType)textField4Type templateConfiguration:(nullable SDLTemplateConfiguration *)templateConfig {
     self = [self init];
     if (!self) { return nil; }
 
@@ -31,16 +32,17 @@ NS_ASSUME_NONNULL_BEGIN
     _textField2Type = textField2Type;
     _textField3Type = textField3Type;
     _textField4Type = textField4Type;
+    _templateConfig = templateConfig;
 
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"Text Field 1: %@, 2: %@, 3: %@, 4: %@, media track: %@, title: %@, alignment: %@, text 1 type: %@, 2: %@, 3: %@, 4: %@, primary graphic: %@, secondary graphic: %@", _textField1, _textField2, _textField3, _textField4, _mediaTrackTextField, _title, _alignment, _textField1Type, _textField2Type, _textField3Type, _textField4Type, _primaryGraphic, _secondaryGraphic];
+    return [NSString stringWithFormat:@"Text Field 1: %@, 2: %@, 3: %@, 4: %@, media track: %@, title: %@, alignment: %@, text 1 type: %@, 2: %@, 3: %@, 4: %@, primary graphic: %@, secondary graphic: %@, template config: %@", _textField1, _textField2, _textField3, _textField4, _mediaTrackTextField, _title, _alignment, _textField1Type, _textField2Type, _textField3Type, _textField4Type, _primaryGraphic, _secondaryGraphic, _templateConfig];
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    return [[SDLTextAndGraphicState allocWithZone:zone] initWithTextField1:[_textField1 copy] textField2:[_textField2 copy] textField3:[_textField3 copy] textField4:[_textField4 copy] mediaText:[_mediaTrackTextField copy] title:[_title copy] primaryGraphic:[_primaryGraphic copy] secondaryGraphic:[_secondaryGraphic copy] alignment:[_alignment copy] textField1Type:[_textField1Type copy] textField2Type:[_textField2Type copy] textField3Type:[_textField3Type copy] textField4Type:[_textField4Type copy]];
+    return [[SDLTextAndGraphicState allocWithZone:zone] initWithTextField1:[_textField1 copy] textField2:[_textField2 copy] textField3:[_textField3 copy] textField4:[_textField4 copy] mediaText:[_mediaTrackTextField copy] title:[_title copy] primaryGraphic:[_primaryGraphic copy] secondaryGraphic:[_secondaryGraphic copy] alignment:[_alignment copy] textField1Type:[_textField1Type copy] textField2Type:[_textField2Type copy] textField3Type:[_textField3Type copy] textField4Type:[_textField4Type copy] templateConfiguration:[_templateConfig copy]];
 }
 
 @end

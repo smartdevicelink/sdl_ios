@@ -127,9 +127,6 @@ typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPres
  */
 @property (copy, nonatomic, nullable) NSString *title;
 
-/// The name of the current layout, if known. If no `changeLayout:withCompletionHandler:` call has occurred, this will be nil. This will mostly likely align with a layout defined in SDLPredefinedLayout.
-@property (copy, nonatomic, nullable, readonly) NSString *currentLayout;
-
 #pragma mark Soft Buttons
 
 /**

@@ -48,8 +48,6 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 @property (copy, nonatomic, nullable) SDLMetadataType textField3Type;
 @property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
 
-@property (copy, nonatomic, nullable) NSString *changeLayout;
-
 /**
  *  If you want to remove the current artwork, set it to this blank artwork.
  *

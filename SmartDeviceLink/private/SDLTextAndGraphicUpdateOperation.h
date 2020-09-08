@@ -29,6 +29,8 @@ typedef void(^CurrentDataUpdatedHandler)(SDLShow *newScreenData);
 /// The current state of the screen in Show form. This is passed as a dependency in the init but it may need to be updated if a previous operation updated the state of the screen. This will be updated with new screen data when this operation sends successful shows.
 @property (strong, nonatomic) SDLShow *currentScreenData;
 
+@property (assign, nonatomic) BOOL shouldUpdateTemplateConfig;
+
 /// Initialize the operation with its dependencies
 /// @param connectionManager The connection manager to send RPCs
 /// @param fileManager The file manager to upload artwork
@@ -36,7 +38,7 @@ typedef void(^CurrentDataUpdatedHandler)(SDLShow *newScreenData);
 /// @param currentData The current show data to determine which text and image fields need to be sent
 /// @param newState The new text and graphic manager state to be compared with currentData and sent in a Show update if needed.
 /// @param updateCompletionHandler The handler potentially passed by the developer to be called when the update finishes
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(SDLTextAndGraphicState *)newState newTemplateConfiguration:(SDLTemplateConfiguration *)templateConfiguration currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler;
 
 @end
 

@@ -16,7 +16,9 @@
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLMetadataTags.h"
+#import "SDLSetDisplayLayout.h"
 #import "SDLShow.h"
+#import "SDLTemplateConfiguration.h"
 #import "SDLTextAndGraphicState.h"
 #import "SDLVersion.h"
 #import "SDLWindowCapability.h"
@@ -30,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) SDLWindowCapability *currentCapabilities;
 @property (strong, nonatomic) SDLTextAndGraphicState *updatedState;
-@property (strong, nonatomic) SDLTemplateConfiguration *updatedTemplateConfiguration;
 
 @property (copy, nonatomic, nullable) CurrentDataUpdatedHandler currentDataUpdatedHandler;
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler updateCompletionHandler;
@@ -50,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
     _currentCapabilities = currentCapabilities;
     _currentScreenData = currentData;
     _updatedState = newState;
-    _updatedTemplateConfiguration = templateConfiguration;
     _currentDataUpdatedHandler = currentDataUpdatedHandler;
     _updateCompletionHandler = updateCompletionHandler;
 
@@ -71,12 +71,44 @@ NS_ASSUME_NONNULL_BEGIN
     fullShow.alignment = self.updatedState.alignment;
     fullShow = [self sdl_assembleShowText:fullShow];
     fullShow = [self sdl_assembleShowImages:fullShow];
+    fullShow = [self sdl_assembleLayout:fullShow];
 
+    __weak typeof(self) weakSelf = self;
+    if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
+        // Send everything in the Show
+        [self sdl_updateGraphicsAndShow:fullShow];
+    } else {
+        // Send a SetDisplayLayout before sending the Show
+        if (self.shouldUpdateTemplateConfig) {
+            // Send the SetDisplayLayout, then the Show
+            [self sdl_sendSetDisplayLayoutWithTemplateConfiguration:self.updatedState.templateConfig completionHandler:^(NSError * _Nullable error) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                if (self.isCancelled) {
+                    [strongSelf finishOperation];
+                    return;
+                }
+
+                [self sdl_updateGraphicsAndShow:fullShow];
+            }];
+        } else {
+            // Just send the show
+            [self sdl_updateGraphicsAndShow:fullShow];
+        }
+    }
+}
+
+- (BOOL)shouldUpdateTemplateConfig {
+    return _updatedState.templateConfig != _currentScreenData.templateConfiguration;
+}
+
+#pragma mark - Send Show / Set Display Layout
+
+- (void)sdl_updateGraphicsAndShow:(SDLShow *)show {
     __weak typeof(self) weakSelf = self;
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
-        [self sdl_sendShow:[self sdl_extractTextFromShow:fullShow] withHandler:^(NSError * _Nullable error) {
+        [self sdl_sendShow:[self sdl_extractTextFromShow:show] withHandler:^(NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error != nil) {
                 strongSelf.internalError = error;
@@ -86,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (![self sdl_artworkNeedsUpload:self.updatedState.primaryGraphic] && ![self sdl_artworkNeedsUpload:self.updatedState.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
-        [self sdl_sendShow:fullShow withHandler:^(NSError * _Nullable error) {
+        [self sdl_sendShow:show withHandler:^(NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error != nil) {
                 strongSelf.internalError = error;
@@ -98,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // We need to upload or queue the upload of the images
         // Send the text immediately
-        [self sdl_sendShow:[self sdl_extractTextFromShow:fullShow] withHandler:^(NSError * _Nullable error) {
+        [self sdl_sendShow:[self sdl_extractTextFromShow:show] withHandler:^(NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (self.cancelled) {
                 [strongSelf finishOperation];
@@ -115,16 +147,30 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-#pragma mark - Send Show
-
 - (void)sdl_sendShow:(SDLShow *)show withHandler:(void (^)(NSError *_Nullable error))handler {
     __weak typeof(self)weakSelf = self;
     [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogD(@"Text and Graphic update completed");
+        SDLLogD(@"Text and Graphic Show completed. Request: %@, response: %@", request, response);
 
         if (response.success) {
-            [strongSelf sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
+            [strongSelf sdl_updateCurrentScreenDataFromShow:request];
+        }
+
+        handler(error);
+    }];
+}
+
+- (void)sdl_sendSetDisplayLayoutWithTemplateConfiguration:(SDLTemplateConfiguration *)configuration completionHandler:(void (^)(NSError *_Nullable error))handler {
+    SDLSetDisplayLayout *setLayout = [[SDLSetDisplayLayout alloc] initWithLayout:configuration.template dayColorScheme:configuration.dayColorScheme nightColorScheme:configuration.nightColorScheme];
+
+    __weak typeof(self)weakSelf = self;
+    [self.connectionManager sendConnectionRequest:setLayout withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        SDLLogD(@"Text and Graphic SetDisplayLayout completed. Request: %@, response: %@", request, response);
+
+        if (response.success) {
+            [strongSelf sdl_updateCurrentScreenDataFromSetDisplayLayout:request];
         }
 
         handler(error);
@@ -389,6 +435,16 @@ NS_ASSUME_NONNULL_BEGIN
     return show;
 }
 
+#pragma mark Layout
+
+- (SDLShow *)sdl_assembleLayout:(SDLShow *)show {
+    if (![[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]
+        || !self.shouldUpdateTemplateConfig) { return show; }
+
+    show.templateConfiguration = self.updatedState.templateConfig;
+    return show;
+}
+
 #pragma mark - Extraction
 
 - (SDLShow *)sdl_extractTextFromShow:(SDLShow *)show {
@@ -417,6 +473,14 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.alignment = show.alignment ?: self.currentScreenData.alignment;
     self.currentScreenData.graphic = show.graphic ?: self.currentScreenData.graphic;
     self.currentScreenData.secondaryGraphic = show.secondaryGraphic ?: self.currentScreenData.secondaryGraphic;
+
+    if (self.currentDataUpdatedHandler != nil) {
+        self.currentDataUpdatedHandler(self.currentScreenData);
+    }
+}
+
+- (void)sdl_updateCurrentScreenDataFromSetDisplayLayout:(SDLSetDisplayLayout *)setDisplayLayout {
+    self.currentScreenData.templateConfiguration = [[SDLTemplateConfiguration alloc] initWithTemplate:setDisplayLayout.displayLayout dayColorScheme:setDisplayLayout.dayColorScheme nightColorScheme:setDisplayLayout.nightColorScheme];
 
     if (self.currentDataUpdatedHandler != nil) {
         self.currentDataUpdatedHandler(self.currentScreenData);
