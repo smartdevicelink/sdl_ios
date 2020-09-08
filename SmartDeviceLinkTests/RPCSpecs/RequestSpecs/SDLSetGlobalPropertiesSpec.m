@@ -93,6 +93,14 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.keyboardProperties).to(beNil());
         expect(testRequest.userLocation).to(beNil());
     });
+
+    it(@"Should return new init", ^ {
+        SDLSetGlobalProperties* testRequest = [[SDLSetGlobalProperties alloc] initWithHelpText:helpTest timeoutText:timeoutTest vrHelpTitle:vrHelpTitle vrHelp:[@[help] mutableCopy] menuTitle:menuTitle menuIcon:image keyboardProperties:keyboard menuLayout:nil];
+        
+        SDLSetGlobalProperties* testRequest2 = [[SDLSetGlobalProperties alloc] initWithHelpText:helpTest timeoutText:timeoutTest vrHelpTitle:vrHelpTitle vrHelp:[@[help] mutableCopy] menuTitle:menuTitle menuIcon:image keyboardProperties:keyboard userLocation:nil menuLayout:nil];
+
+        expect(testRequest).to(equal(testRequest2));
+    });
     
     it(@"Should set initWithHelpText", ^ {
         SDLSetGlobalProperties* testRequest = [[SDLSetGlobalProperties alloc] initWithHelpText:helpTest timeoutText:timeoutTest vrHelpTitle:vrHelpTitle vrHelp:[@[help] mutableCopy] menuTitle:menuTitle menuIcon:image keyboardProperties:keyboard userLocation:seatLocation menuLayout:nil];
