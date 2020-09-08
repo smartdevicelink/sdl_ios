@@ -516,7 +516,61 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
                 // Should keep their default values
                 expect(testProtocol.authToken).to(beNil());
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
+            });
+        });
+        
+        context(@"If the service type is Audio", ^{
+            it(@"Should just pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeAudio;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock protocol:testProtocol didReceiveStartServiceACK:ackMessage]);
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol protocol:testProtocol didReceiveStartServiceACK:ackMessage];
+
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
+
+                // Should keep their default values
+                expect(testProtocol.authToken).to(beNil());
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
                 expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeAudio]).to(equal(testMTU));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
+            });
+        });
+        
+        context(@"If the service type is Video", ^{
+            it(@"Should just pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeVideo;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock protocol:testProtocol didReceiveStartServiceACK:ackMessage]);
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol protocol:testProtocol didReceiveStartServiceACK:ackMessage];
+
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
+
+                // Should keep their default values
+                expect(testProtocol.authToken).to(beNil());
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
                 expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(testMTU));
                 expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
             });
@@ -569,8 +623,58 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
 
                 // Should keep their default values
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
-                expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeAudio]).to(equal(0));
-                expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(0));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
+            });
+        });
+        
+        context(@"If the service type is Audio", ^{
+            it(@"Should just pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeAudio;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock protocol:testProtocol didReceiveStartServiceACK:ackMessage]);
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol protocol:testProtocol didReceiveStartServiceACK:ackMessage];
+
+                // Should keep their default values
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
+                expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeAudio]).to(equal(1024));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
+                OCMVerifyAllWithDelay(delegateMock, 0.1);
+            });
+        });
+        
+        context(@"If the service type is Video", ^{
+            it(@"Should just pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeVideo;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                SDLProtocolMessage *ackMessage = [SDLProtocolMessage messageWithHeader:testHeader andPayload:testData];
+                OCMExpect([delegateMock protocol:testProtocol didReceiveStartServiceACK:ackMessage]);
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol protocol:testProtocol didReceiveStartServiceACK:ackMessage];
+
+                // Should keep their default values
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
+                expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(1024));
                 expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
             });
