@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
                 } else if (error != nil) {
                     self.internalError = error;
                     [strongSelf finishOperation];
-                    return
+                    return;
                 }
 
                 [self sdl_updateGraphicsAndShow:fullShow];

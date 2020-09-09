@@ -189,13 +189,15 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Change Layout
 
 - (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
-    
+    self.templateConfiguration = templateConfiguration;
+
+    [self updateWithCompletionHandler:handler];
 }
 
 #pragma mark - Convert to State
 
 - (SDLTextAndGraphicState *)currentState {
-    return [[SDLTextAndGraphicState alloc] initWithTextField1:_textField1 textField2:_textField2 textField3:_textField3 textField4:_textField4 mediaText:_mediaTrackTextField title:_title primaryGraphic:_primaryGraphic secondaryGraphic:_secondaryGraphic alignment:_alignment textField1Type:_textField1Type textField2Type:_textField2Type textField3Type:_textField3Type textField4Type:_textField4Type templateConfiguration:<#(nullable SDLTemplateConfiguration *)#>];
+    return [[SDLTextAndGraphicState alloc] initWithTextField1:_textField1 textField2:_textField2 textField3:_textField3 textField4:_textField4 mediaText:_mediaTrackTextField title:_title primaryGraphic:_primaryGraphic secondaryGraphic:_secondaryGraphic alignment:_alignment textField1Type:_textField1Type textField2Type:_textField2Type textField3Type:_textField3Type textField4Type:_textField4Type templateConfiguration:_templateConfiguration];
 }
 
 #pragma mark - Helpers
@@ -324,6 +326,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)setTemplateConfiguration:(SDLTemplateConfiguration *)templateConfiguration {
+    _templateConfiguration = templateConfiguration;
+    _isDirty = YES;
+    // Don't do the `isBatchingUpdates` like elsewhere because the call is already handled in `changeLayout:withCompletionHandler:`
+}
+
 - (nullable SDLArtwork *)blankArtwork {
     if (_blankArtwork != nil) {
         return _blankArtwork;
@@ -341,7 +349,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Subscribed notifications
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    // we won't use the object in the parameter but the convenience method of the system capability manager
+    // Check if the window capability is equal to the one we already have. If it is, abort.
+    if ([self.windowCapability isEqual:self.systemCapabilityManager.defaultMainWindowCapability]) { return; }
+
+    // We won't use the object in the parameter but the convenience method of the system capability manager
     self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     [self sdl_updateTransactionQueueSuspended];
     
