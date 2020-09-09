@@ -22,14 +22,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable error);
-typedef void(^CurrentDataUpdatedHandler)(SDLShow *newScreenData);
+typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newScreenData, NSError *__nullable error);
 
 @interface SDLTextAndGraphicUpdateOperation : SDLAsynchronousOperation
 
 /// The current state of the screen in Show form. This is passed as a dependency in the init but it may need to be updated if a previous operation updated the state of the screen. This will be updated with new screen data when this operation sends successful shows.
-@property (strong, nonatomic) SDLShow *currentScreenData;
-
-@property (strong, nonatomic) NSError *changeLayoutError;
+@property (strong, nonatomic) SDLTextAndGraphicState *currentScreenData;
 
 /// Initialize the operation with its dependencies
 /// @param connectionManager The connection manager to send RPCs

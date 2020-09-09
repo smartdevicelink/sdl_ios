@@ -163,9 +163,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLShow * _Nonnull newScreenData) {
-        weakSelf.currentScreenData = newScreenData;
-        [weakSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
+    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLShow *_Nullable newScreenData, NSError *_Nullable error) {
+        if (newScreenData != nil) {
+            // Update our current screen data
+            weakSelf.currentScreenData = newScreenData;
+            [weakSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
+        } else if (error != nil) {
+            // Invalidate data that's different from our current screen data
+        }
     } updateCompletionHandler:handler];
 
     __weak typeof(updateOperation) weakOp = updateOperation;
@@ -186,11 +191,21 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)sdl_resetFieldsToCurrentScreenData {
+    _textField1 = _currentScreenData.mainField1;
+    _textField2 = _currentScreenData.mainField2;
+    _textField3 = _currentScreenData.mainField3;
+    _textField4 = _currentScreenData.mainField4;
+    _mediaTrackTextField = _currentScreenData.mediaTrack;
+    _title = _currentScreenData.templateTitle;
+    _alignment = _currentScreenData.alignment;
+    // TODO: How to do images / metadata?
+}
+
 #pragma mark - Change Layout
 
 - (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     self.templateConfiguration = templateConfiguration;
-
     [self updateWithCompletionHandler:handler];
 }
 

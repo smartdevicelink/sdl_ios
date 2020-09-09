@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)shouldUpdateTemplateConfig {
-    return _updatedState.templateConfig != _currentScreenData.templateConfiguration;
+    return [_updatedState.templateConfig isEqual:_currentScreenData.templateConfiguration];
 }
 
 #pragma mark - Send Show / Set Display Layout
@@ -159,9 +159,8 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (response.success) {
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
-        } else if (show.templateConfiguration != nil) {
-            // The response failed and we attempted to update the template configuration
-            strongSelf.changeLayoutError = error;
+        } else {
+            // TODO: Update 
         }
 
         handler(error);
@@ -179,8 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (response.success) {
             [strongSelf sdl_updateCurrentScreenDataFromSetDisplayLayout:request];
         } else {
-            // The response failed and we attempted to update the template configuration
-            strongSelf.changeLayoutError = error;
+
         }
 
         handler(error);
