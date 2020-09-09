@@ -36,19 +36,34 @@
 }
 
 - (BOOL)isImageResolutionInRange:(SDLImageResolution*)imageResolution {
-    if (!imageResolution || !self.minimumResolution || !self.maximumResolution) {
+    if (!imageResolution) {
         return NO;
     }
-
-    const CGSize minSize = self.minimumResolution.makeSize;
-    const CGSize maxSize = self.maximumResolution.makeSize;
     const CGSize size = imageResolution.makeSize;
-    return (size.width >= minSize.width) && (size.width <= maxSize.width) &&
-            (size.height >= minSize.height) && (size.height <= maxSize.height);
+    BOOL isAboveMin = YES;
+    BOOL isBelowMax = YES;
+    if (self.minimumResolution) {
+        // is the size bigger than min? (no check if not set)
+        const CGSize minSize = self.minimumResolution.makeSize;
+        isAboveMin = ((size.width >= minSize.width) && (size.height >= minSize.height));
+    }
+    if (self.maximumResolution) {
+        // is the size smaller than max? (no check if not set)
+        const CGSize maxSize = self.maximumResolution.makeSize;
+        isBelowMax = ((size.width <= maxSize.width) && (size.height <= maxSize.height));
+    }
+    return isAboveMin && isBelowMax;
 }
 
 - (BOOL)isAspectRatioInRange:(float)aspectRatio {
-    return (aspectRatio >= self.minimumAspectRatio) && (aspectRatio <= self.maximumAspectRatio);
+    BOOL isInRange = YES;
+    if (0 < self.minimumAspectRatio) {
+        isInRange = (aspectRatio >= self.minimumAspectRatio);
+    }
+    if (isInRange && (0 < self.maximumAspectRatio)) {
+        isInRange = (aspectRatio <= self.maximumAspectRatio);
+    }
+    return isInRange;
 }
 
 - (float)minimumAspectRatio {

@@ -462,8 +462,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         NSError* error = nil;
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
 
-        SDLLogD(@"Attempting to create video encoder");
-        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.videoScaleManager.appViewportFrame.size ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
+        const CGSize dimensions = self.videoScaleManager.appViewportFrame.size;
+        SDLLogD(@"Attempting to create video encoder (dimensions: %@; protocol: %@)", NSStringFromCGSize(dimensions), self.videoFormat.protocol);
+        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:dimensions ssrc:self.ssrc properties:self.videoEncoderSettings delegate:self error:&error];
 
         if (error || self.videoEncoder == nil) {
             SDLLogE(@"Could not create a video encoder: %@", error);
@@ -473,7 +474,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         if (!self.backgroundingPixelBuffer) {
             CVPixelBufferRef backgroundingPixelBuffer = [self.videoEncoder newPixelBuffer];
-            if (CVPixelBufferAddText(backgroundingPixelBuffer, self.videoStreamBackgroundString) == NO) {
+            if (!CVPixelBufferAddText(backgroundingPixelBuffer, self.videoStreamBackgroundString)) {
                 SDLLogE(@"Could not create a backgrounding frame");
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
                 return;
@@ -791,29 +792,29 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (NSArray<SDLVideoStreamingCapability *>* __nullable)matchVideoCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
     if (!videoStreamingCapability) {
-        return nil;
+        return @[];
     }
 
     NSArray <SDLVideoStreamingCapability*>* allCapabilities = [videoStreamingCapability allVideoStreamingCapabilitiesPlain];
-
-    if (!self.supportedLandscapeStreamingRange || !self.supportedPortraitStreamingRange) {
-        // there is nothing to match, return any (1st) object
-        return 0 == allCapabilities.count ? @[] : @[[allCapabilities firstObject]];
-    }
-
     NSMutableArray *matchCapabilities = [NSMutableArray arrayWithCapacity:allCapabilities.count];
     for (SDLVideoStreamingCapability* nextCapability in allCapabilities) {
         SDLImageResolution *imageResolution = [nextCapability makeImageResolution];
-        if ([self.supportedPortraitStreamingRange isImageResolutionInRange:imageResolution] ||
-            [self.supportedLandscapeStreamingRange isImageResolutionInRange:imageResolution]) {
+        // let take square as portrait
+        const BOOL isPortrait = imageResolution.resolutionHeight.floatValue >= imageResolution.resolutionWidth.floatValue;
+        const BOOL isInRange = isPortrait ?
+                            [self.supportedPortraitStreamingRange isImageResolutionInRange:imageResolution] :
+                            [self.supportedLandscapeStreamingRange isImageResolutionInRange:imageResolution];
+        if (isInRange) {
             [matchCapabilities addObject:nextCapability];
             continue;
         }
 
         const float diagonal = nextCapability.diagonalScreenSize.floatValue;
         if (0 < diagonal) {
-            if (diagonal >= self.supportedPortraitStreamingRange.minimumDiagonal ||
-                diagonal >= self.supportedLandscapeStreamingRange.minimumDiagonal) {
+            const BOOL isInRange = isPortrait ?
+                                    (diagonal >= self.supportedPortraitStreamingRange.minimumDiagonal) :
+                                    (diagonal >= self.supportedLandscapeStreamingRange.minimumDiagonal);
+            if (isInRange) {
                 [matchCapabilities addObject:nextCapability];
                 continue;
             }
@@ -821,8 +822,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         const float ratio = nextCapability.preferredResolution.normalizedAspectRatio;
         if (1 <= ratio) {
-            if ([self.supportedPortraitStreamingRange isAspectRatioInRange:ratio] ||
-                [self.supportedLandscapeStreamingRange isAspectRatioInRange:ratio]) {
+            const BOOL isInRange = isPortrait ?
+                                    [self.supportedPortraitStreamingRange isAspectRatioInRange:ratio] :
+                                    [self.supportedLandscapeStreamingRange isAspectRatioInRange:ratio];
+            if (isInRange) {
                 [matchCapabilities addObject:nextCapability];
                 continue;
             }
