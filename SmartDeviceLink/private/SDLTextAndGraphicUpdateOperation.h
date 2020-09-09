@@ -29,7 +29,7 @@ typedef void(^CurrentDataUpdatedHandler)(SDLShow *newScreenData);
 /// The current state of the screen in Show form. This is passed as a dependency in the init but it may need to be updated if a previous operation updated the state of the screen. This will be updated with new screen data when this operation sends successful shows.
 @property (strong, nonatomic) SDLShow *currentScreenData;
 
-@property (assign, nonatomic) BOOL shouldUpdateTemplateConfig;
+@property (strong, nonatomic) NSError *changeLayoutError;
 
 /// Initialize the operation with its dependencies
 /// @param connectionManager The connection manager to send RPCs

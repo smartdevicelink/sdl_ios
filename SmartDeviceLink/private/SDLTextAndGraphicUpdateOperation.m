@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(SDLTextAndGraphicState *)newState newTemplateConfiguration:(SDLTemplateConfiguration *)templateConfiguration currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
     self = [self init];
     if (!self) { return nil; }
 
@@ -86,6 +86,10 @@ NS_ASSUME_NONNULL_BEGIN
                 if (self.isCancelled) {
                     [strongSelf finishOperation];
                     return;
+                } else if (error != nil) {
+                    self.internalError = error;
+                    [strongSelf finishOperation];
+                    return
                 }
 
                 [self sdl_updateGraphicsAndShow:fullShow];
@@ -128,14 +132,14 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         SDLLogV(@"Images need to be uploaded, sending text and uploading images");
 
-        // We need to upload or queue the upload of the images
         // Send the text immediately
-        [self sdl_sendShow:[self sdl_extractTextFromShow:show] withHandler:^(NSError * _Nullable error) {
+        [self sdl_sendShow:[self sdl_extractTextAndLayoutFromShow:show] withHandler:^(NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (self.cancelled) {
                 [strongSelf finishOperation];
             }
 
+            // Once that's done, success or fail, upload the images, then send the full show
             [strongSelf sdl_uploadImagesAndSendWhenDone:^(NSError * _Nullable error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 if (error != nil) {
@@ -155,6 +159,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (response.success) {
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
+        } else if (show.templateConfiguration != nil) {
+            // The response failed and we attempted to update the template configuration
+            strongSelf.changeLayoutError = error;
         }
 
         handler(error);
@@ -171,6 +178,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (response.success) {
             [strongSelf sdl_updateCurrentScreenDataFromSetDisplayLayout:request];
+        } else {
+            // The response failed and we attempted to update the template configuration
+            strongSelf.changeLayoutError = error;
         }
 
         handler(error);
@@ -447,7 +457,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Extraction
 
-- (SDLShow *)sdl_extractTextFromShow:(SDLShow *)show {
+- (SDLShow *)sdl_extractTextAndLayoutFromShow:(SDLShow *)show {
     SDLShow *newShow = [[SDLShow alloc] init];
     newShow.mainField1 = show.mainField1;
     newShow.mainField2 = show.mainField2;
@@ -457,6 +467,8 @@ NS_ASSUME_NONNULL_BEGIN
     newShow.templateTitle = show.templateTitle;
     newShow.metadataTags = show.metadataTags;
     newShow.alignment = show.alignment;
+
+    newShow.templateConfiguration = show.templateConfiguration;
 
     return newShow;
 }
@@ -536,6 +548,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)finishOperation {
     SDLLogV(@"Finishing text and graphic update operation");
+    if (self.isCancelled) {
+        self.error = [NSError sdl_textAndGraphicManager_pendingUpdateSuperseded];
+    }
+
     if (self.updateCompletionHandler != nil) {
         self.updateCompletionHandler(self.error);
     }
