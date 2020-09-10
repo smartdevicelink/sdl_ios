@@ -172,6 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
         } else if (error != nil) {
             // Invalidate data that's different from our current screen data
             [strongSelf sdl_resetFieldsToCurrentScreenData];
+            [strongSelf sdl_updatePendingOperationsWithNewScreenData:strongSelf.currentScreenData];
         }
     } updateCompletionHandler:handler];
 

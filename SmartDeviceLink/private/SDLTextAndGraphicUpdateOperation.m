@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLTextAndGraphicState *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLTextAndGraphicState *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
     self = [self init];
     if (!self) { return nil; }
 
@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
         } else {
             SDLLogD(@"Text and Graphic Show failed");
-            // TODO: Update
+            self.currentDataUpdatedHandler(nil, error);
         }
 
         handler(error);
@@ -182,7 +182,7 @@ NS_ASSUME_NONNULL_BEGIN
             [strongSelf sdl_updateCurrentScreenDataFromSetDisplayLayout:request];
         } else {
             SDLLogD(@"Text and Graphic SetDisplayLayout failed to change to new layout: %@", setLayout.displayLayout);
-            // TODO: Should "update" with a failure
+            self.currentDataUpdatedHandler(nil, error);
         }
 
         handler(error);
