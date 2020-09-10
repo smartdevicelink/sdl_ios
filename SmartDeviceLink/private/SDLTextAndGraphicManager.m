@@ -42,9 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 /**
- A show describing the current text and images on the screen (not soft buttons, etc.)
+ A state describing the current text and images on the screen (not soft buttons, etc.)
  */
-@property (strong, nonatomic) SDLShow *currentScreenData;
+@property (strong, nonatomic) SDLTextAndGraphicState *currentScreenData;
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _alignment = SDLTextAlignmentCenter;
 
-    _currentScreenData = [[SDLShow alloc] init];
+    _currentScreenData = [[SDLTextAndGraphicState alloc] init];
     _currentLevel = SDLHMILevelNone;
 
     _waitingOnHMILevelUpdateToUpdate = NO;
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
     _textField3Type = nil;
     _textField4Type = nil;
 
-    _currentScreenData = [[SDLShow alloc] init];
+    _currentScreenData = [[SDLTextAndGraphicState alloc] init];
     _transactionQueue = [self sdl_newTransactionQueue];
     _windowCapability = nil;
     _currentLevel = SDLHMILevelNone;
@@ -163,13 +163,15 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLShow *_Nullable newScreenData, NSError *_Nullable error) {
+    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState *_Nullable newScreenData, NSError *_Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (newScreenData != nil) {
             // Update our current screen data
-            weakSelf.currentScreenData = newScreenData;
-            [weakSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
+            strongSelf.currentScreenData = newScreenData;
+            [strongSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
         } else if (error != nil) {
             // Invalidate data that's different from our current screen data
+            [strongSelf sdl_resetFieldsToCurrentScreenData];
         }
     } updateCompletionHandler:handler];
 
@@ -182,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.transactionQueue addOperation:updateOperation];
 }
 
-- (void)sdl_updatePendingOperationsWithNewScreenData:(SDLShow *)newScreenData {
+- (void)sdl_updatePendingOperationsWithNewScreenData:(SDLTextAndGraphicState *)newScreenData {
     for (NSOperation *operation in self.transactionQueue.operations) {
         if (![operation isMemberOfClass:SDLTextAndGraphicUpdateOperation.class] || operation.isExecuting) { continue; }
         SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
@@ -192,14 +194,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_resetFieldsToCurrentScreenData {
-    _textField1 = _currentScreenData.mainField1;
-    _textField2 = _currentScreenData.mainField2;
-    _textField3 = _currentScreenData.mainField3;
-    _textField4 = _currentScreenData.mainField4;
-    _mediaTrackTextField = _currentScreenData.mediaTrack;
-    _title = _currentScreenData.templateTitle;
+    _textField1 = _currentScreenData.textField1;
+    _textField2 = _currentScreenData.textField2;
+    _textField3 = _currentScreenData.textField3;
+    _textField4 = _currentScreenData.textField4;
+    _mediaTrackTextField = _currentScreenData.mediaTrackTextField;
+    _title = _currentScreenData.title;
     _alignment = _currentScreenData.alignment;
-    // TODO: How to do images / metadata?
+    _textField1Type = _currentScreenData.textField1Type;
+    _textField2Type = _currentScreenData.textField2Type;
+    _textField3Type = _currentScreenData.textField3Type;
+    _textField4Type = _currentScreenData.textField4Type;
+    _templateConfiguration = _currentScreenData.templateConfig;
 }
 
 #pragma mark - Change Layout
@@ -341,7 +347,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)setTemplateConfiguration:(SDLTemplateConfiguration *)templateConfiguration {
+- (void)setTemplateConfiguration:(nullable SDLTemplateConfiguration *)templateConfiguration {
     _templateConfiguration = templateConfiguration;
     _isDirty = YES;
     // Don't do the `isBatchingUpdates` like elsewhere because the call is already handled in `changeLayout:withCompletionHandler:`

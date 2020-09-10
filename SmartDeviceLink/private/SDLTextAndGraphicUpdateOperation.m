@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLShow *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLTextAndGraphicState *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(nullable CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler {
     self = [self init];
     if (!self) { return nil; }
 
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)shouldUpdateTemplateConfig {
-    return [_updatedState.templateConfig isEqual:_currentScreenData.templateConfiguration];
+    return [_updatedState.templateConfig isEqual:_currentScreenData.templateConfig];
 }
 
 #pragma mark - Send Show / Set Display Layout
@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
-        [self sdl_sendShow:[self sdl_extractTextFromShow:show] withHandler:^(NSError * _Nullable error) {
+        [self sdl_sendShow:[self sdl_extractTextAndLayoutFromShow:show] withHandler:^(NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error != nil) {
                 strongSelf.internalError = error;
@@ -155,12 +155,14 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self)weakSelf = self;
     [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogD(@"Text and Graphic Show completed. Request: %@, response: %@", request, response);
+        SDLLogV(@"Text and Graphic Show completed. Request: %@, response: %@", request, response);
 
         if (response.success) {
+            SDLLogD(@"Text and Graphic Show completed successfully");
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
         } else {
-            // TODO: Update 
+            SDLLogD(@"Text and Graphic Show failed");
+            // TODO: Update
         }
 
         handler(error);
@@ -473,27 +475,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updateCurrentScreenDataFromShow:(SDLShow *)show {
     // If the items are nil, they were not updated, so we can't just set it directly
-    self.currentScreenData.mainField1 = show.mainField1 ?: self.currentScreenData.mainField1;
-    self.currentScreenData.mainField2 = show.mainField2 ?: self.currentScreenData.mainField2;
-    self.currentScreenData.mainField3 = show.mainField3 ?: self.currentScreenData.mainField3;
-    self.currentScreenData.mainField4 = show.mainField4 ?: self.currentScreenData.mainField4;
-    self.currentScreenData.mediaTrack = show.mediaTrack ?: self.currentScreenData.mediaTrack;
-    self.currentScreenData.templateTitle = show.templateTitle ?: self.currentScreenData.templateTitle;
-    self.currentScreenData.metadataTags = show.metadataTags ?: self.currentScreenData.metadataTags;
-    self.currentScreenData.alignment = show.alignment ?: self.currentScreenData.alignment;
-    self.currentScreenData.graphic = show.graphic ?: self.currentScreenData.graphic;
-    self.currentScreenData.secondaryGraphic = show.secondaryGraphic ?: self.currentScreenData.secondaryGraphic;
+    self.currentScreenData.mediaTrackTextField = show.mediaTrack ? self.updatedState.mediaTrackTextField : self.currentScreenData.mediaTrackTextField;
+    self.currentScreenData.title = show.templateTitle ? self.updatedState.title : self.currentScreenData.title;
+    self.currentScreenData.alignment = show.alignment ? self.updatedState.alignment : self.currentScreenData.alignment;
+    self.currentScreenData.primaryGraphic = show.graphic ? self.updatedState.primaryGraphic : self.currentScreenData.primaryGraphic;
+    self.currentScreenData.secondaryGraphic = show.secondaryGraphic ? self.updatedState.secondaryGraphic : self.currentScreenData.secondaryGraphic;
+
+    // This is intentionally only checking `mainField1` because the fields may be in different places based on the capabilities
+    self.currentScreenData.textField1 = show.mainField1 ? self.updatedState.textField1 : self.currentScreenData.textField1;
+    self.currentScreenData.textField2 = show.mainField1 ? self.updatedState.textField2 : self.currentScreenData.textField2;
+    self.currentScreenData.textField3 = show.mainField1 ? self.updatedState.textField3 : self.currentScreenData.textField3;
+    self.currentScreenData.textField4 = show.mainField1 ? self.updatedState.textField4 : self.currentScreenData.textField4;
+
+    // This is intentionally only checking show.metadataTags because the tags may be in different places based on the capabilities
+    self.currentScreenData.textField1Type = show.metadataTags ? self.updatedState.textField1Type : self.currentScreenData.textField1Type;
+    self.currentScreenData.textField2Type = show.metadataTags ? self.updatedState.textField2Type : self.currentScreenData.textField2Type;
+    self.currentScreenData.textField3Type = show.metadataTags ? self.updatedState.textField3Type : self.currentScreenData.textField3Type;
+    self.currentScreenData.textField4Type = show.metadataTags ? self.updatedState.textField4Type : self.currentScreenData.textField4Type;
 
     if (self.currentDataUpdatedHandler != nil) {
-        self.currentDataUpdatedHandler(self.currentScreenData);
+        self.currentDataUpdatedHandler(self.currentScreenData, nil);
     }
 }
 
 - (void)sdl_updateCurrentScreenDataFromSetDisplayLayout:(SDLSetDisplayLayout *)setDisplayLayout {
-    self.currentScreenData.templateConfiguration = [[SDLTemplateConfiguration alloc] initWithTemplate:setDisplayLayout.displayLayout dayColorScheme:setDisplayLayout.dayColorScheme nightColorScheme:setDisplayLayout.nightColorScheme];
+    self.currentScreenData.templateConfig = [[SDLTemplateConfiguration alloc] initWithTemplate:setDisplayLayout.displayLayout dayColorScheme:setDisplayLayout.dayColorScheme nightColorScheme:setDisplayLayout.nightColorScheme];
 
     if (self.currentDataUpdatedHandler != nil) {
-        self.currentDataUpdatedHandler(self.currentScreenData);
+        self.currentDataUpdatedHandler(self.currentScreenData, nil);
     }
 }
 
@@ -505,7 +514,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
     BOOL templateSupportsPrimaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic];
-    BOOL graphicMatchesExisting = [self.currentScreenData.graphic.value isEqualToString:self.updatedState.primaryGraphic.name];
+    BOOL graphicMatchesExisting = [self.currentScreenData.primaryGraphic.name isEqualToString:self.updatedState.primaryGraphic.name];
     BOOL graphicExists = (self.updatedState.primaryGraphic != nil);
 
     return (templateSupportsPrimaryArtwork && !graphicMatchesExisting && graphicExists);
@@ -513,7 +522,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
     BOOL templateSupportsSecondaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic];
-    BOOL graphicMatchesExisting = [self.currentScreenData.secondaryGraphic.value isEqualToString:self.updatedState.secondaryGraphic.name];
+    BOOL graphicMatchesExisting = [self.currentScreenData.secondaryGraphic.name isEqualToString:self.updatedState.secondaryGraphic.name];
     BOOL graphicExists = (self.updatedState.secondaryGraphic != nil);
 
     // Cannot detect if there is a secondary image below v5.0, so we'll just try to detect if the primary image is allowed and allow the secondary image if it is.
@@ -547,7 +556,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)finishOperation {
     SDLLogV(@"Finishing text and graphic update operation");
     if (self.isCancelled) {
-        self.error = [NSError sdl_textAndGraphicManager_pendingUpdateSuperseded];
+        self.internalError = [NSError sdl_textAndGraphicManager_pendingUpdateSuperseded];
     }
 
     if (self.updateCompletionHandler != nil) {
