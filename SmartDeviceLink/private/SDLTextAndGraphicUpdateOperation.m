@@ -61,7 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.cancelled) {
         // Make sure the update handler is called
-        self.internalError = [NSError sdl_textAndGraphicManager_pendingUpdateSuperseded];
         [self finishOperation];
         return;
     }
@@ -102,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)shouldUpdateTemplateConfig {
-    return [_updatedState.templateConfig isEqual:_currentScreenData.templateConfig];
+    return ![_updatedState.templateConfig isEqual:_currentScreenData.templateConfig];
 }
 
 #pragma mark - Send Show / Set Display Layout
@@ -137,6 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (self.cancelled) {
                 [strongSelf finishOperation];
+                return;
             }
 
             // Once that's done, success or fail, upload the images, then send the full show
@@ -175,12 +175,14 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self)weakSelf = self;
     [self.connectionManager sendConnectionRequest:setLayout withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogD(@"Text and Graphic SetDisplayLayout completed. Request: %@, response: %@", request, response);
+        SDLLogV(@"Text and Graphic SetDisplayLayout completed. Request: %@, response: %@", request, response);
 
         if (response.success) {
+            SDLLogD(@"Text and Graphic SetDisplayLayout succeeded. New layout: %@", setLayout.displayLayout);
             [strongSelf sdl_updateCurrentScreenDataFromSetDisplayLayout:request];
         } else {
-
+            SDLLogD(@"Text and Graphic SetDisplayLayout failed to change to new layout: %@", setLayout.displayLayout);
+            // TODO: Should "update" with a failure
         }
 
         handler(error);
