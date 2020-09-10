@@ -206,6 +206,8 @@ NS_ASSUME_NONNULL_BEGIN
     _textField3Type = _currentScreenData.textField3Type;
     _textField4Type = _currentScreenData.textField4Type;
     _templateConfiguration = _currentScreenData.templateConfig;
+    _primaryGraphic = _currentScreenData.primaryGraphic;
+    _secondaryGraphic = _currentScreenData.secondaryGraphic;
 }
 
 #pragma mark - Change Layout
