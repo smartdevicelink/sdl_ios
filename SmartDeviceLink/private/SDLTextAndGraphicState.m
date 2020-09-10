@@ -45,6 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLTextAndGraphicState allocWithZone:zone] initWithTextField1:[_textField1 copy] textField2:[_textField2 copy] textField3:[_textField3 copy] textField4:[_textField4 copy] mediaText:[_mediaTrackTextField copy] title:[_title copy] primaryGraphic:[_primaryGraphic copy] secondaryGraphic:[_secondaryGraphic copy] alignment:[_alignment copy] textField1Type:[_textField1Type copy] textField2Type:[_textField2Type copy] textField3Type:[_textField3Type copy] textField4Type:[_textField4Type copy] templateConfiguration:[_templateConfig copy]];
 }
 
+- (BOOL)isEqualToTextAndGraphicState:(SDLTextAndGraphicState *)state {
+    return [_textField1 isEqualToString:state.textField1] && [_textField2 isEqualToString:state.textField2] && [_textField3 isEqualToString:state.textField3] && [_textField4 isEqualToString:state.textField4] && [_mediaTrackTextField isEqualToString:state.mediaTrackTextField] && [_title isEqualToString:state.title] && [_primaryGraphic isEqual:state.primaryGraphic] && [_secondaryGraphic isEqual:state.secondaryGraphic] && [_alignment isEqualToString:state.alignment] && [_textField1Type isEqualToString:state.textField1Type] && [_textField2Type isEqualToString:state.textField2Type] && [_textField3Type isEqualToString:state.textField3Type] && [_textField4Type isEqualToString:state.textField4Type] && [_templateConfig isEqual:state.templateConfig];
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) { return YES; }
+    if (![object isMemberOfClass:self.class]) { return NO; }
+
+    return [self isEqualToTextAndGraphicState:(SDLTextAndGraphicState *)object];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

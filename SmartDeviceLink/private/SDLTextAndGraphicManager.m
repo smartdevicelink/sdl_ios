@@ -151,13 +151,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.isDirty) {
         self.isDirty = NO;
-        [self sdl_updateWithCompletionHandler:handler];
+        [self sdl_updateAndCancelPreviousOperations:YES completionHandler:handler];
     }
 }
 
-- (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+- (void)sdl_updateAndCancelPreviousOperations:(BOOL)supersedePreviousOperations completionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     SDLLogD(@"Updating text and graphics");
-    if (self.transactionQueue.operationCount > 0) {
+    if (self.transactionQueue.operationCount > 0 && supersedePreviousOperations) {
         SDLLogV(@"Transactions already exist, cancelling them");
         [self.transactionQueue cancelAllOperations];
     }
@@ -382,7 +382,8 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Auto-send an updated show
     if ([self sdl_hasData]) {
-        [self sdl_updateWithCompletionHandler:nil];
+        // TODO: HAX: Capability updates cannot supersede earlier updates because of the case where a developer batched a `changeLayout` call w/ T&G changes on < 6.0 systems could cause this to come in before the operation completes. That would cause the operation to report a "failure" (because it was superseded by this call) when in fact the operation didn't fail at all and is just being adjusted. Even though iOS is able to tell the developer that it was superseded, Java Suite cannot, and therefore we are matching functionality with their library.
+        [self sdl_updateAndCancelPreviousOperations:NO completionHandler:nil];
     }
 }
 

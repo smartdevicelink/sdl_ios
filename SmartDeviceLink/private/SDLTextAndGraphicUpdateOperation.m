@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_updateGraphicsAndShow:fullShow];
     } else {
         // Send a SetDisplayLayout before sending the Show
-        if (self.shouldUpdateTemplateConfig) {
+        if (self.sdl_shouldUpdateTemplateConfig) {
             // Send the SetDisplayLayout, then the Show
             [self sdl_sendSetDisplayLayoutWithTemplateConfiguration:self.updatedState.templateConfig completionHandler:^(NSError * _Nullable error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -98,10 +98,6 @@ NS_ASSUME_NONNULL_BEGIN
             [self sdl_updateGraphicsAndShow:fullShow];
         }
     }
-}
-
-- (BOOL)shouldUpdateTemplateConfig {
-    return ![_updatedState.templateConfig isEqual:_currentScreenData.templateConfig];
 }
 
 #pragma mark - Send Show / Set Display Layout
@@ -281,20 +277,17 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.updatedState.mediaTrackTextField != nil && [self sdl_shouldUpdateMediaTextField]) {
         show.mediaTrack = self.updatedState.mediaTrackTextField;
-    } else {
-        show.mediaTrack = @"";
     }
 
     if (self.updatedState.title != nil && [self sdl_shouldUpdateTitleField]) {
         show.templateTitle = self.updatedState.title;
-    } else {
-        show.templateTitle = @"";
     }
 
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return show; }
 
-    NSUInteger numberOfLines = self.currentCapabilities.maxNumberOfMainFieldLines;
+    // If the template is updating, we don't know it's capabilities, so we have to assume it's enabled
+    NSUInteger numberOfLines = ![self sdl_shouldUpdateTemplateConfig] ? self.currentCapabilities.maxNumberOfMainFieldLines : 4;
     if (numberOfLines == 1) {
         show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
@@ -451,7 +444,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLShow *)sdl_assembleLayout:(SDLShow *)show {
     if (![[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]
-        || !self.shouldUpdateTemplateConfig) { return show; }
+        || !self.sdl_shouldUpdateTemplateConfig) { return show; }
 
     show.templateConfiguration = self.updatedState.templateConfig;
     return show;
@@ -515,7 +508,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    BOOL templateSupportsPrimaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic];
+    // If the template is updating, we don't know it's capabilities, so we have to assume it's enabled
+    BOOL templateSupportsPrimaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] || [self sdl_shouldUpdateTemplateConfig];
     BOOL graphicMatchesExisting = [self.currentScreenData.primaryGraphic.name isEqualToString:self.updatedState.primaryGraphic.name];
     BOOL graphicExists = (self.updatedState.primaryGraphic != nil);
 
@@ -523,7 +517,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
-    BOOL templateSupportsSecondaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic];
+    // If the template is updating, we don't know it's capabilities, so we have to assume it's enabled
+    BOOL templateSupportsSecondaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic] || [self sdl_shouldUpdateTemplateConfig];
     BOOL graphicMatchesExisting = [self.currentScreenData.secondaryGraphic.name isEqualToString:self.updatedState.secondaryGraphic.name];
     BOOL graphicExists = (self.updatedState.secondaryGraphic != nil);
 
@@ -536,11 +531,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdateMediaTextField {
-    return [self.currentCapabilities hasTextFieldOfName:SDLTextFieldNameMediaTrack];
+    // If the template is updating, we don't know it's capabilities, so we have to assume it's enabled
+    return [self.currentCapabilities hasTextFieldOfName:SDLTextFieldNameMediaTrack] || [self sdl_shouldUpdateTemplateConfig];
 }
 
 - (BOOL)sdl_shouldUpdateTitleField {
-    return [self.currentCapabilities hasTextFieldOfName:SDLTextFieldNameTemplateTitle];
+    // If the template is updating, we don't know it's capabilities, so we have to assume it's enabled
+    return [self.currentCapabilities hasTextFieldOfName:SDLTextFieldNameTemplateTitle] || [self sdl_shouldUpdateTemplateConfig];
+}
+
+- (BOOL)sdl_shouldUpdateTemplateConfig {
+    return ![_updatedState.templateConfig isEqual:_currentScreenData.templateConfig];
 }
 
 - (NSArray<NSString *> *)sdl_findNonNilTextFields {
