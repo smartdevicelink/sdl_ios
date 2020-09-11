@@ -43,7 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id)sdl_objectForName:(SDLRPCParameterName)name ofClass:(Class)classType error:(NSError * _Nullable __autoreleasing * _Nullable)error {
     id obj = [self sdl_objectForName:name];
 
-    if (obj == nil || [obj isKindOfClass:classType]) {
+    if (!obj || [obj isKindOfClass:NSNull.class]) {
+        return nil;
+    }
+
+    if ([obj isKindOfClass:classType]) {
         return obj;
     // translate dictionaries to objects
     } else if ([obj isKindOfClass:NSDictionary.class] && [classType instancesRespondToSelector:@selector(initWithDictionary:)]) {

@@ -764,7 +764,8 @@ typedef NSString * SDLServiceID;
     self.hmiZoneCapabilities = response.hmiZoneCapabilities;
     self.speechCapabilities = response.speechCapabilities;
     self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
-    self.vrCapability = (response.vrCapabilities.count > 0 && [response.vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]) ? YES : NO;
+    NSArray<SDLVRCapabilities> *vrCapabilities = response.vrCapabilities;
+    self.vrCapability = (0 < vrCapabilities.count && [vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]);
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapability = response.pcmStreamCapabilities;
 
