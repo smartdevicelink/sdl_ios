@@ -82,10 +82,11 @@
                                 <rect key="frame" x="16" y="87" width="343" height="70"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9hG-1Z-Ssk">
-                                        <rect key="frame" x="222" y="19.5" width="101" height="32"/>
+                                        <rect key="frame" x="171" y="19.5" width="152" height="32"/>
                                         <segments>
                                             <segment title="6.2.0"/>
                                             <segment title="7.0.0"/>
+                                            <segment title="1.0"/>
                                         </segments>
                                         <connections>
                                             <action selector="actionSwitchSDLVersion:" destination="TxX-lo-zc5" eventType="valueChanged" id="v3e-s2-47S"/>

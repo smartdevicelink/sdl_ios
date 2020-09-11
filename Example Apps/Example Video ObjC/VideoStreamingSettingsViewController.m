@@ -16,6 +16,7 @@
 
 static NSString *const VersionString6 = @"6.2.0";
 static NSString *const VersionString7 = @"7.0.0";
+static NSString *const VersionString0 = @"1.0.0";
 
 @implementation VideoStreamingSettingsViewController
 
@@ -26,6 +27,8 @@ static NSString *const VersionString7 = @"7.0.0";
         self.videoStreamSettings = [VideoStreamSettings new];
     }
     [self showSettingsOnScreen];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(resetSettingsAction:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -37,20 +40,26 @@ static NSString *const VersionString7 = @"7.0.0";
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    NSLog(@"%s: %@", __PRETTY_FUNCTION__, segue);
 }
 
 - (IBAction)actionAccept:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
-//    [self dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"accept settings");
-//    }];
 }
 
 - (IBAction)actionSwitchSDLVersion:(UISegmentedControl*)segments {
-    self.videoStreamSettings.SDLVersion = 0 == segments.selectedSegmentIndex ? VersionString6 : VersionString7;
+    switch (segments.selectedSegmentIndex) {
+        case 0:
+            self.videoStreamSettings.SDLVersion = VersionString6;
+            break;
+
+        case 1:
+            self.videoStreamSettings.SDLVersion = VersionString7;
+            break;
+
+        default:
+            self.videoStreamSettings.SDLVersion = VersionString0;
+            break;
+    }
     [self showSettingsOnScreen];
 }
 
@@ -59,8 +68,8 @@ static NSString *const VersionString7 = @"7.0.0";
         default:
         case 0: {
             SDLSupportedStreamingRange *strRange = [SDLSupportedStreamingRange new];
-            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:98 height:200];
-            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:1000 height:2000];
+            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:30 height:40];
+            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:60 height:80];
             strRange.minimumDiagonal = 0.5;
             strRange.minimumAspectRatio = 1.0;
             strRange.maximumAspectRatio = 2.0;
@@ -69,8 +78,8 @@ static NSString *const VersionString7 = @"7.0.0";
 
         case 1: {
             SDLSupportedStreamingRange *strRange = [SDLSupportedStreamingRange new];
-            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:99 height:200];
-            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:1000 height:3000];
+            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:100 height:150];
+            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:200 height:300];
             strRange.minimumDiagonal = 2;
             strRange.minimumAspectRatio = 1.0;
             strRange.maximumAspectRatio = 2.5;
@@ -79,11 +88,11 @@ static NSString *const VersionString7 = @"7.0.0";
 
         case 2: {
             SDLSupportedStreamingRange *strRange = [SDLSupportedStreamingRange new];
-            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:100 height:200];
-            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:1000 height:4000];
+            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:300 height:400];
+            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:900 height:1200];
             strRange.minimumDiagonal = 5;
-            strRange.minimumAspectRatio = 1.0;
-            strRange.maximumAspectRatio = 3.0;
+            strRange.minimumAspectRatio = 2.0;
+            strRange.maximumAspectRatio = 5.0;
             self.videoStreamSettings.supportedPortraitStreamingRange = strRange;
         } break;
     }
@@ -96,8 +105,8 @@ static NSString *const VersionString7 = @"7.0.0";
         default:
         case 0: {
             SDLSupportedStreamingRange *strRange = [SDLSupportedStreamingRange new];
-            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:200 height:98];
-            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:2000 height:1000];
+            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:45 height:35];
+            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:90 height:70];
             strRange.minimumDiagonal = 0.5;
             strRange.minimumAspectRatio = 1.0;
             strRange.maximumAspectRatio = 2.0;
@@ -106,8 +115,8 @@ static NSString *const VersionString7 = @"7.0.0";
 
         case 1: {
             SDLSupportedStreamingRange *strRange = [SDLSupportedStreamingRange new];
-            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:200 height:99];
-            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:3000 height:1000];
+            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:160 height:110];
+            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:320 height:220];
             strRange.minimumDiagonal = 7.0;
             strRange.minimumAspectRatio = 1.0;
             strRange.maximumAspectRatio = 2.5;
@@ -116,15 +125,22 @@ static NSString *const VersionString7 = @"7.0.0";
 
         case 2: {
             SDLSupportedStreamingRange *strRange = [SDLSupportedStreamingRange new];
-            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:200 height:100];
-            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:4000 height:1000];
+            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:480 height:320];
+            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:1440 height:960];
             strRange.minimumDiagonal = 9.0;
-            strRange.minimumAspectRatio = 1.0;
-            strRange.maximumAspectRatio = 3.0;
+            strRange.minimumAspectRatio = 2.0;
+            strRange.maximumAspectRatio = 5.0;
             self.videoStreamSettings.supportedLandscapeStreamingRange = strRange;
         } break;
     }
 
+    [self showSettingsOnScreen];
+}
+
+- (IBAction)resetSettingsAction:(id)sender {
+    self.videoStreamSettings.supportedLandscapeStreamingRange = nil;
+    self.videoStreamSettings.supportedPortraitStreamingRange = nil;
+    self.videoStreamSettings.SDLVersion = VersionString0;
     [self showSettingsOnScreen];
 }
 
