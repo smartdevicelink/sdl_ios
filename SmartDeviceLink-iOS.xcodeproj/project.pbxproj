@@ -295,6 +295,8 @@
 		4A40255D250026830080E159 /* SubscribeButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A40255B250026620080E159 /* SubscribeButtonManager.m */; };
 		4A402560250134CB0080E159 /* SDLStabilityControlsStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A40255E250134CA0080E159 /* SDLStabilityControlsStatus.m */; };
 		4A402561250134CB0080E159 /* SDLStabilityControlsStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A40255F250134CA0080E159 /* SDLStabilityControlsStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A404C66250BBE11003AB65D /* SDLTextAndGraphicUpdateOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A404C65250BBE11003AB65D /* SDLTextAndGraphicUpdateOperationSpec.m */; };
+		4A404C68250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A404C67250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m */; };
 		4A457DC324A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */; };
 		4A457DD324A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */; };
 		4A457DD524A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */; };
@@ -2077,6 +2079,8 @@
 		4A40255B250026620080E159 /* SubscribeButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubscribeButtonManager.m; path = "Example Apps/Example ObjC/SubscribeButtonManager.m"; sourceTree = SOURCE_ROOT; };
 		4A40255E250134CA0080E159 /* SDLStabilityControlsStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLStabilityControlsStatus.m; path = public/SDLStabilityControlsStatus.m; sourceTree = "<group>"; };
 		4A40255F250134CA0080E159 /* SDLStabilityControlsStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLStabilityControlsStatus.h; path = public/SDLStabilityControlsStatus.h; sourceTree = "<group>"; };
+		4A404C65250BBE11003AB65D /* SDLTextAndGraphicUpdateOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTextAndGraphicUpdateOperationSpec.m; path = DevAPISpecs/SDLTextAndGraphicUpdateOperationSpec.m; sourceTree = "<group>"; };
+		4A404C67250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLTextAndGraphicStateSpec.m; path = DevAPISpecs/SDLTextAndGraphicStateSpec.m; sourceTree = "<group>"; };
 		4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleRPCAdapterSpec.m; path = DevAPISpecs/SDLLifecycleRPCAdapterSpec.m; sourceTree = "<group>"; };
 		4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleSyncPDataHandlerSpec.m; path = DevAPISpecs/SDLLifecycleSyncPDataHandlerSpec.m; sourceTree = "<group>"; };
 		4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleMobileHMIStateHandlerSpec.m; path = DevAPISpecs/SDLLifecycleMobileHMIStateHandlerSpec.m; sourceTree = "<group>"; };
@@ -6118,6 +6122,8 @@
 			isa = PBXGroup;
 			children = (
 				5DAD5F86205087430025624C /* SDLTextAndGraphicManagerSpec.m */,
+				4A404C67250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m */,
+				4A404C65250BBE11003AB65D /* SDLTextAndGraphicUpdateOperationSpec.m */,
 			);
 			name = "Text and Graphic";
 			sourceTree = "<group>";
@@ -8446,6 +8452,7 @@
 				5D92935620B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m in Sources */,
 				162E82DE1A9BDE8B00906325 /* SDLFuelCutoffStatusSpec.m in Sources */,
 				162E83271A9BDE8B00906325 /* SDLCreateInteractionChoiceSetSpec.m in Sources */,
+				4A404C68250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m in Sources */,
 				5DAD5F8920508F090025624C /* SDLSoftButtonStateSpec.m in Sources */,
 				1098F03824A39699004F53CC /* SDLPermissionElementSpec.m in Sources */,
 				9FA0D01222DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m in Sources */,
@@ -8540,6 +8547,7 @@
 				1680B11B1A9CD7AD00DBD79E /* SDLFunctionIDSpec.m in Sources */,
 				5DB1BCDA1D243D85002FFC37 /* SDLStateMachineSpec.m in Sources */,
 				7538765622DCAF5400FE8484 /* SDLShowAppMenuSpec.m in Sources */,
+				4A404C66250BBE11003AB65D /* SDLTextAndGraphicUpdateOperationSpec.m in Sources */,
 				8831FA4B2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m in Sources */,
 				5D4346731E6F617D00B639C6 /* TestLogTarget.m in Sources */,
 				1EE8C43C1F347EAE00FDC2CF /* SDLTemperatureUnitSpec.m in Sources */,

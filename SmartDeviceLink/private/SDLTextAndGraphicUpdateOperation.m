@@ -76,27 +76,24 @@ NS_ASSUME_NONNULL_BEGIN
     if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
         // Send everything in the Show
         [self sdl_updateGraphicsAndShow:fullShow];
-    } else {
-        // Send a SetDisplayLayout before sending the Show
-        if (self.sdl_shouldUpdateTemplateConfig) {
-            // Send the SetDisplayLayout, then the Show
-            [self sdl_sendSetDisplayLayoutWithTemplateConfiguration:self.updatedState.templateConfig completionHandler:^(NSError * _Nullable error) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                if (self.isCancelled) {
-                    [strongSelf finishOperation];
-                    return;
-                } else if (error != nil) {
-                    self.internalError = error;
-                    [strongSelf finishOperation];
-                    return;
-                }
+    } else if (self.sdl_shouldUpdateTemplateConfig) {
+        // Send the SetDisplayLayout, then the Show
+        [self sdl_sendSetDisplayLayoutWithTemplateConfiguration:self.updatedState.templateConfig completionHandler:^(NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (self.isCancelled) {
+                [strongSelf finishOperation];
+                return;
+            } else if (error != nil) {
+                self.internalError = error;
+                [strongSelf finishOperation];
+                return;
+            }
 
-                [self sdl_updateGraphicsAndShow:fullShow];
-            }];
-        } else {
-            // Just send the show
             [self sdl_updateGraphicsAndShow:fullShow];
-        }
+        }];
+    } else {
+        // Just send the show
+        [self sdl_updateGraphicsAndShow:fullShow];
     }
 }
 
@@ -476,17 +473,17 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.primaryGraphic = show.graphic ? self.updatedState.primaryGraphic : self.currentScreenData.primaryGraphic;
     self.currentScreenData.secondaryGraphic = show.secondaryGraphic ? self.updatedState.secondaryGraphic : self.currentScreenData.secondaryGraphic;
 
-    // This is intentionally only checking `mainField1` because the fields may be in different places based on the capabilities
-    self.currentScreenData.textField1 = show.mainField1 ? self.updatedState.textField1 : self.currentScreenData.textField1;
-    self.currentScreenData.textField2 = show.mainField1 ? self.updatedState.textField2 : self.currentScreenData.textField2;
-    self.currentScreenData.textField3 = show.mainField1 ? self.updatedState.textField3 : self.currentScreenData.textField3;
-    self.currentScreenData.textField4 = show.mainField1 ? self.updatedState.textField4 : self.currentScreenData.textField4;
+    // This is intentionally checking `mainField1` because the fields may be in different places based on the capabilities, then check it's own field in case that's the only field thats being used.
+    self.currentScreenData.textField1 = (show.mainField1.length > 0) ? self.updatedState.textField1 : self.currentScreenData.textField1;
+    self.currentScreenData.textField2 = ((show.mainField1.length > 0) || (show.mainField2.length > 0)) ? self.updatedState.textField2 : self.currentScreenData.textField2;
+    self.currentScreenData.textField3 = ((show.mainField1.length > 0) || (show.mainField3.length > 0)) ? self.updatedState.textField3 : self.currentScreenData.textField3;
+    self.currentScreenData.textField4 = ((show.mainField1.length > 0) || (show.mainField4.length > 0)) ? self.updatedState.textField4 : self.currentScreenData.textField4;
 
-    // This is intentionally only checking show.metadataTags because the tags may be in different places based on the capabilities
-    self.currentScreenData.textField1Type = show.metadataTags ? self.updatedState.textField1Type : self.currentScreenData.textField1Type;
-    self.currentScreenData.textField2Type = show.metadataTags ? self.updatedState.textField2Type : self.currentScreenData.textField2Type;
-    self.currentScreenData.textField3Type = show.metadataTags ? self.updatedState.textField3Type : self.currentScreenData.textField3Type;
-    self.currentScreenData.textField4Type = show.metadataTags ? self.updatedState.textField4Type : self.currentScreenData.textField4Type;
+    // This is intentionally checking show.metadataTags.mainField1 because the tags may be in different places based on the capabilities, then check its own field in case that's the only field that's being used.
+    self.currentScreenData.textField1Type = show.metadataTags.mainField1 ? self.updatedState.textField1Type : self.currentScreenData.textField1Type;
+    self.currentScreenData.textField2Type = (show.metadataTags.mainField1 || show.metadataTags.mainField2) ? self.updatedState.textField2Type : self.currentScreenData.textField2Type;
+    self.currentScreenData.textField3Type = (show.metadataTags.mainField1 || show.metadataTags.mainField3) ? self.updatedState.textField3Type : self.currentScreenData.textField3Type;
+    self.currentScreenData.textField4Type = (show.metadataTags.mainField1 || show.metadataTags.mainField4) ? self.updatedState.textField4Type : self.currentScreenData.textField4Type;
 
     if (self.currentDataUpdatedHandler != nil) {
         self.currentDataUpdatedHandler(self.currentScreenData, nil);
@@ -541,7 +538,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdateTemplateConfig {
-    return ![_updatedState.templateConfig isEqual:_currentScreenData.templateConfig];
+    return (_updatedState.templateConfig != nil) && ![_updatedState.templateConfig isEqual:_currentScreenData.templateConfig];
 }
 
 - (NSArray<NSString *> *)sdl_findNonNilTextFields {

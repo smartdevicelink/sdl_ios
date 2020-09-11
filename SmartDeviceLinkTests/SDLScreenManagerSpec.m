@@ -4,18 +4,19 @@
 
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
+#import "SDLGlobals.h"
+#import "SDLMenuCell.h"
+#import "SDLMenuManager.h"
 #import "SDLScreenManager.h"
 #import "SDLShow.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
-#import "SDLTextAndGraphicManager.h"
-#import "TestConnectionManager.h"
-#import "SDLVersion.h"
-#import "SDLGlobals.h"
-#import "SDLMenuCell.h"
-#import "SDLMenuManager.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLTemplateConfiguration.h"
+#import "SDLTextAndGraphicManager.h"
+#import "SDLVersion.h"
+#import "TestConnectionManager.h"
 
 @interface SDLSoftButtonManager()
 
@@ -69,6 +70,8 @@ describe(@"screen manager", ^{
     __block SDLSoftButtonState *testSBState = [[SDLSoftButtonState alloc] initWithStateName:testSBStateName text:testSBStateText image:nil];
     __block SDLSoftButtonObject *testSBObject = [[SDLSoftButtonObject alloc] initWithName:testSBObjectName state:testSBState handler:nil];
 
+    __block SDLTemplateConfiguration *testTemplateConfig = [[SDLTemplateConfiguration alloc] initWithTemplate:@"Test"];
+
     beforeEach(^{
         mockConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
@@ -84,6 +87,7 @@ describe(@"screen manager", ^{
         expect(testScreenManager.softButtonManager.fileManager).to(equal(mockFileManager));
     });
 
+    // batching updates
     describe(@"batching updates", ^{
         beforeEach(^{
             SDLHMILevel hmiLevelFull = SDLHMILevelFull;
@@ -114,6 +118,7 @@ describe(@"screen manager", ^{
         });
     });
 
+    // setters
     describe(@"setters", ^{
         beforeEach(^{
             [testScreenManager beginUpdates];
@@ -150,6 +155,15 @@ describe(@"screen manager", ^{
 
             expect(testScreenManager.softButtonManager.softButtonObjects).to(haveCount(1));
             expect(testScreenManager.softButtonManager.softButtonObjects.firstObject.name).to(equal(testSBObjectName));
+        });
+    });
+
+    // changing layout
+    describe(@"changing layout", ^{
+        it(@"should pass the call to the T&G manager", ^{
+            [testScreenManager changeLayout:testTemplateConfig withCompletionHandler:nil];
+
+            expect(testScreenManager.textAndGraphicManager.transactionQueue.operationCount).to(equal(1));
         });
     });
 });
