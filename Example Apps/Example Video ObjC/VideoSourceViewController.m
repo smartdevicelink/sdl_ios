@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoSourceViewController ()
 @property (strong, nonatomic, nullable) IBOutletCollection(UIButton) NSArray *buttons;
+@property (strong, nonatomic) IBOutlet UILabel *infoLabel;
 @end
 
 
@@ -58,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSLog(@"%s: %@", __PRETTY_FUNCTION__, NSStringFromCGSize(displaySize));
     // Do something with the new size
     self.view.frame = (CGRect){CGPointZero, displaySize};
+    self.infoLabel.text = [NSString stringWithFormat:@"Size: %@", NSStringFromCGSize(displaySize)];
 }
 
 - (void)videoManagerDidStop:(id)manager {
