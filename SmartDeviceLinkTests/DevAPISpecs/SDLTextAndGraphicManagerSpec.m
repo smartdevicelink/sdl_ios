@@ -11,6 +11,7 @@
 #import "SDLPutFileResponse.h"
 #import "SDLShow.h"
 #import "SDLTextAndGraphicManager.h"
+#import "SDLTextAndGraphicState.h"
 #import "SDLTextAndGraphicUpdateOperation.h"
 #import "SDLTextField.h"
 #import "SDLSystemCapabilityManager.h"
@@ -77,7 +78,7 @@ describe(@"text and graphic manager", ^{
         expect(testManager.textField3Type).to(beNil());
         expect(testManager.textField4Type).to(beNil());
 
-        expect(testManager.currentScreenData).to(equal([[SDLShow alloc] init]));
+        expect(testManager.currentScreenData).to(equal([[SDLTextAndGraphicState alloc] init]));
         expect(testManager.transactionQueue).toNot(beNil());
         expect(testManager.windowCapability).to(beNil());
         expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
@@ -422,7 +423,7 @@ describe(@"text and graphic manager", ^{
             expect(testManager.textField3Type).to(beNil());
             expect(testManager.textField4Type).to(beNil());
 
-            expect(testManager.currentScreenData).to(equal([[SDLShow alloc] init]));
+            expect(testManager.currentScreenData).to(equal([[SDLTextAndGraphicState alloc] init]));
             expect(testManager.windowCapability).to(beNil());
             expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
             expect(testManager.blankArtwork).toNot(beNil());
