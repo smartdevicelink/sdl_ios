@@ -774,10 +774,44 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)sdl_applyVideoCapabilityWhenStreaming:(nullable SDLVideoStreamingCapability *)videoCapability {
-    if (!videoCapability || 0 == videoCapability.supportedFormats.count) {
+    if (!videoCapability) {
         // continue streaming though core may expect something different
-        SDLLogD(@"Wrong video capabilities received, ignore it: %@", videoCapability);
+        SDLLogD(@"Nil video capability received, ignore it (do not restart)");
         return;
+    }
+    // try to validate absent fields taking ones from the current capability
+    if (!videoCapability.scale) {
+        videoCapability.scale = self.videoStreamingCapability.scale;
+        if (!videoCapability.scale) {
+            videoCapability.scale = @1.0;
+        }
+    }
+    if (!videoCapability.diagonalScreenSize) {
+        videoCapability.diagonalScreenSize = self.videoStreamingCapability.diagonalScreenSize;
+    }
+    if (!videoCapability.pixelPerInch) {
+        videoCapability.pixelPerInch = self.videoStreamingCapability.pixelPerInch;
+    }
+    if (!videoCapability.preferredResolution) {
+        SDLLogD(@"Nil video capability received, no preffered resolution");
+        videoCapability.preferredResolution = self.videoStreamingCapability.preferredResolution;
+    }
+    if (!videoCapability.maxBitrate) {
+        videoCapability.maxBitrate = self.videoStreamingCapability.maxBitrate;
+    }
+    if (!videoCapability.hapticSpatialDataSupported) {
+        videoCapability.hapticSpatialDataSupported = self.videoStreamingCapability.hapticSpatialDataSupported;
+    }
+    if (0 == videoCapability.supportedFormats.count) {
+        if (self.videoFormat) {
+            // video format may not come, use the previous one instead
+            SDLLogD(@"Video capability received, no supported formats, trying to fix");
+            videoCapability.supportedFormats = @[self.videoFormat];
+        } else {
+            // continue streaming though core may expect something different
+            SDLLogD(@"Video capability received, no supported formats, ignore it (do not restart)");
+            return;
+        }
     }
 
     self.videoStreamingCapabilityUpdated = videoCapability;
@@ -801,33 +835,59 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLImageResolution *imageResolution = [nextCapability makeImageResolution];
         // let take square as portrait
         const BOOL isPortrait = imageResolution.resolutionHeight.floatValue >= imageResolution.resolutionWidth.floatValue;
-        const BOOL isInRange = isPortrait ?
-                            [self.supportedPortraitStreamingRange isImageResolutionInRange:imageResolution] :
-                            [self.supportedLandscapeStreamingRange isImageResolutionInRange:imageResolution];
+        BOOL isInRange = YES;
+        if (isPortrait) {
+            if (self.supportedPortraitStreamingRange) {
+                isInRange = [self.supportedPortraitStreamingRange isImageResolutionInRange:imageResolution];
+            }
+        } else {
+            if (self.supportedLandscapeStreamingRange) {
+                isInRange = [self.supportedLandscapeStreamingRange isImageResolutionInRange:imageResolution];
+            }
+        }
+
         if (isInRange) {
             [matchCapabilities addObject:nextCapability];
             continue;
         }
 
-        const float diagonal = nextCapability.diagonalScreenSize.floatValue;
-        if (0 < diagonal) {
-            const BOOL isInRange = isPortrait ?
-                                    (diagonal >= self.supportedPortraitStreamingRange.minimumDiagonal) :
-                                    (diagonal >= self.supportedLandscapeStreamingRange.minimumDiagonal);
-            if (isInRange) {
-                [matchCapabilities addObject:nextCapability];
-                continue;
+        if (nextCapability.diagonalScreenSize) {
+            const float diagonal = nextCapability.diagonalScreenSize.floatValue;
+            if (0 < diagonal) {
+                BOOL isInRange = YES;
+                if (isPortrait) {
+                    if (self.supportedPortraitStreamingRange) {
+                        isInRange = (diagonal >= self.supportedPortraitStreamingRange.minimumDiagonal);
+                    }
+                } else {
+                    if (self.supportedLandscapeStreamingRange) {
+                        isInRange = (diagonal >= self.supportedLandscapeStreamingRange.minimumDiagonal);
+                    }
+                }
+                if (isInRange) {
+                    [matchCapabilities addObject:nextCapability];
+                    continue;
+                }
             }
         }
 
-        const float ratio = nextCapability.preferredResolution.normalizedAspectRatio;
-        if (1 <= ratio) {
-            const BOOL isInRange = isPortrait ?
-                                    [self.supportedPortraitStreamingRange isAspectRatioInRange:ratio] :
-                                    [self.supportedLandscapeStreamingRange isAspectRatioInRange:ratio];
-            if (isInRange) {
-                [matchCapabilities addObject:nextCapability];
-                continue;
+        if (nextCapability.preferredResolution) {
+            const float ratio = nextCapability.preferredResolution.normalizedAspectRatio;
+            if (1 <= ratio) {
+                BOOL isInRange = YES;
+                if (isPortrait) {
+                    if (self.supportedPortraitStreamingRange) {
+                        isInRange = [self.supportedPortraitStreamingRange isAspectRatioInRange:ratio];
+                    }
+                } else {
+                    if (self.supportedLandscapeStreamingRange) {
+                        isInRange = [self.supportedLandscapeStreamingRange isAspectRatioInRange:ratio];
+                    }
+                }
+                if (isInRange) {
+                    [matchCapabilities addObject:nextCapability];
+                    continue;
+                }
             }
         }
     }

@@ -126,7 +126,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLImageResolution *)makeImageResolution {
-    const CGSize size = [SDLStreamingVideoScaleManager scale:self.scale.floatValue size:self.preferredResolution.makeSize];
+    const float scale = (nil == self.scale) ? 1.0 : self.scale.floatValue;
+    const CGSize size = [SDLStreamingVideoScaleManager scale:scale size:self.preferredResolution.makeSize];
     return [[SDLImageResolution alloc] initWithWidth:(uint16_t)size.width height:(uint16_t)size.height];
 }
 
