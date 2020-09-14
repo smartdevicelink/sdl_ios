@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLockScreenManager
 
-- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(SDLNotificationDispatcher *)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter {
+- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(id)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter {
     self = [super init];
     if (!self) {
         return nil;
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    SDLOnLockScreenStatus *lockScreenStatus = (SDLOnLockScreenStatus *)notification.notification;
+    SDLOnLockScreenStatus *lockScreenStatus = (SDLOnLockScreenStatus *)notification.userInfo[@"lockscreenStatus"];
     if (lockScreenStatus == nil) { return; }
 
     self.lastLockNotification = lockScreenStatus;

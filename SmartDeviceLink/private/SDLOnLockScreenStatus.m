@@ -14,17 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLockScreenStatus
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     _lockScreenStatus = SDLLockScreenStatusOff;
-    
+
     return self;
 }
+
 - (instancetype)initWithDriverDistractionStatus:(nullable NSNumber<SDLBool> *)driverDistractionStatus userSelected:(nullable NSNumber<SDLBool> *)userSelected lockScreenStatus:(SDLLockScreenStatus)lockScreenStatus hmiLevel:(nullable SDLHMILevel)hmiLevel {
     self = [self init];
     if (!self) {

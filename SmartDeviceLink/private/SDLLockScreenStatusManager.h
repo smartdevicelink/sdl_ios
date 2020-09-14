@@ -25,7 +25,7 @@ static NSString *const SDLDidChangeLockScreenStatusNotification = @"com.sdl.noti
 @property (strong, nonatomic, readonly) SDLOnLockScreenStatus *lockScreenStatusNotification;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithNotificationDispatcher:(SDLNotificationDispatcher *)dispatcher;
+- (instancetype)initWithNotificationDispatcher:(id)dispatcher;
 
 @end
 

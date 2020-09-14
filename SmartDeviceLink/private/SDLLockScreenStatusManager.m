@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithNotificationDispatcher:(SDLNotificationDispatcher *)dispatcher {
+- (instancetype)initWithNotificationDispatcher:(id)dispatcher {
     self = [super init];
     if (!self) { return nil; }
 
@@ -105,10 +105,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Utilities
 
 - (void)sdl_postLockScreenStatus:(SDLOnLockScreenStatus *)statusNotification {
-    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:self rpcNotification:statusNotification];
+    NSNotification *lockScreenStatusNotification = [NSNotification notificationWithName:SDLDidChangeLockScreenStatusNotification object:self userInfo:@{@"lockscreenStatus": statusNotification}];
 
-    SDLLogD(@"Lock screen status changed. Sending new notification: %@", notification);
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    SDLLogD(@"Lock screen status changed. Sending new notification: %@", lockScreenStatusNotification);
+    [[NSNotificationCenter defaultCenter] postNotification:lockScreenStatusNotification];
 }
 
 
