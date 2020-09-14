@@ -115,8 +115,8 @@ static NSString *const VersionString0 = @"1.0.0";
 
         case 1: {
             SDLSupportedStreamingRange *strRange = [SDLSupportedStreamingRange new];
-            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:160 height:110];
-            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:320 height:220];
+            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:320 height:200];
+            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:350 height:220];
             strRange.minimumDiagonal = 7.0;
             strRange.minimumAspectRatio = 1.0;
             strRange.maximumAspectRatio = 2.5;
@@ -125,8 +125,8 @@ static NSString *const VersionString0 = @"1.0.0";
 
         case 2: {
             SDLSupportedStreamingRange *strRange = [SDLSupportedStreamingRange new];
-            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:480 height:320];
-            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:1440 height:960];
+            strRange.minimumResolution = [[SDLImageResolution alloc] initWithWidth:800 height:380];
+            strRange.maximumResolution = [[SDLImageResolution alloc] initWithWidth:820 height:400];
             strRange.minimumDiagonal = 9.0;
             strRange.minimumAspectRatio = 2.0;
             strRange.maximumAspectRatio = 5.0;
