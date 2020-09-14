@@ -39,12 +39,34 @@ typedef NS_OPTIONS(NSUInteger, SDLSecondaryTransports) {
 /**
  *  A production configuration that runs using IAP. Additional functionality should be customized on the properties.
  *
+ *  @param appName The name of the app.
+ *  @param appId   The app id to be used. This should be registered with the head unit's manufacturer.
+ *
+ *  @return The lifecycle configuration
+ */
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_SWIFT_NAME(init(appName:appId:)) __deprecated_msg("Use defaultConfigurationWithAppName:fullAppId: instead");
+
+/**
+ *  A production configuration that runs using IAP. Additional functionality should be customized on the properties.
+ *
  *  @param appName      The name of the app.
  *  @param fullAppId    The full app id to be used. This should be registered with the head unit's manufacturer. When set, the `appId` parameter will be set automatically to the first 10 non-dash characters of the `fullAppId`.
  *
  *  @return The lifecycle configuration
  */
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId NS_SWIFT_NAME(init(appName:fullAppId:));
+
+/**
+ *  A debug configuration that runs using TCP. Additional functionality should be customized on the properties.
+ *
+ *  @param appName   The name of the app.
+ *  @param appId     The app id to be used. This should be registered with the head unit's manufacturer.
+ *  @param ipAddress The ip address of the server to connect to
+ *  @param port      The port of the server to connect to
+ *
+ *  @return The lifecycle configuration
+ */
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port NS_SWIFT_NAME(init(appName:appId:ipAddress:port:)) __deprecated_msg("Use debugConfigurationWithAppName:fullAppId:ipAddress:port: instead");
 
 /**
  *  A debug configuration that runs using TCP. Additional functionality should be customized on the properties.

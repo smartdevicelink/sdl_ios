@@ -29,6 +29,7 @@ QuickSpecBegin(SDLLifecycleConfigurationSpec)
 describe(@"A lifecycle configuration", ^{
     __block SDLLifecycleConfiguration *testConfig = nil;
     __block NSString *testAppName = @"An App Name";
+    __block NSString *testAppId = @"00542596";
     __block NSString *testFullAppId = @"-ab--987-adfa651kj-212346h3kjkaju";
     __block NSString *expectedGeneratedAppId = @"ab987adfa6";
     __block SDLVersion *baseVersion = nil;
@@ -40,6 +41,16 @@ describe(@"A lifecycle configuration", ^{
 
     context(@"created with a default configuration", ^{
         context(@"should be successfully initialized", ^{
+            it(@"defaultConfigurationWithAppName:appId:", ^{
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                testConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName appId:testAppId];
+
+                expect(testConfig.appId).to(match(testAppId));
+                expect(testConfig.fullAppId).to(beNil());
+                #pragma clang diagnostic pop
+            });
+
             it(@"defaultConfigurationWithAppName:fullAppId:", ^{
                 testConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:testFullAppId];
 
@@ -129,6 +140,16 @@ describe(@"A lifecycle configuration", ^{
         });
 
         context(@"should be successfully initialized", ^{
+            it(@"debugConfigurationWithAppName:appId:ipAddress:port:", ^{
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                testConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:testAppName appId:testAppId ipAddress:testIPAddress port:testPort];
+
+                expect(testConfig.appId).to(match(testAppId));
+                expect(testConfig.fullAppId).to(beNil());
+                #pragma clang diagnostic pop
+            });
+
             it(@"debugConfigurationWithAppName:fullAppId:ipAddress:port:", ^{
                 testConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:testAppName fullAppId:testFullAppId ipAddress:testIPAddress port:testPort];
 
