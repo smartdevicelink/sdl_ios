@@ -16,13 +16,18 @@
 #import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLImageField.h"
+#import "SDLImageField+ScreenManagerExtensions.h"
 #import "SDLMetadataTags.h"
 #import "SDLResult.h"
+#import "SDLSetDisplayLayout.h"
+#import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
 #import "SDLShowResponse.h"
+#import "SDLTemplateConfiguration.h"
 #import "SDLTextAndGraphicState.h"
 #import "SDLTextAndGraphicUpdateOperation.h"
 #import "SDLTextField.h"
+#import "SDLTextField+ScreenManagerExtensions.h"
 #import "SDLTextFieldName.h"
 #import "SDLVersion.h"
 #import "SDLWindowCapability.h"
@@ -48,6 +53,8 @@ NSString *testArtworkName2 = @"some other artwork name";
 SDLArtwork *testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName2 fileExtension:@"png" persistent:NO];
 SDLArtwork *testStaticIcon = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
 
+SDLTemplateConfiguration *newConfiguration = [[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutTilesOnly];
+
 describe(@"the text and graphic operation", ^{
     __block SDLTextAndGraphicUpdateOperation *testOp = nil;
 
@@ -55,19 +62,37 @@ describe(@"the text and graphic operation", ^{
     __block SDLFileManager *mockFileManager = nil;
     __block SDLWindowCapability *windowCapability = nil;
     __block SDLTextAndGraphicState *updatedState = nil;
+    __block SDLWindowCapability *allEnabledCapability = [[SDLWindowCapability alloc] init];
 
     __block SDLShowResponse *successShowResponse = [[SDLShowResponse alloc] init];
+    __block SDLSetDisplayLayoutResponse *successSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
+    __block SDLShowResponse *failShowResponse = [[SDLShowResponse alloc] init];
+    __block SDLSetDisplayLayoutResponse *failSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
     __block SDLTextAndGraphicState *emptyCurrentData = nil;
+
+    __block SDLTextAndGraphicState *receivedState = nil;
+    __block NSError *receivedError = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
         testOp = nil;
         updatedState = nil;
+        allEnabledCapability.imageFields = [SDLImageField allImageFields];
+        allEnabledCapability.textFields = [SDLTextField allTextFields];
 
         successShowResponse.success = @YES;
         successShowResponse.resultCode = SDLResultSuccess;
+        successSetDisplayLayoutResponse.success = @YES;
+        successSetDisplayLayoutResponse.resultCode = SDLResultSuccess;
+        failShowResponse.success = @NO;
+        failShowResponse.resultCode = SDLResultInUse;
+        failSetDisplayLayoutResponse.success = @NO;
+        failSetDisplayLayoutResponse.resultCode = SDLResultInUse;
+
         emptyCurrentData = [[SDLTextAndGraphicState alloc] init];
+        receivedState = nil;
+        receivedError = nil;
 
         // Default to the max version
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:SDLMaxProxyRPCVersion];
@@ -89,7 +114,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -128,7 +153,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -138,7 +163,7 @@ describe(@"the text and graphic operation", ^{
                     SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
 
                     expect(testOp.isFinished).to(beTrue());
-                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField1).to(equal(field1String));
                     expect(sentShow.mainField2).to(beEmpty());
                     expect(sentShow.mainField3).to(beEmpty());
                     expect(sentShow.mainField4).to(beEmpty());
@@ -160,7 +185,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.textField2 = field2String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -193,7 +218,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField2 = field2String;
                     updatedState.textField3 = field3String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -227,7 +252,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -266,7 +291,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -276,7 +301,7 @@ describe(@"the text and graphic operation", ^{
                     SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
 
                     expect(testOp.isFinished).to(beTrue());
-                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField1).to(equal(field1String));
                     expect(sentShow.mainField2).to(beEmpty());
                     expect(sentShow.mainField3).to(beEmpty());
                     expect(sentShow.mainField4).to(beEmpty());
@@ -298,7 +323,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.textField2 = field2String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -308,8 +333,8 @@ describe(@"the text and graphic operation", ^{
                     SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
 
                     expect(testOp.isFinished).to(beTrue());
-                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
+                    expect(sentShow.mainField1).to(equal(field1String));
+                    expect(sentShow.mainField2).to(equal(field2String));
                     expect(sentShow.mainField3).to(beEmpty());
                     expect(sentShow.mainField4).to(beEmpty());
                     expect(sentShow.templateTitle).to(beEmpty());
@@ -331,7 +356,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField2 = field2String;
                     updatedState.textField3 = field3String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -342,7 +367,7 @@ describe(@"the text and graphic operation", ^{
 
                     expect(testOp.isFinished).to(beTrue());
                     expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
-                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@", field3String]));
+                    expect(sentShow.mainField2).to(equal(field3String));
                     expect(sentShow.mainField3).to(beEmpty());
                     expect(sentShow.mainField4).to(beEmpty());
                     expect(sentShow.templateTitle).to(beEmpty());
@@ -365,7 +390,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -404,7 +429,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -436,7 +461,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.textField2 = field2String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -469,7 +494,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField2 = field2String;
                     updatedState.textField3 = field3String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -503,7 +528,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -542,7 +567,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -574,7 +599,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.textField2 = field2String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -607,7 +632,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField2 = field2String;
                     updatedState.textField3 = field3String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -641,7 +666,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
@@ -681,7 +706,7 @@ describe(@"the text and graphic operation", ^{
                 updatedState.textField3 = field3String;
                 updatedState.textField4 = field4String;
 
-                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:^(NSError * _Nullable error) {
+                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:^(NSError * _Nullable error) {
                     didCallHandler = YES;
                 }];
                 [testOp start];
@@ -747,7 +772,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -769,7 +794,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -798,7 +823,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -827,7 +852,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.primaryGraphic = testArtwork;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -856,7 +881,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.primaryGraphic = testStaticIcon;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -890,7 +915,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -916,7 +941,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
@@ -944,7 +969,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
@@ -959,6 +984,168 @@ describe(@"the text and graphic operation", ^{
                     expect(secondReceivedShow.mainField1).to(beNil());
                     expect(secondReceivedShow.graphic).to(beNil());
                     expect(secondReceivedShow.secondaryGraphic.value).to(equal(testArtwork2.name));
+                });
+            });
+        });
+    });
+
+    // changing a layout
+    describe(@"changing a layout", ^{
+        // on less than RPC 6.0
+        context(@"on less than RPC 6.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.0.0"];
+            });
+
+            // by itself
+            context(@"by itself", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.templateConfig = newConfiguration;
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a set display layout, then update the screen data, then send a Show with no data", ^{
+                    SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+                    expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
+
+                    [testConnectionManager respondToLastRequestWithResponse:successSetDisplayLayoutResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedError).to(beNil());
+
+                    SDLShow *sentRPC2 = testConnectionManager.receivedRequests[1];
+                    expect(sentRPC2).to(beAnInstanceOf([SDLShow class]));
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(testOp.isFinished).to(beTrue());
+                });
+            });
+
+            // with other text
+            context(@"with other text", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.templateConfig = newConfiguration;
+                    updatedState.textField1 = field1String;
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a set display layout, then update the screen data, then send a Show with data and then update the screen data again", ^{
+                    SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+                    expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
+
+                    [testConnectionManager respondToLastRequestWithResponse:successSetDisplayLayoutResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedState.textField1).to(beNil());
+                    expect(receivedError).to(beNil());
+
+                    SDLShow *sentRPC2 = testConnectionManager.receivedRequests[1];
+                    expect(sentRPC2).to(beAnInstanceOf([SDLShow class]));
+                    expect(sentRPC2.mainField1).to(equal(field1String));
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedState.textField1).toNot(beNil());
+                    expect(receivedError).to(beNil());
+                    expect(testOp.isFinished).to(beTrue());
+                });
+
+                // when it receives a set display layout failure
+                describe(@"when it receives a set display layout failure", ^{
+                    it(@"it should send a set display layout, then reset the screen data, then do nothing else", ^{
+                        SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                        expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+                        expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
+
+                        [testConnectionManager respondToLastRequestWithResponse:failSetDisplayLayoutResponse];
+                        expect(receivedState).to(beNil());
+                        expect(receivedState).to(beNil());
+                        expect(receivedError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+                    });
+                });
+            });
+        });
+
+        // on greater or equal than RPC 6.0
+        context(@"on greater or equal than RPC 6.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
+            });
+
+            // by itself
+            context(@"by itself", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.templateConfig = newConfiguration;
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a show, then update the screen data", ^{
+                    SDLShow *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentRPC).to(beAnInstanceOf([SDLShow class]));
+                    expect(sentRPC.templateConfiguration).to(equal(newConfiguration));
+
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedState.textField1).to(beNil());
+                    expect(receivedError).to(beNil());
+                    expect(testOp.isFinished).to(beTrue());
+                });
+            });
+
+            // with other text
+            context(@"with other text", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.templateConfig = newConfiguration;
+                    updatedState.textField1 = field1String;
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a show, then update the screen data", ^{
+                    SDLShow *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentRPC).to(beAnInstanceOf([SDLShow class]));
+                    expect(sentRPC.templateConfiguration).to(equal(newConfiguration));
+
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedState.textField1).to(equal(field1String));
+                    expect(receivedError).to(beNil());
+                    expect(testOp.isFinished).to(beTrue());
+                });
+
+                // when it receives a set display layout failure
+                describe(@"when it receives a set display layout failure", ^{
+                    it(@"it should send a set display layout, then reset the screen data, then do nothing else", ^{
+                        SDLShow *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                        expect(sentRPC).to(beAnInstanceOf([SDLShow class]));
+                        expect(sentRPC.templateConfiguration).to(equal(newConfiguration));
+
+                        [testConnectionManager respondToLastRequestWithResponse:failShowResponse];
+                        expect(receivedState).to(beNil());
+                        expect(receivedState).to(beNil());
+                        expect(receivedError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+                    });
                 });
             });
         });
