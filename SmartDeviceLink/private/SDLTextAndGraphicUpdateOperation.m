@@ -154,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogV(@"Text and Graphic Show completed. Request: %@, response: %@", request, response);
 
-        if (response.success) {
+        if (response.success.boolValue) {
             SDLLogD(@"Text and Graphic Show completed successfully");
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
         } else {
@@ -174,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogV(@"Text and Graphic SetDisplayLayout completed. Request: %@, response: %@", request, response);
 
-        if (response.success) {
+        if (response.success.boolValue) {
             SDLLogD(@"Text and Graphic SetDisplayLayout succeeded. New layout: %@", setLayout.displayLayout);
             [strongSelf sdl_updateCurrentScreenDataFromSetDisplayLayout:request];
         } else {
@@ -488,6 +488,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.textField2Type = (show.metadataTags.mainField1 || show.metadataTags.mainField2) ? self.updatedState.textField2Type : self.currentScreenData.textField2Type;
     self.currentScreenData.textField3Type = (show.metadataTags.mainField1 || show.metadataTags.mainField3) ? self.updatedState.textField3Type : self.currentScreenData.textField3Type;
     self.currentScreenData.textField4Type = (show.metadataTags.mainField1 || show.metadataTags.mainField4) ? self.updatedState.textField4Type : self.currentScreenData.textField4Type;
+
+    self.currentScreenData.templateConfig = show.templateConfiguration ? self.updatedState.templateConfig : self.currentScreenData.templateConfig;
 
     if (self.currentDataUpdatedHandler != nil) {
         self.currentDataUpdatedHandler(self.currentScreenData, nil);
