@@ -10,6 +10,7 @@
 #import "SDLMetadataTags.h"
 #import "SDLPutFileResponse.h"
 #import "SDLShow.h"
+#import "SDLTemplateConfiguration.h"
 #import "SDLTextAndGraphicManager.h"
 #import "SDLTextAndGraphicState.h"
 #import "SDLTextAndGraphicUpdateOperation.h"
@@ -25,7 +26,7 @@
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
-@property (strong, nonatomic) SDLShow *currentScreenData;
+@property (strong, nonatomic) SDLTextAndGraphicState *currentScreenData;
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
@@ -78,7 +79,7 @@ describe(@"text and graphic manager", ^{
         expect(testManager.textField3Type).to(beNil());
         expect(testManager.textField4Type).to(beNil());
 
-        expect(testManager.currentScreenData).to(equal([[SDLTextAndGraphicState alloc] init]));
+        expect(testManager.currentScreenData).toNot(beNil());
         expect(testManager.transactionQueue).toNot(beNil());
         expect(testManager.windowCapability).to(beNil());
         expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
@@ -400,6 +401,34 @@ describe(@"text and graphic manager", ^{
         });
     });
 
+    // changing the layout
+    describe(@"changing the layout", ^{
+        // while not batching
+        context(@"while not batching", ^{
+            beforeEach(^{
+                SDLTemplateConfiguration *testConfig = [[SDLTemplateConfiguration alloc] initWithTemplate:@"Test Template"];
+                [testManager changeLayout:testConfig withCompletionHandler:nil];
+            });
+
+            it(@"should create and start the operation", ^{
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
+            });
+        });
+
+        // while batching
+        context(@"while batching", ^{
+            beforeEach(^{
+                testManager.batchUpdates = YES;
+                SDLTemplateConfiguration *testConfig = [[SDLTemplateConfiguration alloc] initWithTemplate:@"Test Template"];
+                [testManager changeLayout:testConfig withCompletionHandler:nil];
+            });
+
+            it(@"should not create and start the operation", ^{
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
+            });
+        });
+    });
+
     // on disconnect
     context(@"on disconnect", ^{
         beforeEach(^{
@@ -423,7 +452,7 @@ describe(@"text and graphic manager", ^{
             expect(testManager.textField3Type).to(beNil());
             expect(testManager.textField4Type).to(beNil());
 
-            expect(testManager.currentScreenData).to(equal([[SDLTextAndGraphicState alloc] init]));
+            expect(testManager.currentScreenData).toNot(beNil());
             expect(testManager.windowCapability).to(beNil());
             expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
             expect(testManager.blankArtwork).toNot(beNil());

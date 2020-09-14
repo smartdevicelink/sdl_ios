@@ -80,6 +80,7 @@ describe(@"screen manager", ^{
         testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
     });
 
+    // should set up the sub-managers correctly
     it(@"should set up the sub-managers correctly", ^{
         expect(testScreenManager.textAndGraphicManager.connectionManager).to(equal(mockConnectionManager));
         expect(testScreenManager.textAndGraphicManager.fileManager).to(equal(mockFileManager));
