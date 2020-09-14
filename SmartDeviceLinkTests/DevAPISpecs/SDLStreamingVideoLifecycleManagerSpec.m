@@ -34,6 +34,7 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
+#import "SDLSupportedStreamingRange.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLV2ProtocolHeader.h"
@@ -47,26 +48,40 @@
 #import "TestSmartConnectionManager.h"
 #import "TestStreamingMediaDelegate.h"
 
-@interface SDLStreamingVideoLifecycleManager ()
+// expose private methods to the test suite
+@interface SDLStreamingVideoLifecycleManager (test)
 
 @property (weak, nonatomic) SDLProtocol *protocol;
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 @property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
+@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedLandscapeStreamingRange;
+@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedPortraitStreamingRange;
+
 - (void)shutDown;
+- (NSArray<SDLVideoStreamingCapability *>* __nullable)matchVideoCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
 
 @end
+
+// expose private methods to the test suite
+@interface SDLVideoStreamingCapability (test)
+- (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain;
+@end
+
 
 // video streaming capabilities values for testing, used in SDLGetSystemCapabilityResponse
 static const float testVSCScale = 1.25;
 static const int32_t testVSCMaxBitrate = 12345;
 static const uint16_t testVSCResolutionWidth = 42;
 static const uint16_t testVSCResolutionHeight = 69;
+NSString *const testAppName = @"Test App";
 
 static void postRAINotification(void);
 static void sendNotificationForHMILevel(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState);
 static SDLGetSystemCapabilityResponse *createSystemCapabilityResponse(void);
 static SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData);
+
+#pragma mark - test Main
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
 
@@ -843,6 +858,7 @@ describe(@"the streaming video manager", ^{
 
 QuickSpecEnd
 
+#pragma mark - test GetSystemCapabilities
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_GetSystemCapabilities)
 
@@ -857,7 +873,6 @@ describe(@"after sending GetSystemCapabilities", ^{
     SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
     SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
-    NSString *testAppName = @"Test App";
     SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
 
     // set proper version up
@@ -1027,6 +1042,155 @@ describe(@"after sending GetSystemCapabilities", ^{
         });
     });
 
+});
+
+QuickSpecEnd
+
+#pragma mark - test Capabilities Filtering Logic
+
+QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_CapabilitiesFiltering)
+
+SDLImageResolution *resolution1 = [[SDLImageResolution alloc] initWithWidth:800 height:380];
+SDLImageResolution *resolution2 = [[SDLImageResolution alloc] initWithWidth:320 height:200];
+SDLImageResolution *resolution3 = [[SDLImageResolution alloc] initWithWidth:480 height:320];
+SDLImageResolution *resolution4 = [[SDLImageResolution alloc] initWithWidth:400 height:380];
+SDLImageResolution *resolution5 = [[SDLImageResolution alloc] initWithWidth:800 height:240];
+SDLImageResolution *resolution6 = [[SDLImageResolution alloc] initWithWidth:200 height:400]; // portrait small
+SDLImageResolution *resolution7 = [[SDLImageResolution alloc] initWithWidth:2000 height:4000]; // portrait large
+
+SDLVideoStreamingCapability *capability1 = [[SDLVideoStreamingCapability alloc] init];
+capability1.preferredResolution = resolution1;
+capability1.hapticSpatialDataSupported = @YES;
+capability1.diagonalScreenSize = @8;
+capability1.scale = @1;
+
+SDLVideoStreamingCapability *capability2 = [[SDLVideoStreamingCapability alloc] init];
+capability2.preferredResolution = resolution2;
+capability2.hapticSpatialDataSupported = @NO;
+capability2.diagonalScreenSize = @3;
+
+SDLVideoStreamingCapability *capability3 = [[SDLVideoStreamingCapability alloc] init];
+capability3.preferredResolution = resolution3;
+capability3.hapticSpatialDataSupported = @YES;
+capability3.diagonalScreenSize = @5;
+
+SDLVideoStreamingCapability *capability4 = [[SDLVideoStreamingCapability alloc] init];
+capability4.preferredResolution = resolution4;
+capability4.hapticSpatialDataSupported = @YES;
+capability4.diagonalScreenSize = @4;
+
+SDLVideoStreamingCapability *capability5 = [[SDLVideoStreamingCapability alloc] init];
+capability5.preferredResolution = resolution5;
+capability5.hapticSpatialDataSupported = @YES;
+capability5.diagonalScreenSize = @4;
+
+SDLVideoStreamingCapability *capability6 = [[SDLVideoStreamingCapability alloc] init];
+capability6.preferredResolution = resolution1;
+capability6.hapticSpatialDataSupported = @YES;
+capability6.diagonalScreenSize = @5;
+capability6.scale = @1.5;
+
+SDLVideoStreamingCapability *capability7 = [[SDLVideoStreamingCapability alloc] init];
+capability7.preferredResolution = resolution1;
+capability7.hapticSpatialDataSupported = @YES;
+capability7.diagonalScreenSize = @4;
+capability7.scale = @2;
+
+SDLVideoStreamingCapability *capability8 = [[SDLVideoStreamingCapability alloc] init]; // portrait small
+capability8.preferredResolution = resolution6;
+capability8.hapticSpatialDataSupported = @YES;
+capability8.diagonalScreenSize = @4;
+
+SDLVideoStreamingCapability *capability9 = [[SDLVideoStreamingCapability alloc] init]; // portrait large
+capability9.preferredResolution = resolution7;
+capability9.hapticSpatialDataSupported = @YES;
+capability9.diagonalScreenSize = @4;
+
+SDLVideoStreamingFormat *vsFormat1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+SDLVideoStreamingFormat *vsFormat2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+SDLVideoStreamingFormat *vsFormat3 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecTheora protocol:SDLVideoStreamingProtocolRTSP];
+SDLVideoStreamingFormat *vsFormat4 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecVP8 protocol:SDLVideoStreamingProtocolRTMP];
+SDLVideoStreamingFormat *vsFormat5 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecVP9 protocol:SDLVideoStreamingProtocolWebM];
+
+SDLVideoStreamingCapability *capability0 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution1 maxBitrate:400000 supportedFormats:@[vsFormat1, vsFormat2, vsFormat3, vsFormat4, vsFormat5] hapticDataSupported:YES diagonalScreenSize:8 pixelPerInch:96 scale:1];
+capability0.additionalVideoStreamingCapabilities = @[capability1, capability2, capability3, capability4, capability5, capability6, capability7, capability8, capability9];
+
+describe(@"supported video capabilities and formats", ^{
+    TestSmartConnectionManager *testConnectionManager = [[TestSmartConnectionManager alloc] init];
+    SDLConfiguration *testConfig = [[SDLConfiguration alloc] init];
+    SDLStreamingVideoLifecycleManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
+
+    context(@"neither landscape nor portrait constraint set", ^{
+        NSArray <SDLVideoStreamingCapability*>* allCapabilities = [capability0 allVideoStreamingCapabilitiesPlain];
+
+        it(@"should let all capabilities in (nothing filtered out)", ^{
+            streamingLifecycleManager.supportedLandscapeStreamingRange = nil;
+            streamingLifecycleManager.supportedPortraitStreamingRange = nil;
+            NSArray *filteredCapabilities = [streamingLifecycleManager matchVideoCapability:capability0];
+            expect(filteredCapabilities).to(equal(allCapabilities));
+        });
+    });
+
+    context(@"landscape restricted and any portrait", ^{
+        SDLImageResolution *resMin = [[SDLImageResolution alloc] initWithWidth:320 height:200];
+        SDLImageResolution *resMax = [[SDLImageResolution alloc] initWithWidth:350 height:220];
+        SDLSupportedStreamingRange *landRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMin maximun:resMax];
+
+        it(@"should filter 320x200 and small and large portrait", ^{
+            streamingLifecycleManager.supportedLandscapeStreamingRange = landRange;
+            streamingLifecycleManager.supportedPortraitStreamingRange = nil;
+
+            expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(equal(landRange));
+            expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(beNil());
+            // 320x200 & portrait small & large are expected
+            NSArray *expectedArray = @[capability2, capability8, capability9];
+            NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
+            expect(matchArray).to(equal(expectedArray));
+        });
+    });
+         
+    context(@"portrait restricted and wrong landscape", ^{
+        SDLImageResolution *resMinP = [[SDLImageResolution alloc] initWithWidth:200 height:320];
+        SDLImageResolution *resMaxP = [[SDLImageResolution alloc] initWithWidth:300 height:420];
+        SDLSupportedStreamingRange *portRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMinP maximun:resMaxP];
+
+        // wrong range: max < min, nothing will pass in landscape
+        SDLImageResolution *resMaxL = [[SDLImageResolution alloc] initWithWidth:320 height:200];
+        SDLImageResolution *resMinL = [[SDLImageResolution alloc] initWithWidth:350 height:220];
+        SDLSupportedStreamingRange *landRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMinL maximun:resMaxL];
+
+        it(@"should filter portrait small", ^{
+            streamingLifecycleManager.supportedLandscapeStreamingRange = landRange;
+            streamingLifecycleManager.supportedPortraitStreamingRange = portRange;
+
+            expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(equal(landRange));
+            expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(equal(portRange));
+            NSArray *expectedArray = @[capability8];
+            NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
+            expect(matchArray).to(equal(expectedArray));
+        });
+    });
+
+    context(@"both landscape and portrait restricted", ^{
+        SDLImageResolution *resMinP = [[SDLImageResolution alloc] initWithWidth:200 height:320];
+        SDLImageResolution *resMaxP = [[SDLImageResolution alloc] initWithWidth:300 height:420];
+        SDLSupportedStreamingRange *portRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMinP maximun:resMaxP];
+
+        SDLImageResolution *resMinL = [[SDLImageResolution alloc] initWithWidth:320 height:200];
+        SDLImageResolution *resMaxL = [[SDLImageResolution alloc] initWithWidth:350 height:220];
+        SDLSupportedStreamingRange *landRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMinL maximun:resMaxL];
+
+        it(@"should filter 320x200 and portrait small", ^{
+            streamingLifecycleManager.supportedLandscapeStreamingRange = landRange;
+            streamingLifecycleManager.supportedPortraitStreamingRange = portRange;
+
+            expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(equal(landRange));
+            expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(equal(portRange));
+            NSArray *expectedArray = @[capability2, capability8];
+            NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
+            expect(matchArray).to(equal(expectedArray));
+        });
+    });
 });
 
 QuickSpecEnd

@@ -759,7 +759,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.protocol sendRPC:notification];
 
     // take formats from 'parent' since onse may be absent in children
-    matchedVideoCapability.supportedFormats = videoCapabilityUpdated.supportedFormats;
+    if (!matchedVideoCapability.supportedFormats) {
+        matchedVideoCapability.supportedFormats = videoCapabilityUpdated.supportedFormats;
+    }
     [self sdl_applyVideoCapability:matchedVideoCapability];
 
     if (self.delegate) {
@@ -833,63 +835,50 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     NSMutableArray *matchCapabilities = [NSMutableArray arrayWithCapacity:allCapabilities.count];
     for (SDLVideoStreamingCapability* nextCapability in allCapabilities) {
         SDLImageResolution *imageResolution = [nextCapability makeImageResolution];
-        // let take square as portrait
-        const BOOL isPortrait = imageResolution.resolutionHeight.floatValue >= imageResolution.resolutionWidth.floatValue;
-        BOOL isInRange = YES;
-        if (isPortrait) {
-            if (self.supportedPortraitStreamingRange) {
-                isInRange = [self.supportedPortraitStreamingRange isImageResolutionInRange:imageResolution];
-            }
-        } else {
-            if (self.supportedLandscapeStreamingRange) {
-                isInRange = [self.supportedLandscapeStreamingRange isImageResolutionInRange:imageResolution];
-            }
-        }
-
-        if (isInRange) {
+        NSNumber *isPortrait = imageResolution.isPortrait;
+        if (!isPortrait) {
+            // no restriction, any capability will do (neither landscape nor portrait, it can be a mistake)
             [matchCapabilities addObject:nextCapability];
             continue;
         }
 
+        SDLSupportedStreamingRange *range = isPortrait.boolValue ? self.supportedPortraitStreamingRange : self.supportedLandscapeStreamingRange;
+        if (!range) {
+            // no range, no restriction - any capability will do
+            [matchCapabilities addObject:nextCapability];
+            continue;
+        }
+
+        // 1. resolution test: min <= resolution <= max
+        if ([range isImageResolutionRangeValid]) {
+            if ([range isImageResolutionInRange:imageResolution]) {
+                [matchCapabilities addObject:nextCapability];
+            }
+            continue;
+        }
+
+        // 2. diagonal test: diagonal is above or equal to the minimumDiagonal
         if (nextCapability.diagonalScreenSize) {
             const float diagonal = nextCapability.diagonalScreenSize.floatValue;
             if (0 < diagonal) {
-                BOOL isInRange = YES;
-                if (isPortrait) {
-                    if (self.supportedPortraitStreamingRange) {
-                        isInRange = (diagonal >= self.supportedPortraitStreamingRange.minimumDiagonal);
-                    }
-                } else {
-                    if (self.supportedLandscapeStreamingRange) {
-                        isInRange = (diagonal >= self.supportedLandscapeStreamingRange.minimumDiagonal);
-                    }
-                }
-                if (isInRange) {
+                if (diagonal >= range.minimumDiagonal) {
                     [matchCapabilities addObject:nextCapability];
-                    continue;
                 }
             }
+            continue;
         }
 
+        // 3. diagonal test: aspect ratio is within the specified range
         if (nextCapability.preferredResolution) {
             const float ratio = nextCapability.preferredResolution.normalizedAspectRatio;
             if (1 <= ratio) {
-                BOOL isInRange = YES;
-                if (isPortrait) {
-                    if (self.supportedPortraitStreamingRange) {
-                        isInRange = [self.supportedPortraitStreamingRange isAspectRatioInRange:ratio];
-                    }
-                } else {
-                    if (self.supportedLandscapeStreamingRange) {
-                        isInRange = [self.supportedLandscapeStreamingRange isAspectRatioInRange:ratio];
-                    }
-                }
-                if (isInRange) {
+                if ([range isAspectRatioInRange:ratio]) {
                     [matchCapabilities addObject:nextCapability];
-                    continue;
                 }
             }
+            continue;
         }
+        // by this point the nextCapability does not pass the restrictions and gets filtered out
     }
 
     return matchCapabilities;

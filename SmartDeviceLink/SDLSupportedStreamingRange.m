@@ -7,36 +7,46 @@
 
 #import "SDLSupportedStreamingRange.h"
 #import "SDLImageResolution.h"
+#import "SDLLogMacros.h"
 
 @implementation SDLSupportedStreamingRange
 
-- (instancetype)initWithResolutionsMinimum:(SDLImageResolution*)minResolution maximun:(SDLImageResolution*)maxResolution {
+- (instancetype)initWithResolutionsMinimum:(SDLImageResolution *)minResolution maximun:(SDLImageResolution *)maxResolution {
     if ((self = [super init])) {
+        if (minResolution && maxResolution) {
+            // if both min and max present then min must be below max
+            if ((minResolution.resolutionWidth.floatValue > maxResolution.resolutionWidth.floatValue) ||
+                (minResolution.resolutionHeight.floatValue > maxResolution.resolutionHeight.floatValue)) {
+                SDLLogD(@"minResolution is bigger than maxResolution (%@ <> %@)", minResolution, maxResolution);
+            }
+        }
         _minimumResolution = minResolution;
         _maximumResolution = maxResolution;
     }
     return self;
 }
 
-+ (instancetype)defaultPortraitRange {
-    //TODO: decide what default values are
-    SDLImageResolution *minResolution = [[SDLImageResolution alloc] initWithWidth:240 height:320];
-    SDLImageResolution *maxResolution = [[SDLImageResolution alloc] initWithWidth:600 height:800];
-    return [[self alloc] initWithResolutionsMinimum:minResolution maximun:maxResolution];
+- (instancetype)copyWithZone:(nullable NSZone *)zone {
+    typeof(self) aCopy = [[self.class allocWithZone:zone] init];
+    // create a deep copy to prevent resolutions from outside update
+    aCopy.minimumResolution = [self.minimumResolution copyWithZone:zone];
+    aCopy.maximumResolution = [self.maximumResolution copyWithZone:zone];
+    aCopy->_minimumAspectRatio = self->_minimumAspectRatio;
+    aCopy->_maximumAspectRatio = self->_maximumAspectRatio;
+    aCopy->_minimumDiagonal = self->_minimumDiagonal;
+    return aCopy;
 }
 
-+ (instancetype)defaultLandscapeRange {
-    SDLImageResolution *minResolution = [[SDLImageResolution alloc] initWithWidth:320 height:240];
-    SDLImageResolution *maxResolution = [[SDLImageResolution alloc] initWithWidth:800 height:600];
-    return [[self alloc] initWithResolutionsMinimum:minResolution maximun:maxResolution];
+- (BOOL)isImageResolutionRangeValid {
+    return (self.minimumResolution || self.maximumResolution);
 }
 
-- (instancetype)copy {
-    return [[self.class alloc] initWithResolutionsMinimum:self.minimumResolution maximun:self.maximumResolution];
-}
-
-- (BOOL)isImageResolutionInRange:(SDLImageResolution*)imageResolution {
+- (BOOL)isImageResolutionInRange:(SDLImageResolution *)imageResolution {
     if (!imageResolution) {
+        return NO;
+    }
+    if (![self isImageResolutionRangeValid]) {
+        // no min & max resolutions - no restriction, no resolution pass
         return NO;
     }
     const CGSize size = imageResolution.makeSize;
@@ -56,6 +66,10 @@
 }
 
 - (BOOL)isAspectRatioInRange:(float)aspectRatio {
+    if (self.minimumAspectRatio <= 0 && self.maximumAspectRatio <= 0) {
+        return NO;
+    }
+
     BOOL isInRange = YES;
     if (0 < self.minimumAspectRatio) {
         isInRange = (aspectRatio >= self.minimumAspectRatio);

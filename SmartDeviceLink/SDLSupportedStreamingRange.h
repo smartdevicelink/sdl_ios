@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLSupportedStreamingRange : NSObject
+@interface SDLSupportedStreamingRange : NSObject <NSCopying>
 
 // The minimum supported normalized aspect ratio, Min value is 1
 @property (nonatomic, assign) float minimumAspectRatio;
@@ -29,16 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) SDLImageResolution *maximumResolution;
 
 // Check if the argument is within the [.minimumResolution, .maximumResolution] range
-- (BOOL)isImageResolutionInRange:(SDLImageResolution*)imageResolution;
+- (BOOL)isImageResolutionInRange:(SDLImageResolution *)imageResolution;
+
+// Check if the min/max resolution valid and therefore the test will be valid
+- (BOOL)isImageResolutionRangeValid;
 
 // Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range
 - (BOOL)isAspectRatioInRange:(float)aspectRatio;
 
-+ (instancetype)defaultPortraitRange;
-
-+ (instancetype)defaultLandscapeRange;
-
-- (instancetype)initWithResolutionsMinimum:(SDLImageResolution*)minResolution maximun:(SDLImageResolution*)maxResolution;
+- (instancetype)initWithResolutionsMinimum:(SDLImageResolution *)minResolution maximun:(SDLImageResolution *)maxResolution;
 
 @end
 
