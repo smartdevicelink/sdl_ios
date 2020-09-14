@@ -130,9 +130,13 @@ NS_ASSUME_NONNULL_BEGIN
             if (self.cancelled) {
                 [strongSelf finishOperation];
                 return;
+            } else if (error != nil) {
+                // The show to change the text / layout failed, so fail the operation
+                self.internalError = error;
+                [strongSelf finishOperation];
+                return;
             }
 
-            // Once that's done, success or fail, upload the images, then send the full show
             [strongSelf sdl_uploadImagesAndSendWhenDone:^(NSError * _Nullable error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 if (error != nil) {
