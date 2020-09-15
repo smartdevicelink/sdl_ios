@@ -169,8 +169,10 @@ NS_ASSUME_NONNULL_BEGIN
             // Update our current screen data
             strongSelf.currentScreenData = newScreenData;
             [strongSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
-        } else if (error != nil) {
-            // Invalidate data that's different from our current screen data
+        } else if (error != nil
+                   && !([error.domain isEqualToString:SDLErrorDomainTextAndGraphicManager]
+                        && error.code == SDLTextAndGraphicManagerErrorPendingUpdateSuperseded)) {
+            // Invalidate data that's different from our current screen data if it's not an "update superseded" error. We only want to handle actual failures.
             [strongSelf sdl_resetFieldsToCurrentScreenData];
             [strongSelf sdl_updatePendingOperationsWithNewScreenData:strongSelf.currentScreenData];
         }
