@@ -20,7 +20,7 @@ QuickSpecBegin(SDLLockScreenStatusManagerSpec)
 
 describe(@"the lockscreen status manager", ^{
     __block SDLLockScreenStatusManager *testManager;
-    __block SDLNotificationDispatcher *mockDispatcher;
+    __block id mockDispatcher;
 
     beforeEach(^{
         mockDispatcher = OCMClassMock([SDLNotificationDispatcher class]);
@@ -262,41 +262,43 @@ describe(@"the lockscreen status manager", ^{
     });
 
     describe(@"when receiving an HMI status", ^{
-        __block id lockScreenIconObserver = nil;
         beforeEach(^{
+            OCMExpect([mockDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:[OCMArg checkWithBlock:^BOOL(id value) {
+                NSDictionary *infoObj = (NSDictionary *)value;
+                SDLLockScreenStatusInfo *lockScreenStatusInfo = (SDLLockScreenStatusInfo *)infoObj[@"lockscreenStatus"];
+                expect(lockScreenStatusInfo.hmiLevel).to(equal(SDLHMILevelFull));
+                return [lockScreenStatusInfo isKindOfClass:[SDLLockScreenStatusInfo class]];
+            }]]);
+
             SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateAudible videoStreamingState:nil windowID:nil];
             SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:mockDispatcher rpcNotification:hmiStatus];
-
-            lockScreenIconObserver = OCMObserverMock();
-            [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidChangeLockScreenStatusNotification object:testManager];
-            [[lockScreenIconObserver expect] notificationWithName:SDLDidChangeLockScreenStatusNotification object:[OCMArg any] userInfo:[OCMArg any]];
-
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         });
 
         it(@"should update the driver distraction status and send a notification", ^{
             expect(testManager.hmiLevel).to(equal(SDLHMILevelFull));
-            OCMVerifyAll(lockScreenIconObserver);
+            OCMVerifyAllWithDelay(mockDispatcher, 0.5);
         });
     });
 
     describe(@"when receiving a driver distraction status", ^{
-        __block id lockScreenIconObserver = nil;
         beforeEach(^{
+            OCMExpect([mockDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:[OCMArg checkWithBlock:^BOOL(id value) {
+                NSDictionary *infoObj = (NSDictionary *)value;
+                SDLLockScreenStatusInfo *lockScreenStatusInfo = (SDLLockScreenStatusInfo *)infoObj[@"lockscreenStatus"];
+                expect(lockScreenStatusInfo.driverDistractionStatus).to(beTrue());
+                return [lockScreenStatusInfo isKindOfClass:[SDLLockScreenStatusInfo class]];
+            }]]);
+
             SDLOnDriverDistraction *driverDistraction = [[SDLOnDriverDistraction alloc] init];
             driverDistraction.state = SDLDriverDistractionStateOn;
-            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:mockDispatcher rpcNotification:driverDistraction];
-
-            lockScreenIconObserver = OCMObserverMock();
-            [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidChangeLockScreenStatusNotification object:testManager];
-            [[lockScreenIconObserver expect] notificationWithName:SDLDidChangeLockScreenStatusNotification object:[OCMArg any] userInfo:[OCMArg any]];
-
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            SDLRPCNotificationNotification *driverDistractionStateNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:mockDispatcher rpcNotification:driverDistraction];
+            [[NSNotificationCenter defaultCenter] postNotification:driverDistractionStateNotification];
         });
 
         it(@"should update the driver distraction status and send a notification", ^{
             expect(testManager.driverDistracted).to(beTrue());
-            OCMVerifyAll(lockScreenIconObserver);
+            OCMVerifyAllWithDelay(mockDispatcher, 0.5);
         });
     });
 });

@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLockScreenManager
 
-- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(id)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter {
+- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(SDLNotificationDispatcher *)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter {
     self = [super init];
     if (!self) {
         return nil;

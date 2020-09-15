@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenStatusManager ()
 
 @property (assign, nonatomic) BOOL haveDriverDistractionStatus;
+@property (weak, nonatomic) SDLNotificationDispatcher *notificationDispatcher;
 
 @end
 
@@ -33,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
     _userSelected = NO;
     _driverDistracted = NO;
     _haveDriverDistractionStatus = NO;
+    _notificationDispatcher = dispatcher;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidUpdate:) name:SDLDidChangeHMIStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionDidUpdate:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
@@ -105,12 +107,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Utilities
 
 - (void)sdl_postLockScreenStatus:(SDLLockScreenStatusInfo *)statusNotification {
-    NSNotification *lockScreenStatusNotification = [NSNotification notificationWithName:SDLDidChangeLockScreenStatusNotification object:self userInfo:@{@"lockscreenStatus": statusNotification}];
+    SDLLogD(@"Lock screen status changed: %@", statusNotification);
 
-    SDLLogD(@"Lock screen status changed. Sending new notification: %@", lockScreenStatusNotification);
-    [[NSNotificationCenter defaultCenter] postNotification:lockScreenStatusNotification];
+    [self.notificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:@{@"lockscreenStatus": statusNotification}];
 }
-
 
 #pragma mark - Observers
 

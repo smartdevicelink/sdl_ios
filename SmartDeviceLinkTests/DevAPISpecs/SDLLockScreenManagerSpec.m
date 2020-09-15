@@ -31,15 +31,20 @@ QuickSpecBegin(SDLLockScreenManagerSpec)
 
 describe(@"a lock screen manager", ^{
     __block SDLLockScreenManager *testManager = nil;
+    __block SDLNotificationDispatcher *dispatcherMock = nil;
+    __block id fakeViewControllerPresenter = nil;
     __block NSString *lockScreenStatusKey = @"lockscreenStatus";
-    
-    context(@"with a disabled configuration", ^{
-        __block id fakeViewControllerPresenter = nil;
-        __block NSNotificationCenter *dispatcherMock = nil;
 
+    beforeEach(^{
+        testManager = nil;
+        dispatcherMock = nil;
+        fakeViewControllerPresenter = nil;
+    });
+
+    context(@"with a disabled configuration", ^{
         beforeEach(^{
             fakeViewControllerPresenter = OCMPartialMock([[SDLFakeViewControllerPresenter alloc] init]);
-            dispatcherMock = OCMClassMock([NSNotificationCenter class]);
+            dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
 
             testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration disabledConfiguration] notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
         });
@@ -79,12 +84,9 @@ describe(@"a lock screen manager", ^{
     });
     
     context(@"with an enabled configuration", ^{
-        __block id fakeViewControllerPresenter = nil;
-        __block NSNotificationCenter *dispatcherMock = nil;
-
         beforeEach(^{
             fakeViewControllerPresenter = OCMPartialMock([[SDLFakeViewControllerPresenter alloc] init]);
-            dispatcherMock = OCMClassMock([NSNotificationCenter class]);
+            dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
 
             testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfiguration] notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
         });
@@ -207,15 +209,12 @@ describe(@"a lock screen manager", ^{
     });
 
     context(@"when a vehicle icon is received", ^{
-        __block id fakeViewControllerPresenter = nil;
-        __block NSNotificationCenter *dispatcherMock = nil;
-
         __block UIImage *testIcon = nil;
         SDLLockScreenConfiguration *testsConfig = [SDLLockScreenConfiguration enabledConfiguration];
 
         beforeEach(^{
             fakeViewControllerPresenter = OCMPartialMock([[SDLFakeViewControllerPresenter alloc] init]);
-            dispatcherMock = OCMClassMock([NSNotificationCenter class]);
+            dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
 
             testIcon = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
         });
@@ -254,15 +253,12 @@ describe(@"a lock screen manager", ^{
     });
 
     context(@"with a custom color configuration", ^{
-        __block id fakeViewControllerPresenter = nil;
-        __block NSNotificationCenter *dispatcherMock = nil;
-
         __block UIColor *testColor = nil;
         __block UIImage *testImage = nil;
 
         beforeEach(^{
             fakeViewControllerPresenter = OCMPartialMock([[SDLFakeViewControllerPresenter alloc] init]);
-            dispatcherMock = OCMClassMock([NSNotificationCenter class]);
+            dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
 
             testColor = [UIColor blueColor];
             testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
@@ -291,13 +287,11 @@ describe(@"a lock screen manager", ^{
     });
 
     context(@"with a custom view controller configuration", ^{
-        __block id fakeViewControllerPresenter = nil;
-        __block NSNotificationCenter *dispatcherMock = nil;
         __block UIViewController *testViewController = nil;
 
         beforeEach(^{
             fakeViewControllerPresenter = OCMPartialMock([[SDLFakeViewControllerPresenter alloc] init]);
-            dispatcherMock = OCMClassMock([NSNotificationCenter class]);
+            dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
 
             testViewController = [[UIViewController alloc] init];
             testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfigurationWithViewController:testViewController] notificationDispatcher:dispatcherMock presenter:fakeViewControllerPresenter];
@@ -323,12 +317,9 @@ describe(@"a lock screen manager", ^{
     });
 
     context(@"with a dismissable false configuration", ^{
-        __block id fakeViewControllerPresenter = nil;
-        __block NSNotificationCenter *dispatcherMock = nil;
-
         beforeEach(^{
             fakeViewControllerPresenter = OCMPartialMock([[SDLFakeViewControllerPresenter alloc] init]);
-            dispatcherMock = OCMClassMock([NSNotificationCenter class]);
+            dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
 
             SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
             config.enableDismissGesture = NO;
@@ -360,9 +351,6 @@ describe(@"a lock screen manager", ^{
     });
 
     describe(@"with an always enabled configuration", ^{
-        __block id fakeViewControllerPresenter = nil;
-        __block NSNotificationCenter *dispatcherMock = nil;
-
         __block SDLLockScreenStatusInfo *testStatus = nil;
 
         beforeEach(^{
@@ -390,7 +378,7 @@ describe(@"a lock screen manager", ^{
 
                 OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
 
-                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).to(beTrue());
+                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beTrue());
             });
         });
 
@@ -408,15 +396,13 @@ describe(@"a lock screen manager", ^{
 
                 OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
 
-                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).to(beTrue());
+                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beTrue());
             });
         });
     });
 
     describe(@"A lock screen status of OPTIONAL", ^{
         __block SDLLockScreenConfiguration *testLockScreenConfig = nil;
-        __block id fakeViewControllerPresenter = nil;
-        __block NSNotificationCenter *dispatcherMock = nil;
         __block SDLLockScreenStatusInfo *testOptionalStatus;
 
         beforeEach(^{
