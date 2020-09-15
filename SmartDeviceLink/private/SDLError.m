@@ -252,11 +252,15 @@ SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcm
 #pragma mark Screen Managers
 
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded {
-    return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorPendingUpdateSuperseded userInfo:nil];
+    return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorPendingUpdateSuperseded userInfo:@{
+        NSLocalizedDescriptionKey: @"The screen manager didn't complete this update because a newer update was requested. Any remaining pieces of this update that were not overridden by the new update will complete in that update."
+    }];
 }
 
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded {
-    return [NSError errorWithDomain:SDLErrorDomainSoftButtonManager code:SDLSoftButtonManagerErrorPendingUpdateSuperseded userInfo:nil];
+    return [NSError errorWithDomain:SDLErrorDomainSoftButtonManager code:SDLSoftButtonManagerErrorPendingUpdateSuperseded userInfo:@{
+        NSLocalizedDescriptionKey: @"The screen manager didn't complete this update because a newer update was requested. Any remaining pieces of this update that were not overridden by the new update will complete in that update."
+    }];
 }
 
 + (NSError *)sdl_subscribeButtonManager_notSubscribed {
