@@ -3,7 +3,7 @@
 //  SmartDeviceLink
 //
 
-#import "SDLOnLockScreenStatus.h"
+#import "SDLLockScreenStatusInfo.h"
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLHMILevel.h"
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLOnLockScreenStatus
+@implementation SDLLockScreenStatusInfo
 
 - (instancetype)init {
     self = [super init];

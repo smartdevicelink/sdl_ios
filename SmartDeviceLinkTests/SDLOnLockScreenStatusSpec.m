@@ -1,16 +1,16 @@
 //
-//  SDLOnLockScreenStatusSpec.m
+//  SDLLockScreenStatusInfoSpec.m
 //  SmartDeviceLink
 
 
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLOnLockScreenStatus.h"
+#import "SDLLockScreenStatusInfo.h"
 #import "SDLHMILevel.h"
 #import "SDLRPCParameterNames.h"
 
-QuickSpecBegin(SDLOnLockScreenStatusSpec)
+QuickSpecBegin(SDLLockScreenStatusInfoSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     __block bool testDriverDistractionStatus = NO;
@@ -19,7 +19,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLHMILevel testHMILevel = SDLHMILevelBackground;
 
     it(@"Should set and get correctly", ^ {
-        SDLOnLockScreenStatus *testNotification = [[SDLOnLockScreenStatus alloc] init];
+        SDLLockScreenStatusInfo *testNotification = [[SDLLockScreenStatusInfo alloc] init];
         testNotification.driverDistractionStatus = @(testDriverDistractionStatus);
         testNotification.userSelected = @(testUserSelected);
         testNotification.lockScreenStatus = testLockScreenStatus;
@@ -32,7 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should init correctly with initWithDriverDistractionStatus:serSelected:lockScreenStatus:hmiLevel:", ^ {
-        SDLOnLockScreenStatus *testNotification = [[SDLOnLockScreenStatus alloc] initWithDriverDistractionStatus:@(testDriverDistractionStatus) userSelected:@(testUserSelected) lockScreenStatus:testLockScreenStatus hmiLevel:testHMILevel];
+        SDLLockScreenStatusInfo *testNotification = [[SDLLockScreenStatusInfo alloc] initWithDriverDistractionStatus:@(testDriverDistractionStatus) userSelected:@(testUserSelected) lockScreenStatus:testLockScreenStatus hmiLevel:testHMILevel];
 
         expect(testNotification.driverDistractionStatus).to(beFalse());
         expect(testNotification.userSelected).to(equal(testUserSelected));
@@ -41,7 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should return the default values if not set", ^ {
-        SDLOnLockScreenStatus *testNotification = [[SDLOnLockScreenStatus alloc] init];
+        SDLLockScreenStatusInfo *testNotification = [[SDLLockScreenStatusInfo alloc] init];
 
         expect(testNotification.driverDistractionStatus).to(beNil());
         expect(testNotification.userSelected).to(beNil());

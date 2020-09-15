@@ -15,7 +15,7 @@
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
-#import "SDLOnLockScreenStatus.h"
+#import "SDLLockScreenStatusInfo.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLViewControllerPresentable.h"
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 @property (strong, nonatomic) SDLLockScreenStatusManager *statusManager;
 
-@property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
+@property (strong, nonatomic, nullable) SDLLockScreenStatusInfo *lastLockNotification;
 @property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
 @property (assign, nonatomic, readwrite, getter=isLockScreenDismissable) BOOL lockScreenDismissable;
 @property (assign, nonatomic) BOOL lockScreenDismissedByUser;
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    SDLOnLockScreenStatus *lockScreenStatus = (SDLOnLockScreenStatus *)notification.userInfo[@"lockscreenStatus"];
+    SDLLockScreenStatusInfo *lockScreenStatus = (SDLLockScreenStatusInfo *)notification.userInfo[@"lockscreenStatus"];
     if (lockScreenStatus == nil) { return; }
 
     self.lastLockNotification = lockScreenStatus;

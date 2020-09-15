@@ -10,7 +10,7 @@
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLOnHMIStatus.h"
-#import "SDLOnLockScreenStatus.h"
+#import "SDLLockScreenStatusInfo.h"
 #import "SDLRPCNotificationNotification.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -64,8 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Custom Getters
 
-- (SDLOnLockScreenStatus *)lockScreenStatusNotification {
-    SDLOnLockScreenStatus *notification = [[SDLOnLockScreenStatus alloc] initWithDriverDistractionStatus:@(self.driverDistracted) userSelected:@(self.userSelected) lockScreenStatus:self.lockScreenStatus hmiLevel:self.hmiLevel];
+- (SDLLockScreenStatusInfo *)lockScreenStatusNotification {
+    SDLLockScreenStatusInfo *notification = [[SDLLockScreenStatusInfo alloc] initWithDriverDistractionStatus:@(self.driverDistracted) userSelected:@(self.userSelected) lockScreenStatus:self.lockScreenStatus hmiLevel:self.hmiLevel];
     return notification;
 }
 
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Utilities
 
-- (void)sdl_postLockScreenStatus:(SDLOnLockScreenStatus *)statusNotification {
+- (void)sdl_postLockScreenStatus:(SDLLockScreenStatusInfo *)statusNotification {
     NSNotification *lockScreenStatusNotification = [NSNotification notificationWithName:SDLDidChangeLockScreenStatusNotification object:self userInfo:@{@"lockscreenStatus": statusNotification}];
 
     SDLLogD(@"Lock screen status changed. Sending new notification: %@", lockScreenStatusNotification);

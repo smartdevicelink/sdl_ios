@@ -8,11 +8,11 @@
 
 #import "SDLOnDriverDistraction.h"
 #import "SDLHMILevel.h"
+#import "SDLLockScreenStatusInfo.h"
 #import "SDLLockScreenStatusManager.h"
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnHMIStatus.h"
-#import "SDLOnLockScreenStatus.h"
 #import "SDLRPCNotificationNotification.h"
 
 
@@ -235,7 +235,7 @@ describe(@"the lockscreen status manager", ^{
     });
     
     describe(@"when sending a lock screen status notification", ^{
-        __block SDLOnLockScreenStatus *onLockScreenStatusNotification = nil;
+        __block SDLLockScreenStatusInfo *onLockScreenStatusNotification = nil;
         beforeEach(^{
             testManager.userSelected = YES;
             testManager.driverDistracted = NO;

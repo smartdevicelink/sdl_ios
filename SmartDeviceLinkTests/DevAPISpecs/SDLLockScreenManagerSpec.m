@@ -5,11 +5,11 @@
 #import "SDLFakeViewControllerPresenter.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
+#import "SDLLockScreenStatusInfo.h"
 #import "SDLLockScreenStatusManager.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
-#import "SDLOnLockScreenStatus.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
 
@@ -20,7 +20,7 @@
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 @property (strong, nonatomic) SDLLockScreenStatusManager *statusManager;
 
-@property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
+@property (strong, nonatomic, nullable) SDLLockScreenStatusInfo *lastLockNotification;
 @property (strong, nonatomic, nullable) SDLOnDriverDistraction *lastDriverDistractionNotification;
 @property (assign, nonatomic, readwrite, getter=isLockScreenDismissable) BOOL lockScreenDismissable;
 @property (assign, nonatomic) BOOL lockScreenDismissedByUser;
@@ -61,10 +61,10 @@ describe(@"a lock screen manager", ^{
             });
             
             describe(@"when the lock screen status becomes REQUIRED", ^{
-                __block SDLOnLockScreenStatus *testRequiredStatus = nil;
+                __block SDLLockScreenStatusInfo *testRequiredStatus = nil;
 
                 beforeEach(^{
-                    testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
+                    testRequiredStatus = [[SDLLockScreenStatusInfo alloc] init];
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
                     [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testRequiredStatus}];
                 });
@@ -106,11 +106,11 @@ describe(@"a lock screen manager", ^{
             });
 
             describe(@"when the lock screen status becomes REQUIRED", ^{
-                __block SDLOnLockScreenStatus *testRequiredStatus = nil;
+                __block SDLLockScreenStatusInfo *testRequiredStatus = nil;
                 __block SDLOnDriverDistraction *testDriverDistraction = nil;
 
                 beforeEach(^{
-                    testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
+                    testRequiredStatus = [[SDLLockScreenStatusInfo alloc] init];
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
 
                     testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
@@ -185,10 +185,10 @@ describe(@"a lock screen manager", ^{
                 });
 
                 describe(@"then the status becomes OFF", ^{
-                    __block SDLOnLockScreenStatus *testOffStatus = nil;
+                    __block SDLLockScreenStatusInfo *testOffStatus = nil;
 
                     beforeEach(^{
-                        testOffStatus = [[SDLOnLockScreenStatus alloc] init];
+                        testOffStatus = [[SDLLockScreenStatusInfo alloc] init];
                         testOffStatus.lockScreenStatus = SDLLockScreenStatusOff;
 
                         [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testOffStatus}];
@@ -341,7 +341,7 @@ describe(@"a lock screen manager", ^{
             __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
 
             beforeEach(^{
-                SDLOnLockScreenStatus *status = [[SDLOnLockScreenStatus alloc] init];
+                SDLLockScreenStatusInfo *status = [[SDLLockScreenStatusInfo alloc] init];
                 status.lockScreenStatus = SDLLockScreenStatusRequired;
                 testManager.lastLockNotification = status;
 
@@ -363,12 +363,12 @@ describe(@"a lock screen manager", ^{
         __block id fakeViewControllerPresenter = nil;
         __block NSNotificationCenter *dispatcherMock = nil;
 
-        __block SDLOnLockScreenStatus *testStatus = nil;
+        __block SDLLockScreenStatusInfo *testStatus = nil;
 
         beforeEach(^{
             fakeViewControllerPresenter = OCMPartialMock([[SDLFakeViewControllerPresenter alloc] init]);
 
-            testStatus = [[SDLOnLockScreenStatus alloc] init];
+            testStatus = [[SDLLockScreenStatusInfo alloc] init];
             SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
             config.displayMode = SDLLockScreenConfigurationDisplayModeAlways;
 
@@ -417,13 +417,13 @@ describe(@"a lock screen manager", ^{
         __block SDLLockScreenConfiguration *testLockScreenConfig = nil;
         __block id fakeViewControllerPresenter = nil;
         __block NSNotificationCenter *dispatcherMock = nil;
-        __block SDLOnLockScreenStatus *testOptionalStatus;
+        __block SDLLockScreenStatusInfo *testOptionalStatus;
 
         beforeEach(^{
             fakeViewControllerPresenter = OCMClassMock([SDLFakeViewControllerPresenter class]);
             testLockScreenConfig = [SDLLockScreenConfiguration enabledConfiguration];
 
-            testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
+            testOptionalStatus = [[SDLLockScreenStatusInfo alloc] init];
             testOptionalStatus.lockScreenStatus = SDLLockScreenStatusOptional;
         });
 
