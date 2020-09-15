@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 /**
- A state describing the current text and images on the screen (not soft buttons, etc.)
+ A state describing the current text and images on the screen as well as the current template (this does not include soft buttons, menu items, etc.)
  */
 @property (strong, nonatomic) SDLTextAndGraphicState *currentScreenData;
 
