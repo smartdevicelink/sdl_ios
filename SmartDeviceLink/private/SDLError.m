@@ -12,22 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark Error Domains
-
-SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanager.error";
-SDLErrorDomain *const SDLErrorDomainEncryptionLifecycleManager = @"com.sdl.encryptionlifecyclemanager.error";
-SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
-SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
-SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
-SDLErrorDomain *const SDLErrorDomainSubscribeButtonManager = @"com.sdl.subscribebuttonmanager.error";
-SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
-SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
-SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager = @"com.sdl.systemcapabilitymanager.error";
-SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
-SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
-SDLErrorDomain *const SDLErrorDomainCacheFileManager = @"com.sdl.cachefilemanager.error";
-SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioStreamManager";
-
 @implementation NSError (SDLErrors)
 
 #pragma mark - SDLEncryptionLifecycleManager

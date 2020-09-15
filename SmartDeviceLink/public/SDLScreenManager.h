@@ -265,7 +265,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
  NOTE: The handler in `changeLayout:withCompletionHandler:` will not be called if the update is batched into this update.
 
- NOTE: If this update returns an error, it may have been superseded by another update. This means that it was cancelled while in-progress because another update was requested, whether batched or not.
+ NOTE: If this update returns an error, it may have been superseded by another update. This means that it was cancelled while in-progress because another update was requested, whether batched or not. Check for error domain `SDLErrorDomainTextAndGraphicManager` and code `SDLTextAndGraphicManagerErrorPendingUpdateSuperseded` to determine if your update was superseded. Any other error should represent a rejection of your data to be presented by the head unit. Note that if your update is superseded, it's possible that the update will succeed or fail later. If you have set a handler for your update which superseded this update, the error or success will be represented there.
 
  @param handler A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.
  */
@@ -277,7 +277,10 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 ///
 /// If you are connected on a < v6.0 connection and batching the update, the layout will be updated, then the text and graphics will be updated. If you are connected on a >= v6.0 connection, the layout will be updated at the same time that the text and graphics are updated.
 ///
-/// If this update is batched between `beginUpdates` and `endUpdates`, the completion handler here will not be called. Use the completion handler on `endUpdatesWithCompletionHandler:`
+/// If this update is batched between `beginUpdates` and `endUpdatesWithCompletionHandler:`, the completion handler here will not be called. Use the completion handler on `endUpdatesWithCompletionHandler:`
+///
+/// NOTE: If this update returns an error, it may have been superseded by another update. This means that it was cancelled while in-progress because another update was requested, whether batched or not. Check for error domain `SDLErrorDomainTextAndGraphicManager` and code `SDLTextAndGraphicManagerErrorPendingUpdateSuperseded` to determine if your update was superseded. Any other error should represent a rejection of your data to be presented by the head unit. Note that if your update is superseded, it's possible that the update will succeed or fail later. If you have set a handler for your update which superseded this update, the error or success will be represented there.
+///
 /// @param templateConfiguration The new configuration of the template, including the layout and color scheme.
 /// @param handler A handler that will be called when the layout change finished.
 - (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
