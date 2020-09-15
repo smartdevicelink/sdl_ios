@@ -191,6 +191,7 @@ NS_ASSUME_NONNULL_BEGIN
         return YES;
     }
 #pragma clang diagnostic pop
+
     return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName];
 }
 
