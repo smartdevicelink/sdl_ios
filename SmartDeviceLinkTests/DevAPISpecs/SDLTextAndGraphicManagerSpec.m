@@ -449,22 +449,28 @@ describe(@"text and graphic manager", ^{
     // when the operation updates the current screen data
     describe(@"when the operation updates the current screen data", ^{
         __block SDLTextAndGraphicUpdateOperation *testOperation = nil;
+        __block SDLTextAndGraphicUpdateOperation *testOperation2 = nil;
 
         beforeEach(^{
             testManager.textField1 = @"test";
+            testManager.textField2 = @"test2";
             testOperation = testManager.transactionQueue.operations[0];
+            testOperation2 = testManager.transactionQueue.operations[1];
         });
 
+        // with good data
         context(@"with good data", ^{
             beforeEach(^{
                 testOperation.currentDataUpdatedHandler(testOperation.updatedState, nil);
             });
 
-            it(@"should update the manager's current screen data", ^{
+            it(@"should update the manager's and pending operations' current screen data", ^{
                 expect(testManager.currentScreenData).to(equal(testOperation.updatedState));
+                expect(testOperation2.currentScreenData).to(equal(testOperation.updatedState));
             });
         });
 
+        // with an error
         context(@"with an error", ^{
             beforeEach(^{
                 testManager.currentScreenData = [[SDLTextAndGraphicState alloc] init];
