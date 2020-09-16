@@ -17,16 +17,16 @@ QuickSpecBegin(SDLRegisterAppInterfaceResponseSpec)
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-__block SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
+SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
 #pragma clang diagnostic pop
-__block SDLMsgVersion *sdlVersion = [[SDLMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
-__block SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
-__block SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
-__block SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
-__block SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];__block
-__block SDLAudioPassThruCapabilities* audioPassThru = [[SDLAudioPassThruCapabilities alloc] init];
-__block SDLVehicleType* vehicle = [[SDLVehicleType alloc] init];
-__block SDLHMICapabilities *hmiCapabilities = [[SDLHMICapabilities alloc] init];
+SDLMsgVersion *sdlVersion = [[SDLMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
+SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
+SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
+SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
+SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];
+SDLAudioPassThruCapabilities* audioPassThru = [[SDLAudioPassThruCapabilities alloc] init];
+SDLVehicleType* vehicle = [[SDLVehicleType alloc] init];
+SDLHMICapabilities *hmiCapabilities = [[SDLHMICapabilities alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {

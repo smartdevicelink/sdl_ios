@@ -9,6 +9,7 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCStruct.h"
 #import "SDLError.h"
+#import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,38 +42,46 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - object
 
 - (nullable id)sdl_objectForName:(SDLRPCParameterName)name ofClass:(Class)classType error:(NSError * _Nullable __autoreleasing * _Nullable)error {
+    if (error) {
+        // reset any error
+        *error = NULL;
+    }
     id obj = [self sdl_objectForName:name];
-
-    if (!obj || [obj isKindOfClass:NSNull.class]) {
+    if (!obj) {
         return nil;
+    }
+    if ([obj isKindOfClass:NSNull.class]) {
+        SDLLogD(@"NSNull, it must be a mistake");
     }
 
     if ([obj isKindOfClass:classType]) {
         return obj;
+    }
+
     // translate dictionaries to objects
-    } else if ([obj isKindOfClass:NSDictionary.class] && [classType instancesRespondToSelector:@selector(initWithDictionary:)]) {
+    if ([obj isKindOfClass:NSDictionary.class] && [classType instancesRespondToSelector:@selector(initWithDictionary:)]) {
         obj = [[classType alloc] initWithDictionary:(NSDictionary *)obj];
         // update store so that the object isn't created multiple times
         [self sdl_setObject:obj forName:name];
         return obj;
-    } else {
-        if ((classType == NSString.class) && [obj respondsToSelector:@selector(stringValue)]) {
-            // fix an issue when JSON treats number values as NSNumber and a string expected
-            NSString *numString = [obj stringValue];
-            if (numString) {
-                return numString;
-            }
-        }
-        // The object in the store is not correct, we'll assert in debug and return an error and nil
-        NSError *wrongObjectError = [NSError sdl_rpcStore_invalidObjectErrorWithObject:obj expectedType:classType];
-
-        SDLLogAssert(@"Retrieving object from store error: %@, for object key: \"%@\", in dictionary: %@", wrongObjectError.localizedFailureReason, name, self);
-
-        if (error) {
-            *error = wrongObjectError;
-        }
-        return nil;
     }
+
+    if ((classType == NSString.class) && [obj respondsToSelector:@selector(stringValue)]) {
+        // fix an issue when JSON treats number values as NSNumber and a string expected
+        NSString *numString = [obj stringValue];
+        if (numString) {
+            return numString;
+        }
+    }
+    // The object in the store is not correct, we'll assert in debug and return an error and nil
+    NSError *wrongObjectError = [NSError sdl_rpcStore_invalidObjectErrorWithObject:obj expectedType:classType];
+
+    SDLLogAssert(@"Retrieving object from store error: %@, for object key: \"%@\", in dictionary: %@", wrongObjectError.localizedFailureReason, name, self);
+
+    if (error) {
+        *error = wrongObjectError;
+    }
+    return nil;
 }
 
 #pragma mark - objects
