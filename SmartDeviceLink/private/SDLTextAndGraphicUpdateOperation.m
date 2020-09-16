@@ -80,16 +80,16 @@ NS_ASSUME_NONNULL_BEGIN
         // The template must first be updated using SetDisplayLayout request. Then a Show request is sent. 
         [self sdl_sendSetDisplayLayoutWithTemplateConfiguration:self.updatedState.templateConfig completionHandler:^(NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (self.isCancelled) {
+            if (strongSelf.isCancelled) {
                 [strongSelf finishOperation];
                 return;
             } else if (error != nil) {
-                self.internalError = error;
+                strongSelf.internalError = error;
                 [strongSelf finishOperation];
                 return;
             }
 
-            [self sdl_updateGraphicsAndShow:fullShow];
+            [strongSelf sdl_updateGraphicsAndShow:fullShow];
         }];
     } else {
         // The template does not need to be updated. Just send the show.
