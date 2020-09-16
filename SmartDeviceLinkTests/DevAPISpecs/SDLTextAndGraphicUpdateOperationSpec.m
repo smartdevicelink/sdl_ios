@@ -46,6 +46,8 @@ NSString *field1String = @"Text Field 1";
 NSString *field2String = @"Text Field 2";
 NSString *field3String = @"Text Field 3";
 NSString *field4String = @"Text Field 4";
+NSString *titleString = @"Title";
+NSString *mediaTrackString = @"Media track string";
 
 NSString *testArtworkName = @"some artwork name";
 SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
@@ -138,6 +140,48 @@ describe(@"the text and graphic operation", ^{
                     expect(sentShow.metadataTags.mainField2).to(beNil());
                     expect(sentShow.metadataTags.mainField3).to(beNil());
                     expect(sentShow.metadataTags.mainField4).to(beNil());
+                });
+            });
+        });
+
+        // when updating the media track and title
+        context(@"when updating the media track and title", ^{
+            beforeEach(^{
+                updatedState = [[SDLTextAndGraphicState alloc] init];
+                updatedState.title = titleString;
+                updatedState.mediaTrackTextField = mediaTrackString;
+            });
+
+            // when they're available
+            context(@"when they're available", ^{
+                beforeEach(^{
+                    windowCapability = [[SDLWindowCapability alloc] init];
+                    windowCapability.textFields = [SDLTextField allTextFields];
+                });
+
+                it(@"should send the media track and title", ^{
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+                    [testOp start];
+
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentShow.templateTitle).toNot(beNil());
+                    expect(sentShow.mediaTrack).toNot(beNil());
+                });
+            });
+
+            // when they're not available
+            context(@"when they're not available", ^{
+                beforeEach(^{
+                    windowCapability = [[SDLWindowCapability alloc] init];
+                });
+
+                it(@"should not send the media track and title", ^{
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+                    [testOp start];
+
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.mediaTrack).to(beEmpty());
                 });
             });
         });
@@ -1131,7 +1175,7 @@ describe(@"the text and graphic operation", ^{
             });
 
             // with other text
-            context(@"with other text", ^{
+            context(@"with other text that isn't supported", ^{
                 beforeEach(^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.templateConfig = newConfiguration;
@@ -1143,7 +1187,7 @@ describe(@"the text and graphic operation", ^{
                     [testOp start];
                 });
 
-                it(@"should send a show, then update the screen data", ^{
+                it(@"should send a show, then update all screen data", ^{
                     SDLShow *sentRPC = testConnectionManager.receivedRequests.firstObject;
                     expect(sentRPC).to(beAnInstanceOf([SDLShow class]));
                     expect(sentRPC.templateConfiguration).to(equal(newConfiguration));
