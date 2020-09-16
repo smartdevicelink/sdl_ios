@@ -10,20 +10,9 @@
 {%- endblock %}
 
 NS_ASSUME_NONNULL_BEGIN
-{% if deprecated %}
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-{%- endif %}
 @implementation {{name}}
-{%- if deprecated %}
-#pragma clang diagnostic pop
-{%- endif %}
 {% block constructors %}
 {%- for c in constructors %}
-{%- if deprecated or c.deprecated %}
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-{%- endif %}
 - (instancetype)initWith{{c.init}} {
     self = [self init{{ 'With' + c.self if c.self and c.self is string }}];
     if (!self) {
@@ -34,31 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
     {%- endfor %}
     return self;
 }
-{%- if deprecated or c.deprecated %}
-#pragma clang diagnostic pop
-{%- endif %}
 {% endfor -%}
 {% endblock -%}
 {%- block methods %}
 {%- for param in params %}
-{%- if deprecated or param.deprecated %}
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-{%- endif %}
 - (void)set{{param.origin|title}}:({{'nullable ' if not param.mandatory}}{{param.type_generic}}{{param.type_sdl|trim}}){{param.origin}} {
-{%- if deprecated or param.deprecated %}
-#pragma clang diagnostic pop
-{%- endif %}
     [self.{{parameters_store}} sdl_setObject:{{param.origin}} forName:SDLRPCParameterName{{param.method_suffix}}];
 }
-{% if deprecated or param.deprecated %}
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-{%- endif %}
 - ({{'nullable ' if not param.mandatory}}{{param.type_generic}}{{param.type_sdl|trim}}){{param.origin}} {
-{%- if deprecated or param.deprecated %}
-#pragma clang diagnostic pop
-{%- endif %}
     {% if param.mandatory -%}
     NSError *error = nil;
     {% endif -%}
