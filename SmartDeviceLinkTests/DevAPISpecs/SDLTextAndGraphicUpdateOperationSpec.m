@@ -764,6 +764,7 @@ describe(@"the text and graphic operation", ^{
             });
         });
 
+        // should call the currentScreenDataUpdatedHandler when the screen data is updated
         context(@"should call the currentScreenDataUpdatedHandler when the screen data is updated", ^{
             __block SDLTextAndGraphicState *updatedData = nil;
             beforeEach(^{
@@ -868,26 +869,71 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:^(NSError * _Nullable error) {
+                        completionError = error;
+                    }];
                     [testOp start];
                 });
 
-                it(@"should send the text, then upload the images, then send the full show", ^{
-                    // First the text only show should be sent
-                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
-                    SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
-                    expect(firstSentRequest.mainField1).to(equal(field1String));
-                    expect(firstSentRequest.graphic).to(beNil());
-                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                context(@"when the text show succeeds", ^{
+                    it(@"should then upload the images, then send the full show", ^{
+                        // First the text only show should be sent
+                        expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                        SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                        expect(firstSentRequest.mainField1).to(equal(field1String));
+                        expect(firstSentRequest.graphic).to(beNil());
+                        [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
 
-                    // Then the images should be uploaded
-                    OCMExpect([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                        // Then the images should be uploaded
+                        OCMExpect([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
-                    // Then the full show should be sent, this is currently not testable because the `mockFileManager hasUploadedFile` should change mid-call of `uploadArtworks` after the artwork is uploaded but before the final Show is sent in sdl_createImageOnlyShowWithPrimaryArtwork.
-//                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
-//                    SDLShow *secondSentRequest = testConnectionManager.receivedRequests[1];
-//                    expect(secondSentRequest.mainField1).to(beNil());
-//                    expect(secondSentRequest.graphic).toNot(beNil());
+                        // Then the full show should be sent, this is currently not testable because the `mockFileManager hasUploadedFile` should change mid-call of `uploadArtworks` after the artwork is uploaded but before the final Show is sent in sdl_createImageOnlyShowWithPrimaryArtwork.
+    //                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
+    //                    SDLShow *secondSentRequest = testConnectionManager.receivedRequests[1];
+    //                    expect(secondSentRequest.mainField1).to(beNil());
+    //                    expect(secondSentRequest.graphic).toNot(beNil());
+                    });
+                });
+
+                context(@"when the text show fails", ^{
+                    it(@"should return an error and finish the operation", ^{
+                        // First the text only show should be sent
+                        expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                        SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                        expect(firstSentRequest.mainField1).to(equal(field1String));
+                        expect(firstSentRequest.graphic).to(beNil());
+                        [testConnectionManager respondToLastRequestWithResponse:failShowResponse];
+
+                        // Then it should return a failure and finish
+                        expect(receivedState).to(beNil());
+                        expect(receivedError).toNot(beNil());
+                        expect(completionError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+                    });
+                });
+
+                context(@"when cancelled before the text show returns", ^{
+                    it(@"should return an error and finish the operation", ^{
+                        // First the text only show should be sent
+                        expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                        SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                        expect(firstSentRequest.mainField1).to(equal(field1String));
+                        expect(firstSentRequest.graphic).to(beNil());
+
+                        [testOp cancel];
+                        [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+
+                        // Then it should return a failure and finish
+                        expect(receivedState).toNot(beNil());
+                        expect(receivedError).to(beNil());
+                        expect(completionError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+                    });
                 });
             });
 
@@ -1207,7 +1253,6 @@ describe(@"the text and graphic operation", ^{
                         expect(sentRPC.templateConfiguration).to(equal(newConfiguration));
 
                         [testConnectionManager respondToLastRequestWithResponse:failShowResponse];
-                        expect(receivedState).to(beNil());
                         expect(receivedState).to(beNil());
                         expect(receivedError).toNot(beNil());
 
