@@ -1155,8 +1155,8 @@ describe(@"the text and graphic operation", ^{
                     expect(testOp.isFinished).to(beTrue());
                 });
 
-                // when it receives a set display layout failure
-                describe(@"when it receives a set display layout failure", ^{
+                // when it receives a show failure
+                describe(@"when it receives a show failure", ^{
                     it(@"it should send a set display layout, then reset the screen data, then do nothing else", ^{
                         SDLShow *sentRPC = testConnectionManager.receivedRequests.firstObject;
                         expect(sentRPC).to(beAnInstanceOf([SDLShow class]));

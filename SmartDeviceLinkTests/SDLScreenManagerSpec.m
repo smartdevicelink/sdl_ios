@@ -56,6 +56,7 @@ describe(@"screen manager", ^{
     __block NSString *testString2 = @"test2";
     __block NSString *testString3 = @"test3";
     __block NSString *testString4 = @"test4";
+    __block NSString *testTitle = @"testTitle";
     __block SDLTextAlignment testAlignment = SDLTextAlignmentRight;
     __block SDLMetadataType testMetadataType1 = SDLMetadataTypeMediaTitle;
     __block SDLMetadataType testMetadataType2 = SDLMetadataTypeMediaAlbum;
@@ -133,6 +134,7 @@ describe(@"screen manager", ^{
             testScreenManager.textAlignment = testAlignment;
             testScreenManager.primaryGraphic = testArtwork;
             testScreenManager.secondaryGraphic = testArtwork;
+            testScreenManager.title = testTitle;
             testScreenManager.textField1Type = testMetadataType1;
             testScreenManager.textField2Type = testMetadataType2;
             testScreenManager.textField3Type = testMetadataType3;
@@ -142,6 +144,7 @@ describe(@"screen manager", ^{
             expect(testScreenManager.textAndGraphicManager.textField2).to(equal(testString2));
             expect(testScreenManager.textAndGraphicManager.textField3).to(equal(testString3));
             expect(testScreenManager.textAndGraphicManager.textField4).to(equal(testString4));
+            expect(testScreenManager.textAndGraphicManager.title).to(equal(testTitle));
             expect(testScreenManager.textAndGraphicManager.primaryGraphic.name).to(equal(testArtwork.name));
             expect(testScreenManager.textAndGraphicManager.secondaryGraphic.name).to(equal(testArtwork.name));
             expect(testScreenManager.textAndGraphicManager.alignment).to(equal(testAlignment));
