@@ -481,10 +481,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.secondaryGraphic = show.secondaryGraphic ? self.updatedState.secondaryGraphic : self.currentScreenData.secondaryGraphic;
 
     // This is intentionally checking `mainField1` because the fields may be in different places based on the capabilities, then check it's own field in case that's the only field thats being used.
-    self.currentScreenData.textField1 = (show.mainField1.length > 0) ? self.updatedState.textField1 : self.currentScreenData.textField1;
-    self.currentScreenData.textField2 = ((show.mainField1.length > 0) || (show.mainField2.length > 0)) ? self.updatedState.textField2 : self.currentScreenData.textField2;
-    self.currentScreenData.textField3 = ((show.mainField1.length > 0) || (show.mainField3.length > 0)) ? self.updatedState.textField3 : self.currentScreenData.textField3;
-    self.currentScreenData.textField4 = ((show.mainField1.length > 0) || (show.mainField4.length > 0)) ? self.updatedState.textField4 : self.currentScreenData.textField4;
+    self.currentScreenData.textField1 = show.mainField1 ? self.updatedState.textField1 : self.currentScreenData.textField1;
+    self.currentScreenData.textField2 = (show.mainField1 || show.mainField2) ? self.updatedState.textField2 : self.currentScreenData.textField2;
+    self.currentScreenData.textField3 = (show.mainField1 || show.mainField3) ? self.updatedState.textField3 : self.currentScreenData.textField3;
+    self.currentScreenData.textField4 = (show.mainField1 || show.mainField4) ? self.updatedState.textField4 : self.currentScreenData.textField4;
 
     // This is intentionally checking show.metadataTags.mainField1 because the tags may be in different places based on the capabilities, then check its own field in case that's the only field that's being used.
     self.currentScreenData.textField1Type = show.metadataTags.mainField1 ? self.updatedState.textField1Type : self.currentScreenData.textField1Type;
