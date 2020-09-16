@@ -39,9 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    NSMutableString *description = [NSMutableString stringWithFormat:@"driverDistractionStatus: %@, userSelected: %@, lockScreenStatus: %lu, hmiLevel: %@", self.driverDistractionStatus, self.userSelected, (unsigned long)self.lockScreenStatus, self.hmiLevel];
-
-    return description;
+    return [NSString stringWithFormat:@"driverDistractionStatus: %@, userSelected: %@, lockScreenStatus: %lu, hmiLevel: %@", self.driverDistractionStatus, self.userSelected, (unsigned long)self.lockScreenStatus, self.hmiLevel];
 }
 
 @end
