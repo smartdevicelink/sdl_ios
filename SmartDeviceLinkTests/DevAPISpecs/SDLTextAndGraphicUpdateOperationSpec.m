@@ -1065,7 +1065,7 @@ describe(@"the text and graphic operation", ^{
 
                 // when cancelled before finishing
                 describe(@"when cancelled before finishing", ^{
-                    fit(@"should finish the operation with the set display layout data in the current data handler and set an update superseded error in the update completion handler", ^{
+                    it(@"should finish the operation with the set display layout data in the current data handler and set an update superseded error in the update completion handler", ^{
                         SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
                         expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
                         expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
