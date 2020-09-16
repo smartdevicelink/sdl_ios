@@ -26,6 +26,11 @@ extern SDLVehicleDataType const SDLVehicleDataTypeGPS;
 extern SDLVehicleDataType const SDLVehicleDataTypeSpeed;
 
 /**
+ vehicle data StabilityControlsStatus to know if stability controls like ESC, Traction Control etc. are active.
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeStabilityControlsStatus;
+
+/**
  Vehicle RPM data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeRPM;
@@ -178,7 +183,14 @@ extern SDLVehicleDataType const SDLVehicleDataTypeCloudAppVehicleID;
 
 /**
  Custom OEM Vehicle data
- 
+
  Added in SDL 6.0
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;
+
+/**
+ * Describes the status of a window of a door/liftgate etc.
+ *
+ * @since SDL 7.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeWindowStatus;

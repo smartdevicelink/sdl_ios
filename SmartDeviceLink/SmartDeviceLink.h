@@ -143,6 +143,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSubscribeWayPointsResponse.h"
 #import "SDLSubtleAlertResponse.h"
 #import "SDLSyncPDataResponse.h"
+#import "SDLSystemRequestResponse.h"
 #import "SDLUnpublishAppServiceResponse.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
 #import "SDLUnsubscribeButtonResponse.h"
@@ -266,6 +267,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSISData.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonCapabilities.h"
+#import "SDLStabilityControlsStatus.h"
 #import "SDLStartTime.h"
 #import "SDLStationIDNumber.h"
 #import "SDLSyncMsgVersion.h"
@@ -291,6 +293,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWeatherServiceData.h"
 #import "SDLWeatherServiceManifest.h"
 #import "SDLWindowCapability.h"
+#import "SDLWindowStatus.h"
+#import "SDLWindowState.h"
 #import "SDLWindowTypeCapabilities.h"
 
 #pragma mark Enums

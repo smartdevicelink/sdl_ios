@@ -691,8 +691,7 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLFrameInfoEndServiceNACK: {
             if (nakMessage.header.version >= 5) {
                 SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.payload];
-                NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
-                SDLLogE(@"%@ service NAK'd, service type: %@, rejectedParams: %@", (nakMessage.header.frameData == SDLFrameInfoStartServiceNACK) ? @"Start" : @"End", @(nakMessage.header.serviceType), rejectedParams);
+                SDLLogE(@"%@ service NAK'd, service type: %@, payload: %@", (nakMessage.header.frameData == SDLFrameInfoStartServiceNACK) ? @"Start" : @"End", @(nakMessage.header.serviceType), endServiceNakPayload);
             } else {
                 SDLLogE(@"NAK received message: %@", nakMessage);
             }

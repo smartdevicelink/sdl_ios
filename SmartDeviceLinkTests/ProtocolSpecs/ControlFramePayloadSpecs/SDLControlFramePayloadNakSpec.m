@@ -15,19 +15,18 @@ describe(@"Test encoding data", ^{
     context(@"with paramaters", ^{
         beforeEach(^{
             testParams = @[@"testParam1", @"testParam2"];
-            testPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:testParams];
+            testPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:testParams reason:@"failed"];
         });
 
         it(@"should create the correct data", ^{
             NSString *base64Encoded = [testPayload.data base64EncodedStringWithOptions:0];
-            expect(base64Encoded).to(equal(@"PgAAAARyZWplY3RlZFBhcmFtcwApAAAAAjAACwAAAHRlc3RQYXJhbTEAAjEACwAAAHRlc3RQYXJhbTIAAAA="));
+            expect(base64Encoded).to(equal(@"UQAAAARyZWplY3RlZFBhcmFtcwApAAAAAjAACwAAAHRlc3RQYXJhbTEAAjEACwAAAHRlc3RQYXJhbTIAAAJyZWFzb24ABwAAAGZhaWxlZAAA"));
         });
     });
 
     context(@"without parameters", ^{
         beforeEach(^{
-            testParams = nil;
-            testPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:testParams];
+            testPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:nil reason:nil];
         });
 
         it(@"should create no data", ^{
@@ -44,7 +43,7 @@ describe(@"Test decoding data", ^{
     beforeEach(^{
         testParams = @[@"testParam1", @"testParam2"];
 
-        SDLControlFramePayloadNak *firstPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:testParams];
+        SDLControlFramePayloadNak *firstPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:testParams reason:@"failed"];
         testData = firstPayload.data;
 
         testPayload = [[SDLControlFramePayloadNak alloc] initWithData:testData];

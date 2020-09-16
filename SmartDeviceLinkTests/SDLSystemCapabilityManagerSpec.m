@@ -713,8 +713,8 @@ describe(@"System capability manager", ^{
             __block id handlerObserver = nil;
 
             beforeEach(^{
- #pragma clang diagnostic push
- #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
                     observerTriggeredCount++;
                 }];
