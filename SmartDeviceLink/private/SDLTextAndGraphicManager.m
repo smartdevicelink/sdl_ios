@@ -10,6 +10,7 @@
 
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLDisplayCapability.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
@@ -375,16 +376,28 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Subscribed notifications
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    // Check if the window capability is equal to the one we already have. If it is, abort.
-    if ([self.windowCapability isEqual:self.systemCapabilityManager.defaultMainWindowCapability]) { return; }
+    // Extract and update the capabilities
+    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
+    if (capabilities == nil || capabilities.count == 0) {
+        self.windowCapability = nil;
+    } else {
+        SDLDisplayCapability *mainDisplay = capabilities[0];
+        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
+            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
 
-    // We won't use the object in the parameter but the convenience method of the system capability manager
-    self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
+            // Check if the window capability is equal to the one we already have. If it is, abort.
+            if ([windowCapability isEqual:self.windowCapability]) { return; }
+            self.windowCapability = windowCapability;
+            break;
+        }
+    }
+
     [self sdl_updateTransactionQueueSuspended];
     
     // Auto-send an updated show
     if ([self sdl_hasData]) {
-        // TODO: HAX: Capability updates cannot supersede earlier updates because of the case where a developer batched a `changeLayout` call w/ T&G changes on < 6.0 systems could cause this to come in before the operation completes. That would cause the operation to report a "failure" (because it was superseded by this call) when in fact the operation didn't fail at all and is just being adjusted. Even though iOS is able to tell the developer that it was superseded, Java Suite cannot, and therefore we are matching functionality with their library.
+        // TODO: HAX: Capability updates cannot supersede earlier updates because of the case where a developer batched a `changeLayout` call w/ T&G changes on <6.0 systems could cause this to come in before the operation completes. That would cause the operation to report a "failure" (because it was superseded by this call) when in fact the operation didn't fail at all and is just being adjusted. Even though iOS is able to tell the developer that it was superseded, Java Suite cannot, and therefore we are matching functionality with their library.
         [self sdl_updateAndCancelPreviousOperations:NO completionHandler:nil];
     }
 }
