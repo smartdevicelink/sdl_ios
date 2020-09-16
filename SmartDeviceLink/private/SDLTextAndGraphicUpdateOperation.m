@@ -529,7 +529,7 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL graphicExists = (self.updatedState.secondaryGraphic != nil);
 
     // Cannot detect if there is a secondary image below v5.0, so we'll just try to detect if the primary image is allowed and allow the secondary image if it is.
-    if ([self sdl_showSupportsTemplateConfiguration]) {
+    if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]) {
         return (templateSupportsSecondaryArtwork && !graphicMatchesExisting && graphicExists);
     } else {
         return ([self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] && !graphicMatchesExisting && graphicExists);
