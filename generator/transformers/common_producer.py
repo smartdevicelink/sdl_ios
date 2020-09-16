@@ -49,6 +49,11 @@ class InterfaceProducerCommon(ABC):
         :param render: dictionary with pre filled entries, which going to be filled/changed by reference
         :return: dictionary which going to be applied to Jinja2 template
         """
+
+        importsKey = 'imports'
+        enumKey = 'enum'
+        structKey = 'struct'
+
         if item.description:
             render['description'] = self.extract_description(item.description)
         if item.since:
@@ -66,31 +71,24 @@ class InterfaceProducerCommon(ABC):
                 self.extract_imports(param, render['imports'])
         
         if isinstance(item, (Struct, Function)):
-            name = 'SDL'
-            render['imports']['.m'].add( "NSMutableDictionary+Store" )
-            render['imports']['.m'].add(name)
+            name = 'SDL' + item.name
+            render[importsKey]['.m'].add( "NSMutableDictionary+Store" )
+            render[importsKey]['.m'].add(name)
+            render[importsKey]['.h'][enumKey] = list(render[importsKey]['.h'][enumKey])
+            (render[importsKey]['.h'][enumKey]).sort()
+            render[importsKey]['.h'][structKey] = list(render[importsKey]['.h'][structKey])
+            (render[importsKey]['.h'][structKey]).sort()
 
         if isinstance(item, Struct):
-            render['imports']['.m'].add( "SDLRPCParameterNames" )
-        
+            name = 'SDL' + item.name
+            render[importsKey]['.m'].add( "SDLRPCParameterNames" )
+
         if isinstance(item, Function):
-            render['imports']['.m'].add( "SDLRPCFunctionNames" )
-            render['imports']['.m'].add( "SDLRPCParameterNames" )
-        
-        # if isinstance(item, Enum):
+            render[importsKey]['.m'].add( "SDLRPCFunctionNames" )
+            render[importsKey]['.m'].add( "SDLRPCParameterNames" )
 
-        render['imports']['.m'] = list(render['imports']['.m'])
-        (render['imports']['.m']).sort()
-
-                # render['imports']['.h']['.enum'] = list(render['imports']['.h']['.enum'])
-        # print('@-- ' + str(render['imports']['.m']))
-        # sorted(render.get('imports').get('.m'))
-        # j = list(render['imports']['.m'])
-        # j.sort()
-        # temp = render.get('imports').get('.h')
-        # tempo = sorted(temp.get('.m'))
-        # print('$-- ' + str(render.get('imports').get('.m')))
-        # print('%-- ' + str(temp))
+        render[importsKey]['.m'] = list(render[importsKey]['.m'])
+        (render[importsKey]['.m']).sort()
 
         if 'constructors' not in render and isinstance(item, (Struct, Function)):
             render['constructors'] = self.extract_constructors(render['params'])
