@@ -3,13 +3,18 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLDisplayCapabilities.h"
+#import "SDLDisplayCapability.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
 #import "SDLImage.h"
 #import "SDLImageField.h"
 #import "SDLMetadataTags.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLPredefinedWindows.h"
 #import "SDLPutFileResponse.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLShow.h"
+#import "SDLSystemCapability.h"
 #import "SDLTemplateConfiguration.h"
 #import "SDLTextAndGraphicManager.h"
 #import "SDLTextAndGraphicState.h"
@@ -44,6 +49,11 @@
 QuickSpecBegin(SDLTextAndGraphicManagerSpec)
 
 describe(@"text and graphic manager", ^{
+    __block SDLDisplayCapability *testDisplayCapability = nil;
+    __block SDLWindowCapability *testWindowCapability = nil;
+    __block SDLSystemCapability *testSystemCapability = nil;
+    __block SDLOnHMIStatus *testHMIStatus = nil;
+
     __block SDLTextAndGraphicManager *testManager = nil;
     __block TestConnectionManager *mockConnectionManager = [[TestConnectionManager alloc] init];
     __block SDLFileManager *mockFileManager = nil;
@@ -429,8 +439,90 @@ describe(@"text and graphic manager", ^{
         });
     });
 
+    // on HMI level update
+    describe(@"on hmi level update", ^{
+        beforeEach(^{
+            testHMIStatus = [[SDLOnHMIStatus alloc] init];
+
+            testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
+            testDisplayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"Test display" windowCapabilities:@[testWindowCapability] windowTypeSupported:nil];
+            testSystemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:@[testDisplayCapability]];
+
+            [testManager sdl_displayCapabilityDidUpdate:testSystemCapability];
+        });
+
+        // with a non-default window
+        context(@"with a non-default window", ^{
+            beforeEach(^{
+                testHMIStatus.hmiLevel = SDLHMILevelFull;
+                testHMIStatus.windowID = @435;
+
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testHMIStatus];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should not alter the current level or update the queue's suspension", ^{
+                expect(testManager.currentLevel).toNot(equal(SDLHMILevelFull));
+                expect(testManager.transactionQueue.suspended).to(beTrue());
+            });
+        });
+
+        // with HMI NONE
+        context(@"with HMI NONE", ^{
+            beforeEach(^{
+                testHMIStatus.hmiLevel = SDLHMILevelNone;
+                testHMIStatus.windowID = @(SDLPredefinedWindowsDefaultWindow);
+
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testHMIStatus];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should not alter the current level or update the queue's suspension", ^{
+                expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
+                expect(testManager.transactionQueue.suspended).to(beTrue());
+            });
+        });
+
+        // with HMI BACKGROUND
+        context(@"with HMI BACKGROUND", ^{
+            beforeEach(^{
+                testHMIStatus.hmiLevel = SDLHMILevelBackground;
+                testHMIStatus.windowID = @(SDLPredefinedWindowsDefaultWindow);
+
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testHMIStatus];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should alter the current level and update the queue's suspension", ^{
+                expect(testManager.currentLevel).to(equal(SDLHMILevelBackground));
+                expect(testManager.transactionQueue.suspended).to(beFalse());
+            });
+        });
+    });
+
+    // on display capability update
+    describe(@"on display capability update", ^{
+        beforeEach(^{
+            testHMIStatus = [[SDLOnHMIStatus alloc] init];
+            testHMIStatus.windowID = @(SDLPredefinedWindowsDefaultWindow);
+            testHMIStatus.hmiLevel = SDLHMILevelFull;
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testHMIStatus];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+            testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
+            testDisplayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"Test display" windowCapabilities:@[testWindowCapability] windowTypeSupported:nil];
+            testSystemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:@[testDisplayCapability]];
+
+            [testManager sdl_displayCapabilityDidUpdate:testSystemCapability];
+        });
+
+        it(@"should start the transaction queue", ^{
+            expect(testManager.transactionQueue.isSuspended).to(beFalse());
+        });
+    });
+
     // on disconnect
-    context(@"on disconnect", ^{
+    describe(@"on disconnect", ^{
         beforeEach(^{
             [testManager stop];
         });
