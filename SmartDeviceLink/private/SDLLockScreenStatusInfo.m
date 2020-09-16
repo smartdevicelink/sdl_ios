@@ -16,9 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init {
     self = [super init];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
 
     _lockScreenStatus = SDLLockScreenStatusOff;
 
