@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_postLockScreenStatus:(SDLLockScreenStatusInfo *)statusNotification {
     SDLLogD(@"Lock screen status changed: %@", statusNotification);
 
-    [self.notificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:@{@"lockscreenStatus": statusNotification}];
+    [self.notificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:statusNotification];
 }
 
 #pragma mark - Observers

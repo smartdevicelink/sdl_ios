@@ -33,7 +33,6 @@ describe(@"a lock screen manager", ^{
     __block SDLLockScreenManager *testManager = nil;
     __block SDLNotificationDispatcher *dispatcherMock = nil;
     __block id fakeViewControllerPresenter = nil;
-    __block NSString *lockScreenStatusKey = @"lockscreenStatus";
 
     beforeEach(^{
         testManager = nil;
@@ -71,7 +70,7 @@ describe(@"a lock screen manager", ^{
                 beforeEach(^{
                     testRequiredStatus = [[SDLLockScreenStatusInfo alloc] init];
                     testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testRequiredStatus}];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testRequiredStatus}];
                 });
                 
                 it(@"should not have presented the lock screen", ^{
@@ -117,7 +116,7 @@ describe(@"a lock screen manager", ^{
 
                     testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
 
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testRequiredStatus}];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testRequiredStatus}];
                 });
 
                 it(@"should have presented the lock screen and the lockscreen should not have a vehicle icon", ^{
@@ -193,7 +192,7 @@ describe(@"a lock screen manager", ^{
                         testOffStatus = [[SDLLockScreenStatusInfo alloc] init];
                         testOffStatus.lockScreenStatus = SDLLockScreenStatusOff;
 
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testOffStatus}];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testOffStatus}];
                     });
 
                     it(@"should have dismissed the lock screen", ^{
@@ -370,7 +369,7 @@ describe(@"a lock screen manager", ^{
 
                 OCMStub([fakeViewControllerPresenter lockViewController]).andReturn([[SDLLockScreenViewController alloc] init]);
 
-                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testStatus}];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testStatus}];
             });
 
             it(@"should present the lock screen if not already presented", ^{
@@ -388,7 +387,7 @@ describe(@"a lock screen manager", ^{
 
                 OCMStub([fakeViewControllerPresenter lockViewController]).andReturn([[SDLLockScreenViewController alloc] init]);
 
-                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testStatus}];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testStatus}];
             });
 
             it(@"should present the lock screen if not already presented", ^{
@@ -424,7 +423,7 @@ describe(@"a lock screen manager", ^{
                 OCMStub([fakeViewControllerPresenter lockViewController]).andReturn([OCMArg any]);
                 OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]).ignoringNonObjectArgs();
 
-                 [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testOptionalStatus}];
+                 [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testOptionalStatus}];
 
                 OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
             });
@@ -441,7 +440,7 @@ describe(@"a lock screen manager", ^{
                 OCMStub([fakeViewControllerPresenter lockViewController]).andReturn([OCMArg any]);
                 OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:NO withCompletionHandler:[OCMArg any]]).ignoringNonObjectArgs();
 
-                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{lockScreenStatusKey: testOptionalStatus}];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testOptionalStatus}];
 
                 OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
             });

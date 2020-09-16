@@ -264,15 +264,14 @@ describe(@"the lockscreen status manager", ^{
     describe(@"when receiving an HMI status", ^{
         beforeEach(^{
             OCMExpect([mockDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:[OCMArg checkWithBlock:^BOOL(id value) {
-                NSDictionary *infoObj = (NSDictionary *)value;
-                SDLLockScreenStatusInfo *lockScreenStatusInfo = (SDLLockScreenStatusInfo *)infoObj[@"lockscreenStatus"];
+                SDLLockScreenStatusInfo *lockScreenStatusInfo = (SDLLockScreenStatusInfo *)value;
                 expect(lockScreenStatusInfo.hmiLevel).to(equal(SDLHMILevelFull));
                 return [lockScreenStatusInfo isKindOfClass:[SDLLockScreenStatusInfo class]];
             }]]);
 
             SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateAudible videoStreamingState:nil windowID:nil];
-            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:mockDispatcher rpcNotification:hmiStatus];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            SDLRPCNotificationNotification *hmiStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:mockDispatcher rpcNotification:hmiStatus];
+            [[NSNotificationCenter defaultCenter] postNotification:hmiStatusNotification];
         });
 
         it(@"should update the driver distraction status and send a notification", ^{
@@ -284,8 +283,7 @@ describe(@"the lockscreen status manager", ^{
     describe(@"when receiving a driver distraction status", ^{
         beforeEach(^{
             OCMExpect([mockDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:[OCMArg checkWithBlock:^BOOL(id value) {
-                NSDictionary *infoObj = (NSDictionary *)value;
-                SDLLockScreenStatusInfo *lockScreenStatusInfo = (SDLLockScreenStatusInfo *)infoObj[@"lockscreenStatus"];
+                SDLLockScreenStatusInfo *lockScreenStatusInfo = (SDLLockScreenStatusInfo *)value;
                 expect(lockScreenStatusInfo.driverDistractionStatus).to(beTrue());
                 return [lockScreenStatusInfo isKindOfClass:[SDLLockScreenStatusInfo class]];
             }]]);

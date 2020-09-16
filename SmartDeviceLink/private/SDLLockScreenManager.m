@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    SDLLockScreenStatusInfo *lockScreenStatus = (SDLLockScreenStatusInfo *)notification.userInfo[@"lockscreenStatus"];
+    SDLLockScreenStatusInfo *lockScreenStatus = (SDLLockScreenStatusInfo *)notification.userInfo[SDLNotificationUserInfoObject];
     if (lockScreenStatus == nil) { return; }
 
     self.lastLockNotification = lockScreenStatus;
