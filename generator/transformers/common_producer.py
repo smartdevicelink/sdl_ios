@@ -65,9 +65,10 @@ class InterfaceProducerCommon(ABC):
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
         
-        name = 'SDL'
-        render['imports']['.m'].add( "NSMutableDictionary+Store" )
-        render['imports']['.m'].add(name)
+        if isinstance(item, (Struct, Function)):
+            name = 'SDL'
+            render['imports']['.m'].add( "NSMutableDictionary+Store" )
+            render['imports']['.m'].add(name)
 
         if isinstance(item, Struct):
             render['imports']['.m'].add( "SDLRPCParameterNames" )
