@@ -1709,6 +1709,9 @@
 		B3BB3389251204490054607B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */; };
 		B3DF19E9251205710090D7BA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CB2130464D000EB9B4 /* main.m */; };
 		B3DF19EA251205910090D7BA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C92130463F000EB9B4 /* AppDelegate.m */; };
+		B3DF19ED251225300090D7BA /* TestSmartConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19EB251225300090D7BA /* TestSmartConnectionManager.m */; };
+		B3DF19F0251225770090D7BA /* TestStreamingMediaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19EE251225760090D7BA /* TestStreamingMediaDelegate.m */; };
+		B3DF19F3251225AA0090D7BA /* TestSmartConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19F1251225A90090D7BA /* TestSmartConnection.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
 		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
@@ -3571,6 +3574,12 @@
 		B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatusSpec.m; sourceTree = "<group>"; };
 		B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionTypeSpec.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
+		B3DF19EB251225300090D7BA /* TestSmartConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSmartConnectionManager.m; sourceTree = "<group>"; };
+		B3DF19EC251225300090D7BA /* TestSmartConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSmartConnectionManager.h; sourceTree = "<group>"; };
+		B3DF19EE251225760090D7BA /* TestStreamingMediaDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestStreamingMediaDelegate.m; sourceTree = "<group>"; };
+		B3DF19EF251225760090D7BA /* TestStreamingMediaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestStreamingMediaDelegate.h; sourceTree = "<group>"; };
+		B3DF19F1251225A90090D7BA /* TestSmartConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSmartConnection.m; sourceTree = "<group>"; };
+		B3DF19F2251225A90090D7BA /* TestSmartConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSmartConnection.h; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
 		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
@@ -6253,6 +6262,12 @@
 				8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */,
 				5D6035D3202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.h */,
 				5D6035D4202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.m */,
+				B3DF19F2251225A90090D7BA /* TestSmartConnection.h */,
+				B3DF19F1251225A90090D7BA /* TestSmartConnection.m */,
+				B3DF19EC251225300090D7BA /* TestSmartConnectionManager.h */,
+				B3DF19EB251225300090D7BA /* TestSmartConnectionManager.m */,
+				B3DF19EF251225760090D7BA /* TestStreamingMediaDelegate.h */,
+				B3DF19EE251225760090D7BA /* TestStreamingMediaDelegate.m */,
 			);
 			name = "Connection Manager";
 			sourceTree = "<group>";
@@ -8550,6 +8565,7 @@
 				1EE8C44C1F385C7100FDC2CF /* SDLRDSDataSpec.m in Sources */,
 				5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */,
 				8815D0F022330765000F24E6 /* SDLRPCRequestNotificationSpec.m in Sources */,
+				B3DF19F0251225770090D7BA /* TestStreamingMediaDelegate.m in Sources */,
 				162E83281A9BDE8B00906325 /* SDLDeleteCommandSpec.m in Sources */,
 				88A81F6C2200FD4A00A691A9 /* SDLAppServiceRecordSpec.m in Sources */,
 				162E83531A9BDE8B00906325 /* SDLDiagnosticMessageResponseSpec.m in Sources */,
@@ -8622,6 +8638,7 @@
 				162E82F71A9BDE8B00906325 /* SDLResultSpec.m in Sources */,
 				88DDD0F9229ECA57002F9623 /* SDLIAPConstantsSpec.m in Sources */,
 				1680B1141A9CD7AD00DBD79E /* SDLV1ProtocolHeaderSpec.m in Sources */,
+				B3DF19F3251225AA0090D7BA /* TestSmartConnection.m in Sources */,
 				880D2680220E038800B3F496 /* SDLWeatherServiceManifestSpec.m in Sources */,
 				88EEC5BE220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m in Sources */,
 				1680B1161A9CD7AD00DBD79E /* SDLProtocolMessageSpec.m in Sources */,
@@ -8665,6 +8682,7 @@
 				162E82D71A9BDE8A00906325 /* SDLDeviceLevelStatusSpec.m in Sources */,
 				162E83841A9BDE8B00906325 /* SDLMenuParamsSpec.m in Sources */,
 				5DB1BCE11D243DDE002FFC37 /* SDLConfigurationSpec.m in Sources */,
+				B3DF19ED251225300090D7BA /* TestSmartConnectionManager.m in Sources */,
 				162E83071A9BDE8B00906325 /* SDLVehicleDataNotificationStatusSpec.m in Sources */,
 				5D9F50811BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m in Sources */,
 				162E83361A9BDE8B00906325 /* SDLRegisterAppInterfaceSpec.m in Sources */,
