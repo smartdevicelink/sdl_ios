@@ -46,6 +46,13 @@
 
 @end
 
+@interface SDLTextAndGraphicUpdateOperation ()
+
+@property (copy, nonatomic, nullable) CurrentDataUpdatedHandler currentDataUpdatedHandler;
+@property (strong, nonatomic) SDLTextAndGraphicState *updatedState;
+
+@end
+
 QuickSpecBegin(SDLTextAndGraphicManagerSpec)
 
 describe(@"text and graphic manager", ^{
@@ -435,6 +442,38 @@ describe(@"text and graphic manager", ^{
 
             it(@"should not create and start the operation", ^{
                 expect(testManager.transactionQueue.operationCount).to(equal(0));
+            });
+        });
+    });
+
+    // when the operation updates the current screen data
+    describe(@"when the operation updates the current screen data", ^{
+        __block SDLTextAndGraphicUpdateOperation *testOperation = nil;
+
+        beforeEach(^{
+            testManager.textField1 = @"test";
+            testOperation = testManager.transactionQueue.operations[0];
+        });
+
+        context(@"with good data", ^{
+            beforeEach(^{
+                testOperation.currentDataUpdatedHandler(testOperation.updatedState, nil);
+            });
+
+            it(@"should update the manager's current screen data", ^{
+                expect(testManager.currentScreenData).to(equal(testOperation.updatedState));
+            });
+        });
+
+        context(@"with an error", ^{
+            beforeEach(^{
+                testManager.currentScreenData = [[SDLTextAndGraphicState alloc] init];
+                testManager.currentScreenData.textField1 = @"Test1";
+                testOperation.currentDataUpdatedHandler(nil, [NSError errorWithDomain:@"any" code:1 userInfo:nil]);
+            });
+
+            it(@"should reset the manager's data", ^{
+                expect(testManager.textField1).to(equal(testManager.currentScreenData.textField1));
             });
         });
     });
