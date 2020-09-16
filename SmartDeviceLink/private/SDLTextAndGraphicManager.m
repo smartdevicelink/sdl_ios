@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updatePendingOperationsWithNewScreenData:(SDLTextAndGraphicState *)newScreenData {
     for (NSOperation *operation in self.transactionQueue.operations) {
-        if (![operation isMemberOfClass:SDLTextAndGraphicUpdateOperation.class] || operation.isExecuting) { continue; }
+        if (operation.isExecuting) { continue; }
         SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
 
         updateOp.currentScreenData = newScreenData;
