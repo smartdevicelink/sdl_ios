@@ -512,12 +512,26 @@ describe(@"text and graphic manager", ^{
             testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
             testDisplayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"Test display" windowCapabilities:@[testWindowCapability] windowTypeSupported:nil];
             testSystemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:@[testDisplayCapability]];
-
-            [testManager sdl_displayCapabilityDidUpdate:testSystemCapability];
         });
 
-        it(@"should start the transaction queue", ^{
+        it(@"should start the transaction queue and not send a transaction", ^{
+            [testManager sdl_displayCapabilityDidUpdate:testSystemCapability];
+
             expect(testManager.transactionQueue.isSuspended).to(beFalse());
+            expect(testManager.transactionQueue.operationCount).to(equal(0));
+        });
+
+        context(@"if there's data", ^{
+            beforeEach(^{
+                testManager.textField1 = @"test";
+                [testManager sdl_displayCapabilityDidUpdate:testSystemCapability];
+            });
+
+            it(@"should send an update and not supersede the previous update", ^{
+                expect(testManager.transactionQueue.isSuspended).to(beFalse());
+                expect(testManager.transactionQueue.operationCount).to(equal(2));
+                expect(testManager.transactionQueue.operations[0].isCancelled).to(beFalse());
+            });
         });
     });
 
