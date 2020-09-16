@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     fullShow = [self sdl_assembleLayout:fullShow];
 
     __weak typeof(self) weakSelf = self;
-    if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
+    if ([self sdl_showSupportsTemplateConfiguration]) {
         // Everything (template, text, and images) can be updated using a single Show request
         [self sdl_updateGraphicsAndShow:fullShow];
     } else if (self.sdl_shouldUpdateTemplateConfig) {
@@ -444,8 +444,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Layout
 
 - (SDLShow *)sdl_assembleLayout:(SDLShow *)show {
-    if (![[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]
-        || !self.sdl_shouldUpdateTemplateConfig) { return show; }
+    if (![self sdl_showSupportsTemplateConfiguration] || !self.sdl_shouldUpdateTemplateConfig) { return show; }
 
     show.templateConfiguration = self.updatedState.templateConfig;
     return show;
@@ -464,10 +463,14 @@ NS_ASSUME_NONNULL_BEGIN
     newShow.metadataTags = show.metadataTags;
     newShow.alignment = show.alignment;
 
-    newShow.templateConfiguration = show.templateConfiguration;
+    if ([self sdl_showSupportsTemplateConfiguration]) {
+        newShow.templateConfiguration = show.templateConfiguration;
+    }
 
     return newShow;
 }
+
+#pragma mark - Update Current Screen Data
 
 - (void)sdl_updateCurrentScreenDataFromShow:(SDLShow *)show {
     // If the items are nil, they were not updated, so we can't just set it directly
@@ -526,7 +529,7 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL graphicExists = (self.updatedState.secondaryGraphic != nil);
 
     // Cannot detect if there is a secondary image below v5.0, so we'll just try to detect if the primary image is allowed and allow the secondary image if it is.
-    if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]) {
+    if ([self sdl_showSupportsTemplateConfiguration]) {
         return (templateSupportsSecondaryArtwork && !graphicMatchesExisting && graphicExists);
     } else {
         return ([self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] && !graphicMatchesExisting && graphicExists);
@@ -555,6 +558,12 @@ NS_ASSUME_NONNULL_BEGIN
     (self.updatedState.textField4.length > 0) ? [array addObject:self.updatedState.textField4] : nil;
 
     return [array copy];
+}
+
+#pragma mark - Version Check
+
+- (BOOL)sdl_showSupportsTemplateConfiguration {
+    return [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]];
 }
 
 #pragma mark - Operation Overrides
