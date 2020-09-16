@@ -64,6 +64,32 @@ class InterfaceProducerCommon(ABC):
             render['params'][param.name] = self.extract_param(param, item.name)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
+        
+        name = 'SDL'
+        render['imports']['.m'].add( "NSMutableDictionary+Store" )
+        render['imports']['.m'].add(name)
+
+        if isinstance(item, Struct):
+            render['imports']['.m'].add( "SDLRPCParameterNames" )
+        
+        if isinstance(item, Function):
+            render['imports']['.m'].add( "SDLRPCFunctionNames" )
+            render['imports']['.m'].add( "SDLRPCParameterNames" )
+        
+        # if isinstance(item, Enum):
+
+        render['imports']['.m'] = list(render['imports']['.m'])
+        (render['imports']['.m']).sort()
+
+                # render['imports']['.h']['.enum'] = list(render['imports']['.h']['.enum'])
+        # print('@-- ' + str(render['imports']['.m']))
+        # sorted(render.get('imports').get('.m'))
+        # j = list(render['imports']['.m'])
+        # j.sort()
+        # temp = render.get('imports').get('.h')
+        # tempo = sorted(temp.get('.m'))
+        # print('$-- ' + str(render.get('imports').get('.m')))
+        # print('%-- ' + str(temp))
 
         if 'constructors' not in render and isinstance(item, (Struct, Function)):
             render['constructors'] = self.extract_constructors(render['params'])
