@@ -1,5 +1,5 @@
 //
-//  SDLOnLockScreenStatus.m
+//  SDLLockScreenStatusInfo.m
 //  SmartDeviceLink
 //
 

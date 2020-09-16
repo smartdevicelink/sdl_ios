@@ -1,5 +1,5 @@
 //
-//  SDLOnLockScreenStatus.h
+//  SDLLockScreenStatusInfo.h
 //  SmartDeviceLink
 //
 
