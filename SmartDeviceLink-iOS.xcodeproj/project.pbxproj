@@ -1674,9 +1674,41 @@
 		B30509012511E60E008C5401 /* SDLSupportedStreamingRange.h in Headers */ = {isa = PBXBuildFile; fileRef = B30508FF2511E60D008C5401 /* SDLSupportedStreamingRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B30509022511E60E008C5401 /* SDLSupportedStreamingRange.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509002511E60D008C5401 /* SDLSupportedStreamingRange.m */; };
 		B30509052511E79B008C5401 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509042511E79B008C5401 /* ProxyManager.m */; };
+		B30509512511F5F5008C5401 /* ExampleVideoApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B30509062511EA70008C5401 /* ExampleVideoApp.storyboard */; };
+		B30509582511F973008C5401 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; };
+		B305095A2511FA70008C5401 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AB21304567000EB9B4 /* Main.storyboard */; };
+		B305095C2511FA8B008C5401 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509102511EAEF008C5401 /* ConnectionContainerViewController.m */; };
+		B305095D2511FAA8008C5401 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509192511EAF2008C5401 /* ConnectionIAPTableViewController.m */; };
+		B305095E2511FAAB008C5401 /* ConnectionTCPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509142511EAF1008C5401 /* ConnectionTCPTableViewController.m */; };
+		B305095F2511FAAE008C5401 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B305090E2511EAEF008C5401 /* ProxyManager.m */; };
+		B30509602511FAB1008C5401 /* SDLTCPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B305091C2511EAF3008C5401 /* SDLTCPConfig.m */; };
+		B30509612511FAB4008C5401 /* TouchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B305091A2511EAF3008C5401 /* TouchModel.m */; };
+		B30509622511FAB7008C5401 /* VideoSourceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B305090B2511EAEE008C5401 /* VideoSourceView.m */; };
+		B30509632511FABA008C5401 /* VideoSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509162511EAF1008C5401 /* VideoSourceViewController.m */; };
+		B30509642511FABD008C5401 /* VideoStreamingSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509122511EAF0008C5401 /* VideoStreamingSettingsViewController.m */; };
+		B30509652511FAC0008C5401 /* VideoStreamSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = B305091E2511EAF4008C5401 /* VideoStreamSettings.m */; };
+		B30509662511FB62008C5401 /* MenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29421304513000EB9B4 /* MenuManager.m */; };
+		B30509672511FB84008C5401 /* RPCPermissionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29221304513000EB9B4 /* RPCPermissionsManager.m */; };
+		B30509682511FB8F008C5401 /* ButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29B21304515000EB9B4 /* ButtonManager.m */; };
+		B30509692511FB99008C5401 /* PerformInteractionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29121304513000EB9B4 /* PerformInteractionManager.m */; };
+		B305096B2511FBCC008C5401 /* SubscribeButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A40255B250026620080E159 /* SubscribeButtonManager.m */; };
+		B305096D2511FBD5008C5401 /* VehicleDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29921304514000EB9B4 /* VehicleDataManager.m */; };
+		B305096E2511FBDE008C5401 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A421304531000EB9B4 /* Preferences.m */; };
+		B305096F2511FBE6008C5401 /* ConnectionAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2BC21304598000EB9B4 /* ConnectionAnimatedTransition.m */; };
+		B30509702511FBEE008C5401 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2BE21304598000EB9B4 /* ConnectionTransitionContext.m */; };
+		B30509722511FC42008C5401 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C2213045EB000EB9B4 /* AppConstants.m */; };
+		B30509742511FC7D008C5401 /* TextValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A621304531000EB9B4 /* TextValidator.m */; };
+		B30509762511FC87008C5401 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29721304514000EB9B4 /* AudioManager.m */; };
+		B30509782511FC91008C5401 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF28C213044F9000EB9B4 /* AlertManager.m */; };
+		B305097A2511FD59008C5401 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
+		B305097B2511FD9F008C5401 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */; };
+		B305097E2511FDE8008C5401 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C5213045F1000EB9B4 /* Images.xcassets */; };
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
+		B3BB3389251204490054607B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */; };
+		B3DF19E9251205710090D7BA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CB2130464D000EB9B4 /* main.m */; };
+		B3DF19EA251205910090D7BA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C92130463F000EB9B4 /* AppDelegate.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
 		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
@@ -1749,7 +1781,7 @@
 			remoteGlobalIDString = 88802CD720853AE600E9EBC6;
 			remoteInfo = SmartDeviceLinkSwift;
 		};
-		B32B7C3524EB91DC009670C1 /* PBXContainerItemProxy */ = {
+		B30509562511F96C008C5401 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5D4019A71A76EC350006B0C2 /* Project object */;
 			proxyType = 1;
@@ -1792,16 +1824,6 @@
 			files = (
 				88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */,
 				88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B32B7C5F24EB91DC009670C1 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3524,6 +3546,28 @@
 		B30509002511E60D008C5401 /* SDLSupportedStreamingRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSupportedStreamingRange.m; path = public/SDLSupportedStreamingRange.m; sourceTree = "<group>"; };
 		B30509032511E79A008C5401 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = "Example Apps/Example ObjC/ProxyManager.h"; sourceTree = SOURCE_ROOT; };
 		B30509042511E79B008C5401 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProxyManager.m; path = "Example Apps/Example ObjC/ProxyManager.m"; sourceTree = SOURCE_ROOT; };
+		B30509062511EA70008C5401 /* ExampleVideoApp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExampleVideoApp.storyboard; sourceTree = "<group>"; };
+		B305090A2511EAEE008C5401 /* TouchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchModel.h; sourceTree = "<group>"; };
+		B305090B2511EAEE008C5401 /* VideoSourceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoSourceView.m; sourceTree = "<group>"; };
+		B305090C2511EAEE008C5401 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionIAPTableViewController.h; sourceTree = "<group>"; };
+		B305090D2511EAEF008C5401 /* VideoStreamingSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamingSettingsViewController.h; sourceTree = "<group>"; };
+		B305090E2511EAEF008C5401 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProxyManager.m; sourceTree = "<group>"; };
+		B305090F2511EAEF008C5401 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyManager.h; sourceTree = "<group>"; };
+		B30509102511EAEF008C5401 /* ConnectionContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionContainerViewController.m; sourceTree = "<group>"; };
+		B30509122511EAF0008C5401 /* VideoStreamingSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamingSettingsViewController.m; sourceTree = "<group>"; };
+		B30509132511EAF0008C5401 /* ConnectionContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionContainerViewController.h; sourceTree = "<group>"; };
+		B30509142511EAF1008C5401 /* ConnectionTCPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionTCPTableViewController.m; sourceTree = "<group>"; };
+		B30509152511EAF1008C5401 /* SDLTCPConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTCPConfig.h; sourceTree = "<group>"; };
+		B30509162511EAF1008C5401 /* VideoSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoSourceViewController.m; sourceTree = "<group>"; };
+		B30509172511EAF2008C5401 /* VideoSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSourceViewController.h; sourceTree = "<group>"; };
+		B30509182511EAF2008C5401 /* VideoStreamSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoStreamSettings.h; sourceTree = "<group>"; };
+		B30509192511EAF2008C5401 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionIAPTableViewController.m; sourceTree = "<group>"; };
+		B305091A2511EAF3008C5401 /* TouchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchModel.m; sourceTree = "<group>"; };
+		B305091B2511EAF3008C5401 /* VideoSourceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSourceView.h; sourceTree = "<group>"; };
+		B305091C2511EAF3008C5401 /* SDLTCPConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTCPConfig.m; sourceTree = "<group>"; };
+		B305091D2511EAF4008C5401 /* ConnectionTCPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionTCPTableViewController.h; sourceTree = "<group>"; };
+		B305091E2511EAF4008C5401 /* VideoStreamSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoStreamSettings.m; sourceTree = "<group>"; };
+		B30509382511F21F008C5401 /* SDL video st.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL video st.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatusSpec.m; sourceTree = "<group>"; };
 		B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionTypeSpec.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
@@ -3602,10 +3646,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B32B7C5224EB91DC009670C1 /* Frameworks */ = {
+		B30509352511F21F008C5401 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B30509582511F973008C5401 /* SmartDeviceLink.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4505,6 +4550,7 @@
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
 				88295697207CF68800EF056C /* SDL Example Swift.app */,
 				88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */,
+				B30509382511F21F008C5401 /* SDL video st.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -6756,6 +6802,26 @@
 		B32B7C6724EB936F009670C1 /* Example Video ObjC */ = {
 			isa = PBXGroup;
 			children = (
+				B30509132511EAF0008C5401 /* ConnectionContainerViewController.h */,
+				B30509102511EAEF008C5401 /* ConnectionContainerViewController.m */,
+				B305090C2511EAEE008C5401 /* ConnectionIAPTableViewController.h */,
+				B30509192511EAF2008C5401 /* ConnectionIAPTableViewController.m */,
+				B305091D2511EAF4008C5401 /* ConnectionTCPTableViewController.h */,
+				B30509142511EAF1008C5401 /* ConnectionTCPTableViewController.m */,
+				B305090F2511EAEF008C5401 /* ProxyManager.h */,
+				B305090E2511EAEF008C5401 /* ProxyManager.m */,
+				B30509152511EAF1008C5401 /* SDLTCPConfig.h */,
+				B305091C2511EAF3008C5401 /* SDLTCPConfig.m */,
+				B305090A2511EAEE008C5401 /* TouchModel.h */,
+				B305091A2511EAF3008C5401 /* TouchModel.m */,
+				B305091B2511EAF3008C5401 /* VideoSourceView.h */,
+				B305090B2511EAEE008C5401 /* VideoSourceView.m */,
+				B30509172511EAF2008C5401 /* VideoSourceViewController.h */,
+				B30509162511EAF1008C5401 /* VideoSourceViewController.m */,
+				B305090D2511EAEF008C5401 /* VideoStreamingSettingsViewController.h */,
+				B30509122511EAF0008C5401 /* VideoStreamingSettingsViewController.m */,
+				B30509182511EAF2008C5401 /* VideoStreamSettings.h */,
+				B305091E2511EAF4008C5401 /* VideoStreamSettings.m */,
 				B3CD23D424EBB30700F76A61 /* UI */,
 				B3CD23D324EBB2AC00F76A61 /* Supporting Files */,
 				B32B7C8824EBA0DF009670C1 /* Resources */,
@@ -6767,6 +6833,7 @@
 		B32B7C8824EBA0DF009670C1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B30509062511EA70008C5401 /* ExampleVideoApp.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -7622,22 +7689,22 @@
 			productReference = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B32B7C3324EB91DC009670C1 /* SmartDeviceLink-Example-Video-ObjC */ = {
+		B30509372511F21F008C5401 /* SmartDeviceLink-Example-Video-ObjC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B32B7C6124EB91DC009670C1 /* Build configuration list for PBXNativeTarget "SmartDeviceLink-Example-Video-ObjC" */;
+			buildConfigurationList = B305094E2511F220008C5401 /* Build configuration list for PBXNativeTarget "SmartDeviceLink-Example-Video-ObjC" */;
 			buildPhases = (
-				B32B7C3624EB91DC009670C1 /* Sources */,
-				B32B7C5224EB91DC009670C1 /* Frameworks */,
-				B32B7C5624EB91DC009670C1 /* Resources */,
-				B32B7C5F24EB91DC009670C1 /* Embed Frameworks */,
+				B30509342511F21F008C5401 /* Sources */,
+				B30509352511F21F008C5401 /* Frameworks */,
+				B30509362511F21F008C5401 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B32B7C3424EB91DC009670C1 /* PBXTargetDependency */,
+				B30509572511F96C008C5401 /* PBXTargetDependency */,
 			);
 			name = "SmartDeviceLink-Example-Video-ObjC";
-			productName = "SmartDeviceLink-iOS";
+			productName = ExampleVideoObjC_;
+			productReference = B30509382511F21F008C5401 /* SDL video st.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -7675,7 +7742,8 @@
 						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
-					B32B7C3324EB91DC009670C1 = {
+					B30509372511F21F008C5401 = {
+						CreatedOnToolsVersion = 11.2.1;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -7703,7 +7771,7 @@
 				5D4019AE1A76EC350006B0C2 /* SmartDeviceLink-Example-ObjC */,
 				8829567D207CF68800EF056C /* SmartDeviceLink-Example-Swift */,
 				88802CD720853AE600E9EBC6 /* SmartDeviceLinkSwift */,
-				B32B7C3324EB91DC009670C1 /* SmartDeviceLink-Example-Video-ObjC */,
+				B30509372511F21F008C5401 /* SmartDeviceLink-Example-Video-ObjC */,
 			);
 		};
 /* End PBXProject section */
@@ -7770,10 +7838,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B32B7C5624EB91DC009670C1 /* Resources */ = {
+		B30509362511F21F008C5401 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B305097A2511FD59008C5401 /* ConnectionTCPTableViewController.storyboard in Resources */,
+				B305097E2511FDE8008C5401 /* Images.xcassets in Resources */,
+				B30509512511F5F5008C5401 /* ExampleVideoApp.storyboard in Resources */,
+				B3BB3389251204490054607B /* LaunchScreen.xib in Resources */,
+				B305095A2511FA70008C5401 /* Main.storyboard in Resources */,
+				B305097B2511FD9F008C5401 /* ConnectionIAPTableViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8896,10 +8970,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B32B7C3624EB91DC009670C1 /* Sources */ = {
+		B30509342511F21F008C5401 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B305095C2511FA8B008C5401 /* ConnectionContainerViewController.m in Sources */,
+				B30509682511FB8F008C5401 /* ButtonManager.m in Sources */,
+				B30509782511FC91008C5401 /* AlertManager.m in Sources */,
+				B30509722511FC42008C5401 /* AppConstants.m in Sources */,
+				B30509652511FAC0008C5401 /* VideoStreamSettings.m in Sources */,
+				B305096D2511FBD5008C5401 /* VehicleDataManager.m in Sources */,
+				B30509602511FAB1008C5401 /* SDLTCPConfig.m in Sources */,
+				B305095D2511FAA8008C5401 /* ConnectionIAPTableViewController.m in Sources */,
+				B30509702511FBEE008C5401 /* ConnectionTransitionContext.m in Sources */,
+				B305096F2511FBE6008C5401 /* ConnectionAnimatedTransition.m in Sources */,
+				B305095E2511FAAB008C5401 /* ConnectionTCPTableViewController.m in Sources */,
+				B30509642511FABD008C5401 /* VideoStreamingSettingsViewController.m in Sources */,
+				B30509742511FC7D008C5401 /* TextValidator.m in Sources */,
+				B30509692511FB99008C5401 /* PerformInteractionManager.m in Sources */,
+				B30509632511FABA008C5401 /* VideoSourceViewController.m in Sources */,
+				B305095F2511FAAE008C5401 /* ProxyManager.m in Sources */,
+				B305096B2511FBCC008C5401 /* SubscribeButtonManager.m in Sources */,
+				B305096E2511FBDE008C5401 /* Preferences.m in Sources */,
+				B30509622511FAB7008C5401 /* VideoSourceView.m in Sources */,
+				B3DF19EA251205910090D7BA /* AppDelegate.m in Sources */,
+				B30509672511FB84008C5401 /* RPCPermissionsManager.m in Sources */,
+				B30509662511FB62008C5401 /* MenuManager.m in Sources */,
+				B30509762511FC87008C5401 /* AudioManager.m in Sources */,
+				B3DF19E9251205710090D7BA /* main.m in Sources */,
+				B30509612511FAB4008C5401 /* TouchModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8936,10 +9035,10 @@
 			target = 88802CD720853AE600E9EBC6 /* SmartDeviceLinkSwift */;
 			targetProxy = 88802FF720853CD500E9EBC6 /* PBXContainerItemProxy */;
 		};
-		B32B7C3424EB91DC009670C1 /* PBXTargetDependency */ = {
+		B30509572511F96C008C5401 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5D61FA1B1A84237100846EE7 /* SmartDeviceLink */;
-			targetProxy = B32B7C3524EB91DC009670C1 /* PBXContainerItemProxy */;
+			targetProxy = B30509562511F96C008C5401 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -9436,42 +9535,58 @@
 			};
 			name = Release;
 		};
-		B32B7C6224EB91DC009670C1 /* Debug */ = {
+		B305094F2511F220008C5401 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 17;
-				DEVELOPMENT_TEAM = G99VP5HXV7;
-				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Video ObjC/SmartDeviceLink-Example-Video-ObjC.plist";
+				CURRENT_PROJECT_VERSION = 20;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 6.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
-				PRODUCT_NAME = "SDL Video Strm";
-				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
-				SWIFT_VERSION = 5.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = sdl.video.stream;
+				PRODUCT_NAME = "SDL video st";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		B32B7C6324EB91DC009670C1 /* Release */ = {
+		B30509502511F220008C5401 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 17;
-				DEVELOPMENT_TEAM = G99VP5HXV7;
-				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Video ObjC/SmartDeviceLink-Example-Video-ObjC.plist";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 20;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 6.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pe.lo.smartdevicelink;
-				PRODUCT_NAME = "SDL Video Strm";
-				PROVISIONING_PROFILE_SPECIFIER = "smartdevicelink-dev";
-				SWIFT_VERSION = 5.0;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = sdl.video.stream;
+				PRODUCT_NAME = "SDL video st";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -9533,11 +9648,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B32B7C6124EB91DC009670C1 /* Build configuration list for PBXNativeTarget "SmartDeviceLink-Example-Video-ObjC" */ = {
+		B305094E2511F220008C5401 /* Build configuration list for PBXNativeTarget "SmartDeviceLink-Example-Video-ObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B32B7C6224EB91DC009670C1 /* Debug */,
-				B32B7C6324EB91DC009670C1 /* Release */,
+				B305094F2511F220008C5401 /* Debug */,
+				B30509502511F220008C5401 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

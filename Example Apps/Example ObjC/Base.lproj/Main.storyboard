@@ -79,10 +79,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b9p-UF-1rG">
-                                <rect key="frame" x="16" y="87" width="343" height="70"/>
+                                <rect key="frame" x="20" y="93" width="560" height="70"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9hG-1Z-Ssk">
-                                        <rect key="frame" x="171" y="19.5" width="152" height="32"/>
+                                        <rect key="frame" x="388" y="19.5" width="152" height="32"/>
                                         <segments>
                                             <segment title="6.2.0"/>
                                             <segment title="7.0.0"/>
@@ -110,10 +110,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPY-dT-PPs" userLabel="View- Landscape">
-                                <rect key="frame" x="16" y="177" width="343" height="90"/>
+                                <rect key="frame" x="20" y="183" width="560" height="90"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DLo-aT-RSg">
-                                        <rect key="frame" x="204" y="29.5" width="119" height="32"/>
+                                        <rect key="frame" x="421" y="29.5" width="119" height="32"/>
                                         <segments>
                                             <segment title="-1-"/>
                                             <segment title="-2-"/>
@@ -144,10 +144,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B0H-J8-cLN" userLabel="View- Portrait">
-                                <rect key="frame" x="16" y="287" width="343" height="90"/>
+                                <rect key="frame" x="20" y="293" width="560" height="90"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GTs-nd-ywV">
-                                        <rect key="frame" x="204" y="29.5" width="119" height="32"/>
+                                        <rect key="frame" x="421" y="29.5" width="119" height="32"/>
                                         <segments>
                                             <segment title="-1-"/>
                                             <segment title="-2-"/>
@@ -178,7 +178,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="74B-cS-mfh">
-                                <rect key="frame" x="16" y="397" width="343" height="265"/>
+                                <rect key="frame" x="20" y="403" width="560" height="192"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

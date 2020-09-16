@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B32B7C3324EB91DC009670C1"
-               BuildableName = "SDL Video Strm.app"
+               BlueprintIdentifier = "B30509372511F21F008C5401"
+               BuildableName = "SDL video st.app"
                BlueprintName = "SmartDeviceLink-Example-Video-ObjC"
                ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
             </BuildableReference>
@@ -44,8 +44,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B32B7C3324EB91DC009670C1"
-            BuildableName = "SDL Video Strm.app"
+            BlueprintIdentifier = "B30509372511F21F008C5401"
+            BuildableName = "SDL video st.app"
             BlueprintName = "SmartDeviceLink-Example-Video-ObjC"
             ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
          </BuildableReference>
@@ -61,8 +61,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B32B7C3324EB91DC009670C1"
-            BuildableName = "SDL Video Strm.app"
+            BlueprintIdentifier = "B30509372511F21F008C5401"
+            BuildableName = "SDL video st.app"
             BlueprintName = "SmartDeviceLink-Example-Video-ObjC"
             ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
          </BuildableReference>
