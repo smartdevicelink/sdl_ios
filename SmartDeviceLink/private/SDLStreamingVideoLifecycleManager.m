@@ -837,8 +837,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLImageResolution *imageResolution = [nextCapability makeImageResolution];
         NSNumber *isPortrait = imageResolution.isPortrait;
         if (!isPortrait) {
-            // no restriction, any capability will do (neither landscape nor portrait, it can be a mistake)
-            [matchCapabilities addObject:nextCapability];
+            // wrong capability, filter it out
             continue;
         }
 
@@ -851,34 +850,32 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         // 1. resolution test: min <= resolution <= max
         if ([range isImageResolutionRangeValid]) {
-            if ([range isImageResolutionInRange:imageResolution]) {
-                [matchCapabilities addObject:nextCapability];
+            if (![range isImageResolutionInRange:imageResolution]) {
+                continue;
             }
-            continue;
         }
 
         // 2. diagonal test: diagonal is above or equal to the minimumDiagonal
         if (nextCapability.diagonalScreenSize) {
             const float diagonal = nextCapability.diagonalScreenSize.floatValue;
-            if (0 < diagonal) {
-                if (diagonal >= range.minimumDiagonal) {
-                    [matchCapabilities addObject:nextCapability];
+            if ((0 < diagonal) && (0 < range.minimumDiagonal)) {
+                if (diagonal < range.minimumDiagonal) {
+                    continue;
                 }
             }
-            continue;
         }
 
         // 3. diagonal test: aspect ratio is within the specified range
         if (nextCapability.preferredResolution) {
             const float ratio = nextCapability.preferredResolution.normalizedAspectRatio;
             if (1 <= ratio) {
-                if ([range isAspectRatioInRange:ratio]) {
-                    [matchCapabilities addObject:nextCapability];
+                if (![range isAspectRatioInRange:ratio]) {
+                    continue;
                 }
             }
-            continue;
         }
-        // by this point the nextCapability does not pass the restrictions and gets filtered out
+        // by this point the nextCapability has passed all the restrictions, add it to the match array
+        [matchCapabilities addObject:nextCapability];
     }
 
     return matchCapabilities;

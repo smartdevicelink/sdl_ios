@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (float)normalizedAspectRatio {
     const float width = self.resolutionWidth.floatValue;
     const float height = self.resolutionHeight.floatValue;
-    return (0 == width || 0 == height) ? 0 : fabsf(fmaxf(width, height)/fminf(width, height));
+    return (0 == width || 0 == height) ? 0 : fmaxf(width, height)/fminf(width, height);
 }
 
 - (NSNumber<SDLInt> *)isPortrait {

@@ -66,26 +66,19 @@
 }
 
 - (BOOL)isAspectRatioInRange:(float)aspectRatio {
-    if (self.minimumAspectRatio <= 0 && self.maximumAspectRatio <= 0) {
-        return NO;
+    if (self.minimumAspectRatio <= 1.f && self.maximumAspectRatio <= 1.f) {
+        // min/max ratio not specified - any aspectRatio is OK
+        return YES;
     }
 
     BOOL isInRange = YES;
-    if (0 < self.minimumAspectRatio) {
+    if (1.f <= self.minimumAspectRatio) {
         isInRange = (aspectRatio >= self.minimumAspectRatio);
     }
-    if (isInRange && (0 < self.maximumAspectRatio)) {
+    if (isInRange && (1.f <= self.maximumAspectRatio)) {
         isInRange = (aspectRatio <= self.maximumAspectRatio);
     }
     return isInRange;
-}
-
-- (float)minimumAspectRatio {
-    return self.minimumResolution ? [self.minimumResolution normalizedAspectRatio] : _minimumAspectRatio;
-}
-
-- (float)maximumAspectRatio {
-    return self.maximumResolution ? [self.maximumResolution normalizedAspectRatio] : _maximumAspectRatio;
 }
 
 - (NSString *)description {

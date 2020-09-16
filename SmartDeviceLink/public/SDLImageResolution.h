@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CGSize)makeSize;
 
+// the return value is always equals or above 1.0 if valid, or is 0.0 if size is invalid
 - (float)normalizedAspectRatio;
 
 // string representation, for debug only
