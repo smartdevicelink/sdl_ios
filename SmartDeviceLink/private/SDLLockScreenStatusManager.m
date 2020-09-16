@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithNotificationDispatcher:(id)dispatcher {
+- (instancetype)initWithNotificationDispatcher:(SDLNotificationDispatcher *)dispatcher {
     self = [super init];
     if (!self) { return nil; }
 
