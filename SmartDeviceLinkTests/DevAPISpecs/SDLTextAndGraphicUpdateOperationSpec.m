@@ -72,6 +72,7 @@ describe(@"the text and graphic operation", ^{
 
     __block SDLTextAndGraphicState *receivedState = nil;
     __block NSError *receivedError = nil;
+    __block NSError *completionError = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -1034,10 +1035,13 @@ describe(@"the text and graphic operation", ^{
                     testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
                         receivedState = newScreenData;
                         receivedError = error;
-                    } updateCompletionHandler:nil];
+                    } updateCompletionHandler:^(NSError * _Nullable error) {
+                        completionError = error;
+                    }];
                     [testOp start];
                 });
 
+                // should send a set display layout, then update the screen data, then send a Show with data and then update the screen data again
                 it(@"should send a set display layout, then update the screen data, then send a Show with data and then update the screen data again", ^{
                     SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
                     expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
@@ -1055,20 +1059,39 @@ describe(@"the text and graphic operation", ^{
                     expect(receivedState.templateConfig).toNot(beNil());
                     expect(receivedState.textField1).toNot(beNil());
                     expect(receivedError).to(beNil());
+                    expect(completionError).to(beNil());
                     expect(testOp.isFinished).to(beTrue());
+                });
+
+                // when cancelled before finishing
+                describe(@"when cancelled before finishing", ^{
+                    fit(@"should finish the operation with the set display layout data in the current data handler and set an update superseded error in the update completion handler", ^{
+                        SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                        expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+                        expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
+
+                        [testOp cancel];
+                        [testConnectionManager respondToLastRequestWithResponse:successSetDisplayLayoutResponse];
+                        expect(receivedState).toNot(beNil());
+                        expect(receivedError).to(beNil());
+                        expect(completionError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+
+                    });
                 });
 
                 // when it receives a set display layout failure
                 describe(@"when it receives a set display layout failure", ^{
-                    it(@"it should send a set display layout, then reset the screen data, then do nothing else", ^{
+                    it(@"should send a set display layout, then reset the screen data, then finish the operation", ^{
                         SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
                         expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
                         expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
 
                         [testConnectionManager respondToLastRequestWithResponse:failSetDisplayLayoutResponse];
                         expect(receivedState).to(beNil());
-                        expect(receivedState).to(beNil());
                         expect(receivedError).toNot(beNil());
+                        expect(completionError).toNot(beNil());
 
                         expect(testOp.isFinished).to(beTrue());
                     });
