@@ -9,7 +9,7 @@
 
  @since SDL 1.0
  */
-typedef SDLEnum SDLLanguage SDL_SWIFT_ENUM;
+typedef SDLEnum SDLLanguage NS_TYPED_ENUM;
 
 /**
  English_SA

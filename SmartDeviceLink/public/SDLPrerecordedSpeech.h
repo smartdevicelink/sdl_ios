@@ -7,7 +7,7 @@
 /**
  Contains information about the speech capabilities on the SDL platform. Used in RegisterAppInterfaceResponse to indicate capability.
  */
-typedef SDLEnum SDLPrerecordedSpeech SDL_SWIFT_ENUM;
+typedef SDLEnum SDLPrerecordedSpeech NS_TYPED_ENUM;
 
 /**
  A prerecorded help prompt

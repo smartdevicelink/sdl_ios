@@ -8,7 +8,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLDisplayMode SDL_SWIFT_ENUM;
+typedef SDLEnum SDLDisplayMode NS_TYPED_ENUM;
 
 /**
  * @abstract Display Mode : DAY

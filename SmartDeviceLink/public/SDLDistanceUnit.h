@@ -6,7 +6,7 @@
 /**
  * Wiper Status
  */
-typedef SDLEnum SDLDistanceUnit SDL_SWIFT_ENUM;
+typedef SDLEnum SDLDistanceUnit NS_TYPED_ENUM;
 
 /**
  * @abstract SDLDistanceUnit: *MILES*

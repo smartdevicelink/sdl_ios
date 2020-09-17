@@ -38,7 +38,7 @@
  *
  * @since SDL 1.0.0
  */
-typedef SDLEnum SDLCharacterSet SDL_SWIFT_ENUM;
+typedef SDLEnum SDLCharacterSet NS_TYPED_ENUM;
 
 /**
  * @deprecated

@@ -7,7 +7,7 @@
 /**
  * Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData. Used in VehicleDataResult
  */
-typedef SDLEnum SDLVehicleDataType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLVehicleDataType NS_TYPED_ENUM;
 
 /**
  * Vehicle Gear Status data

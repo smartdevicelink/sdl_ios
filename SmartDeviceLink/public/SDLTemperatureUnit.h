@@ -8,7 +8,7 @@
 /**
  The unit of temperature to display. Used in Temperature.
  */
-typedef SDLEnum SDLTemperatureUnit SDL_SWIFT_ENUM;
+typedef SDLEnum SDLTemperatureUnit NS_TYPED_ENUM;
 
 /**
  Reflects the current HMI setting for temperature unit in Celsius

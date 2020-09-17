@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLDefrostZone SDL_SWIFT_ENUM;
+typedef SDLEnum SDLDefrostZone NS_TYPED_ENUM;
 
 /**
  * A SDLDefrostZone with the value of *FRONT*

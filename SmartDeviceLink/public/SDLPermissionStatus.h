@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLPermissionStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLPermissionStatus NS_TYPED_ENUM;
 
 /**
  * permission: allowed

@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLVehicleDataEventStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLVehicleDataEventStatus NS_TYPED_ENUM;
 
 /**
  No event

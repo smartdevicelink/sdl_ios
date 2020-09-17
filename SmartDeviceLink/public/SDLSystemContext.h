@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLSystemContext SDL_SWIFT_ENUM;
+typedef SDLEnum SDLSystemContext NS_TYPED_ENUM;
 
 /**
  * No user interaction (user-initiated or app-initiated) is in progress.

@@ -9,7 +9,7 @@
  *
  * @since SDL 3.0
  */
-typedef SDLEnum SDLAmbientLightStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLAmbientLightStatus NS_TYPED_ENUM;
 
 /**
  * Represents a "night" ambient light status

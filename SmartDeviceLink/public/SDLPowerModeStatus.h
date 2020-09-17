@@ -7,7 +7,7 @@
 /**
  The status of the car's power. Used in ClusterModeStatus.
  */
-typedef SDLEnum SDLPowerModeStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLPowerModeStatus NS_TYPED_ENUM;
 
 /**
  The key is not in the ignition, and the power is off

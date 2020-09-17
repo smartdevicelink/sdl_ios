@@ -35,7 +35,7 @@
 /**
  The type of system capability to get more information on. Used in GetSystemCapability.
  */
-typedef SDLEnum SDLSystemCapabilityType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLSystemCapabilityType NS_TYPED_ENUM;
 
 /**
  The app services capability

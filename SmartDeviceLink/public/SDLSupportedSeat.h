@@ -10,7 +10,7 @@
  * @history SDL 5.0.0
  * @since SDL 6.0.0
  */
-typedef SDLEnum SDLSupportedSeat SDL_SWIFT_ENUM __deprecated;
+typedef SDLEnum SDLSupportedSeat NS_TYPED_ENUM __deprecated;
 
 /**
 * Save current seat positions and settings to seat memory.

@@ -9,7 +9,7 @@
  *
  * @since SDL 4.6
  */
-typedef SDLEnum SDLAudioStreamingIndicator SDL_SWIFT_ENUM;
+typedef SDLEnum SDLAudioStreamingIndicator NS_TYPED_ENUM;
 
 /**
  * Default playback indicator.

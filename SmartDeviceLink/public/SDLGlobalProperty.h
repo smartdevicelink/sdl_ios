@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLGlobalProperty SDL_SWIFT_ENUM;
+typedef SDLEnum SDLGlobalProperty NS_TYPED_ENUM;
 
 /**
  * The help prompt to be spoken if the user needs assistance during a user-initiated interaction.

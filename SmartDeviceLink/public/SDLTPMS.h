@@ -7,7 +7,7 @@
 /**
  An enum representing values of the tire pressure monitoring system
  */
-typedef SDLEnum SDLTPMS SDL_SWIFT_ENUM;
+typedef SDLEnum SDLTPMS NS_TYPED_ENUM;
 
 /**
  If set the status of the tire is not known.

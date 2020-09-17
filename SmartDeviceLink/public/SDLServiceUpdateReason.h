@@ -11,7 +11,7 @@
 /**
  *  Enumeration listing possible service update reasons.
  */
-typedef SDLEnum SDLServiceUpdateReason SDL_SWIFT_ENUM;
+typedef SDLEnum SDLServiceUpdateReason NS_TYPED_ENUM;
 
 /**
  *  The service has just been published with the module and once activated to the primary service of its type, it will be ready for possible consumption.

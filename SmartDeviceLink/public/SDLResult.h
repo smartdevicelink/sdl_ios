@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLResult SDL_SWIFT_ENUM;
+typedef SDLEnum SDLResult NS_TYPED_ENUM;
 
 /**
  * The request succeeded

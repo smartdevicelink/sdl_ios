@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLDeviceLevelStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLDeviceLevelStatus NS_TYPED_ENUM;
 
 /**
  * Device battery level is zero bars

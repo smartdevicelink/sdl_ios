@@ -20,7 +20,7 @@ typedef NS_ENUM(Byte, SDLRPCMessageType) {
 };
 
 /// A type of RPC message
-typedef SDLEnum SDLRPCMessageTypeName SDL_SWIFT_ENUM;
+typedef SDLEnum SDLRPCMessageTypeName NS_TYPED_ENUM;
 
 /// A request that will require a response
 extern SDLRPCMessageTypeName const SDLRPCMessageTypeNameRequest;

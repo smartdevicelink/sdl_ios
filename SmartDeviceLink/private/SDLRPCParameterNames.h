@@ -36,7 +36,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString* SDLRPCParameterName SDL_SWIFT_ENUM;
+typedef NSString* SDLRPCParameterName NS_TYPED_ENUM;
 
 extern SDLRPCParameterName const SDLRPCParameterNameACEnable;
 extern SDLRPCParameterName const SDLRPCParameterNameACEnableAvailable;

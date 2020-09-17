@@ -7,7 +7,7 @@
 /**
  * List possible states of a remote control radio module. Used in RadioControlData.
  */
-typedef SDLEnum SDLRadioState SDL_SWIFT_ENUM;
+typedef SDLEnum SDLRadioState NS_TYPED_ENUM;
 
 /**
  * Represents Radio state as ACQUIRING

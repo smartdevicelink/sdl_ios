@@ -7,7 +7,7 @@
 /**
  The turn-by-turn state, used in OnTBTClientState.
  */
-typedef SDLEnum SDLTBTState SDL_SWIFT_ENUM;
+typedef SDLEnum SDLTBTState NS_TYPED_ENUM;
 
 /**
  The route should be updated

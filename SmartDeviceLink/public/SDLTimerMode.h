@@ -7,7 +7,7 @@
 /**
  The direction of a timer. Used in nothing.
  */
-typedef SDLEnum SDLTimerMode SDL_SWIFT_ENUM;
+typedef SDLEnum SDLTimerMode NS_TYPED_ENUM;
 
 /**
  The timer should count up.

@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLWarningLightStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLWarningLightStatus NS_TYPED_ENUM;
 
 /**
  * The warning light is off

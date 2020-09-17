@@ -13,7 +13,7 @@
  @history SDL 1.0.0
  @since SDL 5.0.0
  */
-typedef SDLEnum SDLDisplayType SDL_SWIFT_ENUM __deprecated;
+typedef SDLEnum SDLDisplayType NS_TYPED_ENUM __deprecated;
 
 /**
  * This display type provides a 2-line x 20 character "dot matrix" display.

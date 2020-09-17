@@ -11,7 +11,7 @@
 /**
  * Enumeration listing possible app service types.
  */
-typedef SDLEnum SDLAppServiceType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLAppServiceType NS_TYPED_ENUM;
 
 /**
  * The app will have a service type of media.

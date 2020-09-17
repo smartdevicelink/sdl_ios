@@ -7,7 +7,7 @@
 /**
  The type of a touch in a projection application. Used in OnTouchEvent.
  */
-typedef SDLEnum SDLTouchType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLTouchType NS_TYPED_ENUM;
 
 /**
  The touch is the beginning of a finger pressed on the display.
