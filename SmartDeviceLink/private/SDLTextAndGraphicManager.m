@@ -10,6 +10,7 @@
 
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLDisplayCapability.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
@@ -25,6 +26,7 @@
 #import "SDLShow.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLTemplateConfiguration.h"
 #import "SDLTextField.h"
 #import "SDLTextAndGraphicUpdateOperation.h"
 #import "SDLTextAndGraphicState.h"
@@ -41,9 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 /**
- A show describing the current text and images on the screen (not soft buttons, etc.)
+ A state describing the current text and images on the screen as well as the current template (this does not include soft buttons, menu items, etc.)
  */
-@property (strong, nonatomic) SDLShow *currentScreenData;
+@property (strong, nonatomic) SDLTextAndGraphicState *currentScreenData;
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
@@ -70,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _alignment = SDLTextAlignmentCenter;
 
-    _currentScreenData = [[SDLShow alloc] init];
+    _currentScreenData = [[SDLTextAndGraphicState alloc] init];
     _currentLevel = SDLHMILevelNone;
 
     _waitingOnHMILevelUpdateToUpdate = NO;
@@ -112,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
     _textField3Type = nil;
     _textField4Type = nil;
 
-    _currentScreenData = [[SDLShow alloc] init];
+    _currentScreenData = [[SDLTextAndGraphicState alloc] init];
     _transactionQueue = [self sdl_newTransactionQueue];
     _windowCapability = nil;
     _currentLevel = SDLHMILevelNone;
@@ -150,21 +152,29 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (self.isDirty) {
         self.isDirty = NO;
-        [self sdl_updateWithCompletionHandler:handler];
+        [self sdl_updateAndCancelPreviousOperations:YES completionHandler:handler];
     }
 }
 
-- (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+- (void)sdl_updateAndCancelPreviousOperations:(BOOL)supersedePreviousOperations completionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     SDLLogD(@"Updating text and graphics");
-    if (self.transactionQueue.operationCount > 0) {
+    if (self.transactionQueue.operationCount > 0 && supersedePreviousOperations) {
         SDLLogV(@"Transactions already exist, cancelling them");
         [self.transactionQueue cancelAllOperations];
     }
 
     __weak typeof(self) weakSelf = self;
-    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLShow * _Nonnull newScreenData) {
-        weakSelf.currentScreenData = newScreenData;
-        [weakSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
+    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState *_Nullable newScreenData, NSError *_Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (newScreenData != nil) {
+            // Update our current screen data
+            strongSelf.currentScreenData = newScreenData;
+            [strongSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
+        } else if (error != nil) {
+            // Invalidate data that's different from our current screen data if a Show or SetDisplayLayout fails. This will prevent subsequent `Show`s from failing if the request failed due to the developer setting invalid data or subsequent `SetDisplayLayout`s from failing if the template is not supported on the module. 
+            [strongSelf sdl_resetFieldsToCurrentScreenData];
+            [strongSelf sdl_updatePendingOperationsWithNewScreenData:strongSelf.currentScreenData];
+        }
     } updateCompletionHandler:handler];
 
     __weak typeof(updateOperation) weakOp = updateOperation;
@@ -176,19 +186,43 @@ NS_ASSUME_NONNULL_BEGIN
     [self.transactionQueue addOperation:updateOperation];
 }
 
-- (void)sdl_updatePendingOperationsWithNewScreenData:(SDLShow *)newScreenData {
+- (void)sdl_updatePendingOperationsWithNewScreenData:(SDLTextAndGraphicState *)newScreenData {
     for (NSOperation *operation in self.transactionQueue.operations) {
-        if (![operation isMemberOfClass:SDLTextAndGraphicUpdateOperation.class] || operation.isExecuting) { continue; }
+        if (operation.isExecuting) { continue; }
         SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
 
         updateOp.currentScreenData = newScreenData;
     }
 }
 
+- (void)sdl_resetFieldsToCurrentScreenData {
+    _textField1 = _currentScreenData.textField1;
+    _textField2 = _currentScreenData.textField2;
+    _textField3 = _currentScreenData.textField3;
+    _textField4 = _currentScreenData.textField4;
+    _mediaTrackTextField = _currentScreenData.mediaTrackTextField;
+    _title = _currentScreenData.title;
+    _alignment = _currentScreenData.alignment;
+    _textField1Type = _currentScreenData.textField1Type;
+    _textField2Type = _currentScreenData.textField2Type;
+    _textField3Type = _currentScreenData.textField3Type;
+    _textField4Type = _currentScreenData.textField4Type;
+    _templateConfiguration = _currentScreenData.templateConfig;
+    _primaryGraphic = _currentScreenData.primaryGraphic;
+    _secondaryGraphic = _currentScreenData.secondaryGraphic;
+}
+
+#pragma mark - Change Layout
+
+- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+    self.templateConfiguration = templateConfiguration;
+    [self updateWithCompletionHandler:handler];
+}
+
 #pragma mark - Convert to State
 
 - (SDLTextAndGraphicState *)currentState {
-    return [[SDLTextAndGraphicState alloc] initWithTextField1:_textField1 textField2:_textField2 textField3:_textField3 textField4:_textField4 mediaText:_mediaTrackTextField title:_title primaryGraphic:_primaryGraphic secondaryGraphic:_secondaryGraphic alignment:_alignment textField1Type:_textField1Type textField2Type:_textField2Type textField3Type:_textField3Type textField4Type:_textField4Type];
+    return [[SDLTextAndGraphicState alloc] initWithTextField1:_textField1 textField2:_textField2 textField3:_textField3 textField4:_textField4 mediaText:_mediaTrackTextField title:_title primaryGraphic:_primaryGraphic secondaryGraphic:_secondaryGraphic alignment:_alignment textField1Type:_textField1Type textField2Type:_textField2Type textField3Type:_textField3Type textField4Type:_textField4Type templateConfiguration:_templateConfiguration];
 }
 
 #pragma mark - Helpers
@@ -317,6 +351,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)setTemplateConfiguration:(nullable SDLTemplateConfiguration *)templateConfiguration {
+    _templateConfiguration = templateConfiguration;
+    _isDirty = YES;
+    // Don't do the `isBatchingUpdates` like elsewhere because the call is already handled in `changeLayout:withCompletionHandler:`
+}
+
 - (nullable SDLArtwork *)blankArtwork {
     if (_blankArtwork != nil) {
         return _blankArtwork;
@@ -334,13 +374,29 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Subscribed notifications
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    // we won't use the object in the parameter but the convenience method of the system capability manager
-    self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
+    // Extract and update the capabilities
+    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
+    if (capabilities == nil || capabilities.count == 0) {
+        self.windowCapability = nil;
+    } else {
+        SDLDisplayCapability *mainDisplay = capabilities[0];
+        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
+            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
+
+            // Check if the window capability is equal to the one we already have. If it is, abort.
+            if ([windowCapability isEqual:self.windowCapability]) { return; }
+            self.windowCapability = windowCapability;
+            break;
+        }
+    }
+
     [self sdl_updateTransactionQueueSuspended];
     
     // Auto-send an updated show
     if ([self sdl_hasData]) {
-        [self sdl_updateWithCompletionHandler:nil];
+        // TODO: HAX: Capability updates cannot supersede earlier updates because of the case where a developer batched a `changeLayout` call w/ T&G changes on <6.0 systems could cause this to come in before the operation completes. That would cause the operation to report a "failure" (because it was superseded by this call) when in fact the operation didn't fail at all and is just being adjusted. Even though iOS is able to tell the developer that it was superseded, Java Suite cannot, and therefore we are matching functionality with their library.
+        [self sdl_updateAndCancelPreviousOperations:NO completionHandler:nil];
     }
 }
 

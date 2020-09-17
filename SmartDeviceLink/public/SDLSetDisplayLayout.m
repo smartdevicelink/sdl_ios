@@ -38,7 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout dayColorScheme:(SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(SDLTemplateColorScheme *)nightColorScheme {
-    self = [self initWithPredefinedLayout:predefinedLayout];
+    return [self initWithLayout:predefinedLayout dayColorScheme:dayColorScheme nightColorScheme:nightColorScheme];
+}
+
+- (instancetype)initWithLayout:(NSString *)displayLayout dayColorScheme:(SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithLayout:displayLayout];
     if (!self) { return nil; }
 
     self.dayColorScheme = dayColorScheme;

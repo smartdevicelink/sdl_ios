@@ -8,6 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark Error Domains
+
+typedef NSString SDLErrorDomain;
+extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
+extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
+extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
+extern SDLErrorDomain *const SDLErrorDomainEncryptionLifecycleManager;
+extern SDLErrorDomain *const SDLErrorDomainFileManager;
+extern SDLErrorDomain *const SDLErrorDomainLifecycleManager;
+extern SDLErrorDomain *const SDLErrorDomainMenuManager;
+extern SDLErrorDomain *const SDLErrorDomainRPCStore;
+extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
+extern SDLErrorDomain *const SDLErrorDomainSubscribeButtonManager;
+extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
+extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
+extern SDLErrorDomain *const SDLErrorDomainTransport;
+
+
+#pragma mark Error Codes
+
 /**
  *  Errors associated with the SDLManager class.
  */
