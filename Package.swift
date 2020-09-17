@@ -14,7 +14,7 @@ let package = Package(
     targets: [
         .target(
             name: "SmartDeviceLink",
-            path: "SmartDeviceLink/SmartDeviceLink"
+            path: "SmartDeviceLink"
 //            resources: [
 //                .process("SDLAssets.xcassets"),
 //                .process("SDLLockScreen.storyboard")
