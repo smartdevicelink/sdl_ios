@@ -19,7 +19,7 @@ let package = Package(
 //                .process("SDLAssets.xcassets"),
 //                .process("SDLLockScreen.storyboard")
 //            ]
-            publicHeadersPath: "public"
+            publicHeadersPath: "SmartDeviceLink/public"
         ),
         .target(
             name: "SmartDeviceLinkSwift",
