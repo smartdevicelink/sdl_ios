@@ -74,8 +74,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Initialize SetGlobalProperties with all possible items
 
- @param helpText A string that will be turned into TTS chunks for the help prompt
- @param timeoutText A string that will be turned into TTS chunks for the timeout prompt
+ @param helpPrompt A string that will be turned into TTS chunks for the help prompt
+ @param timeoutPrompt A string that will be turned into TTS chunks for the timeout prompt
  @param vrHelpTitle The title of the help interface prompt
  @param vrHelp The items of the help interface prompt
  @param menuTitle The title of the menu button
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return The SetGlobalProperties RPC
  */
 
-- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties userLocation:(nullable SDLSeatLocation *)userLocation menuLayout:(nullable SDLMenuLayout)menuLayout;
+- (instancetype)initWithUserLocation:(nullable SDLSeatLocation *)userLocation helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties menuLayout:(nullable SDLMenuLayout)menuLayout;
 
 /**
  Help prompt for when the user asks for help with an interface prompt
