@@ -493,7 +493,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
             });
         });
 
-        context(@"If the service type is not RPC", ^{
+        context(@"If the service type is control", ^{
             it(@"Should just pass the start service along to the delegate", ^{
                 SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
                 NSData *testData = testPayload.data;
