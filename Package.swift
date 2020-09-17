@@ -14,12 +14,12 @@ let package = Package(
     targets: [
         .target(
             name: "SmartDeviceLink",
-            path: "SmartDeviceLink",
+            path: "./SmartDeviceLink",
 //            resources: [
 //                .process("SDLAssets.xcassets"),
 //                .process("SDLLockScreen.storyboard")
 //            ]
-            publicHeadersPath: "SmartDeviceLink/public"
+            publicHeadersPath: "./SmartDeviceLink/public"
         ),
         .target(
             name: "SmartDeviceLinkSwift",
