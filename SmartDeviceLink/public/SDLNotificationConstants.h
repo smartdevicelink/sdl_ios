@@ -18,15 +18,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Resolves issue of using Swift 3 and pre-iOS 10 versions due to NSNotificationName unavailability.
-#if __IPHONE_OS_VERSION_MAX_ALLOWED <= __IPHONE_9_3
-#define NOTIFICATION_TYPEDEF NSString *
-#else
-#define NOTIFICATION_TYPEDEF NSNotificationName
-#endif
-
 /// NSNotification names specific to incoming SDL RPC
-typedef NOTIFICATION_TYPEDEF SDLNotificationName;
+typedef NSNotificationName SDLNotificationName;
 
 /// The key used in all SDL NSNotifications to extract the response or notification from the userInfo dictionary.
 typedef NSString *SDLNotificationUserInfoKey;
