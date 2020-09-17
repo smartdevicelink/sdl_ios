@@ -36,7 +36,13 @@ static NSUInteger const AppIdCharacterCount = 10;
 }
 
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId ipAddress:ipAddress port:port];
+    SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId];
+
+    config.tcpDebugMode = YES;
+    config.tcpDebugIPAddress = ipAddress;
+    config.tcpDebugPort = port;
+
+    return config;
 }
 
 #pragma mark Initalization Helpers
@@ -67,16 +73,6 @@ static NSUInteger const AppIdCharacterCount = 10;
     _appId = [self.class sdl_shortAppIdFromFullAppId:fullAppId];
 
     return self;
-}
-
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    SDLLifecycleConfiguration *config = [self initDefaultConfigurationWithAppName:appName fullAppId:fullAppId];
-
-    config.tcpDebugMode = YES;
-    config.tcpDebugIPAddress = ipAddress;
-    config.tcpDebugPort = port;
-
-    return config;
 }
 
 #pragma mark - Computed Properties
