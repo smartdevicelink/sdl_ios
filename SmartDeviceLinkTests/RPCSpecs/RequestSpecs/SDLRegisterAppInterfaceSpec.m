@@ -28,8 +28,8 @@ describe(@"RegisterAppInterface Tests", ^{
     __block SDLRegisterAppInterface *testRegisterAppInterface = nil;
     __block NSString *appName = @"app56";
     __block NSString *appId = @"123456789";
-    __block NSString *fullAppId = @"123-e4567-e89b-12d3-a456-426655440000";
-    __block NSString *expectedAppId = @"123e4567e8";
+    __block NSString *fullAppId = @"e5bafdfa-f921-11ea-adc1-0242ac120002";
+    __block NSString *expectedAppId = @"e5bafdfaf9";
     __block NSString *shortAppName = @"whatisanngn";
     __block NSString *resumeHash = @"gercd35grw2";
     __block NSString *vrSynonyms = @"app56";

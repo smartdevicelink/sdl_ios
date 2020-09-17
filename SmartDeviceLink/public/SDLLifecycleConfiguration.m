@@ -70,7 +70,7 @@ static NSUInteger const AppIdCharacterCount = 10;
     _allowedSecondaryTransports = SDLSecondaryTransportsTCP;
 
     _fullAppId = fullAppId;
-    _appId = [self.class sdl_shortAppIdFromFullAppId:fullAppId];
+    _appId = [self.class sdl_isValidUUID:fullAppId] ? [self.class sdl_shortAppIdFromFullAppId:fullAppId] : fullAppId;
 
     return self;
 }
@@ -113,10 +113,6 @@ static NSUInteger const AppIdCharacterCount = 10;
  *  @return            An `appID` made of the first 10 non-dash characters of the "fullAppID"
  */
 + (NSString *)sdl_shortAppIdFromFullAppId:(NSString *)fullAppId {
-    // Do not generate a short app id unless the fullAppID is greater than 10 characters
-    if (fullAppId.length <= AppIdCharacterCount) {
-        return @"";
-    }
     NSString *filteredString = [self sdl_filterDashesFromText:fullAppId];
     return [filteredString substringToIndex:MIN(AppIdCharacterCount, filteredString.length)];
 }
@@ -130,6 +126,14 @@ static NSUInteger const AppIdCharacterCount = 10;
 + (NSString *)sdl_filterDashesFromText:(NSString *)text {
     NSCharacterSet *supportedCharacters = [NSCharacterSet characterSetWithCharactersInString:@"-"];
     return [[text componentsSeparatedByCharactersInSet:supportedCharacters] componentsJoinedByString:@""];
+}
+
+/// Checks if a string is a valid UUID
+/// @param uuidString A string
+/// @return True if the string is a valid UUID, false if not
++ (BOOL)sdl_isValidUUID:(NSString *)uuidString {
+    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
+    return uuid == nil ? NO : YES;
 }
 
 #pragma mark - NSCopying
