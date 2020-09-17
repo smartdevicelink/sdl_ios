@@ -743,7 +743,6 @@
 		4ABB269324F7F9060061BF55 /* SDLTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB269124F7F9060061BF55 /* SDLTimer.h */; };
 		4ABB269624F7F9400061BF55 /* SDLRPCFunctionNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB269424F7F93F0061BF55 /* SDLRPCFunctionNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ABB269724F7F9400061BF55 /* SDLRPCFunctionNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB269524F7F93F0061BF55 /* SDLRPCFunctionNames.m */; };
-		4ABB269924F7F9560061BF55 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB269824F7F9560061BF55 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ABB269C24F7F9710061BF55 /* SDLRPCParameterNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB269A24F7F9710061BF55 /* SDLRPCParameterNames.h */; };
 		4ABB269D24F7F9710061BF55 /* SDLRPCParameterNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB269B24F7F9710061BF55 /* SDLRPCParameterNames.m */; };
 		4ABB26A024F7F98C0061BF55 /* SDLLogFileModuleMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB269E24F7F98C0061BF55 /* SDLLogFileModuleMap.h */; };
@@ -2526,7 +2525,6 @@
 		4ABB269124F7F9060061BF55 /* SDLTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLTimer.h; path = private/SDLTimer.h; sourceTree = "<group>"; };
 		4ABB269424F7F93F0061BF55 /* SDLRPCFunctionNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLRPCFunctionNames.h; path = public/SDLRPCFunctionNames.h; sourceTree = "<group>"; };
 		4ABB269524F7F93F0061BF55 /* SDLRPCFunctionNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRPCFunctionNames.m; path = public/SDLRPCFunctionNames.m; sourceTree = "<group>"; };
-		4ABB269824F7F9560061BF55 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMacros.h; path = public/SDLMacros.h; sourceTree = "<group>"; };
 		4ABB269A24F7F9710061BF55 /* SDLRPCParameterNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLRPCParameterNames.h; path = private/SDLRPCParameterNames.h; sourceTree = "<group>"; };
 		4ABB269B24F7F9710061BF55 /* SDLRPCParameterNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRPCParameterNames.m; path = private/SDLRPCParameterNames.m; sourceTree = "<group>"; };
 		4ABB269E24F7F98C0061BF55 /* SDLLogFileModuleMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLLogFileModuleMap.h; path = private/SDLLogFileModuleMap.h; sourceTree = "<group>"; };
@@ -5415,7 +5413,6 @@
 				4ABB268924F7F8F00061BF55 /* SDLGlobals.m */,
 				4ABB268D24F7F8FB0061BF55 /* SDLHexUtility.h */,
 				4ABB268C24F7F8FB0061BF55 /* SDLHexUtility.m */,
-				4ABB269824F7F9560061BF55 /* SDLMacros.h */,
 				4ABB269424F7F93F0061BF55 /* SDLRPCFunctionNames.h */,
 				4ABB269524F7F93F0061BF55 /* SDLRPCFunctionNames.m */,
 				4ABB269A24F7F9710061BF55 /* SDLRPCParameterNames.h */,
@@ -6935,7 +6932,6 @@
 				4A8BD28424F9343F000945E3 /* SDLRDSData.h in Headers */,
 				4ABB25BA24F7E70E0061BF55 /* SDLSoftButtonState.h in Headers */,
 				4ABB295224F843440061BF55 /* SDLGetAppServiceData.h in Headers */,
-				4ABB269924F7F9560061BF55 /* SDLMacros.h in Headers */,
 				4ABB273A24F7FD1D0061BF55 /* SDLDirection.h in Headers */,
 				4ABB25A224F7E6CE0061BF55 /* SDLDynamicMenuUpdateRunScore.h in Headers */,
 				4A8BD3B024F98ACE000945E3 /* SDLLogManager.h in Headers */,

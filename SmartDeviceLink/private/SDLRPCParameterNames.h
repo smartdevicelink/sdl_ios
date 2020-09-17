@@ -32,7 +32,6 @@
 //  SDLRPCParameterNames.h
 
 #import <Foundation/Foundation.h>
-#import "SDLMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
