@@ -21,7 +21,7 @@ class EnumsProducer(InterfaceProducerCommon):
         self._container_name = 'elements'
         self.enum_class = enum_class
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.param_named = namedtuple('param_named', 'origin description name since deprecated')
+        self.param_named = namedtuple('param_named', 'origin description name since deprecated history')
         self._item_name = None
 
     @property
@@ -45,6 +45,7 @@ class EnumsProducer(InterfaceProducerCommon):
             render['origin'] = item.name
             render['name'] = name
             render['imports'] = imports
+            render['history'] = item.history
         super(EnumsProducer, self).transform(item, render)
         return render
 
@@ -58,6 +59,7 @@ class EnumsProducer(InterfaceProducerCommon):
         data = {'origin': param.name,
                 'description': self.extract_description(param.description),
                 'since': param.since,
+                'history': param.history,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False}
         name = None
         if re.match(r'^[A-Z]{1,2}\d|\d[A-Z]{1,2}$', param.name):

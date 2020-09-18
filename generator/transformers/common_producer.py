@@ -30,7 +30,7 @@ class InterfaceProducerCommon(ABC):
         self.key_words = key_words
         self.param_named = namedtuple('param_named',
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
-                                      'method_suffix of_class type_native type_sdl modifier for_name description '
+                                      'method_suffix of_class type_native type_sdl modifier for_name description history '
                                       'constructor_argument_override')
         self.constructor_named = namedtuple('constructor', 'init self arguments all')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
@@ -336,7 +336,8 @@ class InterfaceProducerCommon(ABC):
                 'since': param.since,
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
-                'modifier': 'strong'}
+                'modifier': 'strong',
+                'history' : param.history }
         if isinstance(param.param_type, (Integer, Float, String, Array)):
             data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
 

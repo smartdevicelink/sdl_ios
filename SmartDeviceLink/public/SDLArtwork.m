@@ -155,6 +155,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - NSObject overrides
 
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLArtworkImageFormat imageFormat = self.fileType == SDLFileTypePNG ? SDLArtworkImageFormatPNG : SDLArtworkImageFormatJPG;
+
+    return [[SDLArtwork allocWithZone:zone] initWithImage:[self.image copy] name:[self.name copy] persistent:self.isPersistent asImageFormat:imageFormat];
+}
+
 - (NSUInteger)hash {
     return self.name.hash ^ self.data.hash;
 }

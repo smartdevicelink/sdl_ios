@@ -39,6 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An SDLSetDisplayLayout object
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout dayColorScheme:(SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(SDLTemplateColorScheme *)nightColorScheme;
 
+/// Convenience init to set a display layout
+/// @param displayLayout A display layout name
+/// @param dayColorScheme The color scheme to be used on a head unit using a "light" or "day" color scheme
+/// @param nightColorScheme The color scheme to be used on a head unit using a "dark" or "night" color scheme
+/// @return An SDLSetDisplayLayout object
+- (instancetype)initWithLayout:(NSString *)displayLayout dayColorScheme:(SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(SDLTemplateColorScheme *)nightColorScheme;
+
 /**
  * A display layout. Predefined or dynamically created screen layout.
  * Currently only predefined screen layouts are defined. Predefined layouts

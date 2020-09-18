@@ -35,7 +35,23 @@ NS_ASSUME_NONNULL_BEGIN
  @param menuLayout The layout of the top-level main menu
  @return The SetGlobalProperties RPC
  */
-- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties menuLayout:(nullable SDLMenuLayout)menuLayout;
+- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties menuLayout:(nullable SDLMenuLayout)menuLayout __deprecated_msg("Use initWithUserLocation:helpPrompt:timeoutPrompt:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout: instead");
+
+/**
+* Convenience init for setting all possible global properties
+*
+* @param userLocation - userLocation
+* @param helpPrompt - helpPrompt
+* @param timeoutPrompt - timeoutPrompt
+* @param vrHelpTitle - vrHelpTitle
+* @param vrHelp - vrHelp
+* @param menuTitle - menuTitle
+* @param menuIcon - menuIcon
+* @param keyboardProperties - keyboardProperties
+* @param menuLayout - menuLayout
+* @return A SDLSetGlobalProperties object
+*/
+- (instancetype)initWithUserLocation:(nullable SDLSeatLocation *)userLocation helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties menuLayout:(nullable SDLMenuLayout)menuLayout;
 
 /**
  Help prompt for when the user asks for help with an interface prompt
