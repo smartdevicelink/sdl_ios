@@ -86,7 +86,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should init correctly with initWithUserLocation:helpPrompt:timeoutPrompt:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:", ^ {
-        SDLSetGlobalProperties *testRequest = [[SDLSetGlobalProperties alloc] initWithUserLocation:seatLocation helpPrompt:[SDLTTSChunk textChunksFromString:helpTest] timeoutPrompt:[SDLTTSChunk textChunksFromString:timeoutTest] vrHelpTitle:vrHelpTitle vrHelp:@[help] menuTitle:menuTitle menuIcon:image keyboardProperties:keyboard menuLayout:nil];
+        SDLSetGlobalProperties *testRequest = [[SDLSetGlobalProperties alloc] initWithUserLocation:seatLocation helpPrompt:[SDLTTSChunk textChunksFromString:helpTest] timeoutPrompt:[SDLTTSChunk textChunksFromString:timeoutTest] vrHelpTitle:vrHelpTitle vrHelp:@[help] menuTitle:menuTitle menuIcon:image keyboardProperties:keyboard menuLayout:menuLayout];
 
         expect(testRequest.helpPrompt).to(equal([SDLTTSChunk textChunksFromString:helpTest]));
         expect(testRequest.timeoutPrompt).to(equal([SDLTTSChunk textChunksFromString:timeoutTest]));
@@ -96,13 +96,13 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.menuIcon).to(equal(image));
         expect(testRequest.keyboardProperties).to(equal(keyboard));
         expect(testRequest.userLocation).to(equal(seatLocation));
-        expect(testRequest.menuLayout).to(beNil());
+        expect(testRequest.menuLayout).to(equal(menuLayout));
     });
 
     it(@"Should init correctly with initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLSetGlobalProperties *testRequest = [[SDLSetGlobalProperties alloc] initWithHelpText:helpTest timeoutText:timeoutTest vrHelpTitle:vrHelpTitle vrHelp:@[help] menuTitle:menuTitle menuIcon:image keyboardProperties:keyboard menuLayout:nil];
+        SDLSetGlobalProperties *testRequest = [[SDLSetGlobalProperties alloc] initWithHelpText:helpTest timeoutText:timeoutTest vrHelpTitle:vrHelpTitle vrHelp:@[help] menuTitle:menuTitle menuIcon:image keyboardProperties:keyboard menuLayout:menuLayout];
 #pragma clang diagnostic pop
 
         expect(testRequest.helpPrompt).to(equal([SDLTTSChunk textChunksFromString:helpTest]));
@@ -113,7 +113,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.menuIcon).to(equal(image));
         expect(testRequest.keyboardProperties).to(equal(keyboard));
         expect(testRequest.userLocation).to(beNil());
-        expect(testRequest.menuLayout).to(beNil());
+        expect(testRequest.menuLayout).to(equal(menuLayout));
     });
     
     it(@"Should return nil if not set", ^ {
