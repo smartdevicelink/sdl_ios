@@ -50,7 +50,7 @@ typedef NS_OPTIONS(NSUInteger, SDLSecondaryTransports) {
  *  A debug configuration that runs using TCP. Additional functionality should be customized on the properties.
  *
  *  @param appName      The name of the app.
- *  @param fullAppId    The full app id to be used. This should be registered with the head unit's manufacturer. When set, the `appId` parameter will be set automatically to the first 10 non-dash characters of the `fullAppId` if the `fullAppId` is a valid UUID string.
+ *  @param fullAppId    The full app id to be used. This should be registered with the head unit's manufacturer. When set, the `appId` parameter will be set automatically to the first 10 non-dash characters of the `fullAppId` if the `fullAppId` is a valid UUID string. Otherwise, the `appId` parameter will be set to the same string as the `fullAppId` parameter. If you want to set the `appId` parameter separately, set the `fullAppId` here, then set the `appId` parameter separately.
  *  @param ipAddress    The ip address of the server to connect to
  *  @param port         The port of the server to connect to
  *
@@ -92,7 +92,7 @@ typedef NS_OPTIONS(NSUInteger, SDLSecondaryTransports) {
  *
  *  Optional
  *
- *  @discussion  The `fullAppId` is used to authenticate apps that connect with modules that support RPC spec v.5.0 and newer. If connecting with older modules, the `fullAppId` can be truncated to create the required `appId` needed to register the app on older modules. The `appId` is the first 10 non-dash ("-") characters of the `fullAppId` (e.g. if you have a `fullAppId` of 123e4567-e89b-12d3-a456-426655440000, the `appId` will be 123e4567e8).
+ *  @discussion  The `fullAppId` is used to authenticate apps that connect with modules that support RPC spec v.5.0 and newer. If connecting with older modules, the `fullAppId` may be truncated to create the required `appId` needed to register the app on older modules. The `appId` is the first 10 non-dash ("-") characters of the `fullAppId` (e.g. if you have a `fullAppId` of 123e4567-e89b-12d3-a456-426655440000, the `appId` will be 123e4567e8).
  */
 @property (copy, nonatomic, nullable, readonly) NSString *fullAppId;
 
