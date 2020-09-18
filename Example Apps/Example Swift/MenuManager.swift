@@ -90,15 +90,9 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLMenuCell {
-        if #available(iOS 10.0, *) {
-            let audioManager = AudioManager(sdlManager: manager)
-            return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: MicrophoneBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
-                audioManager.startRecording()
-            })
-        }
-
-        return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
-            AlertManager.sendAlert(textField1: "Speech recognition feature only available on iOS 10+", sdlManager: manager)
+        let audioManager = AudioManager(sdlManager: manager)
+        return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: MicrophoneBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
+            audioManager.startRecording()
         })
     }
 

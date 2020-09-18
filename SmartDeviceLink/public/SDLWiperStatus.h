@@ -7,7 +7,7 @@
 /**
  * The status of the windshield wipers. Used in retrieving vehicle data.
  */
-typedef SDLEnum SDLWiperStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLWiperStatus NS_TYPED_ENUM;
 
 /**
  * Wiper is off

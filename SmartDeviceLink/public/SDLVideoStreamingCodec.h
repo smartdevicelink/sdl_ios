@@ -8,7 +8,7 @@
 /**
  * Enum for each type of video streaming codec. Used in VideoStreamingFormat.
  */
-typedef SDLEnum SDLVideoStreamingCodec SDL_SWIFT_ENUM;
+typedef SDLEnum SDLVideoStreamingCodec NS_TYPED_ENUM;
 
 /**
  * H264

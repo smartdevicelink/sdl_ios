@@ -7,7 +7,7 @@
 /**
  SoftButtonType (TEXT / IMAGE / BOTH). Used by SoftButton.
  */
-typedef SDLEnum SDLSoftButtonType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLSoftButtonType NS_TYPED_ENUM;
 
 /**
  Text kind Softbutton

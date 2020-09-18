@@ -33,11 +33,6 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability *_Nullab
  */
 @property (assign, nonatomic) SEL selector;
 
-/**
- A block called when the observer is triggered
- */
-@property (copy, nonatomic) SDLCapabilityUpdateHandler block __deprecated_msg("use updateBlock instead");
-
 /// A block called when the observer is triggered
 @property (copy, nonatomic) SDLCapabilityUpdateWithErrorHandler updateBlock;
 
@@ -49,15 +44,6 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability *_Nullab
  @return The observer
  */
 - (instancetype)initWithObserver:(id<NSObject>)observer selector:(SEL)selector;
-
-/**
- Create an observer using an object and a callback block
-
- @param observer The object that can be used to unsubscribe the block
- @param block The block that will be called when the subscription triggers
- @return The observer
- */
-- (instancetype)initWithObserver:(id<NSObject>)observer block:(SDLCapabilityUpdateHandler)block __deprecated_msg("use initWithObserver:updateHandler: instead");
 
 /// Create an observer using an object and a callback block
 

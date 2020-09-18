@@ -51,19 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param systemFile       Whether or not the file is meant to be passed through Core to elsewhere on the system
  *  @param offset           Offset in bytes for resuming partial data chunks
  *  @param length           Length in bytes for resuming partial data chunks
- *  @return                 A SDLPutFile object
- */
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length __deprecated_msg("Use initWithFileName:fileType:persistentFile:systemFile:offset:length:crc: instead");
-
-/**
- *  Convenience init for creating a putfile that is part of a multiple frame payload.
- *
- *  @param fileName         The file's name
- *  @param fileType         The file's format
- *  @param persistentFile   Whether or not the image should persist between ignition cycles
- *  @param systemFile       Whether or not the file is meant to be passed through Core to elsewhere on the system
- *  @param offset           Offset in bytes for resuming partial data chunks
- *  @param length           Length in bytes for resuming partial data chunks
  *  @param crc              Checksum of the bulk data. Used by Core to check data integrity
  *  @return                 A SDLPutFile object
  */
@@ -82,13 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return                 A SDLPutFile object
  */
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length bulkData:(NSData *)bulkData;
-
-/**
- *  File reference name
- *
- *  Required, max length 255 characters
- */
-@property (strong, nonatomic) NSString *syncFileName __deprecated_msg("use sdlFileName instead");
 
 /**
 *  File reference name

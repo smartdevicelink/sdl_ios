@@ -9,7 +9,7 @@
 
  @since SDL 1.0
  */
-typedef SDLEnum SDLInteractionMode SDL_SWIFT_ENUM;
+typedef SDLEnum SDLInteractionMode NS_TYPED_ENUM;
 
 /**
  Interaction Mode : Manual Only

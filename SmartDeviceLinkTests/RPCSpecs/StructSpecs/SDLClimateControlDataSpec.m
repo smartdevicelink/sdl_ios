@@ -63,28 +63,6 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized with FanSpeed and other climate control parameters", ^ {
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithFanSpeed:@43 desiredTemperature:desiredTemp acEnable:@YES circulateAirEnable:@YES autoModeEnable:@NO defrostZone:SDLDefrostZoneFront dualModeEnable:@NO acMaxEnable:@YES ventilationMode:SDLVentilationModeBoth];
-
-        expect(testStruct.fanSpeed).to(equal(@43));
-        expect(testStruct.desiredTemperature).to(equal(desiredTemp));
-        expect(testStruct.acEnable).to(equal(YES));
-        expect(testStruct.circulateAirEnable).to(equal(YES));
-        expect(testStruct.autoModeEnable).to(equal(NO));
-        expect(testStruct.defrostZone).to(equal(SDLDefrostZoneFront));
-        expect(testStruct.dualModeEnable).to(equal(NO));
-        expect(testStruct.acMaxEnable).to(equal(YES));
-        expect(testStruct.ventilationMode).to(equal(SDLVentilationModeBoth));
-        expect(testStruct.heatedSteeringWheelEnable).to(equal(NO));
-        expect(testStruct.heatedWindshieldEnable).to(equal(NO));
-        expect(testStruct.heatedRearWindowEnable).to(equal(NO));
-        expect(testStruct.heatedMirrorsEnable).to(equal(NO));
-        expect(testStruct.climateEnable).to(beNil());
-        #pragma clang diagnostic pop
-    });
-
-    it(@"Should get correctly when initialized with FanSpeed and other climate control parameters", ^ {
         SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithFanSpeed:@43 desiredTemperature:desiredTemp acEnable:@YES circulateAirEnable:@YES autoModeEnable:@NO defrostZone:SDLDefrostZoneFront dualModeEnable:@NO acMaxEnable:@YES ventilationMode:SDLVentilationModeBoth heatedSteeringWheelEnable:@NO heatedWindshieldEnable:@YES heatedRearWindowEnable:@NO heatedMirrorsEnable:@YES climateEnable:@YES];
 
         expect(testStruct.fanSpeed).to(equal(@43));
@@ -104,7 +82,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameFanSpeed : @43,
+        NSDictionary *dict = @{SDLRPCParameterNameFanSpeed : @43,
                                                        SDLRPCParameterNameCurrentTemperature : currentTemp,
                                                        SDLRPCParameterNameDesiredTemperature : desiredTemp,
                                                        SDLRPCParameterNameACEnable : @YES,
@@ -119,13 +97,9 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameHeatedRearWindowEnable:@NO,
                                                        SDLRPCParameterNameHeatedMirrorsEnable:@YES,
                                                        SDLRPCParameterNameClimateEnable:@YES,
-                                                       } mutableCopy];
+                                                       };
+        SDLClimateControlData *testStruct = [[SDLClimateControlData alloc] initWithDictionary:dict];
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
-        
         expect(testStruct.fanSpeed).to(equal(@43));
         expect(testStruct.currentTemperature).to(equal(currentTemp));
         expect(testStruct.desiredTemperature).to(equal(desiredTemp));

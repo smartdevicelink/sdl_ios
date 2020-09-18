@@ -11,7 +11,7 @@
 /**
  *  Enumeration for the user's preference of which app type to use when both are available.
  */
-typedef SDLEnum SDLHybridAppPreference SDL_SWIFT_ENUM;
+typedef SDLEnum SDLHybridAppPreference NS_TYPED_ENUM;
 
 /**
  *  App preference of mobile.

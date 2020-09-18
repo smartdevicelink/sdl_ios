@@ -8,7 +8,7 @@
  
  @since SDL 6.0
  */
-typedef SDLEnum SDLWindowType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLWindowType NS_TYPED_ENUM;
 
 /**
  This window type describes the main window on a display.

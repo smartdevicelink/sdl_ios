@@ -58,41 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithModuleType:(SDLModuleType)moduleType; {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    
-    self.moduleType = moduleType;
-    
-    return self;
-}
-
-- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.moduleType = moduleType;
-    self.subscribe = @(YES);
-
-    return self;
-}
-
-- (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.moduleType = moduleType;
-    self.subscribe = @(NO);
-
-    return self;
-}
-
 - (void)setModuleType:(SDLModuleType)moduleType {
     [self.parameters sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
 }

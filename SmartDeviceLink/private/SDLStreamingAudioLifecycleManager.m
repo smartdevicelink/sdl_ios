@@ -64,12 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
-        [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
-    }
-#pragma clang diagnostic pop
     for (Class securityManagerClass in configuration.encryptionConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }

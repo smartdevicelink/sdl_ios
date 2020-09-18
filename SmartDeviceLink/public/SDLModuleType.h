@@ -7,7 +7,7 @@
 /**
  * The type of remote control data. Used in ButtonPress, GetInteriorVehicleData, and ModuleData
  */
-typedef SDLEnum SDLModuleType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLModuleType NS_TYPED_ENUM;
 
 /**
  * A SDLModuleType with the value of *CLIMATE*

@@ -5,22 +5,19 @@
 
 /**
  * List possible seats that is a remote controllable seat.
- *  @warning This should not be used to supported seats, this is a deprecated parameter.
+ *
+ * @deprecated
+ * @history SDL 5.0.0
+ * @since SDL 6.0.0
  */
-typedef SDLEnum SDLSupportedSeat SDL_SWIFT_ENUM __deprecated;
+typedef SDLEnum SDLSupportedSeat NS_TYPED_ENUM __deprecated;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 /**
 * Save current seat positions and settings to seat memory.
 */
-extern SDLSupportedSeat const SDLSupportedSeatDriver;
-#pragma clang diagnostic pop
+extern SDLSupportedSeat const SDLSupportedSeatDriver __deprecated;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 /**
 * Restore / apply the seat memory settings to the current seat.
 */
-extern SDLSupportedSeat const SDLSupportedSeatFrontPassenger;
-#pragma clang diagnostic pop
+extern SDLSupportedSeat const SDLSupportedSeatFrontPassenger __deprecated;

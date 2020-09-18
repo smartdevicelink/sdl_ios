@@ -40,14 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    NSOperatingSystemVersion osVersion = [NSProcessInfo processInfo].operatingSystemVersion;
-
-    if (osVersion.majorVersion >= 10) {
-        _targets = [NSSet setWithArray:@[[SDLLogTargetOSLog logger]]];
-    } else {
-        _targets = [NSSet setWithArray:@[[SDLLogTargetAppleSystemLog logger]]];
-    }
-
+    _targets = [NSSet setWithArray:@[[SDLLogTargetOSLog logger]]];
     _modules = [SDLLogFileModuleMap sdlModuleMap];
 
     return self;

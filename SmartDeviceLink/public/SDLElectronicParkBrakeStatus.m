@@ -8,7 +8,7 @@
 
 #import "SDLElectronicParkBrakeStatus.h"
 
-typedef SDLEnum SDLElectronicParkBrakeStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLElectronicParkBrakeStatus NS_TYPED_ENUM;
 
 
 SDLElectronicParkBrakeStatus const SDLElectronicParkBrakeStatusClosed = @"CLOSED";

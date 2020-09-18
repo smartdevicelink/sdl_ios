@@ -70,25 +70,6 @@ typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
  Create a menu cell that has subcells and when selected will go into a deeper part of the menu
 
  @param title The cell's primary text
- @param subCells The subcells that will appear when the cell is selected
- @return The menu cell
- */
-- (instancetype)initWithTitle:(NSString *)title subCells:(NSArray<SDLMenuCell *> *)subCells __deprecated_msg(("Use initWithTitle:icon:subcells: instead"));
-
-/**
- Create a menu cell that has subcells and when selected will go into a deeper part of the menu
-
- @param title The cell's primary text
- @param icon The cell's image
- @param subCells The subcells that will appear when the cell is selected
- @return The menu cell
- */
-- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon subCells:(NSArray<SDLMenuCell *> *)subCells __deprecated_msg("Use initWithTitle:icon:layout:subcells: instead");
-
-/**
- Create a menu cell that has subcells and when selected will go into a deeper part of the menu
-
- @param title The cell's primary text
  @param icon The cell's image
  @param layout The layout that the subCells will be layed out in if that submenu is entered
  @param subCells The subcells that will appear when the cell is selected

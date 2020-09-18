@@ -7,7 +7,7 @@
 /**
  The ventilation mode. Used in ClimateControlCapabilities
  */
-typedef SDLEnum SDLVentilationMode SDL_SWIFT_ENUM;
+typedef SDLEnum SDLVentilationMode NS_TYPED_ENUM;
 
 /**
  The upper ventilation mode

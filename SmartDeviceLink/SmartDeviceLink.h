@@ -165,7 +165,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnInteriorVehicleData.h"
 #import "SDLOnKeyboardInput.h"
 #import "SDLOnLanguageChange.h"
-#import "SDLOnLockScreenStatus.h"
 #import "SDLOnPermissionsChange.h"
 #import "SDLOnRCStatus.h"
 #import "SDLOnSubtleAlertPressed.h"
@@ -266,7 +265,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLStabilityControlsStatus.h"
 #import "SDLStartTime.h"
 #import "SDLStationIDNumber.h"
-#import "SDLSyncMsgVersion.h"
 #import "SDLMsgVersion.h"
 #import "SDLSystemCapability.h"
 #import "SDLTTSChunk.h"
@@ -339,7 +337,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLKeypressMode.h"
 #import "SDLLanguage.h"
 #import "SDLLayoutMode.h"
-#import "SDLLockScreenStatus.h"
 #import "SDLLightName.h"
 #import "SDLLightStatus.h"
 #import "SDLMaintenanceModeStatus.h"
@@ -495,6 +492,3 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLogTargetAppleSystemLog.h"
 #import "SDLLogTargetFile.h"
 #import "SDLLogTargetOSLog.h"
-
-#pragma mark Macros
-#import "SDLMacros.h"

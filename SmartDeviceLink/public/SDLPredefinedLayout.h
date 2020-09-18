@@ -7,7 +7,7 @@
 /**
  A template layout an app uses to display information. The broad details of the layout are defined, but the details depend on the IVI system. Used in SetDisplayLayout.
  */
-typedef SDLEnum SDLPredefinedLayout SDL_SWIFT_ENUM;
+typedef SDLEnum SDLPredefinedLayout NS_TYPED_ENUM;
 
 /**
  A default layout

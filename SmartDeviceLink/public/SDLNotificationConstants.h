@@ -18,15 +18,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Resolves issue of using Swift 3 and pre-iOS 10 versions due to NSNotificationName unavailability.
-#if __IPHONE_OS_VERSION_MAX_ALLOWED <= __IPHONE_9_3
-#define NOTIFICATION_TYPEDEF NSString *
-#else
-#define NOTIFICATION_TYPEDEF NSNotificationName
-#endif
-
 /// NSNotification names specific to incoming SDL RPC
-typedef NOTIFICATION_TYPEDEF SDLNotificationName;
+typedef NSNotificationName SDLNotificationName;
 
 /// The key used in all SDL NSNotifications to extract the response or notification from the userInfo dictionary.
 typedef NSString *SDLNotificationUserInfoKey;
@@ -138,9 +131,6 @@ extern SDLNotificationName const SDLDidBecomeReady;
 
 /// Name for a notification sent by the user when their CarWindow view has been updated
 extern SDLNotificationName const SDLDidUpdateProjectionView;
-
-/// Name for a LockScreenStatus notification RPC
-extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification __deprecated_msg("This will be replaced in a future version where a fake RPC is not sent");
 
 /**
  *  NSNotification names associated with specific RPC responses.

@@ -89,21 +89,6 @@ describe(@"Initialization tests", ^{
         expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
         expect(testStruct.scale).to(equal(testScale));
     });
-
-    it(@"Should initialize correctly with deprecated initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported", ^ {
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution maxBitrate:testMaxBitrate supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported];
-        #pragma clang diagnostic pop
-
-        expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
-        expect(testStruct.maxBitrate).to(equal(testMaxBitrate));
-        expect(testStruct.supportedFormats).to(equal(testVideoStreamingFormats));
-        expect(testStruct.hapticSpatialDataSupported).to(equal(testHapticDataSupported));
-        expect(testStruct.diagonalScreenSize).to(beNil());
-        expect(testStruct.pixelPerInch).to(beNil());
-        expect(testStruct.scale).to(beNil());
-    });
 });
 
 QuickSpecEnd

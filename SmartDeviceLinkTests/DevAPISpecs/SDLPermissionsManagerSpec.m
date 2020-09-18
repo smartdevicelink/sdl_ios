@@ -17,7 +17,7 @@
 
 @interface SDLPermissionManager ()
 
-@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+@property (strong, nonatomic) NSMutableDictionary<SDLRPCFunctionName, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (assign, nonatomic) BOOL requiresEncryption;
@@ -64,6 +64,7 @@ describe(@"SDLPermissionsManager", ^{
 
     __block SDLPermissionElement *testPermissionElementAllAllowed = nil;
     __block SDLPermissionElement *testPermissionElementFullLimitedAllowed = nil;
+    __block SDLPermissionElement *testPermissionElementFullLimitedBackgroundAllowed = nil;
     __block SDLPermissionElement *testPermissionElementDisallowed = nil;
 
     beforeEach(^{
@@ -152,6 +153,7 @@ describe(@"SDLPermissionsManager", ^{
         // Permission Elements
         testPermissionElementAllAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllAllowed parameterPermissions:@[testRPCParameterNameAllAllowed]];
         testPermissionElementFullLimitedAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameFullLimitedAllowed parameterPermissions:@[testRPCParameterNameFullLimitedAllowed]];
+        testPermissionElementFullLimitedBackgroundAllowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameFullLimitedBackgroundAllowed parameterPermissions: nil];
         testPermissionElementDisallowed = [[SDLPermissionElement alloc] initWithRPCName:testRPCNameAllDisallowed parameterPermissions:@[testRPCParameterNameAllDisallowed]];
     });
 
@@ -170,118 +172,47 @@ describe(@"SDLPermissionsManager", ^{
         __block BOOL testResultBOOL = NO;
 
         context(@"when no permissions exist", ^{
-            context(@"deprecated isRPCAllowed: method", ^{
-                beforeEach(^{
-                    someRPCName = @"some rpc name";
+            it(@"should not be allowed", ^{
+                someRPCFunctionName = @"SomeRPCFunctionName";
+                testResultBOOL = [testPermissionsManager isRPCNameAllowed:someRPCName];
 
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultBOOL = [testPermissionsManager isRPCAllowed:someRPCName];
-                    #pragma clang diagnostic pop
-                });
-
-                it(@"should not be allowed", ^{
-                    expect(testResultBOOL).to(beFalse());
-                });
-            });
-
-            context(@"isRPCNameAllowed: method", ^{
-                beforeEach(^{
-                    someRPCFunctionName = @"SomeRPCFunctionName";
-                    testResultBOOL = [testPermissionsManager isRPCNameAllowed:someRPCName];
-                });
-
-                it(@"should not be allowed", ^{
-                    expect(testResultBOOL).to(beFalse());
-                });
+                expect(testResultBOOL).to(beFalse());
             });
         });
 
         context(@"when permissions exist but no HMI level", ^{
-            context(@"deprecated isRPCAllowed: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
-                    #pragma clang diagnostic pop
-                });
+            it(@"should not be allowed", ^{
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                testResultBOOL = [testPermissionsManager isRPCNameAllowed:someRPCName];
 
-                it(@"should not be allowed", ^{
-                    expect(testResultBOOL).to(beFalse());
-                });
-            });
-
-            context(@"isRPCNameAllowed: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    testResultBOOL = [testPermissionsManager isRPCNameAllowed:someRPCName];
-                });
-
-                it(@"should not be allowed", ^{
-                    expect(testResultBOOL).to(beFalse());
-                });
+                expect(testResultBOOL).to(beFalse());
             });
         });
 
         context(@"when permissions exist", ^{
-            context(@"deprecated isRPCAllowed: method", ^{
-                context(@"and the permission is allowed", ^{
-                    beforeEach(^{
-                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
-                        #pragma clang diagnostic pop
-                    });
+            context(@"and the permission is allowed", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    it(@"should be allowed", ^{
-                        expect(testResultBOOL).to(beTrue());
-                    });
+                    testResultBOOL = [testPermissionsManager isRPCNameAllowed:testRPCNameAllAllowed];
                 });
 
-                context(@"and the permission is denied", ^{
-                    beforeEach(^{
-                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllDisallowed];
-                        #pragma clang diagnostic pop
-                    });
-
-                    it(@"should be denied", ^{
-                        expect(testResultBOOL).to(beFalse());
-                    });
+                it(@"should be allowed", ^{
+                    expect(testResultBOOL).to(beTrue());
                 });
             });
 
-            context(@"isRPCNameAllowed: method", ^{
-                context(@"and the permission is allowed", ^{
-                    beforeEach(^{
-                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+            context(@"and the permission is denied", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                        testResultBOOL = [testPermissionsManager isRPCNameAllowed:testRPCNameAllAllowed];
-                    });
-
-                    it(@"should be allowed", ^{
-                        expect(testResultBOOL).to(beTrue());
-                    });
+                    testResultBOOL = [testPermissionsManager isRPCNameAllowed:testRPCNameAllDisallowed];
                 });
 
-                context(@"and the permission is denied", ^{
-                    beforeEach(^{
-                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-
-                        testResultBOOL = [testPermissionsManager isRPCNameAllowed:testRPCNameAllDisallowed];
-                    });
-
-                    it(@"should be denied", ^{
-                        expect(testResultBOOL).to(beFalse());
-                    });
+                it(@"should be denied", ^{
+                    expect(testResultBOOL).to(beFalse());
                 });
             });
         });
@@ -291,123 +222,48 @@ describe(@"SDLPermissionsManager", ^{
         __block SDLPermissionGroupStatus testResultStatus = SDLPermissionGroupStatusUnknown;
 
         context(@"with no permissions data", ^{
-            context(@"deprecated groupStatusOfRPCs: method", ^{
-                beforeEach(^{
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
-                #pragma clang diagnostic pop
-                });
+            it(@"should return unknown", ^{
+                testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed]];
 
-                it(@"should return unknown", ^{
-                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
-                });
-            });
-
-            context(@"groupStatusOfRPCPermissions: method", ^{
-                beforeEach(^{
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed]];
-                });
-
-                it(@"should return unknown", ^{
-                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
-                });
+                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
             });
         });
 
         context(@"for an all allowed group", ^{
-            context(@"deprecated groupStatusOfRPCs: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
-                    #pragma clang diagnostic pop
-                });
+            it(@"should return allowed", ^{
+                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                it(@"should return allowed", ^{
-                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
-                });
-            });
+                testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed]];
 
-            context(@"groupStatusOfRPCPermissions: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed]];
-                });
-
-                it(@"should return allowed", ^{
-                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
-                });
+                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
             });
         });
 
         context(@"for an all disallowed group", ^{
-            context(@"deprecated groupStatusOfRPCs: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
-                    #pragma clang diagnostic pop
-                });
+            it(@"should return disallowed", ^{
+                [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                it(@"should return disallowed", ^{
-                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                });
-            });
+                testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementFullLimitedAllowed, testPermissionElementDisallowed]];
 
-            context(@"groupStatusOfRPCPermissions: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementFullLimitedAllowed, testPermissionElementDisallowed]];
-                });
-
-                it(@"should return disallowed", ^{
-                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                });
+                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
             });
         });
 
         context(@"for a mixed group", ^{
-            context(@"deprecated groupStatusOfRPCs: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
-                    #pragma clang diagnostic pop
-                });
+            it(@"should return mixed", ^{
+                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                it(@"should return mixed", ^{
-                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
-                });
-            });
+                testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
 
-            context(@"groupStatusOfRPCPermissions: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-
-                    testResultStatus = [testPermissionsManager groupStatusOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
-                });
-
-                it(@"should return mixed", ^{
-                    expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
-                });
+                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
             });
         });
     });
 
     describe(@"checking the status of RPCs", ^{
-        __block NSDictionary<SDLPermissionRPCName, NSNumber *> *testResultPermissionStatusDict = nil;
         __block NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *testResultRPCPermissionStatusDict = nil;
         __block SDLRPCPermissionStatus *allowedResultStatus = nil;
         __block SDLRPCPermissionStatus *disallowedResultStatus = nil;
@@ -418,87 +274,49 @@ describe(@"SDLPermissionsManager", ^{
         __block SDLRPCPermissionStatus *testDisallowedStatus = nil;
 
         context(@"with no permissions data", ^{
-            context(@"deprecated statusOfRPCs: method", ^{
-                beforeEach(^{
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
-                    #pragma clang diagnostic pop
-                });
+            it(@"should return the correct permission statuses", ^{
+                testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
+                allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
+                disallowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementDisallowed.rpcName];
 
-                it(@"should return correct permission statuses", ^{
-                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@NO));
-                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
-                });
-            });
+                testAllowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllAllowed, nil];
+                testAllowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementAllAllowed.rpcName isRPCAllowed:YES rpcParameters:testAllowedDict];
+                testDisallowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllDisallowed, nil];
+                testDisallowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementDisallowed.rpcName isRPCAllowed:YES rpcParameters:testDisallowedDict];
 
-            context(@"statusesOfRPCPermissions: method", ^{
-                beforeEach(^{
-                    testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
-                    allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
-                    disallowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementDisallowed.rpcName];
+                expect(allowedResultStatus.rpcName).to(equal(testAllowedStatus.rpcName));
+                expect(allowedResultStatus.rpcParameters).to(equal(testAllowedStatus.rpcParameters));
+                expect(allowedResultStatus.rpcAllowed).to(equal(@NO));
 
-                    testAllowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllAllowed, nil];
-                    testAllowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementAllAllowed.rpcName isRPCAllowed:YES rpcParameters:testAllowedDict];
-                    testDisallowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllDisallowed, nil];
-                    testDisallowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementDisallowed.rpcName isRPCAllowed:YES rpcParameters:testDisallowedDict];
-                });
-
-                it(@"should return the correct permission statuses", ^{
-                    expect(allowedResultStatus.rpcName).to(equal(testAllowedStatus.rpcName));
-                    expect(allowedResultStatus.rpcParameters).to(equal(testAllowedStatus.rpcParameters));
-                    expect(allowedResultStatus.rpcAllowed).to(equal(@NO));
-
-                    expect(disallowedResultStatus.rpcName).to(equal(testDisallowedStatus.rpcName));
-                    expect(disallowedResultStatus.rpcParameters).to(equal(testDisallowedStatus.rpcParameters));
-                    expect(disallowedResultStatus.rpcAllowed).to(equal(@NO));
-                });
+                expect(disallowedResultStatus.rpcName).to(equal(testDisallowedStatus.rpcName));
+                expect(disallowedResultStatus.rpcParameters).to(equal(testDisallowedStatus.rpcParameters));
+                expect(disallowedResultStatus.rpcAllowed).to(equal(@NO));
             });
         });
 
         context(@"with permissions data", ^{
-            context(@"deprecated statusOfRPCs: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
-                    #pragma clang diagnostic pop
-                });
+            it(@"should return the correct permission statuses", ^{
+                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                it(@"should return correct permission statuses", ^{
-                    expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@YES));
-                    expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
-                });
-            });
+                testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
 
-            context(@"statusesOfRPCPermissions: method", ^{
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
+                disallowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementDisallowed.rpcName];
 
-                    testResultRPCPermissionStatusDict = [testPermissionsManager statusesOfRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed]];
+                testAllowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(1), testRPCParameterNameAllAllowed, nil];
+                testAllowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementAllAllowed.rpcName isRPCAllowed:YES rpcParameters:testAllowedDict];
 
-                    allowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementAllAllowed.rpcName];
-                    disallowedResultStatus = testResultRPCPermissionStatusDict[testPermissionElementDisallowed.rpcName];
+                testDisallowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllDisallowed, nil];
+                testDisallowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementDisallowed.rpcName isRPCAllowed:NO rpcParameters:testDisallowedDict];
 
-                    testAllowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(1), testRPCParameterNameAllAllowed, nil];
-                    testAllowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementAllAllowed.rpcName isRPCAllowed:YES rpcParameters:testAllowedDict];
+                expect(allowedResultStatus.rpcName).to(equal(testAllowedStatus.rpcName));
+                expect(allowedResultStatus.rpcParameters).to(equal(testAllowedStatus.rpcParameters));
+                expect(allowedResultStatus.rpcAllowed).to(equal(testAllowedStatus.rpcAllowed));
 
-                    testDisallowedDict = [[NSDictionary alloc] initWithObjectsAndKeys:@(0), testRPCParameterNameAllDisallowed, nil];
-                    testDisallowedStatus = [[SDLRPCPermissionStatus alloc] initWithRPCName:testPermissionElementDisallowed.rpcName isRPCAllowed:NO rpcParameters:testDisallowedDict];
-                });
-
-                it(@"should return the correct permission statuses", ^{
-                    expect(allowedResultStatus.rpcName).to(equal(testAllowedStatus.rpcName));
-                    expect(allowedResultStatus.rpcParameters).to(equal(testAllowedStatus.rpcParameters));
-                    expect(allowedResultStatus.rpcAllowed).to(equal(testAllowedStatus.rpcAllowed));
-
-                    expect(disallowedResultStatus.rpcName).to(equal(testDisallowedStatus.rpcName));
-                    expect(disallowedResultStatus.rpcParameters).to(equal(testDisallowedStatus.rpcParameters));
-                    expect(disallowedResultStatus.rpcAllowed).to(equal(testDisallowedStatus.rpcAllowed));
-                });
+                expect(disallowedResultStatus.rpcName).to(equal(testDisallowedStatus.rpcName));
+                expect(disallowedResultStatus.rpcParameters).to(equal(testDisallowedStatus.rpcParameters));
+                expect(disallowedResultStatus.rpcAllowed).to(equal(testDisallowedStatus.rpcAllowed));
             });
         });
     });
@@ -508,654 +326,402 @@ describe(@"SDLPermissionsManager", ^{
             context(@"when no data is present", ^{
                 __block BOOL testObserverCalled = NO;
                 __block SDLPermissionGroupStatus testObserverStatus = SDLPermissionGroupStatusUnknown;
-                __block NSDictionary<SDLPermissionRPCName,NSNumber *> *testObserverChangeDict = nil;
+                __block NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> *testObserverChangeDict = nil;
 
                 beforeEach(^{
                     testObserverCalled = NO;
                     testObserverStatus = SDLPermissionGroupStatusUnknown;
                     testObserverChangeDict = nil;
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
-                        testObserverChangeDict = change;
+
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+                        testObserverChangeDict = updatedPermissionStatuses;
                         testObserverStatus = status;
                         testObserverCalled = YES;
                     }];
-                    #pragma clang diagnostic pop
                 });
 
                 it(@"should return correct permission statuses", ^{
                     expect(@(testObserverCalled)).to(equal(@YES));
                     expect(@(testObserverStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
-                    expect(testObserverChangeDict[testRPCNameAllAllowed]).to(equal(@NO));
-                    expect(testObserverChangeDict[testRPCNameAllDisallowed]).to(equal(@NO));
+                    expect(testObserverChangeDict[testRPCNameAllAllowed].rpcAllowed).to(equal(@NO));
+                    expect(testObserverChangeDict[testRPCNameAllDisallowed].rpcAllowed).to(equal(@NO));
                 });
             });
 
             context(@"when data is already present", ^{
                 __block NSInteger numberOfTimesObserverCalled = 0;
-                __block NSDictionary<SDLPermissionRPCName,NSNumber *> *testObserverBlockChangedDict = nil;
+                __block NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> *testObserverBlockChangedDict = nil;
                 __block SDLPermissionGroupStatus testObserverReturnStatus = SDLPermissionGroupStatusUnknown;
+
+                beforeEach(^{
+                    numberOfTimesObserverCalled = 0;
+                    testObserverBlockChangedDict = nil;
+                    testObserverReturnStatus = SDLPermissionGroupStatusUnknown;
+                });
 
                 context(@"to match an ANY observer", ^{
                     beforeEach(^{
-                        // Reset vars
-                        numberOfTimesObserverCalled = 0;
-
                         // Post the notification before setting the observer to make sure data is already present
                         // HMI Full & Limited allowed
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                        // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                        // This should be called should be called immediately since the `groupType` is `any`
+                        [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
-                            testObserverBlockChangedDict = changedDict;
+                            testObserverBlockChangedDict = updatedPermissionStatuses;
                             testObserverReturnStatus = status;
                         }];
-                        #pragma clang diagnostic pop
                     });
 
                     it(@"should call the observer with proper status", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                        expect(testObserverBlockChangedDict[testRPCNameAllAllowed]).to(equal(@YES));
-                        expect(testObserverBlockChangedDict[testRPCNameAllDisallowed]).to(equal(@NO));
-                        expect(testObserverBlockChangedDict.allKeys).to(haveCount(@2));
-                        expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
+                        expect(numberOfTimesObserverCalled).to(equal(1));
+                        expect(testObserverBlockChangedDict[testRPCNameAllAllowed].rpcAllowed).to(beTrue());
+                        expect(testObserverBlockChangedDict[testRPCNameAllDisallowed].rpcAllowed).to(beFalse());
+                        expect(testObserverBlockChangedDict.allKeys).to(haveCount(2));
+                        expect(@(testObserverReturnStatus)).to(equal(SDLPermissionGroupStatusMixed));
                     });
                 });
 
-                context(@"to match an all allowed observer", ^{
+                context(@"to match an All Allowed observer", ^{
                     beforeEach(^{
-                        // Reset vars
-                        numberOfTimesObserverCalled = 0;
-
                         // Post the notification before setting the observer to make sure data is already present
                         // HMI Full & Limited allowed, hmi level LIMITED
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                        // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        // This should be called called immediately since data is already present and all rpcs are allowed
+                        [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
-                            testObserverBlockChangedDict = change;
+                            testObserverBlockChangedDict = updatedPermissionStatuses;
                             testObserverReturnStatus = status;
                         }];
-                        #pragma clang diagnostic pop
                     });
 
                     it(@"should call the observer with proper status", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                        expect(testObserverBlockChangedDict[testRPCNameAllAllowed]).to(equal(@YES));
-                        expect(testObserverBlockChangedDict[testRPCNameFullLimitedAllowed]).to(equal(@YES));
-                        expect(testObserverBlockChangedDict.allKeys).to(haveCount(@2));
-                        expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
+                        expect(numberOfTimesObserverCalled).to(equal(1));
+                        expect(testObserverBlockChangedDict[testRPCNameAllAllowed].rpcAllowed).to(beTrue());
+                        expect(testObserverBlockChangedDict[testRPCNameFullLimitedAllowed].rpcAllowed).to(beTrue());
+                        expect(testObserverBlockChangedDict.allKeys).to(haveCount(2));
+                        expect(@(testObserverReturnStatus)).to(equal(SDLPermissionGroupStatusAllowed));
                     });
                 });
 
-                context(@"that does not match an all allowed observer", ^{
+                context(@"that does not match an All Allowed observer", ^{
                     beforeEach(^{
-                        // Reset vars
-                        numberOfTimesObserverCalled = 0;
-
                         // Post the notification before setting the observer to make sure data is already present
                         // HMI Full & Limited allowed, hmi level NONE
                         [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                        // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        // This should not be called at all since not all rpcs are allowed
+                        [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementDisallowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
+                            testObserverBlockChangedDict = updatedPermissionStatuses;
                             testObserverReturnStatus = status;
                         }];
-                        #pragma clang diagnostic pop
                     });
 
-                    it(@"should call the observer with status Disallowed", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                        expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
+                    it(@"should not call the observer", ^{
+                        expect(numberOfTimesObserverCalled).to(equal(0));
+                        expect(testObserverBlockChangedDict).to(beNil());
+                        expect(@(testObserverReturnStatus)).to(equal(SDLPermissionGroupStatusUnknown));
                     });
                 });
             });
         });
 
-        describe(@"adding a new observer with subscribeToRPCPermissions:groupType:Handler", ^{
-            context(@"when no data is present", ^{
-                __block BOOL testObserverCalled = NO;
-
-                beforeEach(^{
-                    testObserverCalled = NO;
-                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
-                        testObserverCalled = YES;
-                    }];
-                });
-
-                it(@"should be called", ^{
-                    expect(testObserverCalled).to(beTrue());
-                });
-            });
-
-            context(@"when data is present", ^{
-                __block BOOL testObserverCalled = NO;
-
-                beforeEach(^{
-                    testObserverCalled = NO;
-
-                    // Post the notification before setting the observer to make sure data is already present
-                    // HMI Full & Limited allowed
-                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-
-                    // This should not be called even with data currently present, the handler will only be called when an permissions update occurs after the RPC is subscribed to
-                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
-                        testObserverCalled = YES;
-                    }];
-                });
-
-                it(@"should be called", ^{
-                    expect(@(testObserverCalled)).to(beTrue());
-                });
-            });
-        });
-
-        context(@"updating an observer with new permission data", ^{
+        context(@"getting new permission data", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-
-            __block SDLOnPermissionsChange *testPermissionChangeUpdate = nil;
-            __block SDLPermissionItem *testPermissionUpdated = nil;
-            __block NSMutableArray<NSDictionary<SDLPermissionRPCName,NSNumber*> *> *changeDicts = nil;
+            __block NSMutableArray<NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> *> *changeDicts = nil;
             __block NSMutableArray<NSNumber<SDLUInt> *> *testStatuses = nil;
 
-            context(@"to match an ANY observer", ^{
-                beforeEach(^{
-                    // Reset vars
-                    numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
+            beforeEach(^{
+                numberOfTimesObserverCalled = 0;
+                changeDicts = [NSMutableArray array];
+                testStatuses = [NSMutableArray array];
+            });
 
+            context(@"with an ANY group type observer", ^{
+                beforeEach(^{
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level LIMITED
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
                     // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
                         numberOfTimesObserverCalled++;
-                        [changeDicts addObject:changedDict];
+                        [changeDicts addObject:updatedPermissionStatuses];
                     }];
-                    #pragma clang diagnostic pop
+                });
 
+                it(@"should notify the observer when permissions have changed", ^{
                     // Create a permission update disallowing our current HMI level for the observed permission
-                    SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
                     SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
                     testHMIPermissionsUpdated.allowed = @[SDLHMILevelBackground, SDLHMILevelFull];
                     testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelLimited, SDLHMILevelNone];
 
-                    testPermissionUpdated = [[SDLPermissionItem alloc] init];
+                    SDLPermissionItem *testPermissionUpdated = [[SDLPermissionItem alloc] init];
                     testPermissionUpdated.rpcName = testRPCNameAllAllowed;
                     testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
-                    testPermissionUpdated.parameterPermissions = testParameterPermissions;
+                    testPermissionUpdated.parameterPermissions = [[SDLParameterPermissions alloc] init];
 
-                    testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                    SDLOnPermissionsChange *testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
                     testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
 
                     // Send the permission update
                     SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
                     [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
-                });
 
-                it(@"should call the observer twice", ^{
-                    expect(@(numberOfTimesObserverCalled)).to(equal(@2));
-                });
+                    expect(numberOfTimesObserverCalled).to(equal(2));
 
-                it(@"should have proper data in the first change dict", ^{
                     expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
                     expect(changeDicts[0].allKeys).to(contain(testRPCNameAllDisallowed));
+                    SDLRPCPermissionStatus *allAllowed1 = changeDicts[0][testRPCNameAllAllowed];
+                    expect(allAllowed1.rpcAllowed).to(beTrue());
+                    SDLRPCPermissionStatus *allDisallowed1 = changeDicts[0][testRPCNameAllDisallowed];
+                    expect(allDisallowed1.rpcAllowed).to(beFalse());
 
-                    NSNumber<SDLBool> *allAllowed = changeDicts[0][testRPCNameAllAllowed];
-                    expect(allAllowed).to(equal(@YES));
-
-                    NSNumber<SDLBool> *allDisallowed = changeDicts[0][testRPCNameAllDisallowed];
-                    expect(allDisallowed).to(equal(@NO));
-                });
-
-                it(@"should have the proper data in the second change dict", ^{
                     expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
                     expect(changeDicts[1].allKeys).to(contain(testRPCNameAllDisallowed));
-
-                    NSNumber<SDLBool> *allAllowed = changeDicts[1][testRPCNameAllAllowed];
-                    expect(allAllowed).to(equal(@NO));
-
-                    NSNumber<SDLBool> *allDisallowed = changeDicts[1][testRPCNameAllDisallowed];
-                    expect(allDisallowed).to(equal(@NO));
+                    SDLRPCPermissionStatus *allAllowed2 = changeDicts[1][testRPCNameAllAllowed];
+                    expect(allAllowed2.rpcAllowed).to(beFalse());
+                    SDLRPCPermissionStatus *allDisallowed2 = changeDicts[1][testRPCNameAllDisallowed];
+                    expect(allDisallowed2.rpcAllowed).to(beFalse());
                 });
 
-                describe(@"when the permission has not changed", ^{
-                    __block SDLOnPermissionsChange *testPermissionChangeUpdateNoChange = nil;
-                    __block SDLPermissionItem *testPermissionUpdatedNoChange = nil;
+                it(@"should not notify the observer if permissions have not changed", ^{
+                    SDLOnPermissionsChange *testNoPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                    testNoPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionElementAllAllowed];
 
-                    beforeEach(^{
-                        numberOfTimesObserverCalled = 0;
+                    // Send the permission update
+                    SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testNoPermissionChangeUpdate];
+                    [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
 
-                        // Create a permission update disallowing our current HMI level for the observed permission
-                        SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
-                        SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = @[SDLHMILevelBackground, SDLHMILevelFull];
-                        testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelLimited, SDLHMILevelNone];
+                    expect(numberOfTimesObserverCalled).to(equal(1));
 
-                        testPermissionUpdatedNoChange = [[SDLPermissionItem alloc] init];
-                        testPermissionUpdatedNoChange.rpcName = testRPCNameAllAllowed;
-                        testPermissionUpdatedNoChange.hmiPermissions = testHMIPermissionsUpdated;
-                        testPermissionUpdatedNoChange.parameterPermissions = testParameterPermissions;
-
-                        testPermissionChangeUpdateNoChange = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdateNoChange.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
-
-                        // Send the permission update
-                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
-                        [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
-                    });
-
-                    it(@"should not call the filter observer again", ^{
-                        expect(numberOfTimesObserverCalled).to(equal(0));
-                    });
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameAllDisallowed));
+                    SDLRPCPermissionStatus *allAllowed = changeDicts[0][testRPCNameAllAllowed];
+                    expect(allAllowed.rpcAllowed).to(beTrue());
+                    SDLRPCPermissionStatus *allDisallowed = changeDicts[0][testRPCNameAllDisallowed];
+                    expect(allDisallowed.rpcAllowed).to(beFalse());
                 });
             });
 
-            context(@"to match an all allowed observer", ^{
+            context(@"with an All Allowed group type observer", ^{
                 beforeEach(^{
-                    // Reset vars
-                    numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
-
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level BACKGROUND
                     [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                 });
 
-                context(@"so that it becomes All Allowed", ^{
-                    beforeEach(^{
-                        // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
-                            numberOfTimesObserverCalled++;
-                            [changeDicts addObject:change];
-                            [testStatuses addObject:@(status)];
-                        }];
-                        #pragma clang diagnostic pop
+                it(@"should notify the observer when permissions change from some-not-allowed to all-allowed", ^{
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+                        numberOfTimesObserverCalled++;
+                        [changeDicts addObject:updatedPermissionStatuses];
+                        [testStatuses addObject:@(status)];
+                    }];
 
-                        // Create a permission update allowing our current HMI level for the observed permission
-                        SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
-                        SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = @[SDLHMILevelLimited, SDLHMILevelNone, SDLHMILevelBackground, SDLHMILevelFull];
-                        testHMIPermissionsUpdated.userDisallowed = @[];
+                    SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
+                    testHMIPermissionsUpdated.allowed = @[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited];
+                    testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelNone];
 
-                        testPermissionUpdated = [[SDLPermissionItem alloc] init];
-                        testPermissionUpdated.rpcName = testRPCNameAllDisallowed;
-                        testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
-                        testPermissionUpdated.parameterPermissions = testParameterPermissions;
+                    SDLParameterPermissions *updatedParameterPermissions = [[SDLParameterPermissions alloc] init];
+                    updatedParameterPermissions.userDisallowed = @[];
+                    updatedParameterPermissions.allowed = @[testRPCNameFullLimitedAllowed];
 
-                        testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
+                    SDLPermissionItem *testPermissionUpdated = [[SDLPermissionItem alloc] init];
+                    testPermissionUpdated.rpcName = testRPCNameFullLimitedAllowed;
+                    testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
+                    testPermissionUpdated.parameterPermissions = updatedParameterPermissions;
 
-                        // Send the permission update
-                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
-                        [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
-                    });
+                    SDLOnPermissionsChange *testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                    testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
 
-                    it(@"should call the observer twice", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@2));
-                    });
+                    // Send the permission update
+                    SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
+                    [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
 
-                    it(@"should have proper data in the first change dict", ^{
-                        expect(changeDicts[0].allKeys).to(haveCount(@2));
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
-                    });
-
-                    it(@"should have the proper data in the second change dict", ^{
-                        expect(changeDicts[1].allKeys).to(haveCount(@2));
-                        expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusAllowed)));
-                    });
+                    expect(numberOfTimesObserverCalled).to(equal(1));
+                    expect(testStatuses[0]).to(equal(SDLPermissionGroupStatusAllowed));
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameFullLimitedAllowed));
+                    SDLRPCPermissionStatus *isAllowed = changeDicts[0][testRPCNameFullLimitedAllowed];
+                    expect(isAllowed.rpcAllowed).to(beTrue());
                 });
 
-                context(@"so that it goes from All Allowed to mixed", ^{
-                    beforeEach(^{
-                        // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
-                            numberOfTimesObserverCalled++;
-                            [changeDicts addObject:change];
-                            [testStatuses addObject:@(status)];
-                        }];
-                        #pragma clang diagnostic pop
+                it(@"should notify the observer when permissions change from all-allowed to some-not-allowed", ^{
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+                        numberOfTimesObserverCalled++;
+                        [changeDicts addObject:updatedPermissionStatuses];
+                        [testStatuses addObject:@(status)];
+                    }];
 
-                        // Create a permission update disallowing our current HMI level for the observed permission
-                        SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
-                        SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = @[];
-                        testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone];
+                    // Create a permission update disallowing our current HMI level for the observed permission
+                    SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
+                    SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
+                    testHMIPermissionsUpdated.allowed = @[];
+                    testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone];
 
-                        testPermissionUpdated = [[SDLPermissionItem alloc] init];
-                        testPermissionUpdated.rpcName = testRPCNameAllAllowed;
-                        testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
-                        testPermissionUpdated.parameterPermissions = testParameterPermissions;
+                    SDLPermissionItem *testPermissionUpdated = [[SDLPermissionItem alloc] init];
+                    testPermissionUpdated.rpcName = testRPCNameAllAllowed;
+                    testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
+                    testPermissionUpdated.parameterPermissions = testParameterPermissions;
 
-                        testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
+                    SDLOnPermissionsChange *testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                    testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
 
-                        // Send the permission update
-                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
-                        [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
-                    });
+                    // Send the permission update
+                    SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
+                    [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
 
-                    it(@"should call the observer twice", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@2));
-                    });
+                    expect(numberOfTimesObserverCalled).to(equal(2));
 
-                    it(@"should have proper data in the first change dict", ^{
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusAllowed)));
-                        expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
+                    expect(testStatuses[0]).to(equal(SDLPermissionGroupStatusAllowed));
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
+                    SDLRPCPermissionStatus *isAllowed1 = changeDicts[0][testRPCNameAllAllowed];
+                    expect(isAllowed1.rpcAllowed).to(beTrue());
 
-                        NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameAllAllowed];
-                        expect(isAllowed).to(equal(@YES));
-                    });
-
-                    it(@"should have the proper data in the second change dict", ^{
-                        expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                        expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
-
-                        NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameAllAllowed];
-                        expect(isAllowed).to(equal(@NO));
-                    });
-                });
-            });
-
-            context(@"to not match an all allowed observer", ^{
-                beforeEach(^{
-                    // Reset vars
-                    numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
-
-                    // Post the notification before setting the observer to make sure data is already present
-                    // HMI Full & Limited allowed, hmi level BACKGROUND
-                    [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    expect(testStatuses[1]).to(equal(SDLPermissionGroupStatusDisallowed));
+                    expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
+                    SDLRPCPermissionStatus *isAllowed2 = changeDicts[1][testRPCNameAllAllowed];
+                    expect(isAllowed2.rpcAllowed).to(beFalse());
                 });
 
-                context(@"from mixed to disallowed", ^{
-                    beforeEach(^{
-                        // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
-                            numberOfTimesObserverCalled++;
-                            [changeDicts addObject:change];
-                            [testStatuses addObject:@(status)];
-                        }];
-                        #pragma clang diagnostic pop
+                it(@"should not notify the observer when permissions change from all-not-allowed (mixed) to all-not-allowed (disallowed)", ^{
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+                        numberOfTimesObserverCalled++;
+                        [changeDicts addObject:updatedPermissionStatuses];
+                        [testStatuses addObject:@(status)];
+                    }];
 
-                        // Create a permission update disallowing our current HMI level for the observed permission
-                        SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
-                        SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = @[];
-                        testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone];
+                    // Create a permission update disallowing our current HMI level for the observed permission
+                    SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
+                    SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
+                    testHMIPermissionsUpdated.allowed = @[];
+                    testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone];
 
-                        testPermissionUpdated = [[SDLPermissionItem alloc] init];
-                        testPermissionUpdated.rpcName = testRPCNameAllAllowed;
-                        testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
-                        testPermissionUpdated.parameterPermissions = testParameterPermissions;
+                    SDLPermissionItem *testPermissionUpdated = [[SDLPermissionItem alloc] init];
+                    testPermissionUpdated.rpcName = testRPCNameAllAllowed;
+                    testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
+                    testPermissionUpdated.parameterPermissions = testParameterPermissions;
 
-                        testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
+                    SDLOnPermissionsChange *testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                    testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
 
-                        // Send the permission update
-                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
-                        [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
-                    });
+                    // Send the permission update
+                    SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
+                    [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
 
-                    it(@"should call the observer with a mixed status", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
-                    });
-                });
-
-                context(@"from disallowed to mixed", ^{
-                    beforeEach(^{
-                        // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
-                            numberOfTimesObserverCalled++;
-                            [changeDicts addObject:change];
-                            [testStatuses addObject:@(status)];
-                        }];
-                        #pragma clang diagnostic pop
-
-                        // Create a permission update disallowing our current HMI level for the observed permission
-                        SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
-                        SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = @[SDLHMILevelLimited, SDLHMILevelBackground];
-                        testHMIPermissionsUpdated.userDisallowed = @[SDLHMILevelFull, SDLHMILevelNone];
-
-                        testPermissionUpdated = [[SDLPermissionItem alloc] init];
-                        testPermissionUpdated.rpcName = testRPCNameAllAllowed;
-                        testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
-                        testPermissionUpdated.parameterPermissions = testParameterPermissions;
-
-                        testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
-
-                        // Send the permission update
-                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
-                        [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
-                    });
-
-                    it(@"should call the observer", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                    });
+                    expect(numberOfTimesObserverCalled).to(equal(0));
+                    expect(changeDicts).to(beEmpty());
+                    expect(testStatuses).to(beEmpty());
                 });
             });
         });
 
-        context(@"updating an observer with a new HMI level", ^{
+        context(@"getting a new HMI level", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSDictionary<SDLPermissionRPCName,NSNumber *> *> *changeDicts = nil;
+            __block NSMutableArray<NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> *> *changeDicts = nil;
             __block NSMutableArray<NSNumber<SDLUInt> *> *testStatuses = nil;
 
-            context(@"to match an ANY observer", ^{
-                beforeEach(^{
-                    // Reset vars
-                    numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
+            beforeEach(^{
+                numberOfTimesObserverCalled = 0;
+                changeDicts = [NSMutableArray array];
+                testStatuses = [NSMutableArray array];
+            });
 
+            context(@"with an ANY group type observer", ^{
+                beforeEach(^{
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level BACKGROUND
                     [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
 
-                    // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                    #pragma clang diagnostic push
-                    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
                         numberOfTimesObserverCalled++;
-                        [changeDicts addObject:changedDict];
+                        [changeDicts addObject:updatedPermissionStatuses];
                         [testStatuses addObject:@(status)];
                     }];
-                    #pragma clang diagnostic pop
 
                     // Upgrade the HMI level to LIMITED
                     [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                 });
 
-                it(@"should call the observer twice", ^{
+                it(@"should notify the observer when the hmi level changes to allow or disallow any of the RPCs", ^{
                     expect(@(numberOfTimesObserverCalled)).to(equal(@2));
-                });
 
-                it(@"should have proper data in the first change dict", ^{
-                    NSNumber<SDLBool> *allAllowed = changeDicts[0][testRPCNameAllAllowed];
-                    expect(allAllowed).to(equal(@YES));
-
-                    NSNumber<SDLBool> *fullLimitedAllowed = changeDicts[0][testRPCNameFullLimitedAllowed];
-                    expect(fullLimitedAllowed).to(equal(@NO));
-
+                    SDLRPCPermissionStatus *allAllowed1 = changeDicts[0][testRPCNameAllAllowed];
+                    expect(allAllowed1.rpcAllowed).to(beTrue());
+                    SDLRPCPermissionStatus *fullLimitedAllowed1 = changeDicts[0][testRPCNameFullLimitedAllowed];
+                    expect(fullLimitedAllowed1.rpcAllowed).to(beFalse());
                     expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
-                });
 
-                it(@"should have the proper data in the second change dict", ^{
-                    NSNumber<SDLBool> *allAllowed = changeDicts[1][testRPCNameAllAllowed];
-                    expect(allAllowed).to(equal(@YES));
-
-                    NSNumber<SDLBool> *fullLimitedAllowed = changeDicts[1][testRPCNameFullLimitedAllowed];
-                    expect(fullLimitedAllowed).to(equal(@YES));
-
+                    SDLRPCPermissionStatus *allAllowed2 = changeDicts[1][testRPCNameAllAllowed];
+                    expect(allAllowed2.rpcAllowed).to(beTrue());
+                    SDLRPCPermissionStatus *fullLimitedAllowed2 = changeDicts[1][testRPCNameFullLimitedAllowed];
+                    expect(fullLimitedAllowed2.rpcAllowed).to(beTrue());
                     expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusAllowed)));
                 });
             });
 
-            context(@"to match an all allowed observer", ^{
+            context(@"with an All Allowed group type observer", ^{
                 beforeEach(^{
-                    // Reset vars
-                    numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
-
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level BACKGROUND
                     [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                 });
 
-                context(@"so that it becomes All Allowed", ^{
-                    beforeEach(^{
-                        // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                            numberOfTimesObserverCalled++;
-                            [changeDicts addObject:changedDict];
-                            [testStatuses addObject:@(status)];
-                        }];
-                        #pragma clang diagnostic pop
+                it(@"should notify the observer when the hmi level changes the status from some-not-allowed to all-allowed", ^{
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+                        numberOfTimesObserverCalled++;
+                        [changeDicts addObject:updatedPermissionStatuses];
+                        [testStatuses addObject:@(status)];
+                    }];
 
-                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    });
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
 
-                    it(@"should call the observer", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@2));
-
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                        expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusAllowed)));
-                    });
+                    expect(numberOfTimesObserverCalled).to(equal(1));
+                    expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusAllowed)));
                 });
 
-                context(@"so that it goes from All Allowed to at least some disallowed", ^{
-                    beforeEach(^{
-                        // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                            numberOfTimesObserverCalled++;
-                            [changeDicts addObject:changedDict];
-                            [testStatuses addObject:@(status)];
-                        }];
-                        #pragma clang diagnostic pop
+                it(@"should notify the observer when the hmi level changes the status from all-allowed to some-not-allowed", ^{
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+                        numberOfTimesObserverCalled++;
+                        [changeDicts addObject:updatedPermissionStatuses];
+                        [testStatuses addObject:@(status)];
+                    }];
 
-                        [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
-                    });
+                    [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
 
-                    it(@"should call the observer twice", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@2));
-                    });
+                    expect(numberOfTimesObserverCalled).to(equal(2));
 
-                    it(@"should have proper data in the first change dict", ^{
-                        expect(changeDicts[0].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
+                    SDLRPCPermissionStatus *allAllowed1 = changeDicts[0][testRPCNameFullLimitedBackgroundAllowed];
+                    expect(allAllowed1.rpcAllowed).to(beTrue());
+                    expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusAllowed)));
 
-                        NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameFullLimitedBackgroundAllowed];
-                        expect(isAllowed).to(equal(@YES));
-
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusAllowed)));
-                    });
-
-                    it(@"should have the proper data in the second change dict", ^{
-                        expect(changeDicts[1].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
-
-                        NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameFullLimitedBackgroundAllowed];
-                        expect(isAllowed).to(equal(@NO));
-
-                        expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                    });
-                });
-            });
-
-            context(@"to not match an all allowed observer", ^{
-                beforeEach(^{
-                    // Reset vars
-                    numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
-
-                    // Post the notification before setting the observer to make sure data is already present
-                    // HMI Full & Limited allowed, hmi level BACKGROUND
-                    [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    expect(changeDicts[1].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
+                    SDLRPCPermissionStatus *allAllowed2 = changeDicts[1][testRPCNameFullLimitedBackgroundAllowed];
+                    expect(allAllowed2.rpcAllowed).to(beFalse());
+                    expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                 });
 
-                context(@"that goes from disallowed to mixed", ^{
-                    beforeEach(^{
-                        // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                            numberOfTimesObserverCalled++;
-                            [changeDicts addObject:changedDict];
-                            [testStatuses addObject:@(status)];
-                        }];
-                        #pragma clang diagnostic pop
+                it(@"should not notify the observer when the hmi level changes but the status has not changed from all-allowed to some-not-allowed or from some-not-allowed to all-allowed", ^{
+                    [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementFullLimitedBackgroundAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+                        numberOfTimesObserverCalled++;
+                        [changeDicts addObject:updatedPermissionStatuses];
+                        [testStatuses addObject:@(status)];
+                    }];
 
-                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                    });
+                    [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
 
-                    it(@"should call the observer", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                    });
-                });
-
-                context(@"that goes from mixed to disallowed", ^{
-                    beforeEach(^{
-                        // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        #pragma clang diagnostic push
-                        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                            numberOfTimesObserverCalled++;
-                            [changeDicts addObject:changedDict];
-                            [testStatuses addObject:@(status)];
-                        }];
-                        #pragma clang diagnostic pop
-
-                        [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
-                    });
-
-                    it(@"should call the observer", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
-                    });
+                    expect(numberOfTimesObserverCalled).to(equal(0));
+                    expect(changeDicts).to(beEmpty());
+                    expect(testStatuses).to(beEmpty());
                 });
             });
         });
@@ -1251,91 +817,77 @@ describe(@"SDLPermissionsManager", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
 
             beforeEach(^{
-                // Reset vars
-                numberOfTimesObserverCalled = 0;
-
-                // Add two observers
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                NSUUID *observerId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                // Add observer
+                SDLPermissionObserverIdentifier observerIdentifier = [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
-                #pragma clang diagnostic pop
 
-                // Remove one observer
-                [testPermissionsManager removeObserverForIdentifier:observerId];
+                // Remove the observer
+                [testPermissionsManager removeObserverForIdentifier:observerIdentifier];
 
                 // Post a notification
                 [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
             });
 
-            it(@"should only call the observer once", ^{
-                expect(@(numberOfTimesObserverCalled)).to(equal(@1));
+            it(@"should call the observer once (it should be called immediately after the subscription due to the `groupType` being set to `any`)", ^{
+                expect(numberOfTimesObserverCalled).to(equal(1));
             });
         });
 
         context(@"removing a single observer and leaving one remaining", ^{
-            __block NSUInteger numberOfTimesObserverCalled = 0;
+            __block NSInteger numberOfTimesObserver1Called = 0;
+            __block NSInteger numberOfTimesObserver2Called = 0;
 
             beforeEach(^{
-                // Reset vars
-                numberOfTimesObserverCalled = 0;
-
                 // Add two observers
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                NSUUID *testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                    numberOfTimesObserverCalled++;
+                SDLPermissionObserverIdentifier observerIdentifier1 = [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    numberOfTimesObserver1Called++;
                 }];
 
-                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                    numberOfTimesObserverCalled++;
+                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    numberOfTimesObserver2Called++;
                 }];
-                #pragma clang diagnostic pop
 
-                // Remove one observer
-                [testPermissionsManager removeObserverForIdentifier:testRemovedObserverId];
+                // Remove one of the observers
+                [testPermissionsManager removeObserverForIdentifier:observerIdentifier1];
 
                 // Post a notification
                 [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
             });
 
-            it(@"should call three observers", ^{
-                expect(@(numberOfTimesObserverCalled)).to(equal(@3));
+            it(@"should call the observers a total three times (the first two should be called immediately after the subscription due to the `groupType` being set to `any`)", ^{
+                expect(numberOfTimesObserver1Called).to(equal(1));
+                expect(numberOfTimesObserver2Called).to(equal(2));
             });
         });
 
         context(@"removing all observers", ^{
-            __block NSInteger numberOfTimesObserverCalled = 0;
+            __block NSInteger numberOfTimesObserver1Called = 0;
+            __block NSInteger numberOfTimesObserver2Called = 0;
 
             beforeEach(^{
-                // Reset vars
-                numberOfTimesObserverCalled = 0;
-
                 // Add two observers
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                    numberOfTimesObserverCalled++;
+                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    numberOfTimesObserver1Called++;
                 }];
 
-                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                    numberOfTimesObserverCalled++;
+                [testPermissionsManager subscribeToRPCPermissions:@[testPermissionElementAllAllowed, testPermissionElementFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    numberOfTimesObserver2Called++;
                 }];
-                #pragma clang diagnostic pop
 
                 // Remove all observers
                 [testPermissionsManager removeAllObservers];
 
-                // Add some permissions
+                // Post a notification
                 [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
             });
 
-            it(@"should not call the observer", ^{
-                expect(@(numberOfTimesObserverCalled)).to(equal(@2));
+            it(@"should call each observer once (it should be called immediately after the subscription due to the `groupType` being set to `any`)", ^{
+                expect(numberOfTimesObserver1Called).to(equal(1));
+                expect(numberOfTimesObserver2Called).to(equal(1));
             });
         });
     });

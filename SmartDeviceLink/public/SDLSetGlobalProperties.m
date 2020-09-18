@@ -26,18 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText {
-    return [self initWithUserLocation:nil helpPrompt:[SDLTTSChunk textChunksFromString:helpText] timeoutPrompt:[SDLTTSChunk textChunksFromString:timeoutText] vrHelpTitle:nil vrHelp:nil menuTitle:nil menuIcon:nil keyboardProperties:nil menuLayout:nil];
-}
-
-- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    return [self initWithUserLocation:nil helpPrompt:[SDLTTSChunk textChunksFromString:helpText] timeoutPrompt:[SDLTTSChunk textChunksFromString:timeoutText] vrHelpTitle:vrHelpTitle vrHelp:vrHelp menuTitle:nil menuIcon:nil keyboardProperties:nil menuLayout:nil];
-}
-
-- (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties {
-    return [self initWithUserLocation:nil helpPrompt:[SDLTTSChunk textChunksFromString:helpText] timeoutPrompt:[SDLTTSChunk textChunksFromString:timeoutText] vrHelpTitle:vrHelpTitle vrHelp:vrHelp menuTitle:menuTitle menuIcon:menuIcon keyboardProperties:keyboardProperties menuLayout:nil];
-}
-
 - (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties menuLayout:(nullable SDLMenuLayout)menuLayout {
     return [self initWithUserLocation:nil helpPrompt:[SDLTTSChunk textChunksFromString:helpText] timeoutPrompt:[SDLTTSChunk textChunksFromString:timeoutText] vrHelpTitle:vrHelpTitle vrHelp:vrHelp menuTitle:menuTitle menuIcon:menuIcon keyboardProperties:keyboardProperties menuLayout:menuLayout];
 }

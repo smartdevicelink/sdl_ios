@@ -64,15 +64,6 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Creates a new file manager with a specified connection manager
- *
- *  @param manager A connection manager to use to forward on RPCs
- *
- *  @return An instance of SDLFileManager
- */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager __deprecated_msg("Use initWithConnectionManager:configuration: instead");
-
-/**
  *  Creates a new file manager with a specified connection manager and configuration
  *
  *  @param manager          A connection manager to use to forward on RPCs

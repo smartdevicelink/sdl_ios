@@ -30,46 +30,23 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.moduleId).to(equal(@"123"));
         expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
         expect(testRequest.buttonPressMode).to(equal(SDLButtonPressModeShort));
-
     });
     
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
-                                                           @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNameModuleType : SDLModuleTypeClimate,
-                                                                   SDLRPCParameterNameButtonName : SDLButtonNameAC,
-                                                                   SDLRPCParameterNameButtonPressMode : SDLButtonPressModeShort,
-                                                                   SDLRPCParameterNameModuleId:@"123"
-                                                                   },
-                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameButtonPress}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLButtonPress* testRequest = [[SDLButtonPress alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                   @{SDLRPCParameterNameParameters:
+                                         @{SDLRPCParameterNameModuleType : SDLModuleTypeClimate,
+                                           SDLRPCParameterNameButtonName : SDLButtonNameAC,
+                                           SDLRPCParameterNameButtonPressMode : SDLButtonPressModeShort,
+                                           SDLRPCParameterNameModuleId:@"123"
+                                         },
+                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameButtonPress}};
+        SDLButtonPress *testRequest = [[SDLButtonPress alloc] initWithDictionary:dict];
 
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
         expect(testRequest.moduleId).to(equal(@"123"));
         expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
         expect(testRequest.buttonPressMode).to(equal(SDLButtonPressModeShort));
-    });
-
-    it(@"Should get correctly when initialized with initWithButtonName:moduleType:", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLButtonPress *testRequest = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameAC moduleType:SDLModuleTypeClimate];
-#pragma clang diagnostic pop
-        expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
-        expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
-    });
-
-    it(@"Should get correctly when initialized with initWithButtonName:moduleType:moduleId:", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLButtonPress *testRequest = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameAC moduleType:SDLModuleTypeClimate moduleId:@"123"];
-#pragma clang diagnostic pop
-        expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
-        expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
-        expect(testRequest.moduleId).to(equal(@"123"));
     });
 
     it(@"Should get correctly when initialized with initWithButtonName:moduleType:moduleId:buttonPressMode:", ^ {

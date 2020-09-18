@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLFileType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLFileType NS_TYPED_ENUM;
 
 /**
  * file type: Bitmap (BMP)

@@ -21,26 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithName:(NSString *)name __deprecated_msg("This is not intended to be a public facing API");
 
 /**
- *  Returns the function name.
- *
- *  @return The function name
- */
-- (nullable NSString *)getFunctionName __deprecated_msg("Call the .name property instead");
-
-/**
  *  Sets the function name.
  *
  *  @param functionName The function name
  */
 - (void)setFunctionName:(nullable NSString *)functionName __deprecated_msg("This is not intended to be a public facing API");
-
-/**
- *  Returns the value associated with the provided key. If the key does not exist, null is returned.
- *
- *  @param functionName    The key name
- *  @return                The value associated with the function name
- */
-- (nullable NSObject *)getParameters:(NSString *)functionName __deprecated_msg("Call the .parameters property instead");
 
 /**
  *  Sets a key-value pair using the function name as the key.

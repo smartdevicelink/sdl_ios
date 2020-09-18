@@ -74,23 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param position        The menu item's row number in the menu.
  *  @param iconValue       The unique name used to upload the image to Core.
  *  @param iconType        Whether the image is static or dynamic.
- *  @param handler         Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
- *  @return                A SDLAddCommand object
- */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(nullable NSString *)iconValue iconType:(nullable SDLImageType)iconType handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithId:vrCommands:menuName:parentId:position:iconValue:iconType:iconIsTemplate:handler: instead");
-
-/**
- *  Convenience init for creating a menu item with text and a custom icon.
- *
- *  @warning The icon must be uploaded to Core before being displayed in the menu.
- *
- *  @param commandId       A unique id for the menu item.
- *  @param vrCommands      One or more voice recognition phrases. If recognized by the VR system, the handler will be called.
- *  @param menuName        The text that will appear in the menu.
- *  @param parentId        The command id of the parent menu if menu item is in a submenu. If not in a submenu, the parentId is 0.
- *  @param position        The menu item's row number in the menu.
- *  @param iconValue       The unique name used to upload the image to Core.
- *  @param iconType        Whether the image is static or dynamic.
  *  @param iconIsTemplate  Whether or not the image is a template that can be (re)colored by the SDL HMI
  *  @param handler         Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
  *  @return                A SDLAddCommand object

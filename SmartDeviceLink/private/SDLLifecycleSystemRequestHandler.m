@@ -90,7 +90,7 @@ typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLRe
         }
     }
 
-    [[UIApplication sharedApplication] openURL:urlScheme];
+    [[UIApplication sharedApplication] openURL:urlScheme options:@{} completionHandler:nil];
 }
 
 - (void)sdl_handleSystemRequestProprietary:(SDLOnSystemRequest *)request {

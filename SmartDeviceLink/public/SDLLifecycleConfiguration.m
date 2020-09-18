@@ -31,25 +31,23 @@ static NSUInteger const AppIdCharacterCount = 10;
 
 #pragma mark Lifecycle
 
-+ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:nil appId:appId];
-}
-
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId appId:fullAppId];
-}
-
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:nil appId:appId ipAddress:ipAddress port:port];
+    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId];
 }
 
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId appId:fullAppId ipAddress:ipAddress port:port];
+    SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId];
+
+    config.tcpDebugMode = YES;
+    config.tcpDebugIPAddress = ipAddress;
+    config.tcpDebugPort = port;
+
+    return config;
 }
 
 #pragma mark Initalization Helpers
 
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(nullable NSString *)fullAppId appId:(NSString *)appId  {
+- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId  {
     self = [super init];
     if (!self) {
         return nil;
@@ -72,19 +70,9 @@ static NSUInteger const AppIdCharacterCount = 10;
     _allowedSecondaryTransports = SDLSecondaryTransportsTCP;
 
     _fullAppId = fullAppId;
-    _appId = fullAppId != nil ? [self.class sdlex_shortAppIdFromFullAppId:fullAppId] : appId;
+    _appId = [self.class sdl_isValidUUID:fullAppId] ? [self.class sdl_shortAppIdFromFullAppId:fullAppId] : fullAppId;
 
     return self;
-}
-
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(nullable NSString *)fullAppId appId:(nullable NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    SDLLifecycleConfiguration *config = [self initDefaultConfigurationWithAppName:appName fullAppId:fullAppId appId:appId];
-
-    config.tcpDebugMode = YES;
-    config.tcpDebugIPAddress = ipAddress;
-    config.tcpDebugPort = port;
-
-    return config;
 }
 
 #pragma mark - Computed Properties
@@ -124,8 +112,8 @@ static NSUInteger const AppIdCharacterCount = 10;
  *  @param fullAppId   A `fullAppId`
  *  @return            An `appID` made of the first 10 non-dash characters of the "fullAppID"
  */
-+ (NSString *)sdlex_shortAppIdFromFullAppId:(NSString *)fullAppId {
-    NSString *filteredString = [self sdlex_filterDashesFromText:fullAppId];
++ (NSString *)sdl_shortAppIdFromFullAppId:(NSString *)fullAppId {
+    NSString *filteredString = [self sdl_filterDashesFromText:fullAppId];
     return [filteredString substringToIndex:MIN(AppIdCharacterCount, filteredString.length)];
 }
 
@@ -135,15 +123,23 @@ static NSUInteger const AppIdCharacterCount = 10;
  *  @param text    The string
  *  @return        The string with all dash characters removed
  */
-+ (NSString *)sdlex_filterDashesFromText:(NSString *)text {
++ (NSString *)sdl_filterDashesFromText:(NSString *)text {
     NSCharacterSet *supportedCharacters = [NSCharacterSet characterSetWithCharactersInString:@"-"];
     return [[text componentsSeparatedByCharactersInSet:supportedCharacters] componentsJoinedByString:@""];
+}
+
+/// Checks if a string is a valid UUID
+/// @param uuidString A string
+/// @return True if the string is a valid UUID, false if not
++ (BOOL)sdl_isValidUUID:(NSString *)uuidString {
+    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
+    return uuid == nil ? NO : YES;
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName fullAppId:_fullAppId appId:_appId];
+    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName fullAppId:_fullAppId];
     newConfig->_tcpDebugMode = _tcpDebugMode;
     newConfig->_tcpDebugIPAddress = _tcpDebugIPAddress;
     newConfig->_tcpDebugPort = _tcpDebugPort;

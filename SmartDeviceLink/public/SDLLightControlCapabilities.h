@@ -15,16 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Constructs a newly allocated SDLLightControlCapabilities object with given parameters
-
-
- @param moduleName friendly name of the light control module
- @param supportedLights array of available LightCapabilities
- @return An instance of the SDLLightControlCapabilities class
- */
-- (instancetype)initWithModuleName:(NSString *)moduleName supportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights  __deprecated_msg("Use initWithModuleName:moduleInfo:supportedLights:");
-
-/**
- Constructs a newly allocated SDLLightControlCapabilities object with given parameters
  
  
  @param moduleName friendly name of the light control module

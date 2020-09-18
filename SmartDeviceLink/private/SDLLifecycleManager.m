@@ -158,12 +158,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     _rpcOperationQueue = [[NSOperationQueue alloc] init];
     _rpcOperationQueue.name = @"com.sdl.lifecycle.rpcOperation.concurrent";
     _rpcOperationQueue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
-
-    if (@available(iOS 10.0, *)) {
-        _lifecycleQueue = dispatch_queue_create_with_target("com.sdl.lifecycle", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
-    } else {
-        _lifecycleQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
-    }
+    _lifecycleQueue = dispatch_queue_create_with_target("com.sdl.lifecycle", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
 
     _currentVRLanguage = _configuration.lifecycleConfig.language;
     
@@ -419,11 +414,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLLanguage actualHMILanguage = self.registerResponse.hmiDisplayLanguage;
     SDLLanguage actualVRLanguage = self.registerResponse.language;
 
-    BOOL oldDelegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
     BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
 
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
-    if ((delegateCanUpdateLifecycle || oldDelegateCanUpdateLifecycle)
+    if (delegateCanUpdateLifecycle
         && ([supportedLanguages containsObject:actualHMILanguage] || [supportedLanguages containsObject:actualVRLanguage])
         && (![actualHMILanguage isEqualToEnum:desiredHMILanguage] || ![actualVRLanguage isEqualToEnum:desiredVRLanguage])) {
         // If the delegate is implemented, AND the new HMI / VR language is a supported language, AND the new HMI / VR language is not the current language, THEN go to the updating configuration state and see if the dev wants to change the registration.
@@ -440,15 +434,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     SDLLogD(@"Updating configuration due to language mismatch. New language: %@, new hmiLanguage: %@", actualLanguage, actualHMILanguage);
 
     SDLLifecycleConfigurationUpdate *configUpdate = nil;
-    BOOL supportsNewDelegate = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
-    BOOL supportsOldDelegate = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
-    if (supportsNewDelegate) {
+    BOOL delegateRespondsToSelector = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:hmiLanguage:)];
+    if (delegateRespondsToSelector) {
         configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage hmiLanguage:actualHMILanguage];
-    } else if (supportsOldDelegate) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
-#pragma clang diagnostic pop
     }
 
     if (configUpdate) {
@@ -622,13 +610,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 - (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void (^)(void))completion {
     // If no app icon was set, just move on to ready
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
     if (appIcon == nil || ![self.systemCapabilityManager.defaultMainWindowCapability.imageTypeSupported containsObject:SDLImageTypeDynamic]) {
         completion();
         return;
     }
-#pragma clang diagnostic pop
 
     [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon

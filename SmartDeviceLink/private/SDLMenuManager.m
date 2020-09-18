@@ -527,7 +527,6 @@ UInt32 const MenuCellIdMin = 1;
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             return ![self.systemCapabilityManager.displays.firstObject.displayName isEqualToString:SDLDisplayTypeGen38Inch];
 #pragma clang diagnostic pop
-
     }
 }
 

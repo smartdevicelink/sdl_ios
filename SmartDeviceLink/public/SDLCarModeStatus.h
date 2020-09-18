@@ -9,7 +9,7 @@
 
  * Since SmartDeviceLink 2.0
  */
-typedef SDLEnum SDLCarModeStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLCarModeStatus NS_TYPED_ENUM;
 
 /**
  Provides carmode NORMAL to each module.
