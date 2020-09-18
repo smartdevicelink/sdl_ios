@@ -28,7 +28,6 @@ let package = Package(
         .target(
             name: "BiSON",
             path: "bson_c_lib/src",
-            publicHeadersPath: ".",
             exclude: [
                 "Makefile.am",
                 "Makefile.in",
@@ -38,7 +37,8 @@ let package = Package(
                 "emhashmap/Makefile.am",
                 "emhashmap/runtests.sh",
                 "emhashmap/tests.c"
-            ]
+            ],
+            publicHeadersPath: "."
         )
     ]
 )
