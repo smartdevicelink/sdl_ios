@@ -27,7 +27,16 @@ let package = Package(
         ),
         .target(
             name: "BiSON",
-            path: "bson_c_lib/src"
+            path: "bson_c_lib/src",
+            exclude: [
+                "Makefile.am",
+                "Makefile.in",
+                "emhashmap/LICENSE",
+                "emhashmap/README.md",
+                "emhashmap/Makefile.in",
+                "emhashmap/Makefile.am",
+                "emhashmap/runtests.sh",
+            ]
         )
     ]
 )
