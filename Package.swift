@@ -23,7 +23,8 @@ let package = Package(
             dependencies: [
                 "SmartDeviceLink"
             ],
-            path: "SmartDeviceLinkSwift"
+            path: "SmartDeviceLinkSwift",
+            exclude: ["Info.plist"]
         ),
         .target(
             name: "BiSON",
