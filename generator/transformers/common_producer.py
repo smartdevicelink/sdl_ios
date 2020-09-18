@@ -49,6 +49,11 @@ class InterfaceProducerCommon(ABC):
         :param render: dictionary with pre filled entries, which going to be filled/changed by reference
         :return: dictionary which going to be applied to Jinja2 template
         """
+
+        importsKey = 'imports'
+        enumKey = 'enum'
+        structKey = 'struct'
+
         if item.description:
             render['description'] = self.extract_description(item.description)
         if item.since:
@@ -64,6 +69,28 @@ class InterfaceProducerCommon(ABC):
             render['params'][param.name] = self.extract_param(param, item.name)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
+        
+        # Add additional known imports to the import list
+        if isinstance(item, (Struct, Function)):
+            name = 'SDL' + item.name
+            render[importsKey]['.m'].add( "NSMutableDictionary+Store" )
+            render[importsKey]['.m'].add(name)
+            render[importsKey]['.h'][enumKey] = list(render[importsKey]['.h'][enumKey])
+            (render[importsKey]['.h'][enumKey]).sort()
+            render[importsKey]['.h'][structKey] = list(render[importsKey]['.h'][structKey])
+            (render[importsKey]['.h'][structKey]).sort()
+
+        if isinstance(item, Struct):
+            name = 'SDL' + item.name
+            render[importsKey]['.m'].add( "SDLRPCParameterNames" )
+
+        if isinstance(item, Function):
+            render[importsKey]['.m'].add( "SDLRPCFunctionNames" )
+            render[importsKey]['.m'].add( "SDLRPCParameterNames" )
+
+        # Sort the import list to ensure they appear in alphabetical order in the template
+        render[importsKey]['.m'] = list(render[importsKey]['.m'])
+        (render[importsKey]['.m']).sort()
 
         if 'constructors' not in render and isinstance(item, (Struct, Function)):
             render['constructors'] = self.extract_constructors(render['params'])
