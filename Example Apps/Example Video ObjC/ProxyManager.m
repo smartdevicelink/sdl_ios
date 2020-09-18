@@ -238,9 +238,6 @@ NS_ASSUME_NONNULL_BEGIN
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     logConfig.globalLogLevel = SDLLogLevelDebug;
 
-    //TODO: fix it when done
-//    logConfig.globalLogLevel = SDLLogLevelVerbose;
-    
     return logConfig;
 }
 

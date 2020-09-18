@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingVideoScaleManager
 
-//TODO: use CGFloat instead
 const float SDLDefaultScaleValue = 1.0f;
 const float SDLMaxScaleValue = 10.0f;
 const float SDLMinScaleValue = 1.0f/SDLMaxScaleValue;
