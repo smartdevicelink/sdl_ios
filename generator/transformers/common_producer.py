@@ -168,7 +168,7 @@ class InterfaceProducerCommon(ABC):
         :param mandatory: is parameter mandatory
         :return: string with modificator
         """
-        if mandatory or re.match(r'BOOL|double', type_native):
+        if mandatory or re.match(r'BOOL', type_native):
             return ''
         return 'nullable '
 
@@ -307,9 +307,7 @@ class InterfaceProducerCommon(ABC):
         else:
             data = self.evaluate_type(param.param_type)
 
-        if not param.is_mandatory and re.match(r'\w*Int\d*|BOOL', data['type_native']):
-            data['type_native'] = data['type_sdl']
-        elif not param.is_mandatory and re.match(r'\w*float\d*', data['type_native']):
+        if not param.is_mandatory and re.match(r'\w*Int\d*|BOOL|\w*float\d*', data['type_native']):
             data['type_native'] = data['type_sdl']
 
         return data
