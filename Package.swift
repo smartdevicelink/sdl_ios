@@ -17,7 +17,7 @@ let package = Package(
             dependencies: ["BiSON"],
             path: "SmartDeviceLink",
             exclude: ["Info.plist"],
-            publicHeadersPath: "public"
+            publicHeadersPath: "SmartDeviceLink/public"
         ),
         .target(
             name: "SmartDeviceLinkSwift",
