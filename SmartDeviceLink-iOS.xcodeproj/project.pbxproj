@@ -1675,8 +1675,6 @@
 		B30509022511E60E008C5401 /* SDLSupportedStreamingRange.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509002511E60D008C5401 /* SDLSupportedStreamingRange.m */; };
 		B30509052511E79B008C5401 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509042511E79B008C5401 /* ProxyManager.m */; };
 		B30509512511F5F5008C5401 /* ExampleVideoApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B30509062511EA70008C5401 /* ExampleVideoApp.storyboard */; };
-		B30509582511F973008C5401 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; };
-		B305095A2511FA70008C5401 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AB21304567000EB9B4 /* Main.storyboard */; };
 		B305095C2511FA8B008C5401 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509102511EAEF008C5401 /* ConnectionContainerViewController.m */; };
 		B305095D2511FAA8008C5401 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509192511EAF2008C5401 /* ConnectionIAPTableViewController.m */; };
 		B305095E2511FAAB008C5401 /* ConnectionTCPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509142511EAF1008C5401 /* ConnectionTCPTableViewController.m */; };
@@ -1700,13 +1698,17 @@
 		B30509742511FC7D008C5401 /* TextValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A621304531000EB9B4 /* TextValidator.m */; };
 		B30509762511FC87008C5401 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29721304514000EB9B4 /* AudioManager.m */; };
 		B30509782511FC91008C5401 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF28C213044F9000EB9B4 /* AlertManager.m */; };
-		B305097A2511FD59008C5401 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
-		B305097B2511FD9F008C5401 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */; };
 		B305097E2511FDE8008C5401 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C5213045F1000EB9B4 /* Images.xcassets */; };
+		B36A307425128C2300AA8422 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F4213047B2000EB9B4 /* LaunchScreen.xib */; };
+		B36A307625128C8100AA8422 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */; };
+		B36A307725128C8400AA8422 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
+		B36A307825128C8800AA8422 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AB21304567000EB9B4 /* Main.storyboard */; };
+		B36A307925128C9700AA8422 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */; };
+		B36A307A25132A8900AA8422 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; };
+		B36A307B25132A8900AA8422 /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
-		B3BB3389251204490054607B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */; };
 		B3DF19E9251205710090D7BA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CB2130464D000EB9B4 /* main.m */; };
 		B3DF19EA251205910090D7BA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C92130463F000EB9B4 /* AppDelegate.m */; };
 		B3DF19ED251225300090D7BA /* TestSmartConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19EB251225300090D7BA /* TestSmartConnectionManager.m */; };
@@ -1827,6 +1829,17 @@
 			files = (
 				88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */,
 				88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B36A307C25132A8900AA8422 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B36A307B25132A8900AA8422 /* SmartDeviceLink.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3659,7 +3672,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B30509582511F973008C5401 /* SmartDeviceLink.framework in Frameworks */,
+				B36A307A25132A8900AA8422 /* SmartDeviceLink.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7711,6 +7724,7 @@
 				B30509342511F21F008C5401 /* Sources */,
 				B30509352511F21F008C5401 /* Frameworks */,
 				B30509362511F21F008C5401 /* Resources */,
+				B36A307C25132A8900AA8422 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -7857,12 +7871,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B305097A2511FD59008C5401 /* ConnectionTCPTableViewController.storyboard in Resources */,
+				B36A307425128C2300AA8422 /* LaunchScreen.xib in Resources */,
+				B36A307725128C8400AA8422 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				B305097E2511FDE8008C5401 /* Images.xcassets in Resources */,
+				B36A307925128C9700AA8422 /* LaunchScreen.xib in Resources */,
+				B36A307825128C8800AA8422 /* Main.storyboard in Resources */,
 				B30509512511F5F5008C5401 /* ExampleVideoApp.storyboard in Resources */,
-				B3BB3389251204490054607B /* LaunchScreen.xib in Resources */,
-				B305095A2511FA70008C5401 /* Main.storyboard in Resources */,
-				B305097B2511FD9F008C5401 /* ConnectionIAPTableViewController.storyboard in Resources */,
+				B36A307625128C8100AA8422 /* ConnectionIAPTableViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
