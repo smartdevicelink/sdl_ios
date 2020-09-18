@@ -70,7 +70,7 @@ class InterfaceProducerCommon(ABC):
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
         
-# Add additional known imports to the import list
+        # Add additional known imports to the import list
         if isinstance(item, (Struct, Function)):
             name = 'SDL' + item.name
             render[importsKey]['.m'].add( "NSMutableDictionary+Store" )
@@ -88,7 +88,7 @@ class InterfaceProducerCommon(ABC):
             render[importsKey]['.m'].add( "SDLRPCFunctionNames" )
             render[importsKey]['.m'].add( "SDLRPCParameterNames" )
 
-# Sort the import list to ensure they appear in alphabetical order in the template
+        # Sort the import list to ensure they appear in alphabetical order in the template
         render[importsKey]['.m'] = list(render[importsKey]['.m'])
         (render[importsKey]['.m']).sort()
 
