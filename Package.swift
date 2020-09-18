@@ -32,10 +32,11 @@ let package = Package(
                 "Makefile.am",
                 "Makefile.in",
                 "emhashmap/LICENSE",
-                "emhashmap/README.md",
+                "emhashmap/README.mkd",
                 "emhashmap/Makefile.in",
                 "emhashmap/Makefile.am",
                 "emhashmap/runtests.sh",
+                "emhashmap/tests.c"
             ]
         )
     ]
