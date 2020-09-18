@@ -126,11 +126,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// Create a new streaming media manager for navigation and projection apps with a specified configuration.
 /// @param connectionManager The pass-through for RPCs
 /// @param configuration This session's configuration
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration __deprecated_msg("Use initWithConnectionManager:configuration:systemCapabilityManager: instead");
-
-/// Create a new streaming media manager for navigation and projection apps with a specified configuration.
-/// @param connectionManager The pass-through for RPCs
-/// @param configuration This session's configuration
 /// @param systemCapabilityManager The system capability manager object for reading window capabilities
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration systemCapabilityManager:(nullable SDLSystemCapabilityManager *)systemCapabilityManager NS_DESIGNATED_INITIALIZER;
 
@@ -185,19 +180,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return Whether or not the data was successfully sent.
  */
 - (BOOL)sendAudioData:(NSData *)audioData;
-
-#pragma mark - Deprecated Methods
-
- /**
-  *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
-  */
-- (void)startAudioWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
-
- /**
-  *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
-  */
-- (void)startVideoWithProtocol:(SDLProtocol *)protocol __deprecated_msg("Use startWithProtocol: instead");
-
 
 @end
 

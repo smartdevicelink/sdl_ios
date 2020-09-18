@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLPRNDL SDL_SWIFT_ENUM;
+typedef SDLEnum SDLPRNDL NS_TYPED_ENUM;
 
 /**
  *  Park

@@ -15,32 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Constructs a newly allocated SDLAudioControlCapabilities object with audio control module name (max 100 chars)
-
- @param name The short friendly name of the audio control module.
- @return An instance of the SDLAudioControlCapabilities class.
- */
-- (instancetype)initWithModuleName:(NSString *)name __deprecated_msg("Use initWithModuleName:moduleInfo: instead");
-
-/**
- Constructs a newly allocated SDLAudioControlCapabilities object with audio control module name (max 100 chars)
  
  @param name The short friendly name of the audio control module.
  @param moduleInfo Information about a RC module, including its id.
  @return An instance of the SDLAudioControlCapabilities class.
  */
 - (instancetype)initWithModuleName:(NSString *)name moduleInfo:(nullable SDLModuleInfo *)moduleInfo;
-
-/**
-  Constructs a newly allocated SDLAudioControlCapabilities object with given parameters
-
- @param name The short friendly name of the audio control module.
- @param sourceAvailable Availability of the control of audio source.
- @param volumeAvailable Availability of the volume of audio source.
- @param equalizerAvailable Availability of the equalizer of audio source.
- @param equalizerMaxChannelID Equalizer channel ID (between 1-100).
- @return An instance of the SDLAudioControlCapabilities class.
- */
-- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable keepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable volumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID __deprecated_msg("Use initWithModuleName:moduleInfo:sourceAvailable:keepContextAvailable:volumeAvailable:equalizerAvailable:equalizerMaxChannelID: instead");
 
 /**
  Constructs a newly allocated SDLAudioControlCapabilities object with given parameters

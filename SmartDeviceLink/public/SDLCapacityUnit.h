@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @since SDL 7.0.0
  */
-typedef SDLEnum SDLCapacityUnit SDL_SWIFT_ENUM;
+typedef SDLEnum SDLCapacityUnit NS_TYPED_ENUM;
 
 extern SDLCapacityUnit const SDLCapacityUnitKilograms;
 

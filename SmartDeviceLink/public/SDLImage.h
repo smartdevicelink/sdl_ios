@@ -21,27 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param name        The unique name used to upload the image to SDL Core
  *  @param imageType   Describes whether the image is static or dynamic
- *  @return            A SDLImage object
- */
-- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType __deprecated_msg("Use initWithName:ofType:isTemplate: instead");
-
-/**
- *  Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.
- *
- *  @param name        The unique name used to upload the image to SDL Core
- *  @param imageType   Describes whether the image is static or dynamic
  *  @param isTemplate  Whether or not the image is a template that can be (re)colored by the SDL HMI. Static images are templates by default.
  *  @return            A SDLImage object
  */
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType isTemplate:(BOOL)isTemplate;
-
-/**
- *  Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.
- *
- *  @param name        The unique name used to upload the image to SDL Core
- *  @return            A SDLImage object
- */
-- (instancetype)initWithName:(NSString *)name __deprecated_msg("Use initWithName:isTemplate: instead");
 
 /**
  *  Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.

@@ -38,7 +38,7 @@
 
  @since SmartDeviceLink 3.0
  */
-typedef SDLEnum SDLImageFieldName SDL_SWIFT_ENUM;
+typedef SDLEnum SDLImageFieldName NS_TYPED_ENUM;
 
 /**
  The image field for Alert

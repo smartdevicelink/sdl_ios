@@ -94,12 +94,7 @@ typedef NSString * SDLServiceID;
         return nil;
     }
 
-    if (@available(iOS 10.0, *)) {
-        _readWriteQueue = dispatch_queue_create_with_target("com.sdl.systemCapabilityManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
-    } else {
-        _readWriteQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
-    }
-
+    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.systemCapabilityManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _connectionManager = manager;
     _shouldConvertDeprecatedDisplayCapabilities = YES;
     _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
@@ -477,7 +472,7 @@ typedef NSString * SDLServiceID;
     SDLLogV(@"Saving app services capability update with new capabilities: %@", newCapabilities);
     for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
         // If the capability has been removed, delete the saved capability; otherwise just update with the new capability
-        SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved] ? nil : capability;
+        SDLAppServiceCapability *newCapability = [capability.updateReason isEqualToEnum:SDLServiceUpdateReasonRemoved] ? nil : capability;
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = newCapability;
         }];
@@ -532,14 +527,6 @@ typedef NSString * SDLServiceID;
 #pragma mark - Manager Subscriptions
 
 #pragma mark Subscribing
-
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block {
-    SDLLogD(@"Subscribing to capability type: %@ with a handler (DEPRECATED)", type);
-    SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:[[NSObject alloc] init] block:block];
-
-    id<NSObject> subscribedObserver = [self sdl_subscribeToCapabilityType:type observerObject:observerObject];
-    return subscribedObserver;
-}
 
 - (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withUpdateHandler:(SDLCapabilityUpdateWithErrorHandler)handler {
     SDLLogD(@"Subscribing to capability type: %@ with a handler", type);
@@ -678,12 +665,7 @@ typedef NSString * SDLServiceID;
 - (void)sdl_invokeObserver:(SDLSystemCapabilityObserver *)observer withCapabilityType:(SDLSystemCapabilityType)type capability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
     BOOL subscribed = self.subscriptionStatus[type].boolValue || [type isEqualToEnum:SDLSystemCapabilityTypeDisplays];
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (observer.block != nil) {
-        observer.block(capability);
-#pragma clang diagnostic pop
-    } else if (observer.updateBlock != nil) {
+    if (observer.updateBlock != nil) {
         observer.updateBlock(capability, subscribed, error);
     } else {
         if (![observer.observer respondsToSelector:observer.selector]) {

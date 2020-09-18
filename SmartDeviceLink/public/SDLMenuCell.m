@@ -36,14 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title subCells:(NSArray<SDLMenuCell *> *)subCells {
-    return [self initWithTitle:title icon:nil submenuLayout:nil subCells:subCells];
-}
-
-- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon subCells:(NSArray<SDLMenuCell *> *)subCells {
-    return [self initWithTitle:title icon:icon submenuLayout:nil subCells:subCells];
-}
-
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells {
     self = [super init];
     if (!self) { return nil; }

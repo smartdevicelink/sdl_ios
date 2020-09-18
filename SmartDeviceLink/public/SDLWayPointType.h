@@ -6,7 +6,7 @@
 /**
  The type of a navigation waypoint. Used in GetWayPoints.
  */
-typedef SDLEnum SDLWayPointType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLWayPointType NS_TYPED_ENUM;
 
 /**
  All other waypoint types

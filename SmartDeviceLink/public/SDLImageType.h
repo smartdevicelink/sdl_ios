@@ -9,7 +9,7 @@
 
  @since SDL 2.0
  */
-typedef SDLEnum SDLImageType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLImageType NS_TYPED_ENUM;
 
 /**
  Activate an icon that shipped with the IVI system by passing a hex value.

@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLVehicleDataNotificationStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLVehicleDataNotificationStatus NS_TYPED_ENUM;
 
 /**
  The vehicle data notification status is not supported

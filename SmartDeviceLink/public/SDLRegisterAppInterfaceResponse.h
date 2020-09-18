@@ -16,7 +16,6 @@
 @class SDLHMICapabilities;
 @class SDLPresetBankCapabilities;
 @class SDLSoftButtonCapabilities;
-@class SDLSyncMsgVersion;
 @class SDLMsgVersion;
 @class SDLVehicleType;
 
@@ -29,15 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 1.0
  */
 @interface SDLRegisterAppInterfaceResponse : SDLRPCResponse
-
-/**
- * Specifies the negotiated version number of the SmartDeviceLink protocol that is to be supported by the mobile application.
- *
- * SDLSyncMsgVersion, Optional
- *
- * @since SDL 1.0
- */
-@property (nullable, strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion __deprecated_msg(("Use sdlMsgVersion Instead"));
 
 /**
  * Specifies the negotiated version number of the SmartDeviceLink protocol that is to be supported by the mobile application.

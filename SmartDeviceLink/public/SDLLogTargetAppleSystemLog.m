@@ -20,7 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SDLLogTargetAppleSystemLog
+#pragma clang diagnostic pop
 
 + (id<SDLLogTarget>)logger {
     return [[self alloc] init];

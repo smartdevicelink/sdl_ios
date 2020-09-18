@@ -6,7 +6,7 @@
 /**
  * The List possible cushions of a multi-contour massage seat.
  */
-typedef SDLEnum SDLMassageCushion SDL_SWIFT_ENUM;
+typedef SDLEnum SDLMassageCushion NS_TYPED_ENUM;
 
 /**
  * @abstract TOP LUMBAR cushions of a multi-contour massage seat

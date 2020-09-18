@@ -37,16 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID;
 
 /**
- Convenience init for creating a scrolling message with text and buttons.
-
- @param message Body of text that can include newlines and tabs
- @param timeout Indicates how long of a timeout from the last action (i.e. scrolling message resets timeout)
- @param softButtons Buttons for the displayed scrollable message
- @return A SDLScrollableMessage object
- */
-- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Use initWithMessage:timeout:softButtons:cancelID: instead");
-
-/**
  Body of text that can include newlines and tabs.
 
  String, Required, Max length 500 chars

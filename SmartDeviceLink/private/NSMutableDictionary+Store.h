@@ -7,13 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SDLMacros.h"
 #import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString* SDLRPCParameterName SDL_SWIFT_ENUM;
-typedef NSString* SDLEnum SDL_SWIFT_ENUM;
+typedef NSString* SDLRPCParameterName NS_TYPED_ENUM;
+typedef NSString* SDLEnum NS_TYPED_ENUM;
 
 @interface NSDictionary (Store)
 

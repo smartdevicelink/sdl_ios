@@ -12,7 +12,7 @@
 /**
  * Text Field metadata types. Used in Show.
  */
-typedef SDLEnum SDLMetadataType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLMetadataType NS_TYPED_ENUM;
 
 /**
  * The song / media title name

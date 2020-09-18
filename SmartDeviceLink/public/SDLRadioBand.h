@@ -7,7 +7,7 @@
 /**
  Radio bands, such as AM and FM, used in RadioControlData
  */
-typedef SDLEnum SDLRadioBand SDL_SWIFT_ENUM;
+typedef SDLEnum SDLRadioBand NS_TYPED_ENUM;
 
 /**
  * Represents AM radio band

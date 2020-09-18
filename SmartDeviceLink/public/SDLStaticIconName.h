@@ -11,7 +11,7 @@
 /**
  * Static icon names
  */
-typedef SDLEnum SDLStaticIconName SDL_SWIFT_ENUM;
+typedef SDLEnum SDLStaticIconName NS_TYPED_ENUM;
 
 /**
  * Static icon accept call / active phone call in progress / initiate a phone call

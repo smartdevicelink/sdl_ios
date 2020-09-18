@@ -87,11 +87,8 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameQueueCurrentTrackNumber:@(testQueueCurrentTrackNumber),
                                SDLRPCParameterNameQueueTotalTrackCount:@(testQueueTotalTrackCount)
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
-        
+
         expect(testStruct.mediaImage).to(equal(testMediaImage));
         expect(testStruct.mediaType).to(equal(testMediaType));
         expect(testStruct.mediaTitle).to(equal(testMediaTitle));
@@ -105,27 +102,6 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.queuePlaybackDuration).to(equal(testQueuePlaybackDuration));
         expect(testStruct.queueCurrentTrackNumber).to(equal(testQueueCurrentTrackNumber));
         expect(testStruct.queueTotalTrackCount).to(equal(testQueueTotalTrackCount));
-    });
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    it(@"Should get correctly when initialized with initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgress:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:", ^{
-        SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithMediaType:testMediaType mediaTitle:testMediaTitle mediaArtist:testMediaArtist mediaAlbum:testMediaAlbum playlistName:testPlaylistName isExplicit:testIsExplicit trackPlaybackProgress:testTrackPlaybackProgress trackPlaybackDuration:testTrackPlaybackDuration queuePlaybackProgress:testQueuePlaybackProgress queuePlaybackDuration:testQueuePlaybackDuration queueCurrentTrackNumber:testQueueCurrentTrackNumber queueTotalTrackCount:testQueueTotalTrackCount];
-#pragma clang diagnostic pop
-
-        expect(testStruct.mediaType).to(equal(testMediaType));
-        expect(testStruct.mediaTitle).to(equal(testMediaTitle));
-        expect(testStruct.mediaArtist).to(equal(testMediaArtist));
-        expect(testStruct.mediaAlbum).to(equal(testMediaAlbum));
-        expect(testStruct.playlistName).to(equal(testPlaylistName));
-        expect(testStruct.isExplicit).to(equal(testIsExplicit));
-        expect(testStruct.trackPlaybackProgress).to(equal(testTrackPlaybackProgress));
-        expect(testStruct.trackPlaybackDuration).to(equal(testTrackPlaybackDuration));
-        expect(testStruct.queuePlaybackProgress).to(equal(testQueuePlaybackProgress));
-        expect(testStruct.queuePlaybackDuration).to(equal(testQueuePlaybackDuration));
-        expect(testStruct.queueCurrentTrackNumber).to(equal(testQueueCurrentTrackNumber));
-        expect(testStruct.queueTotalTrackCount).to(equal(testQueueTotalTrackCount));
-        expect(testStruct.mediaImage).to(beNil());
     });
 
     it(@"Should get correctly when initialized with initWithMediaType:mediaImage:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgress:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:", ^{

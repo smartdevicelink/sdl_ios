@@ -39,13 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _mutableQueue = [NSMutableArray array];
     _shouldPlayWhenReady = NO;
-
-    if (@available(iOS 10.0, *)) {
-        _audioQueue = dispatch_queue_create_with_target("com.sdl.audiomanager.transcode", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
-    } else {
-        _audioQueue = [SDLGlobals sharedGlobals].sdlProcessingQueue;
-    }
-
+    _audioQueue = dispatch_queue_create_with_target("com.sdl.audiomanager.transcode", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _streamManager = streamManager;
 
     return self;

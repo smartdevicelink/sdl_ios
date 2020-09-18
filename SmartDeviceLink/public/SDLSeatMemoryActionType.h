@@ -8,7 +8,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLSeatMemoryActionType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLSeatMemoryActionType NS_TYPED_ENUM;
 
 /**
  * @abstract Save current seat postions and settings to seat memory.

@@ -13,139 +13,85 @@
 
 QuickSpecBegin(SDLRPCMessageSpec)
 
-describe(@"Readonly Property Tests", ^ {
-    it(@"Should get name correctly when initialized with name", ^ {
+describe(@"Getter/Setter Tests", ^ {
+    __block NSString *testRPCName = @"Test RPC Name";
+    __block NSString *testNameKey = @"firstName";
+    __block NSString *testNameValue = @"George";
+    __block NSString *testAgeKey = @"age";
+    __block NSNumber *testAgeValue = @25;
+    const char *testString = "ImportantData";
+    __block NSData *testBulkData = nil;
+
+    beforeEach(^{
+        testBulkData = [NSData dataWithBytes:testString length:strlen(testString)];;
+    });
+
+    it(@"should get correctly when initialized with initWithName:", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithName:@"Poorly Named"];
+        SDLRPCMessage *testMessage = [[SDLRPCMessage alloc] initWithName:testRPCName];
 #pragma clang diagnostic pop
         
-        expect(testMessage.name).to(equal(@"Poorly Named"));
+        expect(testMessage.name).to(equal(testRPCName));
+        expect(testMessage.parameters).to(beEmpty());
+        expect(testMessage.bulkData).to(beNil());
+        expect(testMessage.messageType).to(equal(SDLRPCParameterNameRequest));
     });
     
-    it(@"Should get correctly when initialized with dictionary", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLRPCParameterNameNotification:
-                                                                                      @{SDLRPCParameterNameParameters:
-                                                                                            @{@"name":@"George"},
-                                                                                        SDLRPCParameterNameOperationName:@"Poorly Named"}} mutableCopy]];
-#pragma clang diagnostic pop
-        
-        expect(testMessage.name).to(equal(@"Poorly Named"));
+    it(@"should get correctly when initialized with a dictionary", ^ {
+        NSDictionary *dict = @{SDLRPCParameterNameNotification:
+                                   @{SDLRPCParameterNameParameters:
+                                         @{testNameKey:testNameValue,
+                                           testAgeKey:testAgeValue,
+                                         },
+                                         SDLRPCParameterNameOperationName:testRPCName
+                                   },
+                               SDLRPCParameterNameBulkData:testBulkData,
+        };
+        SDLRPCMessage *testMessage = [[SDLRPCMessage alloc] initWithDictionary:dict];
+
+        expect(testMessage.name).to(equal(testRPCName));
+        expect(testMessage.parameters[testNameKey]).to(equal(testNameValue));
+        expect(testMessage.parameters[testAgeKey]).to(equal(testAgeValue));
+        expect(testMessage.bulkData).to(equal(testBulkData));
+        expect([NSString stringWithUTF8String:testMessage.bulkData.bytes]).to(equal([NSString stringWithUTF8String:testBulkData.bytes]));
         expect(testMessage.messageType).to(equal(SDLRPCParameterNameNotification));
     });
-});
 
-describe(@"Parameter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
+    it(@"should set and get correctly", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithName:@""];
-        
-        [testMessage setParameters:@"ADogAPanicInAPagoda" value:@"adogaPAnIcinaPAgoDA"];
-        expect([testMessage getParameters:@"ADogAPanicInAPagoda"]).to(equal(@"adogaPAnIcinaPAgoDA"));
+        SDLRPCMessage *testMessage = [[SDLRPCMessage alloc] initWithName:testRPCName];
 #pragma clang diagnostic pop
 
-        expect(testMessage.parameters[@"ADogAPanicInAPagoda"]).to(equal(@"adogaPAnIcinaPAgoDA"));
-    });
-    
-    it(@"Should get correctly when initialized", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLRPCParameterNameResponse:
-                                                                                      @{SDLRPCParameterNameParameters:
-                                                                                            @{@"age":@25},
-                                                                                        SDLRPCParameterNameOperationName:@"Nameless"}} mutableCopy]];
-#pragma clang diagnostic pop
-        
-        expect(testMessage.parameters[@"age"]).to(equal(@25));
-    });
-    
-    it(@"Should be nil if not set", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithName:@""];
-        
-        expect(testMessage.parameters[@"ADogAPanicInAPagoda"]).to(beNil());
-#pragma clang diagnostic pop
-    });
-});
+        testMessage.parameters[testAgeKey] = testAgeValue;
+        testMessage.parameters[testNameKey] = testNameValue;
+        testMessage.bulkData = testBulkData;
 
-describe(@"FunctionName Tests", ^ {
-    it(@"Should set and get correctly", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithName:@""];
-        
-        [testMessage setFunctionName:@"Functioning"];
-#pragma clang diagnostic pop
-        
-        expect(testMessage.name).to(equal(@"Functioning"));
+        expect(testMessage.name).to(equal(testRPCName));
+        expect(testMessage.parameters[testAgeKey]).to(equal(testAgeValue));
+        expect(testMessage.parameters[testNameKey]).to(equal(testNameValue));
+        expect(testMessage.bulkData).to(equal(testBulkData));
+        expect([NSString stringWithUTF8String:testMessage.bulkData.bytes]).to(equal([NSString stringWithUTF8String:testBulkData.bytes]));
+        expect(testMessage.messageType).to(equal(SDLRPCParameterNameRequest));
     });
-    
-    it(@"Should get correctly when initialized", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLRPCParameterNameRequest:
-                                                                                      @{SDLRPCParameterNameParameters:
-                                                                                            @{@"age":@25},
-                                                                                        SDLRPCParameterNameOperationName:@"DoNothing"}} mutableCopy]];
-#pragma clang diagnostic pop
-        
-        expect(testMessage.name).to(equal(@"DoNothing"));
 
+    it(@"should set and get correctly with setter methods", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testMessage = [[SDLRPCMessage alloc] initWithName:@"DoSomething"];
+        SDLRPCMessage *testMessage = [[SDLRPCMessage alloc] initWithName:@""];
+        [testMessage setFunctionName:testRPCName];
+        [testMessage setParameters:testAgeKey value:testAgeValue];
+        [testMessage setParameters:testNameKey value:testNameValue];
+        [testMessage setBulkData:testBulkData];
 #pragma clang diagnostic pop
-        
-        expect(testMessage.name).to(equal(@"DoSomething"));
-    });
-    
-    it(@"Should be nil if not set", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLRPCParameterNameNotification:
-                                                                                      @{SDLRPCParameterNameParameters:
-                                                                                            @{}}} mutableCopy]];
-#pragma clang diagnostic pop
-        expect(testMessage.name).to(beNil());
-    });
-});
 
-describe(@"BulkDataTests", ^ {
-    it(@"Should set and get correctly", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithName:@""];
-#pragma clang diagnostic pop
-        
-        const char* testString = "ImportantData";
-        testMessage.bulkData = [NSData dataWithBytes:testString length:strlen(testString)];
-        
-        expect([NSString stringWithUTF8String:testMessage.bulkData.bytes]).to(equal(@"ImportantData"));
-    });
-    
-    it(@"Should get correctly when initialized", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLRPCParameterNameNotification:
-                                                                                      @{SDLRPCParameterNameParameters:
-                                                                                            @{}},
-                                                                                  SDLRPCParameterNameBulkData:[NSData dataWithBytes:"ImageData" length:strlen("ImageData")]} mutableCopy]];
-#pragma clang diagnostic pop
-        
-        expect(testMessage.bulkData).to(equal([NSData dataWithBytes:"ImageData" length:strlen("ImageData")]));
-    });
-    
-    it(@"Should be nil if not set", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithName:@""];
-#pragma clang diagnostic pop
-        
-        expect(testMessage.bulkData).to(beNil());
+        expect(testMessage.name).to(equal(testRPCName));
+        expect(testMessage.parameters[testAgeKey]).to(equal(testAgeValue));
+        expect(testMessage.parameters[testNameKey]).to(equal(testNameValue));
+        expect(testMessage.bulkData).to(equal(testBulkData));
+        expect([NSString stringWithUTF8String:testMessage.bulkData.bytes]).to(equal([NSString stringWithUTF8String:testBulkData.bytes]));
+        expect(testMessage.messageType).to(equal(SDLRPCParameterNameRequest));
     });
 });
 

@@ -38,43 +38,31 @@
  *
  * @since SDL 1.0.0
  */
-typedef SDLEnum SDLCharacterSet SDL_SWIFT_ENUM;
+typedef SDLEnum SDLCharacterSet NS_TYPED_ENUM;
 
 /**
  * @deprecated
  * @since SDL 7.0.0
  */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 extern SDLCharacterSet const SDLCharacterSetType2 __deprecated_msg("Use Ascii, Iso88591, or Utf8 instead");
-#pragma clang diagnostic pop
 
 /**
  * @deprecated
  * @since SDL 7.0.0
  */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 extern SDLCharacterSet const SDLCharacterSetType5 __deprecated_msg("Use Ascii, Iso88591, or Utf8 instead");
-#pragma clang diagnostic pop
 
 /**
  * @deprecated
  * @since SDL 7.0.0
  */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 extern SDLCharacterSet const SDLCharacterSetCID1 __deprecated_msg("Use Ascii, Iso88591, or Utf8 instead");
-#pragma clang diagnostic pop
 
 /**
  * @deprecated
  * @since SDL 7.0.0
  */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 extern SDLCharacterSet const SDLCharacterSetCID2 __deprecated_msg("Use Ascii, Iso88591, or Utf8 instead");
-#pragma clang diagnostic pop
 
 /**
  * ASCII as defined in https://en.wikipedia.org/wiki/ASCII as defined in codes 0-127. Non-printable characters such as tabs and back spaces are ignored.

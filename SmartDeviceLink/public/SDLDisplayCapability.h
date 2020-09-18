@@ -23,9 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithDisplayName:(NSString *)displayName;
 
-/// This method is broken (the types don't match the parameter names) and will always return nil. Use initWithDisplayName:windowCapabilities:windowTypeSupported: instead.
-- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(nullable NSArray<SDLWindowCapability *> *)windowTypeSupported windowCapabilities:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowCapabilities __deprecated_msg("This method is broken and will return nil every time. Use initWithDisplayName:windowCapabilities:windowTypeSupported: instead");
-
 /**
  Init with all the properities
 

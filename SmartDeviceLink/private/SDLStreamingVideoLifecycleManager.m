@@ -116,10 +116,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (configuration.streamingMediaConfig.rootViewController != nil) {
         NSAssert(configuration.streamingMediaConfig.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
 
-        if (@available(iOS 9.0, *)) {
-            SDLLogD(@"Initializing focusable item locator");
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager videoScaleManager:_videoScaleManager];
-        }
+        SDLLogD(@"Initializing focusable item locator");
+        _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager videoScaleManager:_videoScaleManager];
 
         SDLLogD(@"Initializing CarWindow");
         _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration.streamingMediaConfig];
@@ -140,12 +138,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
-        [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
-    }
-#pragma clang diagnostic pop
     for (Class securityManagerClass in configuration.encryptionConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
@@ -486,11 +478,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             NSInteger targetFramerate = ((NSNumber *)strongSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
             SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
             strongSelf.displayLink = [CADisplayLink displayLinkWithTarget:strongSelf selector:@selector(sdl_displayLinkFired:)];
-            if (@available(iOS 10, *)) {
-                strongSelf.displayLink.preferredFramesPerSecond = targetFramerate;
-            } else {
-                strongSelf.displayLink.frameInterval = (60 / targetFramerate);
-            }
+            strongSelf.displayLink.preferredFramesPerSecond = targetFramerate;
             [strongSelf.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         });
     } else {
@@ -519,10 +507,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:startServiceACK.payload];
     SDLLogD(@"Request to start video service ACKed on transport %@, with payload: %@", protocol.transport, videoAckPayload);
-
-    if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
-        [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
-    }
 
     // This is the definitive screen size that will be used
     if ((videoAckPayload.height != SDLControlFrameInt32NotFound || videoAckPayload.height != 0) && (videoAckPayload.width != SDLControlFrameInt32NotFound && videoAckPayload.width != 0)) {
@@ -721,11 +705,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_displayLinkFired:(CADisplayLink *)displayLink {
     NSAssert([NSThread isMainThread], @"Display link should always fire on the main thread");
-    if (@available(iOS 10.0, *)) {
-        SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: %f", displayLink.duration, displayLink.timestamp, displayLink.targetTimestamp);
-    } else {
-        SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: (not available)", displayLink.duration, displayLink.timestamp);
-    }
+
+    SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: %f", displayLink.duration, displayLink.timestamp, displayLink.targetTimestamp);
 
     [self.touchManager syncFrame];
     [self.carWindow syncFrame];

@@ -38,7 +38,7 @@ typedef NSString SDLVehicleMake;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *encryptionStateMachine;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (strong, nonatomic, nullable) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+@property (strong, nonatomic, nullable) NSMutableDictionary<SDLRPCFunctionName, SDLPermissionItem *> *permissions;
 @property (assign, nonatomic) BOOL requiresEncryption;
 @property (strong, nonatomic) SDLConfiguration *configuration;
 
@@ -60,7 +60,7 @@ typedef NSString SDLVehicleMake;
     _requiresEncryption = NO;
     _securityManagers = [NSMutableDictionary dictionary];
     _encryptionStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLEncryptionLifecycleManagerStateStopped states:[self.class sdl_encryptionStateTransitionDictionary]];
-    _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
+    _permissions = [NSMutableDictionary<SDLRPCFunctionName, SDLPermissionItem *> dictionary];
     _configuration = configuration;
 
     for (Class securityManagerClass in _configuration.encryptionConfig.securityManagers) {

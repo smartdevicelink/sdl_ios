@@ -2,8 +2,6 @@
     "templates/functions/template.m" and "templates/structs/template.m". -#}
 {% include 'copyright.jinja2' %}
 {%- block imports %}
-#import "{{name}}.h"
-#import "NSMutableDictionary+Store.h"
 {%- for import in imports %}
 #import "{{import}}.h"
 {%- endfor %}

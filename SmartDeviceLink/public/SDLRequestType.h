@@ -7,7 +7,7 @@
 /**
  A type of system request. Used in SystemRequest.
  */
-typedef SDLEnum SDLRequestType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLRequestType NS_TYPED_ENUM;
 
 /**
  An HTTP request

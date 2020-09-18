@@ -11,7 +11,7 @@
 /**
  *  Enumeration listing possible fuel types.
  */
-typedef SDLEnum SDLFuelType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLFuelType NS_TYPED_ENUM;
 
 /**
  *  Fuel type: Gasoline

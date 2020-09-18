@@ -7,7 +7,7 @@
 /**
  Vehicle Data Result Code. Used in DIDResult.
  */
-typedef SDLEnum SDLVehicleDataResultCode SDL_SWIFT_ENUM;
+typedef SDLEnum SDLVehicleDataResultCode NS_TYPED_ENUM;
 
 /**
  Individual vehicle data item / DTC / DID request or subscription successful

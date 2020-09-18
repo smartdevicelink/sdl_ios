@@ -11,7 +11,7 @@
 /**
  *  A navigation direction.
  */
-typedef SDLEnum SDLDirection SDL_SWIFT_ENUM;
+typedef SDLEnum SDLDirection NS_TYPED_ENUM;
 
 /**
  *  Direction left

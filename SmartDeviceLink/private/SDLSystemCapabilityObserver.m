@@ -22,16 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithObserver:(id<NSObject>)observer block:(SDLCapabilityUpdateHandler)block {
-    self = [super init];
-    if (!self) { return nil; }
-
-    _observer = observer;
-    _block = block;
-
-    return self;
-}
-
 - (instancetype)initWithObserver:(id<NSObject>)observer updateHandler:(SDLCapabilityUpdateWithErrorHandler)block {
     self = [super init];
     if (!self) { return nil; }

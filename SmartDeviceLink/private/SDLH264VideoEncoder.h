@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
-#import "SDLMacros.h"
 #import "SDLVideoStreamingProtocol.h"
 #import "SDLVideoEncoderDelegate.h"
 
@@ -42,11 +41,7 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 /**
  *  Provides default video encoder settings used.
  */
-#if SDL_SUPPORTS_CLASS_PROPERTIES
 @property (class, strong, nonatomic, readonly) NSDictionary<NSString *, id> *defaultVideoEncoderSettings;
-#else
-+ (NSDictionary<NSString *, id>*)defaultVideoEncoderSettings;
-#endif
 
 /**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.

@@ -9,7 +9,7 @@
 
  Since SmartDeviceLink 2.0
  */
-typedef SDLEnum SDLEmergencyEventType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLEmergencyEventType NS_TYPED_ENUM;
 
 /**
  No emergency event has happened.

@@ -14,11 +14,6 @@ describe(@"a lock screen configuration", ^{
         });
         
         it(@"should properly set properties", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testConfig.enableAutomaticLockScreen).to(beFalse());
-            expect(testConfig.showInOptionalState).to(beFalse());
-#pragma clang diagnostic pop
             expect(testConfig.enableDismissGesture).to(beFalse());
             expect(testConfig.showDeviceLogo).to(beFalse());
             expect(testConfig.backgroundColor).to(equal([UIColor colorWithRed:(57.0/255.0) green:(78.0/255.0) blue:(96.0/255.0) alpha:1.0]));
@@ -33,11 +28,6 @@ describe(@"a lock screen configuration", ^{
         });
         
         it(@"should properly set properties", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testConfig.enableAutomaticLockScreen).to(beTrue());
-            expect(testConfig.showInOptionalState).to(beFalse());
-#pragma clang diagnostic pop
             expect(testConfig.enableDismissGesture).to(beTrue());
             expect(testConfig.showDeviceLogo).to(beTrue());
             expect(testConfig.backgroundColor).to(equal([UIColor colorWithRed:(57.0/255.0) green:(78.0/255.0) blue:(96.0/255.0) alpha:1.0]));
@@ -58,11 +48,6 @@ describe(@"a lock screen configuration", ^{
         });
         
         it(@"should properly set properties", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testConfig.enableAutomaticLockScreen).to(beTrue());
-            expect(testConfig.showInOptionalState).to(beFalse());
-#pragma clang diagnostic pop
             expect(testConfig.enableDismissGesture).to(beTrue());
             expect(testConfig.showDeviceLogo).to(beTrue());
             expect(testConfig.backgroundColor).to(equal([UIColor blueColor]));
@@ -81,11 +66,6 @@ describe(@"a lock screen configuration", ^{
         });
         
         it(@"should properly set properties", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testConfig.enableAutomaticLockScreen).to(beTrue());
-            expect(testConfig.showInOptionalState).to(beFalse());
-#pragma clang diagnostic pop
             expect(testConfig.enableDismissGesture).to(beTrue());
             expect(testConfig.showDeviceLogo).to(beTrue());
             expect(testConfig.backgroundColor).to(equal([UIColor colorWithRed:(57.0/255.0) green:(78.0/255.0) blue:(96.0/255.0) alpha:1.0]));

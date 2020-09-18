@@ -27,11 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) SDLPermissionGroupType groupType;
 
 /**
- *  The block that will be called on status changes to this filter group.
- */
-@property (copy, nonatomic, readonly) SDLPermissionsChangedHandler handler;
-
-/**
  *  The block that will be called on status changes to RPC permission status objects
  */
 @property (copy, nonatomic, readonly) SDLRPCPermissionStatusChangedHandler rpcPermissionStatusHandler;
@@ -45,18 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Create a new permission filter group with a SDLPermissionsChangedHandler.
- *
- *  @param rpcNames  The names of the RPCs to watch permissions of.
- *  @param groupType The type of notifications to be sent for this filter group.
- *  @param handler  The block observer to be called when changes occur.
- *
- *  @return An instance of `SDLPermissionFilter`.
- */
-- (instancetype)initWithPermissions:(NSArray<SDLPermissionElement *> *)rpcNames groupType:(SDLPermissionGroupType)groupType permissionsHandler:(SDLPermissionsChangedHandler)handler;
-
-/**
- *  Create a new permission filter group with a SDLRPCPermissionStatusChangedHandler.
+ *  Create a new permission filter group.
  *
  *  @param rpcNames The names of the RPCs to watch permissions of.
  *  @param groupType The type of notifications to be sent for this filter group.
@@ -76,13 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isEqualToFilter:(SDLPermissionFilter *)otherFilter;
 
 /**
- *  Converts an array of SDLPermissionElement objects to an array of SDLPermissionRPCName objects
+ *  Gets all the RPC names from an array of SDLPermissionElements
  *
  *  @param permissionElements The permission elements to convert.
  *
- *  @return An array of SDLPermissionRPCName objects
+ *  @return An array of RPC names
  */
-- (NSArray<SDLPermissionRPCName> *)rpcNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements;
+- (NSArray<SDLRPCFunctionName> *)rpcNamesFromPermissionElements:(NSArray<SDLPermissionElement *> *)permissionElements;
 
 @end
 

@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- A default logger for production. This sets the format type to Default, the log level to Error, and only enables the ASL logger.
+ A default logger for production. This sets the format type to Default, the log level to Error, and the target to SDLLogTargetOSLog.
 
  @return A default configuration that may be customized.
  */

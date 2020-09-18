@@ -64,12 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
     _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
-        [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
-    }
-#pragma clang diagnostic pop
     for (Class securityManagerClass in configuration.encryptionConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
@@ -200,10 +194,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
     SDLLogD(@"Request to start audio service ACKed on transport %@, with payload: %@", protocol.transport, audioAckPayload);
-
-    if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
-        [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
-    }
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }

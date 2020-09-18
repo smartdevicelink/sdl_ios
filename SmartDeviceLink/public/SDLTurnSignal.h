@@ -11,7 +11,7 @@
 /**
  *  Enumeration that describes the status of the turn light indicator.
  */
-typedef SDLEnum SDLTurnSignal SDL_SWIFT_ENUM;
+typedef SDLEnum SDLTurnSignal NS_TYPED_ENUM;
 
 /**
  *  Turn signal is OFF
