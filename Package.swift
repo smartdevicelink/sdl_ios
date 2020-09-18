@@ -14,15 +14,14 @@ let package = Package(
     targets: [
         .target(
             name: "SmartDeviceLink",
+            dependencies: ["BiSON"],
             path: "SmartDeviceLink",
             exclude: ["Info.plist"],
             publicHeadersPath: "public"
         ),
         .target(
             name: "SmartDeviceLinkSwift",
-            dependencies: [
-                "SmartDeviceLink"
-            ],
+            dependencies: ["SmartDeviceLink"],
             path: "SmartDeviceLinkSwift",
             exclude: ["Info.plist"]
         ),
