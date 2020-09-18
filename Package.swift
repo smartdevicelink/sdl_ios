@@ -28,6 +28,7 @@ let package = Package(
         .target(
             name: "BiSON",
             path: "bson_c_lib/src",
+            publicHeadersPath: "."
             exclude: [
                 "Makefile.am",
                 "Makefile.in",
