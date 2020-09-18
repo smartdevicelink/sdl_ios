@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)set{{param.origin|title}}:({{'nullable ' if not param.mandatory}}{{param.type_generic}}{{param.type_sdl|trim}}){{param.origin}} {
     [self.{{parameters_store}} sdl_setObject:{{param.origin}} forName:SDLRPCParameterName{{param.method_suffix}}];
 }
+
 - ({{'nullable ' if not param.mandatory}}{{param.type_generic}}{{param.type_sdl|trim}}){{param.origin}} {
     {% if param.mandatory -%}
     NSError *error = nil;
