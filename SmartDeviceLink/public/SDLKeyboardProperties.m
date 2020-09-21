@@ -11,16 +11,19 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLKeyboardProperties
 
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
+    return [self initWithLanguage:language keyboardLayout:layout keypressMode:keypressMode limitedCharacterList:limitedCharacterList autoCompleteList:autoCompleteList];
+}
+
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
     self = [self init];
     if (!self) {
         return nil;
     }
 
     self.language = language;
-    self.keyboardLayout = layout;
+    self.keyboardLayout = keyboardLayout;
     self.keypressMode = keypressMode;
-    self.limitedCharacterList = [limitedCharacterList mutableCopy];
-    self.autoCompleteText = autoCompleteText;
+    self.limitedCharacterList = limitedCharacterList;
     self.autoCompleteList = autoCompleteList;
 
     return self;
@@ -58,11 +61,17 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectsForName:SDLRPCParameterNameLimitedCharacterList ofClass:NSString.class error:nil];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)setAutoCompleteText:(nullable NSString *)autoCompleteText {
+#pragma clang diagnostic pop
     [self.store sdl_setObject:autoCompleteText forName:SDLRPCParameterNameAutoCompleteText];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (nullable NSString *)autoCompleteText {
+#pragma clang diagnostic pop
     return [self.store sdl_objectForName:SDLRPCParameterNameAutoCompleteText ofClass:NSString.class error:nil];
 }
 
