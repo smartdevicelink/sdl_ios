@@ -22,12 +22,7 @@ describe(@"a log configuration", ^{
             expect(@(testConfiguration.errorsAsynchronous)).to(equal(@NO));
             expect(@(testConfiguration.areAssertionsDisabled)).to(equal(@NO));
             expect(@(testConfiguration.globalLogLevel)).to(equal(@(SDLLogLevelError)));
-
-            if ([NSProcessInfo processInfo].operatingSystemVersion.majorVersion >= 10) {
-                expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetOSLog class]));
-            } else {
-                expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetAppleSystemLog class]));
-            }
+            expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetOSLog class]));
         });
     });
 
@@ -43,12 +38,7 @@ describe(@"a log configuration", ^{
             expect(@(testConfiguration.errorsAsynchronous)).to(equal(@NO));
             expect(@(testConfiguration.areAssertionsDisabled)).to(equal(@NO));
             expect(@(testConfiguration.globalLogLevel)).to(equal(@(SDLLogLevelDebug)));
-
-            if ([NSProcessInfo processInfo].operatingSystemVersion.majorVersion >= 10) {
-                expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetOSLog class]));
-            } else {
-                expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetAppleSystemLog class]));
-            }
+            expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetOSLog class]));
         });
     });
 });

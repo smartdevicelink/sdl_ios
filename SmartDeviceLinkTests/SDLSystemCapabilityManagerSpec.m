@@ -64,6 +64,7 @@ typedef NSString * SDLServiceID;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLSeatLocationCapability *seatLocationCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLDriverDistractionCapability *driverDistractionCapability;
 
 @property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
@@ -104,7 +105,7 @@ describe(@"System capability manager", ^{
 #pragma clang diagnostic pop
         SDLTextField *textField = [[SDLTextField alloc] init];
         textField.name = SDLTextFieldNameMainField1;
-        textField.characterSet = SDLCharacterSetCID1;
+        textField.characterSet = SDLCharacterSetUtf8;
         textField.width = @(123);
         textField.rows = @(1);
         testDisplayCapabilities.textFields = @[textField];
@@ -172,6 +173,7 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
+        expect(testSystemCapabilityManager.driverDistractionCapability).to(beNil());
         expect(testSystemCapabilityManager.currentHMILevel).to(equal(SDLHMILevelNone));
     });
 
@@ -663,14 +665,11 @@ describe(@"System capability manager", ^{
         __block TestSystemCapabilityObserver *navigationObserver = nil;
         __block TestSystemCapabilityObserver *videoStreamingObserver = nil;
         __block TestSystemCapabilityObserver *displaysObserver = nil;
-
-        __block NSUInteger observerTriggeredCount = 0;
         __block NSUInteger handlerTriggeredCount = 0;
 
         beforeEach(^{
             testSystemCapabilityManager.currentHMILevel = SDLHMILevelFull;
 
-            observerTriggeredCount = 0;
             handlerTriggeredCount = 0;
             [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"]; // supports subscriptions
 
@@ -699,17 +698,9 @@ describe(@"System capability manager", ^{
         });
 
         context(@"from a GetSystemCapabilitiesResponse", ^{
-            __block id blockObserver = nil;
             __block id handlerObserver = nil;
 
             beforeEach(^{
- #pragma clang diagnostic push
- #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
-                    observerTriggeredCount++;
-                }];
-#pragma clang diagnostic pop
-
                 handlerObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
                     handlerTriggeredCount++;
                 }];
@@ -723,7 +714,6 @@ describe(@"System capability manager", ^{
 
             it(@"should not notify subscribers of new data because it was sent outside of the SCM", ^{
                 expect(handlerTriggeredCount).toEventually(equal(1));
-                expect(observerTriggeredCount).toEventually(equal(1));
 
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(0));
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
@@ -741,7 +731,6 @@ describe(@"System capability manager", ^{
                 beforeEach(^{
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver];
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:handlerObserver];
-                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:blockObserver];
 
                     SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
                     testResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
@@ -752,7 +741,6 @@ describe(@"System capability manager", ^{
 
                 it(@"should not notify the subscriber of the new data", ^{
                     expect(handlerTriggeredCount).toEventually(equal(1));
-                    expect(observerTriggeredCount).toEventually(equal(1));
 
                     expect(phoneObserver.selectorCalledCount).toEventually(equal(0)); // No change from above
                     expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
@@ -764,17 +752,9 @@ describe(@"System capability manager", ^{
         });
 
         context(@"from an OnSystemCapabilities notification", ^{
-            __block id blockObserver = nil;
             __block id handlerObserver = nil;
 
             beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                blockObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withBlock:^(SDLSystemCapability * _Nonnull systemCapability) {
-                    observerTriggeredCount++;
-                }];
-#pragma clang diagnostic pop
-
                 handlerObserver = [testSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypePhoneCall withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
                     handlerTriggeredCount++;
                 }];
@@ -787,7 +767,6 @@ describe(@"System capability manager", ^{
 
             it(@"should notify subscribers of the new data", ^{
                 expect(handlerTriggeredCount).toEventually(equal(2));
-                expect(observerTriggeredCount).toEventually(equal(2));
 
                 expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
                 expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
@@ -804,7 +783,6 @@ describe(@"System capability manager", ^{
             describe(@"unsubscribing", ^{
                 beforeEach(^{
                     [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:phoneObserver];
-                    [testSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypePhoneCall withObserver:blockObserver];
 
                     SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] init];
                     testResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
@@ -815,7 +793,6 @@ describe(@"System capability manager", ^{
 
                 it(@"should not notify the subscriber of the new data", ^{
                     expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(observerTriggeredCount).toEventually(equal(2));
                     expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
                     expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
                     expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
@@ -852,16 +829,16 @@ describe(@"System capability manager", ^{
 
         describe(@"when sending the merge update", ^{
             it(@"should correctly merge", ^{
-                deleteCapability.updateReason = SDLServiceUpdateRemoved;
+                deleteCapability.updateReason = SDLServiceUpdateReasonRemoved;
                 deleteCapability.updatedAppServiceRecord.servicePublished = @NO;
                 deleteCapability.updatedAppServiceRecord.serviceActive = @NO;
 
-                updateCapability.updateReason = SDLServiceUpdateActivated;
+                updateCapability.updateReason = SDLServiceUpdateReasonActivated;
                 updateCapability.updatedAppServiceRecord.serviceActive = @YES;
 
                 SDLAppServiceManifest *newCapabilityManifest = [[SDLAppServiceManifest alloc] initWithMediaServiceName:@"New me" serviceIcon:nil allowAppConsumers:YES maxRPCSpecVersion:nil handledRPCs:nil mediaServiceManifest:[[SDLMediaServiceManifest alloc] init]];
                 SDLAppServiceRecord *newCapabilityRecord = [[SDLAppServiceRecord alloc] initWithServiceID:@"3456" serviceManifest:newCapabilityManifest servicePublished:YES serviceActive:NO];
-                newCapability = [[SDLAppServiceCapability alloc] initWithUpdateReason:SDLServiceUpdatePublished updatedAppServiceRecord:newCapabilityRecord];
+                newCapability = [[SDLAppServiceCapability alloc] initWithUpdateReason:SDLServiceUpdateReasonPublished updatedAppServiceRecord:newCapabilityRecord];
 
                 SDLAppServicesCapabilities *appServicesUpdate = [[SDLAppServicesCapabilities alloc] initWithAppServices:@[deleteCapability, updateCapability, newCapability]];
                 SDLSystemCapability *appServiceCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:appServicesUpdate];
@@ -875,10 +852,10 @@ describe(@"System capability manager", ^{
                 SDLAppServiceCapability *firstCapability = testSystemCapabilityManager.appServicesCapabilities.appServices.firstObject;
                 SDLAppServiceCapability *secondCapability = testSystemCapabilityManager.appServicesCapabilities.appServices.lastObject;
 
-                expect(firstCapability.updateReason).to(equal(SDLServiceUpdatePublished));
+                expect(firstCapability.updateReason).to(equal(SDLServiceUpdateReasonPublished));
                 expect(firstCapability.updatedAppServiceRecord.serviceID).to(equal(@"3456"));
 
-                expect(secondCapability.updateReason).to(equal(SDLServiceUpdateActivated));
+                expect(secondCapability.updateReason).to(equal(SDLServiceUpdateReasonActivated));
                 expect(secondCapability.updatedAppServiceRecord.serviceID).to(equal(@"2345"));
                 expect(secondCapability.updatedAppServiceRecord.serviceActive).to(beTrue());
             });
@@ -911,6 +888,7 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
             expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.driverDistractionCapability).to(beNil());
             expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
         });
     });

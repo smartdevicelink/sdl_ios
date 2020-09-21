@@ -42,6 +42,7 @@ class StructsProducer(InterfaceProducerCommon):
             render['name'] = name
             render['extends_class'] = self.struct_class
             render['imports'] = imports
+            render['history'] = item.history
 
         super(StructsProducer, self).transform(item, render)
 

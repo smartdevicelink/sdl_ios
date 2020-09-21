@@ -14,8 +14,6 @@
 
 QuickSpecBegin(SDLAlertSpec)
 
-static UInt16 const SDLDefaultDuration = 5000;
-
 describe(@"Getter/Setter Tests", ^ {
     __block SDLAlert *testRequest = nil;
     __block NSString *testAlertText1 = @"alert#1";
@@ -86,23 +84,20 @@ describe(@"Getter/Setter Tests", ^ {
 
     describe(@"Initializing", ^{
         it(@"Should initialize correctly with a dictionary", ^{
-            NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
-                                                       @{SDLRPCParameterNameParameters:
-                                                             @{SDLRPCParameterNameAlertText1:testAlertText1,
-                                                               SDLRPCParameterNameAlertText2:testAlertText2,
-                                                               SDLRPCParameterNameAlertText3:testAlertText3,
-                                                               SDLRPCParameterNameTTSChunks:testTTSChunks,
-                                                               SDLRPCParameterNameDuration:@(testDuration),
-                                                               SDLRPCParameterNamePlayTone:@(testPlayTone),
-                                                               SDLRPCParameterNameProgressIndicator:@(testProgressIndicator),
-                                                               SDLRPCParameterNameSoftButtons:testSoftButtons,
-                                                               SDLRPCParameterNameAlertIcon:testImage,
-                                                               SDLRPCParameterNameCancelID:@(testCancelID)},
-                                                         SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}};
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                       @{SDLRPCParameterNameParameters:
+                                             @{SDLRPCParameterNameAlertText1:testAlertText1,
+                                               SDLRPCParameterNameAlertText2:testAlertText2,
+                                               SDLRPCParameterNameAlertText3:testAlertText3,
+                                               SDLRPCParameterNameTTSChunks:testTTSChunks,
+                                               SDLRPCParameterNameDuration:@(testDuration),
+                                               SDLRPCParameterNamePlayTone:@(testPlayTone),
+                                               SDLRPCParameterNameProgressIndicator:@(testProgressIndicator),
+                                               SDLRPCParameterNameSoftButtons:testSoftButtons,
+                                               SDLRPCParameterNameAlertIcon:testImage,
+                                               SDLRPCParameterNameCancelID:@(testCancelID)},
+                                         SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}};
             testRequest = [[SDLAlert alloc] initWithDictionary:dict];
-            #pragma clang diagnostic pop
 
             expect(testRequest.alertText1).to(equal(testAlertText1));
             expect(testRequest.alertText2).to(equal(testAlertText2));
@@ -148,137 +143,8 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
 
-        it(@"Should initialize correctly with initWithAlertText1:alertText2:duration:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithAlertText1:testAlertText1 alertText2:testAlertText2 duration:testDuration];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(equal(testAlertText1));
-            expect(testRequest.alertText2).to(equal(testAlertText2));
-            expect(testRequest.alertText3).to(beNil());
-            expect(testRequest.ttsChunks).to(beNil());
-            expect(testRequest.duration).to(equal(testDuration));
-            expect(testRequest.playTone).to(beFalse());
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithAlertText1:alertText2:alertText3:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithAlertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(equal(testAlertText1));
-            expect(testRequest.alertText2).to(equal(testAlertText2));
-            expect(testRequest.alertText3).to(equal(testAlertText3));
-            expect(testRequest.ttsChunks).to(beNil());
-            expect(testRequest.duration).to(equal(SDLDefaultDuration));
-            expect(testRequest.playTone).to(beFalse());
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithAlertText1:alertText2:alertText3:duration", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithAlertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3 duration:testDuration];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(equal(testAlertText1));
-            expect(testRequest.alertText2).to(equal(testAlertText2));
-            expect(testRequest.alertText3).to(equal(testAlertText3));
-            expect(testRequest.ttsChunks).to(beNil());
-            expect(testRequest.duration).to(equal(testDuration));
-            expect(testRequest.playTone).to(beFalse());
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithAlertText1:alertText2:alertText3:duration:softButtons:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithAlertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3 duration:testDuration softButtons:testSoftButtons];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(equal(testAlertText1));
-            expect(testRequest.alertText2).to(equal(testAlertText2));
-            expect(testRequest.alertText3).to(equal(testAlertText3));
-            expect(testRequest.ttsChunks).to(beNil());
-            expect(testRequest.duration).to(equal(testDuration));
-            expect(testRequest.playTone).to(beFalse());
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(equal(testSoftButtons));
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithTTS:playTone:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithTTS:testTTSString playTone:testPlayTone];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(beNil());
-            expect(testRequest.alertText2).to(beNil());
-            expect(testRequest.alertText3).to(beNil());
-            expect(testRequest.ttsChunks).to(equal([SDLTTSChunk textChunksFromString:testTTSString]));
-            expect(testRequest.duration).to(equal(SDLDefaultDuration));
-            expect(testRequest.playTone).to(equal(testPlayTone));
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithTTS:alertText1:alertText2:playTone:duration:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithTTS:testTTSString alertText1:testAlertText1 alertText2:testAlertText2 playTone:testPlayTone duration:testDuration];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(equal(testAlertText1));
-            expect(testRequest.alertText2).to(equal(testAlertText2));
-            expect(testRequest.alertText3).to(beNil());
-            expect(testRequest.ttsChunks).to(equal([SDLTTSChunk textChunksFromString:testTTSString]));
-            expect(testRequest.duration).to(equal(testDuration));
-            expect(testRequest.playTone).to(equal(testPlayTone));
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithTTS:alertText1:alertText2:alertText3:playTone:duration:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithTTS:testTTSString alertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3 playTone:testPlayTone duration:testDuration];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(equal(testAlertText1));
-            expect(testRequest.alertText2).to(equal(testAlertText2));
-            expect(testRequest.alertText3).to(equal(testAlertText3));
-            expect(testRequest.ttsChunks).to(equal([SDLTTSChunk textChunksFromString:testTTSString]));
-            expect(testRequest.duration).to(equal(testDuration));
-            expect(testRequest.playTone).to(equal(testPlayTone));
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
         it(@"Should initialize correctly with initWithTTSChunks:playTone:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLAlert alloc] initWithTTSChunks:testTTSChunks playTone:testPlayTone];
-            #pragma clang diagnostic pop
 
             expect(testRequest.alertText1).to(beNil());
             expect(testRequest.alertText2).to(beNil());
@@ -288,42 +154,6 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.playTone).to(equal(testPlayTone));
             expect(testRequest.progressIndicator).to(beFalse());
             expect(testRequest.softButtons).to(beNil());
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithTTSChunks:alertText1:alertText2:alertText3:playTone:softButtons:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithTTSChunks:testTTSChunks alertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3 playTone:testPlayTone softButtons:testSoftButtons];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(equal(testAlertText1));
-            expect(testRequest.alertText2).to(equal(testAlertText2));
-            expect(testRequest.alertText3).to(equal(testAlertText3));
-            expect(testRequest.ttsChunks).to(equal(testTTSChunks));
-            expect(testRequest.duration).to(equal(SDLDefaultDuration));
-            expect(testRequest.playTone).to(equal(testPlayTone));
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(equal(testSoftButtons));
-            expect(testRequest.alertIcon).to(beNil());
-            expect(testRequest.cancelID).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLAlert alloc] initWithTTSChunks:testTTSChunks alertText1:testAlertText1 alertText2:testAlertText2 alertText3:testAlertText3 playTone:testPlayTone duration:testDuration softButtons:testSoftButtons];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.alertText1).to(equal(testAlertText1));
-            expect(testRequest.alertText2).to(equal(testAlertText2));
-            expect(testRequest.alertText3).to(equal(testAlertText3));
-            expect(testRequest.ttsChunks).to(equal(testTTSChunks));
-            expect(testRequest.duration).to(equal(testDuration));
-            expect(testRequest.playTone).to(equal(testPlayTone));
-            expect(testRequest.progressIndicator).to(beFalse());
-            expect(testRequest.softButtons).to(equal(testSoftButtons));
             expect(testRequest.alertIcon).to(beNil());
             expect(testRequest.cancelID).to(beNil());
         });

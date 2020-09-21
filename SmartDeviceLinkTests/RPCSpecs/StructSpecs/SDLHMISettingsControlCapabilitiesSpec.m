@@ -47,47 +47,18 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.temperatureUnitAvailable).to(equal(@(NO)));
         expect(testStruct.displayModeUnitAvailable).to(equal(@(YES)));
     });
-
-    it(@"Should set and get correctly", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithModuleName:@"displayMode"];
-#pragma clang diagnostic pop
-
-        expect(testStruct.moduleName).to(equal(@"displayMode"));
-        expect(testStruct.moduleInfo).to(beNil());
-        expect(testStruct.distanceUnitAvailable).to(beNil());
-        expect(testStruct.temperatureUnitAvailable).to(beNil());
-        expect(testStruct.displayModeUnitAvailable).to(beNil());
-    });
     
-    it(@"Should set and get correctly", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    it(@"Should init correctly with initWithModuleName:moduleInfo:", ^ {
         SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithModuleName:@"displayMode" moduleInfo:testModuleInfo];
-#pragma clang diagnostic pop
-        
+
         expect(testStruct.moduleName).to(equal(@"displayMode"));
         expect(testStruct.moduleInfo).to(equal(testModuleInfo));
         expect(testStruct.distanceUnitAvailable).to(beNil());
         expect(testStruct.temperatureUnitAvailable).to(beNil());
         expect(testStruct.displayModeUnitAvailable).to(beNil());
     });
-
-    it(@"Should set and get correctly", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithModuleName:@"displayMode" distanceUnitAvailable:NO temperatureUnitAvailable:YES displayModeUnitAvailable:NO];
-#pragma clang diagnostic pop
-
-        expect(testStruct.moduleName).to(equal(@"displayMode"));
-        expect(testStruct.moduleInfo).to(beNil());
-        expect(testStruct.distanceUnitAvailable).to(equal(@(NO)));
-        expect(testStruct.temperatureUnitAvailable).to(equal(@(YES)));
-        expect(testStruct.displayModeUnitAvailable).to(equal(@(NO)));
-    });
     
-    it(@"Should set and get correctly", ^ {
+    it(@"Should init correctly with initWithModuleName:moduleInfo:distanceUnitAvailable:temperatureUnitAvailable:displayModeUnitAvailable:", ^ {
         SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithModuleName:@"displayMode" moduleInfo:testModuleInfo distanceUnitAvailable:NO temperatureUnitAvailable:YES displayModeUnitAvailable:NO];
         
         expect(testStruct.moduleName).to(equal(@"displayMode"));
@@ -98,23 +69,19 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName:@"temperatureUnit",
+        NSDictionary *dict = @{SDLRPCParameterNameModuleName:@"temperatureUnit",
                                        SDLRPCParameterNameModuleInfo:testModuleInfo,
                                        SDLRPCParameterNameTemperatureUnitAvailable:@(YES),
                                        SDLRPCParameterNameDistanceUnitAvailable:@(YES),
                                        SDLRPCParameterNameDisplayModeUnitAvailable:@(NO)
-                                       } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLHMISettingsControlCapabilities* testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
+                                       };
+        SDLHMISettingsControlCapabilities *testStruct = [[SDLHMISettingsControlCapabilities alloc] initWithDictionary:dict];
 
         expect(testStruct.moduleName).to(equal(@"temperatureUnit"));
         expect(testStruct.moduleInfo).to(equal(testModuleInfo));
         expect(testStruct.distanceUnitAvailable).to(equal(@(YES)));
         expect(testStruct.temperatureUnitAvailable).to(equal(@(YES)));
         expect(testStruct.displayModeUnitAvailable).to(equal(@(NO)));
-
     });
 
     it(@"Should return nil if not set", ^ {
@@ -125,7 +92,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.distanceUnitAvailable).to(beNil());
         expect(testStruct.temperatureUnitAvailable).to(beNil());
         expect(testStruct.displayModeUnitAvailable).to(beNil());
-
     });
 });
 

@@ -202,7 +202,7 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
                 OCMStub([mockedApplication sharedApplication]).andReturn(mockedApplication);
                 OCMExpect([mockedApplication openURL:[OCMArg checkWithBlock:^BOOL(id obj) {
                     return [((NSURL *)obj).absoluteString isEqualToString:@"myApp://"];
-                }]]);
+                }] options:@{} completionHandler:nil]);
 
                 SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];

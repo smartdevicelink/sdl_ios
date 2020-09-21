@@ -4,18 +4,19 @@
 
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
+#import "SDLGlobals.h"
+#import "SDLMenuCell.h"
+#import "SDLMenuManager.h"
 #import "SDLScreenManager.h"
 #import "SDLShow.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
-#import "SDLTextAndGraphicManager.h"
-#import "TestConnectionManager.h"
-#import "SDLVersion.h"
-#import "SDLGlobals.h"
-#import "SDLMenuCell.h"
-#import "SDLMenuManager.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLTemplateConfiguration.h"
+#import "SDLTextAndGraphicManager.h"
+#import "SDLVersion.h"
+#import "TestConnectionManager.h"
 
 @interface SDLSoftButtonManager()
 
@@ -30,8 +31,7 @@
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
-
-@property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @end
@@ -56,6 +56,7 @@ describe(@"screen manager", ^{
     __block NSString *testString2 = @"test2";
     __block NSString *testString3 = @"test3";
     __block NSString *testString4 = @"test4";
+    __block NSString *testTitle = @"testTitle";
     __block SDLTextAlignment testAlignment = SDLTextAlignmentRight;
     __block SDLMetadataType testMetadataType1 = SDLMetadataTypeMediaTitle;
     __block SDLMetadataType testMetadataType2 = SDLMetadataTypeMediaAlbum;
@@ -70,6 +71,8 @@ describe(@"screen manager", ^{
     __block SDLSoftButtonState *testSBState = [[SDLSoftButtonState alloc] initWithStateName:testSBStateName text:testSBStateText image:nil];
     __block SDLSoftButtonObject *testSBObject = [[SDLSoftButtonObject alloc] initWithName:testSBObjectName state:testSBState handler:nil];
 
+    __block SDLTemplateConfiguration *testTemplateConfig = [[SDLTemplateConfiguration alloc] initWithTemplate:@"Test"];
+
     beforeEach(^{
         mockConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
@@ -78,6 +81,7 @@ describe(@"screen manager", ^{
         testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
     });
 
+    // should set up the sub-managers correctly
     it(@"should set up the sub-managers correctly", ^{
         expect(testScreenManager.textAndGraphicManager.connectionManager).to(equal(mockConnectionManager));
         expect(testScreenManager.textAndGraphicManager.fileManager).to(equal(mockFileManager));
@@ -85,6 +89,7 @@ describe(@"screen manager", ^{
         expect(testScreenManager.softButtonManager.fileManager).to(equal(mockFileManager));
     });
 
+    // batching updates
     describe(@"batching updates", ^{
         beforeEach(^{
             SDLHMILevel hmiLevelFull = SDLHMILevelFull;
@@ -106,7 +111,7 @@ describe(@"screen manager", ^{
             });
 
             it(@"should have in progress updates", ^{
-                expect(testScreenManager.textAndGraphicManager.inProgressUpdate).toNot(beNil());
+                expect(testScreenManager.textAndGraphicManager.transactionQueue.operationCount).toNot(equal(0));
                 expect(testScreenManager.softButtonManager.transactionQueue.operationCount).to(equal(1));
 
                 expect(testScreenManager.textAndGraphicManager.batchUpdates).to(beFalse());
@@ -115,6 +120,7 @@ describe(@"screen manager", ^{
         });
     });
 
+    // setters
     describe(@"setters", ^{
         beforeEach(^{
             [testScreenManager beginUpdates];
@@ -128,6 +134,7 @@ describe(@"screen manager", ^{
             testScreenManager.textAlignment = testAlignment;
             testScreenManager.primaryGraphic = testArtwork;
             testScreenManager.secondaryGraphic = testArtwork;
+            testScreenManager.title = testTitle;
             testScreenManager.textField1Type = testMetadataType1;
             testScreenManager.textField2Type = testMetadataType2;
             testScreenManager.textField3Type = testMetadataType3;
@@ -137,6 +144,7 @@ describe(@"screen manager", ^{
             expect(testScreenManager.textAndGraphicManager.textField2).to(equal(testString2));
             expect(testScreenManager.textAndGraphicManager.textField3).to(equal(testString3));
             expect(testScreenManager.textAndGraphicManager.textField4).to(equal(testString4));
+            expect(testScreenManager.textAndGraphicManager.title).to(equal(testTitle));
             expect(testScreenManager.textAndGraphicManager.primaryGraphic.name).to(equal(testArtwork.name));
             expect(testScreenManager.textAndGraphicManager.secondaryGraphic.name).to(equal(testArtwork.name));
             expect(testScreenManager.textAndGraphicManager.alignment).to(equal(testAlignment));
@@ -151,6 +159,15 @@ describe(@"screen manager", ^{
 
             expect(testScreenManager.softButtonManager.softButtonObjects).to(haveCount(1));
             expect(testScreenManager.softButtonManager.softButtonObjects.firstObject.name).to(equal(testSBObjectName));
+        });
+    });
+
+    // changing layout
+    describe(@"changing layout", ^{
+        it(@"should pass the call to the T&G manager", ^{
+            [testScreenManager changeLayout:testTemplateConfig withCompletionHandler:nil];
+
+            expect(testScreenManager.textAndGraphicManager.transactionQueue.operationCount).to(equal(1));
         });
     });
 });
