@@ -225,8 +225,8 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
 
-            it(@"should do nothing", ^{
-                OCMReject([mockSession uploadTaskWithRequest:[OCMArg any] fromData:[OCMArg any] completionHandler:[OCMArg any]]).andReturn(nil);
+            it(@"should not send anything to the module", ^{
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
             });
         });
     });
