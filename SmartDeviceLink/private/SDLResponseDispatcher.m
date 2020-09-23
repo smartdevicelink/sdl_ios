@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLAlert *alert = (SDLAlert *)request;
         [self sdl_addToCustomButtonHandlerMap:alert.softButtons];
     } else if ([request isKindOfClass:[SDLAlertManeuver class]]) {
-        SDLAlert *alertManeuver = (SDLAlertManeuver *)request;
+        SDLAlertManeuver *alertManeuver = (SDLAlertManeuver *)request;
         [self sdl_addToCustomButtonHandlerMap:alertManeuver.softButtons];
     } else if ([request isKindOfClass:[SDLSubtleAlert class]]) {
         SDLSubtleAlert *subtleAlert = (SDLSubtleAlert *)request;
