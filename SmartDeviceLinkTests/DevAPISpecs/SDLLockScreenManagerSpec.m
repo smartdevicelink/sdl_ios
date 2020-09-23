@@ -116,7 +116,7 @@ describe(@"a lock screen manager", ^{
 
                     testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
 
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testRequiredStatus}];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:dispatcherMock userInfo:@{SDLNotificationUserInfoObject: testRequiredStatus}];
                 });
 
                 it(@"should have presented the lock screen and the lockscreen should not have a vehicle icon", ^{
@@ -192,7 +192,7 @@ describe(@"a lock screen manager", ^{
                         testOffStatus = [[SDLLockScreenStatusInfo alloc] init];
                         testOffStatus.lockScreenStatus = SDLLockScreenStatusOff;
 
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testOffStatus}];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:dispatcherMock userInfo:@{SDLNotificationUserInfoObject: testOffStatus}];
                     });
 
                     it(@"should have dismissed the lock screen", ^{
