@@ -3,6 +3,7 @@
 
 #import "SDLAddCommand.h"
 #import "SDLAlert.h"
+#import "SDLAlertManeuver.h"
 #import "SDLButtonName.h"
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteCommandResponse.h"
@@ -20,9 +21,11 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLScrollableMessage.h"
 #import "SDLShow.h"
+#import "SDLShowConstantTBT.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonType.h"
 #import "SDLSubscribeButton.h"
+#import "SDLSubtleAlert.h"
 #import "SDLSystemAction.h"
 #import "SDLTextAlignment.h"
 #import "SDLUnsubscribeButton.h"
@@ -588,7 +591,340 @@ describe(@"a response dispatcher", ^{
             });
         });
     });
-    
+
+    context(@"storing a subtle alert request", ^{
+        __block SDLSubtleAlert *testSubtleAlert = nil;
+        __block SDLSoftButton *testSoftButton1 = nil;
+
+        beforeEach(^{
+            testSubtleAlert = [[SDLSubtleAlert alloc] initWithAlertText1:@"alertText1" alertText2:nil alertIcon:nil ttsChunks:nil duration:nil softButtons:nil cancelID:nil];
+            testSubtleAlert.correlationID = @23;
+        });
+
+        context(@"with a correct soft button and handler", ^{
+            __block NSUInteger numTimesHandlerCalled = 0;
+
+            beforeEach(^{
+                numTimesHandlerCalled = 0;
+
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+
+                testSubtleAlert.softButtons = @[testSoftButton1];
+                [testDispatcher storeRequest:testSubtleAlert handler:nil];
+            });
+
+            it(@"should add the soft button to the map", ^{
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+            });
+
+            describe(@"when button press and button event notifications arrive", ^{
+                __block SDLOnButtonEvent *testButtonEvent = nil;
+                __block SDLOnButtonPress *testButtonPress = nil;
+
+                context(@"that correspond to the created button", ^{
+                    beforeEach(^{
+                        testButtonEvent = [[SDLOnButtonEvent alloc] init];
+                        testButtonEvent.buttonName = SDLButtonNameCustomButton;
+                        testButtonEvent.customButtonID = testSoftButton1.softButtonID;
+
+                        testButtonPress = [[SDLOnButtonPress alloc] init];
+                        testButtonPress.buttonName = SDLButtonNameCustomButton;
+                        testButtonPress.customButtonID = testSoftButton1.softButtonID;
+
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                    });
+
+                    it(@"should run the handler for each", ^{
+                        expect(@(numTimesHandlerCalled)).to(equal(@2));
+                    });
+                });
+
+                context(@"that do not correspond to the created button", ^{
+                    beforeEach(^{
+                        testButtonEvent = [[SDLOnButtonEvent alloc] init];
+                        testButtonEvent.buttonName = SDLButtonNameOk;
+
+                        testButtonPress = [[SDLOnButtonPress alloc] init];
+                        testButtonPress.buttonName = SDLButtonNameOk;
+
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                    });
+
+                    it(@"should not run the handler", ^{
+                        expect(@(numTimesHandlerCalled)).to(equal(@0));
+                    });
+                });
+            });
+        });
+
+        context(@"with a correct soft button but no handler", ^{
+            beforeEach(^{
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+            });
+
+            it(@"should not add the soft button", ^{
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            });
+        });
+
+        context(@"with a malformed soft button", ^{
+            beforeEach(^{
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+            });
+
+            it(@"should throw an exception if there's no button id", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+                testSoftButton1.softButtonID = nil;
+#pragma clang diagnostic pop
+                testSubtleAlert.softButtons = @[testSoftButton1];
+
+                expectAction(^{ [testDispatcher storeRequest:testSubtleAlert handler:nil]; }).to(raiseException().named(@"MissingIdException"));
+            });
+        });
+
+        context(@"without soft buttons", ^{
+            it(@"should not store the request", ^{
+                [testDispatcher storeRequest:testSubtleAlert handler:nil];
+
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            });
+        });
+    });
+
+    context(@"storing an alert maneuver request", ^{
+        __block SDLAlertManeuver *testAlertManeuver = nil;
+        __block SDLSoftButton *testSoftButton1 = nil;
+
+        beforeEach(^{
+            testAlertManeuver = [[SDLAlertManeuver alloc] initWithTTS:@"Test Alert Maneuver" softButtons:nil];
+            testAlertManeuver.correlationID = @223;
+        });
+
+        context(@"with a correct soft button and handler", ^{
+            __block NSUInteger numTimesHandlerCalled = 0;
+
+            beforeEach(^{
+                numTimesHandlerCalled = 0;
+
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+
+                testAlertManeuver.softButtons = @[testSoftButton1];
+                [testDispatcher storeRequest:testAlertManeuver handler:nil];
+            });
+
+            it(@"should add the soft button to the map", ^{
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+            });
+
+            describe(@"when button press and button event notifications arrive", ^{
+                __block SDLOnButtonEvent *testButtonEvent = nil;
+                __block SDLOnButtonPress *testButtonPress = nil;
+
+                context(@"that correspond to the created button", ^{
+                    beforeEach(^{
+                        testButtonEvent = [[SDLOnButtonEvent alloc] init];
+                        testButtonEvent.buttonName = SDLButtonNameCustomButton;
+                        testButtonEvent.customButtonID = testSoftButton1.softButtonID;
+
+                        testButtonPress = [[SDLOnButtonPress alloc] init];
+                        testButtonPress.buttonName = SDLButtonNameCustomButton;
+                        testButtonPress.customButtonID = testSoftButton1.softButtonID;
+
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                    });
+
+                    it(@"should run the handler for each", ^{
+                        expect(@(numTimesHandlerCalled)).to(equal(@2));
+                    });
+                });
+
+                context(@"that do not correspond to the created button", ^{
+                    beforeEach(^{
+                        testButtonEvent = [[SDLOnButtonEvent alloc] init];
+                        testButtonEvent.buttonName = SDLButtonNameOk;
+
+                        testButtonPress = [[SDLOnButtonPress alloc] init];
+                        testButtonPress.buttonName = SDLButtonNameOk;
+
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                    });
+
+                    it(@"should not run the handler", ^{
+                        expect(@(numTimesHandlerCalled)).to(equal(@0));
+                    });
+                });
+            });
+        });
+
+        context(@"with a correct soft button but no handler", ^{
+            beforeEach(^{
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+            });
+
+            it(@"should not add the soft button", ^{
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            });
+        });
+
+        context(@"with a malformed soft button", ^{
+            beforeEach(^{
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+            });
+
+            it(@"should throw an exception if there's no button id", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+                testSoftButton1.softButtonID = nil;
+#pragma clang diagnostic pop
+                testAlertManeuver.softButtons = @[testSoftButton1];
+
+                expectAction(^{ [testDispatcher storeRequest:testAlertManeuver handler:nil]; }).to(raiseException().named(@"MissingIdException"));
+            });
+        });
+
+        context(@"without soft buttons", ^{
+            it(@"should not store the request", ^{
+                [testDispatcher storeRequest:testAlertManeuver handler:nil];
+
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            });
+        });
+    });
+
+    context(@"storing a show constant turn-by-turn request", ^{
+        __block SDLShowConstantTBT *testShowConstantTBT = nil;
+        __block SDLSoftButton *testSoftButton1 = nil;
+
+        beforeEach(^{
+            testShowConstantTBT = [[SDLShowConstantTBT alloc] initWithNavigationText1:@"nav text" navigationText2:nil eta:nil timeToDestination:nil totalDistance:nil turnIcon:nil nextTurnIcon:nil distanceToManeuver:34 distanceToManeuverScale:23 maneuverComplete:true softButtons:nil];
+            testShowConstantTBT.correlationID = @1;
+        });
+
+        context(@"with a correct soft button and handler", ^{
+            __block NSUInteger numTimesHandlerCalled = 0;
+
+            beforeEach(^{
+                numTimesHandlerCalled = 0;
+
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+
+                testShowConstantTBT.softButtons = @[testSoftButton1];
+                [testDispatcher storeRequest:testShowConstantTBT handler:nil];
+            });
+
+            it(@"should add the soft button to the map", ^{
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+            });
+
+            describe(@"when button press and button event notifications arrive", ^{
+                __block SDLOnButtonEvent *testButtonEvent = nil;
+                __block SDLOnButtonPress *testButtonPress = nil;
+
+                context(@"that correspond to the created button", ^{
+                    beforeEach(^{
+                        testButtonEvent = [[SDLOnButtonEvent alloc] init];
+                        testButtonEvent.buttonName = SDLButtonNameCustomButton;
+                        testButtonEvent.customButtonID = testSoftButton1.softButtonID;
+
+                        testButtonPress = [[SDLOnButtonPress alloc] init];
+                        testButtonPress.buttonName = SDLButtonNameCustomButton;
+                        testButtonPress.customButtonID = testSoftButton1.softButtonID;
+
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                    });
+
+                    it(@"should run the handler for each", ^{
+                        expect(@(numTimesHandlerCalled)).to(equal(@2));
+                    });
+                });
+
+                context(@"that do not correspond to the created button", ^{
+                    beforeEach(^{
+                        testButtonEvent = [[SDLOnButtonEvent alloc] init];
+                        testButtonEvent.buttonName = SDLButtonNameOk;
+
+                        testButtonPress = [[SDLOnButtonPress alloc] init];
+                        testButtonPress.buttonName = SDLButtonNameOk;
+
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
+                    });
+
+                    it(@"should not run the handler", ^{
+                        expect(@(numTimesHandlerCalled)).to(equal(@0));
+                    });
+                });
+            });
+        });
+
+        context(@"with a correct soft button but no handler", ^{
+            beforeEach(^{
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+            });
+
+            it(@"should not add the soft button", ^{
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            });
+        });
+
+        context(@"with a malformed soft button", ^{
+            beforeEach(^{
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+            });
+
+            it(@"should throw an exception if there's no button id", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+                testSoftButton1.softButtonID = nil;
+#pragma clang diagnostic pop
+                testShowConstantTBT.softButtons = @[testSoftButton1];
+
+                expectAction(^{ [testDispatcher storeRequest:testShowConstantTBT handler:nil]; }).to(raiseException().named(@"MissingIdException"));
+            });
+        });
+
+        context(@"without soft buttons", ^{
+            it(@"should not store the request", ^{
+                [testDispatcher storeRequest:testShowConstantTBT handler:nil];
+
+                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            });
+        });
+    });
+
     context(@"storing a scrollable message request", ^{
         __block SDLScrollableMessage *testScrollableMessage = nil;
         __block SDLSoftButton *testSoftButton1 = nil;
