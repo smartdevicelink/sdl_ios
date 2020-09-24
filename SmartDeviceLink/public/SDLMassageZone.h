@@ -6,7 +6,7 @@
 /**
  * List possible zones of a multi-contour massage seat.
  */
-typedef SDLEnum SDLMassageZone SDL_SWIFT_ENUM;
+typedef SDLEnum SDLMassageZone NS_TYPED_ENUM;
 
 /**
  * @abstract The back of a multi-contour massage seat. or SEAT_BACK

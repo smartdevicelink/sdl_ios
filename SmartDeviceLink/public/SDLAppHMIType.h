@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLAppHMIType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLAppHMIType NS_TYPED_ENUM;
 
 /**
  * The App will have default rights.

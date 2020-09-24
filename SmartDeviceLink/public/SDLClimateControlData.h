@@ -16,36 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLClimateControlData : SDLRPCStruct
 
-/// Convenience init for climate control data.
-/// @param fanSpeed Speed of Fan in integer
-/// @param desiredTemperature Desired Temperature in SDLTemperature
-/// @param acEnable Represents if AC is enabled
-/// @param circulateAirEnable Represents if circulation of air is enabled
-/// @param autoModeEnable Represents if auto mode is enabled
-/// @param defrostZone Represents the kind of defrost zone
-/// @param dualModeEnable Represents if dual mode is enabled
-/// @param acMaxEnable Represents if ac max is enabled
-/// @param ventilationMode Represents the kind of ventilation zone
-/// @return An SDLClimateControlData object
-- (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode __deprecated_msg("Use initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone: dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable: heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:climateEnable instead");
-
-/// Convenience init for climate control data.
-/// @param fanSpeed Speed of Fan in integer
-/// @param desiredTemperature Desired Temperature in SDLTemperature
-/// @param acEnable Represents if AC is enabled
-/// @param circulateAirEnable Represents if circulation of air is enabled
-/// @param autoModeEnable Represents if auto mode is enabled
-/// @param defrostZone Represents the kind of defrost zone
-/// @param dualModeEnable Represents if dual mode is enabled
-/// @param acMaxEnable Represents if ac max is enabled
-/// @param ventilationMode Represents the kind of ventilation zone
-/// @param heatedSteeringWheelEnable Represents if heated steering wheel is enabled
-/// @param heatedWindshieldEnable Represents if heated windshield is enabled
-/// @param heatedRearWindowEnable Represents if heated rear window is enabled
-/// @param heatedMirrorsEnable Represents if heated mirrors are enabled
-/// @return An SDLClimateControlData object
-- (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode heatedSteeringWheelEnable:(nullable NSNumber<SDLBool> *)heatedSteeringWheelEnable heatedWindshieldEnable:(nullable NSNumber<SDLBool> *)heatedWindshieldEnable heatedRearWindowEnable:(nullable NSNumber<SDLBool> *)heatedRearWindowEnable heatedMirrorsEnable:(nullable NSNumber<SDLBool> *)heatedMirrorsEnable __deprecated_msg("Use initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone: dualModeEnable:acMaxEnable:ventilationMode:heatedSteeringWheelEnable: heatedWindshieldEnable:heatedRearWindowEnable:heatedMirrorsEnable:climateEnable instead");
-
 /// Convenience init for climate control data with all properties.
 /// @param fanSpeed Speed of Fan in integer
 /// @param desiredTemperature Desired Temperature in SDLTemperature

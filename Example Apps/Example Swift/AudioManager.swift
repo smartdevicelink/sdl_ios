@@ -19,7 +19,6 @@ fileprivate enum SpeechRecognitionAuthState {
     case authorized, notAuthorized, badRegion
 }
 
-@available(iOS 10.0, *)
 class AudioManager: NSObject {
     fileprivate let sdlManager: SDLManager
     fileprivate var audioData: Data?
@@ -88,7 +87,6 @@ class AudioManager: NSObject {
 
 // MARK: - Audio Pass Thru Notifications
 
-@available(iOS 10.0, *)
 private extension AudioManager {
     /// SDL streams the audio data as it is collected.
     var audioDataReceivedHandler: SDLAudioPassThruHandler? {
@@ -144,7 +142,6 @@ private extension AudioManager {
 
 // MARK: - Speech Recognition
 
-@available(iOS 10.0, *)
 private extension AudioManager {
     /// Configures speech recognition
     func startSpeechRecognitionTask() {
@@ -186,7 +183,6 @@ private extension AudioManager {
 
 // MARK: - Speech Recognition Authorization
 
-@available(iOS 10.0, *)
 extension AudioManager: SFSpeechRecognizerDelegate {
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         speechRecognitionAuthState = AudioManager.checkAuthorization(speechRecognizer: speechRecognizer)

@@ -7,7 +7,7 @@
  * The name that identifies the Light
  *
  */
-typedef SDLEnum SDLLightName SDL_SWIFT_ENUM;
+typedef SDLEnum SDLLightName NS_TYPED_ENUM;
 
 /**
  * @abstract Represents the Light with name FRONT_LEFT_HIGH_BEAM.

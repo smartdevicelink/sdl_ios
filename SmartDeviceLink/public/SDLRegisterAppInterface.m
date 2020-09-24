@@ -13,7 +13,6 @@
 #import "SDLLifecycleConfiguration.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
-#import "SDLSyncMsgVersion.h"
 #import "SDLMsgVersion.h"
 #import "SDLTemplateColorScheme.h"
 #import "SDLTTSChunk.h"
@@ -73,42 +72,17 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
     self = [self initWithAppName:appName appId:appId languageDesired:languageDesired];
-    if (!self) {
-        return nil;
-    }
 
+    self.fullAppID = fullAppId;
     self.isMediaApplication = @(isMediaApp);
     self.appHMIType = appTypes;
     self.ngnMediaScreenAppName = shortAppName;
-
-    return self;
-}
-
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash {
-    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
-    if (!self) {
-        return nil;
-    }
-
     self.ttsName = [ttsName copy];
     self.vrSynonyms = [vrSynonyms copy];
     self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     self.hashID = resumeHash;
-
-    return self;
-}
-
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:ttsName vrSynonyms:vrSynonyms hmiDisplayLanguageDesired:hmiDisplayLanguageDesired resumeHash:resumeHash];
-#pragma clang diagnostic pop
-
-    if (!self) { return nil; }
-
-    self.fullAppID = fullAppId;
     self.dayColorScheme = dayColorScheme;
     self.nightColorScheme = nightColorScheme;
 
@@ -116,19 +90,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Getters and Setters
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
-    SDLMsgVersion * sdlMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:(uint8_t)syncMsgVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)syncMsgVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)syncMsgVersion.patchVersion.unsignedIntValue];
-    [self.parameters sdl_setObject:sdlMsgVersion forName:SDLRPCParameterNameSyncMessageVersion];
-}
-
-- (SDLSyncMsgVersion *)syncMsgVersion {
-    SDLMsgVersion * sdlMsgVersion = [self.parameters sdl_objectForName:SDLRPCParameterNameSyncMessageVersion ofClass:SDLMsgVersion.class error:nil];
-    return [[SDLSyncMsgVersion alloc] initWithMajorVersion:(uint8_t)sdlMsgVersion.majorVersion.unsignedIntValue minorVersion:(uint8_t)sdlMsgVersion.minorVersion.unsignedIntValue patchVersion:(uint8_t)sdlMsgVersion.patchVersion.unsignedIntValue];
-}
-#pragma clang diagnostic pop
 
 - (void)setSdlMsgVersion:(SDLMsgVersion *)sdlMsgVersion {
     [self.parameters sdl_setObject:sdlMsgVersion forName:SDLRPCParameterNameSyncMessageVersion];

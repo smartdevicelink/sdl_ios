@@ -8,7 +8,6 @@
 
 #import "SDLVersion.h"
 
-#import "SDLSyncMsgVersion.h"
 #import "SDLMsgVersion.h"
 
 
@@ -69,21 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable instancetype)versionWithString:(NSString *)versionString {
     return [[self alloc] initWithString:versionString];
-}
-
-- (instancetype)initWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
-    self = [super init];
-    if (!self) { return nil; }
-
-    _major = syncMsgVersion.majorVersion.unsignedIntegerValue;
-    _minor = syncMsgVersion.minorVersion.unsignedIntegerValue;
-    _patch = syncMsgVersion.patchVersion.unsignedIntegerValue;
-
-    return self;
-}
-
-+ (instancetype)versionWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
-    return [[self alloc] initWithSyncMsgVersion:syncMsgVersion];
 }
 
 - (instancetype)initWithSDLMsgVersion:(SDLMsgVersion *)sdlMsgVersion {

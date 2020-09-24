@@ -11,7 +11,7 @@
 /**
  *  All RPC request / response / notification names
  */
-typedef SDLEnum SDLRPCFunctionName SDL_SWIFT_ENUM;
+typedef SDLEnum SDLRPCFunctionName NS_TYPED_ENUM;
 
 /// Function name for an AddCommand RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameAddCommand;

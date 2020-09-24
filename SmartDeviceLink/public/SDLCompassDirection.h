@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLCompassDirection SDL_SWIFT_ENUM;
+typedef SDLEnum SDLCompassDirection NS_TYPED_ENUM;
 
 /**
  * Direction North

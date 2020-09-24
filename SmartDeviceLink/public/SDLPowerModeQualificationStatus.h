@@ -7,7 +7,7 @@
 /**
  Describes the power mode qualification status. Used in ClusterModeStatus.
  */
-typedef SDLEnum SDLPowerModeQualificationStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLPowerModeQualificationStatus NS_TYPED_ENUM;
 
 /**
  An undefined status

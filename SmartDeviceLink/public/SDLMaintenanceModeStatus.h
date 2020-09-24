@@ -7,7 +7,7 @@
 /**
  * Describes the maintenence mode. Used in nothing.
  */
-typedef SDLEnum SDLMaintenanceModeStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLMaintenanceModeStatus NS_TYPED_ENUM;
 
 /**
  * Maintenance Mode Status : Normal

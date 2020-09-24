@@ -27,6 +27,7 @@
 @class SDLOnButtonPress;
 @class SDLSoftButtonObject;
 @class SDLSystemCapabilityManager;
+@class SDLTemplateConfiguration;
 @class SDLVoiceCommand;
 
 @protocol SDLConnectionManagerType;
@@ -62,22 +63,54 @@ typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPres
 #pragma mark Text and Graphics
 
 /**
- The top text field within a template layout
+ The top text field within a template layout. Pass an empty string `\@""` to clear the text field.
+
+ If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+
+ If 3 lines are available: [field1, field2, field3 - field 4]
+
+ If 2 lines are available: [field1 - field2, field3 - field4]
+
+ If 1 line is available: [field1 - field2 - field3 - field4]
  */
 @property (copy, nonatomic, nullable) NSString *textField1;
 
 /**
- The second text field within a template layout
+ The second text field within a template layout. Pass an empty string `\@""` to clear the text field.
+
+ If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+
+ If 3 lines are available: [field1, field2, field3 - field 4]
+
+ If 2 lines are available: [field1 - field2, field3 - field4]
+
+ If 1 line is available: [field1 - field2 - field3 - field4]
  */
 @property (copy, nonatomic, nullable) NSString *textField2;
 
 /**
- The third text field within a template layout
+ The third text field within a template layout. Pass an empty string `\@""` to clear the text field.
+
+ If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+
+ If 3 lines are available: [field1, field2, field3 - field 4]
+
+ If 2 lines are available: [field1 - field2, field3 - field4]
+
+ If 1 line is available: [field1 - field2 - field3 - field4]
  */
 @property (copy, nonatomic, nullable) NSString *textField3;
 
 /**
- The fourth text field within a template layout
+ The fourth text field within a template layout. Pass an empty string `\@""` to clear the text field.
+
+ If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+
+ If 3 lines are available: [field1, field2, field3 - field 4]
+
+ If 2 lines are available: [field1 - field2, field3 - field4]
+
+ If 1 line is available: [field1 - field2 - field3 - field4]
  */
 @property (copy, nonatomic, nullable) NSString *textField4;
 
@@ -217,40 +250,40 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 - (void)beginUpdates;
 
 /**
- Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
+ Pairs with `beginUpdates:` to batch text, graphic, and layout changes into a single update with a callback when the update is complete.
 
- If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+ Update text fields with new text set into the text field properties, updates the primary and secondary images with new image(s) if new one(s) been set, and updates the template if one was changed using `changeLayout:withCompletionHandler:`.
 
- If 3 lines are available: [field1, field2, field3 - field 4]
-
- If 2 lines are available: [field1 - field2, field3 - field4]
-
- If 1 line is available: [field1 - field2 - field3 - field4]
-
- Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.
-
- If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
+ NOTE: The handler in `changeLayout:withCompletionHandler:` will not be called if the update is batched into this update.
  */
 - (void)endUpdates;
 
 /**
- Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
+ Pairs with `beginUpdates:` to batch text, graphic, and layout changes into a single update with a callback when the update is complete.
 
- If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+ Update text fields with new text set into the text field properties, updates the primary and secondary images with new image(s) if new one(s) been set, and updates the template if one was changed using `changeLayout:withCompletionHandler:`.
 
- If 3 lines are available: [field1, field2, field3 - field 4]
+ NOTE: The handler in `changeLayout:withCompletionHandler:` will not be called if the update is batched into this update.
 
- If 2 lines are available: [field1 - field2, field3 - field4]
-
- If 1 line is available: [field1 - field2 - field3 - field4]
-
- Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.
-
- If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
+ NOTE: If this update returns an error, it may have been superseded by another update. This means that it was cancelled while in-progress because another update was requested, whether batched or not. Check for error domain `SDLErrorDomainTextAndGraphicManager` and code `SDLTextAndGraphicManagerErrorPendingUpdateSuperseded` to determine if your update was superseded. Any other error should represent a rejection of your data to be presented by the head unit. Note that if your update is superseded, it's possible that the update will succeed or fail later. If you have set a handler for your update which superseded this update, the error or success will be represented there.
 
  @param handler A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.
  */
 - (void)endUpdatesWithCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
+
+#pragma mark - Change Layout
+
+/// Change the current layout to a new layout and optionally update the layout's night and day color schemes. The values set for the text, graphics, buttons and template title persist between layout changes. To update the text, graphics, buttons and template title at the same time as the template, batch all the updates between `beginUpdates` and `endUpdates`. If the layout update fails while batching, then the updated text, graphics, buttons or template title will also not be updated.
+///
+/// If you are connected on a < v6.0 connection and batching the update, the layout will be updated, then the text and graphics will be updated. If you are connected on a >= v6.0 connection, the layout will be updated at the same time that the text and graphics are updated.
+///
+/// If this update is batched between `beginUpdates` and `endUpdatesWithCompletionHandler:`, the completion handler here will not be called. Use the completion handler on `endUpdatesWithCompletionHandler:`
+///
+/// NOTE: If this update returns an error, it may have been superseded by another update. This means that it was cancelled while in-progress because another update was requested, whether batched or not. Check for error domain `SDLErrorDomainTextAndGraphicManager` and code `SDLTextAndGraphicManagerErrorPendingUpdateSuperseded` to determine if your update was superseded. Any other error should represent a rejection of your data to be presented by the head unit. Note that if your update is superseded, it's possible that the update will succeed or fail later. If you have set a handler for your update which superseded this update, the error or success will be represented there.
+///
+/// @param templateConfiguration The new configuration of the template, including the layout and color scheme.
+/// @param handler A handler that will be called when the layout change finished.
+- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
 
 #pragma mark - Soft Buttons
 

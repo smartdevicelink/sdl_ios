@@ -7,7 +7,7 @@
 /**
  Reflects the status of the Electronic Parking Brake. A Vehicle Data Type.
  */
-typedef SDLEnum SDLElectronicParkBrakeStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLElectronicParkBrakeStatus NS_TYPED_ENUM;
 
 /**
  Parking brake actuators have been fully applied.

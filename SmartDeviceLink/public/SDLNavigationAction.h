@@ -11,7 +11,7 @@
 /**
  *  A navigation action.
  */
-typedef SDLEnum SDLNavigationAction SDL_SWIFT_ENUM;
+typedef SDLEnum SDLNavigationAction NS_TYPED_ENUM;
 
 /**
  *  Using this action plus a supplied direction can give the type of turn.

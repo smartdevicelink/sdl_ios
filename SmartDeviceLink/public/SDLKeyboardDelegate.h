@@ -66,14 +66,6 @@ typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *_Nu
 - (SDLKeyboardProperties *)customKeyboardConfiguration;
 
 /**
- Implement this if you wish to update the KeyboardProperties.autoCompleteText as the user updates their input. This is called upon a KEYPRESS event.
-
- @param currentInputText The user's full current input text
- @param completionHandler A completion handler to update the autoCompleteText
- */
-- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler __deprecated_msg("Use updateAutocompleteWithInput:autoCompleteResultsHandler:");
-
-/**
  Implement this if you wish to updated the KeyboardProperties.autoCompleteList as the user updates their input. This is called upon a KEYPRESS event.
 
  This allows you to present a list of options that the user can use to fill in the search / text box with suggestions you provide.

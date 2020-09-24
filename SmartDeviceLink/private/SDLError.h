@@ -9,26 +9,10 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLErrorConstants.h"
-
 #import "SDLResult.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
-
-#pragma mark Error Domains
-typedef NSString SDLErrorDomain;
-extern SDLErrorDomain *const SDLErrorDomainLifecycleManager;
-extern SDLErrorDomain *const SDLErrorDomainFileManager;
-extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
-extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
-extern SDLErrorDomain *const SDLErrorDomainMenuManager;
-extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
-extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
-extern SDLErrorDomain *const SDLErrorDomainTransport;
-extern SDLErrorDomain *const SDLErrorDomainRPCStore;
-extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
-extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
-
 
 @interface NSError (SDLErrors)
 

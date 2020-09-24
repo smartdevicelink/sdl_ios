@@ -37,7 +37,7 @@
  *
  * @since SDL 7.0
 */
-typedef SDLEnum SDLTransmissionType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLTransmissionType NS_TYPED_ENUM;
 
 /**
  * Automatic transmission.

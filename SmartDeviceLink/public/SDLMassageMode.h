@@ -6,7 +6,7 @@
 /**
  * The List possible modes of a massage zone.
  */
-typedef SDLEnum SDLMassageMode SDL_SWIFT_ENUM;
+typedef SDLEnum SDLMassageMode NS_TYPED_ENUM;
 
 /**
  * @abstract Massage Mode Status : OFF

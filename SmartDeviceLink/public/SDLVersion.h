@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLSyncMsgVersion;
 @class SDLMsgVersion;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -57,21 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param versionString String representation of the version
 /// @return An SDLVersion object
 + (nullable instancetype)versionWithString:(NSString *)versionString;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-/// Deprecated convenience init to set version using SDLSyncMsgVersion
-///
-/// @param syncMsgVersion Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
-/// @return An SDLVersion object
-- (instancetype)initWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion __deprecated_msg(("Use initWithSDLMsgVersion:sdlMsgVersion: instead"));
-
-/// Deprecated convenience init to set version using SDLSyncMsgVersion
-///
-/// @param syncMsgVersion Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.
-/// @return An SDLVersion object
-+ (instancetype)versionWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion __deprecated_msg(("Use versionWithSDLMsgVersion:sdlMsgVersion instead"));
-#pragma clang diagnostic pop
 
 /// Convenience init to set version using SDLMsgVersion
 ///

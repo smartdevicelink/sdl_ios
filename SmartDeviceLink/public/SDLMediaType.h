@@ -11,7 +11,7 @@
 /**
  *  Enumeration listing possible media types.
  */
-typedef SDLEnum SDLMediaType SDL_SWIFT_ENUM;
+typedef SDLEnum SDLMediaType NS_TYPED_ENUM;
 
 /**
  *  The app will have a media type of music.

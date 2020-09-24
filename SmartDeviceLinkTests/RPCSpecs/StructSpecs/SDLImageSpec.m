@@ -51,10 +51,7 @@ describe(@"Getter/Setter Tests", ^{
                                            SDLRPCParameterNameImageType:imageType,
                                            SDLRPCParameterNameImageTemplate:@YES
                                            } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testSDLImage = [[SDLImage alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
             expectedValue = value;
             expectedImageType = imageType;
@@ -95,18 +92,6 @@ describe(@"initializers", ^{
         expect(testImage.isTemplate).to(beNil());
     });
 
-    context(@"initWithName:ofType:", ^{
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testImage = [[SDLImage alloc] initWithName:testValue ofType:testImageType];
-
-        expect(testImage).toNot(beNil());
-        expect(testImage.value).to(equal(testValue));
-        expect(testImage.imageType).to(equal(testImageType));
-        expect(testImage.isTemplate).to(beFalse());
-        #pragma clang diagnostic pop
-    });
-
     context(@"initWithName:ofType:isTemplate", ^{
         testImage = [[SDLImage alloc] initWithName:testValue ofType:testImageType isTemplate:testIsTemplate];
 
@@ -114,18 +99,6 @@ describe(@"initializers", ^{
         expect(testImage.value).to(equal(testValue));
         expect(testImage.imageType).to(equal(testImageType));
         expect(testImage.isTemplate).to(equal(testIsTemplate));
-    });
-
-    context(@"initWithName:", ^{
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testImage = [[SDLImage alloc] initWithName:testValue];
-
-        expect(testImage).toNot(beNil());
-        expect(testImage.value).to(equal(testValue));
-        expect(testImage.imageType).to(equal(SDLImageTypeDynamic));
-        expect(testImage.isTemplate).to(beFalse());
-        #pragma clang diagnostic pop
     });
 
     context(@"initWithName:isTemplate", ^{

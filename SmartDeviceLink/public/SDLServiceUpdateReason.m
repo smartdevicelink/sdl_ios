@@ -8,6 +8,12 @@
 
 #import "SDLServiceUpdateReason.h"
 
+SDLServiceUpdateReason const SDLServiceUpdateReasonPublished = @"PUBLISHED";
+SDLServiceUpdateReason const SDLServiceUpdateReasonRemoved = @"REMOVED";
+SDLServiceUpdateReason const SDLServiceUpdateReasonActivated = @"ACTIVATED";
+SDLServiceUpdateReason const SDLServiceUpdateReasonDeactivated = @"DEACTIVATED";
+SDLServiceUpdateReason const SDLServiceUpdateReasonManifestUpdate = @"MANIFEST_UPDATE";
+
 SDLServiceUpdateReason const SDLServiceUpdatePublished = @"PUBLISHED";
 SDLServiceUpdateReason const SDLServiceUpdateRemoved = @"REMOVED";
 SDLServiceUpdateReason const SDLServiceUpdateActivated = @"ACTIVATED";

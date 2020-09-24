@@ -7,7 +7,7 @@
 /**
  * Enumeration that describes system actions that can be triggered. Used in SoftButton.
  */
-typedef SDLEnum SDLSystemAction SDL_SWIFT_ENUM;
+typedef SDLEnum SDLSystemAction NS_TYPED_ENUM;
 
 /**
  A default soft button action

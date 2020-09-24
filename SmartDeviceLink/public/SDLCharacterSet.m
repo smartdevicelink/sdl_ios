@@ -32,26 +32,10 @@
 
 #import "SDLCharacterSet.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 SDLCharacterSet const SDLCharacterSetType2 = @"TYPE2SET";
-#pragma clang diagnostic pop
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 SDLCharacterSet const SDLCharacterSetType5 = @"TYPE5SET";
-#pragma clang diagnostic pop
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 SDLCharacterSet const SDLCharacterSetCID1 = @"CID1SET";
-#pragma clang diagnostic pop
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 SDLCharacterSet const SDLCharacterSetCID2 = @"CID2SET";
-#pragma clang diagnostic pop
-
 SDLCharacterSet const SDLCharacterSetAscii = @"ASCII";
 SDLCharacterSet const SDLCharacterSetIso88591 = @"ISO_8859_1";
 SDLCharacterSet const SDLCharacterSetUtf8 = @"UTF_8";

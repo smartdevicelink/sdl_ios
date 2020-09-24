@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLTextAlignment SDL_SWIFT_ENUM;
+typedef SDLEnum SDLTextAlignment NS_TYPED_ENUM;
 
 /**
  * Text aligned left.

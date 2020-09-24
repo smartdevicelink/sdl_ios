@@ -544,6 +544,20 @@ NS_ASSUME_NONNULL_BEGIN
 
                 // TODO: Hash id?
             } break;
+            case SDLServiceTypeAudio: {
+                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+                
+                if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeAudio];
+                }
+            } break;
+            case SDLServiceTypeVideo: {
+                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+                
+                if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeVideo];
+                }
+            } break;
             default:
                 break;
         }

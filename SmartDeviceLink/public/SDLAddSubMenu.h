@@ -73,40 +73,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID;
 
-/// Convenience init for creating an add submenu
-///
-/// @param menuId A menu id
-/// @param menuName The menu name
-/// @return An SDLAddSubMenu object
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName __deprecated_msg("Use initWithMenuID:menuName: instead");
-
-/// Convenience init for creating an add submenu
-///
-/// @param menuId A menu id
-/// @param menuName The menu name
-/// @param position The position within the menu to add
-/// @return An SDLAddSubMenu object
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position __deprecated_msg("Use initWithMenuID:menuName:position:menuIcon:menuLayout:parentID: instead");
-
-/// Convenience init for creating an add submenu
-///
-/// @param menuId A menu id
-/// @param menuName The menu name
-/// @param icon The icon to show on the menu item
-/// @param position The position within the menu to add
-/// @return An SDLAddSubMenu object
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuIcon:(nullable SDLImage *)icon position:(UInt8)position __deprecated_msg("Use initWithMenuID:menuName:position:menuIcon:menuLayout:parentID: instead");
-
-/// Convenience init for creating an add submenu with all properties.
-///
-/// @param menuId A menu id
-/// @param menuName The menu name
-/// @param menuLayout The sub-menu layout
-/// @param icon The icon to show on the menu item
-/// @param position The position within the menu to add
-/// @return An SDLAddSubMenu object
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuLayout:(nullable SDLMenuLayout)menuLayout menuIcon:(nullable SDLImage *)icon position:(UInt8)position __deprecated_msg("Use initWithMenuID:menuName:position:menuIcon:menuLayout:parentID: instead");
-
 /**
  * a Menu ID that identifies a sub menu
  * @discussion This value is used in

@@ -54,10 +54,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
-    return [self initWithConnectionManager:connectionManager configuration:configuration systemCapabilityManager:nil];
-}
-
 - (void)stop {
     [self stopAudio];
     [self stopVideo];
@@ -205,21 +201,6 @@ NS_ASSUME_NONNULL_BEGIN
         self.videoStarted = YES;
     }
 }
-
-#pragma mark Deprecated
-
- - (void)startAudioWithProtocol:(SDLProtocol *)protocol {
-    self.audioProtocol = protocol;
-    [self.audioLifecycleManager startWithProtocol:protocol];
-    self.audioStarted = YES;
-}
-
- - (void)startVideoWithProtocol:(SDLProtocol *)protocol {
-    self.videoProtocol = protocol;
-    [self.videoLifecycleManager startWithProtocol:protocol];
-    self.videoStarted = YES;
-}
-
 
 #pragma mark - Getters
 

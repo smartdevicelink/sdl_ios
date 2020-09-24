@@ -145,12 +145,6 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"App has permission to access vehicle data. Requesting vehicle data...");
     
     SDLGetVehicleData *getAllVehicleData = [[SDLGetVehicleData alloc] initWithGps:@YES speed:@YES rpm:@YES instantFuelConsumption:@YES fuelRange:@YES externalTemperature:@YES turnSignal:@YES vin:@YES gearStatus:@YES tirePressure:@YES odometer:@YES beltStatus:@YES bodyInformation:@YES deviceStatus:@YES driverBraking:@YES wiperStatus:@YES headLampStatus:@YES engineTorque:@YES accPedalPosition:@YES steeringWheelAngle:@YES engineOilLife:@YES electronicParkBrakeStatus:@YES cloudAppVehicleID:@YES stabilityControlsStatus:@YES eCallInfo:@YES airbagStatus:@YES emergencyEvent:@YES clusterModeStatus:@YES myKey:@YES handsOffSteering:@YES windowStatus:@YES];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    getAllVehicleData.fuelLevel = @YES;
-    getAllVehicleData.fuelLevel_State = @YES;
-    getAllVehicleData.prndl = @YES;
-#pragma clang diagnostic pop
 
     [manager sendRequest:getAllVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
@@ -222,15 +216,9 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([vehicleDataType isEqualToString:ACExternalTemperatureMenuName]) {
         vehicleDataDescription = vehicleData.externalTemperature.description;
     } else if ([vehicleDataType isEqualToString:ACFuelLevelMenuName]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        vehicleDataDescription = vehicleData.fuelLevel.description;
-#pragma clang diagnostic pop
+        vehicleDataDescription = vehicleData.fuelRange.firstObject.level.description;
     } else if ([vehicleDataType isEqualToString:ACFuelLevelStateMenuName]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        vehicleDataDescription = vehicleData.fuelLevel_State.description;
-#pragma clang diagnostic pop
+        vehicleDataDescription = vehicleData.fuelRange.firstObject.levelState.description;
     } else if ([vehicleDataType isEqualToString:ACFuelRangeMenuName]) {
         vehicleDataDescription = vehicleData.fuelRange.description;
     } else if ([vehicleDataType isEqualToString:ACGearStatusMenuName]) {
@@ -246,10 +234,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([vehicleDataType isEqualToString:ACOdometerMenuName]) {
         vehicleDataDescription = vehicleData.odometer.description;
     } else if ([vehicleDataType isEqualToString:ACPRNDLMenuName]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        vehicleDataDescription = vehicleData.prndl.description;
-#pragma clang diagnostic pop
+        vehicleDataDescription = vehicleData.gearStatus.actualGear.description;
     } else if ([vehicleDataType isEqualToString:ACSpeedMenuName]) {
         vehicleDataDescription = vehicleData.speed.description;
     } else if ([vehicleDataType isEqualToString:ACSteeringWheelAngleMenuName]) {

@@ -117,42 +117,6 @@ describe(@"initializers", ^{
         });
     });
 
-    context(@"initWithId:vrCommands:menuName:parentId:position:iconValue:iconType:handler:", ^{
-        __block UInt32 parentId = 1234;
-        __block UInt16 position = 2;
-
-        it(@"should initialize with an image", ^{
-            NSString *iconValue = @"Icon";
-            SDLImageType imageType = SDLImageTypeDynamic;
-
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position iconValue:iconValue iconType:imageType handler:nil];
-
-            expect(testCommand.cmdID).to(equal(commandId));
-            expect(testCommand.vrCommands).to(equal(vrCommands));
-            expect(testCommand.menuParams.menuName).toNot(beNil());
-            expect(testCommand.menuParams.parentID).to(equal(parentId));
-            expect(testCommand.menuParams.position).to(equal(position));
-            expect(testCommand.cmdIcon).toNot(beNil());
-            #pragma clang diagnostic pop
-        });
-
-        it(@"should initialize without an image", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position iconValue:nil iconType:nil handler:nil];
-
-            expect(testCommand.cmdID).to(equal(commandId));
-            expect(testCommand.vrCommands).to(equal(vrCommands));
-            expect(testCommand.menuParams.menuName).toNot(beNil());
-            expect(testCommand.menuParams.parentID).to(equal(parentId));
-            expect(testCommand.menuParams.position).to(equal(position));
-            expect(testCommand.cmdIcon).to(beNil());
-            #pragma clang diagnostic pop
-        });
-    });
-
     context(@"initWithId:vrCommands:menuName:parentId:position:iconValue:iconType:iconIsTemplate:handler:", ^{
         __block UInt32 parentId = 12345;
         __block UInt16 position = 0;

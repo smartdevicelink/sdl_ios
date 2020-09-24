@@ -19,17 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVideoStreamingCapability : SDLRPCStruct
 
 /**
-Convenience init for creating a video streaming capability.
-
-@param preferredResolution The preferred resolution of a video stream for decoding and rendering on HMI
-@param maxBitrate The maximum bitrate of video stream that is supported, in kbps
-@param supportedFormats Detailed information on each format supported by this system, in its preferred order
-@param hapticDataSupported True if the system can utilize the haptic spatial data from the source being streamed
-@return A SDLVideoStreamingCapability object
-*/
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported __deprecated_msg("Use initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale: instead");
-
-/**
  Convenience init for creating a video streaming capability with all parameters.
 
  @param preferredResolution The preferred resolution of a video stream for decoding and rendering on HMI

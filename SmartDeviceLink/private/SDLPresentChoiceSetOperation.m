@@ -281,14 +281,6 @@ NS_ASSUME_NONNULL_BEGIN
                 weakself.keyboardProperties.autoCompleteText = (newList.count > 0) ? newList.firstObject : nil;
                 [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
             }];
-        } else if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString * _Nullable updatedAutocompleteText) {
-                weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
-                [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
-            }];
-#pragma clang diagnostic pop
         }
 
         if ([self.keyboardDelegate respondsToSelector:@selector(updateCharacterSetWithInput:completionHandler:)]) {

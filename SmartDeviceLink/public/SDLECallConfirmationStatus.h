@@ -9,7 +9,7 @@
 
  Since SmartDeviceLink 2.0
  */
-typedef SDLEnum SDLECallConfirmationStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLECallConfirmationStatus NS_TYPED_ENUM;
 
 /**
  No E-Call signal triggered.

@@ -11,7 +11,7 @@
 /**
  * Enum for each type of video streaming protocol, used in VideoStreamingFormat
  */
-typedef SDLEnum SDLVideoStreamingState SDL_SWIFT_ENUM;
+typedef SDLEnum SDLVideoStreamingState NS_TYPED_ENUM;
 
 /**
  * STREAMABLE, the current app is allowed to stream video

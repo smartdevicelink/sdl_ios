@@ -31,30 +31,40 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithId:(SDLSupportedSeat)supportedSeat heatingEnabled:(BOOL)heatingEnable coolingEnable:(BOOL)coolingEnabled heatingLevel:(UInt8)heatingLevel coolingLevel:(UInt8)coolingLevel horizontalPostion:(UInt8)horizontal verticalPostion:(UInt8)vertical frontVerticalPostion:(UInt8)frontVertical backVerticalPostion:(UInt8)backVertical backTiltAngle:(UInt8)backAngle headSupportedHorizontalPostion:(UInt8)headSupportedHorizontal headSupportedVerticalPostion:(UInt8)headSupportedVertical massageEnabled:(BOOL)massageEnable massageMode:(NSArray<SDLMassageModeData *> *)massageMode massageCussionFirmness:(NSArray<SDLMassageCushionFirmness *> *)firmness memory:(SDLSeatMemoryAction *)memoryAction {
 #pragma clang diagnostic pop
 
-    self = [super init];
+    self = [self initWithHeatingEnabled:@(heatingEnable) coolingEnabled:@(coolingEnabled) heatingLevel:@(heatingLevel) coolingLevel:@(coolingLevel) horizontalPosition:@(horizontal) verticalPosition:@(vertical) frontVerticalPosition:@(frontVertical) backVerticalPosition:@(backVertical) backTiltAngle:@(backAngle) headSupportHorizontalPosition:@(headSupportedHorizontal) headSupportVerticalPosition:@(headSupportedVertical) massageEnabled:@(massageEnable) massageMode:massageMode massageCushionFirmness:firmness memory:memoryAction];
     if (!self) {
         return nil;
     }
 
     self.id = supportedSeat;
-    self.heatingEnabled = @(heatingEnable);
-    self.coolingEnabled = @(coolingEnabled);
-    self.heatingLevel = @(heatingLevel);
-    self.coolingLevel = @(coolingLevel);
 
-    self.horizontalPosition = @(horizontal);
-    self.verticalPosition = @(vertical);
-    self.frontVerticalPosition = @(frontVertical);
-    self.backVerticalPosition = @(backVertical);
-    self.backTiltAngle = @(backAngle);
+    return self;
+}
 
-    self.headSupportHorizontalPosition = @(headSupportedHorizontal);
-    self.headSupportVerticalPosition = @(headSupportedVertical);
+- (instancetype)initWithHeatingEnabled:(nullable NSNumber<SDLBool> *)heatingEnabled coolingEnabled:(nullable NSNumber<SDLBool> *)coolingEnabled heatingLevel:(nullable NSNumber<SDLUInt> *)heatingLevel coolingLevel:(nullable NSNumber<SDLUInt> *)coolingLevel horizontalPosition:(nullable NSNumber<SDLUInt> *)horizontalPosition verticalPosition:(nullable NSNumber<SDLUInt> *)verticalPosition frontVerticalPosition:(nullable NSNumber<SDLUInt> *)frontVerticalPosition backVerticalPosition:(nullable NSNumber<SDLUInt> *)backVerticalPosition backTiltAngle:(nullable NSNumber<SDLUInt> *)backTiltAngle headSupportHorizontalPosition:(nullable NSNumber<SDLUInt> *)headSupportHorizontalPosition headSupportVerticalPosition:(nullable NSNumber<SDLUInt> *)headSupportVerticalPosition massageEnabled:(nullable NSNumber<SDLBool> *)massageEnabled massageMode:(nullable NSArray<SDLMassageModeData *> *)massageMode massageCushionFirmness:(nullable NSArray<SDLMassageCushionFirmness *> *)massageCushionFirmness memory:(nullable SDLSeatMemoryAction *)memory {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
 
-    self.massageEnabled = @(massageEnable);
+    self.heatingEnabled = heatingEnabled;
+    self.coolingEnabled = coolingEnabled;
+    self.heatingLevel = heatingLevel;
+    self.coolingLevel = coolingLevel;
+
+    self.horizontalPosition = horizontalPosition;
+    self.verticalPosition = verticalPosition;
+    self.frontVerticalPosition = frontVerticalPosition;
+    self.backVerticalPosition = backVerticalPosition;
+    self.backTiltAngle = backTiltAngle;
+
+    self.headSupportHorizontalPosition = headSupportHorizontalPosition;
+    self.headSupportVerticalPosition = headSupportVerticalPosition;
+
+    self.massageEnabled = massageEnabled;
     self.massageMode = massageMode;
-    self.massageCushionFirmness = firmness;
-    self.memory = memoryAction;
+    self.massageCushionFirmness = massageCushionFirmness;
+    self.memory = memory;
 
     return self;
 }

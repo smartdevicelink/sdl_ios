@@ -28,12 +28,6 @@
     return self;
 }
 
-- (instancetype)initWithDisplayName:(NSString *)displayName windowTypeSupported:(NSArray<SDLWindowCapability *> *)windowTypeSupported windowCapabilities:(NSArray<SDLWindowTypeCapabilities *> *)windowCapabilities {
-    SDLLogE(@"This method is broken (the types don't match the parameter names) and will always return nil. Use initWithDisplayName:windowCapabilities:windowTypeSupported: instead.");
-
-    return nil;
-}
-
 - (instancetype)initWithDisplayName:(NSString *)displayName windowCapabilities:(nullable NSArray<SDLWindowCapability *> *)windowCapabilities windowTypeSupported:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowTypeSupported {
     self = [self initWithDisplayName:displayName];
     if (!self) {

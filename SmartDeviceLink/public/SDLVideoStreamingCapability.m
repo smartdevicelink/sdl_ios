@@ -18,27 +18,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported {
-    return [self initWithPreferredResolution:preferredResolution maxBitrate:@(maxBitrate) supportedFormats:supportedFormats hapticDataSupported:@(hapticDataSupported) diagonalScreenSize:nil ppi:nil scale:nil];
-}
-
 - (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale {
-    return [self initWithPreferredResolution:preferredResolution maxBitrate:@(maxBitrate) supportedFormats:supportedFormats hapticDataSupported:@(hapticDataSupported) diagonalScreenSize:@(diagonalScreenSize) ppi:@(pixelPerInch) scale:@(scale)];
-}
-
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(nullable NSNumber *)hapticDataSupported diagonalScreenSize:(nullable NSNumber *)diagonalScreenSize ppi:(nullable NSNumber *)pixelPerInch scale:(nullable NSNumber *)scale {
     self = [self init];
     if (!self) {
         return self;
     }
 
-    self.maxBitrate = maxBitrate;
+    self.maxBitrate = @(maxBitrate);
     self.preferredResolution = preferredResolution;
     self.supportedFormats = supportedFormats;
-    self.hapticSpatialDataSupported = hapticDataSupported;
-    self.diagonalScreenSize = diagonalScreenSize;
-    self.pixelPerInch = pixelPerInch;
-    self.scale = scale;
+    self.hapticSpatialDataSupported = @(hapticDataSupported);
+    self.diagonalScreenSize = @(diagonalScreenSize);
+    self.pixelPerInch = @(pixelPerInch);
+    self.scale = @(scale);
 
     return self;
 }
@@ -108,10 +100,20 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectsForName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities ofClass:SDLVideoStreamingCapability.class error:&error];
 }
 
-// note: it does not copy everything
+// note: it does not copy additionalVideoStreamingCapabilities
 - (instancetype)shortCopy {
-    typeof(self) copyObject = [[self.class alloc] initWithPreferredResolution:self.preferredResolution maxBitrate:self.maxBitrate supportedFormats:self.supportedFormats hapticDataSupported:self.hapticSpatialDataSupported diagonalScreenSize:self.diagonalScreenSize ppi:self.pixelPerInch scale:self.scale];
-    return copyObject;
+    typeof(self) aCopy = [[self class] new];
+#define COPY_PROP(property) aCopy.property = self.property
+    COPY_PROP(preferredResolution);
+    COPY_PROP(maxBitrate);
+    COPY_PROP(supportedFormats);
+    COPY_PROP(preferredResolution);
+    COPY_PROP(hapticSpatialDataSupported);
+    COPY_PROP(diagonalScreenSize);
+    COPY_PROP(pixelPerInch);
+    COPY_PROP(scale);
+#undef COPY_PROP
+    return aCopy;
 }
 
 - (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain {

@@ -249,19 +249,6 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  */
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler;
 
-/// Subscribe to a particular capability type using a block callback.
-///
-/// On v5.1.0+ systems (where `supportsSubscriptions == YES`):
-/// This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.
-///
-/// On sub-v5.1.0 systems (where `supportsSubscriptions == NO`):
-/// The method will be called immediately with the current value and will _not_ be automatically called every time the value is updated, unless the `type` is `DISPLAYS` which is supported on every version. If `updateCapabilityType:completionHandler` is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this `SDLSystemCapabilityType`, then the value will be retrieved and returned.
-///
-/// @param type The type of capability to subscribe to
-/// @param block The block to be called when the capability is updated
-/// @return An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if the manager can't attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS).
-- (nullable id<NSObject>)subscribeToCapabilityType:(SDLSystemCapabilityType)type withBlock:(SDLCapabilityUpdateHandler)block __deprecated_msg("use subscribeToCapabilityType:withUpdateHandler: instead");
-
 /// Subscribe to a particular capability type using a handler callback.
 ///
 /// On v5.1.0+ systems (where `supportsSubscriptions == YES`):

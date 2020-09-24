@@ -11,7 +11,7 @@
 /**
  * Enum for each type of video streaming protocol, used in VideoStreamingFormat
  */
-typedef SDLEnum SDLMenuLayout SDL_SWIFT_ENUM;
+typedef SDLEnum SDLMenuLayout NS_TYPED_ENUM;
 
 /**
  * The menu should be laid out in a scrollable list format with one menu cell below the previous, each is stretched across the view

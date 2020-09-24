@@ -6,7 +6,7 @@
 /**
  * Specifies the mode in which the sendLocation request is sent. Used in SendLocation.
  */
-typedef SDLEnum SDLDeliveryMode SDL_SWIFT_ENUM;
+typedef SDLEnum SDLDeliveryMode NS_TYPED_ENUM;
 
 /**
  * User is prompted on HMI

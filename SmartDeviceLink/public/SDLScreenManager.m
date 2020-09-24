@@ -218,6 +218,10 @@ NS_ASSUME_NONNULL_BEGIN
     return _textAndGraphicManager.textField4Type;
 }
 
+- (nullable NSString *)title {
+    return _textAndGraphicManager.title;
+}
+
 - (NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     return _softButtonManager.softButtonObjects;
 }
@@ -258,6 +262,12 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.batchUpdates = NO;
 
     [self.textAndGraphicManager updateWithCompletionHandler:handler];
+}
+
+#pragma mark - Change Layout
+
+- (void)changeLayout:(SDLTemplateConfiguration *)templateConfiguration withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler {
+    [self.textAndGraphicManager changeLayout:templateConfiguration withCompletionHandler:handler];
 }
 
 #pragma mark - Subscribe Buttons

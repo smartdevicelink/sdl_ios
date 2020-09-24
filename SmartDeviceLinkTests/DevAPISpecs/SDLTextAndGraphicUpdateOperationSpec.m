@@ -13,16 +13,23 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLImageField.h"
+#import "SDLImageField+ScreenManagerExtensions.h"
 #import "SDLMetadataTags.h"
 #import "SDLResult.h"
+#import "SDLSetDisplayLayout.h"
+#import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
 #import "SDLShowResponse.h"
+#import "SDLTemplateConfiguration.h"
 #import "SDLTextAndGraphicState.h"
 #import "SDLTextAndGraphicUpdateOperation.h"
 #import "SDLTextField.h"
+#import "SDLTextField+ScreenManagerExtensions.h"
 #import "SDLTextFieldName.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 #import "TestConnectionManager.h"
 
@@ -39,12 +46,16 @@ NSString *field1String = @"Text Field 1";
 NSString *field2String = @"Text Field 2";
 NSString *field3String = @"Text Field 3";
 NSString *field4String = @"Text Field 4";
+NSString *titleString = @"Title";
+NSString *mediaTrackString = @"Media track string";
 
 NSString *testArtworkName = @"some artwork name";
 SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
 NSString *testArtworkName2 = @"some other artwork name";
 SDLArtwork *testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName2 fileExtension:@"png" persistent:NO];
 SDLArtwork *testStaticIcon = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
+
+SDLTemplateConfiguration *newConfiguration = [[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutTilesOnly];
 
 describe(@"the text and graphic operation", ^{
     __block SDLTextAndGraphicUpdateOperation *testOp = nil;
@@ -53,19 +64,41 @@ describe(@"the text and graphic operation", ^{
     __block SDLFileManager *mockFileManager = nil;
     __block SDLWindowCapability *windowCapability = nil;
     __block SDLTextAndGraphicState *updatedState = nil;
+    __block SDLWindowCapability *allEnabledCapability = [[SDLWindowCapability alloc] init];
 
     __block SDLShowResponse *successShowResponse = [[SDLShowResponse alloc] init];
-    __block SDLShow *emptyCurrentDataShow = nil;
+    __block SDLSetDisplayLayoutResponse *successSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
+    __block SDLShowResponse *failShowResponse = [[SDLShowResponse alloc] init];
+    __block SDLSetDisplayLayoutResponse *failSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
+    __block SDLTextAndGraphicState *emptyCurrentData = nil;
+
+    __block SDLTextAndGraphicState *receivedState = nil;
+    __block NSError *receivedError = nil;
+    __block NSError *completionError = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
         testOp = nil;
         updatedState = nil;
+        allEnabledCapability.imageFields = [SDLImageField allImageFields];
+        allEnabledCapability.textFields = [SDLTextField allTextFields];
 
         successShowResponse.success = @YES;
         successShowResponse.resultCode = SDLResultSuccess;
-        emptyCurrentDataShow = [[SDLShow alloc] init];
+        successSetDisplayLayoutResponse.success = @YES;
+        successSetDisplayLayoutResponse.resultCode = SDLResultSuccess;
+        failShowResponse.success = @NO;
+        failShowResponse.resultCode = SDLResultInUse;
+        failSetDisplayLayoutResponse.success = @NO;
+        failSetDisplayLayoutResponse.resultCode = SDLResultInUse;
+
+        emptyCurrentData = [[SDLTextAndGraphicState alloc] init];
+        receivedState = nil;
+        receivedError = nil;
+
+        // Default to the max version
+        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:SDLMaxProxyRPCVersion];
     });
 
     // updating text fields
@@ -84,27 +117,71 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should not send any text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField2).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(beEmpty());
+                    expect(sentShow.mainField2).to(beEmpty());
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beNil());
+                    expect(sentShow.metadataTags.mainField2).to(beNil());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
+                });
+            });
+        });
+
+        // when updating the media track and title
+        context(@"when updating the media track and title", ^{
+            beforeEach(^{
+                updatedState = [[SDLTextAndGraphicState alloc] init];
+                updatedState.title = titleString;
+                updatedState.mediaTrackTextField = mediaTrackString;
+            });
+
+            // when they're available
+            context(@"when they're available", ^{
+                beforeEach(^{
+                    windowCapability = [[SDLWindowCapability alloc] init];
+                    windowCapability.textFields = [SDLTextField allTextFields];
+                });
+
+                it(@"should send the media track and title", ^{
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+                    [testOp start];
+
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentShow.templateTitle).toNot(beNil());
+                    expect(sentShow.mediaTrack).toNot(beNil());
+                });
+            });
+
+            // when they're not available
+            context(@"when they're not available", ^{
+                beforeEach(^{
+                    windowCapability = [[SDLWindowCapability alloc] init];
+                });
+
+                it(@"should not send the media track and title", ^{
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+                    [testOp start];
+
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.mediaTrack).to(beEmpty());
                 });
             });
         });
@@ -121,27 +198,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should only send one line of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal(field1String));
+                    expect(sentShow.mainField2).to(beEmpty());
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beNil());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -151,27 +230,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.textField2 = field2String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should concatenate the strings into one line", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
-                    expect(testOp.currentScreenData.mainField2).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
+                    expect(sentShow.mainField2).to(beEmpty());
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beNil());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -182,27 +263,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField2 = field2String;
                     updatedState.textField3 = field3String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should concatenate the strings into one line", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", field1String, field2String, field3String]));
-                    expect(testOp.currentScreenData.mainField2).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", field1String, field2String, field3String]));
+                    expect(sentShow.mainField2).to(beEmpty());
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beNil());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -214,27 +297,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should concatenate the strings into one line", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@ - %@", field1String, field2String, field3String, field4String]));
-                    expect(testOp.currentScreenData.mainField2).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@ - %@", field1String, field2String, field3String, field4String]));
+                    expect(sentShow.mainField2).to(beEmpty());
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beNil());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
         });
@@ -251,27 +336,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should only send one line of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal(field1String));
+                    expect(sentShow.mainField2).to(beEmpty());
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beNil());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -281,27 +368,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.textField2 = field2String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should send two lines of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal(field1String));
+                    expect(sentShow.mainField2).to(equal(field2String));
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -312,27 +401,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField2 = field2String;
                     updatedState.textField3 = field3String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should concatenate the strings into two lines", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field3String]));
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
+                    expect(sentShow.mainField2).to(equal(field3String));
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -344,27 +435,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should concatenate the strings into two lines", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@ - %@", field3String, field4String]));
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", field1String, field2String]));
+                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@ - %@", field3String, field4String]));
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
         });
@@ -381,27 +474,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should only send one line of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField2).to(beEmpty());
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beNil());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -411,27 +506,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.textField2 = field2String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should send two lines of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -442,27 +539,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField2 = field2String;
                     updatedState.textField3 = field3String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should send three lines of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
-                    expect(testOp.currentScreenData.mainField3).to(equal([NSString stringWithFormat:@"%@", field3String]));
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
+                    expect(sentShow.mainField3).to(equal([NSString stringWithFormat:@"%@", field3String]));
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -474,27 +573,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should concatenate the strings into three lines", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
-                    expect(testOp.currentScreenData.mainField3).to(equal([NSString stringWithFormat:@"%@ - %@", field3String, field4String]));
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
+                    expect(sentShow.mainField3).to(equal([NSString stringWithFormat:@"%@ - %@", field3String, field4String]));
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
         });
@@ -511,27 +612,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should only send one line of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField2).to(beEmpty());
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beNil());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -541,27 +644,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.textField2 = field2String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should send two lines of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
-                    expect(testOp.currentScreenData.mainField3).to(beEmpty());
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
+                    expect(sentShow.mainField3).to(beEmpty());
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beNil());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -572,27 +677,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField2 = field2String;
                     updatedState.textField3 = field3String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should send three lines text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
-                    expect(testOp.currentScreenData.mainField3).to(equal([NSString stringWithFormat:@"%@", field3String]));
-                    expect(testOp.currentScreenData.mainField4).to(beEmpty());
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).to(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
+                    expect(sentShow.mainField3).to(equal([NSString stringWithFormat:@"%@", field3String]));
+                    expect(sentShow.mainField4).to(beEmpty());
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField4).to(beNil());
                 });
             });
 
@@ -604,27 +711,29 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField3 = field3String;
                     updatedState.textField4 = field4String;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
                 });
 
                 it(@"should send four lines of text", ^{
+                    SDLShow *sentShow = testConnectionManager.receivedRequests.firstObject;
+
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.currentScreenData.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
-                    expect(testOp.currentScreenData.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
-                    expect(testOp.currentScreenData.mainField3).to(equal([NSString stringWithFormat:@"%@", field3String]));
-                    expect(testOp.currentScreenData.mainField4).to(equal([NSString stringWithFormat:@"%@", field4String]));
-                    expect(testOp.currentScreenData.templateTitle).to(beEmpty());
-                    expect(testOp.currentScreenData.alignment).to(beNil());
-                    expect(testOp.currentScreenData.mediaTrack).to(beEmpty());
-                    expect(testOp.currentScreenData.graphic).to(beNil());
-                    expect(testOp.currentScreenData.secondaryGraphic).to(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField1).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField2).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField3).toNot(beNil());
-                    expect(testOp.currentScreenData.metadataTags.mainField4).toNot(beNil());
+                    expect(sentShow.mainField1).to(equal([NSString stringWithFormat:@"%@", field1String]));
+                    expect(sentShow.mainField2).to(equal([NSString stringWithFormat:@"%@", field2String]));
+                    expect(sentShow.mainField3).to(equal([NSString stringWithFormat:@"%@", field3String]));
+                    expect(sentShow.mainField4).to(equal([NSString stringWithFormat:@"%@", field4String]));
+                    expect(sentShow.templateTitle).to(beEmpty());
+                    expect(sentShow.alignment).to(beNil());
+                    expect(sentShow.mediaTrack).to(beEmpty());
+                    expect(sentShow.graphic).to(beNil());
+                    expect(sentShow.secondaryGraphic).to(beNil());
+                    expect(sentShow.metadataTags.mainField1).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField2).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField3).to(beEmpty());
+                    expect(sentShow.metadataTags.mainField4).to(beEmpty());
                 });
             });
         });
@@ -642,7 +751,7 @@ describe(@"the text and graphic operation", ^{
                 updatedState.textField3 = field3String;
                 updatedState.textField4 = field4String;
 
-                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:^(NSError * _Nullable error) {
+                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:^(NSError * _Nullable error) {
                     didCallHandler = YES;
                 }];
                 [testOp start];
@@ -655,8 +764,9 @@ describe(@"the text and graphic operation", ^{
             });
         });
 
+        // should call the currentScreenDataUpdatedHandler when the screen data is updated
         context(@"should call the currentScreenDataUpdatedHandler when the screen data is updated", ^{
-            __block SDLShow *updatedData = nil;
+            __block SDLTextAndGraphicState *updatedData = nil;
             beforeEach(^{
                 windowCapability = [[SDLWindowCapability alloc] init];
                 windowCapability.textFields = @[fieldLine1, fieldLine2, fieldLine3, fieldLine4];
@@ -667,7 +777,7 @@ describe(@"the text and graphic operation", ^{
                 updatedState.textField3 = field3String;
                 updatedState.textField4 = field4String;
 
-                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:^(SDLShow * _Nonnull newScreenData) {
+                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState *_Nullable newScreenData, NSError *_Nullable error) {
                     updatedData = newScreenData;
                 } updateCompletionHandler:nil];
                 [testOp start];
@@ -676,10 +786,10 @@ describe(@"the text and graphic operation", ^{
             });
 
             it(@"should send the text and then call the update handler", ^{
-                expect(updatedData.mainField1).to(equal(field1String));
-                expect(updatedData.mainField2).to(equal(field2String));
-                expect(updatedData.mainField3).to(equal(field3String));
-                expect(updatedData.mainField4).to(equal(field4String));
+                expect(updatedData.textField1).to(equal(field1String));
+                expect(updatedData.textField2).to(equal(field2String));
+                expect(updatedData.textField3).to(equal(field3String));
+                expect(updatedData.textField4).to(equal(field4String));
             });
         });
     });
@@ -708,7 +818,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -730,7 +840,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -759,26 +869,71 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:^(NSError * _Nullable error) {
+                        completionError = error;
+                    }];
                     [testOp start];
                 });
 
-                it(@"should send the text, then upload the images, then send the full show", ^{
-                    // First the text only show should be sent
-                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
-                    SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
-                    expect(firstSentRequest.mainField1).to(equal(field1String));
-                    expect(firstSentRequest.graphic).to(beNil());
-                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                context(@"when the text show succeeds", ^{
+                    it(@"should then upload the images, then send the full show", ^{
+                        // First the text only show should be sent
+                        expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                        SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                        expect(firstSentRequest.mainField1).to(equal(field1String));
+                        expect(firstSentRequest.graphic).to(beNil());
+                        [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
 
-                    // Then the images should be uploaded
-                    OCMExpect([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                        // Then the images should be uploaded
+                        OCMExpect([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
-                    // Then the full show should be sent, this is currently not testable because the `mockFileManager hasUploadedFile` should change mid-call of `uploadArtworks` after the artwork is uploaded but before the final Show is sent in sdl_createImageOnlyShowWithPrimaryArtwork.
-//                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
-//                    SDLShow *secondSentRequest = testConnectionManager.receivedRequests[1];
-//                    expect(secondSentRequest.mainField1).to(beNil());
-//                    expect(secondSentRequest.graphic).toNot(beNil());
+                        // Then the full show should be sent, this is currently not testable because the `mockFileManager hasUploadedFile` should change mid-call of `uploadArtworks` after the artwork is uploaded but before the final Show is sent in sdl_createImageOnlyShowWithPrimaryArtwork.
+    //                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
+    //                    SDLShow *secondSentRequest = testConnectionManager.receivedRequests[1];
+    //                    expect(secondSentRequest.mainField1).to(beNil());
+    //                    expect(secondSentRequest.graphic).toNot(beNil());
+                    });
+                });
+
+                context(@"when the text show fails", ^{
+                    it(@"should return an error and finish the operation", ^{
+                        // First the text only show should be sent
+                        expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                        SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                        expect(firstSentRequest.mainField1).to(equal(field1String));
+                        expect(firstSentRequest.graphic).to(beNil());
+                        [testConnectionManager respondToLastRequestWithResponse:failShowResponse];
+
+                        // Then it should return a failure and finish
+                        expect(receivedState).to(beNil());
+                        expect(receivedError).toNot(beNil());
+                        expect(completionError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+                    });
+                });
+
+                context(@"when cancelled before the text show returns", ^{
+                    it(@"should return an error and finish the operation", ^{
+                        // First the text only show should be sent
+                        expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                        SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
+                        expect(firstSentRequest.mainField1).to(equal(field1String));
+                        expect(firstSentRequest.graphic).to(beNil());
+
+                        [testOp cancel];
+                        [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+
+                        // Then it should return a failure and finish
+                        expect(receivedState).toNot(beNil());
+                        expect(receivedError).to(beNil());
+                        expect(completionError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+                    });
                 });
             });
 
@@ -788,7 +943,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.primaryGraphic = testArtwork;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -817,7 +972,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.primaryGraphic = testStaticIcon;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -851,7 +1006,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
                 });
 
@@ -877,7 +1032,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
@@ -905,7 +1060,7 @@ describe(@"the text and graphic operation", ^{
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
 
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentDataShow newState:updatedState currentScreenDataUpdatedHandler:nil updateCompletionHandler:nil];
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp start];
 
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
@@ -920,6 +1075,189 @@ describe(@"the text and graphic operation", ^{
                     expect(secondReceivedShow.mainField1).to(beNil());
                     expect(secondReceivedShow.graphic).to(beNil());
                     expect(secondReceivedShow.secondaryGraphic.value).to(equal(testArtwork2.name));
+                });
+            });
+        });
+    });
+
+    // changing a layout
+    describe(@"changing a layout", ^{
+        // on less than RPC 6.0
+        context(@"on less than RPC 6.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.0.0"];
+            });
+
+            // by itself
+            context(@"by itself", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.templateConfig = newConfiguration;
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a set display layout, then update the screen data, then send a Show with no data", ^{
+                    SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+                    expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
+
+                    [testConnectionManager respondToLastRequestWithResponse:successSetDisplayLayoutResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedError).to(beNil());
+
+                    SDLShow *sentRPC2 = testConnectionManager.receivedRequests[1];
+                    expect(sentRPC2).to(beAnInstanceOf([SDLShow class]));
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(testOp.isFinished).to(beTrue());
+                });
+            });
+
+            // with other text
+            context(@"with other text", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.templateConfig = newConfiguration;
+                    updatedState.textField1 = field1String;
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:^(NSError * _Nullable error) {
+                        completionError = error;
+                    }];
+                    [testOp start];
+                });
+
+                // should send a set display layout, then update the screen data, then send a Show with data and then update the screen data again
+                it(@"should send a set display layout, then update the screen data, then send a Show with data and then update the screen data again", ^{
+                    SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+                    expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
+
+                    [testConnectionManager respondToLastRequestWithResponse:successSetDisplayLayoutResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedState.textField1).to(beNil());
+                    expect(receivedError).to(beNil());
+
+                    SDLShow *sentRPC2 = testConnectionManager.receivedRequests[1];
+                    expect(sentRPC2).to(beAnInstanceOf([SDLShow class]));
+                    expect(sentRPC2.mainField1).to(equal(field1String));
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedState.textField1).toNot(beNil());
+                    expect(receivedError).to(beNil());
+                    expect(completionError).to(beNil());
+                    expect(testOp.isFinished).to(beTrue());
+                });
+
+                // when cancelled before finishing
+                describe(@"when cancelled before finishing", ^{
+                    it(@"should finish the operation with the set display layout data in the current data handler and set an update superseded error in the update completion handler", ^{
+                        SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                        expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+                        expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
+
+                        [testOp cancel];
+                        [testConnectionManager respondToLastRequestWithResponse:successSetDisplayLayoutResponse];
+                        expect(receivedState).toNot(beNil());
+                        expect(receivedError).to(beNil());
+                        expect(completionError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+
+                    });
+                });
+
+                // when it receives a set display layout failure
+                describe(@"when it receives a set display layout failure", ^{
+                    it(@"should send a set display layout, then reset the screen data, then finish the operation", ^{
+                        SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                        expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+                        expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
+
+                        [testConnectionManager respondToLastRequestWithResponse:failSetDisplayLayoutResponse];
+                        expect(receivedState).to(beNil());
+                        expect(receivedError).toNot(beNil());
+                        expect(completionError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+                    });
+                });
+            });
+        });
+
+        // on greater or equal than RPC 6.0
+        context(@"on greater or equal than RPC 6.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
+            });
+
+            // by itself
+            context(@"by itself", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.templateConfig = newConfiguration;
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a show, then update the screen data", ^{
+                    SDLShow *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentRPC).to(beAnInstanceOf([SDLShow class]));
+                    expect(sentRPC.templateConfiguration).to(equal(newConfiguration));
+
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedState.textField1).to(beNil());
+                    expect(receivedError).to(beNil());
+                    expect(testOp.isFinished).to(beTrue());
+                });
+            });
+
+            // with other text
+            context(@"with other text that isn't supported", ^{
+                beforeEach(^{
+                    updatedState = [[SDLTextAndGraphicState alloc] init];
+                    updatedState.templateConfig = newConfiguration;
+                    updatedState.textField1 = field1String;
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:allEnabledCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                        receivedState = newScreenData;
+                        receivedError = error;
+                    } updateCompletionHandler:nil];
+                    [testOp start];
+                });
+
+                it(@"should send a show, then update all screen data", ^{
+                    SDLShow *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                    expect(sentRPC).to(beAnInstanceOf([SDLShow class]));
+                    expect(sentRPC.templateConfiguration).to(equal(newConfiguration));
+
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+                    expect(receivedState.templateConfig).toNot(beNil());
+                    expect(receivedState.textField1).to(equal(field1String));
+                    expect(receivedError).to(beNil());
+                    expect(testOp.isFinished).to(beTrue());
+                });
+
+                // when it receives a show failure
+                describe(@"when it receives a show failure", ^{
+                    it(@"it should send a set display layout, then reset the screen data, then do nothing else", ^{
+                        SDLShow *sentRPC = testConnectionManager.receivedRequests.firstObject;
+                        expect(sentRPC).to(beAnInstanceOf([SDLShow class]));
+                        expect(sentRPC.templateConfiguration).to(equal(newConfiguration));
+
+                        [testConnectionManager respondToLastRequestWithResponse:failShowResponse];
+                        expect(receivedState).to(beNil());
+                        expect(receivedError).toNot(beNil());
+
+                        expect(testOp.isFinished).to(beTrue());
+                    });
                 });
             });
         });

@@ -59,14 +59,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 @property (nonatomic, assign) CGFloat tapTimeThreshold;
 
 /**
- Time (in seconds) between movement events to register panning or pinching callbacks.
-
- Default is 0.05 seconds.
- */
-@property (nonatomic, assign) CGFloat movementTimeThreshold __deprecated_msg("This is now unused, the movement time threshold is now synced to the framerate automatically");
-
-/**
- If set to NO, the display link syncing will be ignored and `movementTimeThreshold` will be used. Defaults to YES.
+ If set to NO, the display link syncing will be ignored. Defaults to YES.
  */
 @property (assign, nonatomic) BOOL enableSyncedPanning;
 
@@ -86,14 +79,6 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 
 /// Initializer unavailable
 - (instancetype)init NS_UNAVAILABLE;
-
-/**
- Initialize a touch manager with a hit tester if available
-
- @param hitTester The hit tester to be used to correlate a point with a view
- @return The initialized touch manager
- */
-- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester __deprecated_msg("Use initWithHitTester:hitTester videoScaleManager: instead");
 
 /**
  Initialize a touch manager with a hit tester and a video scale manager.

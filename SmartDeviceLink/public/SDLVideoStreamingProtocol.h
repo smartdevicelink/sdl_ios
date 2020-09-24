@@ -8,7 +8,7 @@
 /**
  * Enum for each type of video streaming protocol, used in VideoStreamingFormat
  */
-typedef SDLEnum SDLVideoStreamingProtocol SDL_SWIFT_ENUM;
+typedef SDLEnum SDLVideoStreamingProtocol NS_TYPED_ENUM;
 
 /**
  * RAW

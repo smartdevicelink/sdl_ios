@@ -7,7 +7,7 @@
  * Reflects the status of Light.
  *
  */
-typedef SDLEnum SDLLightStatus SDL_SWIFT_ENUM;
+typedef SDLEnum SDLLightStatus NS_TYPED_ENUM;
 
 /**
  * @abstract Light status currently on.

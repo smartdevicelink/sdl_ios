@@ -13,7 +13,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLButtonName SDL_SWIFT_ENUM;
+typedef SDLEnum SDLButtonName NS_TYPED_ENUM;
 
 /**
  * Represents the button usually labeled "OK". A typical use of this button is for the user to press it to make a selection. Prior to SDL Core 5.0 (iOS Proxy v.6.1), Ok was used for both "OK" buttons *AND* PlayPause. In 5.0, PlayPause was introduced to reduce confusion, and you should use the one you intend for your use case (usually PlayPause). Until the next proxy breaking change, however, subscribing to this button name will continue to subscribe you to PlayPause so that your code does not break. That means that if you subscribe to both Ok and PlayPause, you will receive duplicate notifications.

@@ -19,10 +19,7 @@ describe(@"Getter/Setter Tests", ^{
     __block NSArray<SDLAppServiceCapability *> *testAppServices = nil;
 
     beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testAppServices = @[[[SDLAppServiceCapability alloc] initWithDictionary:@{SDLRPCParameterNameUpdateReason:SDLServiceUpdateRemoved}]];
-#pragma clang diagnostic pop
+        testAppServices = @[[[SDLAppServiceCapability alloc] initWithDictionary:@{SDLRPCParameterNameUpdateReason:SDLServiceUpdateReasonRemoved}]];
     });
 
     it(@"Should set and get correctly", ^{
@@ -39,12 +36,8 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLRPCParameterNameAppServices:testAppServices
-                               };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        NSDictionary *dict = @{SDLRPCParameterNameAppServices:testAppServices};
         SDLAppServicesCapabilities *testStruct = [[SDLAppServicesCapabilities alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.appServices).to(equal(testAppServices));
     });

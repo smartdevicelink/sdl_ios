@@ -15,26 +15,19 @@
 
 QuickSpecBegin(SDLRegisterAppInterfaceResponseSpec)
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
-#pragma clang diagnostic pop
-SDLMsgVersion *sdlVersion = [[SDLMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
-SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
-SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
-SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
-SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];
-SDLAudioPassThruCapabilities* audioPassThru = [[SDLAudioPassThruCapabilities alloc] init];
-SDLVehicleType* vehicle = [[SDLVehicleType alloc] init];
-SDLHMICapabilities *hmiCapabilities = [[SDLHMICapabilities alloc] init];
+__block SDLMsgVersion *sdlVersion = [[SDLMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
+__block SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
+__block SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
+__block SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
+__block SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];__block
+__block SDLAudioPassThruCapabilities* audioPassThru = [[SDLAudioPassThruCapabilities alloc] init];
+__block SDLVehicleType* vehicle = [[SDLVehicleType alloc] init];
+__block SDLHMICapabilities *hmiCapabilities = [[SDLHMICapabilities alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testResponse.syncMsgVersion = version;
-#pragma clang diagnostic pop
+
         testResponse.language = SDLLanguageEsMx;
         testResponse.hmiDisplayLanguage = SDLLanguageRuRu;
 #pragma clang diagnostic push
@@ -56,11 +49,8 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.sdlVersion = @"sdlVersion";
         testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
         testResponse.iconResumed = @YES;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testResponse.syncMsgVersion).to(equal(version));
-#pragma clang diagnostic pop
         testResponse.sdlMsgVersion = sdlVersion;
+
         expect(testResponse.sdlMsgVersion).to(equal(sdlVersion));
         expect(testResponse.language).to(equal(SDLLanguageEsMx));
         expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
@@ -84,11 +74,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
         expect(testResponse.iconResumed).to(beTrue());
     });
-    describe(@"Setting With Dictionary", ^{
-        __block NSDictionary *dict = nil;
 
+    describe(@"Setting With Dictionary", ^{
         beforeEach( ^{
-            dict = @{SDLRPCParameterNameRequest:
+            NSDictionary *dict = @{SDLRPCParameterNameRequest:
                          @{SDLRPCParameterNameParameters:
                                @{SDLRPCParameterNameSyncMessageVersion:@{
                                          SDLRPCParameterNameMajorVersion: @6,
@@ -115,54 +104,9 @@ describe(@"Getter/Setter Tests", ^ {
                                  SDLRPCParameterNameIconResumed: @YES,
                                  },
                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
-        });
+            SDLRegisterAppInterfaceResponse *testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
 
-        it(@"Should get correctly when initialized with a dictionary and get syncMsgVersion first", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testResponse.syncMsgVersion).to(equal([[SDLSyncMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
-#pragma clang diagnostic pop
             expect(testResponse.sdlMsgVersion).to(equal([[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
-            expect(testResponse.language).to(equal(SDLLanguageEsMx));
-            expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-            expect(testResponse.displayCapabilities).to(equal(info));
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-            expect(testResponse.buttonCapabilities).to(equal(@[button]));
-            expect(testResponse.softButtonCapabilities).to(equal(@[softButton]));
-            expect(testResponse.presetBankCapabilities).to(equal(presetBank));
-#pragma clang diagnostic pop
-            expect(testResponse.hmiZoneCapabilities).to(equal(@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront]));
-            expect(testResponse.speechCapabilities).to(equal(@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence]));
-            expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
-            expect(testResponse.audioPassThruCapabilities).to(equal(@[audioPassThru]));
-            expect(testResponse.pcmStreamCapabilities).to(equal(audioPassThru));
-            expect(testResponse.vehicleType).to(equal(vehicle));
-            expect(testResponse.prerecordedSpeech).to(equal(@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp]));
-            expect(testResponse.supportedDiagModes).to(equal(@[@67, @99, @111]));
-            expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
-            expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
-            expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
-            expect(testResponse.iconResumed).to(beTrue());
-        });
-
-        it(@"Should get correctly when initialized with a dictionary and get sdlMsgVersion first", ^ {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
-            expect(testResponse.sdlMsgVersion).to(equal([[SDLMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testResponse.syncMsgVersion).to(equal([[SDLSyncMsgVersion alloc] initWithMajorVersion:6 minorVersion:0 patchVersion:0]));
-#pragma clang diagnostic pop
             expect(testResponse.language).to(equal(SDLLanguageEsMx));
             expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
 #pragma clang diagnostic push
@@ -184,15 +128,13 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
             expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
             expect(testResponse.iconResumed).to(beTrue());
+
         });
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testResponse.syncMsgVersion).to(beNil());
-#pragma clang diagnostic pop
+        SDLRegisterAppInterfaceResponse *testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+
         expect(testResponse.sdlMsgVersion).to(beNil());
         expect(testResponse.language).to(beNil());
         expect(testResponse.hmiDisplayLanguage).to(beNil());
@@ -241,15 +183,8 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLRPCParameterNameIconResumed: NSNull.null,
                                            },
                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
+        SDLRegisterAppInterfaceResponse *testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expectAction(^{ [testResponse syncMsgVersion]; }).to(raiseException());
-#pragma clang diagnostic pop
         expectAction(^{ [testResponse sdlMsgVersion]; }).to(raiseException());
         expectAction(^{ [testResponse language]; }).to(raiseException());
         expectAction(^{ [testResponse hmiDisplayLanguage]; }).to(raiseException());

@@ -11,7 +11,7 @@
 /**
  *  A navigation junction type.
  */
-typedef SDLEnum SDLNavigationJunction SDL_SWIFT_ENUM;
+typedef SDLEnum SDLNavigationJunction NS_TYPED_ENUM;
 
 /**
  *  A junction that represents a standard intersection with a single road crossing another.
