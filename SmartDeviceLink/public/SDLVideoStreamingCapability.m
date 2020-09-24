@@ -159,6 +159,34 @@ NS_ASSUME_NONNULL_BEGIN
     return resolutions;
 }
 
+#define EQUAL_RES ((nil == self.preferredResolution && nil == cap2.preferredResolution) ? YES : [self.preferredResolution isEqual:cap2.preferredResolution])
+#define EQUAL_NUM(property) ((nil == self.property && nil == cap2.property) ? YES : [self.property isEqualToNumber:cap2.property])
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+    typeof(self) cap2 = object;
+    if (!EQUAL_RES) {
+        return NO;
+    }
+    if (!EQUAL_NUM(maxBitrate)) {
+        return NO;
+    }
+    if (!EQUAL_NUM(diagonalScreenSize)) {
+        return NO;
+    }
+    if (!EQUAL_NUM(pixelPerInch)) {
+        return NO;
+    }
+    if (!EQUAL_NUM(scale)) {
+        return NO;
+    }
+    return YES;
+}
+
+#undef EQUAL_RES
+#undef EQUAL_NUM
 
 - (NSString *)description {
     NSMutableString *formats = [NSMutableString string];

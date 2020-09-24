@@ -66,6 +66,7 @@
 // expose private methods to the test suite
 @interface SDLVideoStreamingCapability (test)
 - (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain;
+- (instancetype)shortCopy;
 @end
 
 
@@ -1057,6 +1058,7 @@ SDLImageResolution *resolution4 = [[SDLImageResolution alloc] initWithWidth:400 
 SDLImageResolution *resolution5 = [[SDLImageResolution alloc] initWithWidth:800 height:240];
 SDLImageResolution *resolution6 = [[SDLImageResolution alloc] initWithWidth:200 height:400]; // portrait small
 SDLImageResolution *resolution7 = [[SDLImageResolution alloc] initWithWidth:2000 height:4000]; // portrait large
+SDLImageResolution *resolution8 = [[SDLImageResolution alloc] initWithWidth:200 height:200];
 
 SDLVideoStreamingCapability *capability1 = [[SDLVideoStreamingCapability alloc] init];
 capability1.preferredResolution = resolution1;
@@ -1106,14 +1108,28 @@ capability9.preferredResolution = resolution7;
 capability9.hapticSpatialDataSupported = @YES;
 capability9.diagonalScreenSize = @4;
 
+SDLVideoStreamingCapability *capability10 = [[SDLVideoStreamingCapability alloc] init]; // square
+capability10.preferredResolution = resolution8;
+capability10.hapticSpatialDataSupported = @YES;
+capability10.diagonalScreenSize = @2;
+capability10.scale = @1;
+
 SDLVideoStreamingFormat *vsFormat1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
 SDLVideoStreamingFormat *vsFormat2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
 SDLVideoStreamingFormat *vsFormat3 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecTheora protocol:SDLVideoStreamingProtocolRTSP];
 SDLVideoStreamingFormat *vsFormat4 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecVP8 protocol:SDLVideoStreamingProtocolRTMP];
 SDLVideoStreamingFormat *vsFormat5 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecVP9 protocol:SDLVideoStreamingProtocolWebM];
 
+//SDLVideoStreamingCapability *capability00 = [[SDLVideoStreamingCapability alloc] init];
+//capability00.preferredResolution = resolution1;
+//capability00.maxBitrate = @400000;
+//capability00.hapticSpatialDataSupported = @YES;
+//capability00.diagonalScreenSize = @8;
+//capability00.pixelPerInch = @96;
+//capability00.scale = @1;
+
 SDLVideoStreamingCapability *capability0 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution1 maxBitrate:400000 supportedFormats:@[vsFormat1, vsFormat2, vsFormat3, vsFormat4, vsFormat5] hapticDataSupported:YES diagonalScreenSize:8 pixelPerInch:96 scale:1];
-capability0.additionalVideoStreamingCapabilities = @[capability1, capability2, capability3, capability4, capability5, capability6, capability7, capability8, capability9];
+capability0.additionalVideoStreamingCapabilities = @[capability1, capability2, capability3, capability4, capability5, capability6, capability7, capability8, capability9, capability10];
 
 describe(@"supported video capabilities and formats", ^{
     TestSmartConnectionManager *testConnectionManager = [[TestSmartConnectionManager alloc] init];
@@ -1142,8 +1158,8 @@ describe(@"supported video capabilities and formats", ^{
 
             expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(equal(landRange));
             expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(beNil());
-            // 320x200 & portrait small & large are expected
-            NSArray *expectedArray = @[capability2, capability8, capability9];
+            // 320x200 & portrait small & large & square are expected
+            NSArray *expectedArray = @[capability2, capability8, capability9, capability10];
             NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
             expect(matchArray).to(equal(expectedArray));
         });
@@ -1187,6 +1203,52 @@ describe(@"supported video capabilities and formats", ^{
             expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(equal(landRange));
             expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(equal(portRange));
             NSArray *expectedArray = @[capability2, capability8];
+            NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
+            expect(matchArray).to(equal(expectedArray));
+        });
+    });
+
+    context(@"square", ^{
+        SDLImageResolution *resMin = [[SDLImageResolution alloc] initWithWidth:100 height:100];
+        SDLImageResolution *resMax = [[SDLImageResolution alloc] initWithWidth:200 height:200];
+        SDLSupportedStreamingRange *range = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMin maximun:resMax];
+        range.minimumAspectRatio = 1.0;
+        range.maximumAspectRatio = 1.0;
+        range.minimumDiagonal = 1;
+
+        it(@"expect all portraits and square", ^{
+            streamingLifecycleManager.supportedLandscapeStreamingRange = range;
+            streamingLifecycleManager.supportedPortraitStreamingRange = nil;
+
+            expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(equal(range));
+            expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(beNil());
+
+            // no portrait restriction therefore all portrait & square
+            NSArray *expectedArray = @[capability8, capability9, capability10];
+            NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
+            expect(matchArray).to(equal(expectedArray));
+        });
+
+        it(@"expect all landscapes and square", ^{
+            streamingLifecycleManager.supportedLandscapeStreamingRange = nil;
+            streamingLifecycleManager.supportedPortraitStreamingRange = range;
+
+            expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(beNil());
+            expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(equal(range));
+
+            NSArray *expectedArray = @[capability0, capability1, capability2, capability3, capability4, capability5, capability6, capability7, capability10];
+            NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
+            expect(matchArray).to(equal(expectedArray));
+        });
+
+        it(@"expect square alone", ^{
+            streamingLifecycleManager.supportedLandscapeStreamingRange = range;
+            streamingLifecycleManager.supportedPortraitStreamingRange = range;
+
+            expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(equal(range));
+            expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(equal(range));
+
+            NSArray *expectedArray = @[capability10];
             NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
             expect(matchArray).to(equal(expectedArray));
         });

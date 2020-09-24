@@ -835,50 +835,74 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     NSMutableArray *matchCapabilities = [NSMutableArray arrayWithCapacity:allCapabilities.count];
     for (SDLVideoStreamingCapability* nextCapability in allCapabilities) {
         SDLImageResolution *imageResolution = [nextCapability makeImageResolution];
-        NSNumber *isPortrait = imageResolution.isPortrait;
-        if (!isPortrait) {
-            // wrong capability, filter it out
-            continue;
+        BOOL isMatch = NO;
+        switch (imageResolution.kind) {
+            case SDLImageResolutionKindLandscape:
+                isMatch = [self isCapability:nextCapability inRange:self.supportedLandscapeStreamingRange];
+                break;
+
+            case SDLImageResolutionKindPortrait:
+                isMatch = [self isCapability:nextCapability inRange:self.supportedPortraitStreamingRange];
+                break;
+
+            case SDLImageResolutionKindSquare:
+                isMatch = [self isCapability:nextCapability inRange:self.supportedLandscapeStreamingRange] ||
+                            [self isCapability:nextCapability inRange:self.supportedPortraitStreamingRange];
+                break;
+
+            case SDLImageResolutionKindUndefined:
+            default:
+                // wrong capability, filter it out
+                break;
         }
 
-        SDLSupportedStreamingRange *range = isPortrait.boolValue ? self.supportedPortraitStreamingRange : self.supportedLandscapeStreamingRange;
-        if (!range) {
-            // no range, no restriction - any capability will do
+        if (isMatch) {
             [matchCapabilities addObject:nextCapability];
-            continue;
         }
-
-        // 1. resolution test: min <= resolution <= max
-        if ([range isImageResolutionRangeValid]) {
-            if (![range isImageResolutionInRange:imageResolution]) {
-                continue;
-            }
-        }
-
-        // 2. diagonal test: diagonal is above or equal to the minimumDiagonal
-        if (nextCapability.diagonalScreenSize) {
-            const float diagonal = nextCapability.diagonalScreenSize.floatValue;
-            if ((0 < diagonal) && (0 < range.minimumDiagonal)) {
-                if (diagonal < range.minimumDiagonal) {
-                    continue;
-                }
-            }
-        }
-
-        // 3. diagonal test: aspect ratio is within the specified range
-        if (nextCapability.preferredResolution) {
-            const float ratio = nextCapability.preferredResolution.normalizedAspectRatio;
-            if (1 <= ratio) {
-                if (![range isAspectRatioInRange:ratio]) {
-                    continue;
-                }
-            }
-        }
-        // by this point the nextCapability has passed all the restrictions, add it to the match array
-        [matchCapabilities addObject:nextCapability];
     }
 
     return matchCapabilities;
+}
+
+- (BOOL)isCapability:(SDLVideoStreamingCapability *)capability inRange:(SDLSupportedStreamingRange *)range {
+    if (!capability) {
+        // sanity check, zero capability wont make through
+        return NO;
+    }
+    if (!range) {
+        // no range, no restriction - any capability will do
+        return YES;
+    }
+
+    // 1. resolution test: min <= resolution <= max
+    if ([range isImageResolutionRangeValid]) {
+        SDLImageResolution *imageResolution = [capability makeImageResolution];
+        if (![range isImageResolutionInRange:imageResolution]) {
+            return NO;
+        }
+    }
+
+    // 2. diagonal test: diagonal is above or equal to the minimumDiagonal
+    if (capability.diagonalScreenSize) {
+        const float diagonal = capability.diagonalScreenSize.floatValue;
+        if ((0 < diagonal) && (0 < range.minimumDiagonal)) {
+            if (diagonal < range.minimumDiagonal) {
+                return NO;
+            }
+        }
+    }
+
+    // 3. diagonal test: aspect ratio is within the specified range
+    if (capability.preferredResolution) {
+        const float ratio = capability.preferredResolution.normalizedAspectRatio;
+        if (1 <= ratio) {
+            if (![range isAspectRatioInRange:ratio]) {
+                return NO;
+            }
+        }
+    }
+    // by this point the capability has passed all the restrictions
+    return YES;
 }
 
 #pragma mark - SDLVideoEncoderDelegate

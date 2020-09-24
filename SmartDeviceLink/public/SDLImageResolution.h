@@ -6,6 +6,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, SDLImageResolutionKind) {
+    SDLImageResolutionKindUndefined,
+    SDLImageResolutionKindLandscape,
+    SDLImageResolutionKindPortrait,
+    SDLImageResolutionKindSquare,
+};
+
 /**
  The resolution of an image
  */
@@ -26,11 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber<SDLInt> *resolutionHeight;
 
 /**
- * if it is in portrait or landscape orientation
- * note: if one or both width and height are absent then it returns nil
- * @return @YES - portrait, @NO - landscape, nil - not defined
+ * SDLImageResolutionKind
 */
-@property (nonatomic, readonly) NSNumber<SDLInt> *isPortrait;
+@property (nonatomic, readonly) SDLImageResolutionKind kind;
 
 /**
  * Convenience init with all parameters
