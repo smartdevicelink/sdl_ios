@@ -12,6 +12,7 @@
 #import "NSMutableDictionary+SafeRemove.h"
 #import "SDLAddCommand.h"
 #import "SDLAlert.h"
+#import "SDLAlertManeuver.h"
 #import "SDLButtonName.h"
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteCommandResponse.h"
@@ -30,8 +31,10 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLScrollableMessage.h"
 #import "SDLShow.h"
+#import "SDLShowConstantTBT.h"
 #import "SDLSoftButton.h"
 #import "SDLSubscribeButton.h"
+#import "SDLSubtleAlert.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeButtonResponse.h"
 
@@ -125,12 +128,21 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([request isKindOfClass:[SDLAlert class]]) {
         SDLAlert *alert = (SDLAlert *)request;
         [self sdl_addToCustomButtonHandlerMap:alert.softButtons];
+    } else if ([request isKindOfClass:[SDLAlertManeuver class]]) {
+        SDLAlertManeuver *alertManeuver = (SDLAlertManeuver *)request;
+        [self sdl_addToCustomButtonHandlerMap:alertManeuver.softButtons];
+    } else if ([request isKindOfClass:[SDLSubtleAlert class]]) {
+        SDLSubtleAlert *subtleAlert = (SDLSubtleAlert *)request;
+        [self sdl_addToCustomButtonHandlerMap:subtleAlert.softButtons];
     } else if ([request isKindOfClass:[SDLScrollableMessage class]]) {
         SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
         [self sdl_addToCustomButtonHandlerMap:scrollableMessage.softButtons];
     } else if ([request isKindOfClass:[SDLShow class]]) {
         SDLShow *show = (SDLShow *)request;
         [self sdl_addToCustomButtonHandlerMap:show.softButtons];
+    } else if ([request isKindOfClass:[SDLShowConstantTBT class]]) {
+        SDLShowConstantTBT *showConstantTBT = (SDLShowConstantTBT *)request;
+        [self sdl_addToCustomButtonHandlerMap:showConstantTBT.softButtons];
     } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
         SDLPerformAudioPassThru *performAudioPassThru = (SDLPerformAudioPassThru *)request;
 
