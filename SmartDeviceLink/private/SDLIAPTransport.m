@@ -432,7 +432,9 @@ int const CreateSessionRetries = 3;
 #pragma mark Retry Delay
 
 /**
- *  Generates a random number of seconds between 1.5 and 9.5 used to delay the retry control and data session attempts.
+ *  Generates a random number of seconds used to delay the retry control and data session attempts.
+ *
+ *  @discussion The retry delay is a HAX to fix a race condition in legacy SYNC head units (https://github.com/smartdevicelink/sdl_ios/issues/1783) where the module does not get the start RPC service frame and thus never responds to the request. Previously the min and max retry seconds were bounded at 1.5 and 9.5, however connection performance improved when the min retry seconds was upped to 10.
  *
  *  @return A random number of seconds.
  */
