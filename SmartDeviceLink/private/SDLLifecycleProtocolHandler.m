@@ -26,7 +26,7 @@
 #import "SDLTimer.h"
 
 static const float StartSessionTime = 10.0;
-int const StartSessionRetries = 2;
+int const RPCStartServiceRetries = 2;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,8 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLNotificationDispatcher *notificationDispatcher;
 
 @property (strong, nonatomic, nullable) SDLTimer *rpcStartServiceTimeoutTimer;
+@property (assign, nonatomic) int rpcStartServiceRetryCounter;
 @property (copy, nonatomic) NSString *appId;
-@property (assign, nonatomic) int startSessionRetryCounter;
+
 
 @end
 
@@ -46,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    _startSessionRetryCounter = 0;
+    _rpcStartServiceRetryCounter = 0;
     _protocol = protocol;
     _notificationDispatcher = notificationDispatcher;
 
@@ -78,12 +79,12 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Transport opened.");
     [self.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
 
-    [self sdl_sendStartServiceSession:self.startSessionRetryCounter];
+    [self sdl_sendStartServiceSession:self.rpcStartServiceRetryCounter];
 }
 
 - (void)sdl_sendStartServiceSession:(int)retryCount {
-    if (retryCount > StartSessionRetries) {
-        SDLLogE(@"Starting the RPC session retries failed %d times. Closing the session", StartSessionRetries);
+    if (retryCount > RPCStartServiceRetries) {
+        SDLLogE(@"Starting the RPC session retries failed %d times. Closing the session", RPCStartServiceRetries);
         return [self.protocol stopWithCompletionHandler:^{}];
     }
 
@@ -100,9 +101,9 @@ NS_ASSUME_NONNULL_BEGIN
     self.rpcStartServiceTimeoutTimer = [[SDLTimer alloc] initWithDuration:StartSessionTime repeat:NO];
     __weak typeof(self) weakSelf = self;
     self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
-        weakSelf.startSessionRetryCounter += 1;
-        SDLLogE(@"Module did no respond to the RPC start session request within %.f seconds. Retrying sending the start RPC start session request %d", StartSessionTime, weakSelf.startSessionRetryCounter);
-        [weakSelf sdl_sendStartServiceSession:weakSelf.startSessionRetryCounter];
+        weakSelf.rpcStartServiceRetryCounter += 1;
+        SDLLogE(@"Module did no respond to the RPC start session request within %.f seconds. Retrying sending the start RPC start session request %d", StartSessionTime, weakSelf.rpcStartServiceRetryCounter);
+        [weakSelf sdl_sendStartServiceSession:weakSelf.rpcStartServiceRetryCounter];
     };
 
     [self.rpcStartServiceTimeoutTimer start];
