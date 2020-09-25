@@ -82,13 +82,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendStartServiceSession:self.rpcStartServiceRetryCounter];
 }
 
+/// TODO
+/// @param retryCount The retry attempt count
 - (void)sdl_sendStartServiceSession:(int)retryCount {
     if (retryCount > RPCStartServiceRetries) {
-        SDLLogE(@"Starting the RPC session retries failed %d times. Closing the session", RPCStartServiceRetries);
+        SDLLogE(@"Starting the RPC service failed %d times. Closing the session", RPCStartServiceRetries);
         return [self.protocol stopWithCompletionHandler:^{}];
     }
 
-    SDLLogD(@"Starting timer for RPC Start Service ACK to be received.");
+    SDLLogD(@"Starting timeout timer for the module's response to the RPC start service");
 
     SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
     [self.protocol startServiceWithType:SDLServiceTypeRPC payload:startServicePayload.data];
@@ -102,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
         weakSelf.rpcStartServiceRetryCounter += 1;
-        SDLLogE(@"Module did no respond to the RPC start session request within %.f seconds. Retrying sending the start RPC start session request %d", StartSessionTime, weakSelf.rpcStartServiceRetryCounter);
+        SDLLogE(@"Module did not respond to the RPC start service within %.f seconds. Retrying (#%d) sending the request.", StartSessionTime, weakSelf.rpcStartServiceRetryCounter);
         [weakSelf sdl_sendStartServiceSession:weakSelf.rpcStartServiceRetryCounter];
     };
 
