@@ -26,6 +26,7 @@
 #import "SDLTimer.h"
 
 static const float StartSessionTime = 10.0;
+int const StartSessionRetries = 2;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,8 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) SDLNotificationDispatcher *notificationDispatcher;
 
-@property (strong, nonatomic) SDLTimer *rpcStartServiceTimeoutTimer;
+@property (strong, nonatomic, nullable) SDLTimer *rpcStartServiceTimeoutTimer;
 @property (copy, nonatomic) NSString *appId;
+@property (assign, nonatomic) int startSessionRetryCounter;
 
 @end
 
@@ -44,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
+    _startSessionRetryCounter = 0;
     _protocol = protocol;
     _notificationDispatcher = notificationDispatcher;
 
@@ -72,20 +75,36 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)protocolDidOpen:(SDLProtocol *)protocol {
     if (self.protocol != protocol) { return; }
 
-    SDLLogD(@"Transport opened, sending an RPC Start Service, and starting timer for RPC Start Service ACK to be received.");
+    SDLLogD(@"Transport opened.");
     [self.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
+
+    [self sdl_sendStartServiceSession:self.startSessionRetryCounter];
+}
+
+- (void)sdl_sendStartServiceSession:(int)retryCount {
+    if (retryCount > StartSessionRetries) {
+        SDLLogE(@"Starting the RPC session retries failed %d times. Closing the session", StartSessionRetries);
+        return [self.protocol stopWithCompletionHandler:^{}];
+    }
+
+    SDLLogD(@"Starting timer for RPC Start Service ACK to be received.");
 
     SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
     [self.protocol startServiceWithType:SDLServiceTypeRPC payload:startServicePayload.data];
 
-    if (self.rpcStartServiceTimeoutTimer == nil) {
-        self.rpcStartServiceTimeoutTimer = [[SDLTimer alloc] initWithDuration:StartSessionTime repeat:NO];
-        __weak typeof(self) weakSelf = self;
-        self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
-            SDLLogE(@"Start session timed out after %f seconds, closing the connection.", StartSessionTime);
-            [weakSelf.protocol stopWithCompletionHandler:^{}];
-        };
+    if (self.rpcStartServiceTimeoutTimer != nil) {
+        [self.rpcStartServiceTimeoutTimer cancel];
+        self.rpcStartServiceTimeoutTimer = nil;
     }
+
+    self.rpcStartServiceTimeoutTimer = [[SDLTimer alloc] initWithDuration:StartSessionTime repeat:NO];
+    __weak typeof(self) weakSelf = self;
+    self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
+        weakSelf.startSessionRetryCounter += 1;
+        SDLLogE(@"Module did no respond to the RPC start session request within %.f seconds. Retrying sending the start RPC start session request %d", StartSessionTime, weakSelf.startSessionRetryCounter);
+        [weakSelf sdl_sendStartServiceSession:weakSelf.startSessionRetryCounter];
+    };
+
     [self.rpcStartServiceTimeoutTimer start];
 }
 
