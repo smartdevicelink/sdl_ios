@@ -571,7 +571,7 @@ describe(@"the streaming video manager", ^{
 
                 context(@"with missing screen height and screen width values", ^{
                     beforeEach(^{
-                        streamingLifecycleManager.videoScaleManager.scale = 1.0f;
+                        postRAINotification();
                         streamingLifecycleManager.preferredResolutions = @[];
 
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil];

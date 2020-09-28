@@ -636,6 +636,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         if (([make containsString:@"Ford"] || [make containsString:@"Lincoln"]) && (initSize.width > 800 || initSize.height > 800)) {
             self.videoScaleManager.scale = 1.0f / 0.75f; // Scale by 1.333333
         }
+    } else {
+        self.videoScaleManager.displayViewportResolution = CGSizeZero;
+        self.videoScaleManager.scale = 1;
     }
 
     self.connectedVehicleMake = registerResponse.vehicleType.make;
