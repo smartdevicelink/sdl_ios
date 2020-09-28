@@ -133,11 +133,14 @@ describe(@"the streaming video manager", ^{
 
     context(@"init tests", ^{
         it(@"should return true by default if the system capability manager is nil", ^{
-            streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
+            SDLStreamingVideoLifecycleManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
             expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
         });
 
         describe(@"check isStreamingSupported", ^{
+            SDLSystemCapabilityManager *testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
+            SDLStreamingVideoLifecycleManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
+
             it(@"expect post RAI change streaming inner state", ^{
                 expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
                 postRAINotification();
@@ -150,14 +153,10 @@ describe(@"the streaming video manager", ^{
         });
 
         it(@"expect all properties to be inited properly", ^{
-            // RAI already posted in a previous test
+            postRAINotification();
             expect(streamingLifecycleManager.videoScaleManager.scale).to(equal([[SDLStreamingVideoScaleManager alloc] init].scale));
             expect(streamingLifecycleManager.touchManager).toNot(beNil());
             expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
-            if (!streamingLifecycleManager.isStreamingSupported) {
-                // unexpected state, try to fix it wit a new RAI
-                postRAINotification();
-            }
             expect(streamingLifecycleManager.isStreamingSupported).to(equal(YES));
             expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isVideoEncrypted)).to(equal(@NO));
