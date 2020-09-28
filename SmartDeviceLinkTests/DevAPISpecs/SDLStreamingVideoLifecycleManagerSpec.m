@@ -69,7 +69,6 @@
 - (instancetype)shortCopy;
 @end
 
-
 // video streaming capabilities values for testing, used in SDLGetSystemCapabilityResponse
 static const float testVSCScale = 1.25;
 static const int32_t testVSCMaxBitrate = 12345;
@@ -82,11 +81,107 @@ static void sendNotificationForHMILevel(SDLHMILevel hmiLevel, SDLVideoStreamingS
 static SDLGetSystemCapabilityResponse *createSystemCapabilityResponse(void);
 static SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData);
 
-#pragma mark - test Main
+#pragma mark - test Init
 
-QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
+QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_Init)
 
-describe(@"the streaming video manager", ^{
+describe(@"init tests", ^{
+    __block SDLStreamingVideoLifecycleManager *streamingLifecycleManager = nil;
+    __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
+    SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
+    SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
+    SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
+    NSString *testAppName = @"Test App";
+    SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
+
+    // set proper version up
+    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion version:6:0:0];
+    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion version:6:0:0];
+
+    testConfiguration.customVideoEncoderSettings = @{(id)kVTCompressionPropertyKey_ExpectedFrameRate : @1};
+    testConfiguration.dataSource = testDataSource;
+    testConfiguration.rootViewController = testViewController;
+
+    // load connection manager with fake data
+    TestSmartConnectionManager *testConnectionManager = [[TestSmartConnectionManager alloc] init];
+    TestSmartConnection *connectionModel = [[TestSmartConnection alloc] init];
+    SDLGetSystemCapability *getRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
+    connectionModel.request = getRequest;
+    connectionModel.response = createSystemCapabilityResponse();
+    [testConnectionManager addConnectionModel:connectionModel];
+
+    testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
+
+    SDLConfiguration *testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration] streamingMedia:testConfiguration fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil];
+
+     it(@"should return true by default if the system capability manager is nil", ^{
+         SDLStreamingVideoLifecycleManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
+         expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
+     });
+
+
+    context(@"having inited", ^{
+        beforeEach(^{
+            testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
+            streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
+            testConnectionManager.lastRequestBlock = ^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                SDLLogD(@"testConnectionManager.lastRequestBlock:\n\trequest:{%@};\n\tresponse:{%@}\n\terror:{%@};", request, response, error);
+            };
+        });
+
+        afterEach(^{
+            if (streamingLifecycleManager) {
+                // shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
+                [streamingLifecycleManager shutDown];
+                streamingLifecycleManager = nil;
+            }
+        });
+
+        it(@"expect post RAI change streaming inner state", ^{
+            expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
+            postRAINotification();
+            expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
+        });
+
+        it(@"should get the value from the system capability manager", ^{
+            expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(equal(NO));
+            postRAINotification();
+            expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(equal(YES));
+        });
+
+        it(@"expect all properties to be inited properly", ^{
+            postRAINotification();
+            expect(streamingLifecycleManager.videoScaleManager.scale).to(equal([[SDLStreamingVideoScaleManager alloc] init].scale));
+            expect(streamingLifecycleManager.touchManager).toNot(beNil());
+            expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
+            expect(streamingLifecycleManager.isStreamingSupported).to(equal(YES));
+            expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));
+            expect(@(streamingLifecycleManager.isVideoEncrypted)).to(equal(@NO));
+            expect(@(streamingLifecycleManager.isVideoStreamingPaused)).to(equal(@YES));
+            expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).to(equal(@YES));
+            expect(@(streamingLifecycleManager.pixelBufferPool == NULL)).to(equal(@YES));
+            expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
+            expect(@(streamingLifecycleManager.showVideoBackgroundDisplay)).to(equal(@YES));
+            expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
+            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
+            expect(streamingLifecycleManager.videoFormat).to(beNil());
+            expect(streamingLifecycleManager.dataSource).to(equal(testDataSource));
+            expect(streamingLifecycleManager.supportedFormats).to(haveCount(2));
+            expect(streamingLifecycleManager.preferredFormats).to(beNil());
+            expect(streamingLifecycleManager.preferredResolutions).to(beNil());
+            expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
+            expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
+        });
+    });
+});
+
+QuickSpecEnd
+
+#pragma mark - test Runtime
+
+QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_Runtime)
+
+describe(@"runtime tests", ^{
     __block SDLStreamingVideoLifecycleManager *streamingLifecycleManager = nil;
     SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
@@ -129,52 +224,6 @@ describe(@"the streaming video manager", ^{
             [streamingLifecycleManager shutDown];
             streamingLifecycleManager = nil;
         }
-    });
-
-    context(@"init tests", ^{
-        it(@"should return true by default if the system capability manager is nil", ^{
-            SDLStreamingVideoLifecycleManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
-            expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
-        });
-
-        describe(@"check isStreamingSupported", ^{
-            SDLSystemCapabilityManager *testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
-            SDLStreamingVideoLifecycleManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
-
-            it(@"expect post RAI change streaming inner state", ^{
-                expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
-                postRAINotification();
-                expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
-            });
-
-            it(@"should get the value from the system capability manager", ^{
-                expect(@([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming])).to(equal(@YES));
-            });
-        });
-
-        it(@"expect all properties to be inited properly", ^{
-            postRAINotification();
-            expect(streamingLifecycleManager.videoScaleManager.scale).to(equal([[SDLStreamingVideoScaleManager alloc] init].scale));
-            expect(streamingLifecycleManager.touchManager).toNot(beNil());
-            expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
-            expect(streamingLifecycleManager.isStreamingSupported).to(equal(YES));
-            expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));
-            expect(@(streamingLifecycleManager.isVideoEncrypted)).to(equal(@NO));
-            expect(@(streamingLifecycleManager.isVideoStreamingPaused)).to(equal(@YES));
-            expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).to(equal(@YES));
-            expect(@(streamingLifecycleManager.pixelBufferPool == NULL)).to(equal(@YES));
-            expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
-            expect(@(streamingLifecycleManager.showVideoBackgroundDisplay)).to(equal(@YES));
-            expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
-            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
-            expect(streamingLifecycleManager.videoFormat).to(beNil());
-            expect(streamingLifecycleManager.dataSource).to(equal(testDataSource));
-            expect(streamingLifecycleManager.supportedFormats).to(haveCount(2));
-            expect(streamingLifecycleManager.preferredFormats).to(beNil());
-            expect(streamingLifecycleManager.preferredResolutions).to(beNil());
-            expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
-            expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
-        });
     });
 
     describe(@"when started", ^{
@@ -1265,7 +1314,7 @@ describe(@"supported video capabilities and formats", ^{
 
 QuickSpecEnd
 
-#pragma mark -- helper functions
+#pragma mark - helper functions
 
 static void postRAINotification() {
     SDLRegisterAppInterfaceResponse *rai = [[SDLRegisterAppInterfaceResponse alloc] init];
