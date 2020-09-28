@@ -556,6 +556,7 @@ describe(@"the streaming video manager", ^{
 
                 context(@"with missing data", ^{
                     beforeEach(^{
+                        streamingLifecycleManager.videoScaleManager.scale = 1.0f;
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:nil codec:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
                         [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
@@ -570,6 +571,7 @@ describe(@"the streaming video manager", ^{
 
                 context(@"with missing screen height and screen width values", ^{
                     beforeEach(^{
+                        streamingLifecycleManager.videoScaleManager.scale = 1.0f;
                         streamingLifecycleManager.preferredResolutions = @[];
 
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil];
