@@ -154,6 +154,10 @@ describe(@"the streaming video manager", ^{
             expect(streamingLifecycleManager.videoScaleManager.scale).to(equal([[SDLStreamingVideoScaleManager alloc] init].scale));
             expect(streamingLifecycleManager.touchManager).toNot(beNil());
             expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
+            if (!streamingLifecycleManager.isStreamingSupported) {
+                // unexpected state, try to fix it wit a new RAI
+                postRAINotification();
+            }
             expect(streamingLifecycleManager.isStreamingSupported).to(equal(YES));
             expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isVideoEncrypted)).to(equal(@NO));
