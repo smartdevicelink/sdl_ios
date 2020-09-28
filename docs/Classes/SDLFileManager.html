@@ -351,7 +351,7 @@
   
   <p>Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.</p>
 
-<p>The optional progress handler can be used to keep track of the upload progress. After each file upload, the progress handler returns the upload percentage and an error, if one occured during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.</p>
+<p>The optional progress handler can be used to keep track of the upload progress. After each file upload, the progress handler returns the upload percentage and an error, if one occurred during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.</p>
 
   
   
@@ -427,7 +427,7 @@
   <h4>Parameters</h4>
   <dl>
       <dt>artwork</dt>
-      <dd><p>A SDLArwork containing an image to be sent</p></dd>
+      <dd><p>A SDLArtwork containing an image to be sent</p></dd>
       <dt>completion</dt>
       <dd><p>An optional completion handler that returns the name of the uploaded artwork. It also returns an error if the upload fails.</p></dd>
   </dl>
@@ -465,7 +465,7 @@
   
   <p>Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.</p>
 
-<p>The optional progress handler can be used to keep track of the upload progress. After each artwork upload, the progress handler returns the artwork name, the upload percentage and an error, if one occured during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.</p>
+<p>The optional progress handler can be used to keep track of the upload progress. After each artwork upload, the progress handler returns the artwork name, the upload percentage and an error, if one occurred during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.</p>
 
   
   
