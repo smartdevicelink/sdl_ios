@@ -534,13 +534,13 @@ describe(@"the streaming video manager", ^{
 
                 context(@"with data", ^{
                     beforeEach(^{
+                        streamingLifecycleManager.videoScaleManager.scale = 1.0f;
                         testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:testVideoProtocol codec:testVideoCodec];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
                         [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
                     });
 
                     it(@"should have set all the right properties", ^{
-                        expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(testMTU));
                         expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(testVideoWidth, testVideoHeight)))).to(beTrue());
                         expect(streamingLifecycleManager.videoEncrypted).to(equal(YES));
                         expect(streamingLifecycleManager.videoFormat).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:testVideoCodec protocol:testVideoProtocol]));
