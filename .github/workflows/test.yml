@@ -40,6 +40,14 @@ jobs:
             matrix:
                 scheme: ['SmartDeviceLink']
         steps:
+            # Print the available Xcode versions
+            - name: Get available Xcode versions on the server
+              run: ls /Applications | grep Xcode
+
+            # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
+            - name: Select Xcode version
+              run: sudo xcode-select -switch /Applications/Xcode_12.0.0.app
+
             - name: Checkout repository
               uses: actions/checkout@v2.3.1
               with:
@@ -57,14 +65,6 @@ jobs:
               if: steps.carthage-cache.outputs.cache-hit != 'true'
               run: bash carthage-build.sh --no-use-binaries --platform iOS --cache-builds
               # run: carthage bootstrap --no-use-binaries --platform iOS --cache-builds
-
-            # Print the available Xcode versions
-            - name: Get available Xcode versions on the server
-              run: ls /Applications | grep Xcode
-
-            # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
-            - name: Select Xcode version
-              run: sudo xcode-select -switch /Applications/Xcode_12.0.0.app
 
             # Split build into build-only and test-only as it is faster than building and running in one step
             - name: Building unit tests
