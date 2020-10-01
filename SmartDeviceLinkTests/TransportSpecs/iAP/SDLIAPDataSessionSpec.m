@@ -12,7 +12,7 @@
 
 #import "SDLIAPDataSession.h"
 
-#import "EAAccessory+OCMock.m"
+#import "EAAccessory+OCMock.h"
 #import "SDLIAPConstants.h"
 #import "SDLIAPSession.h"
 #import "SDLIAPDataSessionDelegate.h"

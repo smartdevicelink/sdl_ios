@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "EAAccessory+OCMock.m"
+#import "EAAccessory+OCMock.h"
 #import "SDLIAPSession.h"
 #import "SDLIAPConstants.h"
 
