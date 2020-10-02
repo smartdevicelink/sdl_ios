@@ -65,6 +65,12 @@
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+@property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
+@end
+
+@interface SDLGlobals ()
+@property (copy, nonatomic, readwrite) SDLVersion *protocolVersion;
 @end
 
 QuickConfigurationBegin(SendingRPCsConfiguration)
@@ -83,17 +89,6 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
 }
 
 QuickConfigurationEnd
-
-@interface SDLGlobals ()
-@property (copy, nonatomic, readwrite) SDLVersion *protocolVersion;
-@end
-
-
-@interface SDLLifecycleManager ()
-// reach the private property for testing
-@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
-@property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
-@end
 
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
@@ -303,7 +298,7 @@ describe(@"a lifecycle manager", ^{
             describe(@"after receiving a register app interface response", ^{
                 __block NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 __block NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
-                
+
                 beforeEach(^{
                     OCMStub([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
@@ -317,7 +312,7 @@ describe(@"a lifecycle manager", ^{
                     transitionToState(SDLLifecycleStateRegistered);
                     [NSThread sleepForTimeInterval:0.3];
                 });
-                
+
                 it(@"should eventually reach the ready state", ^{
                     expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
@@ -327,7 +322,7 @@ describe(@"a lifecycle manager", ^{
                         OCMStub([streamingManagerMock startSecondaryTransportWithProtocol:[OCMArg any]]);
                     }
                 });
-                
+
                 itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
             });
             
