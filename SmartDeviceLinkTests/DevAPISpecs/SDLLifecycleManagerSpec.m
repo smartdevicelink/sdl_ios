@@ -9,6 +9,7 @@
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLEncryptionConfiguration.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLError.h"
 #import "SDLFileManagerConfiguration.h"
 #import "SDLFileManager.h"
@@ -66,6 +67,7 @@
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
+@property (strong, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 @property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
 @end
 
@@ -104,6 +106,7 @@ describe(@"a lifecycle manager", ^{
     __block id streamingManagerMock = OCMClassMock([SDLStreamingMediaManager class]);
     __block id systemCapabilityMock = OCMClassMock([SDLSystemCapabilityManager class]);
     __block id secondaryTransportManagerMock = OCMClassMock([SDLSecondaryTransportManager class]);
+    __block id encryptionManagerMock = OCMClassMock([SDLEncryptionLifecycleManager class]);
 
     void (^transitionToState)(SDLState *) = ^(SDLState *state) {
         dispatch_sync(testManager.lifecycleQueue, ^{
@@ -134,6 +137,7 @@ describe(@"a lifecycle manager", ^{
         testManager.streamManager = streamingManagerMock;
         testManager.systemCapabilityManager = systemCapabilityMock;
         testManager.secondaryTransportManager = secondaryTransportManagerMock;
+        testManager.encryptionLifecycleManager = encryptionManagerMock;
 
         [SDLGlobals sharedGlobals].protocolVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
@@ -293,34 +297,28 @@ describe(@"a lifecycle manager", ^{
         describe(@"in the connected state", ^{
             beforeEach(^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:NO];
-            });
-            
-            describe(@"after receiving a register app interface response", ^{
-                __block NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
-                __block NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
 
-                beforeEach(^{
-                    OCMStub([(SDLLockScreenManager *)lockScreenManagerMock start]);
+                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateConnected));
+            });
+
+             describe(@"after receiving a register app interface response", ^{
+                it(@"should eventually reach the ready state", ^{
+                    NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
+                    NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
+
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
-                    if (testConfig.lifecycleConfig.tcpDebugMode) {
-                        OCMStub([streamingManagerMock startSecondaryTransportWithProtocol:protocolMock]);
-                    }
 
-                    // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
+                    // Make sure we have an HMI status to move the lifecycle forward
                     testManager.hmiLevel = SDLHMILevelFull;
                     transitionToState(SDLLifecycleStateRegistered);
-                    [NSThread sleepForTimeInterval:0.3];
-                });
 
-                it(@"should eventually reach the ready state", ^{
                     expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
+                    OCMVerify([(SDLSystemCapabilityManager *)systemCapabilityMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
-                    if (testManager.configuration.lifecycleConfig.tcpDebugMode) {
-                        OCMStub([streamingManagerMock startSecondaryTransportWithProtocol:[OCMArg any]]);
-                    }
+                    OCMVerify([encryptionManagerMock startWithProtocol:[OCMArg any]]);
                 });
 
                 itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
