@@ -102,6 +102,8 @@ NS_ASSUME_NONNULL_BEGIN
         BOOL cancelledSuccessfully = [strongSelf sdl_isIOThreadCancelled];
         if (!cancelledSuccessfully) {
             SDLLogE(@"The I/O streams were not shut down successfully. We might not be able to create a new session with an accessory during the same app session. If this happens, only force quitting and restarting the app will allow new sessions.");
+        } else {
+            strongSelf.ioStreamThread = nil;
         }
 
         [strongSelf.sendDataQueue removeAllObjects];
@@ -333,7 +335,11 @@ NS_ASSUME_NONNULL_BEGIN
 
         while (self.ioStreamThread != nil && !self.ioStreamThread.cancelled) {
             // Enqueued data will be written to and read from the streams in the runloop
-            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
+            BOOL result = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
+            if (!result) {
+                SDLLogE(@"The run loop returned immediately althoug two streams supposed to be scheduled.\nInput stream: %@\nOutput stream: %@\nAccessory: %@", self.eaSession.inputStream, self.eaSession.outputStream, self.accessory);
+                break;
+            }
         }
 
         SDLLogD(@"Closing the accessory event loop on thread: %@", NSThread.currentThread.name);
