@@ -6,6 +6,8 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
+#import <UIKit/UIDevice.h>
+
 #import "SDLIAPDataSession.h"
 
 #import "SDLGlobals.h"
@@ -332,13 +334,18 @@ NS_ASSUME_NONNULL_BEGIN
         [self startStream:self.eaSession.outputStream];
 
         SDLLogD(@"Starting the accessory event loop on thread: %@", NSThread.currentThread.name);
-
+        BOOL runModeFailedOnce = NO;
+        
         while (self.ioStreamThread != nil && !self.ioStreamThread.cancelled) {
             // Enqueued data will be written to and read from the streams in the runloop
             BOOL result = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
-            if (!result) {
-                SDLLogE(@"The run loop returned immediately althoug two streams supposed to be scheduled.\nInput stream: %@\nOutput stream: %@\nAccessory: %@", self.eaSession.inputStream, self.eaSession.outputStream, self.accessory);
-                break;
+            if (!result && !runModeFailedOnce) {
+                // log error once on any iOS version but only break if on iOS 14 or up.
+                runModeFailedOnce = YES;
+                SDLLogE(@"The run loop returned immediately although two streams supposed to be scheduled.\nInput stream: %@\nOutput stream: %@\nAccessory: %@", self.eaSession.inputStream, self.eaSession.outputStream, self.accessory);
+                if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")) {
+                    break;
+                }
             }
         }
 
