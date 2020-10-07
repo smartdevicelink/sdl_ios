@@ -33,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLockScreenViewController
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.modalPresentationStyle = UIModalPresentationFullScreen;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
