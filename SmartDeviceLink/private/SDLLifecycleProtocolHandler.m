@@ -82,15 +82,13 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendStartServiceSession:self.rpcStartServiceRetryCounter];
 }
 
-/// TODO
+/// Sends the RPC start service request to the module and sets a timer to wait for a response from the module. If the module ACKs or NAKs the request, then the timer is canceled. However, if the module does not respond within a set amount of time, the RPC start service is resent. Once the max number of retry accounts has been reached the session is closed.
 /// @param retryCount The retry attempt count
 - (void)sdl_sendStartServiceSession:(int)retryCount {
     if (retryCount > RPCStartServiceRetries) {
-        SDLLogE(@"Starting the RPC service failed %d times. Closing the session", RPCStartServiceRetries);
+        SDLLogE(@"Retrying sending the RPC start service failed %d times. Closing the session", RPCStartServiceRetries);
         return [self.protocol stopWithCompletionHandler:^{}];
     }
-
-    SDLLogD(@"Starting timeout timer for the module's response to the RPC start service");
 
     SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
     [self.protocol startServiceWithType:SDLServiceTypeRPC payload:startServicePayload.data];
@@ -104,10 +102,11 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     self.rpcStartServiceTimeoutTimer.elapsedBlock = ^{
         weakSelf.rpcStartServiceRetryCounter += 1;
-        SDLLogE(@"Module did not respond to the RPC start service within %.f seconds. Retrying (#%d) sending the request.", StartSessionTime, weakSelf.rpcStartServiceRetryCounter);
+        SDLLogE(@"Module did not respond to the RPC start service within %.f seconds. Retrying sending the RPC start service (#%d)", StartSessionTime, weakSelf.rpcStartServiceRetryCounter);
         [weakSelf sdl_sendStartServiceSession:weakSelf.rpcStartServiceRetryCounter];
     };
 
+    SDLLogD(@"Starting timeout timer for the module's response to the RPC start service");
     [self.rpcStartServiceTimeoutTimer start];
 }
 
