@@ -98,7 +98,7 @@ int const CreateSessionRetries = 3;
         return;
     }
 
-    double retryDelay = self.sdl_retryDelay;
+    double retryDelay = 0.0;
     SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
 
     self.retryCounter = 0;
@@ -427,53 +427,6 @@ int const CreateSessionRetries = 3;
     }
 
     return nil;
-}
-
-#pragma mark Retry Delay
-
-/**
- *  Generates a random number of seconds used to delay the retry control and data session attempts.
- *
- *  @discussion The retry delay is a HAX to fix a race condition in legacy SYNC head units (https://github.com/smartdevicelink/sdl_ios/issues/1783) where the module does not get the start RPC service frame and thus never responds to the request. Previously the min and max retry seconds were bounded at 1.5 and 9.5, however connection performance improved when the min retry seconds was upped to 10.
- *
- *  @return A random number of seconds.
- */
-- (double)sdl_retryDelay {
-    const double MinRetrySeconds = 10.0;
-    const double MaxRetrySeconds = 15.0;
-    double RetryRangeSeconds = MaxRetrySeconds - MinRetrySeconds;
-
-    static double appDelaySeconds = 0;
-
-    // HAX: This pull the app name and hashes it in an attempt to provide a more even distribution of retry delays. The evidence that this does so is anecdotal. A more ideal solution would be to use a list of known, installed SDL apps on the phone to try and deterministically generate an even delay.
-    if (appDelaySeconds == 0) {
-        NSString *appName = [[NSProcessInfo processInfo] processName];
-        if (appName == nil) {
-            appName = @"noname";
-        }
-
-        // Run the app name through an md5 hasher
-        const char *ptr = [appName UTF8String];
-        unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
-        CC_MD5(ptr, (unsigned int)strlen(ptr), md5Buffer);
-
-        // Generate a string of the hex hash
-        NSMutableString *output = [NSMutableString stringWithString:@"0x"];
-        for (int i = 0; i < 8; i++) {
-            [output appendFormat:@"%02X", md5Buffer[i]];
-        }
-
-        // Transform the string into a number between 0 and 1
-        unsigned long long firstHalf;
-        NSScanner *pScanner = [NSScanner scannerWithString:output];
-        [pScanner scanHexLongLong:&firstHalf];
-        double hashBasedValueInRange0to1 = ((double)firstHalf) / 0xffffffffffffffff;
-
-        // Transform the number into a number between min and max
-        appDelaySeconds = ((RetryRangeSeconds * hashBasedValueInRange0to1) + MinRetrySeconds);
-    }
-
-    return appDelaySeconds;
 }
 
 #pragma mark Create Sessions
