@@ -3,7 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:">-initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:</a></li>
   <li><a href="#section--initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities:">-initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities:</a></li>
   <li><a href="#section-climateControlCapabilities">climateControlCapabilities</a></li>
   <li><a href="#section-radioControlCapabilities">radioControlCapabilities</a></li>
@@ -20,46 +19,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:">
-      -initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:
-  </h3>
-  
-  <p>Constructs a newly allocated SDLRemoteControlCapabilities object</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">initWithClimateControlCapabilities</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLClimateControlCapabilities.html">SDLClimateControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
-            <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)climateControlCapabilities">climateControlCapabilities</a></span>
-              <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)radioControlCapabilities">radioControlCapabilities</a></span><span class="o">:</span>
-                  <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLRadioControlCapabilities.html">SDLRadioControlCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
-                      <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)radioControlCapabilities">radioControlCapabilities</a></span>
-                    <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)buttonCapabilities">buttonCapabilities</a></span><span class="o">:</span>
-                        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
-                            <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html#/c:objc(cs)SDLRemoteControlCapabilities(py)buttonCapabilities">buttonCapabilities</a></span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">climateControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLClimateControlCapabilities.html">SDLClimateControlCapabilities</a></span><span class="p">]?,</span> <span class="nv">radioControlCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLRadioControlCapabilities.html">SDLRadioControlCapabilities</a></span><span class="p">]?,</span> <span class="nv">buttonCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span><span class="p">]?)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>climateControlCapabilities</dt>
-      <dd><p>Array of SDLClimateControlCapabilities</p></dd>
-      <dt>radioControlCapabilities</dt>
-      <dd><p>Array of SDLRadioControlCapabilities</p></dd>
-      <dt>buttonCapabilities</dt>
-      <dd><p>Array of SDLButtonCapabilities</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An instance of the SDLRemoteControlCapabilities class</p>
-  </div>
-  
   <h3 id="section--initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities:">
       -initWithClimateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities:audioControlCapabilities:hmiSettingsControlCapabilities:lightControlCapabilities:
   </h3>

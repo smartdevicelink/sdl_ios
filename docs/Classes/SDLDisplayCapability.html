@@ -4,7 +4,6 @@
 
 <ul>
   <li><a href="#section--initWithDisplayName:">-initWithDisplayName:</a></li>
-  <li><a href="#section--initWithDisplayName:windowTypeSupported:windowCapabilities:">-initWithDisplayName:windowTypeSupported:windowCapabilities:</a></li>
   <li><a href="#section--initWithDisplayName:windowCapabilities:windowTypeSupported:">-initWithDisplayName:windowCapabilities:windowTypeSupported:</a></li>
   <li><a href="#section-displayName">displayName</a></li>
   <li><a href="#section-windowTypeSupported">windowTypeSupported</a></li>
@@ -41,29 +40,6 @@
       <dt>displayName</dt>
       <dd><p>Name of the display.</p></dd>
   </dl>
-  
-  <h3 id="section--initWithDisplayName:windowTypeSupported:windowCapabilities:">
-      -initWithDisplayName:windowTypeSupported:windowCapabilities:
-  </h3>
-  
-  <p>This method is broken (the types don&rsquo;t match the parameter names) and will always return nil. Use initWithDisplayName:windowCapabilities:windowTypeSupported: instead.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">initWithDisplayName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">displayName</span>
-    <span class="nf">windowTypeSupported</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windowTypeSupported</span>
-     <span class="nf">windowCapabilities</span><span class="p">:</span>
-         <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWindowTypeCapabilities.html">SDLWindowTypeCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windowCapabilities</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">displayName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">windowTypeSupported</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWindowCapability.html">SDLWindowCapability</a></span><span class="p">]?,</span> <span class="nv">windowCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWindowTypeCapabilities.html">SDLWindowTypeCapabilities</a></span><span class="p">]?)</span></code></pre>
-
-  
-  
   
   <h3 id="section--initWithDisplayName:windowCapabilities:windowTypeSupported:">
       -initWithDisplayName:windowCapabilities:windowTypeSupported:

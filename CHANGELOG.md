@@ -1,4 +1,59 @@
 # Changelog
+## 7.0.0
+### Versions
+* Supports [SDL RPC Spec 7.0.0](https://github.com/smartdevicelink/rpc_spec/commit/eead323f356be713d2b0f0a253f3f3d36143460a) and [SDL Protocol Spec 5.3.0](https://github.com/smartdevicelink/protocol_spec/tree/release/5.3.0).
+
+### Testing
+* Tested with Xcode 12.0
+* iOS 13.7 and 14.0
+* Core:
+    * Manticore (Core v6.1.1, Generic HMI v0.8.1)
+    * Ford Sync 3.4 (19353_DEVTEST)
+    * Ford Sync 3.0 (17276_DEVTEST)
+    * Ford Sync 4.0 (20016_DEVTEST)
+    * Core v7.0.0-rc.1 with sdl_hmi v5.3.0-develop and generic_hmi v0.9.0-develop
+
+### Enhancements
+* Added main menu RPC support for deeper submenus (https://github.com/smartdevicelink/sdl_ios/issues/910).
+* Added main menu RPC support for driver distraction limitations to the menu (https://github.com/smartdevicelink/sdl_ios/issues/926).
+* Updated max URL lengths in `SystemRequest` to be unlimited (https://github.com/smartdevicelink/sdl_ios/issues/1110).
+* Added support for new types of character sets (https://github.com/smartdevicelink/sdl_ios/issues/1139).
+* Added new RPC for `SubtleAlert`, a notification-like alert (https://github.com/smartdevicelink/sdl_ios/issues/1355).
+* Added new vehicle data `StabilityControlsStatus` (https://github.com/smartdevicelink/sdl_ios/issues/1449).
+* Changed fuel-related vehicle data RPCs (https://github.com/smartdevicelink/sdl_ios/issues/1472).
+* Added new vehicle data `HandsOffSteering` (https://github.com/smartdevicelink/sdl_ios/issues/1473).
+* Added new vehicle data `WindowStatus` (https://github.com/smartdevicelink/sdl_ios/issues/1508).
+* Added main menu RPC support for pagination and dynamic updating (https://github.com/smartdevicelink/sdl_ios/issues/1520).
+* Added new vehicle data `GearStatus` (https://github.com/smartdevicelink/sdl_ios/issues/1522).
+* Added `changeLayout` method to `SDLScreenManager` to change templates, including in a batched update (https://github.com/smartdevicelink/sdl_ios/issues/1612, https://github.com/smartdevicelink/sdl_ios/issues/1749).
+* Added support for new WebEngine projection hmi types and templates (note that this is not properly supported in this library outside of the RPCs; look at the JavaScript Suite library for more information) (https://github.com/smartdevicelink/sdl_ios/issues/1681).
+* Added a `reason` parameter to protocol NAKs (https://github.com/smartdevicelink/sdl_ios/issues/1684).
+* Update the minimum required iOS version to 10.0 (https://github.com/smartdevicelink/sdl_ios/issues/1738).
+
+### Bug Fixes
+* `SDLServiceUpdateReason` enums are now named properly (https://github.com/smartdevicelink/sdl_ios/issues/1502).
+* Consolidated serial queue logic (https://github.com/smartdevicelink/sdl_ios/issues/1614).
+* Consolidated logic for saving the dynamic MTU size (https://github.com/smartdevicelink/sdl_ios/issues/1615).
+* Fixed example app files not in the proper folder (https://github.com/smartdevicelink/sdl_ios/issues/1765).
+* Fixed `SDLSetGlobalProperties` init missing `userLocation` (https://github.com/smartdevicelink/sdl_ios/issues/1771).
+
+### RPC Generator
+* Fixed generator not sorting imports (https://github.com/smartdevicelink/sdl_ios/issues/1720).
+* Fixed generator generating deprecated properties into initializers (https://github.com/smartdevicelink/sdl_ios/issues/1722).
+* Fixed generator adding incorrect line breaks in documentation (https://github.com/smartdevicelink/sdl_ios/issues/1723).
+* Fixed generator not generating RPC response initializers correctly (https://github.com/smartdevicelink/sdl_ios/issues/1734).
+* Fixed generator not generating min/max array size documentation (https://github.com/smartdevicelink/sdl_ios/issues/1736). 
+* Fixed generator should not strip text after "@TODO" (https://github.com/smartdevicelink/sdl_ios/issues/1744).
+* Fixed generator adding unnecessary #pragma suppressions (https://github.com/smartdevicelink/sdl_ios/issues/1757).
+* Fixed generator not creating proper history documentation (https://github.com/smartdevicelink/sdl_ios/issues/1761).
+* Fixed generator not properly generating initializers with float types (https://github.com/smartdevicelink/sdl_ios/issues/1763).
+
+### Other
+* Moved files around to simplify distribution (https://github.com/smartdevicelink/sdl_ios/issues/568).
+* Fixed warnings in Objective-C example app (https://github.com/smartdevicelink/sdl_ios/issues/1772).
+* Cleaned up inline documentation grammar and spelling issues (https://github.com/smartdevicelink/sdl_ios/issues/1787).
+* Update CI to Xcode 12 and fix screenshot failures (https://github.com/smartdevicelink/sdl_ios/issues/1801).
+
 ## 6.7.0
 ### Versions
 * Supports [SDL RPC Spec 6.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/6.0.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).

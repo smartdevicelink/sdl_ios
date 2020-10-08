@@ -6,6 +6,7 @@
   <li><a href="#section--initWithPredefinedLayout:">-initWithPredefinedLayout:</a></li>
   <li><a href="#section--initWithLayout:">-initWithLayout:</a></li>
   <li><a href="#section--initWithPredefinedLayout:dayColorScheme:nightColorScheme:">-initWithPredefinedLayout:dayColorScheme:nightColorScheme:</a></li>
+  <li><a href="#section--initWithLayout:dayColorScheme:nightColorScheme:">-initWithLayout:dayColorScheme:nightColorScheme:</a></li>
   <li><a href="#section-displayLayout">displayLayout</a></li>
   <li><a href="#section-dayColorScheme">dayColorScheme</a></li>
   <li><a href="#section-nightColorScheme">nightColorScheme</a></li>
@@ -99,6 +100,40 @@
   <dl>
       <dt>predefinedLayout</dt>
       <dd><p>A display layout. Predefined or dynamically created screen layout</p></dd>
+      <dt>dayColorScheme</dt>
+      <dd><p>The color scheme to be used on a head unit using a &ldquo;light&rdquo; or &ldquo;day&rdquo; color scheme</p></dd>
+      <dt>nightColorScheme</dt>
+      <dd><p>The color scheme to be used on a head unit using a &ldquo;dark&rdquo; or &ldquo;night&rdquo; color scheme</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLSetDisplayLayout object</p>
+  </div>
+  
+  <h3 id="section--initWithLayout:dayColorScheme:nightColorScheme:">
+      -initWithLayout:dayColorScheme:nightColorScheme:
+  </h3>
+  
+  <p>Convenience init to set a display layout</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+      <span class="nf">initWithLayout</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">displayLayout</span>
+      <span class="nf">dayColorScheme</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">dayColorScheme</span>
+    <span class="nf">nightColorScheme</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">nightColorScheme</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">layout</span> <span class="nv">displayLayout</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">dayColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">,</span> <span class="nv">nightColorScheme</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateColorScheme.html">SDLTemplateColorScheme</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>displayLayout</dt>
+      <dd><p>A display layout name</p></dd>
       <dt>dayColorScheme</dt>
       <dd><p>The color scheme to be used on a head unit using a &ldquo;light&rdquo; or &ldquo;day&rdquo; color scheme</p></dd>
       <dt>nightColorScheme</dt>
