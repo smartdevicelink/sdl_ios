@@ -3,6 +3,11 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section--initWithType:range:level:levelState:capacity:capacityUnit:">-initWithType:range:level:levelState:capacity:capacityUnit:</a></li>
+  <li><a href="#section-capacity">capacity</a></li>
+  <li><a href="#section-capacityUnit">capacityUnit</a></li>
+  <li><a href="#section-level">level</a></li>
+  <li><a href="#section-levelState">levelState</a></li>
   <li><a href="#section-type">type</a></li>
   <li><a href="#section-range">range</a></li>
 </ul>
@@ -13,6 +18,124 @@
 
 
 <section class="section task-group-section">
+  <h3 id="section--initWithType:range:level:levelState:capacity:capacityUnit:">
+      -initWithType:range:level:levelState:capacity:capacityUnit:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLFuelType.h@T@SDLFuelType">SDLFuelType</a></span><span class="p">)</span><span class="nv">type</span>
+                               <span class="nf">range</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">range</span>
+                               <span class="nf">level</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">level</span>
+                          <span class="nf">levelState</span><span class="p">:</span>
+                              <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLComponentVolumeStatus.h@T@SDLComponentVolumeStatus">SDLComponentVolumeStatus</a></span><span class="p">)</span><span class="nv">levelState</span>
+                            <span class="nf">capacity</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">capacity</span>
+                        <span class="nf">capacityUnit</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span><span class="p">)</span><span class="nv">capacityUnit</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLFuelType.h@T@SDLFuelType">SDLFuelType</a></span><span class="p">?,</span> <span class="nv">range</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="nv">level</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="nv">levelState</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLComponentVolumeStatus.h@T@SDLComponentVolumeStatus">SDLComponentVolumeStatus</a></span><span class="p">?,</span> <span class="nv">capacity</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="nv">capacityUnit</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>- type</p></dd>
+      <dt>range</dt>
+      <dd><p>- @(range)</p></dd>
+      <dt>level</dt>
+      <dd><p>- @(level)</p></dd>
+      <dt>levelState</dt>
+      <dd><p>- levelState</p></dd>
+      <dt>capacity</dt>
+      <dd><p>- @(capacity)</p></dd>
+      <dt>capacityUnit</dt>
+      <dd><p>- capacityUnit</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLFuelRange object</p>
+  </div>
+  
+  <h3 id="section-capacity">
+      capacity
+  </h3>
+  
+  <p>The absolute capacity of this fuel type.</p>
+
+<p>Optional, Float, 0.0 - 1000000.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">capacity</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">capacity</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-capacityUnit">
+      capacityUnit
+  </h3>
+  
+  <p>The unit of the capacity of this fuel type such as liters for gasoline or kWh for batteries.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span> <span class="n">capacityUnit</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">capacityUnit</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-level">
+      level
+  </h3>
+  
+  <p>The relative remaining capacity of this fuel type (percentage).</p>
+
+<p>Optional, Float, -6.0 - 1000000.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">level</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">level</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-levelState">
+      levelState
+  </h3>
+  
+  <p>The fuel level state.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLComponentVolumeStatus.h@T@SDLComponentVolumeStatus">SDLComponentVolumeStatus</a></span> <span class="n">levelState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">levelState</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLComponentVolumeStatus.h@T@SDLComponentVolumeStatus">SDLComponentVolumeStatus</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-type">
       type
   </h3>

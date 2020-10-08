@@ -3,6 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section--initWithNavigation:phoneCall:videoStreaming:remoteControl:appServices:displays:seatLocation:driverDistraction:">-initWithNavigation:phoneCall:videoStreaming:remoteControl:appServices:displays:seatLocation:driverDistraction:</a></li>
   <li><a href="#section-navigation">navigation</a></li>
   <li><a href="#section-phoneCall">phoneCall</a></li>
   <li><a href="#section-videoStreaming">videoStreaming</a></li>
@@ -10,6 +11,7 @@
   <li><a href="#section-appServices">appServices</a></li>
   <li><a href="#section-displays">displays</a></li>
   <li><a href="#section-seatLocation">seatLocation</a></li>
+  <li><a href="#section-driverDistraction">driverDistraction</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -20,6 +22,54 @@
 
 
 <section class="section task-group-section">
+  <h3 id="section--initWithNavigation:phoneCall:videoStreaming:remoteControl:appServices:displays:seatLocation:driverDistraction:">
+      -initWithNavigation:phoneCall:videoStreaming:remoteControl:appServices:displays:seatLocation:driverDistraction:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithNavigation</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigation</span>
+             <span class="nf">phoneCall</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneCall</span>
+        <span class="nf">videoStreaming</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">videoStreaming</span>
+         <span class="nf">remoteControl</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">remoteControl</span>
+           <span class="nf">appServices</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">appServices</span>
+              <span class="nf">displays</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">displays</span>
+          <span class="nf">seatLocation</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">seatLocation</span>
+     <span class="nf">driverDistraction</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">driverDistraction</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">navigation</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">phoneCall</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">videoStreaming</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">remoteControl</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">appServices</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">displays</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">seatLocation</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">driverDistraction</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>navigation</dt>
+      <dd><p>- navigation</p></dd>
+      <dt>phoneCall</dt>
+      <dd><p>- phoneCall</p></dd>
+      <dt>videoStreaming</dt>
+      <dd><p>- videoStreaming</p></dd>
+      <dt>remoteControl</dt>
+      <dd><p>- remoteControl</p></dd>
+      <dt>appServices</dt>
+      <dd><p>- appServices</p></dd>
+      <dt>displays</dt>
+      <dd><p>- displays</p></dd>
+      <dt>seatLocation</dt>
+      <dd><p>- seatLocation</p></dd>
+      <dt>driverDistraction</dt>
+      <dd><p>- driverDistraction</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLHMICapabilities object</p>
+  </div>
+  
   <h3 id="section-navigation">
       navigation
   </h3>
@@ -173,6 +223,26 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">seatLocation</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-driverDistraction">
+      driverDistraction
+  </h3>
+  
+  <p>Availability of driver distraction capability. True: Available, False: Not Available</p>
+
+<p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">driverDistraction</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">driverDistraction</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

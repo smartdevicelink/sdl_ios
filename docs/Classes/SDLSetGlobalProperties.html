@@ -3,10 +3,8 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--initWithHelpText:timeoutText:">-initWithHelpText:timeoutText:</a></li>
-  <li><a href="#section--initWithHelpText:timeoutText:vrHelpTitle:vrHelp:">-initWithHelpText:timeoutText:vrHelpTitle:vrHelp:</a></li>
-  <li><a href="#section--initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:">-initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:</a></li>
   <li><a href="#section--initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:">-initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:</a></li>
+  <li><a href="#section--initWithUserLocation:helpPrompt:timeoutPrompt:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:">-initWithUserLocation:helpPrompt:timeoutPrompt:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:</a></li>
   <li><a href="#section-helpPrompt">helpPrompt</a></li>
   <li><a href="#section-timeoutPrompt">timeoutPrompt</a></li>
   <li><a href="#section-vrHelpTitle">vrHelpTitle</a></li>
@@ -28,119 +26,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--initWithHelpText:timeoutText:">
-      -initWithHelpText:timeoutText:
-  </h3>
-  
-  <p>Initialize SetGlobalProperties with help text and timeout text</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHelpText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpText</span>
-                             <span class="nf">timeoutText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutText</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">helpText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">timeoutText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>helpText</dt>
-      <dd><p>A string that will be turned into TTS chunks for the help prompt</p></dd>
-      <dt>timeoutText</dt>
-      <dd><p>A string that will be turned into TTS chunks for the timeout prompt</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The SetGlobalProperties RPC</p>
-  </div>
-  
-  <h3 id="section--initWithHelpText:timeoutText:vrHelpTitle:vrHelp:">
-      -initWithHelpText:timeoutText:vrHelpTitle:vrHelp:
-  </h3>
-  
-  <p>Initialize SetGlobalProperties with help text, timeout text, help title, and help items</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHelpText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpText</span>
-                             <span class="nf">timeoutText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutText</span>
-                             <span class="nf">vrHelpTitle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelpTitle</span>
-                                  <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
-                                             <span class="n"><a href="../Classes/SDLSetGlobalProperties.html#/c:objc(cs)SDLSetGlobalProperties(py)vrHelp">vrHelp</a></span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">helpText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">timeoutText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">vrHelpTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">vrHelp</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span><span class="p">]?)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>helpText</dt>
-      <dd><p>A string that will be turned into TTS chunks for the help prompt</p></dd>
-      <dt>timeoutText</dt>
-      <dd><p>A string that will be turned into TTS chunks for the timeout prompt</p></dd>
-      <dt>vrHelpTitle</dt>
-      <dd><p>The title of the help interface prompt</p></dd>
-      <dt>vrHelp</dt>
-      <dd><p>The items of the help interface prompt</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The SetGlobalProperties RPC</p>
-  </div>
-  
-  <h3 id="section--initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:">
-      -initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:
-  </h3>
-  
-  <p>Initialize SetGlobalProperties with all possible items</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-      <span class="nf">initWithHelpText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpText</span>
-           <span class="nf">timeoutText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutText</span>
-           <span class="nf">vrHelpTitle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelpTitle</span>
-                <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span>
-             <span class="nf">menuTitle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">menuTitle</span>
-              <span class="nf">menuIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">menuIcon</span>
-    <span class="nf">keyboardProperties</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">keyboardProperties</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">helpText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">timeoutText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">vrHelpTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">vrHelp</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span><span class="p">]?,</span> <span class="nv">menuTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">menuIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">keyboardProperties</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span><span class="p">?)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>helpText</dt>
-      <dd><p>A string that will be turned into TTS chunks for the help prompt</p></dd>
-      <dt>timeoutText</dt>
-      <dd><p>A string that will be turned into TTS chunks for the timeout prompt</p></dd>
-      <dt>vrHelpTitle</dt>
-      <dd><p>The title of the help interface prompt</p></dd>
-      <dt>vrHelp</dt>
-      <dd><p>The items of the help interface prompt</p></dd>
-      <dt>menuTitle</dt>
-      <dd><p>The title of the menu button</p></dd>
-      <dt>menuIcon</dt>
-      <dd><p>The icon on the menu button</p></dd>
-      <dt>keyboardProperties</dt>
-      <dd><p>The properties of a keyboard prompt</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The SetGlobalProperties RPC</p>
-  </div>
-  
   <h3 id="section--initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:">
       -initWithHelpText:timeoutText:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:
   </h3>
@@ -188,6 +73,58 @@
   <div>
     <h4>Return Value</h4>
     <p>The SetGlobalProperties RPC</p>
+  </div>
+  
+  <h3 id="section--initWithUserLocation:helpPrompt:timeoutPrompt:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:">
+      -initWithUserLocation:helpPrompt:timeoutPrompt:vrHelpTitle:vrHelp:menuTitle:menuIcon:keyboardProperties:menuLayout:
+  </h3>
+  
+  <p>Convenience init for setting all possible global properties</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithUserLocation</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeatLocation.html">SDLSeatLocation</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">userLocation</span>
+              <span class="nf">helpPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span>
+           <span class="nf">timeoutPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span>
+             <span class="nf">vrHelpTitle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelpTitle</span>
+                  <span class="nf">vrHelp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrHelp</span>
+               <span class="nf">menuTitle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">menuTitle</span>
+                <span class="nf">menuIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">menuIcon</span>
+      <span class="nf">keyboardProperties</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">keyboardProperties</span>
+              <span class="nf">menuLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">menuLayout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">userLocation</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeatLocation.html">SDLSeatLocation</a></span><span class="p">?,</span> <span class="nv">helpPrompt</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">timeoutPrompt</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">vrHelpTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">vrHelp</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span><span class="p">]?,</span> <span class="nv">menuTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">menuIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">keyboardProperties</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span><span class="p">?,</span> <span class="nv">menuLayout</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>userLocation</dt>
+      <dd><p>- userLocation</p></dd>
+      <dt>helpPrompt</dt>
+      <dd><p>- helpPrompt</p></dd>
+      <dt>timeoutPrompt</dt>
+      <dd><p>- timeoutPrompt</p></dd>
+      <dt>vrHelpTitle</dt>
+      <dd><p>- vrHelpTitle</p></dd>
+      <dt>vrHelp</dt>
+      <dd><p>- vrHelp</p></dd>
+      <dt>menuTitle</dt>
+      <dd><p>- menuTitle</p></dd>
+      <dt>menuIcon</dt>
+      <dd><p>- menuIcon</p></dd>
+      <dt>keyboardProperties</dt>
+      <dd><p>- keyboardProperties</p></dd>
+      <dt>menuLayout</dt>
+      <dd><p>- menuLayout</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSetGlobalProperties object</p>
   </div>
   
   <h3 id="section-helpPrompt">

@@ -29,6 +29,7 @@
   <li><a href="#section--beginUpdates">-beginUpdates</a></li>
   <li><a href="#section--endUpdates">-endUpdates</a></li>
   <li><a href="#section--endUpdatesWithCompletionHandler:">-endUpdatesWithCompletionHandler:</a></li>
+  <li><a href="#section--changeLayout:withCompletionHandler:">-changeLayout:withCompletionHandler:</a></li>
   <li><a href="#section--softButtonObjectNamed:">-softButtonObjectNamed:</a></li>
   <li><a href="#section--subscribeButton:withUpdateHandler:">-subscribeButton:withUpdateHandler:</a></li>
   <li><a href="#section--subscribeButton:withObserver:selector:">-subscribeButton:withObserver:selector:</a></li>
@@ -53,7 +54,15 @@
       textField1
   </h3>
   
-  <p>The top text field within a template layout</p>
+  <p>The top text field within a template layout. Pass an empty string <code>\@&quot;&quot;</code> to clear the text field.</p>
+
+<p>If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.</p>
+
+<p>If 3 lines are available: [field1, field2, field3 - field 4]</p>
+
+<p>If 2 lines are available: [field1 - field2, field3 - field4]</p>
+
+<p>If 1 line is available: [field1 - field2 - field3 - field4]</p>
 
   
   
@@ -71,7 +80,15 @@
       textField2
   </h3>
   
-  <p>The second text field within a template layout</p>
+  <p>The second text field within a template layout. Pass an empty string <code>\@&quot;&quot;</code> to clear the text field.</p>
+
+<p>If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.</p>
+
+<p>If 3 lines are available: [field1, field2, field3 - field 4]</p>
+
+<p>If 2 lines are available: [field1 - field2, field3 - field4]</p>
+
+<p>If 1 line is available: [field1 - field2 - field3 - field4]</p>
 
   
   
@@ -89,7 +106,15 @@
       textField3
   </h3>
   
-  <p>The third text field within a template layout</p>
+  <p>The third text field within a template layout. Pass an empty string <code>\@&quot;&quot;</code> to clear the text field.</p>
+
+<p>If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.</p>
+
+<p>If 3 lines are available: [field1, field2, field3 - field 4]</p>
+
+<p>If 2 lines are available: [field1 - field2, field3 - field4]</p>
+
+<p>If 1 line is available: [field1 - field2 - field3 - field4]</p>
 
   
   
@@ -107,7 +132,15 @@
       textField4
   </h3>
   
-  <p>The fourth text field within a template layout</p>
+  <p>The fourth text field within a template layout. Pass an empty string <code>\@&quot;&quot;</code> to clear the text field.</p>
+
+<p>If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.</p>
+
+<p>If 3 lines are available: [field1, field2, field3 - field 4]</p>
+
+<p>If 2 lines are available: [field1 - field2, field3 - field4]</p>
+
+<p>If 1 line is available: [field1 - field2 - field3 - field4]</p>
 
   
   
@@ -351,7 +384,7 @@
 
 <p>The current status for dynamic menu updates. A dynamic menu update allows for smarter building of menu changes. If this status is set to <code>SDLDynamicMenuUpdatesModeForceOn</code>, menu updates will only create add commands for new items and delete commands for items no longer appearing in the menu. This helps reduce possible RPCs failures as there will be significantly less commands sent to the HMI.</p>
 
-<p>If set to <code>SDLDynamicMenuUpdatesModeForceOff</code>, menu updates will work the legacy way. This means when a new menu is set, the entire old menu is deleted and add commands are created for every item regardless of if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.</p>
+<p>If set to <code>SDLDynamicMenuUpdatesModeForceOff</code>, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regarldess if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.</p>
 
 <p>We recommend using either <code>SDLDynamicMenuUpdatesModeOnWithCompatibility</code> or <code>SDLDynamicMenuUpdatesModeForceOn</code>. <code>SDLDynamicMenuUpdatesModeOnWithCompatibility</code> turns dynamic updates off for head units that we know have poor compatibility with dynamic updates (e.g. they have bugs that cause menu items to not be placed correctly).</p>
 
@@ -528,19 +561,11 @@
       -endUpdates
   </h3>
   
-  <p>Update text fields with new text set into the text field properties. Pass an empty string <code>\@&quot;&quot;</code> to clear the text field.</p>
+  <p>Pairs with <code>beginUpdates:</code> to batch text, graphic, and layout changes into a single update with a callback when the update is complete.</p>
 
-<p>If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.</p>
+<p>Update text fields with new text set into the text field properties, updates the primary and secondary images with new image(s) if new one(s) been set, and updates the template if one was changed using <code>changeLayout:withCompletionHandler:</code>.</p>
 
-<p>If 3 lines are available: [field1, field2, field3 - field 4]</p>
-
-<p>If 2 lines are available: [field1 - field2, field3 - field4]</p>
-
-<p>If 1 line is available: [field1 - field2 - field3 - field4]</p>
-
-<p>Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.</p>
-
-<p>If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.</p>
+<p>NOTE: The handler in <code>changeLayout:withCompletionHandler:</code> will not be called if the update is batched into this update.</p>
 
   
   
@@ -558,19 +583,13 @@
       -endUpdatesWithCompletionHandler:
   </h3>
   
-  <p>Update text fields with new text set into the text field properties. Pass an empty string <code>\@&quot;&quot;</code> to clear the text field.</p>
+  <p>Pairs with <code>beginUpdates:</code> to batch text, graphic, and layout changes into a single update with a callback when the update is complete.</p>
 
-<p>If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.</p>
+<p>Update text fields with new text set into the text field properties, updates the primary and secondary images with new image(s) if new one(s) been set, and updates the template if one was changed using <code>changeLayout:withCompletionHandler:</code>.</p>
 
-<p>If 3 lines are available: [field1, field2, field3 - field 4]</p>
+<p>NOTE: The handler in <code>changeLayout:withCompletionHandler:</code> will not be called if the update is batched into this update.</p>
 
-<p>If 2 lines are available: [field1 - field2, field3 - field4]</p>
-
-<p>If 1 line is available: [field1 - field2 - field3 - field4]</p>
-
-<p>Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.</p>
-
-<p>If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.</p>
+<p>NOTE: If this update returns an error, it may have been superseded by another update. This means that it was cancelled while in-progress because another update was requested, whether batched or not. Check for error domain <code><a href="../Constants.html#/c:@SDLErrorDomainTextAndGraphicManager">SDLErrorDomainTextAndGraphicManager</a></code> and code <code>SDLTextAndGraphicManagerErrorPendingUpdateSuperseded</code> to determine if your update was superseded. Any other error should represent a rejection of your data to be presented by the head unit. Note that if your update is superseded, it&rsquo;s possible that the update will succeed or fail later. If you have set a handler for your update which superseded this update, the error or success will be represented there.</p>
 
   
   
@@ -588,6 +607,39 @@
   <dl>
       <dt>handler</dt>
       <dd><p>A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.</p></dd>
+  </dl>
+  
+  <h3 id="section--changeLayout:withCompletionHandler:">
+      -changeLayout:withCompletionHandler:
+  </h3>
+  
+  <p>Change the current layout to a new layout and optionally update the layout&rsquo;s night and day color schemes. The values set for the text, graphics, buttons and template title persist between layout changes. To update the text, graphics, buttons and template title at the same time as the template, batch all the updates between <code>beginUpdates</code> and <code>endUpdates</code>. If the layout update fails while batching, then the updated text, graphics, buttons or template title will also not be updated.</p>
+
+<p>If you are connected on a &lt; v6.0 connection and batching the update, the layout will be updated, then the text and graphics will be updated. If you are connected on a &gt;= v6.0 connection, the layout will be updated at the same time that the text and graphics are updated.</p>
+
+<p>If this update is batched between <code>beginUpdates</code> and <code>endUpdatesWithCompletionHandler:</code>, the completion handler here will not be called. Use the completion handler on <code>endUpdatesWithCompletionHandler:</code></p>
+
+<p>NOTE: If this update returns an error, it may have been superseded by another update. This means that it was cancelled while in-progress because another update was requested, whether batched or not. Check for error domain <code><a href="../Constants.html#/c:@SDLErrorDomainTextAndGraphicManager">SDLErrorDomainTextAndGraphicManager</a></code> and code <code>SDLTextAndGraphicManagerErrorPendingUpdateSuperseded</code> to determine if your update was superseded. Any other error should represent a rejection of your data to be presented by the head unit. Note that if your update is superseded, it&rsquo;s possible that the update will succeed or fail later. If you have set a handler for your update which superseded this update, the error or success will be represented there.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">changeLayout</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLTemplateConfiguration.html">SDLTemplateConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">templateConfiguration</span>
+    <span class="nf">withCompletionHandler</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">changeLayout</span><span class="p">(</span><span class="n">_</span> <span class="nv">templateConfiguration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateConfiguration.html">SDLTemplateConfiguration</a></span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>templateConfiguration</dt>
+      <dd><p>The new configuration of the template, including the layout and color scheme.</p></dd>
+      <dt>handler</dt>
+      <dd><p>A handler that will be called when the layout change finished.</p></dd>
   </dl>
   
   <h3 id="section--softButtonObjectNamed:">

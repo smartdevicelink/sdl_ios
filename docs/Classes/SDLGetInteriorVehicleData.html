@@ -6,9 +6,6 @@
   <li><a href="#section--initWithModuleType:moduleId:">-initWithModuleType:moduleId:</a></li>
   <li><a href="#section--initAndSubscribeToModuleType:moduleId:">-initAndSubscribeToModuleType:moduleId:</a></li>
   <li><a href="#section--initAndUnsubscribeToModuleType:moduleId:">-initAndUnsubscribeToModuleType:moduleId:</a></li>
-  <li><a href="#section--initWithModuleType:">-initWithModuleType:</a></li>
-  <li><a href="#section--initAndSubscribeToModuleType:">-initAndSubscribeToModuleType:</a></li>
-  <li><a href="#section--initAndUnsubscribeToModuleType:">-initAndUnsubscribeToModuleType:</a></li>
   <li><a href="#section-moduleType">moduleType</a></li>
   <li><a href="#section-moduleId">moduleId</a></li>
   <li><a href="#section-subscribe">subscribe</a></li>
@@ -110,89 +107,6 @@ whenever new data is available for the module.</p>
       <dd><p>The type of a RC module to retrieve module data from the vehicle</p></dd>
       <dt>moduleId</dt>
       <dd><p>Id of a module, published by System Capability</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An SDLGetInteriorVehicleData object</p>
-  </div>
-  
-  <h3 id="section--initWithModuleType:">
-      -initWithModuleType:
-  </h3>
-  
-  <p>Convenience init to get information of a particular module type.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span><span class="nv">moduleType</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">moduleType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>moduleType</dt>
-      <dd><p>The type of a RC module to retrieve module data from the vehicle</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An SDLGetInteriorVehicleData object</p>
-  </div>
-  
-  <h3 id="section--initAndSubscribeToModuleType:">
-      -initAndSubscribeToModuleType:
-  </h3>
-  
-  <p>Convenience init to get information and subscribe to a particular module type.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initAndSubscribeToModuleType</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span><span class="nv">moduleType</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">andSubscribeToModuleType</span> <span class="nv">moduleType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>moduleType</dt>
-      <dd><p>The type of a RC module to retrieve module data from the vehicle</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An SDLGetInteriorVehicleData object</p>
-  </div>
-  
-  <h3 id="section--initAndUnsubscribeToModuleType:">
-      -initAndUnsubscribeToModuleType:
-  </h3>
-  
-  <p>Convenience init to unsubscribe from particular module type.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initAndUnsubscribeToModuleType</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span><span class="nv">moduleType</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">andUnsubscribeToModuleType</span> <span class="nv">moduleType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>moduleType</dt>
-      <dd><p>The type of a RC module to retrieve module data from the vehicle</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
