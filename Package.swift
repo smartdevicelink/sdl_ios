@@ -11,6 +11,9 @@ let package = Package(
         .library(name: "SmartDeviceLink", targets: ["SmartDeviceLink"]),
         .library(name: "SmartDeviceLinkSwift", targets: ["SmartDeviceLinkSwift"])
     ],
+    dependencies: [
+        .package(name: "BiSON", url: "https://github.com/smartdevicelink/bson_c_lib.git", branch: "feature/swift_pm_support")
+    ],
     targets: [
         .target(
             name: "SmartDeviceLink",
@@ -24,21 +27,6 @@ let package = Package(
             dependencies: ["SmartDeviceLink"],
             path: "SmartDeviceLinkSwift",
             exclude: ["Info.plist"]
-        ),
-        .target(
-            name: "BiSON",
-            path: "bson_c_lib/src",
-            exclude: [
-                "Makefile.am",
-                "Makefile.in",
-                "emhashmap/LICENSE",
-                "emhashmap/README.mkd",
-                "emhashmap/Makefile.in",
-                "emhashmap/Makefile.am",
-                "emhashmap/runtests.sh",
-                "emhashmap/tests.c"
-            ],
-            publicHeadersPath: "."
         )
     ]
 )
