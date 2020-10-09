@@ -300,8 +300,6 @@ describe(@"a lifecycle manager", ^{
         describe(@"in the connected state", ^{
             beforeEach(^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:NO];
-
-                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateConnected));
             });
 
              describe(@"after receiving a register app interface response", ^{
@@ -404,8 +402,6 @@ describe(@"a lifecycle manager", ^{
         describe(@"transitioning to the ready state", ^{
             beforeEach(^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:NO];
-
-                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateRegistered));
             });
 
             context(@"when the register response is a success", ^{
