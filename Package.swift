@@ -21,6 +21,9 @@ let package = Package(
             path: "SmartDeviceLink",
             exclude: ["Info.plist"],
             publicHeadersPath: "public"
+            cSettings: [
+                .headerSearchPath("private")
+            ]
         ),
         .target(
             name: "SmartDeviceLinkSwift",
