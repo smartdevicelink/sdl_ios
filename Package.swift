@@ -21,14 +21,15 @@ let package = Package(
             path: "SmartDeviceLink",
             exclude: ["Info.plist"],
             resources: [
-                .process("Assets/SDLAssets.xcassets"),
-                .process("Assets/Base.lproj"),
-                .process("Assets/de.lproj"),
-                .process("Assets/en.lproj"),
-                .process("Assets/es.lproj"),
-                .process("Assets/fr.lproj"),
-                .process("Assets/ja.lproj"),
-                .process("Assets/zh-Hans.lproj"),
+                .process("Assets")
+//                .process("Assets/SDLAssets.xcassets"),
+//                .process("Assets/Base.lproj"),
+//                .process("Assets/de.lproj"),
+//                .process("Assets/en.lproj"),
+//                .process("Assets/es.lproj"),
+//                .process("Assets/fr.lproj"),
+//                .process("Assets/ja.lproj"),
+//                .process("Assets/zh-Hans.lproj")
             ],
             publicHeadersPath: "public",
             cSettings: [
