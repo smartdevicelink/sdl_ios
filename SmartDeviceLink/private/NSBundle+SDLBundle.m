@@ -22,9 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     NSBundle *sdlBundle = nil;
-
     if (sdlBundleURL != nil) {
         sdlBundle = [NSBundle bundleWithURL:sdlBundleURL];
+
+        if (!sdlBundle.isLoaded) {
+            NSError *error = nil;
+            BOOL success = [sdlBundle loadAndReturnError:&error];
+            if (error != nil) {
+                [NSException exceptionWithName:NSInternalInconsistencyException reason:@"SDL WARNING: The 'SmartDeviceLink.bundle' resources bundle could not be loaded. If you are using cocoapods. You may disable the lockscreen in configuration to prevent this failure, for now." userInfo:nil];
+            }
+        }
     }
     if (sdlBundle == nil) {
         NSBundle *frameworkBundle = [NSBundle bundleForClass:[SDLManager class]];
