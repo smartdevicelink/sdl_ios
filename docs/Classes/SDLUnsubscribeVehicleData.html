@@ -3,9 +3,9 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:">-initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:</a></li>
-  <li><a href="#section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:">-initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:</a></li>
   <li><a href="#section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:">-initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:</a></li>
+  <li><a href="#section--initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:windowStatus:">-initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:windowStatus:</a></li>
+  <li><a href="#section-gearStatus">gearStatus</a></li>
   <li><a href="#section-gps">gps</a></li>
   <li><a href="#section-speed">speed</a></li>
   <li><a href="#section-rpm">rpm</a></li>
@@ -21,11 +21,14 @@
   <li><a href="#section-bodyInformation">bodyInformation</a></li>
   <li><a href="#section-deviceStatus">deviceStatus</a></li>
   <li><a href="#section-driverBraking">driverBraking</a></li>
+  <li><a href="#section-windowStatus">windowStatus</a></li>
   <li><a href="#section-wiperStatus">wiperStatus</a></li>
+  <li><a href="#section-handsOffSteering">handsOffSteering</a></li>
   <li><a href="#section-headLampStatus">headLampStatus</a></li>
   <li><a href="#section-engineOilLife">engineOilLife</a></li>
   <li><a href="#section-engineTorque">engineTorque</a></li>
   <li><a href="#section-accPedalPosition">accPedalPosition</a></li>
+  <li><a href="#section-stabilityControlsStatus">stabilityControlsStatus</a></li>
   <li><a href="#section-steeringWheelAngle">steeringWheelAngle</a></li>
   <li><a href="#section-eCallInfo">eCallInfo</a></li>
   <li><a href="#section-airbagStatus">airbagStatus</a></li>
@@ -54,212 +57,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:">
-      -initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:
-  </h3>
-  
-  <p>Convenience init for unsubscribing to all possible vehicle data items.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">initWithAccelerationPedalPosition</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">accelerationPedalPosition</span>
-                         <span class="nf">airbagStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">airbagStatus</span>
-                           <span class="nf">beltStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">beltStatus</span>
-                      <span class="nf">bodyInformation</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">bodyInformation</span>
-                    <span class="nf">clusterModeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">clusterModeStatus</span>
-                         <span class="nf">deviceStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">deviceStatus</span>
-                        <span class="nf">driverBraking</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">driverBraking</span>
-                            <span class="nf">eCallInfo</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">eCallInfo</span>
-                       <span class="nf">emergencyEvent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">emergencyEvent</span>
-                         <span class="nf">engineTorque</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineTorque</span>
-                  <span class="nf">externalTemperature</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">externalTemperature</span>
-                            <span class="nf">fuelLevel</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevel</span>
-                       <span class="nf">fuelLevelState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevelState</span>
-                                  <span class="nf">gps</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">gps</span>
-                       <span class="nf">headLampStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">headLampStatus</span>
-               <span class="nf">instantFuelConsumption</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">instantFuelConsumption</span>
-                                <span class="nf">myKey</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">myKey</span>
-                             <span class="nf">odometer</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">odometer</span>
-                                <span class="nf">prndl</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">prndl</span>
-                                  <span class="nf">rpm</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">rpm</span>
-                                <span class="nf">speed</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">speed</span>
-                   <span class="nf">steeringWheelAngle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">steeringWheelAngle</span>
-                         <span class="nf">tirePressure</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">tirePressure</span>
-                          <span class="nf">wiperStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">wiperStatus</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">accelerationPedalPosition</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">airbagStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">beltStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">bodyInformation</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">clusterModeStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">deviceStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">driverBraking</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">eCallInfo</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">emergencyEvent</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">engineTorque</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelLevel</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelLevelState</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">gps</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">headLampStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">instantFuelConsumption</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">myKey</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">odometer</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">prndl</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">rpm</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">steeringWheelAngle</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">tirePressure</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>accelerationPedalPosition</dt>
-      <dd><p>Unsubscribe to accelerationPedalPosition</p></dd>
-      <dt>airbagStatus</dt>
-      <dd><p>Unsubscribe to airbagStatus</p></dd>
-      <dt>beltStatus</dt>
-      <dd><p>Unsubscribe to beltStatus</p></dd>
-      <dt>bodyInformation</dt>
-      <dd><p>Unsubscribe to bodyInformation</p></dd>
-      <dt>clusterModeStatus</dt>
-      <dd><p>Unsubscribe to clusterModeStatus</p></dd>
-      <dt>deviceStatus</dt>
-      <dd><p>Unsubscribe to deviceStatus</p></dd>
-      <dt>driverBraking</dt>
-      <dd><p>Unsubscribe to driverBraking</p></dd>
-      <dt>eCallInfo</dt>
-      <dd><p>Unsubscribe to eCallInfo</p></dd>
-      <dt>emergencyEvent</dt>
-      <dd><p>Unsubscribe to emergencyEvent</p></dd>
-      <dt>engineTorque</dt>
-      <dd><p>Unsubscribe to engineTorque</p></dd>
-      <dt>externalTemperature</dt>
-      <dd><p>Unsubscribe to externalTemperature</p></dd>
-      <dt>fuelLevel</dt>
-      <dd><p>Unsubscribe to fuelLevel</p></dd>
-      <dt>fuelLevelState</dt>
-      <dd><p>Unsubscribe to fuelLevelState</p></dd>
-      <dt>gps</dt>
-      <dd><p>Unsubscribe to gps</p></dd>
-      <dt>headLampStatus</dt>
-      <dd><p>Unsubscribe to headLampStatus</p></dd>
-      <dt>instantFuelConsumption</dt>
-      <dd><p>Unsubscribe to instantFuelConsumption</p></dd>
-      <dt>myKey</dt>
-      <dd><p>Unsubscribe to myKey</p></dd>
-      <dt>odometer</dt>
-      <dd><p>Unsubscribe to odometer</p></dd>
-      <dt>prndl</dt>
-      <dd><p>Unsubscribe to prndl</p></dd>
-      <dt>rpm</dt>
-      <dd><p>Unsubscribe to rpm</p></dd>
-      <dt>speed</dt>
-      <dd><p>Unsubscribe to speed</p></dd>
-      <dt>steeringWheelAngle</dt>
-      <dd><p>Unsubscribe to steeringWheelAngle</p></dd>
-      <dt>tirePressure</dt>
-      <dd><p>Unsubscribe to tirePressure</p></dd>
-      <dt>wiperStatus</dt>
-      <dd><p>Unsubscribe to wiperStatus</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>A SDLUnsubscribeVehicleData object</p>
-  </div>
-  
-  <h3 id="section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:">
-      -initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:
-  </h3>
-  
-  <p>Convenience init for unsubscribing to all possible vehicle data items.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">initWithAccelerationPedalPosition</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">accelerationPedalPosition</span>
-                         <span class="nf">airbagStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">airbagStatus</span>
-                           <span class="nf">beltStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">beltStatus</span>
-                      <span class="nf">bodyInformation</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">bodyInformation</span>
-                    <span class="nf">clusterModeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">clusterModeStatus</span>
-                         <span class="nf">deviceStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">deviceStatus</span>
-                        <span class="nf">driverBraking</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">driverBraking</span>
-                            <span class="nf">eCallInfo</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">eCallInfo</span>
-            <span class="nf">electronicParkBrakeStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">electronicParkBrakeStatus</span>
-                       <span class="nf">emergencyEvent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">emergencyEvent</span>
-                        <span class="nf">engineOilLife</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineOilLife</span>
-                         <span class="nf">engineTorque</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">engineTorque</span>
-                  <span class="nf">externalTemperature</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">externalTemperature</span>
-                            <span class="nf">fuelLevel</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevel</span>
-                       <span class="nf">fuelLevelState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelLevelState</span>
-                            <span class="nf">fuelRange</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">fuelRange</span>
-                                  <span class="nf">gps</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">gps</span>
-                       <span class="nf">headLampStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">headLampStatus</span>
-               <span class="nf">instantFuelConsumption</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">instantFuelConsumption</span>
-                                <span class="nf">myKey</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">myKey</span>
-                             <span class="nf">odometer</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">odometer</span>
-                                <span class="nf">prndl</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">prndl</span>
-                                  <span class="nf">rpm</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">rpm</span>
-                                <span class="nf">speed</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">speed</span>
-                   <span class="nf">steeringWheelAngle</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">steeringWheelAngle</span>
-                         <span class="nf">tirePressure</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">tirePressure</span>
-                           <span class="nf">turnSignal</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">turnSignal</span>
-                          <span class="nf">wiperStatus</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">wiperStatus</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">accelerationPedalPosition</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">airbagStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">beltStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">bodyInformation</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">clusterModeStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">deviceStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">driverBraking</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">eCallInfo</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">electronicParkBrakeStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">emergencyEvent</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">engineOilLife</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">engineTorque</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelLevel</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelLevelState</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">fuelRange</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">gps</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">headLampStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">instantFuelConsumption</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">myKey</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">odometer</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">prndl</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">rpm</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">steeringWheelAngle</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">tirePressure</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>accelerationPedalPosition</dt>
-      <dd><p>Unsubscribe to accelerationPedalPosition</p></dd>
-      <dt>airbagStatus</dt>
-      <dd><p>Unsubscribe to airbagStatus</p></dd>
-      <dt>beltStatus</dt>
-      <dd><p>Unsubscribe to beltStatus</p></dd>
-      <dt>bodyInformation</dt>
-      <dd><p>Unsubscribe to bodyInformation</p></dd>
-      <dt>clusterModeStatus</dt>
-      <dd><p>Unsubscribe to clusterModeStatus</p></dd>
-      <dt>deviceStatus</dt>
-      <dd><p>Unsubscribe to deviceStatus</p></dd>
-      <dt>driverBraking</dt>
-      <dd><p>Unsubscribe to driverBraking</p></dd>
-      <dt>eCallInfo</dt>
-      <dd><p>Unsubscribe to eCallInfo</p></dd>
-      <dt>electronicParkBrakeStatus</dt>
-      <dd><p>Unsubscribe to electronicParkBrakeStatus</p></dd>
-      <dt>emergencyEvent</dt>
-      <dd><p>Unsubscribe to emergencyEvent</p></dd>
-      <dt>engineOilLife</dt>
-      <dd><p>Unsubscribe to engineOilLife</p></dd>
-      <dt>engineTorque</dt>
-      <dd><p>Unsubscribe to engineTorque</p></dd>
-      <dt>externalTemperature</dt>
-      <dd><p>Unsubscribe to externalTemperature</p></dd>
-      <dt>fuelLevel</dt>
-      <dd><p>Unsubscribe to fuelLevel</p></dd>
-      <dt>fuelLevelState</dt>
-      <dd><p>Unsubscribe to fuelLevelState</p></dd>
-      <dt>fuelRange</dt>
-      <dd><p>Unsubscribe to fuelRange</p></dd>
-      <dt>gps</dt>
-      <dd><p>Unsubscribe to gps</p></dd>
-      <dt>headLampStatus</dt>
-      <dd><p>Unsubscribe to headLampStatus</p></dd>
-      <dt>instantFuelConsumption</dt>
-      <dd><p>Unsubscribe to instantFuelConsumption</p></dd>
-      <dt>myKey</dt>
-      <dd><p>Unsubscribe to myKey</p></dd>
-      <dt>odometer</dt>
-      <dd><p>Unsubscribe to odometer</p></dd>
-      <dt>prndl</dt>
-      <dd><p>Unsubscribe to prndl</p></dd>
-      <dt>rpm</dt>
-      <dd><p>Unsubscribe to rpm</p></dd>
-      <dt>speed</dt>
-      <dd><p>Unsubscribe to speed</p></dd>
-      <dt>steeringWheelAngle</dt>
-      <dd><p>Unsubscribe to steeringWheelAngle</p></dd>
-      <dt>tirePressure</dt>
-      <dd><p>Unsubscribe to tirePressure</p></dd>
-      <dt>turnSignal</dt>
-      <dd><p>Unsubscribe to turnSignal</p></dd>
-      <dt>wiperStatus</dt>
-      <dd><p>Unsubscribe to wiperStatus</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>A SDLUnsubscribeVehicleData object</p>
-  </div>
-  
   <h3 id="section--initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:">
       -initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:cloudAppVehicleID:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:fuelRange:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:
   </h3>
@@ -371,6 +168,144 @@
     <h4>Return Value</h4>
     <p>A SDLUnsubscribeVehicleData object</p>
   </div>
+  
+  <h3 id="section--initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:windowStatus:">
+      -initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModeStatus:myKey:handsOffSteering:windowStatus:
+  </h3>
+  
+  <p>Convenience init for unsubscribing from all possible vehicle data items.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+                  <span class="nf">initWithGps</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">gps</span>
+                        <span class="nf">speed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">speed</span>
+                          <span class="nf">rpm</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpm</span>
+       <span class="nf">instantFuelConsumption</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">instantFuelConsumption</span>
+                    <span class="nf">fuelRange</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fuelRange</span>
+          <span class="nf">externalTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">externalTemperature</span>
+                   <span class="nf">turnSignal</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">turnSignal</span>
+                   <span class="nf">gearStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">gearStatus</span>
+                 <span class="nf">tirePressure</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">tirePressure</span>
+                     <span class="nf">odometer</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">odometer</span>
+                   <span class="nf">beltStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">beltStatus</span>
+              <span class="nf">bodyInformation</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">bodyInformation</span>
+                 <span class="nf">deviceStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">deviceStatus</span>
+                <span class="nf">driverBraking</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">driverBraking</span>
+                  <span class="nf">wiperStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">wiperStatus</span>
+               <span class="nf">headLampStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">headLampStatus</span>
+                 <span class="nf">engineTorque</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">engineTorque</span>
+             <span class="nf">accPedalPosition</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">accPedalPosition</span>
+           <span class="nf">steeringWheelAngle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">steeringWheelAngle</span>
+                <span class="nf">engineOilLife</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">engineOilLife</span>
+    <span class="nf">electronicParkBrakeStatus</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">electronicParkBrakeStatus</span>
+            <span class="nf">cloudAppVehicleID</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">cloudAppVehicleID</span>
+      <span class="nf">stabilityControlsStatus</span><span class="p">:</span>
+          <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">stabilityControlsStatus</span>
+                    <span class="nf">eCallInfo</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">eCallInfo</span>
+                 <span class="nf">airbagStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">airbagStatus</span>
+               <span class="nf">emergencyEvent</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">emergencyEvent</span>
+            <span class="nf">clusterModeStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">clusterModeStatus</span>
+                        <span class="nf">myKey</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">myKey</span>
+             <span class="nf">handsOffSteering</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">handsOffSteering</span>
+                 <span class="nf">windowStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windowStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">gps</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">speed</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">rpm</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">instantFuelConsumption</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">fuelRange</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">gearStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">tirePressure</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">odometer</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">beltStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">bodyInformation</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">deviceStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">driverBraking</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">headLampStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">engineTorque</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">accPedalPosition</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">steeringWheelAngle</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">engineOilLife</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">electronicParkBrakeStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">cloudAppVehicleID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">stabilityControlsStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">eCallInfo</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">airbagStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">emergencyEvent</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">clusterModeStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">myKey</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">handsOffSteering</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">windowStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>gps</dt>
+      <dd><p>- gps</p></dd>
+      <dt>speed</dt>
+      <dd><p>- speed</p></dd>
+      <dt>rpm</dt>
+      <dd><p>- rpm</p></dd>
+      <dt>instantFuelConsumption</dt>
+      <dd><p>- instantFuelConsumption</p></dd>
+      <dt>fuelRange</dt>
+      <dd><p>- fuelRange</p></dd>
+      <dt>externalTemperature</dt>
+      <dd><p>- externalTemperature</p></dd>
+      <dt>turnSignal</dt>
+      <dd><p>- turnSignal</p></dd>
+      <dt>gearStatus</dt>
+      <dd><p>- gearStatus</p></dd>
+      <dt>tirePressure</dt>
+      <dd><p>- tirePressure</p></dd>
+      <dt>odometer</dt>
+      <dd><p>- odometer</p></dd>
+      <dt>beltStatus</dt>
+      <dd><p>- beltStatus</p></dd>
+      <dt>bodyInformation</dt>
+      <dd><p>- bodyInformation</p></dd>
+      <dt>deviceStatus</dt>
+      <dd><p>- deviceStatus</p></dd>
+      <dt>driverBraking</dt>
+      <dd><p>- driverBraking</p></dd>
+      <dt>wiperStatus</dt>
+      <dd><p>- wiperStatus</p></dd>
+      <dt>headLampStatus</dt>
+      <dd><p>- headLampStatus</p></dd>
+      <dt>engineTorque</dt>
+      <dd><p>- engineTorque</p></dd>
+      <dt>accPedalPosition</dt>
+      <dd><p>- accPedalPosition</p></dd>
+      <dt>steeringWheelAngle</dt>
+      <dd><p>- steeringWheelAngle</p></dd>
+      <dt>engineOilLife</dt>
+      <dd><p>- engineOilLife</p></dd>
+      <dt>electronicParkBrakeStatus</dt>
+      <dd><p>- electronicParkBrakeStatus</p></dd>
+      <dt>cloudAppVehicleID</dt>
+      <dd><p>- cloudAppVehicleID</p></dd>
+      <dt>stabilityControlsStatus</dt>
+      <dd><p>- stabilityControlsStatus</p></dd>
+      <dt>eCallInfo</dt>
+      <dd><p>- eCallInfo</p></dd>
+      <dt>airbagStatus</dt>
+      <dd><p>- airbagStatus</p></dd>
+      <dt>emergencyEvent</dt>
+      <dd><p>- emergencyEvent</p></dd>
+      <dt>clusterModeStatus</dt>
+      <dd><p>- clusterModeStatus</p></dd>
+      <dt>myKey</dt>
+      <dd><p>- myKey</p></dd>
+      <dt>handsOffSteering</dt>
+      <dd><p>- handsOffSteering</p></dd>
+      <dt>windowStatus</dt>
+      <dd><p>- windowStatus</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLUnsubscribeVehicleData object</p>
+  </div>
+  
+  <h3 id="section-gearStatus">
+      gearStatus
+  </h3>
+  
+  <p>See GearStatus</p>
+
+<p>@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">gearStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">gearStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
   
   <h3 id="section-gps">
       gps
@@ -520,7 +455,10 @@
       prndl
   </h3>
   
-  <p>If true, unsubscribes from PRNDL</p>
+  <p>See PRNDL. This parameter is deprecated and it is now covered in <code><a href="../Classes/SDLUnsubscribeVehicleData.html#/c:objc(cs)SDLUnsubscribeVehicleData(py)gearStatus">gearStatus</a></code></p>
+
+<p>@deprecated
+ @since SDL 7.0</p>
 
   
   
@@ -642,6 +580,26 @@
   
   
   
+  <h3 id="section-windowStatus">
+      windowStatus
+  </h3>
+  
+  <p>See WindowStatus</p>
+
+<p>@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">windowStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">windowStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-wiperStatus">
       wiperStatus
   </h3>
@@ -656,6 +614,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-handsOffSteering">
+      handsOffSteering
+  </h3>
+  
+  <p>To indicate whether driver hands are off the steering wheel</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">handsOffSteering</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">handsOffSteering</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -728,6 +704,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">accPedalPosition</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-stabilityControlsStatus">
+      stabilityControlsStatus
+  </h3>
+  
+  <p>See StabilityControlsStatus</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">stabilityControlsStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">stabilityControlsStatus</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
