@@ -20,17 +20,7 @@ let package = Package(
             dependencies: ["BiSON"],
             path: "SmartDeviceLink",
             exclude: ["Info.plist"],
-            resources: [
-                .copy("Assets")
-//                .process("Assets/SDLAssets.xcassets"),
-//                .process("Assets/Base.lproj"),
-//                .process("Assets/de.lproj"),
-//                .process("Assets/en.lproj"),
-//                .process("Assets/es.lproj"),
-//                .process("Assets/fr.lproj"),
-//                .process("Assets/ja.lproj"),
-//                .process("Assets/zh-Hans.lproj")
-            ],
+            resources: [.process("Assets")],
             publicHeadersPath: "public",
             cSettings: [
                 .headerSearchPath("private")
