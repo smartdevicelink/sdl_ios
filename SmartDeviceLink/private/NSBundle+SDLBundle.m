@@ -24,14 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
     NSBundle *sdlBundle = nil;
     if (sdlBundleURL != nil) {
         sdlBundle = [NSBundle bundleWithURL:sdlBundleURL];
-
-        if (!sdlBundle.isLoaded) {
-            NSError *error = nil;
-            [sdlBundle loadAndReturnError:&error];
-            if (error != nil) {
-                @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"error" userInfo:nil];
-            }
-        }
     }
     if (sdlBundle == nil) {
         NSBundle *frameworkBundle = [NSBundle bundleForClass:[SDLManager class]];
