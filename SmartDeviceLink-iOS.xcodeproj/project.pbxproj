@@ -299,7 +299,7 @@
 		4A457DD524A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */; };
 		4A457DD724A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD624A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m */; };
 		4A457DD924A5137100386CBA /* SDLLifecycleProtocolHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD824A5137100386CBA /* SDLLifecycleProtocolHandlerSpec.m */; };
-		4A877499251BBE2400A8BEBB /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A877498251BBE2400A8BEBB /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4A877499251BBE2400A8BEBB /* (null) in Headers */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD23B24F93135000945E3 /* SDLMassageCushionFirmness.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD22324F93131000945E3 /* SDLMassageCushionFirmness.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD23C24F93135000945E3 /* SDLMediaServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD22424F93131000945E3 /* SDLMediaServiceData.m */; };
 		4A8BD23D24F93135000945E3 /* SDLMsgVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD22524F93132000945E3 /* SDLMsgVersion.m */; };
@@ -1384,6 +1384,7 @@
 		4ABB2BA724F850AE0061BF55 /* SDLImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB2B9924F850AD0061BF55 /* SDLImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ABB2BA824F850AE0061BF55 /* SDLLightState.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB2B9A24F850AD0061BF55 /* SDLLightState.m */; };
 		4ABB2BA924F850AE0061BF55 /* SDLImageResolution.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB2B9B24F850AD0061BF55 /* SDLImageResolution.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4AE8A7022537796E000666C0 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE8A7012537796E000666C0 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D0A9F911F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */; };
 		5D0A9F931F15560B00CC80DD /* SDLNavigationCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */; };
 		5D0A9F951F15585B00CC80DD /* SDLPhoneCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F941F15585B00CC80DD /* SDLPhoneCapabilitySpec.m */; };
@@ -3166,6 +3167,8 @@
 		4ABB2B9924F850AD0061BF55 /* SDLImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLImage.h; path = public/SDLImage.h; sourceTree = "<group>"; };
 		4ABB2B9A24F850AD0061BF55 /* SDLLightState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLightState.m; path = public/SDLLightState.m; sourceTree = "<group>"; };
 		4ABB2B9B24F850AD0061BF55 /* SDLImageResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLImageResolution.h; path = public/SDLImageResolution.h; sourceTree = "<group>"; };
+		4AE8A7012537796E000666C0 /* SmartDeviceLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartDeviceLink.h; path = public/SmartDeviceLink.h; sourceTree = "<group>"; };
+		4AE8A707253779F9000666C0 /* EAAccessory+OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessory+OCMock.h"; sourceTree = "<group>"; };
 		5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityTypeSpec.m; sourceTree = "<group>"; };
 		5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationCapabilitySpec.m; sourceTree = "<group>"; };
 		5D0A9F941F15585B00CC80DD /* SDLPhoneCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPhoneCapabilitySpec.m; sourceTree = "<group>"; };
@@ -4184,7 +4187,7 @@
 		4A6B0D6025262CF50025516A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				4A6B0D6125262D130025516A /* EAAccessory+OCMock.h */,
+				4AE8A707253779F9000666C0 /* EAAccessory+OCMock.h */,
 				88DF998C22035CC600477AC1 /* EAAccessory+OCMock.m */,
 			);
 			path = Utilities;
@@ -5601,7 +5604,6 @@
 				5D5934EF1A85160F00687FB9 /* RPCs */,
 				5D5934EE1A85160900687FB9 /* Protocol */,
 				5D5934F01A85161A00687FB9 /* Transport */,
-				4A877498251BBE2400A8BEBB /* SmartDeviceLink.h */,
 				5D1665A01CF5D5DA00CC4CA1 /* .gitignore */,
 				5D1665A21CF5D5DA00CC4CA1 /* Cartfile.private */,
 				5D1665A31CF5D5DA00CC4CA1 /* CHANGELOG.md */,
@@ -5609,6 +5611,7 @@
 				5D1665A51CF5D5DA00CC4CA1 /* LICENSE */,
 				5D1665A61CF5D5DA00CC4CA1 /* README.md */,
 				4A680F192513E1F4004A2C31 /* Package.swift */,
+				4AE8A7012537796E000666C0 /* SmartDeviceLink.h */,
 				5DCA93821EE0844D0015768E /* SmartDeviceLink.podspec */,
 				5D1665A71CF5D5DA00CC4CA1 /* SmartDeviceLink-iOS.podspec */,
 				5D61FA1E1A84237100846EE7 /* Supporting Files */,
@@ -7123,7 +7126,8 @@
 				4ABB251224F7E3A30061BF55 /* SDLLifecycleConfiguration.h in Headers */,
 				4ABB25F624F7E7EF0061BF55 /* SDLTouch.h in Headers */,
 				4ABB2A8324F847DF0061BF55 /* SDLResetGlobalPropertiesResponse.h in Headers */,
-				4A877499251BBE2400A8BEBB /* SmartDeviceLink.h in Headers */,
+				4AE8A7022537796E000666C0 /* SmartDeviceLink.h in Headers */,
+				4A877499251BBE2400A8BEBB /* (null) in Headers */,
 				4ABB2BA124F850AE0061BF55 /* SDLLightControlData.h in Headers */,
 				4ABB293424F842A00061BF55 /* SDLDeleteWindow.h in Headers */,
 				4A8BD26924F933C7000945E3 /* SDLParameterPermissions.h in Headers */,
