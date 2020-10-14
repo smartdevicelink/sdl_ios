@@ -27,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (!sdlBundle.isLoaded) {
             NSError *error = nil;
-            BOOL success = [sdlBundle loadAndReturnError:&error];
+            [sdlBundle loadAndReturnError:&error];
             if (error != nil) {
-                [NSException exceptionWithName:NSInternalInconsistencyException reason:@"SDL WARNING: The 'SmartDeviceLink.bundle' resources bundle could not be loaded. If you are using cocoapods. You may disable the lockscreen in configuration to prevent this failure, for now." userInfo:nil];
+                @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"error" userInfo:nil];
             }
         }
     }
