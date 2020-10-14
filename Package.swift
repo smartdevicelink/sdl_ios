@@ -21,7 +21,7 @@ let package = Package(
             path: "SmartDeviceLink",
             exclude: ["Info.plist"],
             resources: [
-                .process("Assets")
+                .copy("Assets")
 //                .process("Assets/SDLAssets.xcassets"),
 //                .process("Assets/Base.lproj"),
 //                .process("Assets/de.lproj"),
