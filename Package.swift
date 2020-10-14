@@ -20,7 +20,7 @@ let package = Package(
             dependencies: ["BiSON"],
             path: "SmartDeviceLink",
             exclude: ["Info.plist"],
-            publicHeadersPath: "public"
+            publicHeadersPath: "public",
             cSettings: [
                 .headerSearchPath("private")
             ]
