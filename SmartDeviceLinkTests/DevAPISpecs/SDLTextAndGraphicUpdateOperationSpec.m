@@ -1101,8 +1101,11 @@ describe(@"the text and graphic operation", ^{
                 });
 
                 it(@"should send a set display layout, then update the screen data, then send a Show with no data", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
                     expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+#pragma clang diagnostic pop
                     expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
 
                     [testConnectionManager respondToLastRequestWithResponse:successSetDisplayLayoutResponse];
@@ -1133,8 +1136,11 @@ describe(@"the text and graphic operation", ^{
 
                 // should send a set display layout, then update the screen data, then send a Show with data and then update the screen data again
                 it(@"should send a set display layout, then update the screen data, then send a Show with data and then update the screen data again", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
                     expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+#pragma clang diagnostic pop
                     expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
 
                     [testConnectionManager respondToLastRequestWithResponse:successSetDisplayLayoutResponse];
@@ -1156,8 +1162,11 @@ describe(@"the text and graphic operation", ^{
                 // when cancelled before finishing
                 describe(@"when cancelled before finishing", ^{
                     it(@"should finish the operation with the set display layout data in the current data handler and set an update superseded error in the update completion handler", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
                         expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+#pragma clang diagnostic pop
                         expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
 
                         [testOp cancel];
@@ -1174,8 +1183,11 @@ describe(@"the text and graphic operation", ^{
                 // when it receives a set display layout failure
                 describe(@"when it receives a set display layout failure", ^{
                     it(@"should send a set display layout, then reset the screen data, then finish the operation", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                         SDLSetDisplayLayout *sentRPC = testConnectionManager.receivedRequests.firstObject;
                         expect(sentRPC).to(beAnInstanceOf([SDLSetDisplayLayout class]));
+#pragma clang diagnostic pop
                         expect(sentRPC.displayLayout).to(equal(newConfiguration.template));
 
                         [testConnectionManager respondToLastRequestWithResponse:failSetDisplayLayoutResponse];

@@ -12,6 +12,8 @@
 
 QuickSpecBegin(SDLSetDisplayLayoutSpec)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 describe(@"SetDisplayLayout Tests", ^ {
     __block SDLPredefinedLayout predefinedLayout = SDLPredefinedLayoutMedia;
     __block NSString *otherLayout = @"test123";
@@ -77,5 +79,6 @@ describe(@"SetDisplayLayout Tests", ^ {
         });
     });
 });
+#pragma clang diagnostic pop
 
 QuickSpecEnd

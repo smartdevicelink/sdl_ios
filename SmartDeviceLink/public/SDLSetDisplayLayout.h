@@ -8,15 +8,15 @@
 
 @class SDLTemplateColorScheme;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Used to set an alternate display layout. If not sent, default screen for
  * given platform will be shown
  *
  * Since SmartDeviceLink 2.0
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
+__deprecated_msg("Use SDLManager.screenManager.changeLayout() instead")
 @interface SDLSetDisplayLayout : SDLRPCRequest
 
 /// Convenience init to set a display layout
