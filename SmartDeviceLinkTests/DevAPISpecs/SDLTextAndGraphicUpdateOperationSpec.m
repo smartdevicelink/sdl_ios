@@ -67,9 +67,12 @@ describe(@"the text and graphic operation", ^{
     __block SDLWindowCapability *allEnabledCapability = [[SDLWindowCapability alloc] init];
 
     __block SDLShowResponse *successShowResponse = [[SDLShowResponse alloc] init];
-    __block SDLSetDisplayLayoutResponse *successSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
     __block SDLShowResponse *failShowResponse = [[SDLShowResponse alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    __block SDLSetDisplayLayoutResponse *successSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
     __block SDLSetDisplayLayoutResponse *failSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
+#pragma clang diagnostic pop
     __block SDLTextAndGraphicState *emptyCurrentData = nil;
 
     __block SDLTextAndGraphicState *receivedState = nil;

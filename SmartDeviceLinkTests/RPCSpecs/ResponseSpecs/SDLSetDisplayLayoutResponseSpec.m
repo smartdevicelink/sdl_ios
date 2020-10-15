@@ -24,6 +24,8 @@ SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
 SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
 SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLSetDisplayLayoutResponse* testResponse = [[SDLSetDisplayLayoutResponse alloc] init];
@@ -67,5 +69,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.presetBankCapabilities).to(beNil());
     });
 });
+#pragma clang diagnostic pop
 
 QuickSpecEnd
