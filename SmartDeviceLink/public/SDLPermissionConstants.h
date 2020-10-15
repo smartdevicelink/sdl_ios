@@ -61,14 +61,14 @@ typedef NS_ENUM(NSUInteger, SDLPermissionGroupStatus) {
     SDLPermissionGroupStatusUnknown
 };
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 /**
  *  This is a block that is passed in to some methods that will be stored and called when specified permissions change.
  *
  *  @param updatedPermissionStatuses A dictionary of the new current status of all subscription items; containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
  *  @param status The unified group status of the RPCs in the updatedPermissionStatuses dictionary. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
  */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 typedef void (^SDLPermissionsChangedHandler)(NSDictionary<SDLPermissionRPCName, NSNumber *> *_Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) __deprecated_msg("Use SDLRPCPermissionStatusChangedHandler instead");
 #pragma clang diagnostic pop
 

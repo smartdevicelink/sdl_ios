@@ -6,10 +6,7 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <OCMock/OCMock.h>
-#import <ExternalAccessory/ExternalAccessory.h>
+#import "EAAccessory+OCMock.h"
 
 // Based off of the Pebble Accessory OCKMock by Heiko Behrens https://github.com/HBehrens/PebbleKit-ios-sdk-test/blob/master/PebbleVendor/EAAccessoryFramework%2BOCMock.m
 

@@ -1,0 +1,106 @@
+<h1>SDLGearStatus Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithUserSelectedGear:actualGear:transmissionType:">-initWithUserSelectedGear:actualGear:transmissionType:</a></li>
+  <li><a href="#section-userSelectedGear">userSelectedGear</a></li>
+  <li><a href="#section-actualGear">actualGear</a></li>
+  <li><a href="#section-transmissionType">transmissionType</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>@since SDL 7.0.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithUserSelectedGear:actualGear:transmissionType:">
+      -initWithUserSelectedGear:actualGear:transmissionType:
+  </h3>
+  
+  <p>Convenience initializer to assign all object properties</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithUserSelectedGear</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span><span class="p">)</span><span class="nv">userSelectedGear</span>
+                  <span class="nf">actualGear</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span><span class="p">)</span><span class="nv">actualGear</span>
+            <span class="nf">transmissionType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span><span class="p">)</span><span class="nv">transmissionType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">userSelectedGear</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span><span class="p">?,</span> <span class="nv">actualGear</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span><span class="p">?,</span> <span class="nv">transmissionType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>userSelectedGear</dt>
+      <dd><p>- userSelectedGear</p></dd>
+      <dt>actualGear</dt>
+      <dd><p>- actualGear</p></dd>
+      <dt>transmissionType</dt>
+      <dd><p>- transmissionType</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLGearStatus object</p>
+  </div>
+  
+  <h3 id="section-userSelectedGear">
+      userSelectedGear
+  </h3>
+  
+  <p>Gear position selected by the user i.e. Park, Drive, Reverse</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span> <span class="n">userSelectedGear</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">userSelectedGear</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-actualGear">
+      actualGear
+  </h3>
+  
+  <p>Actual Gear in use by the transmission</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span> <span class="n">actualGear</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">actualGear</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-transmissionType">
+      transmissionType
+  </h3>
+  
+  <p>Tells the transmission type</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">transmissionType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">transmissionType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

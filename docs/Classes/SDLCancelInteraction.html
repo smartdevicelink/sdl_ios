@@ -9,10 +9,12 @@
   <li><a href="#section--initWithSliderCancelID:">-initWithSliderCancelID:</a></li>
   <li><a href="#section--initWithScrollableMessageCancelID:">-initWithScrollableMessageCancelID:</a></li>
   <li><a href="#section--initWithPerformInteractionCancelID:">-initWithPerformInteractionCancelID:</a></li>
+  <li><a href="#section--initWithSubtleAlertCancelID:">-initWithSubtleAlertCancelID:</a></li>
   <li><a href="#section-+alert">+alert</a></li>
   <li><a href="#section-+slider">+slider</a></li>
   <li><a href="#section-+scrollableMessage">+scrollableMessage</a></li>
   <li><a href="#section-+performInteraction">+performInteraction</a></li>
+  <li><a href="#section-+subtleAlert">+subtleAlert</a></li>
   <li><a href="#section-cancelID">cancelID</a></li>
   <li><a href="#section-functionID">functionID</a></li>
 </ul>
@@ -193,6 +195,33 @@
     <p>A SDLCancelInteraction object</p>
   </div>
   
+  <h3 id="section--initWithSubtleAlertCancelID:">
+      -initWithSubtleAlertCancelID:
+  </h3>
+  
+  <p>Convenience init for dismissing a subtle alert.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSubtleAlertCancelID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">cancelID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">subtleAlertCancelID</span> <span class="nv">cancelID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>cancelID</dt>
+      <dd><p>The ID of the specific subtle alert to dismiss</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
   <h3 id="section-+alert">
       +alert
   </h3>
@@ -281,6 +310,28 @@
     <p>A SDLCancelInteraction object</p>
   </div>
   
+  <h3 id="section-+subtleAlert">
+      +subtleAlert
+  </h3>
+  
+  <p>Convenience init for dismissing the currently presented subtle alert.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">subtleAlert</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">subtleAlert</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCancelInteraction object</p>
+  </div>
+  
   <h3 id="section-cancelID">
       cancelID
   </h3>
@@ -307,7 +358,7 @@
   
   <p>The ID of the type of interaction to dismiss.</p>
 
-<p>Only values 10 (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), and 26 (SliderID) are permitted.</p>
+<p>The ID of the type of interaction the developer wants to dismiss. Only values 10, (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), 26 (SliderID), and 64 (SubtleAlertID) are permitted.</p>
 
 <p>Integer, Required</p>
 

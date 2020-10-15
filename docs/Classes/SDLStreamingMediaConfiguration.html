@@ -3,7 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section-securityManagers">securityManagers</a></li>
   <li><a href="#section-maximumDesiredEncryption">maximumDesiredEncryption</a></li>
   <li><a href="#section-customVideoEncoderSettings">customVideoEncoderSettings</a></li>
   <li><a href="#section-dataSource">dataSource</a></li>
@@ -13,13 +12,9 @@
   <li><a href="#section-allowMultipleViewControllerOrientations">allowMultipleViewControllerOrientations</a></li>
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section-+secureConfiguration">+secureConfiguration</a></li>
-  <li><a href="#section--initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:">-initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:</a></li>
   <li><a href="#section--initWithEncryptionFlag:videoSettings:dataSource:rootViewController:">-initWithEncryptionFlag:videoSettings:dataSource:rootViewController:</a></li>
-  <li><a href="#section--initWithSecurityManagers:">-initWithSecurityManagers:</a></li>
-  <li><a href="#section-+secureConfigurationWithSecurityManagers:">+secureConfigurationWithSecurityManagers:</a></li>
   <li><a href="#section-+insecureConfiguration">+insecureConfiguration</a></li>
   <li><a href="#section-+autostreamingInsecureConfigurationWithInitialViewController:">+autostreamingInsecureConfigurationWithInitialViewController:</a></li>
-  <li><a href="#section-+autostreamingSecureConfigurationWithSecurityManagers:initialViewController:">+autostreamingSecureConfigurationWithSecurityManagers:initialViewController:</a></li>
   <li><a href="#section-+autostreamingSecureConfigurationWithInitialViewController:">+autostreamingSecureConfigurationWithInitialViewController:</a></li>
 </ul>
 
@@ -29,21 +24,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section-securityManagers">
-      securityManagers
-  </h3>
-  
-  <p>Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">securityManagers</span><span class="p">;</span></code></pre>
-
-  
-  
-  
-  
   <h3 id="section-maximumDesiredEncryption">
       maximumDesiredEncryption
   </h3>
@@ -236,44 +216,6 @@
     <p>The configuration</p>
   </div>
   
-  <h3 id="section--initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:">
-      -initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:
-  </h3>
-  
-  <p>Manually set all the properties to the streaming media configuration</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">initWithSecurityManagers</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span>
-              <span class="nf">encryptionFlag</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLStreamingEncryptionFlag.html">SDLStreamingEncryptionFlag</a></span><span class="p">)</span><span class="nv">encryptionFlag</span>
-               <span class="nf">videoSettings</span><span class="p">:</span>
-                   <span class="p">(</span><span class="n">nullable</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">videoSettings</span>
-                  <span class="nf">dataSource</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLStreamingMediaManagerDataSource.html">SDLStreamingMediaManagerDataSource</a></span><span class="o">&gt;</span><span class="p">)</span>
-                                 <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html#/c:objc(cs)SDLStreamingMediaConfiguration(py)dataSource">dataSource</a></span>
-          <span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html#/c:objc(cs)SDLStreamingMediaConfiguration(py)rootViewController">rootViewController</a></span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="n"><a href="../Classes/SDLStreamingMediaConfiguration.html#/c:objc(cs)SDLStreamingMediaConfiguration(py)rootViewController">rootViewController</a></span><span class="p">;</span></code></pre>
-
-  
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>securityManagers</dt>
-      <dd><p>The security managers to use or nil for none.</p></dd>
-      <dt>encryptionFlag</dt>
-      <dd><p>The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.</p></dd>
-      <dt>videoSettings</dt>
-      <dd><p>Custom video encoder settings to be used in video streaming.</p></dd>
-      <dt>rootViewController</dt>
-      <dd><p>The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The configuration</p>
-  </div>
-  
   <h3 id="section--initWithEncryptionFlag:videoSettings:dataSource:rootViewController:">
       -initWithEncryptionFlag:videoSettings:dataSource:rootViewController:
   </h3>
@@ -302,56 +244,6 @@
       <dd><p>Custom video encoder settings to be used in video streaming.</p></dd>
       <dt>rootViewController</dt>
       <dd><p>The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The configuration</p>
-  </div>
-  
-  <h3 id="section--initWithSecurityManagers:">
-      -initWithSecurityManagers:
-  </h3>
-  
-  <p>Create a secure configuration for each of the security managers provided.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSecurityManagers</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span><span class="p">;</span></code></pre>
-
-  
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>securityManagers</dt>
-      <dd><p>The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The configuration</p>
-  </div>
-  
-  <h3 id="section-+secureConfigurationWithSecurityManagers:">
-      +secureConfigurationWithSecurityManagers:
-  </h3>
-  
-  <p>Create a secure configuration for each of the security managers provided.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">secureConfigurationWithSecurityManagers</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span><span class="p">;</span></code></pre>
-
-  
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>securityManagers</dt>
-      <dd><p>The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -400,37 +292,6 @@
   <dl>
       <dt>initialViewController</dt>
       <dd><p>The initial view controller that will be streamed</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>The configuration</p>
-  </div>
-  
-  <h3 id="section-+autostreamingSecureConfigurationWithSecurityManagers:initialViewController:">
-      +autostreamingSecureConfigurationWithSecurityManagers:initialViewController:
-  </h3>
-  
-  <p>Create a CarWindow secure configuration with a view controller and security managers</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
-    <span class="nf">autostreamingSecureConfigurationWithSecurityManagers</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span>
-                                   <span class="nf">initialViewController</span><span class="p">:</span>
-                                       <span class="p">(</span><span class="n">nonnull</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span>
-                                           <span class="n">initialViewController</span><span class="p">;</span></code></pre>
-
-  
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>securityManagers</dt>
-      <dd><p>The security managers available for secure streaming use</p></dd>
-      <dt>initialViewController</dt>
-      <dd><p>The initial view controller that will be streamed, this can be a basic <code>UIViewController</code> if you need to set your actual streaming view controller at a later time on <code>SDLManager.streamingManager.rootViewController</code>.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
