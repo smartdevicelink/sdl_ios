@@ -299,7 +299,6 @@
 		4A457DD524A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */; };
 		4A457DD724A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD624A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m */; };
 		4A457DD924A5137100386CBA /* SDLLifecycleProtocolHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD824A5137100386CBA /* SDLLifecycleProtocolHandlerSpec.m */; };
-		4A877499251BBE2400A8BEBB /* (null) in Headers */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD23B24F93135000945E3 /* SDLMassageCushionFirmness.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD22324F93131000945E3 /* SDLMassageCushionFirmness.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD23C24F93135000945E3 /* SDLMediaServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD22424F93131000945E3 /* SDLMediaServiceData.m */; };
 		4A8BD23D24F93135000945E3 /* SDLMsgVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD22524F93132000945E3 /* SDLMsgVersion.m */; };
@@ -1567,7 +1566,6 @@
 		881F388D22D904BE00DF6DCE /* SDLCancelInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 881F388C22D904BE00DF6DCE /* SDLCancelInteractionResponseSpec.m */; };
 		8829568B207CF68800EF056C /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		882C42CE2108CDB100A44B58 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		882FAC4D2209D7EF0062385D /* SDLAppServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 882FAC4C2209D7EF0062385D /* SDLAppServiceDataSpec.m */; };
 		8831FA392201E3D100B8FFB7 /* SDLAppServiceManifestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA382201E3D100B8FFB7 /* SDLAppServiceManifestSpec.m */; };
 		8831FA3D220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA3C220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m */; };
@@ -7127,7 +7125,6 @@
 				4ABB25F624F7E7EF0061BF55 /* SDLTouch.h in Headers */,
 				4ABB2A8324F847DF0061BF55 /* SDLResetGlobalPropertiesResponse.h in Headers */,
 				4AE8A7022537796E000666C0 /* SmartDeviceLink.h in Headers */,
-				4A877499251BBE2400A8BEBB /* (null) in Headers */,
 				4ABB2BA124F850AE0061BF55 /* SDLLightControlData.h in Headers */,
 				4ABB293424F842A00061BF55 /* SDLDeleteWindow.h in Headers */,
 				4A8BD26924F933C7000945E3 /* SDLParameterPermissions.h in Headers */,
@@ -8292,7 +8289,6 @@
 				162E83511A9BDE8B00906325 /* SDLDeleteInteractionChoiceSetResponseSpec.m in Sources */,
 				DA9F7EB41DCC086400ACAE48 /* SDLDateTimeSpec.m in Sources */,
 				162E82E41A9BDE8B00906325 /* SDLImageFieldNameSpec.m in Sources */,
-				882C42CE2108CDB100A44B58 /* (null) in Sources */,
 				162E82ED1A9BDE8B00906325 /* SDLMaintenanceModeStatusSpec.m in Sources */,
 				8B9376DB1F33656C009605C4 /* SDLMetadataTagsSpec.m in Sources */,
 				5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */,
