@@ -50,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     _delegate = delegate;
     _sendDataQueue = [[SDLMutableDataQueue alloc] init];
     _ioStreamThreadCancelledSemaphore = dispatch_semaphore_create(0);
+    
     return self;
 }
 
@@ -380,19 +381,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         SDLLogD(@"Starting the accessory event loop on thread: %@", NSThread.currentThread.name);
 
-        BOOL runModeFailedOnce = NO;
-
         while (self.ioStreamThread != nil && !self.ioStreamThread.cancelled) {
-            SDLLogD(@"In the Looper!");
             // Enqueued data will be written to and read from the streams in the runloop
             BOOL result = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
-            if (!result && !runModeFailedOnce) {
-                // log error once on any iOS version but only break if on iOS 14 or up.
-                runModeFailedOnce = YES;
-                SDLLogE(@"The run loop returned immediately although two streams supposed to be scheduled.\nInput stream: %@\nOutput stream: %@\nAccessory: %@", self.eaSession.inputStream, self.eaSession.outputStream, self.accessory);
-                if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")) {
-                    break;
-                }
+            if (!result) {
+                SDLLogE(@"The run loop returned immediately although two streams supposed to be scheduled. Input stream: %@ Output stream: %@\nAccessory: %@", self.eaSession.inputStream, self.eaSession.outputStream, self.accessory);
+                break;
             }
         }
 
