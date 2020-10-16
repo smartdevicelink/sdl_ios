@@ -68,7 +68,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.limitedCharacterList).to(equal(testLimitedCharacterList));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        expect(testStruct.autoCompleteText).to(beNil());
+        expect(testStruct.autoCompleteText).to(equal(testAutoCompleteText));
 #pragma clang diagnostic pop
         expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
     });

@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList __deprecated_msg("Use initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList: instead");
 
 /**
+ * Convenience init with all properties.
+ *
  * @param language - language
  * @param keyboardLayout - keyboardLayout
  * @param keypressMode - keypressMode
@@ -74,10 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @deprecated in SmartDeviceLink 6.0.0
  * @added in SmartDeviceLink 3.0.0
  */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (nullable, strong, nonatomic) NSString *autoCompleteText __deprecated;
-#pragma clang diagnostic pop
+@property (nullable, strong, nonatomic) NSString *autoCompleteText __deprecated_msg("Use autoCompleteList instead");
 
 /**
  Allows an app to show a list of possible autocomplete suggestions as the user types

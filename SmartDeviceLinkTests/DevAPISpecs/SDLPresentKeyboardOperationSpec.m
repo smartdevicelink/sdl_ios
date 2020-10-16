@@ -43,7 +43,7 @@ describe(@"present keyboard operation", ^{
         testDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
         OCMStub([testDelegate customKeyboardConfiguration]).andReturn(nil);
 
-        testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa layout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
+        testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil];
     });
 
     it(@"should have a priority of 'normal'", ^{
@@ -194,7 +194,10 @@ describe(@"present keyboard operation", ^{
                 expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLSetGlobalProperties class]));
 
                 SDLSetGlobalProperties *setProperties = testConnectionManager.receivedRequests.lastObject;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 expect(setProperties.keyboardProperties.autoCompleteText).to(equal(inputData));
+#pragma clang diagnostic pop
             });
 
             it(@"should respond to text input notification with character set", ^{
