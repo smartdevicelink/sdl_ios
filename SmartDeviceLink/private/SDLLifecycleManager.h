@@ -54,6 +54,8 @@ extern SDLLifecycleState *const SDLLifecycleStateSettingUpHMI;
 extern SDLLifecycleState *const SDLLifecycleStateUnregistering;
 extern SDLLifecycleState *const SDLLifecycleStateReady;
 
+extern NSString *const SDLEASessionCompleteNotification;
+
 typedef void (^SDLMultipleRequestCompletionHandler)(BOOL success);
 typedef BOOL (^SDLMultipleSequentialRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
 typedef void (^SDLMultipleAsyncRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);

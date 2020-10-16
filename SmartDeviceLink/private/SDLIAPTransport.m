@@ -19,7 +19,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-double const TimeRequiredBetweenConnectionAttempts = 10.0;
+double const TimeRequiredBetweenConnectionAttempts = 4.0; // Prevent redundant EASessions
 int const CreateSessionRetries = 3;
 
 @interface SDLIAPTransport () <SDLIAPControlSessionDelegate, SDLIAPDataSessionDelegate>

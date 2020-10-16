@@ -16,10 +16,14 @@
 #import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
 #import "SDLMutableDataQueue.h"
+#import "SDLLifecycleManager.h"
 
 NSString *const IOStreamThreadName = @"com.smartdevicelink.iostream";
 NSTimeInterval const IOStreamThreadCanceledSemaphoreWaitSecs = 1.0;
 NSTimeInterval const IOStreamThreadRetryWaitSecs = 10.0;
+int const IOSStreamCancelRetryCountMax = 10;
+int IOSStreamCancelRetryCount = 0;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -101,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
         return disconnectCompletionHandler();
     }
     
-    dispatch_block_t cancelBlock = ^{
+    dispatch_block_t __block cancelBlock = ^{
         // Attempt to cancel the ioStreamThread. Once the thread realizes it has been cancelled, it will cleanup the I/O streams. Make sure to wake up the run loop in case there is no current I/O event running on the ioThread.
         [self.ioStreamThread cancel];
         [self performSelector:@selector(sdl_doNothing) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
@@ -110,8 +114,13 @@ NS_ASSUME_NONNULL_BEGIN
         BOOL cancelledSuccessfully = [self sdl_isIOThreadCancelled];
         if (!cancelledSuccessfully) {
             SDLLogE(@"The I/O streams were not shut down successfully. We might not be able to create a new session with an accessory during the same app session. If this happens, only force quitting and restarting the app will allow new sessions.");
+            if (IOSStreamCancelRetryCount >= IOSStreamCancelRetryCountMax) {
+                return disconnectCompletionHandler();
+            }
+            IOSStreamCancelRetryCount += 1;
+
             // this will retry the block after the given number of seconds.
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, IOStreamThreadRetryWaitSecs * NSEC_PER_SEC), dispatch_get_main_queue(), cancelBlock);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadRetryWaitSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), cancelBlock);
         } else {
             self.ioStreamThread = nil;
         }
@@ -121,17 +130,19 @@ NS_ASSUME_NONNULL_BEGIN
         disconnectCompletionHandler();
     };
     
-    [self sdl_forceCloseEaSession];
+    [self sdl_closeEaSession];
     
     dispatch_async(dispatch_get_main_queue(), cancelBlock);
 }
 
-- (void)sdl_forceCloseEaSession {
+- (void)sdl_closeEaSession {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.eaSession != nil) {
             [[self.eaSession inputStream] close];
             [[self.eaSession outputStream] close];
         }
+        NSNotification *sdlEASessionClosed = [[NSNotification alloc] initWithName:SDLEASessionCompleteNotification object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:sdlEASessionClosed];
     });
 }
 
