@@ -54,6 +54,8 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
 /// @param completionHandler Handler called when the session has been destroyed
 - (void)disconnectSecondaryTransportWithCompletionHandler:(void (^)(void))completionHandler;
 
+- (void)endBackgroundTask;
+
 @end
 
 NS_ASSUME_NONNULL_END

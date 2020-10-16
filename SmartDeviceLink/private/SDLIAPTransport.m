@@ -19,6 +19,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+double const TimeRequiredBetweenConnectionAttempts = 10.0;
 int const CreateSessionRetries = 3;
 
 @interface SDLIAPTransport () <SDLIAPControlSessionDelegate, SDLIAPDataSessionDelegate>
@@ -26,6 +27,8 @@ int const CreateSessionRetries = 3;
 @property (nullable, strong, nonatomic) SDLIAPControlSession *controlSession;
 @property (nullable, strong, nonatomic) SDLIAPDataSession *dataSession;
 @property (assign, nonatomic) int retryCounter;
+@property (assign, nonatomic) double eaAccessoryConnectedTime;
+@property (assign, nonatomic) BOOL connectionAttemptAllowed;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
 @property (assign, nonatomic) BOOL transportDestroyed;
 @property (assign, nonatomic) BOOL accessoryConnectDuringActiveSession;
@@ -49,6 +52,7 @@ int const CreateSessionRetries = 3;
     _retryCounter = 0;
     _accessoryConnectDuringActiveSession = NO;
 
+    _eaAccessoryConnectedTime = 0.0;
     // Get notifications if an accessory connects in future
     [self sdl_startEventListening];
 
@@ -92,7 +96,13 @@ int const CreateSessionRetries = 3;
  */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *newAccessory = notification.userInfo[EAAccessoryKey];
-
+    double timeNow = NSTimeIntervalSince1970;
+    double timeSinceLastConnectionAttempt = timeNow - _eaAccessoryConnectedTime;
+    if (timeSinceLastConnectionAttempt < TimeRequiredBetweenConnectionAttempts) {
+        SDLLogD(@"Accessory Connecting too soon after previous attempt");
+        return;
+    }
+    _eaAccessoryConnectedTime = timeNow;
     if ([self sdl_isDataSessionActive:self.dataSession newAccessory:newAccessory]) {
         self.accessoryConnectDuringActiveSession = YES;
         return;
@@ -180,11 +190,9 @@ int const CreateSessionRetries = 3;
 - (void)sdl_destroyTransport {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
-    self.transportDestroyed = YES;
-    __weak typeof(self) weakSelf = self;
     [self disconnectWithCompletionHandler:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf.delegate onTransportDisconnected];
+        self.transportDestroyed = YES;
+        [self.delegate onTransportDisconnected];
     }];
 }
 
@@ -222,7 +230,6 @@ int const CreateSessionRetries = 3;
 
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
-    self.transportDestroyed = YES;
 
     [self sdl_closeSessionsWithCompletionHandler:disconnectCompletionHandler];
 }
