@@ -1,6 +1,7 @@
-[![Accio supported](https://img.shields.io/badge/Accio-supported-0A7CF5.svg?style=flat)](https://github.com/JamitLabs/Accio)
+[![Accio compatible](https://img.shields.io/badge/Accio-compatible-4BC51D.svg?style=flat)](https://github.com/JamitLabs/Accio)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
+[![CocoaPods Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
+[![Swift Package Manager compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://github.com/apple/swift-package-manager)
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 ![SmartDeviceLink Tests](https://github.com/smartdevicelink/sdl_ios/workflows/SmartDeviceLink%20Tests/badge.svg)
 [![codecov](https://codecov.io/gh/smartdevicelink/sdl_ios/branch/master/graph/badge.svg)](https://codecov.io/gh/smartdevicelink/sdl_ios)
@@ -24,7 +25,7 @@ The mobile library component of SDL is meant to run on the end user’s smart-de
 You can find guides and documentation on how to use this library at the [SmartDeviceLink website](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/). You can find the upcoming releases roadmap at the [SDL Evolution Github](https://github.com/smartdevicelink/sdl_evolution#recent-and-upcoming-releases).
 
 ### Installing
-To install this library as a framework in your app, see the [Installation Guide](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/). There are instructions on how to install using the dependency managers CocoaPods, Carthage, and Accio, as well as how to install the library framework manually.
+To install this library as a framework in your app, see the [Installation Guide](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/). There are instructions on how to install using the dependency managers Accio, Carthage, CocoaPods, and Swift Package Manager, as well as how to install the library framework manually.
 
 #### Adding a Dynamic Framework
 Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+. **WARNING: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Strip the x64 and i386 portions first like so:**
