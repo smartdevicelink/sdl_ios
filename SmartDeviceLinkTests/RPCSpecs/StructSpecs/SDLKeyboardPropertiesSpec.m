@@ -33,21 +33,30 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.keypressMode = testMode;
         testStruct.limitedCharacterList = testLimitedCharacterList;
         testStruct.autoCompleteList = testAutoCompleteList;
-        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        testStruct.autoCompleteText = testAutoCompleteText;
+#pragma clang diagnostic pop
+
         expect(testStruct.language).to(equal(testLanguage));
         expect(testStruct.keyboardLayout).to(equal(testLayout));
         expect(testStruct.keypressMode).to(equal(testMode));
         expect(testStruct.limitedCharacterList).to(equal(testLimitedCharacterList));
         expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testStruct.autoCompleteText).to(equal(testAutoCompleteText));
+#pragma clang diagnostic pop
     });
     
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSDictionary* dict = @{SDLRPCParameterNameLanguage: testLanguage,
-                                       SDLRPCParameterNameKeyboardLayout: testLayout,
-                                       SDLRPCParameterNameKeypressMode: testMode,
-                                       SDLRPCParameterNameLimitedCharacterList: testLimitedCharacterList,
-                                       SDLRPCParameterNameAutoCompleteList: testAutoCompleteList
-                                       };
+                               SDLRPCParameterNameKeyboardLayout: testLayout,
+                               SDLRPCParameterNameKeypressMode: testMode,
+                               SDLRPCParameterNameLimitedCharacterList: testLimitedCharacterList,
+                               SDLRPCParameterNameAutoCompleteList: testAutoCompleteList,
+                               SDLRPCParameterNameAutoCompleteText: testAutoCompleteText
+                            };
         SDLKeyboardProperties* testStruct = [[SDLKeyboardProperties alloc] initWithDictionary:dict];
 
         expect(testStruct.language).to(equal(testLanguage));
@@ -55,6 +64,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.keypressMode).to(equal(testMode));
         expect(testStruct.limitedCharacterList).to(equal(testLimitedCharacterList));
         expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testStruct.autoCompleteText).to(equal(testAutoCompleteText));
+#pragma clang diagnostic pop
     });
 
     it(@"Should get correctly when initialized with initWithLanguage:layout:keypressMode:limitedCharacterList:autoCompleteText:autoCompleteList:", ^ {
