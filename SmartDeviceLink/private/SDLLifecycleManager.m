@@ -192,7 +192,27 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskTransportName];
 
+    if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(sdl_accessoryDisconnected:)
+                                                     name:EAAccessoryDidDisconnectNotification
+                                                   object:nil];
+    }
+    
     return self;
+}
+
+- (void)sdl_accessoryDisconnected:(NSNotification *)notification {
+    if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14")) {
+        EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
+        SDLLogD(@"Accessory with serial number: %@, and connectionID: %lu disconnecting.", accessory.serialNumber, (unsigned long)accessory.connectionID);
+        if (self.backgroundTaskManager != nil) {
+            [self.backgroundTaskManager endBackgroundTask];
+        }
+        if (self.secondaryTransportManager != nil) {
+            [_secondaryTransportManager endBackgroundTask];
+        }
+    }
 }
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
