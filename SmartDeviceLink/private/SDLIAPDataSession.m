@@ -64,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.accessory);
             __weak typeof(self) weakSelf = self;
             [self destroySessionWithCompletionHandler:^{
+                SDLLogD(@"Destroy session after failed setup just completed");
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 if (strongSelf.delegate == nil) { return; }
                 [strongSelf.delegate dataSessionShouldRetry];
@@ -85,17 +86,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the data session");
 
-    [self sdl_forceCloseEaSession];
-
     if (self.ioStreamThread == nil) {
         SDLLogV(@"No data session established");
         [super cleanupClosedSession];
         return disconnectCompletionHandler();
     }
 
-    // Tell the ioStreamThread to shutdown the I/O streams. The I/O streams must be opened and closed on the same thread; if they are not, random crashes can occur. Dispatch this task to the main queue to ensure that this task is performed on the Main Thread. We are using the Main Thread for ease since we don't want to create a separate thread just to wait on closing the I/O streams. Using the Main Thread ensures that semaphore wait is not called from ioStreamThread, which would block the ioStreamThread and prevent shutdown.
-    dispatch_async(dispatch_get_main_queue(), ^{
-
+    // Tell the ioStreamThread to shutdown the I/O streams. The I/O streams must be opened and closed and scheduled on the same thread and run loop; if they are not, random crashes can occur.
+    // Dispatch this task to the main queue to ensure that this task is performed on the Main Thread. We are using the Main Thread for ease since we don't want to create a separate thread just
+    // to wait on closing the I/O streams. Using the Main Thread ensures that semaphore wait is not called from ioStreamThread, which would block the ioStreamThread and prevent shutdown.
+   
+    // this worksaround the cases when this method is called elsewhere (i.e. stream ends and transport disconnect).
+    if (self.ioStreamThread.isCancelled) {
+        return disconnectCompletionHandler();
+    }
+    
+    dispatch_block_t cancelBlock = ^{
         // Attempt to cancel the ioStreamThread. Once the thread realizes it has been cancelled, it will cleanup the I/O streams. Make sure to wake up the run loop in case there is no current I/O event running on the ioThread.
         [self.ioStreamThread cancel];
         [self performSelector:@selector(sdl_doNothing) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
@@ -104,8 +110,8 @@ NS_ASSUME_NONNULL_BEGIN
         BOOL cancelledSuccessfully = [self sdl_isIOThreadCancelled];
         if (!cancelledSuccessfully) {
             SDLLogE(@"The I/O streams were not shut down successfully. We might not be able to create a new session with an accessory during the same app session. If this happens, only force quitting and restarting the app will allow new sessions.");
-            [self performSelector:@selector(sdl_retryThreadCancel) withObject:nil afterDelay:IOStreamThreadRetryWaitSecs];
-            [self sdl_retryThreadCancel];
+            // this will retry the block after the given number of seconds.
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, IOStreamThreadRetryWaitSecs * NSEC_PER_SEC), dispatch_get_main_queue(), cancelBlock);
         } else {
             self.ioStreamThread = nil;
         }
@@ -113,18 +119,18 @@ NS_ASSUME_NONNULL_BEGIN
         [self.sendDataQueue removeAllObjects];
 
         disconnectCompletionHandler();
-    });
+    };
+    
+    [self sdl_forceCloseEaSession];
+    
+    dispatch_async(dispatch_get_main_queue(), cancelBlock);
 }
 
 - (void)sdl_forceCloseEaSession {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.eaSession != nil) {
             [[self.eaSession inputStream] close];
-            [[self.eaSession inputStream] removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            [[self.eaSession inputStream] setDelegate:nil];
             [[self.eaSession outputStream] close];
-            [[self.eaSession outputStream] removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            [[self.eaSession outputStream] setDelegate:nil];
         }
     });
 }
@@ -134,6 +140,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sdl_isIOThreadCancelled {
     NSAssert(![NSThread.currentThread.name isEqualToString:IOStreamThreadName], @"%@ must not be called from the ioStreamThread!", NSStringFromSelector(_cmd));
 
+    // early return if the thread has finished already
+    if (self.ioStreamThread.finished) {
+        SDLLogD(@"ioStreamThread already finished execution.");
+        return YES;
+    }
+    
     long lWait = dispatch_semaphore_wait(self.ioStreamThreadCancelledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadCanceledSemaphoreWaitSecs * NSEC_PER_SEC)));
     if (lWait == 0) {
         SDLLogD(@"ioStreamThread cancelled successfully");
@@ -142,34 +154,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLLogE(@"Failed to cancel ioStreamThread within %.1f seconds", IOStreamThreadCanceledSemaphoreWaitSecs);
     return NO;
-}
-
-- (void)sdl_retryThreadCancel {
-    if (self.ioStreamThread == nil) {
-        SDLLogV(@"No data session established during Retry");
-        [super cleanupClosedSession];
-    }
-    SDLLogE(@"Will retry thread cancel in %.1f seconds", IOStreamThreadRetryWaitSecs);
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        // Attempt to cancel the ioStreamThread. Once the thread realizes it has been cancelled, it will cleanup the I/O streams. Make sure to wake up the run loop in case there is no current I/O event running on the ioThread.
-        [strongSelf.ioStreamThread cancel];
-        [strongSelf performSelector:@selector(sdl_doNothing) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
-
-        // Block the thread until the semaphore has been released by the ioStreamThread (or a timeout has occured).
-        BOOL cancelledSuccessfully = [strongSelf sdl_isIOThreadCancelled];
-        if (!cancelledSuccessfully) {
-            SDLLogE(@"The I/O streams were not shut down successfully.  Will try again.");
-            [strongSelf performSelector:@selector(sdl_retryThreadCancel) withObject:nil afterDelay:IOStreamThreadRetryWaitSecs];
-            [strongSelf sdl_retryThreadCancel];
-        } else {
-            strongSelf.ioStreamThread = nil;
-        }
-
-        [strongSelf.sendDataQueue removeAllObjects];
-    });
 }
 
 /// Helper method for waking up the ioStreamThread.
@@ -279,8 +263,11 @@ NS_ASSUME_NONNULL_BEGIN
     // When both streams are open, session initialization is complete. Let the delegate know.
     if (self.isInputStreamOpen && self.isOutputStreamOpen) {
         SDLLogV(@"Data session I/O streams opened for protocol: %@", self.protocolString);
-        if (self.delegate == nil) { return; }
-        [self.delegate dataSessionDidConnect];
+        // dispatch to the main thread/queue and avoid the IO thread from being stuck elsewhere.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //if (self.delegate == nil) { return; } // not necessary actually
+            [self.delegate dataSessionDidConnect];
+        });
     }
 }
 
@@ -300,6 +287,7 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_async(dispatch_get_main_queue(), ^{
         __weak typeof(self) weakSelf = self;
         [self destroySessionWithCompletionHandler:^{
+            SDLLogD(@"Destroy session after stream did end just completed");
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (strongSelf.delegate == nil) { return; }
             [strongSelf.delegate dataSessionShouldRetry];
@@ -328,7 +316,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (bytesRead > 0) {
             if (self.delegate == nil) { return; }
-            [self.delegate dataSessionDidReceiveData:dataIn];
+            dispatch_async([[SDLGlobals sharedGlobals] sdlProcessingQueue], ^{
+                [self.delegate dataSessionDidReceiveData:dataIn];
+            });
         } else {
             break;
         }
@@ -354,6 +344,7 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_async(dispatch_get_main_queue(), ^{
         __weak typeof(self) weakSelf = self;
         [self destroySessionWithCompletionHandler:^{
+            SDLLogD(@"Destroy session after stream error just completed");
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (![strongSelf.protocolString isEqualToString:LegacyProtocolString]) {
                 if (strongSelf.delegate == nil) { return; }
