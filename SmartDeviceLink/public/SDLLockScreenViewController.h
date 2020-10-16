@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^SwipeGestureCallbackBlock)(void);
 
 /**
+ *  The SDL Lock Screen's presentation style.
+ */
+@property(nonatomic, assign) UIModalPresentationStyle modalPresentationStyle;
+
+/**
  *  The app's icon. This will be set by the lock screen configuration.
  */
 @property (copy, nonatomic, nullable) UIImage *appIcon;

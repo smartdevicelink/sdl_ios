@@ -32,11 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @implementation SDLLockScreenViewController
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    self.modalPresentationStyle = UIModalPresentationFullScreen;
-}
+@synthesize modalPresentationStyle = _modalPresentationStyle;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -66,6 +62,10 @@ NS_ASSUME_NONNULL_BEGIN
     return useWhiteIcon ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
 
+- (UIModalPresentationStyle)modalPresentationStyle {
+    return _modalPresentationStyle;
+}
+
 #pragma mark - Setters
 
 - (void)setAppIcon:(UIImage *_Nullable)appIcon {
@@ -90,6 +90,18 @@ NS_ASSUME_NONNULL_BEGIN
     _lockedLabelText = lockedLabelText;
 
     [self sdl_layoutViews];
+}
+
+- (void)setModalPresentationStyle:(UIModalPresentationStyle)modalPresentationStyle {
+    if (@available(iOS 13.0, *)) {
+        if (modalPresentationStyle == UIModalPresentationAutomatic) {
+            _modalPresentationStyle = UIModalPresentationFullScreen;
+        } else {
+            _modalPresentationStyle = modalPresentationStyle;
+        }
+    } else {
+        _modalPresentationStyle = modalPresentationStyle;
+    }
 }
 
 #pragma mark - Swipe Gesture
