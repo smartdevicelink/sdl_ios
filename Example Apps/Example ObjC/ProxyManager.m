@@ -166,8 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
-    SDLSetDisplayLayout *setDisplayLayout = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
-    [self.sdlManager sendRequest:setDisplayLayout];
+    [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:nil];
 
     [self sdlex_updateScreen];
     self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];

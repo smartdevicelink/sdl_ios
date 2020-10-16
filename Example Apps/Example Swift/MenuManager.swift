@@ -124,9 +124,8 @@ private extension MenuManager {
         /// Non-Media
         let submenuTitleNonMedia = "Non - Media (Default)"
         submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
-            let display = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
-            manager.send(request: display) { (request, response, error) in
-                guard response?.success.boolValue == .some(true) else {
+            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia)) { err in
+                if err != nil {
                     AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
                     return
                 }
@@ -136,9 +135,8 @@ private extension MenuManager {
         /// Graphic with Text
         let submenuTitleGraphicText = "Graphic With Text"
         submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
-            let display = SDLSetDisplayLayout(predefinedLayout: .graphicWithText)
-            manager.send(request: display) { (request, response, error) in
-                guard response?.success.boolValue == .some(true) else {
+            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .graphicWithText)) { err in
+                if err != nil {
                     AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
                     return
                 }

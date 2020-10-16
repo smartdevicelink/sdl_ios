@@ -167,7 +167,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendSetDisplayLayoutWithTemplateConfiguration:(SDLTemplateConfiguration *)configuration completionHandler:(void (^)(NSError *_Nullable error))handler {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SDLSetDisplayLayout *setLayout = [[SDLSetDisplayLayout alloc] initWithLayout:configuration.template dayColorScheme:configuration.dayColorScheme nightColorScheme:configuration.nightColorScheme];
+#pragma clang diagnostic pop
 
     __weak typeof(self)weakSelf = self;
     [self.connectionManager sendConnectionRequest:setLayout withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -499,7 +502,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)sdl_updateCurrentScreenDataFromSetDisplayLayout:(SDLSetDisplayLayout *)setDisplayLayout {
+#pragma clang diagnostic pop
     self.currentScreenData.templateConfig = [[SDLTemplateConfiguration alloc] initWithTemplate:setDisplayLayout.displayLayout dayColorScheme:setDisplayLayout.dayColorScheme nightColorScheme:setDisplayLayout.nightColorScheme];
 
     if (self.currentDataUpdatedHandler != nil) {
