@@ -25,7 +25,7 @@ The mobile library component of SDL is meant to run on the end user’s smart-de
 You can find guides and documentation on how to use this library at the [SmartDeviceLink website](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/). You can find the upcoming releases roadmap at the [SDL Evolution Github](https://github.com/smartdevicelink/sdl_evolution#recent-and-upcoming-releases).
 
 ### Installing
-To install this library as a framework in your app, see the [Installation Guide](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/). There are instructions on how to install using the dependency managers CocoaPods, Carthage, and Accio, as well as how to install the library framework manually.
+To install this library as a framework in your app, see the [Installation Guide](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/). There are instructions on how to install using the dependency managers Accio, Carthage, CocoaPods, and Swift Package Manager, as well as how to install the library framework manually.
 
 #### Adding a Dynamic Framework
 Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+. **WARNING: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Strip the x64 and i386 portions first like so:**
