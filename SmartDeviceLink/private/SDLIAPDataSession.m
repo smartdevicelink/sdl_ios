@@ -91,6 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Destroying the data session");
 
+    [self sdl_closeEaSession];
+    
     if (self.ioStreamThread == nil) {
         SDLLogV(@"No data session established");
         [super cleanupClosedSession];
@@ -106,34 +108,38 @@ NS_ASSUME_NONNULL_BEGIN
         return disconnectCompletionHandler();
     }
     
-    dispatch_block_t __block cancelBlock = ^{
-        // Attempt to cancel the ioStreamThread. Once the thread realizes it has been cancelled, it will cleanup the I/O streams. Make sure to wake up the run loop in case there is no current I/O event running on the ioThread.
-        [self.ioStreamThread cancel];
-        [self performSelector:@selector(sdl_doNothing) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
+   
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self sdl_cancelStreamThreadWithCompletionHandler:disconnectCompletionHandler];
+    });
+}
 
-        // Block the thread until the semaphore has been released by the ioStreamThread (or a timeout has occured).
-        BOOL cancelledSuccessfully = [self sdl_isIOThreadCancelled];
-        if (!cancelledSuccessfully) {
-            SDLLogE(@"The I/O streams were not shut down successfully. We might not be able to create a new session with an accessory during the same app session. If this happens, only force quitting and restarting the app will allow new sessions.");
-            if (IOSStreamCancelRetryCount >= IOSStreamCancelRetryCountMax) {
-                return disconnectCompletionHandler();
-            }
-            IOSStreamCancelRetryCount += 1;
+- (void)sdl_cancelStreamThreadWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
+    // Attempt to cancel the ioStreamThread. Once the thread realizes it has been cancelled, it will cleanup the I/O streams. Make sure to wake up the run loop in case there is no current I/O event running on the ioThread.
+    [self.ioStreamThread cancel];
+    [self performSelector:@selector(sdl_doNothing) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
 
-            // this will retry the block after the given number of seconds.
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadRetryWaitSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), cancelBlock);
-        } else {
-            self.ioStreamThread = nil;
-        }
-
-        [self.sendDataQueue removeAllObjects];
-
-        disconnectCompletionHandler();
-    };
+    // Block the thread until the semaphore has been released by the ioStreamThread (or a timeout has occured).
+    BOOL cancelledSuccessfully = [self sdl_isIOThreadCancelled];
     
-    [self sdl_closeEaSession];
+    if (!cancelledSuccessfully && IOSStreamCancelRetryCount < IOSStreamCancelRetryCountMax) {
+        SDLLogE(@"The I/O streams were not shut down successfully. We might not be able to create a new session with an accessory during the same app session. If this happens, only force quitting and restarting the app will allow new sessions.");
+        IOSStreamCancelRetryCount += 1;
+
+        // this will retry the block after the given number of seconds.
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadRetryWaitSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self sdl_cancelStreamThreadWithCompletionHandler:disconnectCompletionHandler];
+        });
+    } else {
+        self.ioStreamThread = nil;
+    }
+
+    [self.sendDataQueue removeAllObjects];
+
+    NSNotification *sdlEASessionClosed = [[NSNotification alloc] initWithName:SDLEASessionCompleteNotification object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:sdlEASessionClosed];
     
-    dispatch_async(dispatch_get_main_queue(), cancelBlock);
+    disconnectCompletionHandler();
 }
 
 - (void)sdl_closeEaSession {
@@ -142,8 +148,6 @@ NS_ASSUME_NONNULL_BEGIN
             [[self.eaSession inputStream] close];
             [[self.eaSession outputStream] close];
         }
-        NSNotification *sdlEASessionClosed = [[NSNotification alloc] initWithName:SDLEASessionCompleteNotification object:nil userInfo:nil];
-        [[NSNotificationCenter defaultCenter] postNotification:sdlEASessionClosed];
     });
 }
 
