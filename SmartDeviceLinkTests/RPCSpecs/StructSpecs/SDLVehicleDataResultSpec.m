@@ -47,10 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameResultCode:SDLVehicleDataResultCodeDisallowed,
                                        SDLRPCParameterNameOEMCustomDataType:@"CustomOEMData"
                                        } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
         expect(testStruct.customOEMDataType).to(equal(@"CustomOEMData"));

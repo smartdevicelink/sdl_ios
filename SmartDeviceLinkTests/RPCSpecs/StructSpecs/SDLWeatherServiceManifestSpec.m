@@ -48,10 +48,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameMaxMinutelyForecastAmount:@(testMaxMinutelyForecastAmount),
                                SDLRPCParameterNameWeatherForLocationSupported:@(testWeatherForLocationSupported)
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLWeatherServiceManifest *testStruct = [[SDLWeatherServiceManifest alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.currentForecastSupported).to(equal(testCurrentForecastSupported));
         expect(testStruct.maxMultidayForecastAmount).to(equal(testMaxMultidayForecastAmount));

@@ -35,10 +35,7 @@ describe(@"Getter/Setter Tests", ^{
                                                SDLRPCParameterNameServiceSpecificResult:testServiceSpecificResult
                                                },
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNamePublishAppService}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testResponse.serviceSpecificResult).to(equal(testServiceSpecificResult));
     });

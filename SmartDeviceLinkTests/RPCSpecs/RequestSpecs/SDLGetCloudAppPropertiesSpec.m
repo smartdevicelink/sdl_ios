@@ -37,10 +37,7 @@ describe(@"Getter/Setter Tests", ^{
                                                SDLRPCParameterNameAppId:testAppID
                                                },
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetCloudAppProperties}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetCloudAppProperties *testRequest = [[SDLGetCloudAppProperties alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testRequest.appID).to(equal(testAppID));
     });

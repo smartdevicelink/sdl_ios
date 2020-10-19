@@ -54,10 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameStationIDNumber:someID,
                                        SDLRPCParameterNameStationMessage:@"message"
                                        } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSISData* testStruct = [[SDLSISData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.stationShortName).to(equal(@"short"));
         expect(testStruct.stationIDNumber).to(equal(someID));

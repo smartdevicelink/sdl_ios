@@ -49,10 +49,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameSubscribe:@(testSubcribe)
                                                    },
                                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetSystemCapability}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLGetSystemCapability *testRequest = [[SDLGetSystemCapability alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
             expect(testRequest.systemCapabilityType).to(equal(testSystemCapabilityType));
             expect(testRequest.subscribe).to(beFalse());

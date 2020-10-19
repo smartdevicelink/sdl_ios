@@ -45,10 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameIsHighlighted:@YES,
                                        SDLRPCParameterNameSoftButtonId:@5423,
                                        SDLRPCParameterNameSystemAction:SDLSystemActionKeepContext} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSoftButton* testStruct = [[SDLSoftButton alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.type).to(equal(SDLSoftButtonTypeImage));
         expect(testStruct.text).to(equal(@"Button"));

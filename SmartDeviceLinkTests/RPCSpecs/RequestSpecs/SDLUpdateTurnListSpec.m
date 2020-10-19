@@ -36,10 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameTurnList:[@[turn] mutableCopy],
                                                                    SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameUpdateTurnList}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUpdateTurnList* testRequest = [[SDLUpdateTurnList alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.turnList).to(equal([@[turn] mutableCopy]));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));

@@ -34,10 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameText:@"DON'T PANIC",
                                                        SDLRPCParameterNameImage:image,
                                                        SDLRPCParameterNamePosition:@42} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVRHelpItem* testStruct = [[SDLVRHelpItem alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.text).to(equal(@"DON'T PANIC"));
         expect(testStruct.image).to(equal(image));

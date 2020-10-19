@@ -362,10 +362,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameTemplateConfiguration:testTemplateConfig
                                                      },
                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameShow}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLShow* testRequest = [[SDLShow alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
             expect(testRequest.mainField1).to(equal(@"field1"));
             expect(testRequest.mainField2).to(equal(@"field2"));

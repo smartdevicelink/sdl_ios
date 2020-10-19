@@ -42,10 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                   SDLRPCParameterNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
                                                                   SDLRPCParameterNameCommandIcon:image},
                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddCommand}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddCommand* testRequest = [[SDLAddCommand alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testRequest.cmdID).to(equal(@434577));
         expect(testRequest.menuParams).to(equal(menu));

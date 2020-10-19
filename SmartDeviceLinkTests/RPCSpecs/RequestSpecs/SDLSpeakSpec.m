@@ -31,10 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameTTSChunks:[@[chunk] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameSpeak}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSpeak* testRequest = [[SDLSpeak alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.ttsChunks).to(equal([@[chunk] mutableCopy]));
     });

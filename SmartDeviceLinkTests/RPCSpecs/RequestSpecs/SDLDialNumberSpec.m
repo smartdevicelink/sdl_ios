@@ -49,10 +49,7 @@ describe(@"Dial Number RPC", ^{
                                                        }
                                                }
                                        };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLDialNumber alloc] initWithDictionary:[initDict mutableCopy]];
-#pragma clang diagnostic pop
         });
         
         it(@"should get 'number' correctly", ^{
@@ -69,10 +66,7 @@ describe(@"Dial Number RPC", ^{
                                                        }
                                                }
                                        };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLDialNumber alloc] initWithDictionary:[initDict mutableCopy]];
-#pragma clang diagnostic pop
         });
         
         it(@"should return nil for number", ^{

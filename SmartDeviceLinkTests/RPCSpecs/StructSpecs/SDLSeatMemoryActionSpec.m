@@ -41,10 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameLabel:@"none",
                                        SDLRPCParameterNameAction: SDLSeatMemoryActionTypeNone
                                        } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSeatMemoryAction *testStruct = [[SDLSeatMemoryAction alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.id).to(equal(@54));
         expect(testStruct.action).to(equal(SDLSeatMemoryActionTypeNone));

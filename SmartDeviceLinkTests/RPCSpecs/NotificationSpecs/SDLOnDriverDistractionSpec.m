@@ -35,10 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLRPCParameterNameState:SDLDriverDistractionStateOn,
                                                    SDLRPCParameterNameLockScreenDismissalEnabled: @1},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnDriverDistraction* testNotificationOn = [[SDLOnDriverDistraction alloc] initWithDictionary:dictOn];
-#pragma clang diagnostic pop
         
         expect(testNotificationOn.state).to(equal(SDLDriverDistractionStateOn));
         expect(testNotificationOn.lockScreenDismissalEnabled).to(beTrue());
@@ -48,10 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLRPCParameterNameState:SDLDriverDistractionStateOff,
                                                    SDLRPCParameterNameLockScreenDismissalEnabled: @0},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnDriverDistraction *testNotificationOff = [[SDLOnDriverDistraction alloc] initWithDictionary:dictOff];
-#pragma clang diagnostic pop
 
         expect(testNotificationOff.state).to(equal(SDLDriverDistractionStateOff));
         expect(testNotificationOff.lockScreenDismissalEnabled).to(beFalse());
