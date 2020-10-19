@@ -10,19 +10,46 @@
 
 #pragma mark Error Domains
 
+/// A typedef declaration of the SDL error domain
 typedef NSString SDLErrorDomain;
+
+/// An error in the SDLAudioStreamManager
 extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
+
+/// An error in the SDLCacheFileManager private class
 extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
+
+/// An error in the SDLChoiceSetManager subset of SDLScreenManager
 extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
+
+/// An error in the SDLEncryptionLifecycleManager private class
 extern SDLErrorDomain *const SDLErrorDomainEncryptionLifecycleManager;
+
+/// An error in the SDLFileManager
 extern SDLErrorDomain *const SDLErrorDomainFileManager;
+
+/// An error in the SDLLifecycleManager private class
 extern SDLErrorDomain *const SDLErrorDomainLifecycleManager;
+
+/// An error in the SDLMenuManager subset of SDLScreenManager
 extern SDLErrorDomain *const SDLErrorDomainMenuManager;
+
+/// An error in an SDL RPC class
 extern SDLErrorDomain *const SDLErrorDomainRPCStore;
+
+/// An error in the SDLSoftButtonManager subset of SDLScreenManager
 extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
+
+/// An error in the SDLSubscribeButtonManager subset of SDLScreenManager
 extern SDLErrorDomain *const SDLErrorDomainSubscribeButtonManager;
+
+/// An error in the SDLSystemCapabilityManager
 extern SDLErrorDomain *const SDLErrorDomainSystemCapabilityManager;
+
+/// An error in the SDLTextAndGraphicManager subset of SDLScreenManager
 extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
+
+/// An error in a SDL transport private class
 extern SDLErrorDomain *const SDLErrorDomainTransport;
 
 

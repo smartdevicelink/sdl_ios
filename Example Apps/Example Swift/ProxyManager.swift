@@ -250,9 +250,8 @@ private extension ProxyManager {
     /// Set the template and create the UI
     func showInitialData() {
         guard sdlManager.hmiLevel == .full else { return }
-        
-        let setDisplayLayout = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
-        sdlManager.send(setDisplayLayout)
+
+        sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia), withCompletionHandler: nil)
 
         updateScreen()
         sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons()

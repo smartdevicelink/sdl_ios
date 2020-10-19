@@ -3,6 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section--initWithHeatingEnabled:coolingEnabled:heatingLevel:coolingLevel:horizontalPosition:verticalPosition:frontVerticalPosition:backVerticalPosition:backTiltAngle:headSupportHorizontalPosition:headSupportVerticalPosition:massageEnabled:massageMode:massageCushionFirmness:memory:">-initWithHeatingEnabled:coolingEnabled:heatingLevel:coolingLevel:horizontalPosition:verticalPosition:frontVerticalPosition:backVerticalPosition:backTiltAngle:headSupportHorizontalPosition:headSupportVerticalPosition:massageEnabled:massageMode:massageCushionFirmness:memory:</a></li>
   <li><a href="#section--initWithId:">-initWithId:</a></li>
   <li><a href="#section--initWithId:heatingEnabled:coolingEnable:heatingLevel:coolingLevel:horizontalPostion:verticalPostion:frontVerticalPostion:backVerticalPostion:backTiltAngle:headSupportedHorizontalPostion:headSupportedVerticalPostion:massageEnabled:massageMode:massageCussionFirmness:memory:">-initWithId:heatingEnabled:coolingEnable:heatingLevel:coolingLevel:horizontalPostion:verticalPostion:frontVerticalPostion:backVerticalPostion:backTiltAngle:headSupportedHorizontalPostion:headSupportedVerticalPostion:massageEnabled:massageMode:massageCussionFirmness:memory:</a></li>
   <li><a href="#section-id">id</a></li>
@@ -29,6 +30,84 @@
 
 
 <section class="section task-group-section">
+  <h3 id="section--initWithHeatingEnabled:coolingEnabled:heatingLevel:coolingLevel:horizontalPosition:verticalPosition:frontVerticalPosition:backVerticalPosition:backTiltAngle:headSupportHorizontalPosition:headSupportVerticalPosition:massageEnabled:massageMode:massageCushionFirmness:memory:">
+      -initWithHeatingEnabled:coolingEnabled:heatingLevel:coolingLevel:horizontalPosition:verticalPosition:frontVerticalPosition:backVerticalPosition:backTiltAngle:headSupportHorizontalPosition:headSupportVerticalPosition:massageEnabled:massageMode:massageCushionFirmness:memory:
+  </h3>
+  
+  <p>Convenience init for setting all possible seat control data</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+           <span class="nf">initWithHeatingEnabled</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatingEnabled</span>
+                   <span class="nf">coolingEnabled</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">coolingEnabled</span>
+                     <span class="nf">heatingLevel</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">heatingLevel</span>
+                     <span class="nf">coolingLevel</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">coolingLevel</span>
+               <span class="nf">horizontalPosition</span><span class="p">:</span>
+                   <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">horizontalPosition</span>
+                 <span class="nf">verticalPosition</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">verticalPosition</span>
+            <span class="nf">frontVerticalPosition</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">frontVerticalPosition</span>
+             <span class="nf">backVerticalPosition</span><span class="p">:</span>
+                 <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">backVerticalPosition</span>
+                    <span class="nf">backTiltAngle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">backTiltAngle</span>
+    <span class="nf">headSupportHorizontalPosition</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">headSupportHorizontalPosition</span>
+      <span class="nf">headSupportVerticalPosition</span><span class="p">:</span>
+          <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">headSupportVerticalPosition</span>
+                   <span class="nf">massageEnabled</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">massageEnabled</span>
+                      <span class="nf">massageMode</span><span class="p">:</span>
+                          <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLMassageModeData.html">SDLMassageModeData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">massageMode</span>
+           <span class="nf">massageCushionFirmness</span><span class="p">:</span>
+               <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLMassageCushionFirmness.html">SDLMassageCushionFirmness</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                   <span class="n"><a href="../Classes/SDLSeatControlData.html#/c:objc(cs)SDLSeatControlData(py)massageCushionFirmness">massageCushionFirmness</a></span>
+                           <span class="n"><a href="../Classes/SDLSeatControlData.html#/c:objc(cs)SDLSeatControlData(py)memory">memory</a></span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeatMemoryAction.html">SDLSeatMemoryAction</a></span> <span class="o">*</span><span class="p">)</span><span class="n"><a href="../Classes/SDLSeatControlData.html#/c:objc(cs)SDLSeatControlData(py)memory">memory</a></span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">heatingEnabled</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">coolingEnabled</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">heatingLevel</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">coolingLevel</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">horizontalPosition</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">verticalPosition</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">frontVerticalPosition</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">backVerticalPosition</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">backTiltAngle</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">headSupportHorizontalPosition</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">headSupportVerticalPosition</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">massageEnabled</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">massageMode</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLMassageModeData.html">SDLMassageModeData</a></span><span class="p">]?,</span> <span class="nv">massageCushionFirmness</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLMassageCushionFirmness.html">SDLMassageCushionFirmness</a></span><span class="p">]?,</span> <span class="nv">memory</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeatMemoryAction.html">SDLSeatMemoryAction</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>heatingEnabled</dt>
+      <dd><p>- heatingEnabled</p></dd>
+      <dt>coolingEnabled</dt>
+      <dd><p>- coolingEnabled</p></dd>
+      <dt>heatingLevel</dt>
+      <dd><p>- heatingLevel</p></dd>
+      <dt>coolingLevel</dt>
+      <dd><p>- coolingLevel</p></dd>
+      <dt>horizontalPosition</dt>
+      <dd><p>- horizontalPosition</p></dd>
+      <dt>verticalPosition</dt>
+      <dd><p>- verticalPosition</p></dd>
+      <dt>frontVerticalPosition</dt>
+      <dd><p>- frontVerticalPosition</p></dd>
+      <dt>backVerticalPosition</dt>
+      <dd><p>- backVerticalPosition</p></dd>
+      <dt>backTiltAngle</dt>
+      <dd><p>- backTiltAngle</p></dd>
+      <dt>headSupportHorizontalPosition</dt>
+      <dd><p>- headSupportHorizontalPosition</p></dd>
+      <dt>headSupportVerticalPosition</dt>
+      <dd><p>- headSupportVerticalPosition</p></dd>
+      <dt>massageEnabled</dt>
+      <dd><p>- massageEnabled</p></dd>
+      <dt>massageMode</dt>
+      <dd><p>- massageMode</p></dd>
+      <dt>massageCushionFirmness</dt>
+      <dd><p>- massageCushionFirmness</p></dd>
+      <dt>memory</dt>
+      <dd><p>- memory</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSeatControlData object</p>
+  </div>
+  
   <h3 id="section--initWithId:">
       -initWithId:
   </h3>
@@ -146,7 +225,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSupportedSeat.h@T@SDLSupportedSeat">SDLSupportedSeat</a></span> <span class="n">_Nonnull</span> <span class="n">id</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">__deprecated</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSupportedSeat.h@T@SDLSupportedSeat">SDLSupportedSeat</a></span> <span class="n">id</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

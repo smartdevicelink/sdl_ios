@@ -21,6 +21,7 @@
   <li><a href="#section-videoStreamingCapability">videoStreamingCapability</a></li>
   <li><a href="#section-remoteControlCapability">remoteControlCapability</a></li>
   <li><a href="#section-seatLocationCapability">seatLocationCapability</a></li>
+  <li><a href="#section-driverDistractionCapability">driverDistractionCapability</a></li>
   <li><a href="#section-defaultMainWindowCapability">defaultMainWindowCapability</a></li>
   <li><a href="#section-supportsSubscriptions">supportsSubscriptions</a></li>
   <li><a href="#section--init">-init</a></li>
@@ -30,7 +31,6 @@
   <li><a href="#section--windowCapabilityWithWindowID:">-windowCapabilityWithWindowID:</a></li>
   <li><a href="#section--isCapabilitySupported:">-isCapabilitySupported:</a></li>
   <li><a href="#section--updateCapabilityType:completionHandler:">-updateCapabilityType:completionHandler:</a></li>
-  <li><a href="#section--subscribeToCapabilityType:withBlock:">-subscribeToCapabilityType:withBlock:</a></li>
   <li><a href="#section--subscribeToCapabilityType:withUpdateHandler:">-subscribeToCapabilityType:withUpdateHandler:</a></li>
   <li><a href="#section--subscribeToCapabilityType:withObserver:selector:">-subscribeToCapabilityType:withObserver:selector:</a></li>
   <li><a href="#section--unsubscribeFromCapabilityType:withObserver:">-unsubscribeFromCapabilityType:withObserver:</a></li>
@@ -338,13 +338,6 @@
   </h3>
   
   <p>If returned, the platform supports app services</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLAppServicesCapabilities
-
-</div>
-
-<p>Optional</p>
 
   
   
@@ -363,13 +356,6 @@
   </h3>
   
   <p>If returned, the platform supports navigation</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLNavigationCapability
-
-</div>
-
-<p>Optional</p>
 
   
   
@@ -388,13 +374,6 @@
   </h3>
   
   <p>If returned, the platform supports making phone calls</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLPhoneCapability
-
-</div>
-
-<p>Optional</p>
 
   
   
@@ -413,13 +392,6 @@
   </h3>
   
   <p>If returned, the platform supports video streaming</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLVideoStreamingCapability
-
-</div>
-
-<p>Optional</p>
 
   
   
@@ -438,13 +410,6 @@
   </h3>
   
   <p>If returned, the platform supports remote control capabilities</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLRemoteControlCapabilities
-
-</div>
-
-<p>Optional</p>
 
   
   
@@ -463,13 +428,6 @@
   </h3>
   
   <p>If returned, the platform supports remote control capabilities for seats</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSeatLocationCapability
-
-</div>
-
-<p>Optional</p>
 
   
   
@@ -479,6 +437,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seatLocationCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeatLocationCapability.html">SDLSeatLocationCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-driverDistractionCapability">
+      driverDistractionCapability
+  </h3>
+  
+  <p>If returned, the platform supports driver distraction capabilities</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDriverDistractionCapability.html">SDLDriverDistractionCapability</a></span> <span class="o">*</span><span class="n">driverDistractionCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">driverDistractionCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDriverDistractionCapability.html">SDLDriverDistractionCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -680,43 +656,6 @@
       <dt>handler</dt>
       <dd><p>The handler to be called when the retrieval is complete</p></dd>
   </dl>
-  
-  <h3 id="section--subscribeToCapabilityType:withBlock:">
-      -subscribeToCapabilityType:withBlock:
-  </h3>
-  
-  <p>Subscribe to a particular capability type using a block callback.</p>
-
-<p>On v5.1.0+ systems (where <code>supportsSubscriptions == YES</code>):
-This method will be called immediately with the current value if a subscription already exists and will be called every time the value is updated.</p>
-
-<p>On sub-v5.1.0 systems (where <code>supportsSubscriptions == NO</code>):
-The method will be called immediately with the current value and will <em>not</em> be automatically called every time the value is updated, unless the <code>type</code> is <code>DISPLAYS</code> which is supported on every version. If <code>updateCapabilityType:completionHandler</code> is called and a new value is retrieved, this value will be updated then. If this is the first subscription of this <code><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></code>, then the value will be retrieved and returned.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span><span class="p">)</span>
-    <span class="nf">subscribeToCapabilityType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">)</span><span class="nv">type</span>
-                    <span class="nf">withBlock</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLCapabilityUpdateHandler">SDLCapabilityUpdateHandler</a></span><span class="p">)</span><span class="nv">block</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribe</span><span class="p">(</span><span class="n">toCapabilityType</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span><span class="p">,</span> <span class="n">with</span> <span class="nv">block</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLCapabilityUpdateHandler">SDLCapabilityUpdateHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSObjectProtocol</span><span class="p">?</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>type</dt>
-      <dd><p>The type of capability to subscribe to</p></dd>
-      <dt>block</dt>
-      <dd><p>The block to be called when the capability is updated</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An object that can be used to unsubscribe the block using unsubscribeFromCapabilityType:withObserver: by passing it in the observer callback, or nil if the manager can&rsquo;t attempt the subscription for some reason (such as the app being in HMI_NONE and the type is not DISPLAYS).</p>
-  </div>
   
   <h3 id="section--subscribeToCapabilityType:withUpdateHandler:">
       -subscribeToCapabilityType:withUpdateHandler:
