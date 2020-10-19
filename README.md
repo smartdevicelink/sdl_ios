@@ -75,16 +75,9 @@ To run tests, you will need to bootstrap the Carthage testing libraries. To do s
 Then, from the root project directory, run:
 ```bash
 carthage bootstrap --platform ios
-cd ../
 ```
 
-At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, run:
-
-```bash
-xcodebuild build-for-testing -project SmartDeviceLink-iOS.xcodeproj -destination platform=iOS Simulator,name=iPhone 11,OS=13.5 -scheme SmartDeviceLink
-
-set -o pipefail && xcodebuild test-without-building -project SmartDeviceLink-iOS.xcodeproj -destination platform=iOS Simulator,name=iPhone 11,OS=13.5 -scheme SmartDeviceLink -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES
-```
+At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, see the [YAML document](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/workflows/test.yml) describing those tests. You can also check the [previously run CI tests](https://github.com/smartdevicelink/sdl_ios/actions?query=workflow%3A%22SmartDeviceLink+Tests%22) to see how they're currently being run.
 
 ##### Lock Screen Screenshot Tests
 We run some additional tests using [iOSSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case). These tests generate the lock screen view controller and compare it to generated screenshots. By default, the generated screenshots use the iPhone 11 simulator and if you run the unit tests on that simulator, the tests should pass by default.
