@@ -93,6 +93,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.keypressMode).to(equal(testMode));
         expect(testStruct.limitedCharacterList).to(equal(testLimitedCharacterList));
         expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testStruct.autoCompleteText).to(beNil());
+#pragma clang diagnostic pop
     });
     
     it(@"Should return nil if not set", ^ {
@@ -103,6 +107,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.keypressMode).to(beNil());
         expect(testStruct.limitedCharacterList).to(beNil());
         expect(testStruct.autoCompleteList).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testStruct.autoCompleteText).to(beNil());
+#pragma clang diagnostic pop
     });
 });
 
