@@ -61,6 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
     return useWhiteIcon ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
 
+- (UIModalPresentationStyle)modalPresentationStyle {
+    return UIModalPresentationFullScreen;
+}
+
 #pragma mark - Setters
 
 - (void)setAppIcon:(UIImage *_Nullable)appIcon {
