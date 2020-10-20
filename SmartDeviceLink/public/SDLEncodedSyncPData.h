@@ -16,6 +16,12 @@ __deprecated
 @interface SDLEncodedSyncPData : SDLRPCRequest
 
 /**
+ * @param data - data
+ * @return A SDLEncodedSyncPData object
+ */
+- (instancetype)initWithData:(NSArray<NSString *> *)data;
+
+/**
  *  Contains base64 encoded string of SyncP packets.
  *
  *  Required, Array length 1 - 100, String length 1 - 1,000,000

@@ -19,6 +19,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetAppServiceData : SDLRPCRequest
 
 /**
+ * @param serviceType - serviceType
+ * @return A SDLGetAppServiceData object
+ */
+- (instancetype)initWithServiceType:(NSString *)serviceType;
+
+/**
+ * @param serviceType - serviceType
+ * @param subscribe - subscribe
+ * @return A SDLGetAppServiceData object
+ */
+- (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(nullable NSNumber<SDLBool> *)subscribe;
+
+/**
  *  Convenience init for service type.
  *
  *  @param serviceType      The app service type

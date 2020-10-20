@@ -42,12 +42,25 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLCancelInteraction : SDLRPCRequest
 
 /**
+ * @param functionIDParam - @(functionIDParam)
+ * @return A SDLCancelInteraction object
+ */
+- (instancetype)initWithFunctionIDParam:(UInt32)functionIDParam;
+
+/**
+ * @param functionIDParam - @(functionIDParam)
+ * @param cancelID - cancelID
+ * @return A SDLCancelInteraction object
+ */
+- (instancetype)initWithFunctionIDParam:(UInt32)functionIDParam cancelID:(nullable NSNumber<SDLInt> *)cancelID;
+
+/**
  Convenience init for dismissing the currently presented modal view (either an alert, slider, scrollable message, or perform interation).
 
  @param functionID The ID of the type of modal view to dismiss
  @return A SDLCancelInteraction object
  */
-- (instancetype)initWithFunctionID:(UInt32)functionID;
+- (instancetype)initWithFunctionID:(UInt32)functionID __deprecated_msg("Use initWithFunctionIDParam: instead");
 
 /**
  Convenience init for dismissing a specific view.
@@ -56,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param cancelID The ID of the specific interaction to dismiss
  @return A SDLCancelInteraction object
  */
-- (instancetype)initWithFunctionID:(UInt32)functionID cancelID:(UInt32)cancelID;
+- (instancetype)initWithFunctionID:(UInt32)functionID cancelID:(UInt32)cancelID __deprecated_msg("Use initWithFunctionIDParam:cancelID: instead");
 
 /**
  Convenience init for dismissing an alert.

@@ -29,13 +29,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord NS_DESIGNATED_INITIALIZER;
 
 /**
+ * @param updatedAppServiceRecord - updatedAppServiceRecord
+ * @param updateReason - updateReason
+ * @return A SDLAppServiceCapability object
+ */
+- (instancetype)initWithUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord updateReason:(nullable SDLServiceUpdateReason)updateReason;
+
+/**
  *  Convenience init for all parameters.
  *
  *  @param updateReason             Update reason for this service record
  *  @param updatedAppServiceRecord  Service record for a specific app service provider
  *  @return                         A SDLAppServiceCapability object
  */
-- (instancetype)initWithUpdateReason:(nullable SDLServiceUpdateReason)updateReason updatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord;
+- (instancetype)initWithUpdateReason:(nullable SDLServiceUpdateReason)updateReason updatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord __deprecated_msg("Use initWithUpdatedAppServiceRecord: instead");
 
 /**
  *  Only included in `OnSystemCapbilityUpdated`. Update reason for this service record.

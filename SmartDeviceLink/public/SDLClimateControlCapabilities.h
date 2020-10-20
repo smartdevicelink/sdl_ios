@@ -1,6 +1,34 @@
-//
-//  SDLClimateControlCapabilities.h
-//
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCMessage.h"
 #import "SDLDefrostZone.h"
@@ -13,6 +41,36 @@ NS_ASSUME_NONNULL_BEGIN
  * Contains information about a climate control module's capabilities.
  */
 @interface SDLClimateControlCapabilities : SDLRPCStruct
+
+/**
+ * @param moduleName - moduleName
+ * @return A SDLClimateControlCapabilities object
+ */
+- (instancetype)initWithModuleName:(NSString *)moduleName;
+
+/**
+ * @param moduleName - moduleName
+ * @param moduleInfo - moduleInfo
+ * @param currentTemperatureAvailable - currentTemperatureAvailable
+ * @param fanSpeedAvailable - fanSpeedAvailable
+ * @param desiredTemperatureAvailable - desiredTemperatureAvailable
+ * @param acEnableAvailable - acEnableAvailable
+ * @param acMaxEnableAvailable - acMaxEnableAvailable
+ * @param circulateAirEnableAvailable - circulateAirEnableAvailable
+ * @param autoModeEnableAvailable - autoModeEnableAvailable
+ * @param dualModeEnableAvailable - dualModeEnableAvailable
+ * @param defrostZoneAvailable - defrostZoneAvailable
+ * @param defrostZone - defrostZone
+ * @param ventilationModeAvailable - ventilationModeAvailable
+ * @param ventilationMode - ventilationMode
+ * @param heatedSteeringWheelAvailable - heatedSteeringWheelAvailable
+ * @param heatedWindshieldAvailable - heatedWindshieldAvailable
+ * @param heatedRearWindowAvailable - heatedRearWindowAvailable
+ * @param heatedMirrorsAvailable - heatedMirrorsAvailable
+ * @param climateEnableAvailable - climateEnableAvailable
+ * @return A SDLClimateControlCapabilities object
+ */
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo currentTemperatureAvailable:(nullable NSNumber<SDLBool> *)currentTemperatureAvailable fanSpeedAvailable:(nullable NSNumber<SDLBool> *)fanSpeedAvailable desiredTemperatureAvailable:(nullable NSNumber<SDLBool> *)desiredTemperatureAvailable acEnableAvailable:(nullable NSNumber<SDLBool> *)acEnableAvailable acMaxEnableAvailable:(nullable NSNumber<SDLBool> *)acMaxEnableAvailable circulateAirEnableAvailable:(nullable NSNumber<SDLBool> *)circulateAirEnableAvailable autoModeEnableAvailable:(nullable NSNumber<SDLBool> *)autoModeEnableAvailable dualModeEnableAvailable:(nullable NSNumber<SDLBool> *)dualModeEnableAvailable defrostZoneAvailable:(nullable NSNumber<SDLBool> *)defrostZoneAvailable defrostZone:(nullable NSArray<SDLDefrostZone> *)defrostZone ventilationModeAvailable:(nullable NSNumber<SDLBool> *)ventilationModeAvailable ventilationMode:(nullable NSArray<SDLVentilationMode> *)ventilationMode heatedSteeringWheelAvailable:(nullable NSNumber<SDLBool> *)heatedSteeringWheelAvailable heatedWindshieldAvailable:(nullable NSNumber<SDLBool> *)heatedWindshieldAvailable heatedRearWindowAvailable:(nullable NSNumber<SDLBool> *)heatedRearWindowAvailable heatedMirrorsAvailable:(nullable NSNumber<SDLBool> *)heatedMirrorsAvailable climateEnableAvailable:(nullable NSNumber<SDLBool> *)climateEnableAvailable;
 
 /// Convenience init to describe the climate control capabilities with all properities.
 ///
@@ -33,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param heatedMirrorsAvailable Availability of the control (enable/disable) of heated Mirrors
 /// @param climateEnableAvailable Availability of the control of enable/disable climate control
 /// @return An SDLClimateControlCapabilities object
-- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable heatedSteeringWheelAvailable:(BOOL)heatedSteeringWheelAvailable heatedWindshieldAvailable:(BOOL)heatedWindshieldAvailable heatedRearWindowAvailable:(BOOL)heatedRearWindowAvailable heatedMirrorsAvailable:(BOOL)heatedMirrorsAvailable climateEnableAvailable:(BOOL)climateEnableAvailable;
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable heatedSteeringWheelAvailable:(BOOL)heatedSteeringWheelAvailable heatedWindshieldAvailable:(BOOL)heatedWindshieldAvailable heatedRearWindowAvailable:(BOOL)heatedRearWindowAvailable heatedMirrorsAvailable:(BOOL)heatedMirrorsAvailable climateEnableAvailable:(BOOL)climateEnableAvailable __deprecated_msg("Use initWithModuleName: instead");
 
 /**
  * The short friendly name of the climate control module.

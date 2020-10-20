@@ -1,4 +1,34 @@
-//  SDLAddCommand.h
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 
 #import "SDLRPCRequest.h"
@@ -8,6 +38,8 @@
 
 @class SDLImage;
 @class SDLMenuParams;
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  This class will add a command to the application's Command Menu
@@ -25,10 +57,22 @@
  *  @since SDL 1.0
  *  @see SDLDeleteCommand, SDLAddSubMenu, SDLDeleteSubMenu
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SDLAddCommand : SDLRPCRequest
+
+/**
+ * @param cmdID - @(cmdID)
+ * @return A SDLAddCommand object
+ */
+- (instancetype)initWithCmdID:(UInt32)cmdID;
+
+/**
+ * @param cmdID - @(cmdID)
+ * @param menuParams - menuParams
+ * @param vrCommands - vrCommands
+ * @param cmdIcon - cmdIcon
+ * @return A SDLAddCommand object
+ */
+- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon;
 
 /**
  *  Constructs a SDLAddCommand with a handler callback when an event occurs.
@@ -37,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A SDLAddCommand object
  */
-- (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdId: instead");
 
 /**
  *  Convenience init for creating a voice command menu item.
@@ -49,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param handler     Called when the VR system recognizes a phrase in `vrCommands`
  *  @return            A SDLAddCommand object
  */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdId: instead");
 
 /**
  *  Convenience init for creating a menu item with text.
@@ -60,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param handler     Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
  *  @return            A SDLAddCommand object
  */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdId: instead");
 
 /**
  *  Convenience init for creating a menu item with text and a custom icon.
@@ -78,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param handler         Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
  *  @return                A SDLAddCommand object
  */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(nullable NSString *)iconValue iconType:(nullable SDLImageType)iconType iconIsTemplate:(BOOL)iconIsTemplate handler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(nullable NSString *)iconValue iconType:(nullable SDLImageType)iconType iconIsTemplate:(BOOL)iconIsTemplate handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdId: instead");
 
 /**
  *  Convenience init for creating a menu item with text and a custom icon.
@@ -94,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param handler     Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
  *  @return            A SDLAddCommand object
  */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position icon:(nullable SDLImage *)icon handler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position icon:(nullable SDLImage *)icon handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdId: instead");
 
 /**
  *  A handler that will let you know when the button you created is subscribed.

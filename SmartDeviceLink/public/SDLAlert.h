@@ -1,6 +1,34 @@
-//  SDLAlert.h
-//
-
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCRequest.h"
 
@@ -20,6 +48,21 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAlert : SDLRPCRequest
 
 /**
+ * @param alertText1 - alertText1
+ * @param alertText2 - alertText2
+ * @param alertText3 - alertText3
+ * @param ttsChunks - ttsChunks
+ * @param duration - duration
+ * @param playTone - playTone
+ * @param progressIndicator - progressIndicator
+ * @param softButtons - softButtons
+ * @param alertIcon - alertIcon
+ * @param cancelID - cancelID
+ * @return A SDLAlert object
+ */
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(nullable NSNumber<SDLUInt> *)duration playTone:(nullable NSNumber<SDLBool> *)playTone progressIndicator:(nullable NSNumber<SDLBool> *)progressIndicator softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons alertIcon:(nullable SDLImage *)alertIcon cancelID:(nullable NSNumber<SDLInt> *)cancelID;
+
+/**
  Convenience init for creating a modal view with text, buttons, and optional sound cues.
 
  @param alertText The string to be displayed in the first field of the display
@@ -30,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param icon Image to be displayed in the alert
  @return An SDLAlert object
  */
-- (instancetype)initWithAlertText:(nullable NSString *)alertText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID;
+- (instancetype)initWithAlertText:(nullable NSString *)alertText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID  __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:ttsChunks:duration:playTone:progressIndicator:softButtons:alertIcon:cancelID: instead");
 
 /**
  Convenience init for creating a sound-only alert.
@@ -39,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playTone Whether the alert tone should be played before the TTS is spoken
  @return An SDLAlert object
  */
-- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone;
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone  __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:ttsChunks:duration:playTone:progressIndicator:softButtons:alertIcon:cancelID: instead");
 
 /**
  Convenience init for setting all alert parameters.
@@ -56,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param icon Image to be displayed in the alert
  @return An SDLAlert object
  */
-- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(UInt16)duration progressIndicator:(BOOL)progressIndicator alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID;
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(UInt16)duration progressIndicator:(BOOL)progressIndicator alertIcon:(nullable SDLImage *)icon cancelID:(UInt32)cancelID  __deprecated_msg("Use initWithAlertText1:alertText2:alertText3:ttsChunks:duration:playTone:progressIndicator:softButtons:alertIcon:cancelID: instead");
 
 /**
  The first line of the alert text field.
