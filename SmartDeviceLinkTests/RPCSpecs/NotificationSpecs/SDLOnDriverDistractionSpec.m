@@ -15,25 +15,33 @@
 
 QuickSpecBegin(SDLOnDriverDistractionSpec)
 
+NSString *testDismissalWarning = @"I got an apple.";
+
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnDriverDistraction *testNotification = [[SDLOnDriverDistraction alloc] init];
         
         testNotification.state = SDLDriverDistractionStateOn;
         testNotification.lockScreenDismissalEnabled = @1;
-        
+        testNotification.lockScreenDismissalWarning = testDismissalWarning;
+
         expect(testNotification.state).to(equal(SDLDriverDistractionStateOn));
         expect(testNotification.lockScreenDismissalEnabled).to(beTrue());
+        expect(testNotification.lockScreenDismissalWarning).to(equal(testDismissalWarning));
         
         testNotification.lockScreenDismissalEnabled = @0;
         expect(testNotification.lockScreenDismissalEnabled).to(beFalse());
+
+        testNotification.lockScreenDismissalWarning = nil;
+        expect(testNotification.lockScreenDismissalWarning).to(beNil());
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary *dictOn = [@{SDLRPCParameterNameNotification:
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameState:SDLDriverDistractionStateOn,
-                                                   SDLRPCParameterNameLockScreenDismissalEnabled: @1},
+                                                   SDLRPCParameterNameLockScreenDismissalEnabled: @1,
+                                                   SDLRPCParameterNameLockScreenDismissalWarning: testDismissalWarning},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}} mutableCopy];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -42,6 +50,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testNotificationOn.state).to(equal(SDLDriverDistractionStateOn));
         expect(testNotificationOn.lockScreenDismissalEnabled).to(beTrue());
+        expect(testNotificationOn.lockScreenDismissalWarning).to(equal(testDismissalWarning));
         
         NSMutableDictionary *dictOff = [@{SDLRPCParameterNameNotification:
                                            @{SDLRPCParameterNameParameters:
@@ -61,6 +70,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLOnDriverDistraction *testNotification = [[SDLOnDriverDistraction alloc] init];
         
         expect(testNotification.state).to(beNil());
+        expect(testNotification.lockScreenDismissalWarning).to(beNil());
         expect(testNotification.lockScreenDismissalEnabled).to(beNil());
         expect(testNotification.lockScreenDismissalEnabled).to(beFalsy());
     });
