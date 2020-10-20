@@ -28,21 +28,15 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.state).to(equal(SDLDriverDistractionStateOn));
         expect(testNotification.lockScreenDismissalEnabled).to(beTrue());
         expect(testNotification.lockScreenDismissalWarning).to(equal(testDismissalWarning));
-        
-        testNotification.lockScreenDismissalEnabled = @0;
-        expect(testNotification.lockScreenDismissalEnabled).to(beFalse());
-
-        testNotification.lockScreenDismissalWarning = nil;
-        expect(testNotification.lockScreenDismissalWarning).to(beNil());
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary *dictOn = [@{SDLRPCParameterNameNotification:
+        NSDictionary *dictOn = @{SDLRPCParameterNameNotification:
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameState:SDLDriverDistractionStateOn,
                                                    SDLRPCParameterNameLockScreenDismissalEnabled: @1,
                                                    SDLRPCParameterNameLockScreenDismissalWarning: testDismissalWarning},
-                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}} mutableCopy];
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnDriverDistraction* testNotificationOn = [[SDLOnDriverDistraction alloc] initWithDictionary:dictOn];
@@ -52,11 +46,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotificationOn.lockScreenDismissalEnabled).to(beTrue());
         expect(testNotificationOn.lockScreenDismissalWarning).to(equal(testDismissalWarning));
         
-        NSMutableDictionary *dictOff = [@{SDLRPCParameterNameNotification:
+        NSDictionary *dictOff = @{SDLRPCParameterNameNotification:
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameState:SDLDriverDistractionStateOff,
                                                    SDLRPCParameterNameLockScreenDismissalEnabled: @0},
-                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}} mutableCopy];
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnDriverDistraction}};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnDriverDistraction *testNotificationOff = [[SDLOnDriverDistraction alloc] initWithDictionary:dictOff];
