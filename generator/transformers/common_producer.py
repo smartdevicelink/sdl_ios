@@ -205,6 +205,7 @@ class InterfaceProducerCommon(ABC):
         :param item: named tuple with initiator (constructor) parameter
         :return: wrapped parameter
         """
+        # print('Item: ' + str(item))
         if re.match(r'\w*Int\d+|BOOL|float|double', item.type_native) or \
                 any(map(lambda n: item.type_native.lower() in n.lower(), self.struct_names)):
             return '@({})'.format(item.constructor_argument)
@@ -358,21 +359,31 @@ class InterfaceProducerCommon(ABC):
         :return: self.param_named with prepared params
         """
         param.name = self.replace_keywords(param.name)
+        # print('Default value is: ' + str(param.default_value))
+        if isinstance(param.param_type, (Enum)) and param.default_value:
+            print('Default value is: ' + str(param.default_value.name))
+            print('Default value is: ' + str(param.default_value.internal_name))
+            print('Name is: ', str(param.name))
+        
         data = {'constructor_argument_override': None,
                 'description': self.extract_description(param.description),
                 'since': param.since,
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong',
+                # 'default_value': param.default_value,
                 'history' : param.history }
         if isinstance(param.param_type, (Integer, Float, String, Array)):
-            data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
+            data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict(), param.name))
+
+        if isinstance(param.param_type, (Enum)) and param.default_value:
+            data['description'].append(param.default_value.value)
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
         return self.param_named(**data)
 
-    def create_param_descriptor(self, param_type, parameterItems):
+    def create_param_descriptor(self, param_type, parameterItems, paramName):
         """
         Recursively creates a documentation string of all the descriptors for a parameter (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
         :param param_type: param_type from the initial Model
@@ -387,9 +398,12 @@ class InterfaceProducerCommon(ABC):
                     # Skip adding documentation for the data type if it is a struct or enum. This is unnecessary as each enum or struct has its own documentation
                     continue
                 else:
-                    self.create_param_descriptor(value, parameterItems)
+                    self.create_param_descriptor(value, parameterItems, paramName)
             else:
-                if key == 'default_value' and value is None:
+                if key == 'default_value' and paramName == 'systemAction':
+                    parameterDescriptor = self.update_param_descriptor(key)
+                    parameterItems[parameterDescriptor] = value
+                elif key == 'default_value' and value is None:
                     # Do not add the default_value key/value pair unless it has been explicitly set in the RPC Spec
                     continue
                 else:
