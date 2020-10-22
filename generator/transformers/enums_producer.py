@@ -60,7 +60,6 @@ class EnumsProducer(InterfaceProducerCommon):
                 'description': self.extract_description(param.description),
                 'since': param.since,
                 'history': param.history,
-                # 'default_value': param.default_value,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False}
         name = None
         if re.match(r'^[A-Z]{1,2}\d|\d[A-Z]{1,2}$', param.name):
@@ -81,11 +80,4 @@ class EnumsProducer(InterfaceProducerCommon):
         if any(re.search(r'^(sdl)?({}){}$'.format(item_name.casefold(), name.casefold()), k) for k in self.key_words):
             name = self._replace_keywords(name)
         data['name'] = name
-        # try:
-        #     param.default_value
-        # except NameError:
-        #     data['default_value'] = None
-        # else:
-        #     data['default_value'] = param.default_value
-
         return self.param_named(**data)
