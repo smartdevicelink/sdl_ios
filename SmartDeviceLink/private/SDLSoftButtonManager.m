@@ -125,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
     for (NSUInteger i = 0; i < softButtonObjects.count; i++) {
         NSString *buttonName = softButtonObjects[i].name;
-        softButtonObjects[i].buttonId = i * 100;
+        softButtonObjects[i].buttonId = (i * 100) ? (i * 100) : (i + 1);
         for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
