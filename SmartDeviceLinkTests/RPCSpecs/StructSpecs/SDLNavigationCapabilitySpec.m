@@ -25,10 +25,7 @@ describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSDictionary *dict = @{SDLRPCParameterNameGetWayPointsEnabled: @(YES),
                                        SDLRPCParameterNameSendLocationEnabled: @(YES)};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLNavigationCapability* testStruct = [[SDLNavigationCapability alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.getWayPointsEnabled).to(equal(YES));
         expect(testStruct.sendLocationEnabled).to(equal(YES));

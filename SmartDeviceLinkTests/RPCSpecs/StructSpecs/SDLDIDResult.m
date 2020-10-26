@@ -32,10 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameResultCode:SDLVehicleDataResultCodeDataNotSubscribed,
                                        SDLRPCParameterNameDIDLocation:@300,
                                        SDLRPCParameterNameData:@"gertwydhty4235tdhedt4tue"} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDIDResult* testStruct = [[SDLDIDResult alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDataNotSubscribed));
         expect(testStruct.didLocation).to(equal(@300));

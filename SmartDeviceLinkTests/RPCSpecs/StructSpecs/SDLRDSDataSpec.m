@@ -39,10 +39,7 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameTrafficAnnouncementIdentification : @YES,
                                        SDLRPCParameterNameRegion : @"reg"} mutableCopy];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRDSData* testStruct = [[SDLRDSData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.programService).to(equal(@"ps"));
         expect(testStruct.radioText).to(equal(@"rt"));

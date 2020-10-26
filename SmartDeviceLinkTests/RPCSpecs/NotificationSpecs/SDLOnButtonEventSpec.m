@@ -37,10 +37,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameButtonEventMode:SDLButtonEventModeButtonDown,
                                                    SDLRPCParameterNameCustomButtonId:@4252},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnButtonEvent}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnButtonEvent* testNotification = [[SDLOnButtonEvent alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.buttonName).to(equal(SDLButtonNameCustomButton));
         expect(testNotification.buttonEventMode).to(equal(SDLButtonEventModeButtonDown));

@@ -44,10 +44,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSDictionary *dict = @{SDLRPCParameterNameName: testName,
                                SDLRPCParameterNameImageTypeSupported: testFileTypes,
                                SDLRPCParameterNameImageResolution: testResolution};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLImageField* testStruct = [[SDLImageField alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.name).to(equal(testName));
         expect(testStruct.imageTypeSupported).to(equal(testFileTypes));

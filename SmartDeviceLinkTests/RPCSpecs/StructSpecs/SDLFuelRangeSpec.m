@@ -50,10 +50,7 @@ describe(@"getter/setter tests", ^{
                             SDLRPCParameterNameCapacity:@(fuelCapacity),
                             SDLRPCParameterNameCapacityUnit:capacityUnit
                                 };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLFuelRange *testStruct = [[SDLFuelRange alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         it(@"expect all properties to be set properly", ^{
             expect(testStruct.type).to(equal(type));

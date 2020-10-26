@@ -41,10 +41,7 @@ describe(@"Initialization Tests", ^ {
                                                @{SDLRPCParameterNameParameters:
                                                      @{SDLRPCParameterNameHapticRectData:@[testStruct]},
                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameSendHapticData}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
             expect(testRequest.hapticRectData).to(equal(@[testStruct]));
         });

@@ -29,10 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameSpaceAvailable:@1248,
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNamePutFile}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPutFileResponse* testResponse = [[SDLPutFileResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.spaceAvailable).to(equal(@1248));
     });

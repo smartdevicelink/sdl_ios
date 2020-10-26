@@ -49,10 +49,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameSoftButtonCapabilities:[@[softButton] mutableCopy],
                                                                    SDLRPCParameterNamePresetBankCapabilities:presetBank},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetDisplayLayout}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSetDisplayLayoutResponse* testResponse = [[SDLSetDisplayLayoutResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.displayCapabilities).to(equal(info));
         expect(testResponse.buttonCapabilities).to(equal([@[button] mutableCopy]));

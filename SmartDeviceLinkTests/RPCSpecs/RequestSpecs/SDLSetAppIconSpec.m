@@ -28,10 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameSyncFileName:@"A/File/Name"},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetAppIcon}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSetAppIcon* testRequest = [[SDLSetAppIcon alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.syncFileName).to(equal(@"A/File/Name"));
     });

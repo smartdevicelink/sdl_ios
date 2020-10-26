@@ -32,10 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameLowBeamsOn:@YES,
                                        SDLRPCParameterNameHighBeamsOn:@NO,
                                        SDLRPCParameterNameAmbientLightSensorStatus:SDLAmbientLightStatusTwilight3} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLHeadLampStatus* testStruct = [[SDLHeadLampStatus alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.lowBeamsOn).to(equal(@YES));
         expect(testStruct.highBeamsOn).to(equal(@NO));

@@ -49,10 +49,7 @@ describe(@"Getter/Setter Tests", ^{
                                                SDLRPCParameterNameHeight:@3000
                                                }
                                        } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLHapticRect *testStruct = [[SDLHapticRect alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.id).to(equal(@2));
         expect(testStruct.rect.x).to(equal(@20));

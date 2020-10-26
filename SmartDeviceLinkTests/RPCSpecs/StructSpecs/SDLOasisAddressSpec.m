@@ -47,10 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameSubLocality:@"18",
                                        SDLRPCParameterNameThoroughfare:@"Candy Lane",
                                        SDLRPCParameterNameSubThoroughfare:@"123"} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOasisAddress* testStruct = [[SDLOasisAddress alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.countryName).to(equal(@"United States"));
         expect(testStruct.countryCode).to(equal(@"US"));

@@ -32,10 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLRPCParameterNameEvent:SDLKeyboardEventSubmitted,
                                                    SDLRPCParameterNameData:@"qwertyg"},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnKeyboardInput}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnKeyboardInput* testNotification = [[SDLOnKeyboardInput alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.event).to(equal(SDLKeyboardEventSubmitted));
         expect(testNotification.data).to(equal(@"qwertyg"));
