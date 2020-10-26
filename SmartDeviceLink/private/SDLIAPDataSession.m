@@ -127,14 +127,14 @@ NS_ASSUME_NONNULL_BEGIN
         IOSStreamCancelRetryCount += 1;
 
         // this will retry the block after the given number of seconds.
+        __weak typeof(self) weakSelf = self;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(IOStreamThreadRetryWaitSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self sdl_cancelStreamThreadWithCompletionHandler:disconnectCompletionHandler];
+            [weakSelf sdl_cancelStreamThreadWithCompletionHandler:disconnectCompletionHandler];
         });
     } else {
+        [self.sendDataQueue removeAllObjects];
         self.ioStreamThread = nil;
     }
-
-    [self.sendDataQueue removeAllObjects];
 
     NSNotification *sdlEASessionClosed = [[NSNotification alloc] initWithName:SDLEASessionCompleteNotification object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:sdlEASessionClosed];
@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSAssert(![NSThread.currentThread.name isEqualToString:IOStreamThreadName], @"%@ must not be called from the ioStreamThread!", NSStringFromSelector(_cmd));
 
     // early return if the thread has finished already
-    if (self.ioStreamThread.finished) {
+    if (self.ioStreamThread == nil || self.ioStreamThread.isFinished) {
         SDLLogD(@"ioStreamThread already finished execution.");
         return YES;
     }
