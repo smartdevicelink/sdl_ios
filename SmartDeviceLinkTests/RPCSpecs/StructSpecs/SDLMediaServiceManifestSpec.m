@@ -23,10 +23,7 @@ describe(@"Getter/Setter Tests", ^{
 
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLMediaServiceManifest *testStruct = [[SDLMediaServiceManifest alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         // no parameters to test
         expect(testStruct).toNot(beNil());

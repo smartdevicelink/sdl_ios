@@ -31,10 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                 @{SDLRPCParameterNameECUHeader:@404,
                                                                   SDLRPCParameterNameDTC:[@[@"FFFF", @"FFFE", @"FFFD"] mutableCopy]},
                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetDTCs}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetDTCsResponse* testResponse = [[SDLGetDTCsResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.ecuHeader).to(equal(@404));
         expect(testResponse.dtc).to(equal([@[@"FFFF", @"FFFE", @"FFFD"] mutableCopy]));

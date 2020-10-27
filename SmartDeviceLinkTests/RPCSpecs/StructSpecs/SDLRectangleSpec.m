@@ -37,10 +37,7 @@ describe(@"Rectangle Tests", ^{
                                 SDLRPCParameterNameY:@200,
                                 SDLRPCParameterNameWidth:@2000,
                                 SDLRPCParameterNameHeight:@3000};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRectangle *testStruct = [[SDLRectangle alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.x).to(equal(@20));
         expect(testStruct.y).to(equal(@200));

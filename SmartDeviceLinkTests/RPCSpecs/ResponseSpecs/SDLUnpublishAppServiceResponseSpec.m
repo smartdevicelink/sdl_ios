@@ -25,10 +25,7 @@ describe(@"Getter/Setter Tests", ^{
         NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
                                        SDLRPCParameterNameParameters:@{},
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnpublishAppService}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnpublishAppServiceResponse *testResponse = [[SDLUnpublishAppServiceResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.name).to(equal(SDLRPCFunctionNameUnpublishAppService));
         expect(testResponse.parameters).to(beEmpty());

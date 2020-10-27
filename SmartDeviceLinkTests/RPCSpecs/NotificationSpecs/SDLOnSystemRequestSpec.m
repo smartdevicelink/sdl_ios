@@ -48,10 +48,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameOffset:@2532678684,
                                                    SDLRPCParameterNameLength:@50000000000},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnSystemRequest}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.requestSubType).to(equal(@"subtype"));

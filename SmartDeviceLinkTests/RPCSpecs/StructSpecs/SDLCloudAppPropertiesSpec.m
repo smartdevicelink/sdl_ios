@@ -63,10 +63,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameHybridAppPreference:testHybridAppPreference,
                                SDLRPCParameterNameEndpoint:testEndpoint
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.nicknames).to(equal(testNicknames));
         expect(testStruct.appID).to(equal(testAppID));

@@ -151,10 +151,7 @@ describe(@"getter/setter tests", ^{
                                                             },
                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         it(@"expect all properties to be set properly", ^{
             expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));

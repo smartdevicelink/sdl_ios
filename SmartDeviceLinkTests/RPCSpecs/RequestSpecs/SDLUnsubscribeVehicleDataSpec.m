@@ -143,10 +143,7 @@ describe(@"getter/setter tests", ^{
                                                             SDLRPCParameterNameWiperStatus:@YES,
                                                          },
                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         it(@"expect all properties to be set properly", ^{
             expect(testRequest.accPedalPosition).to(equal(@YES));

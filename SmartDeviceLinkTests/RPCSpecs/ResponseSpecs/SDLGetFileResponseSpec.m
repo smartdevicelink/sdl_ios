@@ -48,10 +48,7 @@ describe(@"Getter/Setter Tests", ^{
                                                SDLRPCParameterNameCRC:@(testCrc)
                                                },
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetFile}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetFileResponse *testResponse = [[SDLGetFileResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testResponse.offset).to(equal(testOffset));
         expect(testResponse.length).to(equal(testLength));

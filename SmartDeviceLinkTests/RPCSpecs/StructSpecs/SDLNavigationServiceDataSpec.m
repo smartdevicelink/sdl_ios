@@ -73,10 +73,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameNextInstructionDistanceScale:@(testNextInstructionDistanceScale),
                                SDLRPCParameterNamePrompt:testPrompt
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLNavigationServiceData *testStruct = [[SDLNavigationServiceData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.timestamp).to(equal(testTimestamp));
         expect(testStruct.origin).to(equal(testOrigin));

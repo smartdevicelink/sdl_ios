@@ -33,10 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
                                SDLRPCParameterNameTPMS: SDLTPMSLow,
                                SDLRPCParameterNamePressure: @67.78
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSingleTireStatus* testStruct = [[SDLSingleTireStatus alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.status).to(equal(SDLComponentVolumeStatusLow));
         expect(testStruct.monitoringSystemStatus).to(equal(SDLTPMSLow));

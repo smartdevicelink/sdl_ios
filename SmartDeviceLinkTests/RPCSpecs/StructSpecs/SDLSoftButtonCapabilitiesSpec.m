@@ -33,10 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameLongPressAvailable:@YES,
                                                        SDLRPCParameterNameUpDownAvailable:@NO,
                                                        SDLRPCParameterNameImageSupported:@NO} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSoftButtonCapabilities* testStruct = [[SDLSoftButtonCapabilities alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.shortPressAvailable).to(equal(@NO));
         expect(testStruct.longPressAvailable).to(equal(@YES));

@@ -30,10 +30,7 @@ describe(@"Initialization tests", ^{
         NSDictionary *dict = @{SDLRPCParameterNameParentID:@(testParentId),
                                        SDLRPCParameterNamePosition:@(testPosition),
                                        SDLRPCParameterNameMenuName:testMenuName};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLMenuParams* testStruct = [[SDLMenuParams alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.parentID).to(equal(@(testParentId)));
         expect(testStruct.position).to(equal(@(testPosition)));
