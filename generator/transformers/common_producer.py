@@ -366,15 +366,15 @@ class InterfaceProducerCommon(ABC):
                 'modifier': 'strong',
                 'history' : param.history }
 
-        parameter_docs = OrderedDict()
+        parameterItems = OrderedDict()
         if isinstance(param.param_type, (Integer, Float, String, Array)):
-            self.create_param_type_descriptor(param.param_type, parameter_docs)
+            self.create_param_type_descriptor(param.param_type, parameterItems)
 
         if isinstance(param.param_type, (Boolean, Enum)):
-            self.create_param_default_value_descriptor(param, parameter_docs)
+            self.create_param_default_value_descriptor(param, parameterItems)
 
-        if len(parameter_docs) > 0:
-            data['description'].append(json.dumps(parameter_docs, sort_keys=False))
+        if len(parameterItems) > 0:
+            data['description'].append(json.dumps(parameterItems, sort_keys=False))
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
