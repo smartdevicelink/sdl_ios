@@ -382,7 +382,7 @@ class InterfaceProducerCommon(ABC):
 
     def create_param_type_descriptor(self, param_type, parameterItems):
         """
-        Gets all the descriptors for a parameter (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
+        Gets all the descriptors for a parameter to be used in parameter's documentation (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
         :param param_type: param_type from the initial Model
         :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
         :return: All the descriptor params
@@ -408,7 +408,7 @@ class InterfaceProducerCommon(ABC):
 
     def create_param_default_value_descriptor(self, param, parameterItems):
         """
-        Creates a documentation string of the default value for a parameter from the param. (HAX: The default_value for Enums and Bools are not saved to the param's param_type model for some reason)
+        Extracts the default value for a parameter to be used in parameter's documentation (HAX: The default_value for Ints and Floats is save to both the param and param_type but is only saved to the param_type for Enums and Bools for some reason)
         :param param: param from the initial Model
         :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
         :return: All the descriptor params
