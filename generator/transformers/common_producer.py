@@ -368,20 +368,37 @@ class InterfaceProducerCommon(ABC):
         if isinstance(param.param_type, (Integer, Float, String, Array)):
             data['description'].append(self.create_param_type_descriptor(param.param_type, OrderedDict()))
 
-        if isinstance(param.param_type, (Enum)) and param.default_value:
-            print('\nEnum default value whoo ' + param.default_value.name)
-            for key, value in param.__dict__.items():
-                print('key ' + key + ', value ' + str(value))
-            for key, value in param.param_type.__dict__.items():
-                print('\tparam_type key ' + key + ', value ' + str(value))
+        if isinstance(param.param_type, (Integer, Float, Boolean, Enum)):
+            param_descriptor = self.create_param_default_value_descriptor(param, OrderedDict())
+            if param_descriptor:
+                data['description'].append(param_descriptor)
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
         return self.param_named(**data)
 
+    def create_param_default_value_descriptor(self, param, parameterItems):
+        """
+        Creates a documentation string of the default value for a parameter.
+        :param param: param from the initial Model
+        :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
+        :return: All the descriptor params from param_type concatenated into one string
+        """
+        if param.default_value is None:
+            return ""
+
+        if isinstance(param.param_type, Enum):
+            print('adding Enum default_value ' + str(param.default_value) + ' for: ' + param.name)
+            parameterItems['default_value'] = param.default_value.name
+        else:
+            print('adding Non-Enum default_value ' + str(param.default_value) + ' for: ' + param.name)
+            parameterItems['default_value'] = param.default_value
+
+        return json.dumps(parameterItems, sort_keys=False)
+
     def create_param_type_descriptor(self, param_type, parameterItems):
         """
-        Recursively creates a documentation string of all the descriptors for a parameter (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
+        Recursively creates a documentation string of all the descriptors for a parameter type (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
         :param param_type: param_type from the initial Model
         :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
         :return: All the descriptor params from param_type concatenated into one string
