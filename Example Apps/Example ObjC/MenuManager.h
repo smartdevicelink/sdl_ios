@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SDLPredefinedLayout.h"
 
 @class PerformInteractionManager;
 @class SDLManager;
@@ -17,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MenuManager : NSObject
 
++ (SDLPredefinedLayout)getCurrentTemplate;
++ (void)setCurrentTemplate:(SDLPredefinedLayout)var;
 + (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager;
 + (NSArray<SDLVoiceCommand *> *)allVoiceMenuItemsWithManager:(SDLManager *)manager;
 

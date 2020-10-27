@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
-    [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:nil];
+    [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:[MenuManager getCurrentTemplate]] withCompletionHandler:nil];
 
     [self sdlex_updateScreen];
 }

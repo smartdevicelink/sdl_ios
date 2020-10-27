@@ -252,7 +252,7 @@ private extension ProxyManager {
     func showInitialData() {
         guard sdlManager.hmiLevel == .full else { return }
 
-        sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia), withCompletionHandler: nil)
+        sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: MenuManager.currentTemplate), withCompletionHandler: nil)
 
         updateScreen()
     }

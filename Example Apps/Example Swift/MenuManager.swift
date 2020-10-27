@@ -11,6 +11,9 @@ import SmartDeviceLink
 import SmartDeviceLinkSwift
 
 class MenuManager: NSObject {
+
+    static var currentTemplate : SDLPredefinedLayout = .nonMedia
+
     /// Creates and returns the menu items
     ///
     /// - Parameter manager: The SDL Manager
@@ -124,7 +127,8 @@ private extension MenuManager {
         /// Non-Media
         let submenuTitleNonMedia = "Non - Media (Default)"
         submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
-            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia)) { err in
+            currentTemplate = .nonMedia
+            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: currentTemplate)) { err in
                 if err != nil {
                     AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
                     return
@@ -135,7 +139,8 @@ private extension MenuManager {
         /// Graphic with Text
         let submenuTitleGraphicText = "Graphic With Text"
         submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
-            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .graphicWithText)) { err in
+            currentTemplate = .graphicWithText
+            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: currentTemplate)) { err in
                 if err != nil {
                     AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
                     return

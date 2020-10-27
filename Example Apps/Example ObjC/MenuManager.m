@@ -14,10 +14,21 @@
 #import "RPCPermissionsManager.h"
 #import "SmartDeviceLink.h"
 #import "VehicleDataManager.h"
+#import "SDLPredefinedLayout.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+static SDLPredefinedLayout currentTemplate;
+
 @implementation MenuManager
+
++ (SDLPredefinedLayout)getCurrentTemplate {
+    return currentTemplate;
+}
+
++ (void)setCurrentTemplate:(SDLPredefinedLayout)var {
+    currentTemplate = var;
+}
 
 + (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager {
     return @[[self sdlex_menuCellSpeakNameWithManager:manager],
@@ -97,7 +108,8 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Non - Media
     SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:^(NSError * _Nullable error) {
+        currentTemplate = SDLPredefinedLayoutNonMedia;
+        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout: [self getCurrentTemplate]] withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
                 [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
             }
@@ -107,7 +119,8 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Graphic With Text
     SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText] withCompletionHandler:^(NSError * _Nullable error) {
+        currentTemplate = SDLPredefinedLayoutGraphicWithText;
+        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout: [self getCurrentTemplate]] withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
                 [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
             }
