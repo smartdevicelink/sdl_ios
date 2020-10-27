@@ -365,40 +365,24 @@ class InterfaceProducerCommon(ABC):
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong',
                 'history' : param.history }
-        if isinstance(param.param_type, (Integer, Float, String, Array)):
-            data['description'].append(self.create_param_type_descriptor(param.param_type, OrderedDict()))
 
-        if isinstance(param.param_type, (Integer, Float, Boolean, Enum)):
-            param_descriptor = self.create_param_default_value_descriptor(param, OrderedDict())
-            if param_descriptor:
-                data['description'].append(param_descriptor)
+        parameter_docs = OrderedDict()
+        if isinstance(param.param_type, (Integer, Float, String, Array)):
+            self.create_param_type_descriptor(param.param_type, parameter_docs)
+
+        if isinstance(param.param_type, (Boolean, Enum)):
+            self.create_param_default_value_descriptor(param, parameter_docs)
+
+        if len(parameter_docs) > 0:
+            data['description'].append(json.dumps(parameter_docs, sort_keys=False))
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
         return self.param_named(**data)
 
-    def create_param_default_value_descriptor(self, param, parameterItems):
-        """
-        Creates a documentation string of the default value for a parameter.
-        :param param: param from the initial Model
-        :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
-        :return: All the descriptor params from param_type concatenated into one string
-        """
-        if param.default_value is None:
-            return ""
-
-        if isinstance(param.param_type, Enum):
-            print('adding Enum default_value ' + str(param.default_value) + ' for: ' + param.name)
-            parameterItems['default_value'] = param.default_value.name
-        else:
-            print('adding Non-Enum default_value ' + str(param.default_value) + ' for: ' + param.name)
-            parameterItems['default_value'] = param.default_value
-
-        return json.dumps(parameterItems, sort_keys=False)
-
     def create_param_type_descriptor(self, param_type, parameterItems):
         """
-        Recursively creates a documentation string of all the descriptors for a parameter type (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
+        Gets all the descriptors for a parameter (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
         :param param_type: param_type from the initial Model
         :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
         :return: All the descriptor params from param_type concatenated into one string
@@ -420,7 +404,24 @@ class InterfaceProducerCommon(ABC):
                     parameterDescriptor = self.update_param_descriptor(key)
                     parameterItems[parameterDescriptor] = value
 
-        return json.dumps(parameterItems, sort_keys=False)
+        return parameterItems
+
+    def create_param_default_value_descriptor(self, param, parameterItems):
+        """
+        Creates a documentation string of the default value for a parameter from the param. (HAX: The default_value for Enums and Bools are not saved to the param's param_type model for some reason)
+        :param param: param from the initial Model
+        :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
+        :return: All the descriptor params from param_type concatenated into one string
+        """
+        if param.default_value is None:
+            return parameterItems
+
+        if isinstance(param.param_type, Enum):
+            parameterItems['default_value'] = param.default_value.name
+        else:
+            parameterItems['default_value'] = param.default_value
+
+        return parameterItems
 
     def update_param_descriptor(self, parameterName):
         """
