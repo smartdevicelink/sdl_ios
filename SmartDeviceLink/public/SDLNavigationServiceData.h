@@ -1,10 +1,34 @@
-//
-//  SDLNavigationServiceData.h
-//  SmartDeviceLink
-//
-//  Created by Nicole on 2/22/19.
-//  Copyright © 2019 smartdevicelink. All rights reserved.
-//
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCMessage.h"
 
@@ -20,12 +44,32 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLNavigationServiceData : SDLRPCStruct
 
 /**
+ * @param timeStamp - timeStamp
+ * @return A SDLNavigationServiceData object
+ */
+- (instancetype)initWithTimeStamp:(SDLDateTime *)timeStamp;
+
+/**
+ * @param timeStamp - timeStamp
+ * @param origin - origin
+ * @param destination - destination
+ * @param destinationETA - destinationETA
+ * @param instructions - instructions
+ * @param nextInstructionETA - nextInstructionETA
+ * @param nextInstructionDistance - nextInstructionDistance
+ * @param nextInstructionDistanceScale - nextInstructionDistanceScale
+ * @param prompt - prompt
+ * @return A SDLNavigationServiceData object
+ */
+- (instancetype)initWithTimeStamp:(SDLDateTime *)timeStamp origin:(nullable SDLLocationDetails *)origin destination:(nullable SDLLocationDetails *)destination destinationETA:(nullable SDLDateTime *)destinationETA instructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions nextInstructionETA:(nullable SDLDateTime *)nextInstructionETA nextInstructionDistance:(nullable NSNumber<SDLFloat> *)nextInstructionDistance nextInstructionDistanceScale:(nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale prompt:(nullable NSString *)prompt;
+
+/**
  *  Convenience init for required parameters.
  *
  *  @param timestamp    Timestamp of when the data was generated
  *  @return             A SDLNavigationServiceData object
  */
-- (instancetype)initWithTimestamp:(SDLDateTime *)timestamp NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTimestamp:(SDLDateTime *)timestamp __deprecated_msg("Use initWithTimeStamp: instead");
 
 /**
  *  Convenience init for all parameters.
@@ -41,14 +85,19 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param prompt                       This is a prompt message that should be conveyed to the user through either display or voice (TTS)
  *  @return                             A SDLNavigationServiceData object
  */
-- (instancetype)initWithTimestamp:(SDLDateTime *)timestamp origin:(nullable SDLLocationDetails *)origin destination:(nullable SDLLocationDetails *)destination destinationETA:(nullable SDLDateTime *)destinationETA instructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions nextInstructionETA:(nullable SDLDateTime *)nextInstructionETA nextInstructionDistance:(float)nextInstructionDistance nextInstructionDistanceScale:(float)nextInstructionDistanceScale prompt:(nullable NSString *)prompt;
+- (instancetype)initWithTimestamp:(SDLDateTime *)timestamp origin:(nullable SDLLocationDetails *)origin destination:(nullable SDLLocationDetails *)destination destinationETA:(nullable SDLDateTime *)destinationETA instructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions nextInstructionETA:(nullable SDLDateTime *)nextInstructionETA nextInstructionDistance:(float)nextInstructionDistance nextInstructionDistanceScale:(float)nextInstructionDistanceScale prompt:(nullable NSString *)prompt __deprecated_msg("Use initWithTimeStamp:origin:destination:destinationETA:instructions:nextInstructionETA:nextInstructionDistance:nextInstructionDistanceScale:prompt: instead");
+
+/**
+ * This is the timestamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary.
+ */
+@property (strong, nonatomic) SDLDateTime *timeStamp;
 
 /**
  *  This is the timestamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary.
  *
  *  SDLDateTime, Required
  */
-@property (strong, nonatomic) SDLDateTime *timestamp;
+@property (strong, nonatomic) SDLDateTime *timestamp __deprecated_msg("Use timeStamp instead");
 
 /**
  *  The start location.

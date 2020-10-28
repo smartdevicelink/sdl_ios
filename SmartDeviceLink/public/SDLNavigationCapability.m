@@ -15,6 +15,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLNavigationCapability
 
+- (instancetype)initWithSendLocationEnabled:(nullable NSNumber<SDLBool> *)sendLocationEnabled getWayPointsEnabled:(nullable NSNumber<SDLBool> *)getWayPointsEnabled {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.sendLocationEnabled = sendLocationEnabled;
+    self.getWayPointsEnabled = getWayPointsEnabled;
+    return self;
+}
+
 - (instancetype)initWithSendLocation:(BOOL)sendLocationEnabled waypoints:(BOOL)waypointsEnabled {
     self = [self init];
     if (!self) {
