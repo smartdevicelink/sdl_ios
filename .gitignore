@@ -16,7 +16,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-Output/
+output/
 
 # OS generated files #
 ######################
