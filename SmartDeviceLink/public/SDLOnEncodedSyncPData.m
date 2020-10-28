@@ -23,6 +23,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithData:(NSArray<NSString *> *)data {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.data = data;
+    return self;
+}
+
+- (instancetype)initWithData:(NSArray<NSString *> *)data uRL:(nullable NSString *)URL timeout:(nullable NSNumber<SDLUInt> *)Timeout {
+    self = [self initWithData:data];
+    if (!self) {
+        return nil;
+    }
+    self.URL = URL;
+    self.Timeout = Timeout;
+    return self;
+}
+
 - (void)setData:(NSArray<NSString *> *)data {
     [self.parameters sdl_setObject:data forName:SDLRPCParameterNameData];
 }

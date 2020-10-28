@@ -20,6 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithState:(SDLTBTState)state {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.state = state;
+    return self;
+}
+
 - (void)setState:(SDLTBTState)state {
     [self.parameters sdl_setObject:state forName:SDLRPCParameterNameState];
 }

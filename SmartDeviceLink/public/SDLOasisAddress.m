@@ -10,6 +10,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOasisAddress
 
+- (instancetype)initWithCountryName:(nullable NSString *)countryName countryCode:(nullable NSString *)countryCode postalCode:(nullable NSString *)postalCode administrativeArea:(nullable NSString *)administrativeArea subAdministrativeArea:(nullable NSString *)subAdministrativeArea locality:(nullable NSString *)locality subLocality:(nullable NSString *)subLocality thoroughfare:(nullable NSString *)thoroughfare subThoroughfare:(nullable NSString *)subThoroughfare {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.countryName = countryName;
+    self.countryCode = countryCode;
+    self.postalCode = postalCode;
+    self.administrativeArea = administrativeArea;
+    self.subAdministrativeArea = subAdministrativeArea;
+    self.locality = locality;
+    self.subLocality = subLocality;
+    self.thoroughfare = thoroughfare;
+    self.subThoroughfare = subThoroughfare;
+    return self;
+}
+
 - (instancetype)initWithSubThoroughfare:(nullable NSString *)subThoroughfare thoroughfare:(nullable NSString *)thoroughfare locality:(nullable NSString *)locality administrativeArea:(nullable NSString *)administrativeArea postalCode:(nullable NSString *)postalCode countryCode:(nullable NSString *)countryCode {
     return [self initWithSubThoroughfare:subThoroughfare thoroughfare:thoroughfare locality:locality administrativeArea:administrativeArea postalCode:postalCode countryCode:countryCode countryName:nil subAdministrativeArea:nil subLocality:nil];
 }

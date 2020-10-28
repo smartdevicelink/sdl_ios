@@ -21,6 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithHashID:(NSString *)hashID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.hashID = hashID;
+    return self;
+}
+
 - (void)setHashID:(NSString *)hashID {
     [self.parameters sdl_setObject:hashID forName:SDLRPCParameterNameHashId];
 }

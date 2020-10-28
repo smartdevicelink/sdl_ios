@@ -20,6 +20,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithRequestType:(SDLRequestType)requestType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.requestType = requestType;
+    return self;
+}
+
+- (instancetype)initWithRequestType:(SDLRequestType)requestType requestSubType:(nullable NSString *)requestSubType url:(nullable NSString *)url timeout:(nullable NSNumber<SDLUInt> *)timeout fileType:(nullable SDLFileType)fileType offset:(nullable NSNumber<SDLUInt> *)offset length:(nullable NSNumber<SDLUInt> *)length {
+    self = [self initWithRequestType:requestType];
+    if (!self) {
+        return nil;
+    }
+    self.requestSubType = requestSubType;
+    self.url = url;
+    self.timeout = timeout;
+    self.fileType = fileType;
+    self.offset = offset;
+    self.length = length;
+    return self;
+}
+
 - (void)setRequestType:(SDLRequestType)requestType {
     [self.parameters sdl_setObject:requestType forName:SDLRPCParameterNameRequestType];
 }

@@ -23,6 +23,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithHmiLevel:(SDLHMILevel)hmiLevel audioStreamingState:(SDLAudioStreamingState)audioStreamingState systemContext:(SDLSystemContext)systemContext {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.hmiLevel = hmiLevel;
+    self.audioStreamingState = audioStreamingState;
+    self.systemContext = systemContext;
+    return self;
+}
+
+- (instancetype)initWithHmiLevel:(SDLHMILevel)hmiLevel audioStreamingState:(SDLAudioStreamingState)audioStreamingState systemContext:(SDLSystemContext)systemContext videoStreamingState:(nullable SDLVideoStreamingState)videoStreamingState windowID:(nullable NSNumber<SDLInt> *)windowID {
+    self = [self initWithHmiLevel:hmiLevel audioStreamingState:audioStreamingState systemContext:systemContext];
+    if (!self) {
+        return nil;
+    }
+    self.videoStreamingState = videoStreamingState;
+    self.windowID = windowID;
+    return self;
+}
+
 - (instancetype)initWithHMILevel:(SDLHMILevel)hmiLevel systemContext:(SDLSystemContext)systemContext audioStreamingState:(SDLAudioStreamingState)audioStreamingState videoStreamingState:(nullable SDLVideoStreamingState)videoStreamingState windowID:(nullable NSNumber<SDLUInt> *)windowID {
     self = [self init];
     if (!self) { return nil; }

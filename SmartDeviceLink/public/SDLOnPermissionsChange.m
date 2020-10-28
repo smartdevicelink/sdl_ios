@@ -21,6 +21,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithPermissionItem:(NSArray<SDLPermissionItem *> *)permissionItem {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.permissionItem = permissionItem;
+    return self;
+}
+
+- (instancetype)initWithPermissionItem:(NSArray<SDLPermissionItem *> *)permissionItem requireEncryption:(nullable NSNumber<SDLBool> *)requireEncryption {
+    self = [self initWithPermissionItem:permissionItem];
+    if (!self) {
+        return nil;
+    }
+    self.requireEncryption = requireEncryption;
+    return self;
+}
+
 - (void)setPermissionItem:(NSArray<SDLPermissionItem *> *)permissionItem {
     [self.parameters sdl_setObject:permissionItem forName:SDLRPCParameterNamePermissionItem];
 }

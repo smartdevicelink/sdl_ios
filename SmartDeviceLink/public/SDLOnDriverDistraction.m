@@ -21,6 +21,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithState:(SDLDriverDistractionState)state {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.state = state;
+    return self;
+}
+
+- (instancetype)initWithState:(SDLDriverDistractionState)state lockScreenDismissalEnabled:(nullable NSNumber<SDLBool> *)lockScreenDismissalEnabled lockScreenDismissalWarning:(nullable NSString *)lockScreenDismissalWarning {
+    self = [self initWithState:state];
+    if (!self) {
+        return nil;
+    }
+    self.lockScreenDismissalEnabled = lockScreenDismissalEnabled;
+    self.lockScreenDismissalWarning = lockScreenDismissalWarning;
+    return self;
+}
+
 - (void)setState:(SDLDriverDistractionState)state {
     [self.parameters sdl_setObject:state forName:SDLRPCParameterNameState];
 }

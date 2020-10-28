@@ -21,6 +21,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithAllocatedModules:(NSArray<SDLModuleData *> *)allocatedModules freeModules:(NSArray<SDLModuleData *> *)freeModules {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.allocatedModules = allocatedModules;
+    self.freeModules = freeModules;
+    return self;
+}
+
+- (instancetype)initWithAllocatedModules:(NSArray<SDLModuleData *> *)allocatedModules freeModules:(NSArray<SDLModuleData *> *)freeModules allowed:(nullable NSNumber<SDLBool> *)allowed {
+    self = [self initWithAllocatedModules:allocatedModules freeModules:freeModules];
+    if (!self) {
+        return nil;
+    }
+    self.allowed = allowed;
+    return self;
+}
+
 - (nullable NSNumber<SDLBool> *)allowed {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameAllowed ofClass:NSNumber.class error:nil];
 }
