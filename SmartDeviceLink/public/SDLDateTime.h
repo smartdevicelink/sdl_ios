@@ -145,18 +145,34 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSNumber<SDLInt> *year;
 
 /**
+ * Time zone offset in Hours wrt UTC.
+ * {"num_min_value": -12, "num_max_value": 14, "default_value": 0}
+ *
+ * @added in SmartDeviceLink 4.1.0
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *tz_hour;
+
+/**
+ * Time zone offset in Min wrt UTC.
+ * {"num_min_value": 0, "num_max_value": 59, "default_value": 0}
+ *
+ * @added in SmartDeviceLink 4.1.0
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *tz_minute;
+
+/**
  * Time zone offset in Min with regard to UTC
  *
  * Optional, Integer 0 - 59
  */
-@property (copy, nonatomic) NSNumber<SDLInt> *timezoneMinuteOffset;
+@property (copy, nonatomic) NSNumber<SDLInt> *timezoneMinuteOffset __deprecated_msg("Use tz_minute instead");
 
 /**
  * Time zone offset in Hours with regard to UTC
  *
  * Optional, Integer -12 - 14
  */
-@property (copy, nonatomic) NSNumber<SDLInt> *timezoneHourOffset;
+@property (copy, nonatomic) NSNumber<SDLInt> *timezoneHourOffset __deprecated_msg("Use tz_hour instead");
 
 @end
 

@@ -21,6 +21,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithWindowID:(UInt32)windowID windowName:(NSString *)windowName type:(SDLWindowType)type {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.windowID = @(windowID);
+    self.windowName = windowName;
+    self.type = type;
+    return self;
+}
+
+- (instancetype)initWithWindowID:(UInt32)windowID windowName:(NSString *)windowName type:(SDLWindowType)type associatedServiceType:(nullable NSString *)associatedServiceType duplicateUpdatesFromWindowID:(nullable NSNumber<SDLInt> *)duplicateUpdatesFromWindowID {
+    self = [self initWithWindowID:windowID windowName:windowName type:type];
+    if (!self) {
+        return nil;
+    }
+    self.associatedServiceType = associatedServiceType;
+    self.duplicateUpdatesFromWindowID = duplicateUpdatesFromWindowID;
+    return self;
+}
+
 - (instancetype)initWithId:(NSUInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType {
     self = [self init];
     if (!self) {

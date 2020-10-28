@@ -11,6 +11,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLChoice
 
+- (instancetype)initWithChoiceID:(UInt16)choiceID menuName:(NSString *)menuName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.choiceID = @(choiceID);
+    self.menuName = menuName;
+    return self;
+}
+
+- (instancetype)initWithChoiceID:(UInt16)choiceID menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryImage:(nullable SDLImage *)secondaryImage {
+    self = [self initWithChoiceID:choiceID menuName:menuName];
+    if (!self) {
+        return nil;
+    }
+    self.vrCommands = vrCommands;
+    self.image = image;
+    self.secondaryText = secondaryText;
+    self.tertiaryText = tertiaryText;
+    self.secondaryImage = secondaryImage;
+    return self;
+}
+
 - (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText {
     self = [self initWithId:choiceId menuName:menuName vrCommands:vrCommands];
     if (!self) {

@@ -21,6 +21,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithWayPoints:(nullable NSArray<SDLLocationDetails *> *)wayPoints {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.wayPoints = wayPoints;
+    return self;
+}
+
+- (void)setWayPoints:(nullable NSArray<SDLLocationDetails *> *)wayPoints {
+    [self.parameters sdl_setObject:wayPoints forName:SDLRPCParameterNameWayPoints];
+}
+
+- (nullable NSArray<SDLLocationDetails *> *)wayPoints {
+    return [self.parameters sdl_objectsForName:SDLRPCParameterNameWayPoints ofClass:SDLLocationDetails.class error:nil];
+}
+
 - (void)setWaypoints:(nullable NSArray<SDLLocationDetails *> *)waypoints {
     [self.parameters sdl_setObject:waypoints forName:SDLRPCParameterNameWayPoints];
 }

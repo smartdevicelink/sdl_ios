@@ -58,11 +58,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An SDLDeleteFile object
 - (instancetype)initWithFileName:(NSString *)fileName __deprecated_msg("Use initWithSdlFileName: instead");
 
+
+/**
+ * File reference name.
+ * {"string_min_length": 1, "string_max_length": 500}
+ */
+@property (strong, nonatomic) NSString *sdlFileName;
+
 /**
  * a file reference name
  * @discussion a String value representing a file reference name
  */
-@property (strong, nonatomic) NSString *syncFileName;
+@property (strong, nonatomic) NSString *syncFileName __deprecated_msg("Use sdlFileName instead");
 
 @end
 

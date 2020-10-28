@@ -66,11 +66,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithNameParam:(SDLButtonName)nameParam shortPressAvailable:(BOOL)shortPressAvailable longPressAvailable:(BOOL)longPressAvailable upDownAvailable:(BOOL)upDownAvailable moduleInfo:(nullable SDLModuleInfo *)moduleInfo;
 
 /**
+ * The name of the button. See ButtonName.
+ */
+@property (strong, nonatomic) SDLButtonName nameParam;
+
+/**
  * The name of the SDL HMI button.
 
  Required
  */
-@property (strong, nonatomic) SDLButtonName name;
+@property (strong, nonatomic) SDLButtonName name __deprecated_msg("Use nameParam instead");
 
 /**
  * A NSNumber value indicates whether the button supports a SHORT press

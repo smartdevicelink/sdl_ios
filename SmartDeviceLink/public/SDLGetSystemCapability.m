@@ -26,6 +26,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSystemCapabilityType:(SDLSystemCapabilityType)systemCapabilityType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.systemCapabilityType = systemCapabilityType;
+    return self;
+}
+
+- (instancetype)initWithSystemCapabilityType:(SDLSystemCapabilityType)systemCapabilityType subscribe:(nullable NSNumber<SDLBool> *)subscribe {
+    self = [self initWithSystemCapabilityType:systemCapabilityType];
+    if (!self) {
+        return nil;
+    }
+    self.subscribe = subscribe;
+    return self;
+}
+
 - (instancetype)initWithType:(SDLSystemCapabilityType)type {
     self = [self init];
     if (!self) {

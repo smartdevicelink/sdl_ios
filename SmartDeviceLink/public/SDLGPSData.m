@@ -10,6 +10,41 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGPSData
 
+- (instancetype)initWithLongitudeDegrees:(float)longitudeDegrees latitudeDegrees:(float)latitudeDegrees {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.longitudeDegrees = @(longitudeDegrees);
+    self.latitudeDegrees = @(latitudeDegrees);
+    return self;
+}
+
+- (instancetype)initWithLongitudeDegrees:(float)longitudeDegrees latitudeDegrees:(float)latitudeDegrees utcYear:(nullable NSNumber<SDLUInt> *)utcYear utcMonth:(nullable NSNumber<SDLUInt> *)utcMonth utcDay:(nullable NSNumber<SDLUInt> *)utcDay utcHours:(nullable NSNumber<SDLUInt> *)utcHours utcMinutes:(nullable NSNumber<SDLUInt> *)utcMinutes utcSeconds:(nullable NSNumber<SDLUInt> *)utcSeconds compassDirection:(nullable SDLCompassDirection)compassDirection pdop:(nullable NSNumber<SDLFloat> *)pdop hdop:(nullable NSNumber<SDLFloat> *)hdop vdop:(nullable NSNumber<SDLFloat> *)vdop actual:(nullable NSNumber<SDLBool> *)actual satellites:(nullable NSNumber<SDLUInt> *)satellites dimension:(nullable SDLDimension)dimension altitude:(nullable NSNumber<SDLFloat> *)altitude heading:(nullable NSNumber<SDLFloat> *)heading speed:(nullable NSNumber<SDLFloat> *)speed shifted:(nullable NSNumber<SDLBool> *)shifted {
+    self = [self initWithLongitudeDegrees:longitudeDegrees latitudeDegrees:latitudeDegrees];
+    if (!self) {
+        return nil;
+    }
+    self.utcYear = utcYear;
+    self.utcMonth = utcMonth;
+    self.utcDay = utcDay;
+    self.utcHours = utcHours;
+    self.utcMinutes = utcMinutes;
+    self.utcSeconds = utcSeconds;
+    self.compassDirection = compassDirection;
+    self.pdop = pdop;
+    self.hdop = hdop;
+    self.vdop = vdop;
+    self.actual = actual;
+    self.satellites = satellites;
+    self.dimension = dimension;
+    self.altitude = altitude;
+    self.heading = heading;
+    self.speed = speed;
+    self.shifted = shifted;
+    return self;
+}
+
 - (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
     [self.store sdl_setObject:longitudeDegrees forName:SDLRPCParameterNameLongitudeDegrees];
 }

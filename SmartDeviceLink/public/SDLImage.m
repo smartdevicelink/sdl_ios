@@ -10,6 +10,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLImage
 
+- (instancetype)initWithValueParam:(NSString *)valueParam imageType:(SDLImageType)imageType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.valueParam = valueParam;
+    self.imageType = imageType;
+    return self;
+}
+
+- (instancetype)initWithValueParam:(NSString *)valueParam imageType:(SDLImageType)imageType isTemplate:(nullable NSNumber<SDLBool> *)isTemplate {
+    self = [self initWithValueParam:valueParam imageType:imageType];
+    if (!self) {
+        return nil;
+    }
+    self.isTemplate = isTemplate;
+    return self;
+}
+
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType isTemplate:(BOOL)isTemplate {
     self = [self init];
     if (!self) {
@@ -34,10 +53,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithStaticIconName:(SDLStaticIconName)staticIconName {
-    return [self initWithName:staticIconName ofType:SDLImageTypeStatic isTemplate:YES];
+    return [self initWithValueParam:staticIconName imageType:SDLImageTypeStatic isTemplate:@YES];
 }
 
 #pragma mark - Getters / Setters
+
+- (void)setValueParam:(NSString *)valueParam {
+    [self.store sdl_setObject:valueParam forName:SDLRPCParameterNameValue];
+}
+
+- (NSString *)valueParam {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameValue ofClass:NSString.class error:&error];
+}
 
 - (void)setValue:(NSString *)value {
     [self.store sdl_setObject:value forName:SDLRPCParameterNameValue];

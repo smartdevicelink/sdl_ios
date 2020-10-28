@@ -23,6 +23,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(nullable NSNumber<SDLUInt> *)duration playTone:(nullable NSNumber<SDLBool> *)playTone progressIndicator:(nullable NSNumber<SDLBool> *)progressIndicator softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons alertIcon:(nullable SDLImage *)alertIcon cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.alertText1 = alertText1;
+    self.alertText2 = alertText2;
+    self.alertText3 = alertText3;
+    self.ttsChunks = ttsChunks;
+    self.duration = duration;
+    self.playTone = playTone;
+    self.progressIndicator = progressIndicator;
+    self.softButtons = softButtons;
+    self.alertIcon = alertIcon;
+    self.cancelID = cancelID;
+    return self;
+}
+
 - (instancetype)initWithAlertText:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons playTone:(BOOL)playTone ttsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks duration:(nullable NSNumber *)duration progressIndicator:(BOOL)progressIndicator alertIcon:(nullable SDLImage *)icon cancelID:(nullable NSNumber *)cancelID {
     self = [self init];
     if (!self) {

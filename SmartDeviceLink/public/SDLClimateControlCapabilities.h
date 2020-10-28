@@ -112,6 +112,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *fanSpeedAvailable;
 
 /**
+ * Availability of the reading of current temperature. True: Available, False: Not Available, Not present: Not Available.
+ *
+ * @added in SmartDeviceLink 5.0.0
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *currentTemperatureAvailable;
+
+/**
  * Availability of the control of desired temperature.
  * True: Available, False: Not Available, Not present: Not Available.
  *

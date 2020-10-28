@@ -17,31 +17,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLImage : SDLRPCStruct
 
 /**
- *  Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.
- *
- *  @param name        The unique name used to upload the image to SDL Core
- *  @param imageType   Describes whether the image is static or dynamic
- *  @param isTemplate  Whether or not the image is a template that can be (re)colored by the SDL HMI. Static images are templates by default.
- *  @return            A SDLImage object
+ * @param valueParam - valueParam
+ * @param imageType - imageType
+ * @return A SDLImage object
  */
-- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType isTemplate:(BOOL)isTemplate;
+- (instancetype)initWithValueParam:(NSString *)valueParam imageType:(SDLImageType)imageType;
 
 /**
- *  Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.
- *
- *  @param name        The unique name used to upload the image to SDL Core
- *  @param isTemplate  Whether or not the image is a template that can be (re)colored by the SDL HMI
- *  @return            A SDLImage object
+ * @param valueParam - valueParam
+ * @param imageType - imageType
+ * @param isTemplate - isTemplate
+ * @return A SDLImage object
  */
-- (instancetype)initWithName:(NSString *)name isTemplate:(BOOL)isTemplate;
-
-/**
- *  Convenience init for displaying a static image. Static images are already on-board SDL Core and can be used by providing the image's value.
- *
- *  @param staticImageValue    The image value assigned to the static image
- *  @return                    A SDLImage object
- */
-- (instancetype)initWithStaticImageValue:(UInt16)staticImageValue;
+- (instancetype)initWithValueParam:(NSString *)valueParam imageType:(SDLImageType)imageType isTemplate:(nullable NSNumber<SDLBool> *)isTemplate;
 
 /**
  *  Convenience init for displaying a static image. Static images are already on-board SDL Core and can be used by providing the image's value.
@@ -52,11 +40,44 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithStaticIconName:(SDLStaticIconName)staticIconName;
 
 /**
+ *  Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.
+ *
+ *  @param name        The unique name used to upload the image to SDL Core
+ *  @param imageType   Describes whether the image is static or dynamic
+ *  @param isTemplate  Whether or not the image is a template that can be (re)colored by the SDL HMI. Static images are templates by default.
+ *  @return            A SDLImage object
+ */
+- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType isTemplate:(BOOL)isTemplate __deprecated_msg("Use initWithValueParam:imageType:isTemplate: instead");
+
+/**
+ *  Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.
+ *
+ *  @param name        The unique name used to upload the image to SDL Core
+ *  @param isTemplate  Whether or not the image is a template that can be (re)colored by the SDL HMI
+ *  @return            A SDLImage object
+ */
+- (instancetype)initWithName:(NSString *)name isTemplate:(BOOL)isTemplate __deprecated_msg("Use initWithValueParam:imageType:isTemplate: instead");
+
+/**
+ *  Convenience init for displaying a static image. Static images are already on-board SDL Core and can be used by providing the image's value.
+ *
+ *  @param staticImageValue    The image value assigned to the static image
+ *  @return                    A SDLImage object
+ */
+- (instancetype)initWithStaticImageValue:(UInt16)staticImageValue __deprecated_msg("Use initWithStaticIconName: instead");
+
+/**
+ * Either the static hex icon value or the binary image file name identifier (sent by PutFile).
+ * {"string_min_length": 0, "string_max_length": 65535}
+ */
+@property (strong, nonatomic) NSString *valueParam;
+
+/**
  *  The static hex icon value or the binary image file name identifier (sent by SDLPutFile)
  *
  *  Required, max length = 65535
  */
-@property (strong, nonatomic) NSString *value;
+@property (strong, nonatomic) NSString *value __deprecated_msg("Use valueParam instead");
 
 /**
  *  Describes whether the image is static or dynamic

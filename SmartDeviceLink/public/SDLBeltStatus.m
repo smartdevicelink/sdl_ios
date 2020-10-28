@@ -11,6 +11,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLBeltStatus
 
+- (instancetype)initWithDriverBeltDeployed:(SDLVehicleDataEventStatus)driverBeltDeployed passengerBeltDeployed:(SDLVehicleDataEventStatus)passengerBeltDeployed passengerBuckleBelted:(SDLVehicleDataEventStatus)passengerBuckleBelted driverBuckleBelted:(SDLVehicleDataEventStatus)driverBuckleBelted leftRow2BuckleBelted:(SDLVehicleDataEventStatus)leftRow2BuckleBelted passengerChildDetected:(SDLVehicleDataEventStatus)passengerChildDetected rightRow2BuckleBelted:(SDLVehicleDataEventStatus)rightRow2BuckleBelted middleRow2BuckleBelted:(SDLVehicleDataEventStatus)middleRow2BuckleBelted middleRow3BuckleBelted:(SDLVehicleDataEventStatus)middleRow3BuckleBelted leftRow3BuckleBelted:(SDLVehicleDataEventStatus)leftRow3BuckleBelted rightRow3BuckleBelted:(SDLVehicleDataEventStatus)rightRow3BuckleBelted leftRearInflatableBelted:(SDLVehicleDataEventStatus)leftRearInflatableBelted rightRearInflatableBelted:(SDLVehicleDataEventStatus)rightRearInflatableBelted middleRow1BeltDeployed:(SDLVehicleDataEventStatus)middleRow1BeltDeployed middleRow1BuckleBelted:(SDLVehicleDataEventStatus)middleRow1BuckleBelted {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.driverBeltDeployed = driverBeltDeployed;
+    self.passengerBeltDeployed = passengerBeltDeployed;
+    self.passengerBuckleBelted = passengerBuckleBelted;
+    self.driverBuckleBelted = driverBuckleBelted;
+    self.leftRow2BuckleBelted = leftRow2BuckleBelted;
+    self.passengerChildDetected = passengerChildDetected;
+    self.rightRow2BuckleBelted = rightRow2BuckleBelted;
+    self.middleRow2BuckleBelted = middleRow2BuckleBelted;
+    self.middleRow3BuckleBelted = middleRow3BuckleBelted;
+    self.leftRow3BuckleBelted = leftRow3BuckleBelted;
+    self.rightRow3BuckleBelted = rightRow3BuckleBelted;
+    self.leftRearInflatableBelted = leftRearInflatableBelted;
+    self.rightRearInflatableBelted = rightRearInflatableBelted;
+    self.middleRow1BeltDeployed = middleRow1BeltDeployed;
+    self.middleRow1BuckleBelted = middleRow1BuckleBelted;
+    return self;
+}
+
 - (void)setDriverBeltDeployed:(SDLVehicleDataEventStatus)driverBeltDeployed {
     [self.store sdl_setObject:driverBeltDeployed forName:SDLRPCParameterNameDriverBeltDeployed];
 }

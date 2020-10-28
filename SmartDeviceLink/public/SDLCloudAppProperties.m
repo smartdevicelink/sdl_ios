@@ -17,13 +17,25 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLCloudAppProperties
 
 - (instancetype)initWithAppID:(NSString *)appID {
-    self = [super init];
+    self = [self init];
     if (!self) {
         return nil;
     }
-
     self.appID = appID;
+    return self;
+}
 
+- (instancetype)initWithAppIDParam:(NSString *)appID nicknames:(nullable NSArray<NSString *> *)nicknames enabled:(nullable NSNumber<SDLBool> *)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint {
+    self = [self initWithAppID:appID];
+    if (!self) {
+        return nil;
+    }
+    self.nicknames = nicknames;
+    self.enabled = enabled;
+    self.authToken = authToken;
+    self.cloudTransportType = cloudTransportType;
+    self.hybridAppPreference = hybridAppPreference;
+    self.endpoint = endpoint;
     return self;
 }
 

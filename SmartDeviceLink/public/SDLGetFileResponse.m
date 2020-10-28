@@ -25,6 +25,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithOffsetParam:(nullable NSNumber<SDLUInt> *)offset length:(nullable NSNumber<SDLUInt> *)length fileType:(nullable SDLFileType)fileType crc:(nullable NSNumber<SDLUInt> *)crc {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.offset = offset;
+    self.length = length;
+    self.fileType = fileType;
+    self.crc = crc;
+    return self;
+}
+
 - (instancetype)initWithOffset:(UInt32)offset length:(UInt32)length fileType:(nullable SDLFileType)fileType crc:(UInt32)crc {
     self = [self init];
     if (!self) {

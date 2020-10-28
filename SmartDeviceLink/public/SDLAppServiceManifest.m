@@ -21,6 +21,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceManifest
 
+- (instancetype)initWithServiceType:(NSString *)serviceType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.serviceType = serviceType;
+    return self;
+}
+
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceName:(nullable NSString *)serviceName serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(nullable NSNumber<SDLBool> *)allowAppConsumers rpcSpecVersion:(nullable SDLMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest {
+    self = [self initWithServiceType:serviceType];
+    if (!self) {
+        return nil;
+    }
+    self.serviceName = serviceName;
+    self.serviceIcon = serviceIcon;
+    self.allowAppConsumers = allowAppConsumers;
+    self.rpcSpecVersion = rpcSpecVersion;
+    self.handledRPCs = handledRPCs;
+    self.mediaServiceManifest = mediaServiceManifest;
+    self.weatherServiceManifest = weatherServiceManifest;
+    self.navigationServiceManifest = navigationServiceManifest;
+    return self;
+}
+
 - (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType {
     self = [super init];
     if (!self) {
@@ -93,6 +118,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)allowAppConsumers {
     return [self.store sdl_objectForName:SDLRPCParameterNameAllowAppConsumers ofClass:NSNumber.class error:nil];
+}
+
+- (void)setRpcSpecVersion:(nullable SDLMsgVersion *)rpcSpecVersion {
+    [self.store sdl_setObject:rpcSpecVersion forName:SDLRPCParameterNameRPCSpecVersion];
+}
+
+- (nullable SDLMsgVersion *)rpcSpecVersion {
+    return [self.store sdl_objectForName:SDLRPCParameterNameRPCSpecVersion ofClass:SDLMsgVersion.class error:nil];
 }
 
 - (void)setMaxRPCSpecVersion:(nullable SDLMsgVersion *)maxRPCSpecVersion {

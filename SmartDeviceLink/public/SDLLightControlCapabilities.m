@@ -10,6 +10,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLightControlCapabilities
 
+- (instancetype)initWithModuleName:(NSString *)moduleName supportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleName = moduleName;
+    self.supportedLights = supportedLights;
+    return self;
+}
+
+- (instancetype)initWithModuleName:(NSString *)moduleName supportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights moduleInfo:(nullable SDLModuleInfo *)moduleInfo {
+    self = [self initWithModuleName:moduleName supportedLights:supportedLights];
+    if (!self) {
+        return nil;
+    }
+    self.moduleInfo = moduleInfo;
+    return self;
+}
+
 - (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo supportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights {
     self = [self init];
     if(!self) {

@@ -22,6 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithModuleData:(nullable SDLModuleData *)moduleData isSubscribed:(nullable NSNumber<SDLBool> *)isSubscribed {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleData = moduleData;
+    self.isSubscribed = isSubscribed;
+    return self;
+}
+
 - (void)setModuleData:(nullable SDLModuleData *)moduleData {
     [self.parameters sdl_setObject:moduleData forName:SDLRPCParameterNameModuleData];
 }

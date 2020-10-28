@@ -16,6 +16,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLModuleData
 
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleType = moduleType;
+    return self;
+}
+
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleId:(nullable NSString *)moduleId radioControlData:(nullable SDLRadioControlData *)radioControlData climateControlData:(nullable SDLClimateControlData *)climateControlData seatControlData:(nullable SDLSeatControlData *)seatControlData audioControlData:(nullable SDLAudioControlData *)audioControlData lightControlData:(nullable SDLLightControlData *)lightControlData hmiSettingsControlData:(nullable SDLHMISettingsControlData *)hmiSettingsControlData {
+    self = [self initWithModuleType:moduleType];
+    if (!self) {
+        return nil;
+    }
+    self.moduleId = moduleId;
+    self.radioControlData = radioControlData;
+    self.climateControlData = climateControlData;
+    self.seatControlData = seatControlData;
+    self.audioControlData = audioControlData;
+    self.lightControlData = lightControlData;
+    self.hmiSettingsControlData = hmiSettingsControlData;
+    return self;
+}
+
 - (instancetype)initWithRadioControlData:(SDLRadioControlData *)radioControlData  {
     self = [self init];
     if(!self){

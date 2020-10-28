@@ -31,9 +31,19 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-
     self.fileName = fileName;
+    return self;
+}
 
+- (instancetype)initWithFileNameParam:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(nullable NSNumber<SDLUInt> *)offset length:(nullable NSNumber<SDLUInt> *)length {
+    self = [self initWithFileName:fileName];
+    if (!self) {
+        return nil;
+    }
+    self.appServiceId = appServiceId;
+    self.fileType = fileType;
+    self.offset = offset;
+    self.length = length;
     return self;
 }
 
@@ -50,11 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(UInt32)offset length:(UInt32)length {
-    self = [self initWithFileName:fileName appServiceId:appServiceId fileType:fileType];
+    self = [self initWithFileName:fileName];
     if (!self) {
         return nil;
     }
 
+    self.appServiceId = appServiceId;
+    self.fileType = fileType;
     self.offset = @(offset);
     self.length = @(length);
 

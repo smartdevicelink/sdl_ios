@@ -8,6 +8,23 @@
 
 @implementation SDLDateTime
 
+- (instancetype)initWithMillisecond:(nullable NSNumber<SDLUInt> *)millisecond second:(nullable NSNumber<SDLUInt> *)second minute:(nullable NSNumber<SDLUInt> *)minute hour:(nullable NSNumber<SDLUInt> *)hour day:(nullable NSNumber<SDLUInt> *)day month:(nullable NSNumber<SDLUInt> *)month year:(nullable NSNumber<SDLInt> *)year tz_hour:(nullable NSNumber<SDLInt> *)tz_hour tz_minute:(nullable NSNumber<SDLUInt> *)tz_minute {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.millisecond = millisecond;
+    self.second = second;
+    self.minute = minute;
+    self.hour = hour;
+    self.day = day;
+    self.month = month;
+    self.year = year;
+    self.tz_hour = tz_hour;
+    self.tz_minute = tz_minute;
+    return self;
+}
+
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute {
     self = [self init];
     if (!self) {
@@ -119,6 +136,22 @@
 - (NSNumber<SDLInt> *)year {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameYear ofClass:NSNumber.class error:&error];
+}
+
+- (void)setTz_hour:(nullable NSNumber<SDLInt> *)tz_hour {
+    [self.store sdl_setObject:tz_hour forName:SDLRPCParameterNameTimezoneHourOffset];
+}
+
+- (nullable NSNumber<SDLInt> *)tz_hour {
+    return [self.store sdl_objectForName:SDLRPCParameterNameTimezoneHourOffset ofClass:NSNumber.class error:nil];
+}
+
+- (void)setTz_minute:(nullable NSNumber<SDLUInt> *)tz_minute {
+    [self.store sdl_setObject:tz_minute forName:SDLRPCParameterNameTimezoneMinuteOffset];
+}
+
+- (nullable NSNumber<SDLUInt> *)tz_minute {
+    return [self.store sdl_objectForName:SDLRPCParameterNameTimezoneMinuteOffset ofClass:NSNumber.class error:nil];
 }
 
 - (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {

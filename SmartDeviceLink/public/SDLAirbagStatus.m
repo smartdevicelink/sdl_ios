@@ -9,6 +9,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAirbagStatus
 
+- (instancetype)initWithDriverAirbagDeployed:(SDLVehicleDataEventStatus)driverAirbagDeployed driverSideAirbagDeployed:(SDLVehicleDataEventStatus)driverSideAirbagDeployed driverCurtainAirbagDeployed:(SDLVehicleDataEventStatus)driverCurtainAirbagDeployed passengerAirbagDeployed:(SDLVehicleDataEventStatus)passengerAirbagDeployed passengerCurtainAirbagDeployed:(SDLVehicleDataEventStatus)passengerCurtainAirbagDeployed driverKneeAirbagDeployed:(SDLVehicleDataEventStatus)driverKneeAirbagDeployed passengerSideAirbagDeployed:(SDLVehicleDataEventStatus)passengerSideAirbagDeployed passengerKneeAirbagDeployed:(SDLVehicleDataEventStatus)passengerKneeAirbagDeployed {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.driverAirbagDeployed = driverAirbagDeployed;
+    self.driverSideAirbagDeployed = driverSideAirbagDeployed;
+    self.driverCurtainAirbagDeployed = driverCurtainAirbagDeployed;
+    self.passengerAirbagDeployed = passengerAirbagDeployed;
+    self.passengerCurtainAirbagDeployed = passengerCurtainAirbagDeployed;
+    self.driverKneeAirbagDeployed = driverKneeAirbagDeployed;
+    self.passengerSideAirbagDeployed = passengerSideAirbagDeployed;
+    self.passengerKneeAirbagDeployed = passengerKneeAirbagDeployed;
+    return self;
+}
+
 - (void)setDriverAirbagDeployed:(SDLVehicleDataEventStatus)driverAirbagDeployed {
     [self.store sdl_setObject:driverAirbagDeployed forName:SDLRPCParameterNameDriverAirbagDeployed];
 }

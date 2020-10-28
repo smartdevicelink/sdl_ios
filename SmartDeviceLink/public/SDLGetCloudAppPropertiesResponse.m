@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithProperties:(SDLCloudAppProperties *)properties {
+- (instancetype)initWithProperties:(nullable SDLCloudAppProperties *)properties {
     self = [self init];
     if (!self) {
         return nil;

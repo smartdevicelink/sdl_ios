@@ -13,6 +13,28 @@
 
 @implementation SDLGrid
 
+- (instancetype)initWithCol:(UInt8)col row:(UInt8)row {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.col = @(col);
+    self.row = @(row);
+    return self;
+}
+
+- (instancetype)initWithCol:(UInt8)col row:(UInt8)row level:(nullable NSNumber<SDLInt> *)level colspan:(nullable NSNumber<SDLUInt> *)colspan rowspan:(nullable NSNumber<SDLUInt> *)rowspan levelspan:(nullable NSNumber<SDLUInt> *)levelspan {
+    self = [self initWithCol:col row:row];
+    if (!self) {
+        return nil;
+    }
+    self.level = level;
+    self.colspan = colspan;
+    self.rowspan = rowspan;
+    self.levelspan = levelspan;
+    return self;
+}
+
 - (void)setCol:(NSNumber<SDLInt> *)col {
     [self.store sdl_setObject:col forName:SDLRPCParameterNameCol];
 }

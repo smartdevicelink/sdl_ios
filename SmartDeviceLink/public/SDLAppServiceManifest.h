@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param serviceType The type of service that is to be offered by this app
  *  @return            A SDLAppServiceManifest object
  */
-- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType;
 
 /**
  *  Convenience init for a media service manifest.
@@ -161,11 +161,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *allowAppConsumers;
 
 /**
+ * This is the max RPC Spec version the app service understands. This is important during the RPC passthrough functionality. If not included, it is assumed the max version of the module is acceptable.
+ */
+@property (nullable, strong, nonatomic) SDLMsgVersion *rpcSpecVersion;
+
+/**
  *  This is the max RPC Spec version the app service understands. This is important during the RPC passthrough functionality. If not included, it is assumed the max version of the module is acceptable.
  *
  *  SDLMsgVersion, Optional
  */
-@property (nullable, strong, nonatomic) SDLMsgVersion *maxRPCSpecVersion;
+@property (nullable, strong, nonatomic) SDLMsgVersion *maxRPCSpecVersion __deprecated_msg("Use rpcSpecVersion instead");
 
 /**
  *  This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. See FunctionID for enum equivalent values. This parameter is an integer to allow for new function IDs to be used by apps on older versions of SDL Core.

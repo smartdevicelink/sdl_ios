@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param updatedAppServiceRecord  Service record for a specific app service provider
  *  @return                         A SDLAppServiceCapability object
  */
-- (instancetype)initWithUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord;
 
 /**
  * @param updatedAppServiceRecord - updatedAppServiceRecord

@@ -11,6 +11,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAudioPassThruCapabilities
 
+- (instancetype)initWithSamplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.samplingRate = samplingRate;
+    self.bitsPerSample = bitsPerSample;
+    self.audioType = audioType;
+    return self;
+}
+
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
     [self.store sdl_setObject:samplingRate forName:SDLRPCParameterNameSamplingRate];
 }

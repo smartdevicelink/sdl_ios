@@ -26,6 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithServiceData:(nullable SDLAppServiceData *)serviceData {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.serviceData = serviceData;
+    return self;
+}
+
 - (instancetype)initWithAppServiceData:(SDLAppServiceData *)serviceData {
     self = [self init];
     if (!self) {

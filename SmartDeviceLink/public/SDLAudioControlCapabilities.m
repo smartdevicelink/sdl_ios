@@ -9,6 +9,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAudioControlCapabilities
 
+- (instancetype)initWithModuleName:(NSString *)moduleName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleName = moduleName;
+    return self;
+}
+
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable keepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable volumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelId:(nullable NSNumber<SDLUInt> *)equalizerMaxChannelId {
+    self = [self initWithModuleName:moduleName];
+    if (!self) {
+        return nil;
+    }
+    self.moduleInfo = moduleInfo;
+    self.sourceAvailable = sourceAvailable;
+    self.keepContextAvailable = keepContextAvailable;
+    self.volumeAvailable = volumeAvailable;
+    self.equalizerAvailable = equalizerAvailable;
+    self.equalizerMaxChannelId = equalizerMaxChannelId;
+    return self;
+}
+
 - (instancetype)initWithModuleName:(NSString *)name moduleInfo:(nullable SDLModuleInfo *)moduleInfo {
     self = [self init];
     if (!self) {

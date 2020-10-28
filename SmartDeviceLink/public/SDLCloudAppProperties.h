@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param appID    The id of the cloud app
  *  @return         A SDLCloudAppProperties object
  */
-- (instancetype)initWithAppID:(NSString *)appID NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAppID:(NSString *)appID;
 
 /**
  * @param appID - appID
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param endpoint - endpoint
  * @return A SDLCloudAppProperties object
  */
-- (instancetype)initWithAppID:(NSString *)appID nicknames:(nullable NSArray<NSString *> *)nicknames enabledParam:(nullable NSNumber<SDLBool> *)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint __deprecated;
+- (instancetype)initWithAppIDParam:(NSString *)appID nicknames:(nullable NSArray<NSString *> *)nicknames enabled:(nullable NSNumber<SDLBool> *)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint __deprecated_msg("Eventually this will be replaced with an initializer without param");
 
 /**
  *  Convenience init for all parameters.
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endpoint             The websocket endpoint
  *  @return                     A SDLCloudAppProperties object
  */
-- (instancetype)initWithAppID:(NSString *)appID nicknames:(nullable NSArray<NSString *> *)nicknames enabled:(BOOL)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint __deprecated_msg("Use initWithAppID: instead");
+- (instancetype)initWithAppID:(NSString *)appID nicknames:(nullable NSArray<NSString *> *)nicknames enabled:(BOOL)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint __deprecated_msg("Eventually this will be replaced by an initializer with different parameter types");
 
 /**
  *  An array of app names a cloud app is allowed to register with. If included in a `SetCloudAppProperties` request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.

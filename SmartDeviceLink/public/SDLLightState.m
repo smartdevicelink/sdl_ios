@@ -10,6 +10,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLightState
 
+- (instancetype)initWithIdParam:(SDLLightName)idParam status:(SDLLightStatus)status {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.idParam = idParam;
+    self.status = status;
+    return self;
+}
+
+- (instancetype)initWithIdParam:(SDLLightName)idParam status:(SDLLightStatus)status density:(nullable NSNumber<SDLFloat> *)density color:(nullable SDLRGBColor *)color {
+    self = [self initWithIdParam:idParam status:status];
+    if (!self) {
+        return nil;
+    }
+    self.density = density;
+    self.color = color;
+    return self;
+}
+
 - (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status{
     self = [self init];
     if(!self) {
@@ -45,6 +65,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.color = [[SDLRGBColor alloc] initWithColor:lightColor];
 
     return self;
+}
+
+- (void)setIdParam:(SDLLightName)idParam {
+    [self.store sdl_setObject:idParam forName:SDLRPCParameterNameId];
+}
+
+- (SDLLightName)idParam {
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameId error:&error];
 }
 
 - (void)setId:(SDLLightName)id {

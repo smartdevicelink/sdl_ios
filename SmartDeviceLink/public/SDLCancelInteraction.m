@@ -50,6 +50,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithFunctionIDParam:(UInt32)functionIDParam {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.functionIDParam = @(functionIDParam);
+    return self;
+}
+
+- (instancetype)initWithFunctionIDParam:(UInt32)functionIDParam cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    self = [self initWithFunctionIDParam:functionIDParam];
+    if (!self) {
+        return nil;
+    }
+    self.cancelID = cancelID;
+    return self;
+}
 
 - (instancetype)initWithFunctionID:(UInt32)functionID {
     self = [self init];
@@ -119,6 +136,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLInt> *)cancelID {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameCancelID ofClass:NSNumber.class error:nil];
+}
+
+- (void)setFunctionIDParam:(NSNumber<SDLInt> *)functionIDParam {
+    [self.parameters sdl_setObject:functionIDParam forName:SDLRPCParameterNameFunctionID];
+}
+
+- (NSNumber<SDLInt> *)functionIDParam {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameFunctionID ofClass:NSNumber.class error:&error];
 }
 
 - (void)setFunctionID:(NSNumber<SDLInt> *)functionID {

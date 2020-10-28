@@ -21,6 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSdlFileName:(NSString *)sdlFileName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.sdlFileName = sdlFileName;
+    return self;
+}
+
 - (instancetype)initWithFileName:(NSString *)fileName {
     self = [self init];
     if (!self) {
@@ -30,6 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.syncFileName = fileName;
 
     return self;
+}
+
+- (void)setSdlFileName:(NSString *)sdlFileName {
+    [self.parameters sdl_setObject:sdlFileName forName:SDLRPCParameterNameSyncFileName];
+}
+
+- (NSString *)sdlFileName {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {

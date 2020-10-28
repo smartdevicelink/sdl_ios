@@ -82,6 +82,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSString *appVersion;
 
+/**
+ * A file reference to the icon utilized by this app (simplifies the process of setting an app icon during app registration).
+ * {"string_min_length": 1, "string_max_length": 500}
+ */
+@property (nullable, strong, nonatomic) NSString *appIcon;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -154,13 +154,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *cancelID;
 
 /**
+ * The ID of the type of interaction the developer wants to dismiss. Only values 10, (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), 26 (SliderID), and 64 (SubtleAlertID) are permitted.
+ * {"num_min_value": null, "num_max_value": null}
+ */
+@property (strong, nonatomic) NSNumber<SDLInt> *functionIDParam;
+
+/**
  The ID of the type of interaction to dismiss.
 
  The ID of the type of interaction the developer wants to dismiss. Only values 10, (PerformInteractionID), 12 (AlertID), 25 (ScrollableMessageID), 26 (SliderID), and 64 (SubtleAlertID) are permitted.
 
  Integer, Required
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *functionID;
+@property (strong, nonatomic) NSNumber<SDLInt> *functionID __deprecated_msg("Use functionIDParam instead");
 
 @end
 

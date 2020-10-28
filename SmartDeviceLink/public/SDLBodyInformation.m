@@ -13,6 +13,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLBodyInformation
 
+- (instancetype)initWithParkBrakeActive:(BOOL)parkBrakeActive ignitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus ignitionStatus:(SDLIgnitionStatus)ignitionStatus {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.parkBrakeActive = @(parkBrakeActive);
+    self.ignitionStableStatus = ignitionStableStatus;
+    self.ignitionStatus = ignitionStatus;
+    return self;
+}
+
+- (instancetype)initWithParkBrakeActive:(BOOL)parkBrakeActive ignitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus ignitionStatus:(SDLIgnitionStatus)ignitionStatus driverDoorAjar:(nullable NSNumber<SDLBool> *)driverDoorAjar passengerDoorAjar:(nullable NSNumber<SDLBool> *)passengerDoorAjar rearLeftDoorAjar:(nullable NSNumber<SDLBool> *)rearLeftDoorAjar rearRightDoorAjar:(nullable NSNumber<SDLBool> *)rearRightDoorAjar {
+    self = [self initWithParkBrakeActive:parkBrakeActive ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus];
+    if (!self) {
+        return nil;
+    }
+    self.driverDoorAjar = driverDoorAjar;
+    self.passengerDoorAjar = passengerDoorAjar;
+    self.rearLeftDoorAjar = rearLeftDoorAjar;
+    self.rearRightDoorAjar = rearRightDoorAjar;
+    return self;
+}
+
 - (void)setParkBrakeActive:(NSNumber<SDLBool> *)parkBrakeActive {
     [self.store sdl_setObject:parkBrakeActive forName:SDLRPCParameterNameParkBrakeActive];
 }

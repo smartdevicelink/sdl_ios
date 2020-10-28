@@ -20,6 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithWayPointType:(SDLWayPointType)wayPointType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.wayPointType = wayPointType;
+    return self;
+}
 
 - (instancetype)initWithType:(SDLWayPointType)type {
     self = [self init];
@@ -30,6 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.waypointType = type;
 
     return self;
+}
+
+- (void)setWayPointType:(SDLWayPointType)wayPointType {
+    [self.parameters sdl_setObject:wayPointType forName:SDLRPCParameterNameWayPointType];
+}
+
+- (SDLWayPointType)wayPointType {
+    NSError *error = nil;
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameWayPointType error:&error];
 }
 
 - (void)setWaypointType:(nullable SDLWayPointType)waypointType {

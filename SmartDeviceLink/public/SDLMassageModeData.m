@@ -9,6 +9,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMassageModeData
 
+- (instancetype)initWithMassageZone:(SDLMassageZone)massageZone massageMode:(SDLMassageMode)massageMode {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.massageZone = massageZone;
+    self.massageMode = massageMode;
+    return self;
+}
+
 - (instancetype)initWithMassageMode:(SDLMassageMode)massageMode massageZone:(SDLMassageZone)massageZone {
     self = [super init];
     if (!self) {

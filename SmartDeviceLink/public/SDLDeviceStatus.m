@@ -12,6 +12,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeviceStatus
 
+- (instancetype)initWithVoiceRecOn:(BOOL)voiceRecOn btIconOn:(BOOL)btIconOn callActive:(BOOL)callActive phoneRoaming:(BOOL)phoneRoaming textMsgAvailable:(BOOL)textMsgAvailable battLevelStatus:(SDLDeviceLevelStatus)battLevelStatus stereoAudioOutputMuted:(BOOL)stereoAudioOutputMuted monoAudioOutputMuted:(BOOL)monoAudioOutputMuted signalLevelStatus:(SDLDeviceLevelStatus)signalLevelStatus primaryAudioSource:(SDLPrimaryAudioSource)primaryAudioSource eCallEventActive:(BOOL)eCallEventActive {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.voiceRecOn = @(voiceRecOn);
+    self.btIconOn = @(btIconOn);
+    self.callActive = @(callActive);
+    self.phoneRoaming = @(phoneRoaming);
+    self.textMsgAvailable = @(textMsgAvailable);
+    self.battLevelStatus = battLevelStatus;
+    self.stereoAudioOutputMuted = @(stereoAudioOutputMuted);
+    self.monoAudioOutputMuted = @(monoAudioOutputMuted);
+    self.signalLevelStatus = signalLevelStatus;
+    self.primaryAudioSource = primaryAudioSource;
+    self.eCallEventActive = @(eCallEventActive);
+    return self;
+}
+
 - (void)setVoiceRecOn:(NSNumber<SDLBool> *)voiceRecOn {
     [self.store sdl_setObject:voiceRecOn forName:SDLRPCParameterNameVoiceRecognitionOn];
 }

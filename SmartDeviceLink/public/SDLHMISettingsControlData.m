@@ -9,6 +9,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHMISettingsControlData
 
+- (instancetype)initWithDisplayMode:(nullable SDLDisplayMode)displayMode temperatureUnit:(nullable SDLTemperatureUnit)temperatureUnit distanceUnit:(nullable SDLDistanceUnit)distanceUnit {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.displayMode = displayMode;
+    self.temperatureUnit = temperatureUnit;
+    self.distanceUnit = distanceUnit;
+    return self;
+}
+
 - (instancetype)initWithDisplaymode:(SDLDisplayMode)displayMode temperatureUnit:(SDLTemperatureUnit)temperatureUnit distanceUnit:(SDLDistanceUnit)distanceUnit {
     self = [self init];
     if(!self) {

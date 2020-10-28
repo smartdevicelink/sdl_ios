@@ -97,11 +97,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *serviceType;
 
 /**
+ * {"string_min_length": 1, "string_max_length": null}
+ */
+@property (strong, nonatomic) NSString *serviceID;
+
+/**
  *  A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.
  *
  *  String, Required
  */
-@property (strong, nonatomic) NSString *serviceId;
+@property (strong, nonatomic) NSString *serviceId __deprecated_msg("Use serviceID instead");
 
 /**
  *  The media service data.
