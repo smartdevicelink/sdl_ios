@@ -23,10 +23,12 @@ enum ProxyState {
 class ProxyManager: NSObject {
     private var sdlManager: SDLManager!
     private var buttonManager: ButtonManager!
+    private var menuManager: MenuManager!
     private var subscribeButtonManager: SubscribeButtonManager!
     private var vehicleDataManager: VehicleDataManager!
     private var performInteractionManager: PerformInteractionManager!
     private var firstHMILevelState: SDLHMILevel
+    private var currentTemplate : SDLPredefinedLayout
     weak var delegate: ProxyManagerDelegate?
 
 
@@ -34,7 +36,21 @@ class ProxyManager: NSObject {
     static let sharedManager = ProxyManager()
     private override init() {
         firstHMILevelState = .none
+        currentTemplate = .nonMedia
         super.init()
+    }
+
+    var refreshTemplateHandler: RefreshTemplateHandler {
+        return { [weak self] template in
+            let errorMessage = "Changing the template failed"
+            self?.currentTemplate = template
+            self?.sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: template)) { err in
+                if err != nil {
+                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: (self?.sdlManager)!)
+                    return
+                }
+            }
+        }
     }
 }
 
@@ -135,6 +151,7 @@ private extension ProxyManager {
             self.subscribeButtonManager = SubscribeButtonManager(sdlManager: self.sdlManager)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
+            self.menuManager = MenuManager(updateTemplate: self.refreshTemplateHandler)
 
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
@@ -252,7 +269,7 @@ private extension ProxyManager {
     func showInitialData() {
         guard sdlManager.hmiLevel == .full else { return }
 
-        sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: MenuManager.currentTemplate), withCompletionHandler: nil)
+        sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: currentTemplate), withCompletionHandler: nil)
 
         updateScreen()
     }
@@ -292,8 +309,8 @@ private extension ProxyManager {
     func createMenuAndGlobalVoiceCommands() {
         // Send the root menu items
         let screenManager = sdlManager.screenManager
-        let menuItems = MenuManager.allMenuItems(with: sdlManager, choiceSetManager: performInteractionManager)
-        let voiceMenuItems = MenuManager.allVoiceMenuItems(with: sdlManager)
+        let menuItems = menuManager.allMenuItems(with: sdlManager, choiceSetManager: performInteractionManager)
+        let voiceMenuItems = menuManager.allVoiceMenuItems(with: sdlManager)
 
         if !menuItems.isEmpty { screenManager.menu = menuItems }
         if !voiceMenuItems.isEmpty { screenManager.voiceCommands = voiceMenuItems }

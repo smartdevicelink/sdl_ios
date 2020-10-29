@@ -10,15 +10,28 @@ import Foundation
 import SmartDeviceLink
 import SmartDeviceLinkSwift
 
-class MenuManager: NSObject {
+typealias RefreshTemplateHandler = ((SDLPredefinedLayout) -> Void)
 
-    static var currentTemplate : SDLPredefinedLayout = .nonMedia
+class MenuManager: NSObject {
+    fileprivate var refreshTemplateHandler: RefreshTemplateHandler?
+
+    public fileprivate(set) var currentTemplate: SDLPredefinedLayout {
+        didSet {
+            guard let refreshTemplateHandler = refreshTemplateHandler else { return }
+            refreshTemplateHandler(currentTemplate)
+        }
+    }
+
+    init(updateTemplate: RefreshTemplateHandler? = nil) {
+        self.refreshTemplateHandler = updateTemplate
+        currentTemplate = .nonMedia
+    }
 
     /// Creates and returns the menu items
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand objects
-    class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> [SDLMenuCell] {
+    func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> [SDLMenuCell] {
         return [menuCellSpeakName(with: manager),
                 menuCellGetAllVehicleData(with: manager),
                 menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
@@ -34,7 +47,7 @@ class MenuManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLVoiceCommand objects
-    class func allVoiceMenuItems(with manager: SDLManager) -> [SDLVoiceCommand] {
+    func allVoiceMenuItems(with manager: SDLManager) -> [SDLVoiceCommand] {
         guard manager.systemCapabilityManager.vrCapability else {
             SDLLog.e("The head unit does not support voice recognition")
             return []
@@ -50,7 +63,7 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellSpeakName(with manager: SDLManager) -> SDLMenuCell {
+    func menuCellSpeakName(with manager: SDLManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACSpeakAppNameMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACSpeakAppNameMenuName], handler: { _ in
             manager.send(request: SDLSpeak(tts: ExampleAppNameTTS), responseHandler: { (_, response, error) in
                 guard response?.resultCode == .success else { return }
@@ -63,7 +76,7 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellGetAllVehicleData(with manager: SDLManager) -> SDLMenuCell {
+    func menuCellGetAllVehicleData(with manager: SDLManager) -> SDLMenuCell {
         let submenuItems = allVehicleDataTypes.map { submenuName in
             SDLMenuCell(title: submenuName, icon: SDLArtwork(staticIcon: .settings), voiceCommands: nil, handler: { triggerSource in
                 VehicleDataManager.getAllVehicleData(with: manager, triggerSource: triggerSource, vehicleDataType: submenuName)
@@ -74,7 +87,7 @@ private extension MenuManager {
     }
 
     /// A list of all possible vehicle data types
-    static var allVehicleDataTypes: [String] {
+    var allVehicleDataTypes: [String] {
         return [ACAccelerationPedalPositionMenuName, ACAirbagStatusMenuName, ACBeltStatusMenuName, ACBodyInformationMenuName, ACClusterModeStatusMenuName, ACDeviceStatusMenuName, ACDriverBrakingMenuName, ACECallInfoMenuName, ACElectronicParkBrakeStatus, ACEmergencyEventMenuName, ACEngineOilLifeMenuName, ACEngineTorqueMenuName, ACExternalTemperatureMenuName, ACFuelLevelMenuName, ACFuelLevelStateMenuName, ACFuelRangeMenuName, ACGearStatusMenuName, ACGPSMenuName, ACHeadLampStatusMenuName, ACInstantFuelConsumptionMenuName, ACMyKeyMenuName, ACOdometerMenuName, ACPRNDLMenuName, ACRPMMenuName, ACSpeedMenuName, ACSteeringWheelAngleMenuName, ACTirePressureMenuName, ACTurnSignalMenuName, ACVINMenuName, ACWiperStatusMenuName]
     }
 
@@ -82,7 +95,7 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellShowPerformInteraction(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> SDLMenuCell {
+    func menuCellShowPerformInteraction(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACShowChoiceSetMenuName, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACShowChoiceSetMenuName], handler: { triggerSource in
             choiceSetManager.show(from: triggerSource)
         })
@@ -92,7 +105,7 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLMenuCell {
+    func menuCellRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLMenuCell {
         let audioManager = AudioManager(sdlManager: manager)
         return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: MicrophoneBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
             audioManager.startRecording()
@@ -103,7 +116,7 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellDialNumber(with manager: SDLManager) -> SDLMenuCell {
+    func menuCellDialNumber(with manager: SDLManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: SDLArtwork(image: UIImage(named: PhoneBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACDialPhoneNumberMenuName], handler: { _ in
             guard RPCPermissionsManager.isDialNumberRPCAllowed(with: manager) else {
                 AlertManager.sendAlert(textField1: AlertDialNumberPermissionsWarningText, sdlManager: manager)
@@ -118,34 +131,21 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellChangeTemplate(with manager: SDLManager) -> SDLMenuCell {
+    func menuCellChangeTemplate(with manager: SDLManager) -> SDLMenuCell {
     
         /// Lets give an example of 2 templates
         var submenuItems = [SDLMenuCell]()
-        let errorMessage = "Changing the template failed"
         
         /// Non-Media
         let submenuTitleNonMedia = "Non - Media (Default)"
-        submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
-            currentTemplate = .nonMedia
-            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: currentTemplate)) { err in
-                if err != nil {
-                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
-                    return
-                }
-            }
+        submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, icon: nil, voiceCommands: nil, handler: { [weak self] (triggerSource) in
+            self?.currentTemplate = .nonMedia
         }))
         
         /// Graphic with Text
         let submenuTitleGraphicText = "Graphic With Text"
-        submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
-            currentTemplate = .graphicWithText
-            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: currentTemplate)) { err in
-                if err != nil {
-                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
-                    return
-                }
-            }
+        submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, icon: nil, voiceCommands: nil, handler: { [weak self] (triggerSource) in
+            self?.currentTemplate = .graphicWithText
         }))
         
         return SDLMenuCell(title: ACSubmenuTemplateMenuName, icon: nil, submenuLayout: .list, subCells: submenuItems)
@@ -155,7 +155,7 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellWithSubmenu(with manager: SDLManager) -> SDLMenuCell {
+    func menuCellWithSubmenu(with manager: SDLManager) -> SDLMenuCell {
         var submenuItems = [SDLMenuCell]()
         for i in 0 ..< 10 {
             let submenuTitle = "Submenu Item \(i)"
@@ -174,7 +174,7 @@ private extension MenuManager {
         return SDLMenuCell(title: ACSubmenuMenuName, icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set").withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), submenuLayout: .list, subCells: submenuItems)
     }
 
-    private class func sliderMenuCell(with manager: SDLManager) -> SDLMenuCell {
+    private func sliderMenuCell(with manager: SDLManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACSliderMenuName, icon: nil, voiceCommands: [ACSliderMenuName], handler: { _ in
             let slider = SDLSlider(numTicks: 3, position: 1, sliderHeader: "Select a letter", sliderFooters: ["A", "B", "C"], timeout: 3000)
             manager.send(request: slider, responseHandler: { (request, response, error) in
@@ -193,7 +193,7 @@ private extension MenuManager {
         })
     }
 
-    private class func scrollableMessageMenuCell(with manager: SDLManager) -> SDLMenuCell {
+    private func scrollableMessageMenuCell(with manager: SDLManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACScrollableMessageMenuName, icon: nil, voiceCommands: [ACScrollableMessageMenuName], handler: { _ in
             let scrollableMessage = SDLScrollableMessage(message: "This is a scrollable message\nIt can contain many lines")
             manager.send(request: scrollableMessage, responseHandler: { (request, response, error) in
@@ -220,7 +220,7 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLVoiceCommand object
-    class func voiceCommandStart(with manager: SDLManager) -> SDLVoiceCommand {
+    func voiceCommandStart(with manager: SDLManager) -> SDLVoiceCommand {
         return SDLVoiceCommand(voiceCommands: [VCStart], handler: {
             AlertManager.sendAlert(textField1: "\(VCStart) voice command selected!", sdlManager: manager)
         })
@@ -230,7 +230,7 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLVoiceCommand object
-    class func voiceCommandStop(with manager: SDLManager) -> SDLVoiceCommand {
+    func voiceCommandStop(with manager: SDLManager) -> SDLVoiceCommand {
         return SDLVoiceCommand(voiceCommands: [VCStop], handler: {
             AlertManager.sendAlert(textField1: "\(VCStop) voice command selected!", sdlManager: manager)
         })
