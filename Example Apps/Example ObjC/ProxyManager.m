@@ -21,12 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMILevel firstHMILevel;
+@property (assign, nonatomic) SDLPredefinedLayout currentTemplate;
 
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
 @property (strong, nonatomic) PerformInteractionManager *performManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
 @property (strong, nonatomic) SubscribeButtonManager *subscribeButtonManager;
+@property (strong, nonatomic) MenuManager *menuManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
+@property (nonatomic, copy, nullable) RefreshTemplateHandler refreshTemplateHandler;
 @end
 
 
@@ -52,8 +55,28 @@ NS_ASSUME_NONNULL_BEGIN
 
     _state = ProxyStateStopped;
     _firstHMILevel = SDLHMILevelNone;
+    _currentTemplate = SDLPredefinedLayoutNonMedia;
 
     return self;
+}
+
+- (nullable RefreshTemplateHandler)refreshTemplateHandler {
+    if(!_refreshTemplateHandler) {
+        __weak typeof(self) weakSelf = self;
+        self.refreshTemplateHandler = ^(SDLPredefinedLayout template) {
+            NSString *errorMessage = @"Changing the template failed";
+            weakSelf.currentTemplate = template;
+            [weakSelf.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:weakSelf.currentTemplate] withCompletionHandler:nil];
+
+            [weakSelf.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout: weakSelf.currentTemplate] withCompletionHandler:^(NSError * _Nullable error) {
+                if (error != nil) {
+                    [AlertManager sendAlertWithManager:weakSelf.sdlManager image:nil textField1:errorMessage textField2:nil];
+                }
+            }];
+        };
+    }
+
+    return _refreshTemplateHandler;
 }
 
 - (void)sdlex_startManager {
@@ -69,6 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.performManager = [[PerformInteractionManager alloc] initWithManager:self.sdlManager];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
         self.subscribeButtonManager = [[SubscribeButtonManager alloc] initWithManager:self.sdlManager];
+        self.menuManager = [[MenuManager alloc] initWithRefreshTemplateHandler:self.refreshTemplateHandler];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
@@ -159,14 +183,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Screen UI Helpers
 
 - (void)sdlex_createMenus {
-    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager performManager:self.performManager];
-    self.sdlManager.screenManager.voiceCommands = [MenuManager allVoiceMenuItemsWithManager:self.sdlManager];
+    self.sdlManager.screenManager.menu = [self.menuManager allMenuItemsWithManager:self.sdlManager performManager:self.performManager];
+    self.sdlManager.screenManager.voiceCommands = [self.menuManager allVoiceMenuItemsWithManager:self.sdlManager];
 }
 
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
-    [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:[MenuManager getCurrentTemplate]] withCompletionHandler:nil];
+    [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:self.currentTemplate] withCompletionHandler:nil];
 
     [self sdlex_updateScreen];
 }

@@ -16,12 +16,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^RefreshTemplateHandler)(SDLPredefinedLayout);
+
 @interface MenuManager : NSObject
 
-+ (SDLPredefinedLayout)getCurrentTemplate;
-+ (void)setCurrentTemplate:(SDLPredefinedLayout)var;
-+ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager;
-+ (NSArray<SDLVoiceCommand *> *)allVoiceMenuItemsWithManager:(SDLManager *)manager;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithRefreshTemplateHandler:(RefreshTemplateHandler)updateTemplate;
+- (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager;
+- (NSArray<SDLVoiceCommand *> *)allVoiceMenuItemsWithManager:(SDLManager *)manager;
 
 @end
 
