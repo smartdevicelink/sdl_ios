@@ -121,13 +121,15 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Non - Media
     SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [self setCurrentTemplate:SDLPredefinedLayoutNonMedia];
+        __weak typeof (self) weakSelf = self;
+        [weakSelf setCurrentTemplate:SDLPredefinedLayoutNonMedia];
     }];
     [submenuItems addObject:cell];
     
     // Graphic With Text
     SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [self setCurrentTemplate:SDLPredefinedLayoutGraphicWithText];
+        __weak typeof (self) weakSelf = self;
+        [weakSelf setCurrentTemplate:SDLPredefinedLayoutGraphicWithText];
     }];
     [submenuItems addObject:cell2];
     

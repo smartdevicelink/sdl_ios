@@ -15,6 +15,7 @@ typealias RefreshTemplateHandler = ((SDLPredefinedLayout) -> Void)
 class MenuManager: NSObject {
     fileprivate var refreshTemplateHandler: RefreshTemplateHandler?
 
+    /// Setting current selected template
     public fileprivate(set) var currentTemplate: SDLPredefinedLayout {
         didSet {
             guard let refreshTemplateHandler = refreshTemplateHandler else { return }

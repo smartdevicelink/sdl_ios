@@ -60,25 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (nullable RefreshTemplateHandler)refreshTemplateHandler {
-    if(!_refreshTemplateHandler) {
-        __weak typeof(self) weakSelf = self;
-        self.refreshTemplateHandler = ^(SDLPredefinedLayout template) {
-            NSString *errorMessage = @"Changing the template failed";
-            weakSelf.currentTemplate = template;
-            [weakSelf.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:weakSelf.currentTemplate] withCompletionHandler:nil];
-
-            [weakSelf.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout: weakSelf.currentTemplate] withCompletionHandler:^(NSError * _Nullable error) {
-                if (error != nil) {
-                    [AlertManager sendAlertWithManager:weakSelf.sdlManager image:nil textField1:errorMessage textField2:nil];
-                }
-            }];
-        };
-    }
-
-    return _refreshTemplateHandler;
-}
-
 - (void)sdlex_startManager {
     __weak typeof (self) weakSelf = self;
     [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
@@ -204,6 +185,25 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return _refreshUIHandler;
+}
+
+- (nullable RefreshTemplateHandler)refreshTemplateHandler {
+    if(!_refreshTemplateHandler) {
+        __weak typeof(self) weakSelf = self;
+        weakSelf.refreshTemplateHandler = ^(SDLPredefinedLayout template) {
+            NSString *errorMessage = @"Changing the template failed";
+            weakSelf.currentTemplate = template;
+            [weakSelf.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:weakSelf.currentTemplate] withCompletionHandler:nil];
+
+            [weakSelf.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout: weakSelf.currentTemplate] withCompletionHandler:^(NSError * _Nullable error) {
+                if (error != nil) {
+                    [AlertManager sendAlertWithManager:weakSelf.sdlManager image:nil textField1:errorMessage textField2:nil];
+                }
+            }];
+        };
+    }
+
+    return _refreshTemplateHandler;
 }
 
 - (void)sdlex_updateScreen {

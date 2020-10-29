@@ -39,19 +39,6 @@ class ProxyManager: NSObject {
         currentTemplate = .nonMedia
         super.init()
     }
-
-    var refreshTemplateHandler: RefreshTemplateHandler {
-        return { [weak self] template in
-            let errorMessage = "Changing the template failed"
-            self?.currentTemplate = template
-            self?.sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: template)) { err in
-                if err != nil {
-                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: (self?.sdlManager)!)
-                    return
-                }
-            }
-        }
-    }
 }
 
 // MARK: - SDL Configuration
@@ -262,6 +249,20 @@ private extension ProxyManager {
     var refreshUIHandler: RefreshUIHandler? {
         return { [unowned self] () in
             self.updateScreen()
+        }
+    }
+
+    /// Handler for refreshing the template
+    var refreshTemplateHandler: RefreshTemplateHandler {
+        return { [weak self] template in
+            let errorMessage = "Changing the template failed"
+            self?.currentTemplate = template
+            self?.sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: template)) { err in
+                if err != nil {
+                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: (self?.sdlManager)!)
+                    return
+                }
+            }
         }
     }
 
