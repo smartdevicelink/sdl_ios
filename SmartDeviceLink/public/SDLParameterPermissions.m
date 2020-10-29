@@ -11,6 +11,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLParameterPermissions
 
+- (instancetype)initWithAllowed:(NSArray<NSString *> *)allowed userDisallowed:(NSArray<NSString *> *)userDisallowed {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.allowed = allowed;
+    self.userDisallowed = userDisallowed;
+    return self;
+}
+
 - (void)setAllowed:(NSArray<NSString *> *)allowed {
     [self.store sdl_setObject:allowed forName:SDLRPCParameterNameAllowed];
 }

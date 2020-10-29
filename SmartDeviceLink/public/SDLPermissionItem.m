@@ -12,6 +12,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPermissionItem
 
+- (instancetype)initWithRpcName:(NSString *)rpcName hmiPermissions:(SDLHMIPermissions *)hmiPermissions parameterPermissions:(SDLParameterPermissions *)parameterPermissions {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.rpcName = rpcName;
+    self.hmiPermissions = hmiPermissions;
+    self.parameterPermissions = parameterPermissions;
+    return self;
+}
+
+- (instancetype)initWithRpcName:(NSString *)rpcName hmiPermissions:(SDLHMIPermissions *)hmiPermissions parameterPermissions:(SDLParameterPermissions *)parameterPermissions requireEncryption:(nullable NSNumber<SDLBool> *)requireEncryption {
+    self = [self initWithRpcName:rpcName hmiPermissions:hmiPermissions parameterPermissions:parameterPermissions];
+    if (!self) {
+        return nil;
+    }
+    self.requireEncryption = requireEncryption;
+    return self;
+}
+
 - (void)setRpcName:(NSString *)rpcName {
     [self.store sdl_setObject:rpcName forName:SDLRPCParameterNameRPCName];
 }

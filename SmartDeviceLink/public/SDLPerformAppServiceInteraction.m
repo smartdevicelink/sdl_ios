@@ -39,6 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithServiceUriParam:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(nullable NSNumber<SDLBool> *)requestServiceActive {
+    self = [self initWithServiceUri:serviceUri serviceID:serviceID originApp:originApp];
+    if (!self) {
+        return nil;
+    }
+    self.requestServiceActive = requestServiceActive;
+    return self;
+}
+
 - (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive {
     self = [self initWithServiceUri:serviceUri serviceID:serviceID originApp:originApp];
     if (!self) {
