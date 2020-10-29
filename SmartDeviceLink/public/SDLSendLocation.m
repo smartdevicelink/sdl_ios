@@ -24,6 +24,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithLongitudeDegrees:(nullable NSNumber<SDLFloat> *)longitudeDegrees latitudeDegrees:(nullable NSNumber<SDLFloat> *)latitudeDegrees locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription addressLines:(nullable NSArray<NSString *> *)addressLines phoneNumber:(nullable NSString *)phoneNumber locationImage:(nullable SDLImage *)locationImage timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOASISAddress *)address deliveryMode:(nullable SDLDeliveryMode)deliveryMode {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.longitudeDegrees = longitudeDegrees;
+    self.latitudeDegrees = latitudeDegrees;
+    self.locationName = locationName;
+    self.locationDescription = locationDescription;
+    self.addressLines = addressLines;
+    self.phoneNumber = phoneNumber;
+    self.locationImage = locationImage;
+    self.timeStamp = timeStamp;
+    self.address = address;
+    self.deliveryMode = deliveryMode;
+    return self;
+}
+
 - (instancetype)initWithAddress:(SDLOasisAddress *)address addressLines:(nullable NSArray<NSString *> *)addressLines locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp {
     self = [self init];
     if (!self) { return nil; }

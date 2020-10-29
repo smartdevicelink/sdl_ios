@@ -9,6 +9,39 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSeatControlCapabilities
 
+- (instancetype)initWithModuleName:(NSString *)moduleName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleName = moduleName;
+    return self;
+}
+
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo heatingEnabledAvailable:(nullable NSNumber<SDLBool> *)heatingEnabledAvailable coolingEnabledAvailable:(nullable NSNumber<SDLBool> *)coolingEnabledAvailable heatingLevelAvailable:(nullable NSNumber<SDLBool> *)heatingLevelAvailable coolingLevelAvailable:(nullable NSNumber<SDLBool> *)coolingLevelAvailable horizontalPositionAvailable:(nullable NSNumber<SDLBool> *)horizontalPositionAvailable verticalPositionAvailable:(nullable NSNumber<SDLBool> *)verticalPositionAvailable frontVerticalPositionAvailable:(nullable NSNumber<SDLBool> *)frontVerticalPositionAvailable backVerticalPositionAvailable:(nullable NSNumber<SDLBool> *)backVerticalPositionAvailable backTiltAngleAvailable:(nullable NSNumber<SDLBool> *)backTiltAngleAvailable headSupportHorizontalPositionAvailable:(nullable NSNumber<SDLBool> *)headSupportHorizontalPositionAvailable headSupportVerticalPositionAvailable:(nullable NSNumber<SDLBool> *)headSupportVerticalPositionAvailable massageEnabledAvailable:(nullable NSNumber<SDLBool> *)massageEnabledAvailable massageModeAvailable:(nullable NSNumber<SDLBool> *)massageModeAvailable massageCushionFirmnessAvailable:(nullable NSNumber<SDLBool> *)massageCushionFirmnessAvailable memoryAvailable:(nullable NSNumber<SDLBool> *)memoryAvailable {
+    self = [self initWithModuleName:moduleName];
+    if (!self) {
+        return nil;
+    }
+    self.moduleInfo = moduleInfo;
+    self.heatingEnabledAvailable = heatingEnabledAvailable;
+    self.coolingEnabledAvailable = coolingEnabledAvailable;
+    self.heatingLevelAvailable = heatingLevelAvailable;
+    self.coolingLevelAvailable = coolingLevelAvailable;
+    self.horizontalPositionAvailable = horizontalPositionAvailable;
+    self.verticalPositionAvailable = verticalPositionAvailable;
+    self.frontVerticalPositionAvailable = frontVerticalPositionAvailable;
+    self.backVerticalPositionAvailable = backVerticalPositionAvailable;
+    self.backTiltAngleAvailable = backTiltAngleAvailable;
+    self.headSupportHorizontalPositionAvailable = headSupportHorizontalPositionAvailable;
+    self.headSupportVerticalPositionAvailable = headSupportVerticalPositionAvailable;
+    self.massageEnabledAvailable = massageEnabledAvailable;
+    self.massageModeAvailable = massageModeAvailable;
+    self.massageCushionFirmnessAvailable = massageCushionFirmnessAvailable;
+    self.memoryAvailable = memoryAvailable;
+    return self;
+}
+
 - (instancetype)initWithName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo {
     if (self = [super init]) {
         self.moduleName = moduleName;

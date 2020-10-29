@@ -19,6 +19,15 @@
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSdlFileName:(NSString *)sdlFileName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.sdlFileName = sdlFileName;
+    return self;
+}
+
 - (instancetype)initWithFileName:(NSString *)fileName {
     self = [self init];
     if (!self) {

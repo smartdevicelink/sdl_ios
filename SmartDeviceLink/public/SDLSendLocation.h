@@ -1,6 +1,34 @@
-//
-//  SDLSendLocation.h
-//  SmartDeviceLink
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCRequest.h"
 
@@ -19,6 +47,21 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSendLocation : SDLRPCRequest
 
 /**
+ * @param longitudeDegrees - longitudeDegrees
+ * @param latitudeDegrees - latitudeDegrees
+ * @param locationName - locationName
+ * @param locationDescription - locationDescription
+ * @param addressLines - addressLines
+ * @param phoneNumber - phoneNumber
+ * @param locationImage - locationImage
+ * @param timeStamp - timeStamp
+ * @param address - address
+ * @param deliveryMode - deliveryMode
+ * @return A SDLSendLocation object
+ */
+- (instancetype)initWithLongitudeDegrees:(nullable NSNumber<SDLFloat> *)longitudeDegrees latitudeDegrees:(nullable NSNumber<SDLFloat> *)latitudeDegrees locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription addressLines:(nullable NSArray<NSString *> *)addressLines phoneNumber:(nullable NSString *)phoneNumber locationImage:(nullable SDLImage *)locationImage timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOasisAddress *)address deliveryMode:(nullable SDLDeliveryMode)deliveryMode;
+
+/**
  Create a `SendLocation` request with an address object, without Lat/Long coordinates.
 
  @param address The address information to be passed to the nav system for determining the route
@@ -31,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param timeStamp The estimated arrival time for the location (this will also likely be calculated by the nav system later, and may be different than your estimate). This is used to show the user approximately how long it would take to navigate here
  @return A `SendLocation` object
  */
-- (instancetype)initWithAddress:(SDLOasisAddress *)address addressLines:(nullable NSArray<NSString *> *)addressLines locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp;
+- (instancetype)initWithAddress:(SDLOasisAddress *)address addressLines:(nullable NSArray<NSString *> *)addressLines locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp __deprecated_msg("Use another initializer instead");
 
 /**
  Create a `SendLocation` request with Lat/Long coordinate, not an address object
@@ -45,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param image A user-facing image for the location
  @return A `SendLocation` object
  */
-- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription address:(nullable NSArray<NSString *> *)address phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image;
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription address:(nullable NSArray<NSString *> *)address phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image __deprecated_msg("Use another initializer instead");
 
 /**
  Create a `SendLocation` request with Lat/Long coordinate and an address object and let the nav system decide how to parse it
@@ -62,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param address The address information to be passed to the nav system for determining the route
  @return A `SendLocation` object
  */
-- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription displayAddressLines:(nullable NSArray<NSString *> *)displayAddressLines phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOasisAddress *)address;
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription displayAddressLines:(nullable NSArray<NSString *> *)displayAddressLines phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOasisAddress *)address __deprecated_msg("Use another initializer instead");
 
 /**
  * The longitudinal coordinate of the location. Either the latitude / longitude OR the `address` must be provided.

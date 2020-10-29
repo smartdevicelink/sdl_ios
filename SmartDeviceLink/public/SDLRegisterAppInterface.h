@@ -1,5 +1,34 @@
-//  SDLRegisterAppInterface.h
-//
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCRequest.h"
 
@@ -32,6 +61,38 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLRegisterAppInterface : SDLRPCRequest
 
 /**
+ * @param sdlMsgVersion - sdlMsgVersion
+ * @param appName - appName
+ * @param isMediaApplication - @(isMediaApplication)
+ * @param languageDesired - languageDesired
+ * @param hmiDisplayLanguageDesired - hmiDisplayLanguageDesired
+ * @param appID - appID
+ * @return A SDLRegisterAppInterface object
+ */
+- (instancetype)initWithSdlMsgVersion:(SDLMsgVersion *)sdlMsgVersion appName:(NSString *)appName isMediaApplication:(BOOL)isMediaApplication languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID;
+
+/**
+ * @param sdlMsgVersion - sdlMsgVersion
+ * @param appName - appName
+ * @param isMediaApplication - @(isMediaApplication)
+ * @param languageDesired - languageDesired
+ * @param hmiDisplayLanguageDesired - hmiDisplayLanguageDesired
+ * @param appID - appID
+ * @param ttsName - ttsName
+ * @param ngnMediaScreenAppName - ngnMediaScreenAppName
+ * @param vrSynonyms - vrSynonyms
+ * @param appHMIType - appHMIType
+ * @param hashID - hashID
+ * @param deviceInfo - deviceInfo
+ * @param fullAppID - fullAppID
+ * @param appInfo - appInfo
+ * @param dayColorScheme - dayColorScheme
+ * @param nightColorScheme - nightColorScheme
+ * @return A SDLRegisterAppInterface object
+ */
+- (instancetype)initWithSdlMsgVersion:(SDLMsgVersion *)sdlMsgVersion appName:(NSString *)appName isMediaApplication:(BOOL)isMediaApplication languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms appHMIType:(nullable NSArray<SDLAppHMIType> *)appHMIType hashID:(nullable NSString *)hashID deviceInfo:(nullable SDLDeviceInfo *)deviceInfo fullAppID:(nullable NSString *)fullAppID appInfo:(nullable SDLAppInfo *)appInfo dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+
+/**
  * Convenience init for registering the application with a lifecycle configuration.
  *
  * @param lifecycleConfiguration Configuration options for SDLManager
@@ -46,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param languageDesired           The language the application intends to use for user interaction
  * @return                          A SDLRegisterAppInterface object
  */
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired;
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired __deprecated_msg("Use initWithSdlMsgVersion:appName:isMediaApplication:languageDesired:hmiDisplayLanguageDesired:appID: instead");
 
 /**
  * Convenience init for registering the application with all possible options.
@@ -66,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param nightColorScheme          The color scheme to be used on a head unit using a "dark" or "night" color scheme
  * @return                          A SDLRegisterAppInterface object
  */
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme __deprecated_msg("Use initWithSdlMsgVersion:appName:isMediaApplication:languageDesired:hmiDisplayLanguageDesired:appID: instead");
 
 /**
  * Specifies the version number of the SmartDeviceLink protocol that is supported by the mobile application.

@@ -28,6 +28,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithDisplayCapabilities:(nullable SDLDisplayCapabilities *)displayCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities presetBankCapabilities:(nullable SDLPresetBankCapabilities *)presetBankCapabilities {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.displayCapabilities = displayCapabilities;
+    self.buttonCapabilities = buttonCapabilities;
+    self.softButtonCapabilities = softButtonCapabilities;
+    self.presetBankCapabilities = presetBankCapabilities;
+    return self;
+}
+
 - (void)setDisplayCapabilities:(nullable SDLDisplayCapabilities *)displayCapabilities {
     [self.parameters sdl_setObject:displayCapabilities forName:SDLRPCParameterNameDisplayCapabilities];
 }

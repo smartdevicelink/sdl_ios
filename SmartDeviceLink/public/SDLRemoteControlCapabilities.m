@@ -17,6 +17,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRemoteControlCapabilities
 
+- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities audioControlCapabilities:(nullable NSArray<SDLAudioControlCapabilities *> *)audioControlCapabilities hmiSettingsControlCapabilities:(nullable SDLHMISettingsControlCapabilities *)hmiSettingsControlCapabilities lightControlCapabilities:(nullable SDLLightControlCapabilities *)lightControlCapabilities seatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.climateControlCapabilities = climateControlCapabilities;
+    self.radioControlCapabilities = radioControlCapabilities;
+    self.buttonCapabilities = buttonCapabilities;
+    self.audioControlCapabilities = audioControlCapabilities;
+    self.hmiSettingsControlCapabilities = hmiSettingsControlCapabilities;
+    self.lightControlCapabilities = lightControlCapabilities;
+    self.seatControlCapabilities = seatControlCapabilities;
+    return self;
+}
+
 - (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities seatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities audioControlCapabilities:(nullable NSArray<SDLAudioControlCapabilities *> *)audioControlCapabilities hmiSettingsControlCapabilities:(nullable NSArray<SDLHMISettingsControlCapabilities *> *)hmiSettingsControlCapabilities lightControlCapabilities:(nullable NSArray<SDLLightControlCapabilities *> *)lightControlCapabilities {
     self = [super init];
     if (!self) {

@@ -22,26 +22,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithScrollableMessageBody:(NSString *)message timeout:(nullable NSNumber *)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(nullable NSNumber *)cancelID {
+- (instancetype)initWithScrollableMessageBody:(NSString *)scrollableMessageBody {
     self = [self init];
     if (!self) {
         return nil;
     }
-
-    self.scrollableMessageBody = message;
-    self.timeout = timeout;
-    self.softButtons = softButtons;
-    self.cancelID = cancelID;
-
+    self.scrollableMessageBody = scrollableMessageBody;
     return self;
 }
 
-- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID {
-    return [self initWithScrollableMessageBody:message timeout:@(timeout) softButtons:softButtons cancelID:@(cancelID)];
-}
-
-- (instancetype)initWithMessage:(NSString *)message {
-    return [self initWithScrollableMessageBody:message timeout:nil softButtons:nil cancelID:nil];
+- (instancetype)initWithScrollableMessageBody:(NSString *)scrollableMessageBody timeout:(nullable NSNumber<SDLUInt> *)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    self = [self initWithScrollableMessageBody:scrollableMessageBody];
+    if (!self) {
+        return nil;
+    }
+    self.timeout = timeout;
+    self.softButtons = softButtons;
+    self.cancelID = cancelID;
+    return self;
 }
 
 - (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {

@@ -12,6 +12,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLScreenParams
 
+- (instancetype)initWithResolution:(SDLImageResolution *)resolution {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.resolution = resolution;
+    return self;
+}
+
+- (instancetype)initWithResolution:(SDLImageResolution *)resolution touchEventAvailable:(nullable SDLTouchEventCapabilities *)touchEventAvailable {
+    self = [self initWithResolution:resolution];
+    if (!self) {
+        return nil;
+    }
+    self.touchEventAvailable = touchEventAvailable;
+    return self;
+}
+
 - (void)setResolution:(SDLImageResolution *)resolution {
     [self.store sdl_setObject:resolution forName:SDLRPCParameterNameResolution];
 }

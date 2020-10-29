@@ -13,6 +13,15 @@
 
 @implementation SDLSeatLocation
 
+- (instancetype)initWithGrid:(nullable SDLGrid *)grid {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.grid = grid;
+    return self;
+}
+
 - (void)setGrid:(nullable SDLGrid *)grid {
     [self.store sdl_setObject:grid forName:SDLRPCParameterNameGrid];
 }

@@ -1,6 +1,34 @@
-//
-//  SDLRadioControlCapabilities.h
-//
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCMessage.h"
 #import "SDLModuleInfo.h"
@@ -9,8 +37,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Contains information about a radio control module's capabilities.
+ *
+ * @added in SmartDeviceLink 4.5.0
  */
 @interface SDLRadioControlCapabilities : SDLRPCStruct
+
+/**
+ * @param moduleName - moduleName
+ * @return A SDLRadioControlCapabilities object
+ */
+- (instancetype)initWithModuleName:(NSString *)moduleName;
+
+/**
+ * @param moduleName - moduleName
+ * @param moduleInfo - moduleInfo
+ * @param radioEnableAvailable - radioEnableAvailable
+ * @param radioBandAvailable - radioBandAvailable
+ * @param radioFrequencyAvailable - radioFrequencyAvailable
+ * @param hdChannelAvailable - hdChannelAvailable
+ * @param rdsDataAvailable - rdsDataAvailable
+ * @param availableHdChannelsAvailable - availableHdChannelsAvailable
+ * @param stateAvailable - stateAvailable
+ * @param signalStrengthAvailable - signalStrengthAvailable
+ * @param signalChangeThresholdAvailable - signalChangeThresholdAvailable
+ * @param sisDataAvailable - sisDataAvailable
+ * @param hdRadioEnableAvailable - hdRadioEnableAvailable
+ * @param siriusxmRadioAvailable - siriusxmRadioAvailable
+ * @return A SDLRadioControlCapabilities object
+ */
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo radioEnableAvailable:(nullable NSNumber<SDLBool> *)radioEnableAvailable radioBandAvailable:(nullable NSNumber<SDLBool> *)radioBandAvailable radioFrequencyAvailable:(nullable NSNumber<SDLBool> *)radioFrequencyAvailable hdChannelAvailable:(nullable NSNumber<SDLBool> *)hdChannelAvailable rdsDataAvailable:(nullable NSNumber<SDLBool> *)rdsDataAvailable availableHdChannelsAvailable:(nullable NSNumber<SDLBool> *)availableHdChannelsAvailable stateAvailable:(nullable NSNumber<SDLBool> *)stateAvailable signalStrengthAvailable:(nullable NSNumber<SDLBool> *)signalStrengthAvailable signalChangeThresholdAvailable:(nullable NSNumber<SDLBool> *)signalChangeThresholdAvailable sisDataAvailable:(nullable NSNumber<SDLBool> *)sisDataAvailable hdRadioEnableAvailable:(nullable NSNumber<SDLBool> *)hdRadioEnableAvailable siriusxmRadioAvailable:(nullable NSNumber<SDLBool> *)siriusxmRadioAvailable;
 
 /**
  Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
@@ -31,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param sisDataAvailable Availability of sis data.
  @return An instance of the SDLRadioControlCapabilities class
  */
-- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDChannelsAvailable:(BOOL)availableHDChannelsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable sisDataAvailable:(BOOL)sisDataAvailable;
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDChannelsAvailable:(BOOL)availableHDChannelsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable sisDataAvailable:(BOOL)sisDataAvailable __deprecated_msg("Use initWithModuleName: instead");
 
 /**
  * The short friendly name of the radio control module.

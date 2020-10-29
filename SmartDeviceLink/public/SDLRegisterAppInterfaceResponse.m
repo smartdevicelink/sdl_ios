@@ -30,6 +30,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSdlMsgVersion:(nullable SDLMsgVersion *)sdlMsgVersion language:(nullable SDLLanguage)language hmiDisplayLanguage:(nullable SDLLanguage)hmiDisplayLanguage hmiZoneCapabilities:(nullable NSArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities speechCapabilities:(nullable NSArray<SDLSpeechCapabilities> *)speechCapabilities prerecordedSpeech:(nullable NSArray<SDLPrerecordedSpeech> *)prerecordedSpeech vrCapabilities:(nullable NSArray<SDLVRCapabilities> *)vrCapabilities audioPassThruCapabilities:(nullable NSArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities pcmStreamCapabilities:(nullable SDLAudioPassThruCapabilities *)pcmStreamCapabilities vehicleType:(nullable SDLVehicleType *)vehicleType supportedDiagModes:(nullable NSArray<NSNumber<SDLUInt> *> *)supportedDiagModes hmiCapabilities:(nullable SDLHMICapabilities *)hmiCapabilities sdlVersion:(nullable NSString *)sdlVersion systemSoftwareVersion:(nullable NSString *)systemSoftwareVersion iconResumed:(nullable NSNumber<SDLBool> *)iconResumed {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.sdlMsgVersion = sdlMsgVersion;
+    self.language = language;
+    self.hmiDisplayLanguage = hmiDisplayLanguage;
+    self.hmiZoneCapabilities = hmiZoneCapabilities;
+    self.speechCapabilities = speechCapabilities;
+    self.prerecordedSpeech = prerecordedSpeech;
+    self.vrCapabilities = vrCapabilities;
+    self.audioPassThruCapabilities = audioPassThruCapabilities;
+    self.pcmStreamCapabilities = pcmStreamCapabilities;
+    self.vehicleType = vehicleType;
+    self.supportedDiagModes = supportedDiagModes;
+    self.hmiCapabilities = hmiCapabilities;
+    self.sdlVersion = sdlVersion;
+    self.systemSoftwareVersion = systemSoftwareVersion;
+    self.iconResumed = iconResumed;
+    return self;
+}
+
 - (void)setSdlMsgVersion:(nullable SDLMsgVersion *)sdlMsgVersion {
     [self.parameters sdl_setObject:sdlMsgVersion forName:SDLRPCParameterNameSyncMessageVersion];
 }

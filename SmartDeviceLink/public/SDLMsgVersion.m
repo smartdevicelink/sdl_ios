@@ -12,6 +12,25 @@
 
 @implementation SDLMsgVersion
 
+- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt16)minorVersion {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.majorVersion = @(majorVersion);
+    self.minorVersion = @(minorVersion);
+    return self;
+}
+
+- (instancetype)initWithMajorVersionParam:(UInt8)majorVersion minorVersion:(UInt16)minorVersion patchVersion:(nullable NSNumber<SDLUInt> *)patchVersion {
+    self = [self initWithMajorVersion:majorVersion minorVersion:minorVersion];
+    if (!self) {
+        return nil;
+    }
+    self.patchVersion = patchVersion;
+    return self;
+}
+
 - (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion {
     self = [self init];
     if (!self) {

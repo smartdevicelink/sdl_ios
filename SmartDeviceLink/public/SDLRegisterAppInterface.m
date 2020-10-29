@@ -32,6 +32,38 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSdlMsgVersion:(SDLSdlMsgVersion *)sdlMsgVersion appName:(NSString *)appName isMediaApplication:(BOOL)isMediaApplication languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.sdlMsgVersion = sdlMsgVersion;
+    self.appName = appName;
+    self.isMediaApplication = @(isMediaApplication);
+    self.languageDesired = languageDesired;
+    self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
+    self.appID = appID;
+    return self;
+}
+
+- (instancetype)initWithSdlMsgVersion:(SDLMsgVersion *)sdlMsgVersion appName:(NSString *)appName isMediaApplication:(BOOL)isMediaApplication languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms appHMIType:(nullable NSArray<SDLAppHMIType> *)appHMIType hashID:(nullable NSString *)hashID deviceInfo:(nullable SDLDeviceInfo *)deviceInfo fullAppID:(nullable NSString *)fullAppID appInfo:(nullable SDLAppInfo *)appInfo dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithSdlMsgVersion:sdlMsgVersion appName:appName isMediaApplication:isMediaApplication languageDesired:languageDesired hmiDisplayLanguageDesired:hmiDisplayLanguageDesired appID:appID];
+    if (!self) {
+        return nil;
+    }
+    self.ttsName = ttsName;
+    self.ngnMediaScreenAppName = ngnMediaScreenAppName;
+    self.vrSynonyms = vrSynonyms;
+    self.appHMIType = appHMIType;
+    self.hashID = hashID;
+    self.deviceInfo = deviceInfo;
+    self.fullAppID = fullAppID;
+    self.appInfo = appInfo;
+    self.dayColorScheme = dayColorScheme;
+    self.nightColorScheme = nightColorScheme;
+    return self;
+}
+
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
     NSArray<SDLAppHMIType> *allHMITypes = lifecycleConfiguration.additionalAppTypes ? [lifecycleConfiguration.additionalAppTypes arrayByAddingObject:lifecycleConfiguration.appType] : @[lifecycleConfiguration.appType];
 

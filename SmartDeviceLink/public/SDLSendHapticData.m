@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithHapticRectData:(NSArray<SDLHapticRect *> *)hapticRectData {
+- (instancetype)initWithHapticRectData:(nullable NSArray<SDLHapticRect *> *)hapticRectData {
     self = [self init];
     if (!self) {
         return nil;

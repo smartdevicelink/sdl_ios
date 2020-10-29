@@ -17,6 +17,21 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLMsgVersion : SDLRPCStruct
 
 /**
+ * @param majorVersion - @(majorVersion)
+ * @param minorVersion - @(minorVersion)
+ * @return A SDLSdlMsgVersion object
+ */
+- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt16)minorVersion;
+
+/**
+ * @param majorVersion - @(majorVersion)
+ * @param minorVersion - @(minorVersion)
+ * @param patchVersion - patchVersion
+ * @return A SDLSdlMsgVersion object
+ */
+- (instancetype)initWithMajorVersionParam:(UInt8)majorVersion minorVersion:(UInt16)minorVersion patchVersion:(nullable NSNumber<SDLUInt> *)patchVersion __deprecated_msg("Eventually an initializer without param will be added");
+
+/**
  *  Convenience init for all parameters.
  *
  *  @param majorVersion         Major version
@@ -24,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param patchVersion         Patch version
  *  @return                     A SDLMsgVersion object
  */
-- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion;
+- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion __deprecated_msg("Eventually an initializer with different parameter types will be added");
 
 /**
  * The major version indicates versions that is not-compatible to previous versions
