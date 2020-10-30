@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithSdlMsgVersion:(SDLSdlMsgVersion *)sdlMsgVersion appName:(NSString *)appName isMediaApplication:(BOOL)isMediaApplication languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID {
+- (instancetype)initWithSdlMsgVersion:(SDLMsgVersion *)sdlMsgVersion appName:(NSString *)appName isMediaApplication:(BOOL)isMediaApplication languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID {
     self = [self init];
     if (!self) {
         return nil;

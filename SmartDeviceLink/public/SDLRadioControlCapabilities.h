@@ -149,7 +149,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Boolean
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLBool> *availableHDsAvailable __deprecated_msg("Use availableHDChannelsAvailable instead.");
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *availableHDsAvailable __deprecated_msg("Use availableHdChannelsAvailable instead.");
+
+/**
+ * Availability of the list of available HD sub-channel indexes. True: Available, False: Not Available, Not present: Not Available.
+ *
+ * @added in SmartDeviceLink 6.0.0
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *availableHdChannelsAvailable;
 
 /**
  * Availability of the list of available HD sub-channel indexes.
@@ -158,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Boolean
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLBool> *availableHDChannelsAvailable;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *availableHDChannelsAvailable __deprecated_msg("Use availableHdChannelsAvailable instead");
 
 /**
  * Availability of the getting the Radio state.
@@ -201,7 +208,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Boolean
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLBool> *siriusXMRadioAvailable;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *siriusXMRadioAvailable __deprecated_msg("Use siriusxmRadioAvailable instead");
+
+/**
+ * Availability of Sirius XM radio. True: Available, False: Not Available, Not present: Not Available.
+ *
+ * @added in SmartDeviceLink 5.0.0
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *siriusxmRadioAvailable;
 
 /**
  * Availability of the getting HD radio Station Information Service (SIS) data.

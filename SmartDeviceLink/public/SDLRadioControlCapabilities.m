@@ -121,6 +121,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameAvailableHDsAvailable ofClass:NSNumber.class error:nil];
 }
 
+- (void)setAvailableHdChannelsAvailable:(nullable NSNumber<SDLBool> *)availableHdChannelsAvailable {
+    [self.store sdl_setObject:availableHdChannelsAvailable forName:SDLRPCParameterNameAvailableHDsAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)availableHdChannelsAvailable {
+    return [self.store sdl_objectForName:SDLRPCParameterNameAvailableHDsAvailable ofClass:NSNumber.class error:nil];
+}
+
 - (void)setAvailableHDChannelsAvailable:(nullable NSNumber<SDLBool> *)availableHDChannelsAvailable {
     [self.store sdl_setObject:availableHDChannelsAvailable forName:SDLRPCParameterNameAvailableHDsAvailable];
 }
@@ -166,6 +174,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)siriusXMRadioAvailable {
+    return [self.store sdl_objectForName:SDLRPCParameterNameSiriusXMRadioAvailable ofClass:NSNumber.class error:nil];
+}
+
+- (void)setSiriusxmRadioAvailable:(nullable NSNumber<SDLBool> *)siriusxmRadioAvailable {
+    [self.store sdl_setObject:siriusxmRadioAvailable forName:SDLRPCParameterNameSiriusXMRadioAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)siriusxmRadioAvailable {
     return [self.store sdl_objectForName:SDLRPCParameterNameSiriusXMRadioAvailable ofClass:NSNumber.class error:nil];
 }
 

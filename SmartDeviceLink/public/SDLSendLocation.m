@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithLongitudeDegrees:(nullable NSNumber<SDLFloat> *)longitudeDegrees latitudeDegrees:(nullable NSNumber<SDLFloat> *)latitudeDegrees locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription addressLines:(nullable NSArray<NSString *> *)addressLines phoneNumber:(nullable NSString *)phoneNumber locationImage:(nullable SDLImage *)locationImage timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOASISAddress *)address deliveryMode:(nullable SDLDeliveryMode)deliveryMode {
+- (instancetype)initWithLongitudeDegrees:(nullable NSNumber<SDLFloat> *)longitudeDegrees latitudeDegrees:(nullable NSNumber<SDLFloat> *)latitudeDegrees locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription addressLines:(nullable NSArray<NSString *> *)addressLines phoneNumber:(nullable NSString *)phoneNumber locationImage:(nullable SDLImage *)locationImage timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOasisAddress *)address deliveryMode:(nullable SDLDeliveryMode)deliveryMode {
     self = [self init];
     if (!self) {
         return nil;

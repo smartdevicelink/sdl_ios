@@ -39,6 +39,15 @@
     return self;
 }
 
+- (void)setSdlFileName:(NSString *)sdlFileName {
+    [self.parameters sdl_setObject:sdlFileName forName:SDLRPCParameterNameSyncFileName];
+}
+
+- (NSString *)sdlFileName {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
+}
+
 - (void)setSyncFileName:(NSString *)syncFileName {
     [self.parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
 }

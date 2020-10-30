@@ -46,12 +46,27 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLScrollableMessage : SDLRPCRequest
 
 /**
+ * @param scrollableMessageBody - scrollableMessageBody
+ * @return A SDLScrollableMessage object
+ */
+- (instancetype)initWithScrollableMessageBody:(NSString *)scrollableMessageBody;
+
+/**
+ * @param scrollableMessageBody - scrollableMessageBody
+ * @param timeout - timeout
+ * @param softButtons - softButtons
+ * @param cancelID - cancelID
+ * @return A SDLScrollableMessage object
+ */
+- (instancetype)initWithScrollableMessageBody:(NSString *)scrollableMessageBody timeout:(nullable NSNumber<SDLUInt> *)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(nullable NSNumber<SDLInt> *)cancelID;
+
+/**
  Convenience init for creating a scrolling message with text.
 
  @param message Body of text that can include newlines and tabs
  @return A SDLScrollableMessage object
  */
-- (instancetype)initWithMessage:(NSString *)message;
+- (instancetype)initWithMessage:(NSString *)message __deprecated_msg("Use initWithScrollableMessageBody: instead");
 
 /**
  Convenience init for creating a scrolling message with text and buttons.
@@ -62,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param cancelID An ID for this specific scrollable message to allow cancellation through the `CancelInteraction` RPC
  @return A SDLScrollableMessage object
  */
-- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID;
+- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID __deprecated_msg("Use initWithScrollableMessageBody:timeout:softButtons:cancelID: instead");
 
 /**
  Body of text that can include newlines and tabs.

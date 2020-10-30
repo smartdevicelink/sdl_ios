@@ -62,9 +62,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSeats:(NSArray<SDLSeatLocation *> *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels __deprecated_msg("Use initWithRows:columns:levels:seats: instead");
 
 /**
+ * {"num_min_value": 1, "num_max_value": 100}
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *columns;
+
+/**
  * Optional, Integer, 1 - 100
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLInt> *cols;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *cols __deprecated_msg("Use columns instead");
 
 /**
  * Optional, Integer, 1 - 100

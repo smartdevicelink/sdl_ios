@@ -60,7 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
  * File reference name.
  * {"string_min_length": 1, "string_max_length": 500}
  */
-@property (strong, nonatomic) NSString *syncFileName;
+@property (strong, nonatomic) NSString *sdlFileName;
+
+/**
+ * File reference name.
+ * {"string_min_length": 1, "string_max_length": 500}
+ */
+@property (strong, nonatomic) NSString *syncFileName __deprecated_msg("Use sdlFileName instead");
 
 @end
 

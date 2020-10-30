@@ -23,6 +23,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithNavigationText1Param:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(nullable NSNumber<SDLFloat> *)distanceToManeuver distanceToManeuverScale:(nullable NSNumber<SDLFloat> *)distanceToManeuverScale maneuverComplete:(nullable NSNumber<SDLBool> *)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.navigationText1 = navigationText1;
+    self.navigationText2 = navigationText2;
+    self.eta = eta;
+    self.timeToDestination = timeToDestination;
+    self.totalDistance = totalDistance;
+    self.turnIcon = turnIcon;
+    self.nextTurnIcon = nextTurnIcon;
+    self.distanceToManeuver = distanceToManeuver;
+    self.distanceToManeuverScale = distanceToManeuverScale;
+    self.maneuverComplete = maneuverComplete;
+    self.softButtons = softButtons;
+    return self;
+}
+
 - (instancetype)initWithNavigationText1:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     self = [self init];
     if (!self) {

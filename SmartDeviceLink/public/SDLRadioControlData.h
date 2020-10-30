@@ -134,7 +134,15 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Integer value Min Value - 1 Max Value -7
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDs __deprecated_msg("Use availableHDChannels instead");
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDs __deprecated_msg("Use availableHdChannels instead");
+
+/**
+ * The list of available HD sub-channel indexes. Empty list means no Hd channel is available. Read-only.
+ * {"array_min_size": 0, "array_max_size": 8, "num_min_value": 0, "num_max_value": 7}
+ *
+ * @added in SmartDeviceLink 6.0.0
+ */
+@property (nullable, strong, nonatomic) NSArray<NSNumber<SDLUInt> *> *availableHdChannels;
 
 /**
  * the list of available hd sub-channel indexes, empty list means no Hd channel is available, read-only
@@ -143,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Integer value Min Value - 0 Max Value -7
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDChannels;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDChannels __deprecated_msg("Use availableHdChannels instead");
 
 /**
  * Current HD sub-channel if available

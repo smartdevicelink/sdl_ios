@@ -42,6 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID {
+    return [self initWithScrollableMessageBody:message timeout:@(timeout) softButtons:softButtons cancelID:@(cancelID)];
+}
+
+- (instancetype)initWithMessage:(NSString *)message {
+    return [self initWithScrollableMessageBody:message timeout:nil softButtons:nil cancelID:nil];
+}
+
 - (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {
     [self.parameters sdl_setObject:scrollableMessageBody forName:SDLRPCParameterNameScrollableMessageBody];
 }

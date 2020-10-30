@@ -26,8 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.radioControlCapabilities = radioControlCapabilities;
     self.buttonCapabilities = buttonCapabilities;
     self.audioControlCapabilities = audioControlCapabilities;
-    self.hmiSettingsControlCapabilities = hmiSettingsControlCapabilities;
-    self.lightControlCapabilities = lightControlCapabilities;
+    self.hmiSettingsControlCapabilitiesParam = hmiSettingsControlCapabilities;
+    self.lightControlCapabilitiesParam = lightControlCapabilities;
     self.seatControlCapabilities = seatControlCapabilities;
     return self;
 }
@@ -125,6 +125,22 @@ NS_ASSUME_NONNULL_BEGIN
     if (capability == nil) { return nil; }
 
     return @[capability];
+}
+
+- (void)setHmiSettingsControlCapabilitiesParam:(nullable SDLHMISettingsControlCapabilities *)hmiSettingsControlCapabilities {
+    [self.store sdl_setObject:hmiSettingsControlCapabilities forName:SDLRPCParameterNameHmiSettingsControlCapabilities];
+}
+
+- (nullable SDLHMISettingsControlCapabilities *)hmiSettingsControlCapabilitiesParam {
+    return [self.store sdl_objectForName:SDLRPCParameterNameHmiSettingsControlCapabilities ofClass:SDLHMISettingsControlCapabilities.class error:nil];
+}
+
+- (void)setLightControlCapabilitiesParam:(nullable SDLLightControlCapabilities *)lightControlCapabilities {
+    [self.store sdl_setObject:lightControlCapabilities forName:SDLRPCParameterNameLightControlCapabilities];
+}
+
+- (nullable SDLLightControlCapabilities *)lightControlCapabilitiesParam {
+    return [self.store sdl_objectForName:SDLRPCParameterNameLightControlCapabilities ofClass:SDLLightControlCapabilities.class error:nil];
 }
 
 @end

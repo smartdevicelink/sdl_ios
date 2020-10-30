@@ -41,6 +41,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)setColumns:(nullable NSNumber<SDLUInt> *)columns {
+    [self.store sdl_setObject:columns forName:SDLRPCParameterNameColumns];
+}
+
+- (nullable NSNumber<SDLUInt> *)columns {
+    return [self.store sdl_objectForName:SDLRPCParameterNameColumns ofClass:NSNumber.class error:nil];
+}
+
 - (void)setCols:(nullable NSNumber<SDLInt> *)cols {
     [self.store sdl_setObject:cols forName:SDLRPCParameterNameColumns];
 }
