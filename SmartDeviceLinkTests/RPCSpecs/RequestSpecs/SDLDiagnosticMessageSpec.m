@@ -34,10 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameMessageLength:@55555,
                                                                    SDLRPCParameterNameMessageData:[@[@1, @4, @16, @64] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameDiagnosticMessage}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDiagnosticMessage* testRequest = [[SDLDiagnosticMessage alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.targetID).to(equal(@3562));
         expect(testRequest.messageLength).to(equal(@55555));

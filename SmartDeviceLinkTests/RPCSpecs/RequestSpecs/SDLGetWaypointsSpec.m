@@ -28,10 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameWayPointType:SDLWayPointTypeAll},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetWayPoints}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetWayPoints* testRequest = [[SDLGetWayPoints alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.waypointType).to(equal(SDLWayPointTypeAll));
     });

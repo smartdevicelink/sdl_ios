@@ -166,11 +166,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
-    SDLSetDisplayLayout *setDisplayLayout = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
-    [self.sdlManager sendRequest:setDisplayLayout];
+    [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:nil];
 
     [self sdlex_updateScreen];
-    self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
 }
 
 - (nullable RefreshUIHandler)refreshUIHandler {
@@ -245,8 +243,9 @@ NS_ASSUME_NONNULL_BEGIN
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
         
-        // Send static menu items.
+        // Send static menu items and soft buttons
         [self sdlex_createMenus];
+        self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
 
         // Subscribe to vehicle data.
         [self.vehicleDataManager subscribeToVehicleOdometer];

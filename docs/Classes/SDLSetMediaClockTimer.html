@@ -12,9 +12,6 @@
   <li><a href="#section-+updatePauseWithNewStartTime:endTime:playPauseIndicator:">+updatePauseWithNewStartTime:endTime:playPauseIndicator:</a></li>
   <li><a href="#section-+resumeWithPlayPauseIndicator:">+resumeWithPlayPauseIndicator:</a></li>
   <li><a href="#section-+clearWithPlayPauseIndicator:">+clearWithPlayPauseIndicator:</a></li>
-  <li><a href="#section--initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:">-initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:</a></li>
-  <li><a href="#section--initWithUpdateMode:hours:minutes:seconds:">-initWithUpdateMode:hours:minutes:seconds:</a></li>
-  <li><a href="#section--initWithUpdateMode:">-initWithUpdateMode:</a></li>
   <li><a href="#section--initWithUpdateMode:startTime:endTime:playPauseIndicator:">-initWithUpdateMode:startTime:endTime:playPauseIndicator:</a></li>
   <li><a href="#section-startTime">startTime</a></li>
   <li><a href="#section-endTime">endTime</a></li>
@@ -335,109 +332,6 @@
   <div>
     <h4>Return Value</h4>
     <p>An object of SetMediaClockTimer</p>
-  </div>
-  
-  <h3 id="section--initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:">
-      -initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:
-  </h3>
-  
-  <p>Convenience init to create a SDLSetMediaClockTimer object</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span>
-                                     <span class="nf">hours</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">hours</span>
-                                   <span class="nf">minutes</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">minutes</span>
-                                   <span class="nf">seconds</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">seconds</span>
-                   <span class="nf">audioStreamingIndicator</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span>
-                                               <span class="n"><a href="../Classes/SDLSetMediaClockTimer.html#/c:objc(cs)SDLSetMediaClockTimer(py)audioStreamingIndicator">audioStreamingIndicator</a></span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">,</span> <span class="nv">hours</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">minutes</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">seconds</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">audioStreamingIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>updateMode</dt>
-      <dd><p>The type of SetMediaClockTimer RPC</p></dd>
-      <dt>hours</dt>
-      <dd><p>Hour</p></dd>
-      <dt>minutes</dt>
-      <dd><p>Minuute</p></dd>
-      <dt>seconds</dt>
-      <dd><p>Seconds</p></dd>
-      <dt>audioStreamingIndicator</dt>
-      <dd><p>The audio streaming indicator used for a play/pause button</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An SDLSetMediaClockTimer object</p>
-  </div>
-  
-  <h3 id="section--initWithUpdateMode:hours:minutes:seconds:">
-      -initWithUpdateMode:hours:minutes:seconds:
-  </h3>
-  
-  <p>Convenience init to create a SDLSetMediaClockTimer object</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span>
-                                     <span class="nf">hours</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">hours</span>
-                                   <span class="nf">minutes</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">minutes</span>
-                                   <span class="nf">seconds</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">seconds</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">,</span> <span class="nv">hours</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">minutes</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">seconds</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>updateMode</dt>
-      <dd><p>The type of SetMediaClockTimer RPC</p></dd>
-      <dt>hours</dt>
-      <dd><p>Hour</p></dd>
-      <dt>minutes</dt>
-      <dd><p>Minuute</p></dd>
-      <dt>seconds</dt>
-      <dd><p>Seconds</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An SDLSetMediaClockTimer object</p>
-  </div>
-  
-  <h3 id="section--initWithUpdateMode:">
-      -initWithUpdateMode:
-  </h3>
-  
-  <p>Convenience init to create a SDLSetMediaClockTimer object</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>updateMode</dt>
-      <dd><p>he type of SetMediaClockTimer RPC</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An SDLSetMediaClockTimer object</p>
   </div>
   
   <h3 id="section--initWithUpdateMode:startTime:endTime:playPauseIndicator:">

@@ -54,10 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameColumns:@3,
                                        SDLRPCParameterNameLevels:@1,
                                        SDLRPCParameterNameSeats:@[driverSeat]} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSeatLocationCapability *testStruct = [[SDLSeatLocationCapability alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.cols).to(equal(@3));
         expect(testStruct.rows).to(equal(@2));

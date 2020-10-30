@@ -33,10 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResolution:resolution,
                                                        SDLRPCParameterNameTouchEventAvailable:capabilities} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLScreenParams* testStruct = [[SDLScreenParams alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.resolution).to(equal(resolution));
         expect(testStruct.touchEventAvailable).to(equal(capabilities));

@@ -33,14 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  Optional, Boolean
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *lockScreenDismissalEnabled;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *lockScreenDismissalEnabled;
 
 /**
  Warning message to be displayed on the lock screen when dismissal is enabled.  This warning should be used to ensure that the user is not the driver of the vehicle, ex. `Swipe up to dismiss, acknowledging that you are not the driver.`.  This parameter must be present if "lockScreenDismissalEnabled" is set to true.
  
  Optional,  String
  */
-@property (strong, nonatomic) NSString *lockScreenDismissalWarning;
+@property (strong, nonatomic, nullable) NSString *lockScreenDismissalWarning;
 
 @end
 

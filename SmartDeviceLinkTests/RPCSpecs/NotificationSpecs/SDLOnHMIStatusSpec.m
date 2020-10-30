@@ -58,10 +58,7 @@ describe(@"Getter/Setter Tests", ^ {
                                         SDLRPCParameterNameVideoStreamingState: testVideoState,
                                         SDLRPCParameterNameWindowId: testWindowID},
                                   SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnHMIStatus}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnHMIStatus* testNotification = [[SDLOnHMIStatus alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.hmiLevel).to(equal(testLevel));
         expect(testNotification.audioStreamingState).to(equal(testAudioState));

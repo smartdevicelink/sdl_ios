@@ -34,10 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameInteractionChoiceSetId:@141414,
                                                                    SDLRPCParameterNameChoiceSet:[@[choice] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameCreateInteractionChoiceSet}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLCreateInteractionChoiceSet* testRequest = [[SDLCreateInteractionChoiceSet alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testRequest.interactionChoiceSetID).to(equal(@141414));
         expect(testRequest.choiceSet).to(equal([@[choice] mutableCopy]));

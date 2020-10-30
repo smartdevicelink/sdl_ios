@@ -39,10 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef SDLEnum SDLCapacityUnit NS_TYPED_ENUM;
 
+/// A capacity in kilogram units
 extern SDLCapacityUnit const SDLCapacityUnitKilograms;
 
+/// A capacity in Kilowatt Hour units
 extern SDLCapacityUnit const SDLCapacityUnitKilowatthours;
 
+/// A capacity in Liter units
 extern SDLCapacityUnit const SDLCapacityUnitLiters;
 
 NS_ASSUME_NONNULL_END

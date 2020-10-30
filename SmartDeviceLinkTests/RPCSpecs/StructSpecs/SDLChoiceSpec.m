@@ -47,10 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameSecondaryText:@"Arbitrary",
                                        SDLRPCParameterNameTertiaryText:@"qwerty",
                                        SDLRPCParameterNameSecondaryImage:secondaryImage} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLChoice* testStruct = [[SDLChoice alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.choiceID).to(equal(@3));
         expect(testStruct.menuName).to(equal(@"Hello"));

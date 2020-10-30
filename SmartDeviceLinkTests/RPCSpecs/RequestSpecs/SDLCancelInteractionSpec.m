@@ -50,10 +50,7 @@ describe(@"Getter/Setter Tests", ^{
                                                    SDLRPCParameterNameFunctionID:@(testFunctionID)
                                                    },
                                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameCancelInteraction}};
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLCancelInteraction alloc] initWithDictionary:dict];
-            #pragma clang diagnostic pop
 
             expect(testRequest.cancelID).to(equal(testCancelID));
             expect(testRequest.functionID).to(equal(testFunctionID));

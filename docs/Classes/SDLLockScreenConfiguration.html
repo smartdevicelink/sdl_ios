@@ -4,10 +4,8 @@
 
 <ul>
   <li><a href="#section-displayMode">displayMode</a></li>
-  <li><a href="#section-showInOptionalState">showInOptionalState</a></li>
   <li><a href="#section-enableDismissGesture">enableDismissGesture</a></li>
   <li><a href="#section-showDeviceLogo">showDeviceLogo</a></li>
-  <li><a href="#section-enableAutomaticLockScreen">enableAutomaticLockScreen</a></li>
   <li><a href="#section-backgroundColor">backgroundColor</a></li>
   <li><a href="#section-appIcon">appIcon</a></li>
   <li><a href="#section-customViewController">customViewController</a></li>
@@ -38,35 +36,6 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">displayMode</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLockScreenConfigurationDisplayMode.html">SDLLockScreenConfigurationDisplayMode</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-showInOptionalState">
-      showInOptionalState
-  </h3>
-  
-  <p>Whether or not the lock screen should be shown in the &ldquo;lock screen optional&rdquo; state. Defaults to NO.</p>
-
-<p>In order for the &ldquo;lock screen optional&rdquo; state to occur, the following must be true:</p>
-
-<ol>
-<li>The app should have received at least 1 driver distraction notification (i.e. a <code>OnDriverDistraction</code> notification) from SDL Core. Older versions of Core did not send a notification immediately on connection.</li>
-<li>The driver is not distracted (i.e. the last <code>OnDriverDistraction</code> notification received was for a driver distraction state off).</li>
-<li>The <code>hmiLevel</code> can not be <code>NONE</code>.</li>
-<li>If the <code>hmiLevel</code> is currently <code>BACKGROUND</code> then the previous <code>hmiLevel</code> should have been <code>FULL</code> or <code>LIMITED</code> (i.e. the user should have interacted with app before it was backgrounded).</li>
-</ol>
-
-<p>Since this has been deprecated, setting this to true will set <code><a href="../Classes/SDLLockScreenConfiguration.html#/c:objc(cs)SDLLockScreenConfiguration(py)displayMode">displayMode</a></code> to <code>OptionalOrRequired</code> if <code><a href="../Classes/SDLLockScreenConfiguration.html#/c:objc(cs)SDLLockScreenConfiguration(py)enableAutomaticLockScreen">enableAutomaticLockScreen</a></code> is true, or will have no effect if it is false.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">showInOptionalState</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">showInOptionalState</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -103,26 +72,6 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">showDeviceLogo</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-enableAutomaticLockScreen">
-      enableAutomaticLockScreen
-  </h3>
-  
-  <p>If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged. Defaults to YES.</p>
-
-<p>Since this has been deprecated, setting this to false will set <code><a href="../Classes/SDLLockScreenConfiguration.html#/c:objc(cs)SDLLockScreenConfiguration(py)displayMode">displayMode</a></code> to <code>Never</code>. Setting it back to true will set it to <code>RequiredOnly</code> if <code><a href="../Classes/SDLLockScreenConfiguration.html#/c:objc(cs)SDLLockScreenConfiguration(py)showInOptionalState">showInOptionalState</a></code> is false, or <code>OptionalOrRequired</code> if it is true.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">enableAutomaticLockScreen</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">enableAutomaticLockScreen</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   

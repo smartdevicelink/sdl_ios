@@ -40,10 +40,7 @@ describe(@"Getter/Setter Tests", ^ {
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameGrid:testGird} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSeatLocation *testStruct = [[SDLSeatLocation alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.grid).to(equal(testGird));
     });

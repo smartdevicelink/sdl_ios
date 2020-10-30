@@ -28,10 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameRequestSubType: testSubType,
                                                        SDLRPCParameterNameFileName:testFileName},
                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameSystemRequest}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSystemRequest* testRequest = [[SDLSystemRequest alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
             expect(testRequest.requestType).to(equal(testRequestType));
             expect(testRequest.requestSubType).to(equal(testSubType));

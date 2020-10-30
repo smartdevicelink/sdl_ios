@@ -48,10 +48,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameVolume:@(NO),
                                        SDLRPCParameterNameEqualizerSettings:[@[someEqualizerSettings] copy]
                                        } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAudioControlData* testStruct = [[SDLAudioControlData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.source).to(equal(SDLPrimaryAudioSourceCD));
         expect(testStruct.keepContext).to(equal(@(NO)));

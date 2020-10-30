@@ -23,6 +23,7 @@
   <li><a href="#section-SDLAppHMITypeTesting">SDLAppHMITypeTesting</a></li>
   <li><a href="#section-SDLAppHMITypeSystem">SDLAppHMITypeSystem</a></li>
   <li><a href="#section-SDLAppHMITypeRemoteControl">SDLAppHMITypeRemoteControl</a></li>
+  <li><a href="#section-SDLAppHMITypeWebView">SDLAppHMITypeWebView</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonIgnitionOff">SDLAppInterfaceUnregisteredReasonIgnitionOff</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonBluetoothOff">SDLAppInterfaceUnregisteredReasonBluetoothOff</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonUSBDisconnected">SDLAppInterfaceUnregisteredReasonUSBDisconnected</a></li>
@@ -35,6 +36,7 @@
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonAppUnauthorized">SDLAppInterfaceUnregisteredReasonAppUnauthorized</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonProtocolViolation">SDLAppInterfaceUnregisteredReasonProtocolViolation</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource">SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource</a></li>
+  <li><a href="#section-SDLAppInterfaceUnregisteredReasonResourceConstraint">SDLAppInterfaceUnregisteredReasonResourceConstraint</a></li>
   <li><a href="#section-SDLAppServiceTypeMedia">SDLAppServiceTypeMedia</a></li>
   <li><a href="#section-SDLAppServiceTypeWeather">SDLAppServiceTypeWeather</a></li>
   <li><a href="#section-SDLAppServiceTypeNavigation">SDLAppServiceTypeNavigation</a></li>
@@ -103,6 +105,9 @@
   <li><a href="#section-SDLButtonNameNavHeadingToggle">SDLButtonNameNavHeadingToggle</a></li>
   <li><a href="#section-SDLButtonPressModeLong">SDLButtonPressModeLong</a></li>
   <li><a href="#section-SDLButtonPressModeShort">SDLButtonPressModeShort</a></li>
+  <li><a href="#section-SDLCapacityUnitKilograms">SDLCapacityUnitKilograms</a></li>
+  <li><a href="#section-SDLCapacityUnitKilowatthours">SDLCapacityUnitKilowatthours</a></li>
+  <li><a href="#section-SDLCapacityUnitLiters">SDLCapacityUnitLiters</a></li>
   <li><a href="#section-SDLCarModeStatusNormal">SDLCarModeStatusNormal</a></li>
   <li><a href="#section-SDLCarModeStatusFactory">SDLCarModeStatusFactory</a></li>
   <li><a href="#section-SDLCarModeStatusTransport">SDLCarModeStatusTransport</a></li>
@@ -111,6 +116,9 @@
   <li><a href="#section-SDLCharacterSetType5">SDLCharacterSetType5</a></li>
   <li><a href="#section-SDLCharacterSetCID1">SDLCharacterSetCID1</a></li>
   <li><a href="#section-SDLCharacterSetCID2">SDLCharacterSetCID2</a></li>
+  <li><a href="#section-SDLCharacterSetAscii">SDLCharacterSetAscii</a></li>
+  <li><a href="#section-SDLCharacterSetIso88591">SDLCharacterSetIso88591</a></li>
+  <li><a href="#section-SDLCharacterSetUtf8">SDLCharacterSetUtf8</a></li>
   <li><a href="#section-SDLCompassDirectionNorth">SDLCompassDirectionNorth</a></li>
   <li><a href="#section-SDLCompassDirectionNorthwest">SDLCompassDirectionNorthwest</a></li>
   <li><a href="#section-SDLCompassDirectionWest">SDLCompassDirectionWest</a></li>
@@ -180,6 +188,19 @@
   <li><a href="#section-SDLEmergencyEventTypeRollover">SDLEmergencyEventTypeRollover</a></li>
   <li><a href="#section-SDLEmergencyEventTypeNotSupported">SDLEmergencyEventTypeNotSupported</a></li>
   <li><a href="#section-SDLEmergencyEventTypeFault">SDLEmergencyEventTypeFault</a></li>
+  <li><a href="#section-SDLErrorDomainAudioStreamManager">SDLErrorDomainAudioStreamManager</a></li>
+  <li><a href="#section-SDLErrorDomainCacheFileManager">SDLErrorDomainCacheFileManager</a></li>
+  <li><a href="#section-SDLErrorDomainChoiceSetManager">SDLErrorDomainChoiceSetManager</a></li>
+  <li><a href="#section-SDLErrorDomainEncryptionLifecycleManager">SDLErrorDomainEncryptionLifecycleManager</a></li>
+  <li><a href="#section-SDLErrorDomainFileManager">SDLErrorDomainFileManager</a></li>
+  <li><a href="#section-SDLErrorDomainLifecycleManager">SDLErrorDomainLifecycleManager</a></li>
+  <li><a href="#section-SDLErrorDomainMenuManager">SDLErrorDomainMenuManager</a></li>
+  <li><a href="#section-SDLErrorDomainRPCStore">SDLErrorDomainRPCStore</a></li>
+  <li><a href="#section-SDLErrorDomainSoftButtonManager">SDLErrorDomainSoftButtonManager</a></li>
+  <li><a href="#section-SDLErrorDomainSubscribeButtonManager">SDLErrorDomainSubscribeButtonManager</a></li>
+  <li><a href="#section-SDLErrorDomainSystemCapabilityManager">SDLErrorDomainSystemCapabilityManager</a></li>
+  <li><a href="#section-SDLErrorDomainTextAndGraphicManager">SDLErrorDomainTextAndGraphicManager</a></li>
+  <li><a href="#section-SDLErrorDomainTransport">SDLErrorDomainTransport</a></li>
   <li><a href="#section-SDLFileTypeBMP">SDLFileTypeBMP</a></li>
   <li><a href="#section-SDLFileTypeJPEG">SDLFileTypeJPEG</a></li>
   <li><a href="#section-SDLFileTypePNG">SDLFileTypePNG</a></li>
@@ -237,6 +258,8 @@
   <li><a href="#section-SDLImageFieldNameShowConstantTBTIcon">SDLImageFieldNameShowConstantTBTIcon</a></li>
   <li><a href="#section-SDLImageFieldNameShowConstantTBTNextTurnIcon">SDLImageFieldNameShowConstantTBTNextTurnIcon</a></li>
   <li><a href="#section-SDLImageFieldNameLocationImage">SDLImageFieldNameLocationImage</a></li>
+  <li><a href="#section-SDLImageFieldNameSubMenuIcon">SDLImageFieldNameSubMenuIcon</a></li>
+  <li><a href="#section-SDLImageFieldNameSubtleAlertIcon">SDLImageFieldNameSubtleAlertIcon</a></li>
   <li><a href="#section-SDLImageTypeStatic">SDLImageTypeStatic</a></li>
   <li><a href="#section-SDLImageTypeDynamic">SDLImageTypeDynamic</a></li>
   <li><a href="#section-SDLInteractionModeManualOnly">SDLInteractionModeManualOnly</a></li>
@@ -351,9 +374,6 @@
   <li><a href="#section-SDLLightStatusRampDown">SDLLightStatusRampDown</a></li>
   <li><a href="#section-SDLLightStatusUnknown">SDLLightStatusUnknown</a></li>
   <li><a href="#section-SDLLightStatusInvalid">SDLLightStatusInvalid</a></li>
-  <li><a href="#section-SDLLockScreenStatusOff">SDLLockScreenStatusOff</a></li>
-  <li><a href="#section-SDLLockScreenStatusOptional">SDLLockScreenStatusOptional</a></li>
-  <li><a href="#section-SDLLockScreenStatusRequired">SDLLockScreenStatusRequired</a></li>
   <li><a href="#section-SDLMaintenanceModeStatusNormal">SDLMaintenanceModeStatusNormal</a></li>
   <li><a href="#section-SDLMaintenanceModeStatusNear">SDLMaintenanceModeStatusNear</a></li>
   <li><a href="#section-SDLMaintenanceModeStatusActive">SDLMaintenanceModeStatusActive</a></li>
@@ -425,7 +445,6 @@
   <li><a href="#section-SDLDidReceiveLockScreenIcon">SDLDidReceiveLockScreenIcon</a></li>
   <li><a href="#section-SDLDidBecomeReady">SDLDidBecomeReady</a></li>
   <li><a href="#section-SDLDidUpdateProjectionView">SDLDidUpdateProjectionView</a></li>
-  <li><a href="#section-SDLDidChangeLockScreenStatusNotification">SDLDidChangeLockScreenStatusNotification</a></li>
   <li><a href="#section-SDLDidReceiveAddCommandResponse">SDLDidReceiveAddCommandResponse</a></li>
   <li><a href="#section-SDLDidReceiveAddSubMenuResponse">SDLDidReceiveAddSubMenuResponse</a></li>
   <li><a href="#section-SDLDidReceiveAlertResponse">SDLDidReceiveAlertResponse</a></li>
@@ -482,6 +501,7 @@
   <li><a href="#section-SDLDidReceiveSubscribeButtonResponse">SDLDidReceiveSubscribeButtonResponse</a></li>
   <li><a href="#section-SDLDidReceiveSubscribeVehicleDataResponse">SDLDidReceiveSubscribeVehicleDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveSubscribeWaypointsResponse">SDLDidReceiveSubscribeWaypointsResponse</a></li>
+  <li><a href="#section-SDLDidReceiveSubtleAlertResponse">SDLDidReceiveSubtleAlertResponse</a></li>
   <li><a href="#section-SDLDidReceiveSyncPDataResponse">SDLDidReceiveSyncPDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveSystemRequestResponse">SDLDidReceiveSystemRequestResponse</a></li>
   <li><a href="#section-SDLDidReceiveUpdateTurnListResponse">SDLDidReceiveUpdateTurnListResponse</a></li>
@@ -545,6 +565,7 @@
   <li><a href="#section-SDLDidReceiveSubscribeButtonRequest">SDLDidReceiveSubscribeButtonRequest</a></li>
   <li><a href="#section-SDLDidReceiveSubscribeVehicleDataRequest">SDLDidReceiveSubscribeVehicleDataRequest</a></li>
   <li><a href="#section-SDLDidReceiveSubscribeWayPointsRequest">SDLDidReceiveSubscribeWayPointsRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSubtleAlertRequest">SDLDidReceiveSubtleAlertRequest</a></li>
   <li><a href="#section-SDLDidReceiveSyncPDataRequest">SDLDidReceiveSyncPDataRequest</a></li>
   <li><a href="#section-SDLDidReceiveSystemRequestRequest">SDLDidReceiveSystemRequestRequest</a></li>
   <li><a href="#section-SDLDidReceiveUnpublishAppServiceRequest">SDLDidReceiveUnpublishAppServiceRequest</a></li>
@@ -568,12 +589,15 @@
   <li><a href="#section-SDLDidReceiveNewHashNotification">SDLDidReceiveNewHashNotification</a></li>
   <li><a href="#section-SDLDidReceiveVehicleIconNotification">SDLDidReceiveVehicleIconNotification</a></li>
   <li><a href="#section-SDLDidChangePermissionsNotification">SDLDidChangePermissionsNotification</a></li>
+  <li><a href="#section-SDLDidReceiveSubtleAlertPressedNotification">SDLDidReceiveSubtleAlertPressedNotification</a></li>
   <li><a href="#section-SDLDidReceiveRemoteControlStatusNotification">SDLDidReceiveRemoteControlStatusNotification</a></li>
   <li><a href="#section-SDLDidReceiveSyncPDataNotification">SDLDidReceiveSyncPDataNotification</a></li>
   <li><a href="#section-SDLDidReceiveSystemCapabilityUpdatedNotification">SDLDidReceiveSystemCapabilityUpdatedNotification</a></li>
   <li><a href="#section-SDLDidReceiveSystemRequestNotification">SDLDidReceiveSystemRequestNotification</a></li>
   <li><a href="#section-SDLDidChangeTurnByTurnStateNotification">SDLDidChangeTurnByTurnStateNotification</a></li>
   <li><a href="#section-SDLDidReceiveTouchEventNotification">SDLDidReceiveTouchEventNotification</a></li>
+  <li><a href="#section-SDLDidReceiveUpdateFileNotification">SDLDidReceiveUpdateFileNotification</a></li>
+  <li><a href="#section-SDLDidReceiveUpdateSubMenuNotification">SDLDidReceiveUpdateSubMenuNotification</a></li>
   <li><a href="#section-SDLDidReceiveVehicleDataNotification">SDLDidReceiveVehicleDataNotification</a></li>
   <li><a href="#section-SDLDidReceiveWaypointNotification">SDLDidReceiveWaypointNotification</a></li>
   <li><a href="#section-SDLPRNDLPark">SDLPRNDLPark</a></li>
@@ -583,7 +607,9 @@
   <li><a href="#section-SDLPRNDLSport">SDLPRNDLSport</a></li>
   <li><a href="#section-SDLPRNDLLowGear">SDLPRNDLLowGear</a></li>
   <li><a href="#section-SDLPRNDLFirst">SDLPRNDLFirst</a></li>
+  <li><a href="#section-SDLPRNDLNinth">SDLPRNDLNinth</a></li>
   <li><a href="#section-SDLPRNDLSecond">SDLPRNDLSecond</a></li>
+  <li><a href="#section-SDLPRNDLTenth">SDLPRNDLTenth</a></li>
   <li><a href="#section-SDLPRNDLThird">SDLPRNDLThird</a></li>
   <li><a href="#section-SDLPRNDLFourth">SDLPRNDLFourth</a></li>
   <li><a href="#section-SDLPRNDLFifth">SDLPRNDLFifth</a></li>
@@ -629,6 +655,7 @@
   <li><a href="#section-SDLPredefinedLayoutLargeGraphicWithSoftButtons">SDLPredefinedLayoutLargeGraphicWithSoftButtons</a></li>
   <li><a href="#section-SDLPredefinedLayoutDoubleGraphicWithSoftButtons">SDLPredefinedLayoutDoubleGraphicWithSoftButtons</a></li>
   <li><a href="#section-SDLPredefinedLayoutLargeGraphicOnly">SDLPredefinedLayoutLargeGraphicOnly</a></li>
+  <li><a href="#section-SDLPredefinedLayoutWebView">SDLPredefinedLayoutWebView</a></li>
   <li><a href="#section-SDLPrerecordedSpeechHelp">SDLPrerecordedSpeechHelp</a></li>
   <li><a href="#section-SDLPrerecordedSpeechInitial">SDLPrerecordedSpeechInitial</a></li>
   <li><a href="#section-SDLPrerecordedSpeechListen">SDLPrerecordedSpeechListen</a></li>
@@ -690,11 +717,14 @@
   <li><a href="#section-SDLRPCFunctionNameOnLockScreenStatus">SDLRPCFunctionNameOnLockScreenStatus</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnPermissionsChange">SDLRPCFunctionNameOnPermissionsChange</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnRCStatus">SDLRPCFunctionNameOnRCStatus</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnSubtleAlertPressed">SDLRPCFunctionNameOnSubtleAlertPressed</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnSyncPData">SDLRPCFunctionNameOnSyncPData</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnSystemCapabilityUpdated">SDLRPCFunctionNameOnSystemCapabilityUpdated</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnSystemRequest">SDLRPCFunctionNameOnSystemRequest</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnTBTClientState">SDLRPCFunctionNameOnTBTClientState</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnTouchEvent">SDLRPCFunctionNameOnTouchEvent</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnUpdateFile">SDLRPCFunctionNameOnUpdateFile</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnUpdateSubMenu">SDLRPCFunctionNameOnUpdateSubMenu</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnVehicleData">SDLRPCFunctionNameOnVehicleData</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnWayPointChange">SDLRPCFunctionNameOnWayPointChange</a></li>
   <li><a href="#section-SDLRPCFunctionNamePerformAppServiceInteraction">SDLRPCFunctionNamePerformAppServiceInteraction</a></li>
@@ -724,6 +754,7 @@
   <li><a href="#section-SDLRPCFunctionNameSubscribeButton">SDLRPCFunctionNameSubscribeButton</a></li>
   <li><a href="#section-SDLRPCFunctionNameSubscribeVehicleData">SDLRPCFunctionNameSubscribeVehicleData</a></li>
   <li><a href="#section-SDLRPCFunctionNameSubscribeWayPoints">SDLRPCFunctionNameSubscribeWayPoints</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSubtleAlert">SDLRPCFunctionNameSubtleAlert</a></li>
   <li><a href="#section-SDLRPCFunctionNameSyncPData">SDLRPCFunctionNameSyncPData</a></li>
   <li><a href="#section-SDLRPCFunctionNameSystemRequest">SDLRPCFunctionNameSystemRequest</a></li>
   <li><a href="#section-SDLRPCFunctionNameUnpublishAppService">SDLRPCFunctionNameUnpublishAppService</a></li>
@@ -810,10 +841,15 @@
   <li><a href="#section-SDLSeatMemoryActionTypeSave">SDLSeatMemoryActionTypeSave</a></li>
   <li><a href="#section-SDLSeatMemoryActionTypeRestore">SDLSeatMemoryActionTypeRestore</a></li>
   <li><a href="#section-SDLSeatMemoryActionTypeNone">SDLSeatMemoryActionTypeNone</a></li>
+  <li><a href="#section-SDLServiceUpdateReasonPublished">SDLServiceUpdateReasonPublished</a></li>
   <li><a href="#section-SDLServiceUpdatePublished">SDLServiceUpdatePublished</a></li>
+  <li><a href="#section-SDLServiceUpdateReasonRemoved">SDLServiceUpdateReasonRemoved</a></li>
   <li><a href="#section-SDLServiceUpdateRemoved">SDLServiceUpdateRemoved</a></li>
+  <li><a href="#section-SDLServiceUpdateReasonActivated">SDLServiceUpdateReasonActivated</a></li>
   <li><a href="#section-SDLServiceUpdateActivated">SDLServiceUpdateActivated</a></li>
+  <li><a href="#section-SDLServiceUpdateReasonDeactivated">SDLServiceUpdateReasonDeactivated</a></li>
   <li><a href="#section-SDLServiceUpdateDeactivated">SDLServiceUpdateDeactivated</a></li>
+  <li><a href="#section-SDLServiceUpdateReasonManifestUpdate">SDLServiceUpdateReasonManifestUpdate</a></li>
   <li><a href="#section-SDLServiceUpdateManifestUpdate">SDLServiceUpdateManifestUpdate</a></li>
   <li><a href="#section-SDLSoftButtonTypeText">SDLSoftButtonTypeText</a></li>
   <li><a href="#section-SDLSoftButtonTypeImage">SDLSoftButtonTypeImage</a></li>
@@ -1033,6 +1069,7 @@
   <li><a href="#section-SDLSystemCapabilityTypeRemoteControl">SDLSystemCapabilityTypeRemoteControl</a></li>
   <li><a href="#section-SDLSystemCapabilityTypeSeatLocation">SDLSystemCapabilityTypeSeatLocation</a></li>
   <li><a href="#section-SDLSystemCapabilityTypeDisplays">SDLSystemCapabilityTypeDisplays</a></li>
+  <li><a href="#section-SDLSystemCapabilityTypeDriverDistraction">SDLSystemCapabilityTypeDriverDistraction</a></li>
   <li><a href="#section-SDLSystemContextMain">SDLSystemContextMain</a></li>
   <li><a href="#section-SDLSystemContextVoiceRecognitionSession">SDLSystemContextVoiceRecognitionSession</a></li>
   <li><a href="#section-SDLSystemContextMenu">SDLSystemContextMenu</a></li>
@@ -1090,6 +1127,9 @@
   <li><a href="#section-SDLTextFieldNameLocationDescription">SDLTextFieldNameLocationDescription</a></li>
   <li><a href="#section-SDLTextFieldNameAddressLines">SDLTextFieldNameAddressLines</a></li>
   <li><a href="#section-SDLTextFieldNamePhoneNumber">SDLTextFieldNamePhoneNumber</a></li>
+  <li><a href="#section-SDLTextFieldNameSubtleAlertText1">SDLTextFieldNameSubtleAlertText1</a></li>
+  <li><a href="#section-SDLTextFieldNameSubtleAlertText2">SDLTextFieldNameSubtleAlertText2</a></li>
+  <li><a href="#section-SDLTextFieldNameSubtleAlertSoftButtonText">SDLTextFieldNameSubtleAlertSoftButtonText</a></li>
   <li><a href="#section-SDLTimerModeUp">SDLTimerModeUp</a></li>
   <li><a href="#section-SDLTimerModeDown">SDLTimerModeDown</a></li>
   <li><a href="#section-SDLTimerModeNone">SDLTimerModeNone</a></li>
@@ -1097,6 +1137,14 @@
   <li><a href="#section-SDLTouchTypeMove">SDLTouchTypeMove</a></li>
   <li><a href="#section-SDLTouchTypeEnd">SDLTouchTypeEnd</a></li>
   <li><a href="#section-SDLTouchTypeCancel">SDLTouchTypeCancel</a></li>
+  <li><a href="#section-SDLTransmissionTypeAutomatic">SDLTransmissionTypeAutomatic</a></li>
+  <li><a href="#section-SDLTransmissionTypeContinuouslyVariable">SDLTransmissionTypeContinuouslyVariable</a></li>
+  <li><a href="#section-SDLTransmissionTypeDirectDrive">SDLTransmissionTypeDirectDrive</a></li>
+  <li><a href="#section-SDLTransmissionTypeDualClutch">SDLTransmissionTypeDualClutch</a></li>
+  <li><a href="#section-SDLTransmissionTypeElectricVariable">SDLTransmissionTypeElectricVariable</a></li>
+  <li><a href="#section-SDLTransmissionTypeInfinitelyVariable">SDLTransmissionTypeInfinitelyVariable</a></li>
+  <li><a href="#section-SDLTransmissionTypeManual">SDLTransmissionTypeManual</a></li>
+  <li><a href="#section-SDLTransmissionTypeSemiAutomatic">SDLTransmissionTypeSemiAutomatic</a></li>
   <li><a href="#section-SDLTriggerSourceMenu">SDLTriggerSourceMenu</a></li>
   <li><a href="#section-SDLTriggerSourceVoiceRecognition">SDLTriggerSourceVoiceRecognition</a></li>
   <li><a href="#section-SDLTriggerSourceKeyboard">SDLTriggerSourceKeyboard</a></li>
@@ -1135,8 +1183,10 @@
   <li><a href="#section-SDLVehicleDataStatusNoDataExists">SDLVehicleDataStatusNoDataExists</a></li>
   <li><a href="#section-SDLVehicleDataStatusOff">SDLVehicleDataStatusOff</a></li>
   <li><a href="#section-SDLVehicleDataStatusOn">SDLVehicleDataStatusOn</a></li>
+  <li><a href="#section-SDLVehicleDataTypeGearStatus">SDLVehicleDataTypeGearStatus</a></li>
   <li><a href="#section-SDLVehicleDataTypeGPS">SDLVehicleDataTypeGPS</a></li>
   <li><a href="#section-SDLVehicleDataTypeSpeed">SDLVehicleDataTypeSpeed</a></li>
+  <li><a href="#section-SDLVehicleDataTypeStabilityControlsStatus">SDLVehicleDataTypeStabilityControlsStatus</a></li>
   <li><a href="#section-SDLVehicleDataTypeRPM">SDLVehicleDataTypeRPM</a></li>
   <li><a href="#section-SDLVehicleDataTypeFuelLevel">SDLVehicleDataTypeFuelLevel</a></li>
   <li><a href="#section-SDLVehicleDataTypeFuelLevelState">SDLVehicleDataTypeFuelLevelState</a></li>
@@ -1157,6 +1207,7 @@
   <li><a href="#section-SDLVehicleDataTypeMyKey">SDLVehicleDataTypeMyKey</a></li>
   <li><a href="#section-SDLVehicleDataTypeBraking">SDLVehicleDataTypeBraking</a></li>
   <li><a href="#section-SDLVehicleDataTypeWiperStatus">SDLVehicleDataTypeWiperStatus</a></li>
+  <li><a href="#section-SDLVehicleDataTypeHandsOffSteering">SDLVehicleDataTypeHandsOffSteering</a></li>
   <li><a href="#section-SDLVehicleDataTypeHeadlampStatus">SDLVehicleDataTypeHeadlampStatus</a></li>
   <li><a href="#section-SDLVehicleDataTypeBatteryVoltage">SDLVehicleDataTypeBatteryVoltage</a></li>
   <li><a href="#section-SDLVehicleDataTypeEngineOilLife">SDLVehicleDataTypeEngineOilLife</a></li>
@@ -1167,6 +1218,7 @@
   <li><a href="#section-SDLVehicleDataTypeTurnSignal">SDLVehicleDataTypeTurnSignal</a></li>
   <li><a href="#section-SDLVehicleDataTypeCloudAppVehicleID">SDLVehicleDataTypeCloudAppVehicleID</a></li>
   <li><a href="#section-SDLVehicleDataTypeOEMVehicleDataType">SDLVehicleDataTypeOEMVehicleDataType</a></li>
+  <li><a href="#section-SDLVehicleDataTypeWindowStatus">SDLVehicleDataTypeWindowStatus</a></li>
   <li><a href="#section-SDLVentilationModeUpper">SDLVentilationModeUpper</a></li>
   <li><a href="#section-SDLVentilationModeLower">SDLVentilationModeLower</a></li>
   <li><a href="#section-SDLVentilationModeBoth">SDLVentilationModeBoth</a></li>
@@ -1577,6 +1629,26 @@
   
   
   
+  <h3 id="section-SDLAppHMITypeWebView">
+      SDLAppHMITypeWebView
+  </h3>
+  
+  <p>WebEngine Projection mode</p>
+
+<p>@since 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span> <span class="n">SDLAppHMITypeWebView</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">webView</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLAppInterfaceUnregisteredReasonIgnitionOff">
       SDLAppInterfaceUnregisteredReasonIgnitionOff
   </h3>
@@ -1807,6 +1879,27 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">unsupportedHMIResource</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLAppInterfaceUnregisteredReason.h@T@SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppInterfaceUnregisteredReasonResourceConstraint">
+      SDLAppInterfaceUnregisteredReasonResourceConstraint
+  </h3>
+  
+  <p>The application is unregistered due to hardware resource constraints. The system will shortly close the application to free up hardware resources.</p>
+
+<p>@since RPC 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLAppInterfaceUnregisteredReason.h@T@SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></span>
+    <span class="n">SDLAppInterfaceUnregisteredReasonResourceConstraint</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">resourceConstraint</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLAppInterfaceUnregisteredReason.h@T@SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></span></code></pre>
 
   
   
@@ -3046,6 +3139,60 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   
   
+  <h3 id="section-SDLCapacityUnitKilograms">
+      SDLCapacityUnitKilograms
+  </h3>
+  
+  <p>A capacity in kilogram units</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span> <span class="n">_Nonnull</span> <span class="n">SDLCapacityUnitKilograms</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">kilograms</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLCapacityUnitKilowatthours">
+      SDLCapacityUnitKilowatthours
+  </h3>
+  
+  <p>A capacity in Kilowatt Hour units</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span> <span class="n">_Nonnull</span> <span class="n">SDLCapacityUnitKilowatthours</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">kilowatthours</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLCapacityUnitLiters">
+      SDLCapacityUnitLiters
+  </h3>
+  
+  <p>A capacity in Liter units</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span> <span class="n">_Nonnull</span> <span class="n">SDLCapacityUnitLiters</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">liters</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit">SDLCapacityUnit</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLCarModeStatusNormal">
       SDLCarModeStatusNormal
   </h3>
@@ -3122,7 +3269,8 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLCharacterSetType2
   </h3>
   
-  <p>Character Set Type 2</p>
+  <p>@deprecated
+@since SDL 7.0.0</p>
 
   
   
@@ -3140,7 +3288,8 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLCharacterSetType5
   </h3>
   
-  <p>Character Set Type 5</p>
+  <p>@deprecated
+@since SDL 7.0.0</p>
 
   
   
@@ -3158,7 +3307,8 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLCharacterSetCID1
   </h3>
   
-  <p>Character Set CID1</p>
+  <p>@deprecated
+@since SDL 7.0.0</p>
 
   
   
@@ -3176,7 +3326,8 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLCharacterSetCID2
   </h3>
   
-  <p>Character Set CID2</p>
+  <p>@deprecated
+@since SDL 7.0.0</p>
 
   
   
@@ -3186,6 +3337,66 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">CID2</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLCharacterSet.h@T@SDLCharacterSet">SDLCharacterSet</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLCharacterSetAscii">
+      SDLCharacterSetAscii
+  </h3>
+  
+  <p>ASCII as defined in <a href="https://en.wikipedia.org/wiki/ASCII">https://en.wikipedia.org/wiki/ASCII</a> as defined in codes 0-127. Non-printable characters such as tabs and back spaces are ignored.</p>
+
+<p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLCharacterSet.h@T@SDLCharacterSet">SDLCharacterSet</a></span> <span class="n">SDLCharacterSetAscii</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">ascii</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLCharacterSet.h@T@SDLCharacterSet">SDLCharacterSet</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLCharacterSetIso88591">
+      SDLCharacterSetIso88591
+  </h3>
+  
+  <p>Latin-1, as defined in <a href="https://en.wikipedia.org/wiki/ISO/IEC_8859-1">https://en.wikipedia.org/wiki/ISO/IEC_8859-1</a></p>
+
+<p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLCharacterSet.h@T@SDLCharacterSet">SDLCharacterSet</a></span> <span class="n">SDLCharacterSetIso88591</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">iso88591</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLCharacterSet.h@T@SDLCharacterSet">SDLCharacterSet</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLCharacterSetUtf8">
+      SDLCharacterSetUtf8
+  </h3>
+  
+  <p>The UTF-8 character set that uses variable bytes per code point. See <a href="https://en.wikipedia.org/wiki/UTF-8">https://en.wikipedia.org/wiki/UTF-8</a> for more details. This is the preferred character set.</p>
+
+<p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLCharacterSet.h@T@SDLCharacterSet">SDLCharacterSet</a></span> <span class="n">SDLCharacterSetUtf8</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">utf8</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLCharacterSet.h@T@SDLCharacterSet">SDLCharacterSet</a></span></code></pre>
 
   
   
@@ -4434,6 +4645,240 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   
   
+  <h3 id="section-SDLErrorDomainAudioStreamManager">
+      SDLErrorDomainAudioStreamManager
+  </h3>
+  
+  <p>An error in the SDLAudioStreamManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainAudioStreamManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainAudioStreamManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainCacheFileManager">
+      SDLErrorDomainCacheFileManager
+  </h3>
+  
+  <p>An error in the SDLCacheFileManager private class</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainCacheFileManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainCacheFileManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainChoiceSetManager">
+      SDLErrorDomainChoiceSetManager
+  </h3>
+  
+  <p>An error in the SDLChoiceSetManager subset of SDLScreenManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainChoiceSetManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainChoiceSetManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainEncryptionLifecycleManager">
+      SDLErrorDomainEncryptionLifecycleManager
+  </h3>
+  
+  <p>An error in the SDLEncryptionLifecycleManager private class</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainEncryptionLifecycleManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainEncryptionLifecycleManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainFileManager">
+      SDLErrorDomainFileManager
+  </h3>
+  
+  <p>An error in the SDLFileManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainFileManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainFileManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainLifecycleManager">
+      SDLErrorDomainLifecycleManager
+  </h3>
+  
+  <p>An error in the SDLLifecycleManager private class</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainLifecycleManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainLifecycleManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainMenuManager">
+      SDLErrorDomainMenuManager
+  </h3>
+  
+  <p>An error in the SDLMenuManager subset of SDLScreenManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainMenuManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainMenuManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainRPCStore">
+      SDLErrorDomainRPCStore
+  </h3>
+  
+  <p>An error in an SDL RPC class</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainRPCStore</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainRPCStore</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainSoftButtonManager">
+      SDLErrorDomainSoftButtonManager
+  </h3>
+  
+  <p>An error in the SDLSoftButtonManager subset of SDLScreenManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainSoftButtonManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainSoftButtonManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainSubscribeButtonManager">
+      SDLErrorDomainSubscribeButtonManager
+  </h3>
+  
+  <p>An error in the SDLSubscribeButtonManager subset of SDLScreenManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainSubscribeButtonManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainSubscribeButtonManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainSystemCapabilityManager">
+      SDLErrorDomainSystemCapabilityManager
+  </h3>
+  
+  <p>An error in the SDLSystemCapabilityManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainSystemCapabilityManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainSystemCapabilityManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainTextAndGraphicManager">
+      SDLErrorDomainTextAndGraphicManager
+  </h3>
+  
+  <p>An error in the SDLTextAndGraphicManager subset of SDLScreenManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainTextAndGraphicManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainTextAndGraphicManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainTransport">
+      SDLErrorDomainTransport
+  </h3>
+  
+  <p>An error in a SDL transport private class</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainTransport</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainTransport</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLFileTypeBMP">
       SDLFileTypeBMP
   </h3>
@@ -5475,6 +5920,46 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">locationImage</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLImageFieldNameSubMenuIcon">
+      SDLImageFieldNameSubMenuIcon
+  </h3>
+  
+  <p>The image field for AddSubMenu.menuIcon</p>
+
+<p>@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span> <span class="n">SDLImageFieldNameSubMenuIcon</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subMenuIcon</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLImageFieldNameSubtleAlertIcon">
+      SDLImageFieldNameSubtleAlertIcon
+  </h3>
+  
+  <p>The image of the subtle alert; applies to <code>SubtleAlert</code> <code>alertImage</code></p>
+
+<p>@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span> <span class="n">SDLImageFieldNameSubtleAlertIcon</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subtleAlertIcon</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span></code></pre>
 
   
   
@@ -7551,60 +8036,6 @@ For example, right puddle lights and spot lights.</p>
   
   
   
-  <h3 id="section-SDLLockScreenStatusOff">
-      SDLLockScreenStatusOff
-  </h3>
-  
-  <p>LockScreen is Not Required</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus">SDLLockScreenStatus</a></span> <span class="n">SDLLockScreenStatusOff</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">off</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus">SDLLockScreenStatus</a></span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLLockScreenStatusOptional">
-      SDLLockScreenStatusOptional
-  </h3>
-  
-  <p>LockScreen is Optional</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus">SDLLockScreenStatus</a></span> <span class="n">SDLLockScreenStatusOptional</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">optional</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus">SDLLockScreenStatus</a></span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLLockScreenStatusRequired">
-      SDLLockScreenStatusRequired
-  </h3>
-  
-  <p>LockScreen is Required</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus">SDLLockScreenStatus</a></span> <span class="n">SDLLockScreenStatusRequired</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">required</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus">SDLLockScreenStatus</a></span></code></pre>
-
-  
-  
-  
   <h3 id="section-SDLMaintenanceModeStatusNormal">
       SDLMaintenanceModeStatusNormal
   </h3>
@@ -8944,26 +9375,6 @@ For example, right puddle lights and spot lights.</p>
   
   
   
-  <h3 id="section-SDLDidChangeLockScreenStatusNotification">
-      SDLDidChangeLockScreenStatusNotification
-  </h3>
-  
-  <p>Name for a LockScreenStatus notification RPC</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n">__deprecated_msg</span><span class="p">(</span>
-    <span class="s">"This will be replaced in a future version where a fake RPC is not sent"</span><span class="p">)</span>
-    <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">SDLDidChangeLockScreenStatusNotification</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidChangeLockScreenStatus</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
-
-  
-  
-  
   <h3 id="section-SDLDidReceiveAddCommandResponse">
       SDLDidReceiveAddCommandResponse
   </h3>
@@ -9969,6 +10380,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSubscribeWaypointsResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSubtleAlertResponse">
+      SDLDidReceiveSubtleAlertResponse
+  </h3>
+  
+  <p>Name for a SubtleAlert response RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLDidReceiveSubtleAlertResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSubtleAlertResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -11094,7 +11523,7 @@ For example, right puddle lights and spot lights.</p>
       SDLDidReceiveSubscribeWayPointsRequest
   </h3>
   
-  <p>Name for a ubscribeWayPoints request RPC</p>
+  <p>Name for a SubscribeWayPoints request RPC</p>
 
   
   
@@ -11104,6 +11533,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSubscribeWayPointsRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSubtleAlertRequest">
+      SDLDidReceiveSubtleAlertRequest
+  </h3>
+  
+  <p>Name for a SubtleAlert request RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLDidReceiveSubtleAlertRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSubtleAlertRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -11523,6 +11970,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveSubtleAlertPressedNotification">
+      SDLDidReceiveSubtleAlertPressedNotification
+  </h3>
+  
+  <p>Name for a SubtleAlertPressed notification RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLDidReceiveSubtleAlertPressedNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveSubtleAlertPressed</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveRemoteControlStatusNotification">
       SDLDidReceiveRemoteControlStatusNotification
   </h3>
@@ -11627,6 +12092,42 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveTouchEvent</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUpdateFileNotification">
+      SDLDidReceiveUpdateFileNotification
+  </h3>
+  
+  <p>Name for an OnUpdateFile notification RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLDidReceiveUpdateFileNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveUpdateFile</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUpdateSubMenuNotification">
+      SDLDidReceiveUpdateSubMenuNotification
+  </h3>
+  
+  <p>Name for an OnUpdateSubMenu notification RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="n">_Nonnull</span> <span class="n">SDLDidReceiveUpdateSubMenuNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveUpdateSubMenu</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -11793,6 +12294,25 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLPRNDLNinth">
+      SDLPRNDLNinth
+  </h3>
+  
+  <p>Ninth gear
+@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span> <span class="n">SDLPRNDLNinth</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">ninth</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLPRNDLSecond">
       SDLPRNDLSecond
   </h3>
@@ -11807,6 +12327,25 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">second</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLPRNDLTenth">
+      SDLPRNDLTenth
+  </h3>
+  
+  <p>Tenth gear
+@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span> <span class="n">SDLPRNDLTenth</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">tenth</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLPRNDL.h@T@SDLPRNDL">SDLPRNDL</a></span></code></pre>
 
   
   
@@ -12622,6 +13161,27 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">largeGraphicOnly</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLPredefinedLayout.h@T@SDLPredefinedLayout">SDLPredefinedLayout</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLPredefinedLayoutWebView">
+      SDLPredefinedLayoutWebView
+  </h3>
+  
+  <p>Custom root template allowing in-vehicle WebEngine applications with
+appropriate permissions to show the application&rsquo;s own web view.</p>
+
+<p>@since 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLPredefinedLayout.h@T@SDLPredefinedLayout">SDLPredefinedLayout</a></span> <span class="n">SDLPredefinedLayoutWebView</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">webView</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLPredefinedLayout.h@T@SDLPredefinedLayout">SDLPredefinedLayout</a></span></code></pre>
 
   
   
@@ -13724,6 +14284,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLRPCFunctionNameOnSubtleAlertPressed">
+      SDLRPCFunctionNameOnSubtleAlertPressed
+  </h3>
+  
+  <p>Function name for an SubtleAlertPressed notification RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="n">SDLRPCFunctionNameOnSubtleAlertPressed</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onSubtleAlertPressed</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRPCFunctionNameOnSyncPData">
       SDLRPCFunctionNameOnSyncPData
   </h3>
@@ -13810,6 +14388,42 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onTouchEvent</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnUpdateFile">
+      SDLRPCFunctionNameOnUpdateFile
+  </h3>
+  
+  <p>Function name for an OnUpdateFile notification RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="n">SDLRPCFunctionNameOnUpdateFile</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onUpdateFile</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnUpdateSubMenu">
+      SDLRPCFunctionNameOnUpdateSubMenu
+  </h3>
+  
+  <p>Function name for an OnUpdateSubMenu notification RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="n">SDLRPCFunctionNameOnUpdateSubMenu</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onUpdateSubMenu</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
 
   
   
@@ -14333,6 +14947,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subscribeWayPoints</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSubtleAlert">
+      SDLRPCFunctionNameSubtleAlert
+  </h3>
+  
+  <p>Function name for a SubtleAlert RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="n">SDLRPCFunctionNameSubtleAlert</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subtleAlert</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
 
   
   
@@ -15903,6 +16535,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLServiceUpdateReasonPublished">
+      SDLServiceUpdateReasonPublished
+  </h3>
+  
+  <p>The service has just been published with the module and once activated to the primary service of its type, it will be ready for possible consumption.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateReasonPublished</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">published</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLServiceUpdatePublished">
       SDLServiceUpdatePublished
   </h3>
@@ -15917,6 +16567,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">published</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceUpdateReasonRemoved">
+      SDLServiceUpdateReasonRemoved
+  </h3>
+  
+  <p>The service has just been unpublished with the module and is no longer accessible.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateReasonRemoved</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">removed</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
 
   
   
@@ -15939,6 +16607,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLServiceUpdateReasonActivated">
+      SDLServiceUpdateReasonActivated
+  </h3>
+  
+  <p>The service is activated as the primary service of this type. All requests dealing with this service type will be handled by this service.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateReasonActivated</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">activated</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLServiceUpdateActivated">
       SDLServiceUpdateActivated
   </h3>
@@ -15957,6 +16643,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLServiceUpdateReasonDeactivated">
+      SDLServiceUpdateReasonDeactivated
+  </h3>
+  
+  <p>The service has been deactivated as the primary service of its type.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateReasonDeactivated</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deactivated</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLServiceUpdateDeactivated">
       SDLServiceUpdateDeactivated
   </h3>
@@ -15971,6 +16675,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deactivated</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceUpdateReasonManifestUpdate">
+      SDLServiceUpdateReasonManifestUpdate
+  </h3>
+  
+  <p>The service has updated its manifest. This could imply updated capabilities.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateReasonManifestUpdate</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">manifestUpdate</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
 
   
   
@@ -19938,6 +20660,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLSystemCapabilityTypeDriverDistraction">
+      SDLSystemCapabilityTypeDriverDistraction
+  </h3>
+  
+  <p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">SDLSystemCapabilityTypeDriverDistraction</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">driverDistraction</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLSystemContextMain">
       SDLSystemContextMain
   </h3>
@@ -21015,6 +21755,66 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLTextFieldNameSubtleAlertText1">
+      SDLTextFieldNameSubtleAlertText1
+  </h3>
+  
+  <p>The first line of the subtle alert text field; applies to <code>SubtleAlert</code> <code>alertText1</code></p>
+
+<p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameSubtleAlertText1</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subtleAlertText1</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextFieldNameSubtleAlertText2">
+      SDLTextFieldNameSubtleAlertText2
+  </h3>
+  
+  <p>The second line of the subtle alert text field; applies to <code>SubtleAlert</code> <code>alertText2</code></p>
+
+<p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameSubtleAlertText2</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subtleAlertText2</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextFieldNameSubtleAlertSoftButtonText">
+      SDLTextFieldNameSubtleAlertSoftButtonText
+  </h3>
+  
+  <p>A text field in the soft button of a subtle alert; applies to <code>SubtleAlert</code> <code>softButtons</code></p>
+
+<p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameSubtleAlertSoftButtonText</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subtleAlertSoftButtonText</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLTimerModeUp">
       SDLTimerModeUp
   </h3>
@@ -21137,6 +21937,150 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">cancel</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTouchType.h@T@SDLTouchType">SDLTouchType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionTypeAutomatic">
+      SDLTransmissionTypeAutomatic
+  </h3>
+  
+  <p>Automatic transmission.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">SDLTransmissionTypeAutomatic</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">automatic</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionTypeContinuouslyVariable">
+      SDLTransmissionTypeContinuouslyVariable
+  </h3>
+  
+  <p>Continuously variable transmission(CVT).</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">SDLTransmissionTypeContinuouslyVariable</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">continuouslyVariable</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionTypeDirectDrive">
+      SDLTransmissionTypeDirectDrive
+  </h3>
+  
+  <p>Direct drive between engine and wheels.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">SDLTransmissionTypeDirectDrive</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">directDrive</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionTypeDualClutch">
+      SDLTransmissionTypeDualClutch
+  </h3>
+  
+  <p>Dual clutch transmission.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">SDLTransmissionTypeDualClutch</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">dualClutch</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionTypeElectricVariable">
+      SDLTransmissionTypeElectricVariable
+  </h3>
+  
+  <p>Electric variable transmission.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">SDLTransmissionTypeElectricVariable</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">electricVariable</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionTypeInfinitelyVariable">
+      SDLTransmissionTypeInfinitelyVariable
+  </h3>
+  
+  <p>Infinitely variable transmission.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">SDLTransmissionTypeInfinitelyVariable</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">infinitelyVariable</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionTypeManual">
+      SDLTransmissionTypeManual
+  </h3>
+  
+  <p>Manual transmission.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">SDLTransmissionTypeManual</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">manual</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionTypeSemiAutomatic">
+      SDLTransmissionTypeSemiAutomatic
+  </h3>
+  
+  <p>Semi automatic transmission.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span> <span class="n">SDLTransmissionTypeSemiAutomatic</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">semiAutomatic</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType">SDLTransmissionType</a></span></code></pre>
 
   
   
@@ -21835,6 +22779,25 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLVehicleDataTypeGearStatus">
+      SDLVehicleDataTypeGearStatus
+  </h3>
+  
+  <p>Vehicle Gear Status data
+@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span> <span class="n">SDLVehicleDataTypeGearStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">gearStatus</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLVehicleDataTypeGPS">
       SDLVehicleDataTypeGPS
   </h3>
@@ -21867,6 +22830,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVehicleDataTypeStabilityControlsStatus">
+      SDLVehicleDataTypeStabilityControlsStatus
+  </h3>
+  
+  <p>vehicle data StabilityControlsStatus to know if stability controls like ESC, Traction Control etc. are active.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span> <span class="n">SDLVehicleDataTypeStabilityControlsStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">stabilityControlsStatus</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
 
   
   
@@ -22231,6 +23212,25 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLVehicleDataTypeHandsOffSteering">
+      SDLVehicleDataTypeHandsOffSteering
+  </h3>
+  
+  <p>To indicate whether driver hands are off the steering wheel
+Added in SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span> <span class="n">SDLVehicleDataTypeHandsOffSteering</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">handsOffSteering</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLVehicleDataTypeHeadlampStatus">
       SDLVehicleDataTypeHeadlampStatus
   </h3>
@@ -22409,6 +23409,26 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">oemVehicleDataType</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVehicleDataTypeWindowStatus">
+      SDLVehicleDataTypeWindowStatus
+  </h3>
+  
+  <p>Describes the status of a window of a door/liftgate etc.</p>
+
+<p>@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span> <span class="n">SDLVehicleDataTypeWindowStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">windowStatus</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
 
   
   

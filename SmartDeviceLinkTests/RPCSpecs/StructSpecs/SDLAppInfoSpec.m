@@ -31,10 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameAppDisplayName:@"display name",
                                                        SDLRPCParameterNameAppVersion:@"1.2.3.4",
                                                        SDLRPCParameterNameAppBundleId:@"com.app.bundle"} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAppInfo* testStruct = [[SDLAppInfo alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.appDisplayName).to(equal(@"display name"));
         expect(testStruct.appVersion).to(equal(@"1.2.3.4"));

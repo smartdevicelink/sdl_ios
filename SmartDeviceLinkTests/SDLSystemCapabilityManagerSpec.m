@@ -443,10 +443,16 @@ describe(@"System capability manager", ^{
     });
 
     context(@"When notified of a SetDisplayLayout Response", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
+#pragma clang diagnostic pop
 
         beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
+#pragma clang diagnostic pop
             testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
             testSetDisplayLayoutResponse.buttonCapabilities = testButtonCapabilities;
             testSetDisplayLayoutResponse.softButtonCapabilities = testSoftButtonCapabilities;

@@ -28,10 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameHashId:@"hash"},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnHashChange}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnHashChange* testNotification = [[SDLOnHashChange alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.hashID).to(equal(@"hash"));
     });

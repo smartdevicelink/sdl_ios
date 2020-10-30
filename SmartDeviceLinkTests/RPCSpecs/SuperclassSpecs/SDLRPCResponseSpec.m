@@ -41,10 +41,7 @@ describe(@"Getter/Setter Tests",  ^ {
                                                    SDLRPCParameterNameInfo:@"Test Info"},
                                              SDLRPCParameterNameCorrelationId:@1004,
                                              SDLRPCParameterNameOperationName:SDLRPCParameterNameResponse}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRPCResponse* testResponse = [[SDLRPCResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.name).to(equal(SDLRPCParameterNameResponse));
         expect(testResponse.correlationID).to(equal(@1004));

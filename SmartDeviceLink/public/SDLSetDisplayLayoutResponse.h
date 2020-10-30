@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  Since SmartDeviceLink 2.0
  */
+__deprecated_msg("Use SDLManager.screenManager.changeLayout() instead")
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
 /**

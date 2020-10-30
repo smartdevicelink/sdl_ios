@@ -12,6 +12,8 @@
 
 QuickSpecBegin(SDLSetDisplayLayoutSpec)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 describe(@"SetDisplayLayout Tests", ^ {
     __block SDLPredefinedLayout predefinedLayout = SDLPredefinedLayoutMedia;
     __block NSString *otherLayout = @"test123";
@@ -48,10 +50,7 @@ describe(@"SetDisplayLayout Tests", ^ {
                                                                @{SDLRPCParameterNameParameters:
                                                                      @{SDLRPCParameterNameDisplayLayout:@"wat"},
                                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetDisplayLayout}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetDisplayLayout* testRequest = [[SDLSetDisplayLayout alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
             expect(testRequest.displayLayout).to(equal(@"wat"));
         });
@@ -77,5 +76,6 @@ describe(@"SetDisplayLayout Tests", ^ {
         });
     });
 });
+#pragma clang diagnostic pop
 
 QuickSpecEnd
