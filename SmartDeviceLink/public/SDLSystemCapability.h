@@ -47,9 +47,29 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a "navigationCapability" should exist.
  *
- *  First implemented in SDL Core v4.4
+ *  @added in SmartDeviceLink 4.5.0
  */
 @interface SDLSystemCapability : SDLRPCStruct
+
+/**
+ * @param systemCapabilityType - systemCapabilityType
+ * @return A SDLSystemCapability object
+ */
+- (instancetype)initWithSystemCapabilityType:(SDLSystemCapabilityType)systemCapabilityType;
+
+/**
+ * @param systemCapabilityType - systemCapabilityType
+ * @param navigationCapability - navigationCapability
+ * @param phoneCapability - phoneCapability
+ * @param videoStreamingCapability - videoStreamingCapability
+ * @param remoteControlCapability - remoteControlCapability
+ * @param appServicesCapabilities - appServicesCapabilities
+ * @param seatLocationCapability - seatLocationCapability
+ * @param displayCapabilities - displayCapabilities
+ * @param driverDistractionCapability - driverDistractionCapability
+ * @return A SDLSystemCapability object
+ */
+- (instancetype)initWithSystemCapabilityType:(SDLSystemCapabilityType)systemCapabilityType navigationCapability:(nullable SDLNavigationCapability *)navigationCapability phoneCapability:(nullable SDLPhoneCapability *)phoneCapability videoStreamingCapability:(nullable SDLVideoStreamingCapability *)videoStreamingCapability remoteControlCapability:(nullable SDLRemoteControlCapabilities *)remoteControlCapability appServicesCapabilities:(nullable SDLAppServicesCapabilities *)appServicesCapabilities seatLocationCapability:(nullable SDLSeatLocationCapability *)seatLocationCapability displayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities driverDistractionCapability:(nullable SDLDriverDistractionCapability *)driverDistractionCapability;
 
 /**
  *  Convenience init for an App Service Capability

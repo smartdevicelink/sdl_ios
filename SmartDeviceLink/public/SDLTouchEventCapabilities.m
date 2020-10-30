@@ -11,6 +11,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTouchEventCapabilities
 
+- (instancetype)initWithPressAvailable:(BOOL)pressAvailable multiTouchAvailable:(BOOL)multiTouchAvailable doublePressAvailable:(BOOL)doublePressAvailable {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.pressAvailable = @(pressAvailable);
+    self.multiTouchAvailable = @(multiTouchAvailable);
+    self.doublePressAvailable = @(doublePressAvailable);
+    return self;
+}
+
 - (void)setPressAvailable:(NSNumber<SDLBool> *)pressAvailable {
     [self.store sdl_setObject:pressAvailable forName:SDLRPCParameterNamePressAvailable];
 }

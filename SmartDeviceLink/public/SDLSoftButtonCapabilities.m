@@ -11,6 +11,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSoftButtonCapabilities
 
+- (instancetype)initWithShortPressAvailable:(BOOL)shortPressAvailable longPressAvailable:(BOOL)longPressAvailable upDownAvailable:(BOOL)upDownAvailable imageSupported:(BOOL)imageSupported {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.shortPressAvailable = @(shortPressAvailable);
+    self.longPressAvailable = @(longPressAvailable);
+    self.upDownAvailable = @(upDownAvailable);
+    self.imageSupported = @(imageSupported);
+    return self;
+}
+
+- (instancetype)initWithShortPressAvailable:(BOOL)shortPressAvailable longPressAvailable:(BOOL)longPressAvailable upDownAvailable:(BOOL)upDownAvailable imageSupported:(BOOL)imageSupported textSupported:(nullable NSNumber<SDLBool> *)textSupported {
+    self = [self initWithShortPressAvailable:shortPressAvailable longPressAvailable:longPressAvailable upDownAvailable:upDownAvailable imageSupported:imageSupported];
+    if (!self) {
+        return nil;
+    }
+    self.textSupported = textSupported;
+    return self;
+}
+
 - (void)setShortPressAvailable:(NSNumber<SDLBool> *)shortPressAvailable {
     [self.store sdl_setObject:shortPressAvailable forName:SDLRPCParameterNameShortPressAvailable];
 }

@@ -9,14 +9,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStationIDNumber
 
-- (instancetype)initWithCountryCode:(nullable NSNumber<SDLInt> *)countryCode fccFacilityId:(nullable NSNumber<SDLInt> *)id {
+- (instancetype)initWithCountryCode:(nullable NSNumber<SDLUInt> *)countryCode fccFacilityId:(nullable NSNumber<SDLUInt> *)fccFacilityId {
     self = [self init];
     if(!self) {
         return nil;
     }
 
     self.countryCode = countryCode;
-    self.fccFacilityId = id;
+    self.fccFacilityId = fccFacilityId;
     
     return self;
 }

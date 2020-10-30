@@ -10,6 +10,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTemperature
 
+- (instancetype)initWithUnit:(SDLTemperatureUnit)unit valueParam:(float)valueParam {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.unit = unit;
+    self.valueParam = @(valueParam);
+    return self;
+}
+
++ (instancetype)fahrenheitTemperature:(float)value {
+    return [[self alloc] initWithUnit:SDLTemperatureUnitFahrenheit valueParam:value];
+}
+
++ (instancetype)celsiusTemperature:(float)value {
+    return [[self alloc] initWithUnit:SDLTemperatureUnitCelsius valueParam:value];
+}
+
 - (instancetype)initWithFahrenheitValue:(float)value {
     return [self initWithUnit:SDLTemperatureUnitFahrenheit value:value];
 }
@@ -37,6 +55,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLTemperatureUnit)unit {
     NSError *error = nil;
     return [self.store sdl_enumForName:SDLRPCParameterNameUnit error:&error];
+}
+
+- (void)setValueParam:(NSNumber<SDLFloat> *)valueParam {
+    [self.store sdl_setObject:valueParam forName:SDLRPCParameterNameValue];
+}
+
+- (NSNumber<SDLFloat> *)valueParam {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameValue ofClass:NSNumber.class error:&error];
 }
 
 - (void)setValue:(NSNumber<SDLFloat> *)value {

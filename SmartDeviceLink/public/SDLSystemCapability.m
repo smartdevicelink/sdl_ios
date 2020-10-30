@@ -48,6 +48,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSystemCapability
 
+- (instancetype)initWithSystemCapabilityType:(SDLSystemCapabilityType)systemCapabilityType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.systemCapabilityType = systemCapabilityType;
+    return self;
+}
+
+- (instancetype)initWithSystemCapabilityType:(SDLSystemCapabilityType)systemCapabilityType navigationCapability:(nullable SDLNavigationCapability *)navigationCapability phoneCapability:(nullable SDLPhoneCapability *)phoneCapability videoStreamingCapability:(nullable SDLVideoStreamingCapability *)videoStreamingCapability remoteControlCapability:(nullable SDLRemoteControlCapabilities *)remoteControlCapability appServicesCapabilities:(nullable SDLAppServicesCapabilities *)appServicesCapabilities seatLocationCapability:(nullable SDLSeatLocationCapability *)seatLocationCapability displayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities driverDistractionCapability:(nullable SDLDriverDistractionCapability *)driverDistractionCapability {
+    self = [self initWithSystemCapabilityType:systemCapabilityType];
+    if (!self) {
+        return nil;
+    }
+    self.navigationCapability = navigationCapability;
+    self.phoneCapability = phoneCapability;
+    self.videoStreamingCapability = videoStreamingCapability;
+    self.remoteControlCapability = remoteControlCapability;
+    self.appServicesCapabilities = appServicesCapabilities;
+    self.seatLocationCapability = seatLocationCapability;
+    self.displayCapabilities = displayCapabilities;
+    self.driverDistractionCapability = driverDistractionCapability;
+    return self;
+}
+
 - (instancetype)initWithAppServicesCapabilities:(SDLAppServicesCapabilities *)capability {
     self = [self init];
     if (!self) {

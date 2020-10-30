@@ -11,6 +11,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSoftButton
 
+- (instancetype)initWithType:(SDLSoftButtonType)type softButtonID:(UInt16)softButtonID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.type = type;
+    self.softButtonID = @(softButtonID);
+    return self;
+}
+
+- (instancetype)initWithType:(SDLSoftButtonType)type softButtonID:(UInt16)softButtonID text:(nullable NSString *)text image:(nullable SDLImage *)image isHighlighted:(nullable NSNumber<SDLBool> *)isHighlighted systemAction:(nullable SDLSystemAction)systemAction {
+    self = [self initWithType:type softButtonID:softButtonID];
+    if (!self) {
+        return nil;
+    }
+    self.text = text;
+    self.image = image;
+    self.isHighlighted = isHighlighted;
+    self.systemAction = systemAction;
+    return self;
+}
+
 - (instancetype)initWithHandler:(nullable SDLRPCButtonNotificationHandler)handler {
     self = [self init];
     if (!self) {
