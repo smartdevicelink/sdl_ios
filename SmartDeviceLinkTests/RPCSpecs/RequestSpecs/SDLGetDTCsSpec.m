@@ -31,10 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameECUName:@4321,
                                                                    SDLRPCParameterNameDTCMask:@22},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameEndAudioPassThru}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetDTCs* testRequest = [[SDLGetDTCs alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.ecuName).to(equal(@4321));
         expect(testRequest.dtcMask).to(equal(@22));

@@ -71,10 +71,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                SDLRPCParameterNameCancelID:@(testCancelID)
                                                                },
                                                          SDLRPCParameterNameOperationName:SDLRPCFunctionNameSlider}};
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLSlider alloc] initWithDictionary:dict];
-            #pragma clang diagnostic pop
 
             expect(testRequest.numTicks).to(equal(testNumTicks));
             expect(testRequest.position).to(equal(testPosition));

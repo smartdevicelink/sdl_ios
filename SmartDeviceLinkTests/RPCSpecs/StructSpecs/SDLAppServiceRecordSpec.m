@@ -23,10 +23,7 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testServiceID = @"12345";
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testAppServiceManifest = [[SDLAppServiceManifest alloc] initWithDictionary:@{SDLRPCParameterNameAllowAppConsumers:@NO}];
-#pragma clang diagnostic pop
         testServicePublished = @NO;
         testServiceActive = @YES;
     });
@@ -59,10 +56,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameServicePublished:testServicePublished,
                                SDLRPCParameterNameServiceActive:testServiceActive
                                     };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAppServiceRecord *testStruct = [[SDLAppServiceRecord alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.serviceID).to(match(testServiceID));
         expect(testStruct.serviceManifest).to(equal(testAppServiceManifest));

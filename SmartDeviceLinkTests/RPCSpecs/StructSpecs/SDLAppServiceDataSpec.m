@@ -57,10 +57,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameWeatherServiceData:testWeatherServiceData,
                                SDLRPCParameterNameNavigationServiceData:testNavigationServiceData
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.serviceType).to(equal(testServiceType));
         expect(testStruct.serviceId).to(equal(testServiceId));

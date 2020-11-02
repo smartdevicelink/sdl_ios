@@ -33,10 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameId:@3,
                                                        SDLRPCParameterNameTS:[@[@23, @52, @41345234] mutableCopy],
                                                        SDLRPCParameterNameCoordinate:[@[coord] mutableCopy]} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLTouchEvent* testStruct = [[SDLTouchEvent alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.touchEventId).to(equal(@3));
         expect(testStruct.timeStamp).to(equal([@[@23, @52, @41345234] mutableCopy]));

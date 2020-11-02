@@ -39,6 +39,8 @@ describe(@"the audio stream manager", ^{
                 beforeEach(^{
                     [mockAudioManager clearData];
                     [testManager playNextWhenReady];
+                    // playNextWhenReady dispatches to a new thread so the test can sometimes fail due to timing issues even when using `toEventually`.
+                    [NSThread sleepForTimeInterval:0.1];
                 });
 
                 it(@"should fail to send data", ^{

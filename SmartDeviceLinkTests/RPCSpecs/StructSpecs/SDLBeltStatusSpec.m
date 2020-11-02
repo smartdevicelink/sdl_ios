@@ -68,10 +68,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameRightRearInflatableBelted:SDLVehicleDataEventStatusFault,
                                        SDLRPCParameterNameMiddleRow1BeltDeployed:SDLVehicleDataEventStatusNoEvent,
                                        SDLRPCParameterNameMiddleRow1BuckleBelted:SDLVehicleDataEventStatusNotSupported} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLBeltStatus* testStruct = [[SDLBeltStatus alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.driverBeltDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
         expect(testStruct.passengerBeltDeployed).to(equal(SDLVehicleDataEventStatusYes));

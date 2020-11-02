@@ -42,10 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameRGBColorSpaceAvailable:@NO
                                        } mutableCopy];
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLLightCapabilities* testStruct = [[SDLLightCapabilities alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.name).to(equal(SDLLightNameFogLights));
         expect(testStruct.densityAvailable).to(equal(@YES));

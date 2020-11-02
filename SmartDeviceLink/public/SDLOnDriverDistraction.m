@@ -30,20 +30,20 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_enumForName:SDLRPCParameterNameState error:&error];
 }
 
-- (void)setLockScreenDismissalEnabled:(NSNumber<SDLBool> *)lockScreenDismissalEnabled {
+- (void)setLockScreenDismissalEnabled:(nullable NSNumber<SDLBool> *)lockScreenDismissalEnabled {
     [self.parameters sdl_setObject:lockScreenDismissalEnabled forName:SDLRPCParameterNameLockScreenDismissalEnabled];
 }
 
-- (NSNumber<SDLBool> *)lockScreenDismissalEnabled {
+- (nullable NSNumber<SDLBool> *)lockScreenDismissalEnabled {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameLockScreenDismissalEnabled ofClass:NSNumber.class error:&error];
 }
 
-- (void)setLockScreenDismissalWarning:(NSString *)lockScreenDismissalWarning {
+- (void)setLockScreenDismissalWarning:(nullable NSString *)lockScreenDismissalWarning {
     [self.parameters sdl_setObject:lockScreenDismissalWarning forName:SDLRPCParameterNameLockScreenDismissalWarning];
 }
 
-- (NSString *)lockScreenDismissalWarning {
+- (nullable NSString *)lockScreenDismissalWarning {
     NSError *error = nil;
     return [self.parameters sdl_objectForName:SDLRPCParameterNameLockScreenDismissalWarning ofClass:NSString.class error:&error];
 }

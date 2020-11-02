@@ -16,8 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable NSBundle *)sdlBundle {
     NSURL *sdlBundleURL = [[NSBundle mainBundle] URLForResource:@"SmartDeviceLink" withExtension:@"bundle"];
-    NSBundle *sdlBundle = nil;
+    if (sdlBundleURL == nil) {
+        // HAX: SwiftPM
+        sdlBundleURL = [[NSBundle mainBundle] URLForResource:@"SmartDeviceLink_SmartDeviceLink" withExtension:@"bundle"];
+    }
 
+    NSBundle *sdlBundle = nil;
     if (sdlBundleURL != nil) {
         sdlBundle = [NSBundle bundleWithURL:sdlBundleURL];
     }

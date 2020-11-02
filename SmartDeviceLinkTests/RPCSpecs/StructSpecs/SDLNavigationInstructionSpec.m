@@ -68,10 +68,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameDetails:testDetails,
                                SDLRPCParameterNameImage:testImage
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLNavigationInstruction *testStruct = [[SDLNavigationInstruction alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.locationDetails).to(equal(testLocationDetails));
         expect(testStruct.action).to(equal(testAction));

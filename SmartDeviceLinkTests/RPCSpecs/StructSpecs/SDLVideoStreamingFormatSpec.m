@@ -22,10 +22,7 @@ describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameVideoProtocol: SDLVideoStreamingProtocolRAW,
                                        SDLRPCParameterNameVideoCodec: SDLVideoStreamingCodecH264} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVideoStreamingFormat* testStruct = [[SDLVideoStreamingFormat alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.protocol).to(equal(SDLVideoStreamingProtocolRAW));
         expect(testStruct.codec).to(equal(SDLVideoStreamingCodecH264));

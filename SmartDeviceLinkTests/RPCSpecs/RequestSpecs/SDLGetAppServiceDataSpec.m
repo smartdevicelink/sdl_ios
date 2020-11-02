@@ -43,10 +43,7 @@ describe(@"Getter/Setter Tests", ^{
                                                SDLRPCParameterNameSubscribe:@(testSubscribe)
                                                },
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetAppServiceData}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testRequest.serviceType).to(equal(testServiceType));
         expect(testRequest.subscribe).to(beTrue());

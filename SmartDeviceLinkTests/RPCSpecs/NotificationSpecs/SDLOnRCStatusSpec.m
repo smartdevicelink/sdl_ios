@@ -36,10 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameAllowed:@YES
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnRCStatus}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnRCStatus* testNotification = [[SDLOnRCStatus alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testNotification.allowed).to(equal(@YES));
         expect(testNotification.allocatedModules).to(equal([@[allocatedModule] copy]));

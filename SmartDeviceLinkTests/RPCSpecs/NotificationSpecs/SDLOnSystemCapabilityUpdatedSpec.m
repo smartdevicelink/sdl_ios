@@ -38,10 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                SDLRPCParameterNameSystemCapability:testSystemCapability
                                                },
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnSystemCapabilityUpdated}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnSystemCapabilityUpdated *testNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testNotification.systemCapability).to(equal(testSystemCapability));
     });

@@ -19,6 +19,7 @@
 * Updated max URL lengths in `SystemRequest` to be unlimited (https://github.com/smartdevicelink/sdl_ios/issues/1110).
 * Added support for new types of character sets (https://github.com/smartdevicelink/sdl_ios/issues/1139).
 * Added new RPC for `SubtleAlert`, a notification-like alert (https://github.com/smartdevicelink/sdl_ios/issues/1355).
+* Added support to Swift Package Manager (https://github.com/smartdevicelink/sdl_ios/issues/1387).
 * Added new vehicle data `StabilityControlsStatus` (https://github.com/smartdevicelink/sdl_ios/issues/1449).
 * Changed fuel-related vehicle data RPCs (https://github.com/smartdevicelink/sdl_ios/issues/1472).
 * Added new vehicle data `HandsOffSteering` (https://github.com/smartdevicelink/sdl_ios/issues/1473).
@@ -29,6 +30,8 @@
 * Added support for new WebEngine projection hmi types and templates (note that this is not properly supported in this library outside of the RPCs; look at the JavaScript Suite library for more information) (https://github.com/smartdevicelink/sdl_ios/issues/1681).
 * Added a `reason` parameter to protocol NAKs (https://github.com/smartdevicelink/sdl_ios/issues/1684).
 * Update the minimum required iOS version to 10.0 (https://github.com/smartdevicelink/sdl_ios/issues/1738).
+* `SDLSetDisplayLayout(+Response)` is now deprecated (https://github.com/smartdevicelink/sdl_ios/issues/1785).
+* `SDLLockScreenViewController` now defaults to modal presentation style `.fullScreen` (https://github.com/smartdevicelink/sdl_ios/issues/1794).
 
 ### Bug Fixes
 * `SDLServiceUpdateReason` enums are now named properly (https://github.com/smartdevicelink/sdl_ios/issues/1502).
@@ -36,6 +39,7 @@
 * Consolidated logic for saving the dynamic MTU size (https://github.com/smartdevicelink/sdl_ios/issues/1615).
 * Fixed example app files not in the proper folder (https://github.com/smartdevicelink/sdl_ios/issues/1765).
 * Fixed `SDLSetGlobalProperties` init missing `userLocation` (https://github.com/smartdevicelink/sdl_ios/issues/1771).
+* Fixed `SDLOnDriverDistraction` properties missing `nullable` (https://github.com/smartdevicelink/sdl_ios/issues/1813).
 
 ### RPC Generator
 * Fixed generator not sorting imports (https://github.com/smartdevicelink/sdl_ios/issues/1720).
@@ -51,8 +55,12 @@
 ### Other
 * Moved files around to simplify distribution (https://github.com/smartdevicelink/sdl_ios/issues/568).
 * Fixed warnings in Objective-C example app (https://github.com/smartdevicelink/sdl_ios/issues/1772).
+* Fixed example apps resetting soft buttons whenever going to HMI FULL (https://github.com/smartdevicelink/sdl_ios/issues/1782).
 * Cleaned up inline documentation grammar and spelling issues (https://github.com/smartdevicelink/sdl_ios/issues/1787).
 * Update CI to Xcode 12 and fix screenshot failures (https://github.com/smartdevicelink/sdl_ios/issues/1801).
+* Fixed unit tests crashing (https://github.com/smartdevicelink/sdl_ios/issues/1802).
+* README updates to point to testing YAML (https://github.com/smartdevicelink/sdl_ios/issues/1816).
+* Removed some unnecessary warning suppression (https://github.com/smartdevicelink/sdl_ios/issues/1819).
 
 ## 6.7.0
 ### Versions

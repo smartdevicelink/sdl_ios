@@ -31,10 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameFilenames:[@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy],
                                                                    SDLRPCParameterNameSpaceAvailable:@500000000},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameListFiles}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLListFilesResponse* testResponse = [[SDLListFilesResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.filenames).to(equal([@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy]));
         expect(testResponse.spaceAvailable).to(equal(@500000000));
