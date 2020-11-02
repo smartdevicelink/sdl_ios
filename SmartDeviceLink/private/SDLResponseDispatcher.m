@@ -72,7 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
     _rpcRequestDictionary = [NSMutableDictionary dictionary];
     _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
-    _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+    _showButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+    _alertButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+    _scrollMsgButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
 
     // Responses
     for (SDLNotificationName responseName in [SDLNotificationConstants allResponseNames]) {
@@ -127,7 +129,8 @@ NS_ASSUME_NONNULL_BEGIN
         }
     } else if ([request isKindOfClass:[SDLAlert class]]) {
         SDLAlert *alert = (SDLAlert *)request;
-        [self sdl_addToCustomButtonHandlerMap:alert.softButtons];
+        [self sdl_clearCustomButtonHandlerMap:self.alertButtonHandlerMap softButtons:alert.softButtons];
+        [self sdl_addToCustomButtonHandlerMap:self.alertButtonHandlerMap softButtons:alert.softButtons];
     } else if ([request isKindOfClass:[SDLAlertManeuver class]]) {
         SDLAlertManeuver *alertManeuver = (SDLAlertManeuver *)request;
         [self sdl_addToCustomButtonHandlerMap:alertManeuver.softButtons];
@@ -136,10 +139,12 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_addToCustomButtonHandlerMap:subtleAlert.softButtons];
     } else if ([request isKindOfClass:[SDLScrollableMessage class]]) {
         SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
-        [self sdl_addToCustomButtonHandlerMap:scrollableMessage.softButtons];
+        [self sdl_clearCustomButtonHandlerMap:self.scrollMsgButtonHandlerMap softButtons:scrollableMessage.softButtons];
+        [self sdl_addToCustomButtonHandlerMap:self.scrollMsgButtonHandlerMap softButtons:scrollableMessage.softButtons];
     } else if ([request isKindOfClass:[SDLShow class]]) {
         SDLShow *show = (SDLShow *)request;
-        [self sdl_addToCustomButtonHandlerMap:show.softButtons];
+       [self sdl_clearCustomButtonHandlerMap:self.showButtonHandlerMap softButtons:show.softButtons];
+        [self sdl_addToCustomButtonHandlerMap:self.showButtonHandlerMap softButtons:show.softButtons];
     } else if ([request isKindOfClass:[SDLShowConstantTBT class]]) {
         SDLShowConstantTBT *showConstantTBT = (SDLShowConstantTBT *)request;
         [self sdl_addToCustomButtonHandlerMap:showConstantTBT.softButtons];
@@ -202,13 +207,27 @@ NS_ASSUME_NONNULL_BEGIN
         [strongself->_rpcResponseHandlerMap removeAllObjects];
         [strongself->_commandHandlerMap removeAllObjects];
         [strongself->_buttonHandlerMap removeAllObjects];
-        [strongself->_customButtonHandlerMap removeAllObjects];
+        [strongself->_showButtonHandlerMap removeAllObjects];
+        [strongself->_alertButtonHandlerMap removeAllObjects];
+        [strongself->_scrollMsgButtonHandlerMap removeAllObjects];
         strongself->_audioPassThruHandler = nil;
     }];
 }
 
-- (void)sdl_addToCustomButtonHandlerMap:(NSArray<SDLSoftButton *> *)softButtons {
-    __weak typeof(self) weakself = self;
+- (void)sdl_clearCustomButtonHandlerMap:(NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *)customButtonHandlerMap softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    NSLog(@"SDLResponseDispatcher sdl_clearCustomButtonHandlerMap");
+    if (softButtons.count) {
+        [self sdl_runAsyncOnQueue:^{
+            [customButtonHandlerMap removeAllObjects];
+        }];
+    }
+    else {
+        // App defined SoftButtons. If omitted on supported displays, the currently displayed SoftButton values will not change.
+        NSLog(@"SDLResponseDispatcher sdl_clearCustomButtonHandlerMap SoftButton values will not change");
+    }
+}
+
+- (void)sdl_addToCustomButtonHandlerMap:(NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *)customButtonHandlerMap softButtons:(NSArray<SDLSoftButton *> *)softButtons {
     for (SDLSoftButton *sb in softButtons) {
         if (sb.softButtonID == nil) {
             @throw [NSException sdl_missingIdException];
@@ -216,8 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (sb.handler != nil) {
             [self sdl_runAsyncOnQueue:^{
-                __strong typeof(weakself) strongself = weakself;
-                strongself->_customButtonHandlerMap[sb.softButtonID] = sb.handler;
+                customButtonHandlerMap[sb.softButtonID] = sb.handler;
             }];
         }
     }
@@ -312,7 +330,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLRPCButtonNotificationHandler handler = nil;
     if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
         // Custom buttons
-        handler = self.customButtonHandlerMap[customID];
+        handler = [self sdl_getCustomButtonHandler:customID];
     } else {
         // Static buttons
         handler = self.buttonHandlerMap[name];
@@ -329,6 +347,33 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
     
+- (SDLRPCButtonNotificationHandler)sdl_getCustomButtonHandler:(NSNumber *)customID {
+    NSLog(@"SDLResponseDispatcher sdl_getCustomButtonHandler customID = %@", customID);
+    SDLRPCButtonNotificationHandler handler = nil;
+    NSArray<NSNumber *>* showBtnkeys = [self.showButtonHandlerMap keyEnumerator].allObjects;
+    for (NSUInteger i = 0; i < showBtnkeys.count; i++) {
+        if (customID == [showBtnkeys objectAtIndex:i]) {
+            handler = self.showButtonHandlerMap[customID];
+            return handler;
+        }
+    }
+    NSArray<NSNumber *>* alertkeys = [self.alertButtonHandlerMap keyEnumerator].allObjects;
+    for (NSUInteger i = 0; i < alertkeys.count; i++) {
+        if (customID == [alertkeys objectAtIndex:i]) {
+            handler = self.alertButtonHandlerMap[customID];
+            return handler;
+        }
+    }
+    NSArray<NSNumber *>* scrollMsgkeys = [self.scrollMsgButtonHandlerMap keyEnumerator].allObjects;
+    for (NSUInteger i = 0; i < scrollMsgkeys.count; i++) {
+        if (customID == [scrollMsgkeys objectAtIndex:i]) {
+            handler = self.scrollMsgButtonHandlerMap[customID];
+            return handler;
+        }
+    }
+    return handler;
+}
+
 #pragma mark Audio Pass Thru
     
 - (void)sdl_runHandlerForAudioPassThru:(SDLRPCNotificationNotification *)notification {

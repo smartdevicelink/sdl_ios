@@ -46,9 +46,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSMapTable<SDLSubscribeButtonName *, SDLRPCButtonNotificationHandler> *buttonHandlerMap;
 
 /**
- *  Holds a map of soft button ids and their corresponding blocks.
+ *  Holds a map of SDLShow soft button ids and their corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *customButtonHandlerMap;
+@property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *showButtonHandlerMap;
+
+/**
+*  Holds a map of SDLAlert soft button ids and their corresponding blocks.
+*/
+@property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *alertButtonHandlerMap;
+
+/**
+*  Holds a map of SDLScrollableMessage soft button ids and their corresponding blocks.
+*/
+@property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *scrollMsgButtonHandlerMap;
 
 /**
  *  Holds an audio pass thru block.

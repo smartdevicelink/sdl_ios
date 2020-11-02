@@ -46,14 +46,18 @@ describe(@"a response dispatcher", ^{
         expect(testDispatcher.rpcRequestDictionary).toNot(beNil());
         expect(testDispatcher.commandHandlerMap).toNot(beNil());
         expect(testDispatcher.buttonHandlerMap).toNot(beNil());
-        expect(testDispatcher.customButtonHandlerMap).toNot(beNil());
+        expect(testDispatcher.showButtonHandlerMap).toNot(beNil());
+        expect(testDispatcher.alertButtonHandlerMap).toNot(beNil());
+        expect(testDispatcher.scrollMsgButtonHandlerMap).toNot(beNil());
 //        expect(testDispatcher.audioPassThruHandler).to(beNil());
 
         expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
         expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
         expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
         expect(testDispatcher.buttonHandlerMap).to(haveCount(@0));
-        expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+        expect(testDispatcher.showButtonHandlerMap).to(haveCount(@0));
+        expect(testDispatcher.alertButtonHandlerMap).to(haveCount(@0));
+        expect(testDispatcher.scrollMsgButtonHandlerMap).to(haveCount(@0));
     });
     
     context(@"storing a request without a handler", ^{
@@ -73,7 +77,9 @@ describe(@"a response dispatcher", ^{
             expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
             expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
             expect(testDispatcher.buttonHandlerMap).to(haveCount(@0));
-            expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            expect(testDispatcher.showButtonHandlerMap).to(haveCount(@0));
+            expect(testDispatcher.alertButtonHandlerMap).to(haveCount(@0));
+            expect(testDispatcher.scrollMsgButtonHandlerMap).to(haveCount(@0));
         });
     });
     
@@ -142,8 +148,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+                expect(testDispatcher.showButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.showButtonHandlerMap).to(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -200,7 +206,7 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should not add the soft button", ^{
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+                expect(testDispatcher.showButtonHandlerMap).to(haveCount(@0));
             });
         });
         
@@ -224,7 +230,7 @@ describe(@"a response dispatcher", ^{
             it(@"should not store the request", ^{
                 [testDispatcher storeRequest:testShow handler:nil];
                 
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+                expect(testDispatcher.showButtonHandlerMap).to(haveCount(@0));
             });
         });
     });
@@ -505,8 +511,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+                expect(testDispatcher.alertButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.alertButtonHandlerMap).to(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -563,7 +569,7 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should not add the soft button", ^{
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+                expect(testDispatcher.alertButtonHandlerMap).to(haveCount(@0));
             });
         });
         
@@ -587,7 +593,7 @@ describe(@"a response dispatcher", ^{
             it(@"should not store the request", ^{
                 [testDispatcher storeRequest:testAlert handler:nil];
                 
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+                expect(testDispatcher.alertButtonHandlerMap).to(haveCount(@0));
             });
         });
     });
@@ -949,8 +955,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should add the soft button to the map", ^{
-                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@1));
+                expect(testDispatcher.scrollMsgButtonHandlerMap[testSoftButton1.softButtonID]).toNot(beNil());
+                expect(testDispatcher.scrollMsgButtonHandlerMap).to(haveCount(@1));
             });
             
             describe(@"when button press and button event notifications arrive", ^{
@@ -1007,7 +1013,7 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should not add the soft button", ^{
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+                expect(testDispatcher.scrollMsgButtonHandlerMap).to(haveCount(@0));
             });
         });
         
@@ -1031,7 +1037,7 @@ describe(@"a response dispatcher", ^{
             it(@"should not store the request", ^{
                 [testDispatcher storeRequest:testScrollableMessage handler:nil];
                 
-                expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+                expect(testDispatcher.scrollMsgButtonHandlerMap).to(haveCount(@0));
             });
         });
     });
