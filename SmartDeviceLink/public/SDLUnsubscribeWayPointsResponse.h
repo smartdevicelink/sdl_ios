@@ -32,6 +32,8 @@
 
 #import "SDLRPCResponse.h"
 
+@class SDLLocationDetails;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**

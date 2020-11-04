@@ -4,6 +4,7 @@
 #import "SDLUnsubscribeWayPointsResponse.h"
 
 #import "NSMutableDictionary+Store.h"
+#import "SDLLocationDetails.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 

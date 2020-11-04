@@ -71,11 +71,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setOemCustomDataType:(nullable NSString *)oemCustomDataType {
-    [self.store sdl_setObject:oemCustomDataType forName:SDLRPCParameterNameOemCustomDataType];
+    [self.store sdl_setObject:oemCustomDataType forName:SDLRPCParameterNameOEMCustomDataType];
 }
 
 - (nullable NSString *)oemCustomDataType {
-    return [self.store sdl_objectForName:SDLRPCParameterNameOemCustomDataType ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameOEMCustomDataType ofClass:NSString.class error:nil];
 }
 
 @end
