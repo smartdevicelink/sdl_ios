@@ -12,6 +12,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVRHelpItem
 
+- (instancetype)initWithText:(NSString *)text position:(UInt8)position {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.text = text;
+    self.position = @(position);
+    return self;
+}
+
+- (instancetype)initWithText:(NSString *)text position:(UInt8)position image:(nullable SDLImage *)image {
+    self = [self initWithText:text position:position];
+    if (!self) {
+        return nil;
+    }
+    self.image = image;
+    return self;
+}
+
 - (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image position:(UInt8)position {
     self = [self initWithText:text image:image];
     if (!self) {

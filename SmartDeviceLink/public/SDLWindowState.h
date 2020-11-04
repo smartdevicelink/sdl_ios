@@ -35,7 +35,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * @since SDL 7.0.0
+ * @added in SmartDeviceLink 7.0.0
  */
 @interface SDLWindowState : SDLRPCStruct
 

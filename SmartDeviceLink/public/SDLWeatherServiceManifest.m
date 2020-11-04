@@ -15,6 +15,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLWeatherServiceManifest
 
+- (instancetype)initWithCurrentForecastSupportedParam:(nullable NSNumber<SDLBool> *)currentForecastSupported maxMultidayForecastAmount:(nullable NSNumber<SDLInt> *)maxMultidayForecastAmount maxHourlyForecastAmount:(nullable NSNumber<SDLInt> *)maxHourlyForecastAmount maxMinutelyForecastAmount:(nullable NSNumber<SDLInt> *)maxMinutelyForecastAmount weatherForLocationSupported:(nullable NSNumber<SDLBool> *)weatherForLocationSupported {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.currentForecastSupported = currentForecastSupported;
+    self.maxMultidayForecastAmount = maxMultidayForecastAmount;
+    self.maxHourlyForecastAmount = maxHourlyForecastAmount;
+    self.maxMinutelyForecastAmount = maxMinutelyForecastAmount;
+    self.weatherForLocationSupported = weatherForLocationSupported;
+    return self;
+}
+
 - (instancetype)initWithCurrentForecastSupported:(BOOL)currentForecastSupported maxMultidayForecastAmount:(UInt32)maxMultidayForecastAmount maxHourlyForecastAmount:(UInt32)maxHourlyForecastAmount maxMinutelyForecastAmount:(UInt32)maxMinutelyForecastAmount weatherForLocationSupported:(BOOL)weatherForLocationSupported {
     self = [self init];
     if (!self) {

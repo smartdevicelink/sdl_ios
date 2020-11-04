@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Reflects content of DisplayCapabilities, ButtonCapabilities and SoftButtonCapabilities
  
- @since SDL 6.0
+ @added in SmartDeviceLink 6.0.0
  */
 @interface SDLWindowCapability : SDLRPCStruct
 
