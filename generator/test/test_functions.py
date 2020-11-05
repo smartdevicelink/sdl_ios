@@ -132,35 +132,40 @@ class TestFunctionsProducer(TestCase):
         expected['imports'] = {
             '.h': {'enum': {'SDLRPCRequest'}, 'struct': {'SDLTemplateColorScheme', 'SDLTTSChunk', 'SDLSdlMsgVersion'}},
             '.m': {'SDLTemplateColorScheme', 'SDLTTSChunk', 'SDLSdlMsgVersion'}}
+        expected['history'] = None
         expected['description'] = ['Establishes an interface with a mobile application. Before registerAppInterface no '
-                                   'other commands will be', 'accepted/executed.']
+                                   'other commands will be accepted/executed.']
         expected['since'] = '1.0.0'
         expected['params'] = (
             self.producer.param_named(
+                history=None,
                 constructor_argument='sdlMsgVersion', constructor_argument_override=None,
                 constructor_prefix='SdlMsgVersion', deprecated=False, description=['See SyncMsgVersion'],
                 for_name='object', mandatory=True, method_suffix='SdlMsgVersion', modifier='strong',
                 of_class='SDLSdlMsgVersion.class', origin='sdlMsgVersion', since=None,
                 type_native='SDLSdlMsgVersion *', type_sdl='SDLSdlMsgVersion *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='fullAppID', constructor_argument_override=None, constructor_prefix='FullAppID',
-                deprecated=False, description=['ID used',
-                                               '{"default_value": null, "max_length": null, "min_length": null}'],
+                deprecated=False, description=['ID used', '{"string_min_length": null, "string_max_length": null}'],
                 for_name='object', mandatory=False, method_suffix='FullAppID', modifier='strong',
                 of_class='NSString.class', origin='fullAppID', since=None, type_native='NSString *',
                 type_sdl='NSString *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='dayColorScheme', constructor_argument_override=None, mandatory=False,
                 constructor_prefix='DayColorScheme', deprecated=False, description=[], for_name='object',
                 method_suffix='DayColorScheme', modifier='strong', of_class='SDLTemplateColorScheme.class',
                 origin='dayColorScheme', since=None, type_native='SDLTemplateColorScheme *',
                 type_sdl='SDLTemplateColorScheme *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='ttsName', constructor_argument_override=None, constructor_prefix='TtsName',
-                deprecated=False, description=['TTS string for'], for_name='objects', mandatory=False,
+                deprecated=False, description=['TTS string for', '{"array_min_size": null, "array_max_size": null}'], for_name='objects', mandatory=False,
                 method_suffix='TtsName', modifier='strong', of_class='SDLTTSChunk.class', origin='ttsName', since=None,
                 type_native='NSArray<SDLTTSChunk *> *', type_sdl='NSArray<SDLTTSChunk *> *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='isMediaApplication', constructor_argument_override=None,
                 constructor_prefix='IsMediaApplication', deprecated=False,
                 description=['Indicates if the application is a media or a'], for_name='object', mandatory=True,
@@ -184,16 +189,17 @@ class TestFunctionsProducer(TestCase):
 
         expected['constructors'] = (
             self.producer.constructor_named(
-                all=mandatory_arguments, arguments=mandatory_arguments, deprecated=False,
+                all=mandatory_arguments, arguments=mandatory_arguments,
                 init=mandatory_init, self=True),
             self.producer.constructor_named(
-                all=mandatory_arguments + not_mandatory_arguments, arguments=not_mandatory_arguments, deprecated=False,
+                all=mandatory_arguments + not_mandatory_arguments, arguments=not_mandatory_arguments,
                 init=mandatory_init + ' fullAppID:(nullable NSString *)fullAppID dayColorScheme:(nullable '
                                       'SDLTemplateColorScheme *)dayColorScheme ttsName:(nullable NSArray<SDLTTSChunk '
                                       '*> *)ttsName',
                 self=re.sub(r'([\w\d]+:)\([\w\d\s<>*]*\)([\w\d]+\s*)', r'\1\2', mandatory_init)))
 
         actual = self.producer.transform(item)
+        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_RegisterAppInterfaceResponse(self):
@@ -221,22 +227,26 @@ class TestFunctionsProducer(TestCase):
         expected['extends_class'] = 'SDLRPCResponse'
         expected['imports'] = {'.h': {'enum': {'SDLRPCResponse', 'SDLLanguage'}, 'struct': set()},
                                '.m': {'SDLLanguage'}}
+        expected['history'] = None
         expected['description'] = ['The response']
         expected['params'] = (
             self.producer.param_named(
+                history=None,
                 constructor_argument='language', constructor_argument_override=None, constructor_prefix='Language',
                 deprecated=False, description=['The currently'], for_name='enum', mandatory=False,
                 method_suffix='Language', modifier='strong', of_class='', origin='language',
                 since=None, type_native='SDLLanguage ', type_sdl='SDLLanguage '),
             self.producer.param_named(
+                history=None,
                 constructor_argument='supportedDiagModes', constructor_argument_override=None,
-                constructor_prefix='SupportedDiagModes', deprecated=False, description=['Specifies the'],
+                constructor_prefix='SupportedDiagModes', deprecated=False, description=['Specifies the', '{"array_min_size": 1, "array_max_size": 100, "num_min_value": 0, "num_max_value": 255}'],
                 for_name='objects', mandatory=False, method_suffix='SupportedDiagModes', modifier='strong',
                 of_class='NSNumber.class', origin='supportedDiagModes', since=None,
                 type_native='NSArray<NSNumber<SDLUInt> *> *', type_sdl='NSArray<NSNumber<SDLUInt> *> *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='hmiZoneCapabilities', constructor_argument_override=None,
-                constructor_prefix='HmiZoneCapabilities', deprecated=False, description=[], for_name='enums',
+                constructor_prefix='HmiZoneCapabilities', deprecated=False, description=['{"array_min_size": 1, "array_max_size": 100}'], for_name='enums',
                 mandatory=False, method_suffix='HmiZoneCapabilities', modifier='strong',
                 of_class='', origin='hmiZoneCapabilities', since=None,
                 type_native='NSArray<SDLHmiZoneCapabilities> *', type_sdl='NSArray<SDLHmiZoneCapabilities> *'))
@@ -252,13 +262,14 @@ class TestFunctionsProducer(TestCase):
 
         expected['constructors'] = (
             self.producer.constructor_named(
-                all=arguments, arguments=arguments, deprecated=False,
+                all=arguments, arguments=arguments,
                 init='Language:(nullable SDLLanguage)language supportedDiagModes:(nullable NSArray<NSNumber<SDLUInt> *>'
                      ' *)supportedDiagModes hmiZoneCapabilities:(nullable NSArray<SDLHmiZoneCapabilities> *)'
                      'hmiZoneCapabilities',
                 self=''),)
 
         actual = self.producer.transform(item)
+        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_OnHMIStatus(self):
@@ -278,8 +289,10 @@ class TestFunctionsProducer(TestCase):
             ".h": {'enum': {'SDLRPCNotification'}, 'struct': set()},
             ".m": set()
         }
+        expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
+                history=None,
                 constructor_argument='hmiLevel', constructor_argument_override=None, constructor_prefix='HmiLevel',
                 deprecated=False, description=[], for_name='enum', mandatory=True, method_suffix='HmiLevel',
                 modifier='strong', of_class='', origin='hmiLevel', since=None,
@@ -289,9 +302,10 @@ class TestFunctionsProducer(TestCase):
                                                   constructor_argument='hmiLevel')]
 
         expected['constructors'] = (self.producer.constructor_named(
-            all=arguments, arguments=arguments, deprecated=False, self=True, init='HmiLevel:(SDLHMILevel)hmiLevel'),)
+            all=arguments, arguments=arguments, self=True, init='HmiLevel:(SDLHMILevel)hmiLevel'),)
 
         actual = self.producer.transform(item)
+        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_CreateWindow(self):
@@ -315,38 +329,45 @@ class TestFunctionsProducer(TestCase):
         expected['name'] = 'SDLCreateWindow'
         expected['extends_class'] = 'SDLRPCRequest'
         expected['imports'] = {'.m': set(), '.h': {'struct': set(), 'enum': {'SDLRPCRequest'}}}
+        expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
+                history=None,
                 constructor_argument='windowID', constructor_argument_override=None, constructor_prefix='WindowID',
-                deprecated=False, description=['{"default_value": null, "max_value": null, "min_value": null}'],
+                deprecated=False, description=['{"num_min_value": null, "num_max_value": null}'],
                 for_name='object', mandatory=True, method_suffix='WindowID', modifier='strong',
                 of_class='NSNumber.class', origin='windowID', since=None, type_native='UInt32',
                 type_sdl='NSNumber<SDLInt> *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='cmdID', constructor_argument_override=None, constructor_prefix='CmdID',
-                deprecated=False, description=['{"default_value": null, "max_value": 2000000000, "min_value": 0}'],
+                deprecated=False, description=['{"num_min_value": 0, "num_max_value": 2000000000}'],
                 for_name='object', mandatory=True, method_suffix='CmdID', modifier='strong', of_class='NSNumber.class',
                 origin='cmdID', since=None, type_native='UInt32', type_sdl='NSNumber<SDLUInt> *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='position', constructor_argument_override=None, constructor_prefix='Position',
-                deprecated=False, description=['{"default_value": 1000, "max_value": 1000, "min_value": 0}'],
+                deprecated=False, description=['{"num_min_value": 0, "num_max_value": 1000, "default_value": 1000}'],
                 for_name='object', mandatory=True, method_suffix='Position', modifier='strong',
                 of_class='NSNumber.class', origin='position', since=None, type_native='UInt16',
                 type_sdl='NSNumber<SDLUInt> *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='speed', constructor_argument_override=None, constructor_prefix='Speed',
-                deprecated=False, description=['{"default_value": null, "max_value": 700.0, "min_value": 0.0}'],
+                deprecated=False, description=['{"num_min_value": 0.0, "num_max_value": 700.0}'],
                 for_name='object', mandatory=True, method_suffix='Speed', modifier='strong', of_class='NSNumber.class',
                 origin='speed', since=None, type_native='float', type_sdl='NSNumber<SDLFloat> *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='offset', constructor_argument_override=None, constructor_prefix='Offset',
-                deprecated=False, description=['{"default_value": null, "max_value": 100000000000, "min_value": 0}'],
+                deprecated=False, description=['{"num_min_value": 0, "num_max_value": 100000000000}'],
                 for_name='object', mandatory=True, method_suffix='Offset', modifier='strong', of_class='NSNumber.class',
                 origin='offset', since=None, type_native='UInt64', type_sdl='NSNumber<SDLUInt> *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='duplicateUpdatesFromWindowID', constructor_argument_override=None,
                 constructor_prefix='DuplicateUpdatesFromWindowID', deprecated=False,
-                description=['{"default_value": null, "max_value": null, "min_value": null}'], for_name='object',
+                description=['{"num_min_value": null, "num_max_value": null}'], for_name='object',
                 mandatory=False, method_suffix='DuplicateUpdatesFromWindowID', modifier='strong',
                 of_class='NSNumber.class', origin='duplicateUpdatesFromWindowID', since=None,
                 type_native='NSNumber<SDLInt> *', type_sdl='NSNumber<SDLInt> *'))
@@ -368,17 +389,18 @@ class TestFunctionsProducer(TestCase):
 
         expected['constructors'] = (
             self.producer.constructor_named(
-                all=not_mandatory_arguments, arguments=not_mandatory_arguments, deprecated=False, self=True,
+                all=not_mandatory_arguments, arguments=not_mandatory_arguments, self=True,
                 init='WindowID:(UInt32)windowID cmdID:(UInt32)cmdID position:(UInt16)position speed:(float)speed '
                      'offset:(UInt64)offset'),
             self.producer.constructor_named(
                 all=not_mandatory_arguments + mandatory_arguments, arguments=mandatory_arguments,
-                deprecated=False, self='WindowID:windowID cmdID:cmdID position:position speed:speed offset:offset',
+                self='WindowID:windowID cmdID:cmdID position:position speed:speed offset:offset',
                 init='WindowID:(UInt32)windowID cmdID:(UInt32)cmdID position:(UInt16)position speed:(float)speed '
                      'offset:(UInt64)offset duplicateUpdatesFromWindowID:(nullable NSNumber<SDLInt> *)'
                      'duplicateUpdatesFromWindowID'))
 
         actual = self.producer.transform(item)
+        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_CreateInteractionChoiceSet(self):
@@ -395,23 +417,33 @@ class TestFunctionsProducer(TestCase):
         expected['origin'] = 'CreateInteractionChoiceSet'
         expected['name'] = 'SDLCreateInteractionChoiceSet'
         expected['extends_class'] = 'SDLRPCRequest'
-        expected['imports'] = {'.m': {'SDLChoice'}, '.h': {'struct': {'SDLChoice'}, 'enum': {'SDLRPCRequest'}}}
+        expected['imports'] = {'.m': {'SDLChoice'}, '.h': {'struct': ['SDLChoice'], 'enum': ['SDLRPCRequest']}}
+        expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
+                history=None,
                 constructor_argument='choiceSet', constructor_argument_override=None,
-                constructor_prefix='ChoiceSet', deprecated=False, description=[], for_name='objects', mandatory=True,
+                constructor_prefix='ChoiceSet', deprecated=False, description=['{"array_min_size": null, "array_max_size": null}'], for_name='objects', mandatory=True,
                 method_suffix='ChoiceSet', modifier='strong', of_class='SDLChoice.class', origin='choiceSet',
                 since=None, type_native='NSArray<SDLChoice *> *', type_sdl='NSArray<SDLChoice *> *'),)
+        # expected['params'] = (
+        #     self.producer.param_named(
+        #         history=None,
+        #         constructor_argument='choiceSet', constructor_argument_override=None,
+        #         constructor_prefix='ChoiceSet', deprecated=False, description=[], for_name='objects', mandatory=True,
+        #         method_suffix='ChoiceSet', modifier='strong', of_class='SDLChoice.class', origin='choiceSet',
+        #         since=None, type_native='NSArray<SDLChoice *> *', type_sdl='NSArray<SDLChoice *> *'),)
 
         argument = [
             self.producer.argument_named(variable='choiceSet', deprecated=False, constructor_argument='choiceSet',
                                          origin='choiceSet')]
 
         expected['constructors'] = (self.producer.constructor_named(
-            all=argument, arguments=argument, deprecated=False, self=True,
+            all=argument, arguments=argument, self=True,
             init='ChoiceSet:(NSArray<SDLChoice *> *)choiceSet'),)
 
         actual = self.producer.transform(item)
+        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_SetDisplayLayout(self):
@@ -433,14 +465,15 @@ class TestFunctionsProducer(TestCase):
         expected['name'] = 'SDLSetDisplayLayout'
         expected['extends_class'] = 'SDLRPCRequest'
         expected['imports'] = {'.h': {'enum': {'SDLRPCRequest'}, 'struct': set()}, '.m': set()}
-        expected['since'] = '6.0.0'
         expected['history'] = '3.0.0'
+        expected['since'] = '6.0.0'
         expected['deprecated'] = True
         expected['params'] = (
             self.producer.param_named(
+                history=None,
                 constructor_argument='displayLayout', constructor_argument_override=None,
                 constructor_prefix='DisplayLayout', deprecated=False,
-                description=['{"default_value": null, "max_length": 500, "min_length": 1}'], for_name='object',
+                description=['{"string_min_length": 1, "string_max_length": 500}'], for_name='object',
                 mandatory=True, method_suffix='DisplayLayout', modifier='strong', of_class='NSString.class',
                 origin='displayLayout', since=None, type_native='NSString *', type_sdl='NSString *'),)
 
@@ -449,8 +482,9 @@ class TestFunctionsProducer(TestCase):
                                          constructor_argument='displayLayout', origin='displayLayout')]
 
         expected['constructors'] = (self.producer.constructor_named(
-            all=argument, arguments=argument, deprecated=False, self=True,
+            all=argument, arguments=argument, self=True,
             init='DisplayLayout:(NSString *)displayLayout'),)
 
         actual = self.producer.transform(item)
+        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
