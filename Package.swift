@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "SmartDeviceLinkSwift", targets: ["SmartDeviceLinkSwift"])
     ],
     dependencies: [
-        .package(name: "BiSON", url: "https://github.com/smartdevicelink/bson_c_lib.git", .branch("testing/bson-fixes"))
+        .package(/*name: "BiSON", */url: "https://github.com/smartdevicelink/bson_c_lib.git", .branch("testing/bson-fixes"))
     ],
     targets: [
         .target(
