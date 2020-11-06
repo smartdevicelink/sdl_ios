@@ -114,7 +114,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Helpers
-
 #pragma mark Deletes
 
 - (NSArray<SDLDeleteCommand *> *)sdl_deleteCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {

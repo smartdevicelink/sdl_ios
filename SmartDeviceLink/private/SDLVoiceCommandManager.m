@@ -21,6 +21,7 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCRequest.h"
 #import "SDLVoiceCommand.h"
+#import "SDLVoiceCommandUpdateOperation.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
-@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *oldVoiceCommands;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
 
 @end
 
@@ -55,7 +56,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
     _lastVoiceCommandId = VoiceCommandIdMin;
     _voiceCommands = @[];
-    _oldVoiceCommands = @[];
+    _currentVoiceCommands = @[];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_commandNotification:) name:SDLDidReceiveCommandNotification object:nil];
@@ -75,7 +76,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 - (void)stop {
     _lastVoiceCommandId = VoiceCommandIdMin;
     _voiceCommands = @[];
-    _oldVoiceCommands = @[];
+    _currentVoiceCommands = @[];
 
     _waitingOnHMIUpdate = NO;
     _currentHMILevel = nil;
@@ -86,36 +87,20 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 #pragma mark - Setters
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.waitingOnHMIUpdate = YES;
+    if (voiceCommands == self.voiceCommands) {
+        SDLLogD(@"New voice commands are equivalent to existing voice commands, skipping...");
         return;
     }
-
-    self.waitingOnHMIUpdate = NO;
 
     // Set the ids
     self.lastVoiceCommandId = VoiceCommandIdMin;
     [self sdl_updateIdsOnVoiceCommands:voiceCommands];
 
-    _oldVoiceCommands = _voiceCommands;
     _voiceCommands = voiceCommands;
 
-    [self sdl_updateWithCompletionHandler:nil];
-}
-
-#pragma mark - Updating System
-
-- (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.waitingOnHMIUpdate = YES;
-        return;
-    }
-
-    if (self.inProgressUpdate != nil) {
-        // There's an in progress update, we need to put this on hold
-        self.hasQueuedUpdate = YES;
-        return;
-    }
+    [SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager newVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSError * _Nullable error) {
+        // TODO
+    }];
 }
 
 #pragma mark - Helpers
