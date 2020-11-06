@@ -25,7 +25,19 @@ NS_ASSUME_NONNULL_BEGIN
  @param autoCompleteList A list of strings to show the user to complete what they are typing.
  @return The RPC object
  */
-- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList;
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList __deprecated_msg("Use initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList: instead");
+
+/**
+ * Convenience init with all properties.
+ *
+ * @param language - language
+ * @param keyboardLayout - keyboardLayout
+ * @param keypressMode - keypressMode
+ * @param limitedCharacterList - limitedCharacterList
+ * @param autoCompleteList - autoCompleteList
+ * @return A SDLKeyboardProperties object
+ */
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList;
 
 /**
  The keyboard language
@@ -58,11 +70,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<NSString *> *limitedCharacterList;
 
 /**
- Allows an app to prepopulate the text field with a suggested or completed entry as the user types
-
- Optional
+ * Deprecated, use autoCompleteList instead.
+ * {"string_min_length": 1, "string_max_length": 1000}
+ *
+ * @deprecated in SmartDeviceLink 6.0.0
+ * @added in SmartDeviceLink 3.0.0
  */
-@property (nullable, strong, nonatomic) NSString *autoCompleteText;
+@property (nullable, strong, nonatomic) NSString *autoCompleteText __deprecated_msg("Use autoCompleteList instead");
 
 /**
  Allows an app to show a list of possible autocomplete suggestions as the user types
