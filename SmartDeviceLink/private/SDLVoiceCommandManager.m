@@ -34,12 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommandManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
 @property (assign, nonatomic) BOOL waitingOnHMIUpdate;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-
-@property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
-@property (assign, nonatomic) BOOL hasQueuedUpdate;
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
@@ -55,6 +53,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     if (!self) { return nil; }
 
     _lastVoiceCommandId = VoiceCommandIdMin;
+    _transactionQueue = [self sdl_newTransactionQueue];
     _voiceCommands = @[];
     _currentVoiceCommands = @[];
 
@@ -77,11 +76,20 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     _lastVoiceCommandId = VoiceCommandIdMin;
     _voiceCommands = @[];
     _currentVoiceCommands = @[];
+    _transactionQueue = [self sdl_newTransactionQueue];
 
     _waitingOnHMIUpdate = NO;
     _currentHMILevel = nil;
-    _inProgressUpdate = nil;
-    _hasQueuedUpdate = NO;
+}
+
+- (NSOperationQueue *)sdl_newTransactionQueue {
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    queue.name = @"SDLVoiceCommandManager Transaction Queue";
+    queue.maxConcurrentOperationCount = 1;
+    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.suspended = YES;
+
+    return queue;
 }
 
 #pragma mark - Setters
@@ -98,9 +106,16 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
     _voiceCommands = voiceCommands;
 
-    [SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager newVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSError * _Nullable error) {
-        // TODO
+    __weak typeof(self) weakSelf = self;
+    SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager newVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            return;
+        }
+
+        weakSelf.currentVoiceCommands = voiceCommands;
     }];
+
+    [self.transactionQueue addOperation:updateOperation];
 }
 
 #pragma mark - Helpers
