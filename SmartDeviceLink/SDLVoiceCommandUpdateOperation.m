@@ -51,44 +51,63 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     [self sdl_sendDeleteCurrentVoiceCommands:^(NSError * _Nullable error) {
-        [weakself sdl_sendCurrentVoiceCommands:^(NSError * _Nullable error) {
-            if (weakself.completionHandler != nil) {
-                weakself.completionHandler(error);
+        // If any of the deletions failed, don't send the new commands
+        if (error != nil) {
+            SDLLogD(@"Some voice commands failed to delete; aborting operation");
+            weakSelf.internalError = error;
+            [weakSelf finishOperation];
+
+            return;
+        }
+
+        // If the operation has been canceled, then don't send the new commands
+        if (self.isCancelled) {
+            [weakSelf finishOperation];
+        }
+
+        // If no error, send the new commands
+        [weakSelf sdl_sendCurrentVoiceCommands:^(NSError * _Nullable error) {
+            if (weakSelf.completionHandler != nil) {
+                weakSelf.completionHandler(error);
+                [weakSelf finishOperation];
             }
         }];
     }];
 }
 
-#pragma mark Delete Old Menu Items
+#pragma mark - Sending RPCs
 
 - (void)sdl_sendDeleteCurrentVoiceCommands:(void(^)(NSError * _Nullable))completionHandler {
     if (self.oldVoiceCommands.count == 0) {
-        self.completionHandler(nil);
-
-        return;
+        SDLLogD(@"No voice commands to delete");
+        return completionHandler(nil);
     }
 
     NSArray<SDLRPCRequest *> *deleteVoiceCommands = [self sdl_deleteCommandsForVoiceCommands:self.oldVoiceCommands];
-    self.oldVoiceCommands = @[];
-    [self.connectionManager sendRequests:deleteVoiceCommands progressHandler:nil completionHandler:^(BOOL success) {
+
+    __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
+    __weak typeof(self) weakSelf = self;
+    [self.connectionManager sendRequests:deleteVoiceCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        if (error != nil) {
+            errors[request] = error;
+        }
+    } completionHandler:^(BOOL success) {
         if (!success) {
-            SDLLogE(@"Error deleting old voice commands");
-        } else {
-            SDLLogD(@"Finished deleting old voice commands");
+            SDLLogE(@"Error deleting old voice commands: %@", errors);
+            return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
         }
 
-        completionHandler(nil);
+        self.oldVoiceCommands = @[];
+        SDLLogD(@"Finished deleting old voice commands");
+        return completionHandler(nil);
     }];
 }
-
-#pragma mark Send New Menu Items
 
 - (void)sdl_sendCurrentVoiceCommands:(void(^)(NSError * _Nullable))completionHandler {
     if (self.updatedVoiceCommands.count == 0) {
         SDLLogD(@"No voice commands to send");
-
         return completionHandler(nil);
     }
 
@@ -103,13 +122,12 @@ NS_ASSUME_NONNULL_BEGIN
     } completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogE(@"Failed to send main menu commands: %@", errors);
-            completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-            return;
+            return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
         }
 
-        SDLLogD(@"Finished updating voice commands");
         weakSelf.oldVoiceCommands = weakSelf.updatedVoiceCommands;
-        completionHandler(nil);
+        SDLLogD(@"Finished updating voice commands");
+        return completionHandler(nil);
     }];
 }
 

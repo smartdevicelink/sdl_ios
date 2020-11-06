@@ -56,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo;
 + (NSError *)sdl_voiceCommandManager_pendingUpdateSuperseded;
++ (NSError *)sdl_voiceCommandManager_deleteFailed;
 
 #pragma mark Choice Set Manager
 
