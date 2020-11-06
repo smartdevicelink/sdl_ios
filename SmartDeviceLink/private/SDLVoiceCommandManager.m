@@ -116,116 +116,15 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         self.hasQueuedUpdate = YES;
         return;
     }
-
-    __weak typeof(self) weakself = self;
-    [self sdl_sendDeleteCurrentVoiceCommands:^(NSError * _Nullable error) {
-        [weakself sdl_sendCurrentVoiceCommands:^(NSError * _Nullable error) {
-            weakself.inProgressUpdate = nil;
-
-            if (completionHandler != nil) {
-                completionHandler(error);
-            }
-
-            if (weakself.hasQueuedUpdate) {
-                [weakself sdl_updateWithCompletionHandler:nil];
-                weakself.hasQueuedUpdate = NO;
-            }
-        }];
-    }];
-}
-
-#pragma mark Delete Old Menu Items
-
-- (void)sdl_sendDeleteCurrentVoiceCommands:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.oldVoiceCommands.count == 0) {
-        completionHandler(nil);
-
-        return;
-    }
-
-    NSArray<SDLRPCRequest *> *deleteVoiceCommands = [self sdl_deleteCommandsForVoiceCommands:self.oldVoiceCommands];
-    self.oldVoiceCommands = @[];
-    [self.connectionManager sendRequests:deleteVoiceCommands progressHandler:nil completionHandler:^(BOOL success) {
-        if (!success) {
-            SDLLogE(@"Error deleting old voice commands");
-        } else {
-            SDLLogD(@"Finished deleting old voice commands");
-        }
-
-        completionHandler(nil);
-    }];
-}
-
-#pragma mark Send New Menu Items
-
-- (void)sdl_sendCurrentVoiceCommands:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.voiceCommands.count == 0) {
-        SDLLogD(@"No voice commands to send");
-        completionHandler(nil);
-
-        return;
-    }
-
-    self.inProgressUpdate = [self sdl_addCommandsForVoiceCommands:self.voiceCommands];
-
-    __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
-    __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendRequests:self.inProgressUpdate progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-        if (error != nil) {
-            errors[request] = error;
-        }
-    } completionHandler:^(BOOL success) {
-        if (!success) {
-            SDLLogE(@"Failed to send main menu commands: %@", errors);
-            completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-            return;
-        }
-
-        SDLLogD(@"Finished updating voice commands");
-        weakSelf.oldVoiceCommands = weakSelf.voiceCommands;
-        completionHandler(nil);
-    }];
 }
 
 #pragma mark - Helpers
-
 #pragma mark IDs
 
 - (void)sdl_updateIdsOnVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     for (SDLVoiceCommand *voiceCommand in voiceCommands) {
         voiceCommand.commandId = self.lastVoiceCommandId++;
     }
-}
-
-#pragma mark Deletes
-
-- (NSArray<SDLDeleteCommand *> *)sdl_deleteCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    NSMutableArray<SDLDeleteCommand *> *mutableDeletes = [NSMutableArray array];
-    for (SDLVoiceCommand *command in voiceCommands) {
-        SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:command.commandId];
-        [mutableDeletes addObject:delete];
-    }
-
-    return [mutableDeletes copy];
-}
-
-#pragma mark Commands
-
-- (NSArray<SDLAddCommand *> *)sdl_addCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    NSMutableArray<SDLAddCommand *> *mutableCommands = [NSMutableArray array];
-    for (SDLVoiceCommand *command in voiceCommands) {
-        [mutableCommands addObject:[self sdl_commandForVoiceCommand:command]];
-    }
-
-    return [mutableCommands copy];
-}
-
-- (SDLAddCommand *)sdl_commandForVoiceCommand:(SDLVoiceCommand *)voiceCommand {
-    SDLAddCommand *command = [[SDLAddCommand alloc] init];
-    command.vrCommands = voiceCommand.voiceCommands;
-    command.cmdID = @(voiceCommand.commandId);
-
-    return command;
 }
 
 #pragma mark - Observers
