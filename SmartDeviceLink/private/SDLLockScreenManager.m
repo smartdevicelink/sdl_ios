@@ -131,9 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (lockScreenStatus == nil) { return; }
 
     self.lastLockNotification = lockScreenStatus;
-//    if (!self.lockScreenDismissedByUser) {
     [self sdl_checkLockScreen];
-//    }
 }
 
 - (void)sdl_lockScreenIconReceived:(NSNotification *)notification {
@@ -214,7 +212,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.lockScreenDismissable = YES;
     }
 
-    if (!self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
+    if (!(self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways)) {
         if (self.lockScreenDismissedByUser &&
             [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] &&
             !self.lockScreenDismissable) {
