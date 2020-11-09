@@ -97,8 +97,3 @@ jobs:
             - name: Run RPC generator tests
               run: |
                 python3 generator/test/runner.py
-            - name: Test with pytest
-              run: |
-                pip install pytest
-                pip install pytest-cov
-                pytest generator/test/runner.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
