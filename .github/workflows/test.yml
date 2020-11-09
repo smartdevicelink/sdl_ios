@@ -83,13 +83,15 @@ jobs:
 
             - name: Install dependencies
               run: |
-                python -m pip install --upgrade pip
                 pip install -r generator/requirements.txt
-#            - name: Test with pytest
-#              run: |
-#                pip install pytest
-#                pip install pytest-cov
-#                pytest generator/test/runner.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+            - name: Regular test
+              run: |
+                python3 generator/test/runner.py
+            - name: Test with pytest
+              run: |
+                pip install pytest
+                pip install pytest-cov
+                pytest generator/test/runner.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
 
     rpcTest:
         name: RPCSpecGeneratorTests
@@ -102,12 +104,17 @@ jobs:
 #            uses: actions/setup-python@v2.3.1
 #            with:
 #                python-version: '3.8'
+            - name: Checkout repository
+              uses: actions/checkout@v2.3.1
+              with:
+                  submodules: true
+
             - name: Current Directory
               run: ls
             - name: Install dependencies
               run: |
-                python3 -m pip install -r ../generator/requirements.txt
-                python3 ../generator/test/runner.py
+                python3 -m pip install -r generator/requirements.txt
+                python3 generator/test/runner.py
 #                python -m pip install --upgrade pip
 #                pip install -r ./generator/requirements.txt
 #            - name: Test with pytest
