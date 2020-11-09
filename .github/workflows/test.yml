@@ -106,8 +106,9 @@ jobs:
               run: ls
             - name: Install dependencies
               run: |
-                python3 -m pip install -r ./generator/requirements.txt
-                python3 ./generator/test/runner.py
+                cd generator
+                python3 -m pip install -r requirements.txt
+#                python3 ./generator/test/runner.py
 #                python -m pip install --upgrade pip
 #                pip install -r ./generator/requirements.txt
 #            - name: Test with pytest
