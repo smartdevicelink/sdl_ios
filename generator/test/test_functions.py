@@ -130,8 +130,21 @@ class TestFunctionsProducer(TestCase):
         expected['name'] = 'SDLRegisterAppInterface'
         expected['extends_class'] = 'SDLRPCRequest'
         expected['imports'] = {
-            '.h': {'enum': {'SDLRPCRequest'}, 'struct': {'SDLTemplateColorScheme', 'SDLTTSChunk', 'SDLSdlMsgVersion'}},
-            '.m': {'SDLTemplateColorScheme', 'SDLTTSChunk', 'SDLSdlMsgVersion'}}
+            '.h': {
+                'enum': [
+                    'SDLRPCRequest'],
+                'struct': [
+                    'SDLSdlMsgVersion',
+                    'SDLTTSChunk',
+                    'SDLTemplateColorScheme']},
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLRPCFunctionNames',
+                'SDLRPCParameterNames',
+                'SDLRegisterAppInterface',
+                'SDLSdlMsgVersion',
+                'SDLTTSChunk',
+                'SDLTemplateColorScheme']}
         expected['history'] = None
         expected['description'] = ['Establishes an interface with a mobile application. Before registerAppInterface no '
                                    'other commands will be accepted/executed.']
@@ -199,7 +212,6 @@ class TestFunctionsProducer(TestCase):
                 self=re.sub(r'([\w\d]+:)\([\w\d\s<>*]*\)([\w\d]+\s*)', r'\1\2', mandatory_init)))
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_RegisterAppInterfaceResponse(self):
@@ -225,8 +237,18 @@ class TestFunctionsProducer(TestCase):
         expected['origin'] = 'RegisterAppInterface'
         expected['name'] = 'SDLRegisterAppInterfaceResponse'
         expected['extends_class'] = 'SDLRPCResponse'
-        expected['imports'] = {'.h': {'enum': {'SDLRPCResponse', 'SDLLanguage'}, 'struct': set()},
-                               '.m': {'SDLLanguage'}}
+        expected['imports'] = {
+            '.h': {
+                'enum': [
+                    'SDLLanguage',
+                    'SDLRPCResponse'],
+                'struct': []},
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLLanguage',
+                'SDLRPCFunctionNames',
+                'SDLRPCParameterNames',
+                'SDLRegisterAppInterface']}
         expected['history'] = None
         expected['description'] = ['The response']
         expected['params'] = (
@@ -269,7 +291,6 @@ class TestFunctionsProducer(TestCase):
                 self=''),)
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_OnHMIStatus(self):
@@ -286,9 +307,14 @@ class TestFunctionsProducer(TestCase):
         expected['name'] = 'SDLOnHMIStatus'
         expected['extends_class'] = 'SDLRPCNotification'
         expected['imports'] = {
-            ".h": {'enum': {'SDLRPCNotification'}, 'struct': set()},
-            ".m": set()
-        }
+            ".h": {
+                'enum': ['SDLRPCNotification'],
+                'struct': []},
+            ".m": [
+                'NSMutableDictionary+Store',
+                'SDLOnHMIStatus',
+                'SDLRPCFunctionNames',
+                'SDLRPCParameterNames']}
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -305,7 +331,6 @@ class TestFunctionsProducer(TestCase):
             all=arguments, arguments=arguments, self=True, init='HmiLevel:(SDLHMILevel)hmiLevel'),)
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_CreateWindow(self):
@@ -328,7 +353,15 @@ class TestFunctionsProducer(TestCase):
         expected['origin'] = 'CreateWindow'
         expected['name'] = 'SDLCreateWindow'
         expected['extends_class'] = 'SDLRPCRequest'
-        expected['imports'] = {'.m': set(), '.h': {'struct': set(), 'enum': {'SDLRPCRequest'}}}
+        expected['imports'] = {
+            '.h': {
+                'struct': [],
+                'enum': ['SDLRPCRequest']},
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLCreateWindow',
+                'SDLRPCFunctionNames',
+                'SDLRPCParameterNames']}
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -400,7 +433,6 @@ class TestFunctionsProducer(TestCase):
                      'duplicateUpdatesFromWindowID'))
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_CreateInteractionChoiceSet(self):
@@ -417,7 +449,16 @@ class TestFunctionsProducer(TestCase):
         expected['origin'] = 'CreateInteractionChoiceSet'
         expected['name'] = 'SDLCreateInteractionChoiceSet'
         expected['extends_class'] = 'SDLRPCRequest'
-        expected['imports'] = {'.m': {'SDLChoice'}, '.h': {'struct': ['SDLChoice'], 'enum': ['SDLRPCRequest']}}
+        expected['imports'] = {
+            '.h': {
+                'struct': ['SDLChoice'],
+                'enum': ['SDLRPCRequest']},
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLChoice',
+                'SDLCreateInteractionChoiceSet',
+                'SDLRPCFunctionNames',
+                'SDLRPCParameterNames']}
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -426,13 +467,6 @@ class TestFunctionsProducer(TestCase):
                 constructor_prefix='ChoiceSet', deprecated=False, description=['{"array_min_size": null, "array_max_size": null}'], for_name='objects', mandatory=True,
                 method_suffix='ChoiceSet', modifier='strong', of_class='SDLChoice.class', origin='choiceSet',
                 since=None, type_native='NSArray<SDLChoice *> *', type_sdl='NSArray<SDLChoice *> *'),)
-        # expected['params'] = (
-        #     self.producer.param_named(
-        #         history=None,
-        #         constructor_argument='choiceSet', constructor_argument_override=None,
-        #         constructor_prefix='ChoiceSet', deprecated=False, description=[], for_name='objects', mandatory=True,
-        #         method_suffix='ChoiceSet', modifier='strong', of_class='SDLChoice.class', origin='choiceSet',
-        #         since=None, type_native='NSArray<SDLChoice *> *', type_sdl='NSArray<SDLChoice *> *'),)
 
         argument = [
             self.producer.argument_named(variable='choiceSet', deprecated=False, constructor_argument='choiceSet',
@@ -443,7 +477,6 @@ class TestFunctionsProducer(TestCase):
             init='ChoiceSet:(NSArray<SDLChoice *> *)choiceSet'),)
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_SetDisplayLayout(self):
@@ -464,7 +497,15 @@ class TestFunctionsProducer(TestCase):
         expected['origin'] = 'SetDisplayLayout'
         expected['name'] = 'SDLSetDisplayLayout'
         expected['extends_class'] = 'SDLRPCRequest'
-        expected['imports'] = {'.h': {'enum': {'SDLRPCRequest'}, 'struct': set()}, '.m': set()}
+        expected['imports'] = {
+            '.h': {
+                'enum': ['SDLRPCRequest'],
+                'struct': []},
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLRPCFunctionNames',
+                'SDLRPCParameterNames',
+                'SDLSetDisplayLayout']}
         expected['history'] = '3.0.0'
         expected['since'] = '6.0.0'
         expected['deprecated'] = True
@@ -486,5 +527,4 @@ class TestFunctionsProducer(TestCase):
             init='DisplayLayout:(NSString *)displayLayout'),)
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)

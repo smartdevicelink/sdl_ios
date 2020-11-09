@@ -43,7 +43,11 @@ class TestEnumsProducer(TestCase):
         expected = OrderedDict()
         expected['origin'] = 'FunctionID'
         expected['name'] = 'SDLFunctionID'
-        expected['imports'] = {'.h': {'SDLEnum'}, '.m': {'SDLEnum'}}
+        expected['imports'] = {
+            '.h': {
+                'SDLEnum'},
+            '.m': [
+                'SDLEnum']}
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(history=None, description=[], name='Reserved', origin='RESERVED', since=None, deprecated=False),
@@ -53,7 +57,6 @@ class TestEnumsProducer(TestCase):
                                       since=None, deprecated=False),)
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_TextFieldName(self):
@@ -71,7 +74,11 @@ class TestEnumsProducer(TestCase):
         expected = OrderedDict()
         expected['origin'] = 'TextFieldName'
         expected['name'] = 'SDLTextFieldName'
-        expected['imports'] = {'.h': {'SDLEnum'}, '.m': ['SDLEnum']}
+        expected['imports'] = {
+            '.h': {
+                'SDLEnum'},
+            '.m': [
+                'SDLEnum']}
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(history=None, description=[], name='Success', origin='SUCCESS', since=None,
@@ -83,5 +90,4 @@ class TestEnumsProducer(TestCase):
                                       since=None, deprecated=False))
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)

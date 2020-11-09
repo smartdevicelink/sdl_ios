@@ -44,7 +44,15 @@ class TestStructsProducer(TestCase):
         expected['origin'] = 'CloudAppProperties'
         expected['name'] = 'SDLCloudAppProperties'
         expected['extends_class'] = 'SDLRPCStruct'
-        expected['imports'] = {'.m': set(), '.h': {'enum': {'SDLRPCStruct'}, 'struct': set()}}
+        expected['imports'] = {
+            '.h': {
+                'enum': [
+                    'SDLRPCStruct'],
+                'struct': []},
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLCloudAppProperties',
+                'SDLRPCParameterNames']}
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -74,7 +82,6 @@ class TestStructsProducer(TestCase):
             init='AppID:(NSString *)appID valueParam:(NSString *)valueParam'),)
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
 
     def test_TouchEvent(self):
@@ -89,7 +96,15 @@ class TestStructsProducer(TestCase):
         expected['origin'] = 'TouchEvent'
         expected['name'] = 'SDLTouchEvent'
         expected['extends_class'] = 'SDLRPCStruct'
-        expected['imports'] = {'.h': {'enum': {'SDLRPCStruct'}, 'struct': set()}, '.m': set()}
+        expected['imports'] = {
+            '.h': {
+                'enum': [
+                    'SDLRPCStruct'],
+                'struct': []},
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLRPCParameterNames',
+                'SDLTouchEvent']}
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -109,5 +124,4 @@ class TestStructsProducer(TestCase):
             init='IdParam:(UInt8)idParam'),)
 
         actual = self.producer.transform(item)
-        expected['imports'] = actual['imports']
         self.assertDictEqual(expected, actual)
