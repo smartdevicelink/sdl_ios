@@ -79,7 +79,7 @@ jobs:
               with: 
                 yml: ./codecov.yml
             - name: Current Directory
-              uses: ls
+              run: ls
 
             - name: Install dependencies
               run: |
