@@ -1600,6 +1600,9 @@
 		8881AFBB2225E7FA00EA870B /* SDLGetCloudAppPropertiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFBA2225E7FA00EA870B /* SDLGetCloudAppPropertiesSpec.m */; };
 		8881AFC12225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
+		8889C2E52559AEA0004F5966 /* SDLAudioData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8889C2E32559AEA0004F5966 /* SDLAudioData.h */; };
+		8889C2E62559AEA0004F5966 /* SDLAudioData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8889C2E42559AEA0004F5966 /* SDLAudioData.m */; };
+		8889C2ED2559C7E2004F5966 /* SDLAudioDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8889C2EC2559C7E2004F5966 /* SDLAudioDataSpec.m */; };
 		888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */; };
 		889D0B9624D065EE008AD494 /* SDLSubtleAlertResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */; };
 		889D0B9824D06E52008AD494 /* SDLSubtleAlertSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */; };
@@ -3420,6 +3423,9 @@
 		8881AFBA2225E7FA00EA870B /* SDLGetCloudAppPropertiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesSpec.m; sourceTree = "<group>"; };
 		8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesResponseSpec.m; sourceTree = "<group>"; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
+		8889C2E32559AEA0004F5966 /* SDLAudioData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAudioData.h; sourceTree = "<group>"; };
+		8889C2E42559AEA0004F5966 /* SDLAudioData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAudioData.m; sourceTree = "<group>"; };
+		8889C2EC2559C7E2004F5966 /* SDLAudioDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAudioDataSpec.m; sourceTree = "<group>"; };
 		888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCOperationSpec.m; sourceTree = "<group>"; };
 		889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertResponseSpec.m; sourceTree = "<group>"; };
 		889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertSpec.m; sourceTree = "<group>"; };
@@ -4251,6 +4257,7 @@
 		5D0A736F203F0C450001595D /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				8889C2E12559AE6C004F5966 /* Alert */,
 				5D92935720B33D3C00FCC775 /* Choice Set */,
 				5D339CE5207C0651000CC364 /* Menu */,
 				5D0A737F203F23D10001595D /* Soft Button */,
@@ -4347,6 +4354,7 @@
 		5D1BF6AA2047429C00D36881 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				8889C2E22559AE82004F5966 /* Audio */,
 				4ABB25D024F7E7630061BF55 /* SDLImageField+ScreenManagerExtensions.h */,
 				4ABB25D124F7E7630061BF55 /* SDLImageField+ScreenManagerExtensions.m */,
 				4ABB25D224F7E7630061BF55 /* SDLTextField+ScreenManagerExtensions.h */,
@@ -6078,6 +6086,7 @@
 		5DAD5F8120507DE40025624C /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				8889C2EB2559C7AA004F5966 /* Alert */,
 				5DE35E4320CAFBEA0034BE5A /* Choice Set */,
 				5DF40B24208FA7C500DD6FDA /* Menu */,
 				5DAD5F8220507DED0025624C /* Soft Button */,
@@ -6591,6 +6600,30 @@
 				4A8BD39D24F9474B000945E3 /* SDLIAPDataSessionDelegate.h */,
 			);
 			name = "Data Session";
+			sourceTree = "<group>";
+		};
+		8889C2E12559AE6C004F5966 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Alert;
+			sourceTree = "<group>";
+		};
+		8889C2E22559AE82004F5966 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				8889C2E32559AEA0004F5966 /* SDLAudioData.h */,
+				8889C2E42559AEA0004F5966 /* SDLAudioData.m */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
+		8889C2EB2559C7AA004F5966 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				8889C2EC2559C7E2004F5966 /* SDLAudioDataSpec.m */,
+			);
+			name = Alert;
 			sourceTree = "<group>";
 		};
 		88A098AB2476F08F00A50005 /* Subscribe Button */ = {
@@ -7205,6 +7238,7 @@
 				4ABB254124F7E48D0061BF55 /* SDLLockScreenRootViewController.h in Headers */,
 				4ABB2A7124F847D40061BF55 /* SDLPublishAppServiceResponse.h in Headers */,
 				4A8BD2D724F93803000945E3 /* SDLTextField.h in Headers */,
+				8889C2E52559AEA0004F5966 /* SDLAudioData.h in Headers */,
 				4ABB260D24F7F3400061BF55 /* SDLAudioFile.h in Headers */,
 				4A8BD2B224F935BC000945E3 /* SDLStartTime.h in Headers */,
 				4A8BD31F24F93964000945E3 /* SDLSeatLocationCapability.h in Headers */,
@@ -7781,6 +7815,7 @@
 				4ABB265324F7F58D0061BF55 /* SDLRPCRequestNotification.m in Sources */,
 				4ABB28E124F82A6A0061BF55 /* SDLOnDriverDistraction.m in Sources */,
 				4ABB27C324F8006D0061BF55 /* SDLMetadataType.m in Sources */,
+				8889C2E62559AEA0004F5966 /* SDLAudioData.m in Sources */,
 				4ABB262524F7F3A30061BF55 /* CVPixelBufferRef+SDLUtil.m in Sources */,
 				4ABB27DD24F800CA0061BF55 /* SDLPrimaryAudioSource.m in Sources */,
 				4A8BD27F24F9343F000945E3 /* SDLRadioControlCapabilities.m in Sources */,
@@ -8586,6 +8621,7 @@
 				162E82E71A9BDE8B00906325 /* SDLKeyboardEventSpec.m in Sources */,
 				162E834E1A9BDE8B00906325 /* SDLCreateInteractionChoiceSetResponseSpec.m in Sources */,
 				DA9F7EB61DCC086A00ACAE48 /* SDLOasisAddressSpec.m in Sources */,
+				8889C2ED2559C7E2004F5966 /* SDLAudioDataSpec.m in Sources */,
 				162E833F1A9BDE8B00906325 /* SDLSliderSpec.m in Sources */,
 				162E838C1A9BDE8B00906325 /* SDLSoftButtonSpec.m in Sources */,
 				5DA23FF81F2FAF2D009C0313 /* SDLControlFramePayloadRPCStartServiceAckSpec.m in Sources */,
