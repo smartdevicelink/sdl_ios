@@ -106,7 +106,6 @@ jobs:
               run: ls
             - name: Install dependencies
               run: |
-#                cd generator
                 python3 -m pip install -r ../generator/requirements.txt
                 python3 ../generator/test/runner.py
 #                python -m pip install --upgrade pip
