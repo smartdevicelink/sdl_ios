@@ -78,13 +78,13 @@ jobs:
               uses: codecov/codecov-action@v1.0.10
               with: 
                 yml: ./codecov.yml
-#            - name: Current Directory
-#              uses: ls
-#
-#            - name: Install dependencies
-#              run: |
-#                python -m pip install --upgrade pip
-#                pip install -r generator/requirements.txt
+            - name: Current Directory
+              uses: ls
+
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r generator/requirements.txt
 #            - name: Test with pytest
 #              run: |
 #                pip install pytest
@@ -106,9 +106,9 @@ jobs:
               run: ls
             - name: Install dependencies
               run: |
-                cd generator
-                python3 -m pip install -r requirements.txt
-#                python3 ./generator/test/runner.py
+#                cd generator
+                python3 -m pip install -r ../generator/requirements.txt
+                python3 ../generator/test/runner.py
 #                python -m pip install --upgrade pip
 #                pip install -r ./generator/requirements.txt
 #            - name: Test with pytest
