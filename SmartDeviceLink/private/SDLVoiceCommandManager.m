@@ -110,19 +110,21 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         return;
     }
 
+    // TODO: Cancel existing operations
+
     // Set the ids
-    self.lastVoiceCommandId = VoiceCommandIdMin;
+    self.lastVoiceCommandId = VoiceCommandIdMin; // TODO: This looks very wrong
     [self sdl_updateIdsOnVoiceCommands:voiceCommands];
 
     _voiceCommands = voiceCommands;
 
     __weak typeof(self) weakSelf = self;
-    SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager newVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSError * _Nullable error) {
+    SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager newVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
         if (error != nil) {
             return;
         }
 
-        weakSelf.currentVoiceCommands = voiceCommands;
+        weakSelf.currentVoiceCommands = newCurrentVoiceCommands; // TODO: This won't get set if only some succeed
     }];
 
     [self.transactionQueue addOperation:updateOperation];

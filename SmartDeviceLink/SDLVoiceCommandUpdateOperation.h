@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLVoiceCommandUpdateCompletionHandler)(NSError *__nullable error);
+typedef void(^SDLVoiceCommandUpdateCompletionHandler)(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError *__nullable error);
 
 @interface SDLVoiceCommandUpdateOperation : SDLAsynchronousOperation
 
