@@ -16,21 +16,18 @@
 QuickSpecBegin(SDLAudioDataSpec)
 
 describe(@"SDLAudioData", ^{
-    __block SDLFile *testAudioFile = nil;
-    __block SDLTTSChunk *testSpeechSynthesizerString = nil;
-    __block SDLTTSChunk *testPhoneticSpeechSynthesizerString = nil;
+    __block NSString *testSpeechSynthesizerString = nil;
 
     beforeEach(^{
-        NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-        NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
-        NSString *testAudioFileName = @"testAudioFile";
-        testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
-
-        testSpeechSynthesizerString = [[SDLTTSChunk alloc] initWithText:@"testSpeechSynthesizerString" type:SDLSpeechCapabilitiesText];
-        testPhoneticSpeechSynthesizerString = [[SDLTTSChunk alloc] initWithText:@"testSpeechSynthesizerString" type:SDLSpeechCapabilitiesLHPlusPhonemes];
+        testSpeechSynthesizerString = @"testSpeechSynthesizerString";
     });
 
     it(@"Should get correctly when initialized with initWithAudioFile:", ^{
+        NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+        NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
+        NSString *testAudioFileName = @"testAudioFile";
+        SDLFile *testAudioFile = testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
+
         SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
 
         expect(testAudioData.audioFile).to(equal(testAudioFile));
@@ -38,21 +35,29 @@ describe(@"SDLAudioData", ^{
     });
 
     it(@"Should get correctly when initialized with initWithSpeechSynthesizerString:", ^{
-        SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithSpeechSynthesizerString:testSpeechSynthesizerString.text];
+        SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithSpeechSynthesizerString:testSpeechSynthesizerString];
 
         expect(testAudioData.audioFile).to(beNil());
         expect(testAudioData.prompt.count).to(equal(1));
-        expect(testAudioData.prompt.firstObject.text).to(equal(testSpeechSynthesizerString.text));
-        expect(testAudioData.prompt.firstObject.type).to(equal(testSpeechSynthesizerString.type));
+        expect(testAudioData.prompt.firstObject.text).to(equal(testSpeechSynthesizerString));
+        expect(testAudioData.prompt.firstObject.type).to(equal(SDLSpeechCapabilitiesText));
     });
 
     it(@"Should get correctly when initialized with initWithPhoneticSpeechSynthesizerString:phoneticType:", ^{
-        SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithPhoneticSpeechSynthesizerString:testPhoneticSpeechSynthesizerString.text phoneticType:testPhoneticSpeechSynthesizerString.type];
+        SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesLHPlusPhonemes;
+        SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithPhoneticSpeechSynthesizerString:testSpeechSynthesizerString phoneticType:testSpeechCapabilities];
 
         expect(testAudioData.audioFile).to(beNil());
         expect(testAudioData.prompt.count).to(equal(1));
-        expect(testAudioData.prompt.firstObject.text).to(equal(testPhoneticSpeechSynthesizerString.text));
-        expect(testAudioData.prompt.firstObject.type).to(equal(testPhoneticSpeechSynthesizerString.type));
+        expect(testAudioData.prompt.firstObject.text).to(equal(testSpeechSynthesizerString));
+        expect(testAudioData.prompt.firstObject.type).to(equal(testSpeechCapabilities));
+    });
+
+    it(@"Should fail if initialized with an invalid phoneticType in initWithPhoneticSpeechSynthesizerString:phoneticType:", ^{
+        SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesSilence;
+        SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithPhoneticSpeechSynthesizerString:testSpeechSynthesizerString phoneticType:testSpeechCapabilities];
+
+        expect(testAudioData).to(beNil());
     });
 });
 

@@ -37,6 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
+    if (!([phoneticType isEqualToEnum:SDLSpeechCapabilitiesSAPIPhonemes] || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesLHPlusPhonemes] || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesText] || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesPrerecorded])) {
+        return nil;
+    }
+
     _prompt = @[[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
 
     return self;
