@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
             return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
         }
 
-        self.oldVoiceCommands = @[];
+        weakSelf.oldVoiceCommands = @[];
         SDLLogD(@"Finished deleting old voice commands");
         return completionHandler(nil);
     }];

@@ -36,8 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
-@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
-@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
@@ -78,8 +77,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     _currentVoiceCommands = @[];
     _transactionQueue = [self sdl_newTransactionQueue];
 
-    _waitingOnHMIUpdate = NO;
-    _currentHMILevel = nil;
+    _currentLevel = nil;
 }
 
 - (NSOperationQueue *)sdl_newTransactionQueue {
@@ -90,6 +88,18 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     queue.suspended = YES;
 
     return queue;
+}
+
+/// Suspend the queue if the soft button capabilities are nil (we assume that soft buttons are not supported)
+/// OR if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
+- (void)sdl_updateTransactionQueueSuspended {
+    if ([self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
+        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@", ([self.currentLevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"));
+        self.transactionQueue.suspended = YES;
+    } else {
+        SDLLogD(@"Starting the transaction queue");
+        self.transactionQueue.suspended = NO;
+    }
 }
 
 #pragma mark - Setters
@@ -142,22 +152,12 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-    
     if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
         return;
     }
-    
-    SDLHMILevel oldHMILevel = self.currentHMILevel;
-    self.currentHMILevel = hmiStatus.hmiLevel;
 
-    // Auto-send an updated show if we were in NONE and now we are not
-    if ([oldHMILevel isEqualToEnum:SDLHMILevelNone] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        if (self.waitingOnHMIUpdate) {
-            [self setVoiceCommands:_voiceCommands];
-        } else {
-            [self sdl_updateWithCompletionHandler:nil];
-        }
-    }
+    self.currentLevel = hmiStatus.hmiLevel;
+    [self sdl_updateTransactionQueueSuspended];
 }
 
 @end
