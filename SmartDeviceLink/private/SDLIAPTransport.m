@@ -57,6 +57,10 @@ int const CreateSessionRetries = 3;
     return self;
 }
 
+- (void)dealloc {
+    [self sdl_stopEventListening];
+}
+
 #pragma mark - Notifications
 
 /**
@@ -217,8 +221,6 @@ int const CreateSessionRetries = 3;
  */
 - (void)disconnectWithCompletionHandler:(void (^)(void))disconnectCompletionHandler {
     SDLLogD(@"Disconnecting IAP transport");
-    // Stop event listening here so that even if the transport is disconnected by `SDLProxy` when there is a start session timeout, the class unregisters for accessory notifications
-    [self sdl_stopEventListening];
 
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
