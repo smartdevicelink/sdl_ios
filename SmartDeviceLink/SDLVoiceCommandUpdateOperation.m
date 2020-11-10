@@ -18,14 +18,15 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLVoiceCommand()
+
 @property (assign, nonatomic) UInt32 commandId;
+
 @end
 
 @interface SDLVoiceCommandUpdateOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic, nullable) NSArray<SDLVoiceCommand *> *updatedVoiceCommands;
-@property (strong, nonatomic, nullable) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
 @property (copy, nonatomic) SDLVoiceCommandUpdateCompletionHandler completionHandler;
 
 @property (copy, nonatomic, nullable) NSError *internalError;

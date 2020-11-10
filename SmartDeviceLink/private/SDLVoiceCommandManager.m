@@ -120,10 +120,20 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     __weak typeof(self) weakSelf = self;
     SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager newVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
         weakSelf.currentVoiceCommands = newCurrentVoiceCommands;
+        [weakSelf sdl_updatePendingOperationsWithNewCurrentVoiceCommands:newCurrentVoiceCommands];
     }];
 
     [self.transactionQueue cancelAllOperations];
     [self.transactionQueue addOperation:updateOperation];
+}
+
+- (void)sdl_updatePendingOperationsWithNewCurrentVoiceCommands:(NSArray<SDLVoiceCommand *> *)currentVoiceCommands {
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if (operation.isExecuting) { continue; }
+        SDLVoiceCommandUpdateOperation *updateOp = (SDLVoiceCommandUpdateOperation *)operation;
+
+        updateOp.currentVoiceCommands = currentVoiceCommands;
+    }
 }
 
 #pragma mark - Helpers
