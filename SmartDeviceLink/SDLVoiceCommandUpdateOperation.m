@@ -222,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.internalError = [NSError sdl_voiceCommandManager_pendingUpdateSuperseded];
         self.completionHandler(self.currentVoiceCommands, self.error);
     } else {
-        self.completionHandler(self.currentVoiceCommands, nil)
+        self.completionHandler(self.currentVoiceCommands, nil);
     }
 
     [super finishOperation];
