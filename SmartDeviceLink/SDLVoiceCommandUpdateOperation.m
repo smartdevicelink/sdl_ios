@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVoiceCommandUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager newVoiceCommands:(nullable NSArray<SDLVoiceCommand *> *)newVoiceCommands oldVoiceCommands:(nullable NSArray<SDLVoiceCommand *> *)oldVoiceCommands updateCompletionHandler:(SDLVoiceCommandUpdateCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager newVoiceCommands:(NSArray<SDLVoiceCommand *> *)newVoiceCommands oldVoiceCommands:(NSArray<SDLVoiceCommand *> *)oldVoiceCommands updateCompletionHandler:(SDLVoiceCommandUpdateCompletionHandler)completionHandler {
     self = [self init];
     if (!self) { return nil; }
 
@@ -49,7 +49,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
-    if (self.isCancelled) { return; }
+    if (self.isCancelled) {
+        [self finishOperation];
+        return;
+    }
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendDeleteCurrentVoiceCommands:^(NSArray<SDLVoiceCommand *> *currentVoiceCommands, NSError * _Nullable error) {
