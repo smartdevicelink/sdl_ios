@@ -8,6 +8,9 @@
 
 #import "SDLAlertView.h"
 
+#import "SDLError.h"
+#import "SDLSoftButtonObject.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAlertView()
@@ -66,6 +69,15 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
 }
 
 #pragma mark - Getters / Setters
+
+- (void)setSoftButtons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons {
+    for (SDLSoftButtonObject *softButton in softButtons) {
+        if (softButton.states.count == 1) { continue; }
+        @throw [NSException sdl_invalidAlertSoftButtonStatesException];
+    }
+    
+    _softButtons = softButtons;
+}
 
 + (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
     _defaultAlertTimeout = (defaultTimeout >= TimoutMinCap && defaultTimeout <= TimoutMaxCap) ? defaultTimeout : DefaultAlertTimeout;

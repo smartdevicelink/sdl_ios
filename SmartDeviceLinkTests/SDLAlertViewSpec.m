@@ -13,6 +13,7 @@
 #import "SDLAlertAudioData.h"
 #import "SDLArtwork.h"
 #import "SDLSoftButtonObject.h"
+#import "SDLSoftButtonState.h"
 #import "SDLStaticIconName.h"
 
 @interface SDLAlertView()
@@ -106,6 +107,22 @@ describe(@"An SDLAlertView", ^{
             expect(testAlertView.showWaitIndicator).to(beFalse());
             expect(testAlertView.softButtons).to(beNil());
             expect(testAlertView.icon).to(beNil());
+        });
+    });
+
+    describe(@"setting invalid data", ^{
+        it(@"should thow an exception if any button has multiple states", ^{
+            SDLAlertView *testAlertView = [[SDLAlertView alloc] init];
+
+            SDLSoftButtonState *state1 = [[SDLSoftButtonState alloc] initWithStateName:@"state1" text:@"state 1" image:nil];
+            SDLSoftButtonState *state2 = [[SDLSoftButtonState alloc] initWithStateName:@"state2" text:@"state 2" image:nil];
+            SDLSoftButtonObject *testInvalidSoftButton = [[SDLSoftButtonObject alloc] initWithName:@"invalid soft button" states:@[state1, state2] initialStateName:state1.name handler:nil];
+            SDLSoftButtonObject *testValidSoftButton = [[SDLSoftButtonObject alloc] initWithName:@"valid soft button" text:@"state 3" artwork:nil handler:nil];
+            __block NSArray<SDLSoftButtonObject *> *testInvalidSoftButtons = @[testValidSoftButton, testInvalidSoftButton];
+
+            expectAction(^{
+                [testAlertView setSoftButtons:testInvalidSoftButtons];
+            }).to(raiseException().named(@"InvalidSoftButtonStates"));
         });
     });
 
