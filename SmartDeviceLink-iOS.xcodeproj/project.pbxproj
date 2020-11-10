@@ -15,6 +15,8 @@
 		000DD57622EF0971005AB7A7 /* SDLReleaseInteriorVehicleDataModuleResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 000DD57522EF0971005AB7A7 /* SDLReleaseInteriorVehicleDataModuleResponseSpec.m */; };
 		00EADD3322DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */; };
 		00EADD3522DFE5670088B608 /* SDLEncryptionConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */; };
+		040C7934255A589300AAB8EB /* dispatch_timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 040C7932255A589300AAB8EB /* dispatch_timer.h */; };
+		040C7935255A589300AAB8EB /* dispatch_timer.m in Sources */ = {isa = PBXBuildFile; fileRef = 040C7933255A589300AAB8EB /* dispatch_timer.m */; };
 		106187B924AA75540045C4EC /* SDLRPCPermissionStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 106187B824AA75540045C4EC /* SDLRPCPermissionStatusSpec.m */; };
 		109566F6242986F300E24F66 /* SDLCacheFileManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */; };
 		1098F03824A39699004F53CC /* SDLPermissionElementSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1098F03724A39699004F53CC /* SDLPermissionElementSpec.m */; };
@@ -1789,6 +1791,8 @@
 		000DD57522EF0971005AB7A7 /* SDLReleaseInteriorVehicleDataModuleResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLReleaseInteriorVehicleDataModuleResponseSpec.m; sourceTree = "<group>"; };
 		00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionLifecycleManagerSpec.m; sourceTree = "<group>"; };
 		00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionConfigurationSpec.m; sourceTree = "<group>"; };
+		040C7932255A589300AAB8EB /* dispatch_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dispatch_timer.h; path = SmartDeviceLink/public/dispatch_timer.h; sourceTree = SOURCE_ROOT; };
+		040C7933255A589300AAB8EB /* dispatch_timer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = dispatch_timer.m; path = SmartDeviceLink/public/dispatch_timer.m; sourceTree = SOURCE_ROOT; };
 		106187B824AA75540045C4EC /* SDLRPCPermissionStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCPermissionStatusSpec.m; sourceTree = "<group>"; };
 		109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCacheFileManagerSpec.m; sourceTree = "<group>"; };
 		1098F03724A39699004F53CC /* SDLPermissionElementSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionElementSpec.m; sourceTree = "<group>"; };
@@ -4371,6 +4375,8 @@
 		5D23C9471FCF59F400002CA5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				040C7932255A589300AAB8EB /* dispatch_timer.h */,
+				040C7933255A589300AAB8EB /* dispatch_timer.m */,
 				4ABB260F24F7F3520061BF55 /* SDLPCMAudioConverter.h */,
 				4ABB260E24F7F3520061BF55 /* SDLPCMAudioConverter.m */,
 				4ABB260B24F7F33F0061BF55 /* SDLAudioFile.h */,
@@ -7360,6 +7366,7 @@
 				4ABB276A24F7FE480061BF55 /* SDLHybridAppPreference.h in Headers */,
 				4A8BD37A24F9468B000945E3 /* SDLProtocolConstants.h in Headers */,
 				4ABB2B0F24F84D950061BF55 /* SDLAppInfo.h in Headers */,
+				040C7934255A589300AAB8EB /* dispatch_timer.h in Headers */,
 				4ABB2AB124F847F40061BF55 /* SDLSetDisplayLayoutResponse.h in Headers */,
 				4ABB2A5E24F847B10061BF55 /* SDLGetDTCsResponse.h in Headers */,
 				4A8BD39A24F94741000945E3 /* SDLIAPControlSessionDelegate.h in Headers */,
@@ -7768,6 +7775,7 @@
 				4ABB291724F842160061BF55 /* SDLCancelInteraction.m in Sources */,
 				4ABB279424F7FF0B0061BF55 /* SDLKeypressMode.m in Sources */,
 				4A8BD34324F945CC000945E3 /* SDLControlFramePayloadEndService.m in Sources */,
+				040C7935255A589300AAB8EB /* dispatch_timer.m in Sources */,
 				4A8BD26A24F933C7000945E3 /* SDLParameterPermissions.m in Sources */,
 				4ABB25EB24F7E7C20061BF55 /* SDLCarWindowViewController.m in Sources */,
 				4ABB284D24F828630061BF55 /* SDLTransmissionType.m in Sources */,
