@@ -7,6 +7,9 @@
 #import "SDLDeleteCommand.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLPredefinedWindows.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLVoiceCommand.h"
 #import "SDLVoiceCommandManager.h"
 #import "TestConnectionManager.h"
@@ -21,14 +24,11 @@
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
-@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
-@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-
-@property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
-@property (assign, nonatomic) BOOL hasQueuedUpdate;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
-@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *oldVoiceCommands;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
 
 @end
 
@@ -41,105 +41,83 @@ describe(@"voice command manager", ^{
     __block TestConnectionManager *mockConnectionManager = nil;
 
     __block SDLVoiceCommand *testVoiceCommand = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 1"] handler:^{}];
-    __block SDLVoiceCommand *testVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 2"] handler:^{}];
+    __block SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] init];
 
     beforeEach(^{
         mockConnectionManager = [[TestConnectionManager alloc] init];
         testManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:mockConnectionManager];
     });
 
+    // should instantiate correctly
     it(@"should instantiate correctly", ^{
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
-
+        expect(testManager.currentLevel).to(beNil());
         expect(testManager.voiceCommands).to(beEmpty());
-        expect(testManager.connectionManager).to(equal(mockConnectionManager));
-        expect(testManager.currentHMILevel).to(beNil());
-        expect(testManager.inProgressUpdate).to(beNil());
-        expect(testManager.hasQueuedUpdate).to(beFalse());
-        expect(testManager.waitingOnHMIUpdate).to(beFalse());
         expect(testManager.lastVoiceCommandId).to(equal(VoiceCommandIdMin));
-        expect(testManager.oldVoiceCommands).to(beEmpty());
+        expect(testManager.currentVoiceCommands).to(beEmpty());
+        expect(testManager.transactionQueue).toNot(beNil());
     });
 
+    // updating voice commands before HMI is ready
     describe(@"updating voice commands before HMI is ready", ^{
+
+        // when in HMI NONE
         context(@"when in HMI NONE", ^{
             beforeEach(^{
-                testManager.currentHMILevel = SDLHMILevelNone;
+                newHMIStatus.hmiLevel = SDLHMILevelNone;
+                newHMIStatus.windowID = @(SDLPredefinedWindowsDefaultWindow);
+
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
 
             it(@"should not update", ^{
                 testManager.voiceCommands = @[testVoiceCommand];
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
             });
         });
 
+        // when no HMI level has been received
         context(@"when no HMI level has been received", ^{
-            beforeEach(^{
-                testManager.currentHMILevel = nil;
-            });
-
             it(@"should not update", ^{
                 testManager.voiceCommands = @[testVoiceCommand];
-                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
             });
         });
     });
 
+    // updating voice commands
     describe(@"updating voice commands", ^{
         beforeEach(^{
-            testManager.currentHMILevel = SDLHMILevelFull;
+            newHMIStatus.hmiLevel = SDLHMILevelFull;
+            newHMIStatus.windowID = @(SDLPredefinedWindowsDefaultWindow);
+
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
         });
 
         it(@"should properly update a command", ^{
             testManager.voiceCommands = @[testVoiceCommand];
 
-            NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteCommand class]];
-            NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
-            expect(deletes).to(beEmpty());
-
-            NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-            NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-            expect(add).toNot(beEmpty());
-        });
-
-        context(@"when a menu already exists", ^{
-            beforeEach(^{
-                testManager.voiceCommands = @[testVoiceCommand];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Add
-
-                testManager.voiceCommands = @[testVoiceCommand2];
-                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Delete
-            });
-
-            it(@"should send deletes first", ^{
-                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
-                NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
-
-                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
-                NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-
-                expect(deletes).to(haveCount(1));
-                expect(adds).to(haveCount(2));
-            });
+            expect(testManager.transactionQueue.isSuspended).to(beFalse());
+            expect(testManager.transactionQueue.operationCount).to(equal(1));
         });
     });
 
-    context(@"On disconnects", ^{
+    // on disconnect
+    context(@"on disconnect", ^{
         beforeEach(^{
             [testManager stop];
         });
 
         it(@"should reset correctly", ^{
             expect(testManager.connectionManager).to(equal(mockConnectionManager));
-
             expect(testManager.voiceCommands).to(beEmpty());
-            expect(testManager.connectionManager).to(equal(mockConnectionManager));
-            expect(testManager.currentHMILevel).to(beNil());
-            expect(testManager.inProgressUpdate).to(beNil());
-            expect(testManager.hasQueuedUpdate).to(beFalse());
-            expect(testManager.waitingOnHMIUpdate).to(beFalse());
+            expect(testManager.currentLevel).to(beNil());
             expect(testManager.lastVoiceCommandId).to(equal(VoiceCommandIdMin));
-            expect(testManager.oldVoiceCommands).to(beEmpty());
+            expect(testManager.currentVoiceCommands).to(beEmpty());
         });
     });
 });
