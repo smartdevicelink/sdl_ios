@@ -48,11 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sendRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     [requests enumerateObjectsUsingBlock:^(SDLRPCRequest * _Nonnull request, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self sendConnectionRequest:request withResponseHandler:nil];
-
-        if (progressHandler != nil) {
-            progressHandler(request, nil, nil, (double)idx / (double)requests.count);
-        }
+        [self sendConnectionRequest:request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (progressHandler != nil) {
+                progressHandler(request, response, error, (double)idx / (double)requests.count);
+            }
+        }];
     }];
 
     [_multipleCompletionBlocks addObject:completionHandler];

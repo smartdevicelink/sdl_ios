@@ -195,7 +195,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<SDLDeleteCommand *> *)sdl_deleteCommands:(NSArray<SDLDeleteCommand *> *)deleteCommands subtractDeleteCommands:(NSArray<SDLDeleteCommand *> *)subtractCommands {
     NSMutableArray<SDLDeleteCommand *> *mutableDeleteCommands = deleteCommands.mutableCopy;
-    [mutableDeleteCommands removeObjectsInArray:subtractCommands];
+    for (SDLDeleteCommand *subtractCommand in subtractCommands) {
+        for (SDLDeleteCommand *deleteCommand in mutableDeleteCommands) {
+            if ([subtractCommand.cmdID isEqualToNumber:deleteCommand.cmdID]) {
+                [mutableDeleteCommands removeObject:deleteCommand];
+                break;
+            }
+        }
+    }
 
     return [mutableDeleteCommands copy];
 }
@@ -226,7 +233,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.internalError = [NSError sdl_voiceCommandManager_pendingUpdateSuperseded];
         self.completionHandler(self.currentVoiceCommands, self.error);
     } else {
-        self.completionHandler(self.currentVoiceCommands, nil);
+        self.completionHandler(self.currentVoiceCommands, self.internalError);
     }
 
     [super finishOperation];
