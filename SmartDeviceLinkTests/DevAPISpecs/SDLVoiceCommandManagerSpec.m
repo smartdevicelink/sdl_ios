@@ -12,6 +12,7 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLVoiceCommand.h"
 #import "SDLVoiceCommandManager.h"
+#import "SDLVoiceCommandUpdateOperation.h"
 #import "TestConnectionManager.h"
 
 @interface SDLVoiceCommand()
@@ -101,6 +102,7 @@ describe(@"voice command manager", ^{
         it(@"should properly update a command", ^{
             testManager.voiceCommands = @[testVoiceCommand];
 
+            expect(testManager.voiceCommands.firstObject.commandId).to(equal(VoiceCommandIdMin));
             expect(testManager.transactionQueue.isSuspended).to(beFalse());
             expect(testManager.transactionQueue.operationCount).to(equal(1));
         });
