@@ -344,6 +344,12 @@ NS_ASSUME_NONNULL_BEGIN
   return [self.menuManager openSubmenu:cell];
 }
 
+#pragma mark - Alert
+
+- (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler {
+    [self.alertManager presentAlert:alert withCompletionHandler:handler];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

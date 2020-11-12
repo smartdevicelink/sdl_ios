@@ -122,7 +122,7 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
     BOOL alertHasText = (_text || _secondaryText || _tertiaryText);
     BOOL alertHasSound = NO;
     for (SDLAlertAudioData *audioData in _audio) {
-        if (!(audioData.prompt.count > 0 || audioData.audioFile != nil)) { continue; }
+        if (!(audioData.prompt.count > 0 || audioData.audioFile != nil || audioData.playTone == YES)) { continue; }
         alertHasSound = YES;
         break;
     }

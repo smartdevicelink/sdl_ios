@@ -13,6 +13,7 @@
 #import "SDLLogMacros.h"
 #import "SDLPermissionManager.h"
 #import "SDLPredefinedWindows.h"
+#import "SDLPresentAlertOperation.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLWindowCapability.h"
@@ -25,8 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (weak, nonatomic) SDLPermissionManager *permissionManager;
-@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
+
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
 @end
 
@@ -43,8 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
     _systemCapabilityManager = systemCapabilityManager;
     _permissionManager = permissionManager;
 
-    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.alertManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
-
     return self;
 }
 
@@ -56,6 +56,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"Stopping manager");
+}
+
+- (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLAlertCompletionHandler)handler {
+    // TODO: upload alert icon image, alert sound file, soft button images.
+}
+
+- (NSOperationQueue *)sdl_newTransactionQueue {
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    queue.name = @"SDLAlertManager Transaction Queue";
+    queue.maxConcurrentOperationCount = 3;
+    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.suspended = YES;
+
+    return queue;
 }
 
 #pragma mark - RPC Responses / Notifications
