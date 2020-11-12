@@ -8,6 +8,7 @@
 
 #import "SDLAlertView.h"
 
+#import "SDLAlertAudioData.h"
 #import "SDLError.h"
 #import "SDLSoftButtonObject.h"
 
@@ -63,6 +64,8 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
     return self;
 }
 
+#pragma mark - Cancel
+
 - (void)cancel {
     if (self.canceledHandler == nil) { return; }
     self.canceledHandler();
@@ -75,15 +78,21 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
         if (softButton.states.count == 1) { continue; }
         @throw [NSException sdl_invalidAlertSoftButtonStatesException];
     }
-    
+
     _softButtons = softButtons;
 }
 
 + (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
-    _defaultAlertTimeout = (defaultTimeout >= TimoutMinCap && defaultTimeout <= TimoutMaxCap) ? defaultTimeout : DefaultAlertTimeout;
+    _defaultAlertTimeout = defaultTimeout;
 }
 
 + (NSTimeInterval)defaultTimeout {
+   if (_defaultAlertTimeout < TimoutMinCap) {
+        return TimoutMinCap;
+    } else if (_defaultAlertTimeout > TimoutMaxCap) {
+        return TimoutMaxCap;
+    }
+
     return _defaultAlertTimeout;
 }
 
@@ -94,9 +103,42 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
         return TimoutMinCap;
     } else if (_timeout > TimoutMaxCap) {
         return TimoutMaxCap;
-    } else {
-        return _timeout;
     }
+
+    return _timeout;
+}
+
+#pragma mark - Etc.
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLAlertView: \"%@\", text: \"%@\", secondaryText: \"%@\", tertiaryText: \"%@\"", [self sdl_alertType], _text, _secondaryText, _tertiaryText];
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"SDLAlertView: \"%@\", text: \"%@\", secondaryText: \"%@\", tertiaryText: \"%@\", timeout: %f, showWaitIndicator: %d, audio: \"%@\", softButtons: \"%@\", icon: \"%@\"", [self sdl_alertType], _text, _secondaryText, _tertiaryText, _timeout, _showWaitIndicator, _audio, _softButtons, _icon];
+}
+
+- (NSString *)sdl_alertType {
+    BOOL alertHasText = (_text || _secondaryText || _tertiaryText);
+    BOOL alertHasSound = NO;
+    for (SDLAlertAudioData *audioData in _audio) {
+        if (!(audioData.prompt.count > 0 || audioData.audioFile != nil)) { continue; }
+        alertHasSound = YES;
+        break;
+    }
+
+    NSString *alertType;
+    if (alertHasText && alertHasSound) {
+        alertType = @"Text-and-sound alert";
+    } else if (alertHasText) {
+        alertType = @"Text-only alert";
+    } else if (alertHasSound) {
+        alertType = @"Sound-only alert";
+    } else {
+        alertType = @"Invalid alert (no text or sound)";
+    }
+
+    return alertType;
 }
 
 @end

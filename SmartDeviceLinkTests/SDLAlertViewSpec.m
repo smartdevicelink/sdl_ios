@@ -35,8 +35,6 @@ describe(@"An SDLAlertView", ^{
     __block SDLArtwork *testIcon = nil;
     
     beforeEach(^{
-        SDLAlertView.defaultTimeout = 0.0;
-
         testTextField1 = @"testTextField1";
         testTextField2 = @"testTextField2";
         testTextField3 = @"testTextField3";
@@ -127,19 +125,14 @@ describe(@"An SDLAlertView", ^{
     });
 
     describe(@"setting the default timeout", ^{
-        it(@"should return the default timeout if 0 has been set", ^{
-            SDLAlertView.defaultTimeout = 0.0;
-            expect(SDLAlertView.defaultTimeout).to(equal(5.0));
-        });
-
-        it(@"should return the default timeout if a value greater than 10 has been set", ^{
+        it(@"should return 10 if a value greater than 10 has been set", ^{
             SDLAlertView.defaultTimeout = 15.0;
-            expect(SDLAlertView.defaultTimeout).to(equal(5.0));
+            expect(SDLAlertView.defaultTimeout).to(equal(10.0));
         });
 
-        it(@"should return the default timeout if a value less than 3 has been set", ^{
+        it(@"should return 3 if a value less than 3 has been set", ^{
             SDLAlertView.defaultTimeout = -2.0;
-            expect(SDLAlertView.defaultTimeout).to(equal(5.0));
+            expect(SDLAlertView.defaultTimeout).to(equal(3.0));
         });
 
         it(@"should return the set value if a value between 3 and 10 has been set", ^{
@@ -162,11 +155,12 @@ describe(@"An SDLAlertView", ^{
         __block SDLAlertView *testAlertView = nil;
 
         beforeEach(^{
+            SDLAlertView.defaultTimeout = 5.0;
             testAlertView = [[SDLAlertView alloc] init];
         });
 
         it(@"should return the default timeout if it has not been set", ^{
-            expect(testAlertView.timeout).to(equal(5.0));
+            expect(testAlertView.timeout).to(equal(SDLAlertView.defaultTimeout));
         });
 
         it(@"should return the default timeout if 0 has been set", ^{
@@ -200,7 +194,7 @@ describe(@"An SDLAlertView", ^{
         });
     });
 
-    describe(@"canceling the choice set", ^{
+    describe(@"canceling the alert", ^{
         __block SDLAlertView *testAlertView = nil;
         __block BOOL canceledHandlerCalled = NO;
 
