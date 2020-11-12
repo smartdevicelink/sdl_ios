@@ -7,9 +7,12 @@
 //
 
 #import "SDLScreenManager.h"
+
+#import "SDLAlertManager.h"
 #import "SDLArtwork.h"
 #import "SDLChoiceSetManager.h"
 #import "SDLMenuManager.h"
+#import "SDLPermissionManager.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLSubscribeButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
@@ -25,22 +28,34 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLVoiceCommandManager *voiceCommandMenuManager;
 @property (strong, nonatomic) SDLChoiceSetManager *choiceSetManager;
 @property (strong, nonatomic) SDLSubscribeButtonManager *subscribeButtonManager;
+@property (strong, nonatomic) SDLAlertManager *alertManager;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
+@property (weak, nonatomic) SDLPermissionManager *permissionManager;
 
 @end
 
 @implementation SDLScreenManager
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager {
+    // FIXME: HAX
+    SDLPermissionManager *permissionManager = [[SDLPermissionManager alloc] init];
+    self = [self initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager permissionManager:permissionManager];
+    if (!self) { return nil; }
+
+    return nil;
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _systemCapabilityManager = systemCapabilityManager;
+    _permissionManager = permissionManager;
 
     _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
@@ -48,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
     _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
+    _alertManager = [[SDLAlertManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager permissionManager:permissionManager];
 
     return self;
 }
@@ -58,6 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.menuManager start];
     [self.choiceSetManager start];
     [self.subscribeButtonManager start];
+    [self.alertManager start];
 
     handler(nil);
 }
@@ -69,6 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.voiceCommandMenuManager stop];
     [self.choiceSetManager stop];
     [self.subscribeButtonManager stop];
+    [self.alertManager stop];
 }
 
 #pragma mark - Setters

@@ -1566,6 +1566,8 @@
 		881BBF50255AC27000761B7E /* SDLAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 881BBF4E255AC27000761B7E /* SDLAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		881BBF51255AC27000761B7E /* SDLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 881BBF4F255AC27000761B7E /* SDLAlertView.m */; };
 		881BBF5B255ADB8300761B7E /* SDLAlertViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 881BBF5A255ADB8300761B7E /* SDLAlertViewSpec.m */; };
+		881BBF60255B1C1E00761B7E /* SDLAlertManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 881BBF5E255B1C1E00761B7E /* SDLAlertManager.h */; };
+		881BBF61255B1C1E00761B7E /* SDLAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 881BBF5F255B1C1E00761B7E /* SDLAlertManager.m */; };
 		881F388D22D904BE00DF6DCE /* SDLCancelInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 881F388C22D904BE00DF6DCE /* SDLCancelInteractionResponseSpec.m */; };
 		8829568B207CF68800EF056C /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -3401,6 +3403,8 @@
 		881BBF4E255AC27000761B7E /* SDLAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLAlertView.h; path = public/SDLAlertView.h; sourceTree = "<group>"; };
 		881BBF4F255AC27000761B7E /* SDLAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLAlertView.m; path = public/SDLAlertView.m; sourceTree = "<group>"; };
 		881BBF5A255ADB8300761B7E /* SDLAlertViewSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAlertViewSpec.m; sourceTree = "<group>"; };
+		881BBF5E255B1C1E00761B7E /* SDLAlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAlertManager.h; sourceTree = "<group>"; };
+		881BBF5F255B1C1E00761B7E /* SDLAlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAlertManager.m; sourceTree = "<group>"; };
 		881F388C22D904BE00DF6DCE /* SDLCancelInteractionResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCancelInteractionResponseSpec.m; sourceTree = "<group>"; };
 		88295697207CF68800EF056C /* SDL Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		882FAC4C2209D7EF0062385D /* SDLAppServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceDataSpec.m; sourceTree = "<group>"; };
@@ -6622,6 +6626,8 @@
 				8889C2F32559CFAF004F5966 /* SDLAlertAudioData.m */,
 				881BBF4E255AC27000761B7E /* SDLAlertView.h */,
 				881BBF4F255AC27000761B7E /* SDLAlertView.m */,
+				881BBF5E255B1C1E00761B7E /* SDLAlertManager.h */,
+				881BBF5F255B1C1E00761B7E /* SDLAlertManager.m */,
 			);
 			name = Alert;
 			sourceTree = "<group>";
@@ -7467,6 +7473,7 @@
 				4ABB25BC24F7E70E0061BF55 /* SDLSoftButtonObject.h in Headers */,
 				4ABB256324F7E5AA0061BF55 /* SDLPermissionElement.h in Headers */,
 				4ABB2AE624F848270061BF55 /* SDLUnsubscribeVehicleDataResponse.h in Headers */,
+				881BBF60255B1C1E00761B7E /* SDLAlertManager.h in Headers */,
 				4ABB258524F7E62D0061BF55 /* SDLChoiceSetDelegate.h in Headers */,
 				4ABB2B8D24F8504A0061BF55 /* SDLHMISettingsControlData.h in Headers */,
 				4ABB25F824F7E7EF0061BF55 /* SDLTouchManager.h in Headers */,
@@ -8184,6 +8191,7 @@
 				4A8BD27A24F9343F000945E3 /* SDLRemoteControlCapabilities.m in Sources */,
 				4ABB291824F842160061BF55 /* SDLChangeRegistration.m in Sources */,
 				4A8BD26224F933C7000945E3 /* SDLNavigationInstruction.m in Sources */,
+				881BBF61255B1C1E00761B7E /* SDLAlertManager.m in Sources */,
 				4ABB29EB24F847360061BF55 /* SDLUnsubscribeWayPoints.m in Sources */,
 				4ABB25E124F7E7980061BF55 /* SDLStreamingMediaConfiguration.m in Sources */,
 				4ABB299424F845440061BF55 /* SDLSendLocation.m in Sources */,

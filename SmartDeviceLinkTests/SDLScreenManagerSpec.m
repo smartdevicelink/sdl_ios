@@ -7,6 +7,7 @@
 #import "SDLGlobals.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuManager.h"
+#import "SDLPermissionManager.h"
 #import "SDLScreenManager.h"
 #import "SDLShow.h"
 #import "SDLSoftButtonManager.h"
@@ -50,6 +51,7 @@ describe(@"screen manager", ^{
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
     __block SDLSystemCapabilityManager *mockSystemCapabilityManager = nil;
+    __block SDLPermissionManager *mockPermissionManager = nil;
     __block SDLScreenManager *testScreenManager = nil;
 
     __block NSString *testString1 = @"test1";
@@ -77,8 +79,9 @@ describe(@"screen manager", ^{
         mockConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
         mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
+        mockPermissionManager = OCMClassMock([SDLPermissionManager class]);
 
-        testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
+        testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
     });
 
     // should set up the sub-managers correctly

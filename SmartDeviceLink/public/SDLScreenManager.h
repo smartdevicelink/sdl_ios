@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "NSNumber+NumberType.h"
+#import "SDLAlertView.h"
 #import "SDLButtonName.h"
 #import "SDLInteractionMode.h"
 #import "SDLMenuManagerConstants.h"
@@ -25,6 +26,7 @@
 @class SDLMenuConfiguration;
 @class SDLOnButtonEvent;
 @class SDLOnButtonPress;
+@class SDLPermissionManager;
 @class SDLSoftButtonObject;
 @class SDLSystemCapabilityManager;
 @class SDLTemplateConfiguration;
@@ -227,7 +229,20 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param systemCapabilityManager The system capability manager object for reading window capabilities
  @return The screen manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager __deprecated_msg("Use initWithConnectionManager:fileManager:systemCapabilityManager:(permissionManager: instead");
+
+/**
+ Initialize a screen manager
+
+ @warning For internal use
+
+ @param connectionManager The connection manager used to send RPCs
+ @param fileManager The file manager used to upload files
+ @param systemCapabilityManager The system capability manager object for reading window capabilities
+ @param permissionManager The permission manager object for checking RPC permissions
+ @return The screen manager
+ */
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager;
 
 /**
  Starts the manager and all sub-managers
@@ -401,6 +416,18 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 @param cell The submenu cell that should be opened as a sub menu, with its sub cells as the options.
  */
 - (BOOL)openSubmenu:(SDLMenuCell *)cell;
+
+#pragma mark - Alert
+
+/// Present the alert on the screen.
+///
+/// If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.
+///
+/// The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The error will contain `userInfo` with information on how long to wait before retrying.
+///
+/// @param alert Alert to be presented
+/// @param handler The handler to be called when the alert either dismisses from the screen or it has failed to present
+- (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
 
 @end
 
