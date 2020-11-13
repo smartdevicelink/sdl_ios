@@ -71,7 +71,7 @@ describe(@"a voice command operation", ^{
 
     // should have a priority of 'normal'
     it(@"should have a priority of 'normal'", ^{
-        testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager newVoiceCommands:@[] oldVoiceCommands:@[] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+        testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[] oldVoiceCommands:@[] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
         }];
 
         expect(@(testOp.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
@@ -79,9 +79,9 @@ describe(@"a voice command operation", ^{
 
     // initializing the operation
     describe(@"initializing the operation", ^{
-        testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager newVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {}];
+        testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {}];
 
-        expect(testOp.currentVoiceCommands).to(equal(@[oldVoiceCommand1, oldVoiceCommand2]));
+        expect(testOp.oldVoiceCommands).to(equal(@[oldVoiceCommand1, oldVoiceCommand2]));
     });
 
     // starting the operation
@@ -90,7 +90,7 @@ describe(@"a voice command operation", ^{
         // if it starts cancelled
         context(@"if it starts cancelled", ^{
             beforeEach(^{
-                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager newVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
                     callbackCurrentVoiceCommands = newCurrentVoiceCommands;
                     callbackError = error;
                 }];
@@ -106,7 +106,7 @@ describe(@"a voice command operation", ^{
         // if it has voice commands to delete
         context(@"if it has voice commands to delete", ^{
             beforeEach(^{
-                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager newVoiceCommands:@[] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
                     callbackCurrentVoiceCommands = newCurrentVoiceCommands;
                     callbackError = error;
                 }];
@@ -169,7 +169,7 @@ describe(@"a voice command operation", ^{
 
         context(@"if it doesn't have any voice commands to delete", ^{
             beforeEach(^{
-                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager newVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
                     callbackCurrentVoiceCommands = newCurrentVoiceCommands;
                     callbackError = error;
                 }];

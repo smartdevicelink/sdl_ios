@@ -296,6 +296,7 @@
 		4A402561250134CB0080E159 /* SDLStabilityControlsStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A40255F250134CA0080E159 /* SDLStabilityControlsStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A404C66250BBE11003AB65D /* SDLTextAndGraphicUpdateOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A404C65250BBE11003AB65D /* SDLTextAndGraphicUpdateOperationSpec.m */; };
 		4A404C68250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A404C67250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m */; };
+		4A41430D255F0A090039C267 /* TestConnectionRequestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A41430C255F0A090039C267 /* TestConnectionRequestObject.m */; };
 		4A457DC324A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */; };
 		4A457DD324A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */; };
 		4A457DD524A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */; };
@@ -2076,6 +2077,8 @@
 		4A40255F250134CA0080E159 /* SDLStabilityControlsStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLStabilityControlsStatus.h; path = public/SDLStabilityControlsStatus.h; sourceTree = "<group>"; };
 		4A404C65250BBE11003AB65D /* SDLTextAndGraphicUpdateOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTextAndGraphicUpdateOperationSpec.m; path = DevAPISpecs/SDLTextAndGraphicUpdateOperationSpec.m; sourceTree = "<group>"; };
 		4A404C67250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLTextAndGraphicStateSpec.m; path = DevAPISpecs/SDLTextAndGraphicStateSpec.m; sourceTree = "<group>"; };
+		4A41430B255F0A090039C267 /* TestConnectionRequestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestConnectionRequestObject.h; sourceTree = "<group>"; };
+		4A41430C255F0A090039C267 /* TestConnectionRequestObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestConnectionRequestObject.m; sourceTree = "<group>"; };
 		4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleRPCAdapterSpec.m; path = DevAPISpecs/SDLLifecycleRPCAdapterSpec.m; sourceTree = "<group>"; };
 		4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleSyncPDataHandlerSpec.m; path = DevAPISpecs/SDLLifecycleSyncPDataHandlerSpec.m; sourceTree = "<group>"; };
 		4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleMobileHMIStateHandlerSpec.m; path = DevAPISpecs/SDLLifecycleMobileHMIStateHandlerSpec.m; sourceTree = "<group>"; };
@@ -6204,6 +6207,8 @@
 				8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */,
 				5D6035D3202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.h */,
 				5D6035D4202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.m */,
+				4A41430B255F0A090039C267 /* TestConnectionRequestObject.h */,
+				4A41430C255F0A090039C267 /* TestConnectionRequestObject.m */,
 			);
 			name = "Connection Manager";
 			sourceTree = "<group>";
@@ -8353,6 +8358,7 @@
 				162E83181A9BDE8B00906325 /* SDLOnKeyboardInputSpec.m in Sources */,
 				1EE8C4441F34A1B900FDC2CF /* SDLClimateControlDataSpec.m in Sources */,
 				162E83701A9BDE8B00906325 /* SDLUpdateTurnListResponseSpec.m in Sources */,
+				4A41430D255F0A090039C267 /* TestConnectionRequestObject.m in Sources */,
 				88C23E8822297C6000EA171F /* SDLRPCResponseNotificationSpec.m in Sources */,
 				162E833B1A9BDE8B00906325 /* SDLSetGlobalPropertiesSpec.m in Sources */,
 				884AF94C220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m in Sources */,

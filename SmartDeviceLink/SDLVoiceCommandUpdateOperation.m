@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (error != nil) {
             errors[request] = error;
         } else {
-            [weakSelf.currentVoiceCommands addObject:[weakSelf sdl_pendingVoiceCommandWithCommandId:((SDLDeleteCommand *)request).cmdID.unsignedIntValue]];
+            [weakSelf.currentVoiceCommands addObject:[weakSelf sdl_pendingVoiceCommandWithCommandId:((SDLAddCommand *)request).cmdID.unsignedIntValue]];
         }
 
         SDLLogV(@"Sending voice commands progress: %f", percentComplete);
@@ -173,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVoiceCommand *)sdl_pendingVoiceCommandWithCommandId:(UInt32)commandId {
-    for (SDLVoiceCommand *voiceCommand in self.currentVoiceCommands) {
+    for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
         if (voiceCommand.commandId == commandId) {
             return voiceCommand;
         }
