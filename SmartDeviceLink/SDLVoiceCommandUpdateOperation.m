@@ -26,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommandUpdateOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (strong, nonatomic, nullable) NSArray<SDLVoiceCommand *> *updatedVoiceCommands;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *pendingVoiceCommands;
+@property (strong, nonatomic) NSMutableArray<SDLVoiceCommand *> *currentVoiceCommands;
 @property (copy, nonatomic) SDLVoiceCommandUpdateCompletionHandler completionHandler;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -35,13 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVoiceCommandUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager newVoiceCommands:(NSArray<SDLVoiceCommand *> *)newVoiceCommands oldVoiceCommands:(NSArray<SDLVoiceCommand *> *)oldVoiceCommands updateCompletionHandler:(SDLVoiceCommandUpdateCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager pendingVoiceCommands:(NSArray<SDLVoiceCommand *> *)pendingVoiceCommands oldVoiceCommands:(NSArray<SDLVoiceCommand *> *)oldVoiceCommands updateCompletionHandler:(SDLVoiceCommandUpdateCompletionHandler)completionHandler {
     self = [self init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
-    _updatedVoiceCommands = newVoiceCommands;
-    _currentVoiceCommands = oldVoiceCommands;
+    _pendingVoiceCommands = pendingVoiceCommands;
+    _oldVoiceCommands = oldVoiceCommands;
+    _currentVoiceCommands = oldVoiceCommands.mutableCopy;
     _completionHandler = completionHandler;
 
     return self;
@@ -55,12 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    [self sdl_sendDeleteCurrentVoiceCommands:^(NSArray<SDLVoiceCommand *> *currentVoiceCommands, NSError * _Nullable error) {
-        weakSelf.currentVoiceCommands = currentVoiceCommands;
-        if (error != nil) {
-            weakSelf.internalError = error;
-        }
-
+    [self sdl_sendDeleteCurrentVoiceCommands:^{
         // If the operation has been canceled, then don't send the new commands and finish the operation
         if (self.isCancelled) {
             [weakSelf finishOperation];
@@ -68,12 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         // Send the new commands
-        [weakSelf sdl_sendCurrentVoiceCommands:^(NSArray<SDLVoiceCommand *> *currentVoiceCommands, NSError * _Nullable error) {
-            if (error != nil) {
-                weakSelf.internalError = error;
-            }
-
-            weakSelf.currentVoiceCommands = currentVoiceCommands;
+        [weakSelf sdl_sendCurrentVoiceCommands:^{
             [weakSelf finishOperation];
         }];
     }];
@@ -81,65 +73,63 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Sending RPCs
 
-- (void)sdl_sendDeleteCurrentVoiceCommands:(SDLVoiceCommandUpdateCompletionHandler)completionHandler {
-    if (self.currentVoiceCommands.count == 0) {
+- (void)sdl_sendDeleteCurrentVoiceCommands:(void(^)(void))completionHandler {
+    if (self.oldVoiceCommands.count == 0) {
         SDLLogD(@"No voice commands to delete");
-        return completionHandler(self.currentVoiceCommands, nil);
+        return completionHandler();
     }
 
-    NSArray<SDLDeleteCommand *> *deleteVoiceCommands = [self sdl_deleteCommandsForVoiceCommands:self.currentVoiceCommands];
+    NSArray<SDLDeleteCommand *> *deleteVoiceCommands = [self sdl_deleteCommandsForVoiceCommands:self.oldVoiceCommands];
     __block NSMutableDictionary<SDLDeleteCommand *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequests:deleteVoiceCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        // Add the request to the error dict or remove it from the current voice commands array
         if (error != nil) {
             errors[request] = error;
+        } else {
+            [weakSelf sdl_removeCurrentVoiceCommandWithCommandId:((SDLDeleteCommand *)request).cmdID.unsignedIntValue];
         }
 
         SDLLogV(@"Deleting voice commands progress: %f", percentComplete);
     } completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogE(@"Error deleting old voice commands: %@", errors);
-
-            // Not all the voice command deletes succeeded, subtract the ones that did from the voice commands current state
-            NSArray<SDLDeleteCommand *> *deletedCommands = [self.class sdl_deleteCommands:deleteVoiceCommands subtractDeleteCommands:errors.allKeys];
-            NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands = [self.class sdl_voiceCommands:weakSelf.currentVoiceCommands subtractDeleteCommands:deletedCommands];
-
-            return completionHandler(newCurrentVoiceCommands, [NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-        } else {
-            SDLLogD(@"Finished deleting old voice commands");
-
-            // All the voice command deletes succeeded, subtract them from the voice commands current state
-            NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands = [self.class sdl_voiceCommands:weakSelf.currentVoiceCommands subtractDeleteCommands:deleteVoiceCommands];
-            return completionHandler(newCurrentVoiceCommands, nil);
+            weakSelf.internalError = [NSError sdl_menuManager_failedToUpdateWithDictionary:errors];
+            return completionHandler();
         }
+
+        SDLLogD(@"Finished deleting old voice commands");
+        return completionHandler();
     }];
 }
 
-- (void)sdl_sendCurrentVoiceCommands:(SDLVoiceCommandUpdateCompletionHandler)completionHandler {
-    if (self.updatedVoiceCommands.count == 0) {
+- (void)sdl_sendCurrentVoiceCommands:(void(^)(void))completionHandler {
+    if (self.pendingVoiceCommands.count == 0) {
         SDLLogD(@"No voice commands to send");
-        return completionHandler(self.currentVoiceCommands, nil);
+        return completionHandler();
     }
 
-    NSArray<SDLAddCommand *> *addCommandsToSend = [self sdl_addCommandsForVoiceCommands:self.updatedVoiceCommands];
+    NSArray<SDLAddCommand *> *addCommandsToSend = [self sdl_addCommandsForVoiceCommands:self.pendingVoiceCommands];
     __block NSMutableDictionary<SDLAddCommand *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequests:addCommandsToSend progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        // Add the request to the error dict or add it to the current voice commands array
         if (error != nil) {
             errors[request] = error;
+        } else {
+            [weakSelf.currentVoiceCommands addObject:[weakSelf sdl_pendingVoiceCommandWithCommandId:((SDLDeleteCommand *)request).cmdID.unsignedIntValue]];
         }
 
         SDLLogV(@"Sending voice commands progress: %f", percentComplete);
     } completionHandler:^(BOOL success) {
-        NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands = [self.class sdl_voiceCommands:weakSelf.currentVoiceCommands addVoiceCommandsFrom:weakSelf.updatedVoiceCommands basedOnUnsuccessfulAddCommands:errors.allKeys];
-
         if (!success) {
             SDLLogE(@"Failed to send main menu commands: %@", errors);
-            return completionHandler(newCurrentVoiceCommands, [NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-        } else {
-            SDLLogD(@"Finished updating voice commands");
-            return completionHandler(newCurrentVoiceCommands, nil);
+            weakSelf.internalError = [NSError sdl_menuManager_failedToUpdateWithDictionary:errors];
+            return completionHandler();
         }
+
+        SDLLogD(@"Finished updating voice commands");
+        return completionHandler();
     }];
 }
 
@@ -160,69 +150,36 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<SDLAddCommand *> *)sdl_addCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     NSMutableArray<SDLAddCommand *> *mutableCommands = [NSMutableArray array];
-    for (SDLVoiceCommand *command in voiceCommands) {
-        [mutableCommands addObject:[self sdl_addCommandForVoiceCommand:command]];
+    for (SDLVoiceCommand *voiceCommand in voiceCommands) {
+        SDLAddCommand *command = [[SDLAddCommand alloc] init];
+        command.vrCommands = voiceCommand.voiceCommands;
+        command.cmdID = @(voiceCommand.commandId);
+
+        [mutableCommands addObject:command];
     }
 
     return [mutableCommands copy];
 }
 
-- (SDLAddCommand *)sdl_addCommandForVoiceCommand:(SDLVoiceCommand *)voiceCommand {
-    SDLAddCommand *command = [[SDLAddCommand alloc] init];
-    command.vrCommands = voiceCommand.voiceCommands;
-    command.cmdID = @(voiceCommand.commandId);
-
-    return command;
-}
-
 #pragma mark - Managing list of commands on head unit
 
-+ (NSArray<SDLVoiceCommand *> *)sdl_voiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands subtractDeleteCommands:(NSArray<SDLDeleteCommand *> *)deleteCommands {
-    NSMutableArray<SDLVoiceCommand *> *mutableOldVoiceCommands = [voiceCommands mutableCopy];
-
-    // Remove unsuccessful delete commands
-    for (SDLDeleteCommand *deleteCommand in deleteCommands) {
-        for (SDLVoiceCommand *voiceCommand in mutableOldVoiceCommands) {
-            if (voiceCommand.commandId == deleteCommand.cmdID.unsignedIntValue) {
-                [mutableOldVoiceCommands removeObject:voiceCommand];
-                break;
-            }
+- (void)sdl_removeCurrentVoiceCommandWithCommandId:(UInt32)commandId {
+    for (SDLVoiceCommand *voiceCommand in self.currentVoiceCommands) {
+        if (voiceCommand.commandId == commandId) {
+            [self.currentVoiceCommands removeObject:voiceCommand];
+            break;
         }
     }
-
-    return [mutableOldVoiceCommands copy];
 }
 
-+ (NSArray<SDLDeleteCommand *> *)sdl_deleteCommands:(NSArray<SDLDeleteCommand *> *)deleteCommands subtractDeleteCommands:(NSArray<SDLDeleteCommand *> *)subtractCommands {
-    NSMutableArray<SDLDeleteCommand *> *mutableDeleteCommands = deleteCommands.mutableCopy;
-    for (SDLDeleteCommand *subtractCommand in subtractCommands) {
-        for (SDLDeleteCommand *deleteCommand in mutableDeleteCommands) {
-            if ([subtractCommand.cmdID isEqualToNumber:deleteCommand.cmdID]) {
-                [mutableDeleteCommands removeObject:deleteCommand];
-                break;
-            }
+- (nullable SDLVoiceCommand *)sdl_pendingVoiceCommandWithCommandId:(UInt32)commandId {
+    for (SDLVoiceCommand *voiceCommand in self.currentVoiceCommands) {
+        if (voiceCommand.commandId == commandId) {
+            return voiceCommand;
         }
     }
 
-    return [mutableDeleteCommands copy];
-}
-
-+ (NSArray<SDLVoiceCommand *> *)sdl_voiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands addVoiceCommandsFrom:(NSArray<SDLVoiceCommand *> *)updatedVoiceCommands basedOnUnsuccessfulAddCommands:(NSArray<SDLAddCommand *> *)unsuccessfulAddCommands {
-    NSMutableArray<SDLVoiceCommand *> *mutableVoiceCommands = [voiceCommands mutableCopy];
-    NSMutableArray<SDLVoiceCommand *> *mutableUpdatedVoiceCommands = [updatedVoiceCommands mutableCopy];
-
-    // Remove unsuccessful updated voice commands
-    for (SDLAddCommand *unsuccessfulAddCommand in unsuccessfulAddCommands) {
-        for (SDLVoiceCommand *updatedVoiceCommand in mutableUpdatedVoiceCommands) {
-            if (updatedVoiceCommand.commandId == unsuccessfulAddCommand.cmdID.unsignedIntValue) {
-                [mutableUpdatedVoiceCommands removeObject:updatedVoiceCommand];
-                break;
-            }
-        }
-    }
-
-    [mutableVoiceCommands addObjectsFromArray:mutableUpdatedVoiceCommands];
-    return [mutableVoiceCommands copy];
+    return nil;
 }
 
 #pragma mark - Operation Overrides
@@ -231,11 +188,9 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogV(@"Finishing text and graphic update operation");
     if (self.isCancelled) {
         self.internalError = [NSError sdl_voiceCommandManager_pendingUpdateSuperseded];
-        self.completionHandler(self.currentVoiceCommands, self.error);
-    } else {
-        self.completionHandler(self.currentVoiceCommands, self.internalError);
     }
 
+    self.completionHandler(self.currentVoiceCommands.copy, self.error);
     [super finishOperation];
 }
 

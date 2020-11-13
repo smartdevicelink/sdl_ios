@@ -18,9 +18,9 @@ typedef void(^SDLVoiceCommandUpdateCompletionHandler)(NSArray<SDLVoiceCommand *>
 
 @interface SDLVoiceCommandUpdateOperation : SDLAsynchronousOperation
 
-@property (strong, nonatomic, nullable) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
+@property (strong, nonatomic, nullable) NSArray<SDLVoiceCommand *> *oldVoiceCommands;
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager newVoiceCommands:(NSArray<SDLVoiceCommand *> *)newVoiceCommands oldVoiceCommands:(NSArray<SDLVoiceCommand *> *)oldVoiceCommands updateCompletionHandler:(SDLVoiceCommandUpdateCompletionHandler)completionHandler;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager pendingVoiceCommands:(NSArray<SDLVoiceCommand *> *)pendingVoiceCommands oldVoiceCommands:(NSArray<SDLVoiceCommand *> *)oldVoiceCommands updateCompletionHandler:(SDLVoiceCommandUpdateCompletionHandler)completionHandler;
 
 @end
 
