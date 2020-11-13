@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Notifies the subscriber that the alert set should be cancelled.
+/// Notifies the subscriber that the alert should be cancelled.
 typedef void (^SDLAlertCanceledHandler)(void);
 
 @interface SDLAlertView : NSObject

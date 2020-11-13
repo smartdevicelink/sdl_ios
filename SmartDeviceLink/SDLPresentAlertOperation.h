@@ -9,6 +9,8 @@
 #import "SDLAsynchronousOperation.h"
 
 @class SDLAlertView;
+@class SDLFileManager;
+@class SDLWindowCapability;
 
 @protocol SDLConnectionManagerType;
 
@@ -20,10 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// An operation to present an alert.
 /// @param connectionManager The connection manager
+/// @param fileManager The file manager
+/// @param currentWindowCapability The current window capability
 /// @param alertView The alert to be displayed
 /// @param cancelID A unique ID for this specific choice set that allows cancellation through the `CancelInteraction` RPC
 /// @return A SDLPresentAlertOperation object
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentWindowCapability:(SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID;
 
 @end
 
