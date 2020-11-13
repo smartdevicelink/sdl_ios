@@ -242,7 +242,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameEscSystem;
 extern SDLRPCParameterName const SDLRPCParameterNameETA;
 extern SDLRPCParameterName const SDLRPCParameterNameEvent;
 extern SDLRPCParameterName const SDLRPCParameterNameExpires;
-extern SDLRPCParameterName const SDLRPCParameterNameExternalTemperature __deprecated_msg("Use SDLRPCParameterNameClimateData instead on 7.1+ RPC version connections");
+extern SDLRPCParameterName const SDLRPCParameterNameExternalTemperature __deprecated;
 extern SDLRPCParameterName const SDLRPCParameterNameFanSpeed;
 extern SDLRPCParameterName const SDLRPCParameterNameFanSpeedAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameFCCFacilityId;

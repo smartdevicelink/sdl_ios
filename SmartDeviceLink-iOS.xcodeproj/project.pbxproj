@@ -1664,7 +1664,7 @@
 		9FA0D00F22DF0B90009CF344 /* SDLDeleteWindowSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D00E22DF0B90009CF344 /* SDLDeleteWindowSpec.m */; };
 		9FA0D01222DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D01122DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m */; };
 		B360F9D0255EFEFD0027CA17 /* SDLClimateData.m in Sources */ = {isa = PBXBuildFile; fileRef = B360F9CE255EFEFD0027CA17 /* SDLClimateData.m */; };
-		B360F9D1255EFEFD0027CA17 /* SDLClimateData.h in Headers */ = {isa = PBXBuildFile; fileRef = B360F9CF255EFEFD0027CA17 /* SDLClimateData.h */; };
+		B360F9D1255EFEFD0027CA17 /* SDLClimateData.h in Headers */ = {isa = PBXBuildFile; fileRef = B360F9CF255EFEFD0027CA17 /* SDLClimateData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
@@ -6850,6 +6850,7 @@
 			files = (
 				4ABB255124F7E52B0061BF55 /* SDLLockScreenConfiguration.h in Headers */,
 				4ABB26B124F7F9DF0061BF55 /* SDLLogTargetOSLog.h in Headers */,
+				B360F9D1255EFEFD0027CA17 /* SDLClimateData.h in Headers */,
 				4ABB259624F7E6880061BF55 /* SDLMenuCell.h in Headers */,
 				4ABB292E24F842A00061BF55 /* SDLDiagnosticMessage.h in Headers */,
 				4ABB272424F7FCAE0061BF55 /* SDLComponentVolumeStatus.h in Headers */,
@@ -7106,7 +7107,6 @@
 				4ABB268224F7F8D60061BF55 /* SDLBackgroundTaskManager.h in Headers */,
 				4A8BD3BB24F98F89000945E3 /* SDLDynamicUpdateCapabilities.h in Headers */,
 				4A8BD31224F938D6000945E3 /* SDLWeatherData.h in Headers */,
-				B360F9D1255EFEFD0027CA17 /* SDLClimateData.h in Headers */,
 				4ABB24C024F592620061BF55 /* NSMutableDictionary+SafeRemove.h in Headers */,
 				4ABB26FB24F7FB8F0061BF55 /* SDLButtonEventMode.h in Headers */,
 				4ABB260924F7E9720061BF55 /* SDLStreamingAudioManagerType.h in Headers */,
