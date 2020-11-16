@@ -114,7 +114,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
+    if (artwork != nil) {
+        if (artwork.isStaticIcon) {
+            return false;
+        } else {
+            return artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]);
+        }
+    }
+    return false;
 }
 
 - (void)sdl_preloadCells {

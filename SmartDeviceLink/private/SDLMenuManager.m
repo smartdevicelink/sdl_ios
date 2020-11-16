@@ -472,7 +472,7 @@ UInt32 const MenuCellIdMin = 1;
     NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
     NSArray<SDLRPCRequest *> *subMenuCommands = nil;
 
-    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if ([self sdl_allArtworksUploaded:self.menuCells] || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         // Send artwork-less menu
         mainMenuCommands = [self sdl_mainMenuCommandsForCells:updatedMenu withArtwork:NO usingIndexesFrom:menu];
         subMenuCommands =  [self sdl_subMenuCommandsForCells:updatedMenu withArtwork:NO];
@@ -552,7 +552,34 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
+    if (artwork != nil) {
+        if (artwork.isStaticIcon) {
+            return false;
+        } else {
+            return artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]);
+        }
+    }
+    return false;
+}
+
+- (BOOL) sdl_allArtworksUploaded:(NSArray<SDLMenuCell *> *)cells {
+    for (SDLMenuCell *cell in cells) {
+        if (![self sdl_artworkUploaded:cell.icon]) {
+            return false;
+        }
+        if (cell.subCells != nil && [cell.subCells count]> 0) {
+            return [self sdl_allArtworksUploaded:cell.subCells];
+        }
+    }
+
+    return true;
+}
+
+- (BOOL) sdl_artworkUploaded:(SDLArtwork *)artwork {
+    if (artwork != nil) {
+        return artwork.isStaticIcon || (self.fileManager != nil && [self.fileManager hasUploadedFile:artwork]);
+    }
+    return true;
 }
 
 #pragma mark IDs

@@ -228,7 +228,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Images
 
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && self.softButtonCapabilities.imageSupported.boolValue && !artwork.isStaticIcon);
+    if (artwork != nil && self.softButtonCapabilities.imageSupported) {
+        if (artwork.isStaticIcon) {
+            return false;
+        } else {
+            return artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]);
+        }
+    }
+    return false;
 }
 
 /// Checks all the button states for images that need to be uploaded.
