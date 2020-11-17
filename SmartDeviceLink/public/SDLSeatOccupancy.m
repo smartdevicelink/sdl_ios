@@ -36,6 +36,7 @@
 #import "SDLSeatStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSeatOccupancy
 
 - (instancetype)initWithSeatsOccupied:(nullable NSArray<SDLSeatStatus *> *)seatsOccupied seatsBelted:(nullable NSArray<SDLSeatStatus *> *)seatsBelted {

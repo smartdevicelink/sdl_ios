@@ -34,12 +34,54 @@
 
 @class SDLVehicleDataResult;
 
+
+/**
+ Response to SDLSubscribeVehicleData
+
+ Since SmartDeviceLink 2.0
+ */
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * @added in SmartDeviceLink 2.0.0
  */
 @interface SDLSubscribeVehicleDataResponse : SDLRPCResponse
+
+/**
+ * Convenience init for setting all data on vehicle data items.
+ *
+ * @param gps - gps
+ * @param speed - speed
+ * @param rpm - rpm
+ * @param instantFuelConsumption - instantFuelConsumption
+ * @param fuelRange - fuelRange
+ * @param externalTemperature - externalTemperature
+ * @param turnSignal - turnSignal
+ * @param gearStatus - gearStatus
+ * @param tirePressure - tirePressure
+ * @param odometer - odometer
+ * @param beltStatus - beltStatus
+ * @param bodyInformation - bodyInformation
+ * @param deviceStatus - deviceStatus
+ * @param driverBraking - driverBraking
+ * @param wiperStatus - wiperStatus
+ * @param headLampStatus - headLampStatus
+ * @param engineTorque - engineTorque
+ * @param accPedalPosition - accPedalPosition
+ * @param steeringWheelAngle - steeringWheelAngle
+ * @param engineOilLife - engineOilLife
+ * @param electronicParkBrakeStatus - electronicParkBrakeStatus
+ * @param cloudAppVehicleID - cloudAppVehicleID
+ * @param eCallInfo - eCallInfo
+ * @param airbagStatus - airbagStatus
+ * @param emergencyEvent - emergencyEvent
+ * @param clusterModes - clusterModes
+ * @param myKey - myKey
+ * @param handsOffSteering - handsOffSteering
+ * @return A SDLSubscribeVehicleDataResponse object
+ */
+- (instancetype)initWithGps:(nullable SDLVehicleDataResult *)gps speed:(nullable SDLVehicleDataResult *)speed rpm:(nullable SDLVehicleDataResult *)rpm instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption fuelRange:(nullable SDLVehicleDataResult *)fuelRange externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature turnSignal:(nullable SDLVehicleDataResult *)turnSignal gearStatus:(nullable SDLVehicleDataResult *)gearStatus tirePressure:(nullable SDLVehicleDataResult *)tirePressure odometer:(nullable SDLVehicleDataResult *)odometer beltStatus:(nullable SDLVehicleDataResult *)beltStatus bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus driverBraking:(nullable SDLVehicleDataResult *)driverBraking wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus engineTorque:(nullable SDLVehicleDataResult *)engineTorque accPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent clusterModes:(nullable SDLVehicleDataResult *)clusterModes myKey:(nullable SDLVehicleDataResult *)myKey handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering __deprecated_msg("Use initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:windowStatus:handsOffSteering:seatOccupancy: instead");
 
 /**
  * @param gps - gps
@@ -78,196 +120,240 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithGps:(nullable SDLVehicleDataResult *)gps speed:(nullable SDLVehicleDataResult *)speed rpm:(nullable SDLVehicleDataResult *)rpm instantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption fuelRange:(nullable SDLVehicleDataResult *)fuelRange externalTemperature:(nullable SDLVehicleDataResult *)externalTemperature turnSignal:(nullable SDLVehicleDataResult *)turnSignal gearStatus:(nullable SDLVehicleDataResult *)gearStatus tirePressure:(nullable SDLVehicleDataResult *)tirePressure odometer:(nullable SDLVehicleDataResult *)odometer beltStatus:(nullable SDLVehicleDataResult *)beltStatus bodyInformation:(nullable SDLVehicleDataResult *)bodyInformation deviceStatus:(nullable SDLVehicleDataResult *)deviceStatus driverBraking:(nullable SDLVehicleDataResult *)driverBraking wiperStatus:(nullable SDLVehicleDataResult *)wiperStatus headLampStatus:(nullable SDLVehicleDataResult *)headLampStatus engineTorque:(nullable SDLVehicleDataResult *)engineTorque accPedalPosition:(nullable SDLVehicleDataResult *)accPedalPosition steeringWheelAngle:(nullable SDLVehicleDataResult *)steeringWheelAngle engineOilLife:(nullable SDLVehicleDataResult *)engineOilLife electronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus cloudAppVehicleID:(nullable SDLVehicleDataResult *)cloudAppVehicleID stabilityControlsStatus:(nullable SDLVehicleDataResult *)stabilityControlsStatus eCallInfo:(nullable SDLVehicleDataResult *)eCallInfo airbagStatus:(nullable SDLVehicleDataResult *)airbagStatus emergencyEvent:(nullable SDLVehicleDataResult *)emergencyEvent clusterModes:(nullable SDLVehicleDataResult *)clusterModes myKey:(nullable SDLVehicleDataResult *)myKey windowStatus:(nullable SDLVehicleDataResult *)windowStatus handsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering seatOccupancy:(nullable SDLVehicleDataResult *)seatOccupancy;
 
 /**
- * See GPSData
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *gps;
-
-/**
- * The vehicle speed in kilometers per hour
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *speed;
-
-/**
- * The number of revolutions per minute of the engine
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *rpm;
-
-/**
- * The fuel level in the tank (percentage). This parameter is deprecated starting RPC Spec 7.0, please see fuelRange.
- *
- * @deprecated in SmartDeviceLink 7.0.0
- * @added in SmartDeviceLink 2.0.0
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *fuelLevel __deprecated;
-
-/**
- * The fuel level state. This parameter is deprecated starting RPC Spec 7.0, please see fuelRange.
- *
- * @deprecated in SmartDeviceLink 7.0.0
- * @added in SmartDeviceLink 2.0.0
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *fuelLevel_State __deprecated;
-
-/**
- * The instantaneous fuel consumption in microlitres
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *instantFuelConsumption;
-
-/**
- * The fuel type, estimated range in KM, fuel level/capacity and fuel level state for the vehicle. See struct FuelRange for details.
- *
- * @added in SmartDeviceLink 5.0.0
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *fuelRange;
-
-/**
- * The external temperature in degrees celsius.
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *externalTemperature;
-
-/**
- * See TurnSignal
- *
- * @added in SmartDeviceLink 5.0.0
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *turnSignal;
-
-/**
  * See GearStatus
  *
- * @added in SmartDeviceLink 7.0.0
+ * @since SDL 7.0
+*/
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *gearStatus;
+
+/**
+ The result of requesting to subscribe to the GPSData.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *gearStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *gps;
+
+/**
+ The result of requesting to subscribe to the vehicle speed in kilometers per hour.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *speed;
+
+/**
+ The result of requesting to subscribe to the number of revolutions per minute of the engine.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *rpm;
+
+/**
+ The result of requesting to subscribe to the fuel level in the tank (percentage)
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel __deprecated_msg("use fuelRange instead on 7.0+ RPC version connections");
+
+/**
+ The result of requesting to subscribe to the fuel level state.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel_State __deprecated_msg("use fuelRange instead on 7.0+ RPC version connections");
+
+/**
+ The result of requesting to subscribe to the fuel range.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelRange;
+
+/**
+ The result of requesting to subscribe to the instantaneous fuel consumption in microlitres.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *instantFuelConsumption;
+
+/**
+ The result of requesting to subscribe to the external temperature in degrees celsius.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *externalTemperature;
 
 /**
  * See PRNDL. This parameter is deprecated and it is now covered in `gearStatus`
  *
- * @deprecated in SmartDeviceLink 7.0.0
- * @added in SmartDeviceLink 2.0.0
- */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *prndl __deprecated;
+ * @deprecated
+ * @since SDL 7.0
+*/
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *prndl __deprecated_msg("use gearStatus instead on 7.0+ RPC version connections");
 
 /**
- * See TireStatus
+ The result of requesting to subscribe to the tireStatus.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *tirePressure;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *tirePressure;
 
 /**
- * Odometer in km
+ The result of requesting to subscribe to the odometer in km.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *odometer;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *odometer;
 
 /**
- * The status of the seat belts
+ The result of requesting to subscribe to the status of the seat belts.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *beltStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *beltStatus;
 
 /**
- * The body information including power modes
+ The result of requesting to subscribe to the body information including power modes.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *bodyInformation;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *bodyInformation;
 
 /**
- * The device status including signal and battery strength
+ The result of requesting to subscribe to the device status including signal and battery strength.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *deviceStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *deviceStatus;
 
 /**
- * The status of the brake pedal
+ The result of requesting to subscribe to the status of the brake pedal.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *driverBraking;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *driverBraking;
 
 /**
- * The status of the wipers
+ The result of requesting to subscribe to the status of the wipers.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *wiperStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *wiperStatus;
 
 /**
- * Status of the head lamps
+ To indicate whether driver hands are off the steering wheel
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *headLampStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *handsOffSteering;
 
 /**
- * Torque value for engine (in Nm) on non-diesel variants
+ The result of requesting to subscribe to the status of the head lamps.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *engineTorque;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *headLampStatus;
 
 /**
- * Accelerator pedal position (percentage depressed)
+ The result of requesting to subscribe to the estimated percentage of remaining oil life of the engine.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *accPedalPosition;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *engineOilLife;
 
 /**
- * Current angle of the steering wheel (in deg)
+ The result of requesting to subscribe to the torque value for engine (in Nm) on non-diesel variants.
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *steeringWheelAngle;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *engineTorque;
 
 /**
- * The estimated percentage of remaining oil life of the engine.
- *
- * @added in SmartDeviceLink 5.0.0
+ The result of requesting to subscribe to the accelerator pedal position (percentage depressed)
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *engineOilLife;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *accPedalPosition;
 
 /**
- * The status of the park brake as provided by Electric Park Brake (EPB) system.
- *
- * @added in SmartDeviceLink 5.0.0
+ The result of requesting to subscribe to the current angle of the steering wheel (in deg)
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *electronicParkBrakeStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *steeringWheelAngle;
 
 /**
- * Parameter used by cloud apps to identify a head unit
- *
- * @added in SmartDeviceLink 5.1.0
+ The result of requesting to subscribe to the emergency call info
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *cloudAppVehicleID;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *eCallInfo;
 
 /**
- * See StabilityControlsStatus
- *
- * @added in SmartDeviceLink 7.0.0
+ The result of requesting to subscribe to the airbag status
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *stabilityControlsStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *airbagStatus;
 
 /**
- * Emergency Call notification and confirmation data
+ The result of requesting to subscribe to the emergency event
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *eCallInfo;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *emergencyEvent;
 
 /**
- * The status of the air bags
+ The result of requesting to subscribe to the cluster modes
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *airbagStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *clusterModes;
 
 /**
- * Information related to an emergency event (and if it occurred)
+ The result of requesting to subscribe to the myKey status
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *emergencyEvent;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *myKey;
 
 /**
- * The status modes of the cluster
+ The result of requesting to subscribe to the electronic parking brake status
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *clusterModes;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *electronicParkBrakeStatus;
 
 /**
- * Information related to the MyKey feature
+ The result of requesting to subscribe to the turn signal
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *myKey;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *turnSignal;
 
 /**
- * See WindowStatus
- *
- * @added in SmartDeviceLink 7.0.0
+ The result of requesting to subscribe to the cloud app vehicle ID
+
+ Optional
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *windowStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *cloudAppVehicleID;
 
 /**
- * To indicate whether driver hands are off the steering wheel
- *
- * @added in SmartDeviceLink 7.0.0
+ Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
+
+ @param vehicleDataName The name of the OEM custom vehicle data item.
+ @param vehicleDataState SDLVehicleDataResult object containing custom data type and result code information.
+
+  Added SmartDeviceLink 6.0
  */
-@property (nullable, strong, nonatomic) SDLVehicleDataResult *handsOffSteering;
+- (void)setOEMCustomVehicleData:(NSString *)vehicleDataName withVehicleDataState:(SDLVehicleDataResult *)vehicleDataState NS_SWIFT_NAME(setOEMCustomVehicleData(name:state:));
+
+/**
+ Gets the OEM custom vehicle data state for any given OEM custom vehicle data name.
+
+ @param vehicleDataName The name of the OEM custom vehicle data item.
+ @return SDLVehicleDataResult An object containing custom data type and result code information.
+
+  Added SmartDeviceLink 6.0
+ */
+- (nullable SDLVehicleDataResult *)getOEMCustomVehicleData:(NSString *)vehicleDataName;
 
 /**
  * See SeatOccupancy

@@ -36,6 +36,7 @@
 #import "SDLSeatStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSeatStatus
 
 - (instancetype)initWithSeatLocation:(SDLSeatLocation *)seatLocation conditionActive:(BOOL)conditionActive {
