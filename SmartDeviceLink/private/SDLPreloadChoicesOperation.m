@@ -116,12 +116,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
     if (artwork != nil) {
         if (artwork.isStaticIcon) {
-            return false;
+            return NO;
         } else {
             return artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]);
         }
     }
-    return false;
+    return NO;
 }
 
 - (void)sdl_preloadCells {

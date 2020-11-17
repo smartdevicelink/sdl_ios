@@ -472,7 +472,7 @@ UInt32 const MenuCellIdMin = 1;
     NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
     NSArray<SDLRPCRequest *> *subMenuCommands = nil;
 
-    if ([self sdl_allArtworksUploaded:self.menuCells] || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if (![self sdl_allArtworksUploaded:self.menuCells] || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         // Send artwork-less menu
         mainMenuCommands = [self sdl_mainMenuCommandsForCells:updatedMenu withArtwork:NO usingIndexesFrom:menu];
         subMenuCommands =  [self sdl_subMenuCommandsForCells:updatedMenu withArtwork:NO];
@@ -554,32 +554,32 @@ UInt32 const MenuCellIdMin = 1;
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
     if (artwork != nil) {
         if (artwork.isStaticIcon) {
-            return false;
+            return NO;
         } else {
-            return artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]);
+            return (artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]));
         }
     }
-    return false;
+    return NO;
 }
 
 - (BOOL) sdl_allArtworksUploaded:(NSArray<SDLMenuCell *> *)cells {
     for (SDLMenuCell *cell in cells) {
         if (![self sdl_artworkUploaded:cell.icon]) {
-            return false;
+            return NO;
         }
-        if (cell.subCells != nil && [cell.subCells count]> 0) {
+        if (cell.subCells != nil && (cell.subCells.count) > 0) {
             return [self sdl_allArtworksUploaded:cell.subCells];
         }
     }
 
-    return true;
+    return YES;
 }
 
 - (BOOL) sdl_artworkUploaded:(SDLArtwork *)artwork {
     if (artwork != nil) {
         return artwork.isStaticIcon || (self.fileManager != nil && [self.fileManager hasUploadedFile:artwork]);
     }
-    return true;
+    return YES;
 }
 
 #pragma mark IDs
