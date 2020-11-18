@@ -233,6 +233,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *driverBraking;
 
 /**
+ * See WindowStatus
+ *
+ * @since SDL 7.0
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *windowStatus;
+
+/**
  The result of requesting to subscribe to the status of the wipers.
 
  Optional
@@ -271,6 +278,11 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *accPedalPosition;
+
+/**
+  See StabilityControlsStatus
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *stabilityControlsStatus;
 
 /**
  The result of requesting to subscribe to the current angle of the steering wheel (in deg)
