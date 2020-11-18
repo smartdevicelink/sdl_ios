@@ -50,12 +50,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithProtocolParam:(SDLVideoStreamingProtocol)protocolParam codec:(SDLVideoStreamingCodec)codec;
 
+/// Convenience init
+///
+/// @param codec Codec type, see VideoStreamingCodec
+/// @param protocol Protocol type, see VideoStreamingProtocol
+/// @return An SDLVideoStreamingFormat object
+- (instancetype)initWithCodec:(SDLVideoStreamingCodec)codec protocol:(SDLVideoStreamingProtocol)protocol __deprecated_msg("Use initWithProtocolParam:codec: instead");
+
+/**
+ * Protocol type, see VideoStreamingProtocol
+ */
+@property (strong, nonatomic) SDLVideoStreamingProtocol protocolParam;
+
 /**
  Protocol type, see VideoStreamingProtocol
 
  Required
  */
-@property (strong, nonatomic) SDLVideoStreamingProtocol protocol;
+@property (strong, nonatomic) SDLVideoStreamingProtocol protocol __deprecated_msg("Use protocolParam instead");
 
 /**
  Codec type, see VideoStreamingCodec
@@ -63,13 +75,6 @@ NS_ASSUME_NONNULL_BEGIN
  Required
  */
 @property (strong, nonatomic) SDLVideoStreamingCodec codec;
-
-/// Convenience init
-///
-/// @param codec Codec type, see VideoStreamingCodec
-/// @param protocol Protocol type, see VideoStreamingProtocol
-/// @return An SDLVideoStreamingFormat object
-- (instancetype)initWithCodec:(SDLVideoStreamingCodec)codec protocol:(SDLVideoStreamingProtocol)protocol;
 
 @end
 

@@ -21,6 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSliderPosition:(nullable NSNumber<SDLUInt> *)sliderPosition {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.sliderPosition = sliderPosition;
+    return self;
+}
+
 - (void)setSliderPosition:(nullable NSNumber<SDLInt> *)sliderPosition {
     [self.parameters sdl_setObject:sliderPosition forName:SDLRPCParameterNameSliderPosition];
 }

@@ -14,6 +14,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingFormat
 
+- (instancetype)initWithProtocolParam:(SDLVideoStreamingProtocol)protocolParam codec:(SDLVideoStreamingCodec)codec {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.protocolParam = protocolParam;
+    self.codec = codec;
+    return self;
+}
+
 - (instancetype)initWithCodec:(SDLVideoStreamingCodec)codec protocol:(SDLVideoStreamingProtocol)protocol {
     self = [self init];
     if (!self) { return nil; }
@@ -22,6 +32,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.protocol = protocol;
 
     return self;
+}
+
+- (void)setProtocolParam:(SDLVideoStreamingProtocol)protocolParam {
+    [self.store sdl_setObject:protocolParam forName:SDLRPCParameterNameVideoProtocol];
+}
+
+- (SDLVideoStreamingProtocol)protocolParam {
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameVideoProtocol error:&error];
 }
 
 - (SDLVideoStreamingProtocol)protocol {

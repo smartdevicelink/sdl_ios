@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (instancetype)speakWithText:(NSString *)text {
-    return [[self alloc] initWithTTSChunks:@[[SDLTTSChunk textChunksFromString:text]]];
+    return [[self alloc] initWithTTSChunks:[SDLTTSChunk textChunksFromString:text]];
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText {

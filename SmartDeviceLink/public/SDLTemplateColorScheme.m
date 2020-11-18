@@ -49,6 +49,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
++ (instancetype)schemeWithPrimaryUIColor:(UIColor *)primaryColor secondaryUIColor:(UIColor *)secondaryColor backgroundUIColor:(UIColor *)backgroundColor {
+    SDLTemplateColorScheme *colorScheme = [[SDLTemplateColorScheme alloc] init];
+
+    colorScheme.primaryColor = [[SDLRGBColor alloc] initWithColor:primaryColor];
+    colorScheme.secondaryColor = [[SDLRGBColor alloc] initWithColor:secondaryColor];
+    colorScheme.backgroundColor = [[SDLRGBColor alloc] initWithColor:backgroundColor];
+
+    return colorScheme;
+}
+
 - (void)setPrimaryColor:(nullable SDLRGBColor *)primaryColor {
     [self.store sdl_setObject:primaryColor forName:SDLRPCParameterNamePrimaryColor];
 }
