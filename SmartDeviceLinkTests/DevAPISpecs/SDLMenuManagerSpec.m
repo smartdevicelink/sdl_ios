@@ -231,26 +231,13 @@ describe(@"menu manager", ^{
                     expect(submenu).to(haveCount(1));
                     expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
                     expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
-                    OCMReject([mockFileManager uploadFile:[OCMArg any] completionHandler:[OCMArg any]]);
+                    OCMReject([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
 
-                fit(@"should properly override an image cell", ^{
+                it(@"should properly override an image cell", ^{
+                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                     testManager.menuCells = @[textAndImageCell, submenuImageCell];
-
-                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-                    NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-                    SDLAddCommand *sentCommand = add.firstObject;
-
-                    NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
-                    NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
-                    SDLAddSubMenu *sentSubmenu = submenu.firstObject;
-//                    sentSubmenu.menuIcon = testArtwork3.imageRPC;
-                    sentCommand.cmdIcon = testArtwork3.imageRPC;
-                    expect(add).to(haveCount(1));
-                    expect(submenu).to(haveCount(1));
-                    expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
-                    expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
-                    OCMVerify([mockFileManager uploadFile:[OCMArg any] completionHandler:[OCMArg any]]);
+                    OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
             });
 
