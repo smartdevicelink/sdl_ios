@@ -147,6 +147,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"com.sdl.screenManager.choiceSetManager.transactionQueue";
     queue.maxConcurrentOperationCount = 1;
+    queue.qualityOfService = NSQualityOfServiceUserInteractive;
     queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
