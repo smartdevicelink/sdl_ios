@@ -27,6 +27,7 @@
 @class SDLTireStatus;
 @class SDLWindowStatus;
 
+
 /**
  * Response to SDLGetVehicleData
  *
@@ -38,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetVehicleDataResponse : SDLRPCResponse
 
 /**
- * initializes a new allocated object of the SDLGetVehicleDataResponse class
+ * Convenience init for initializing data for all possible vehicle data items.
  *
  * @param gps - gps
  * @param speed - @(speed)
