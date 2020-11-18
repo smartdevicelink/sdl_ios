@@ -17,6 +17,7 @@
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
+#import "SDLSoftButton.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
@@ -38,6 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt16 cancelId;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
+
+@end
+
+@interface SDLSoftButtonObject()
+
+@property (assign, nonatomic) NSUInteger buttonId;
 
 @end
 
@@ -206,8 +213,10 @@ NS_ASSUME_NONNULL_BEGIN
     alert.cancelID = @(self.cancelId);
 
     NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:alert.softButtons.count];
-    for (SDLSoftButtonObject *button in self.alertView.softButtons) {
-        [softButtons addObject:button.currentStateSoftButton];
+    for (NSUInteger i = 0; i < self.alertView.softButtons.count; i += 1) {
+        SDLSoftButtonObject *button = self.alertView.softButtons[i];
+        button.buttonId = (i * 100) + 1;
+        [softButtons addObject:button.currentStateSoftButton.copy];
     }
     alert.softButtons = softButtons;
 
@@ -217,7 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (audioData.playTone == YES) {
             playTone = YES;
         }
-        if (audioData.audioFile != nil) {
+        if ([self sdl_supportsAlertAudioFile] && audioData.audioFile != nil) {
             [ttsChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioData.audioFile.name]];
         }
         if (audioData.prompt != nil) {
@@ -225,7 +234,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     alert.playTone = @(playTone);
-    alert.ttsChunks = ttsChunks;
+    alert.ttsChunks = (ttsChunks.count > 0) ? ttsChunks : nil;
 
     return alert;
 }

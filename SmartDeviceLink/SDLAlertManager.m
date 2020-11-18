@@ -11,9 +11,12 @@
 #import "SDLDisplayCapability.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
+#import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLPermissionManager.h"
 #import "SDLPredefinedWindows.h"
 #import "SDLPresentAlertOperation.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLWindowCapability.h"
@@ -26,9 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (weak, nonatomic) SDLPermissionManager *permissionManager;
-@property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
+@property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
+@property (assign, nonatomic) UInt16 nextCancelId;
 
 @end
 
@@ -45,7 +50,19 @@ NS_ASSUME_NONNULL_BEGIN
     _systemCapabilityManager = systemCapabilityManager;
     _permissionManager = permissionManager;
 
+    _transactionQueue = [self sdl_newTransactionQueue];
+    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.alertManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
+
+    [self sdl_subscribeToPermissions];
+
     return self;
+}
+
+- (void)sdl_subscribeToPermissions {
+    SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];
+    [self.permissionManager subscribeToRPCPermissions:@[alertPermissionElement] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+        self.transactionQueue.suspended = (status != SDLPermissionGroupStatusAllowed);
+    }];
 }
 
 - (void)start {
@@ -56,10 +73,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"Stopping manager");
+
+    _currentWindowCapability = nil;
+
+    [_transactionQueue cancelAllOperations];
+    self.transactionQueue = [self sdl_newTransactionQueue];
+
+    [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self];
 }
 
 - (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLAlertCompletionHandler)handler {
-    // TODO: upload alert icon image, alert sound file, soft button images.
+    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentWindowCapability:self.currentWindowCapability alertView:alert cancelID:self.nextCancelId];
+
+    __weak typeof(op) weakPreloadOp = op;
+    op.completionBlock = ^{
+        SDLLogD(@"Alert finished preloading");
+
+        if (handler != nil) {
+            handler(weakPreloadOp.error);
+        }
+    };
+
+    [self.transactionQueue addOperation:op];
 }
 
 - (NSOperationQueue *)sdl_newTransactionQueue {
@@ -72,25 +107,32 @@ NS_ASSUME_NONNULL_BEGIN
     return queue;
 }
 
-#pragma mark - RPC Responses / Notifications
+#pragma mark - Observers
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
-    if (capabilities == nil || capabilities.count == 0) {
-        self.currentWindowCapability = nil;
-    } else {
-        SDLDisplayCapability *mainDisplay = capabilities[0];
-        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
+    SDLDisplayCapability *mainDisplay = capabilities[0];
+    for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
+        NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+        if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
 
-            self.currentWindowCapability = windowCapability;
-            break;
-        }
+        self.currentWindowCapability = windowCapability;
+        break;
     }
-
-    // [self sdl_updateTransactionQueueSuspended];
 }
+
+#pragma mark - Getters
+
+- (UInt16)nextCancelId {
+    __block UInt16 cancelId = 0;
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
+        cancelId = self->_nextCancelId;
+        self->_nextCancelId = cancelId + 1;
+    }];
+
+    return cancelId;
+}
+
 
 @end
 
