@@ -8,6 +8,7 @@
 
 #import "SDLAlertManager.h"
 
+#import "SDLAlertView.h"
 #import "SDLDisplayCapability.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
@@ -37,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+UInt16 const AlertCancelIdMin = 1;
+
 @implementation SDLAlertManager
 
 #pragma mark - Lifecycle
@@ -52,17 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     _transactionQueue = [self sdl_newTransactionQueue];
     _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.alertManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
+    _nextCancelId = AlertCancelIdMin;
 
     [self sdl_subscribeToPermissions];
 
     return self;
-}
-
-- (void)sdl_subscribeToPermissions {
-    SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];
-    [self.permissionManager subscribeToRPCPermissions:@[alertPermissionElement] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
-        self.transactionQueue.suspended = (status != SDLPermissionGroupStatusAllowed);
-    }];
 }
 
 - (void)start {
@@ -75,6 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Stopping manager");
 
     _currentWindowCapability = nil;
+    _nextCancelId = AlertCancelIdMin;
 
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
@@ -83,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLAlertCompletionHandler)handler {
-    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentWindowCapability:self.currentWindowCapability alertView:alert cancelID:self.nextCancelId];
+    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentWindowCapability:self.currentWindowCapability alertView:[alert copy] cancelID:self.nextCancelId];
 
     __weak typeof(op) weakPreloadOp = op;
     op.completionBlock = ^{
@@ -119,6 +117,13 @@ NS_ASSUME_NONNULL_BEGIN
         self.currentWindowCapability = windowCapability;
         break;
     }
+}
+
+- (void)sdl_subscribeToPermissions {
+    SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];
+    [self.permissionManager subscribeToRPCPermissions:@[alertPermissionElement] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+        self.transactionQueue.suspended = (status != SDLPermissionGroupStatusAllowed);
+    }];
 }
 
 #pragma mark - Getters

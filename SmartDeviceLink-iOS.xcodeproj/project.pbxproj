@@ -3405,8 +3405,8 @@
 		881BBF4E255AC27000761B7E /* SDLAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLAlertView.h; path = public/SDLAlertView.h; sourceTree = "<group>"; };
 		881BBF4F255AC27000761B7E /* SDLAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLAlertView.m; path = public/SDLAlertView.m; sourceTree = "<group>"; };
 		881BBF5A255ADB8300761B7E /* SDLAlertViewSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAlertViewSpec.m; sourceTree = "<group>"; };
-		881BBF5E255B1C1E00761B7E /* SDLAlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAlertManager.h; sourceTree = "<group>"; };
-		881BBF5F255B1C1E00761B7E /* SDLAlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAlertManager.m; sourceTree = "<group>"; };
+		881BBF5E255B1C1E00761B7E /* SDLAlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLAlertManager.h; path = private/SDLAlertManager.h; sourceTree = "<group>"; };
+		881BBF5F255B1C1E00761B7E /* SDLAlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLAlertManager.m; path = private/SDLAlertManager.m; sourceTree = "<group>"; };
 		881F388C22D904BE00DF6DCE /* SDLCancelInteractionResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCancelInteractionResponseSpec.m; sourceTree = "<group>"; };
 		88295697207CF68800EF056C /* SDL Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		882FAC4C2209D7EF0062385D /* SDLAppServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceDataSpec.m; sourceTree = "<group>"; };
@@ -3475,8 +3475,8 @@
 		88D0E5D524786580009469AB /* SDLSubscribeButtonManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeButtonManagerSpec.m; sourceTree = "<group>"; };
 		88D0E5D724786770009469AB /* SDLSubscribeButtonObserverSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeButtonObserverSpec.m; sourceTree = "<group>"; };
 		88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogConstantsSpec.m; sourceTree = "<group>"; };
-		88D79EEB255D8D5B005FACB1 /* SDLPresentAlertOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPresentAlertOperation.h; sourceTree = "<group>"; };
-		88D79EEC255D8D5B005FACB1 /* SDLPresentAlertOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPresentAlertOperation.m; sourceTree = "<group>"; };
+		88D79EEB255D8D5B005FACB1 /* SDLPresentAlertOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLPresentAlertOperation.h; path = private/SDLPresentAlertOperation.h; sourceTree = "<group>"; };
+		88D79EEC255D8D5B005FACB1 /* SDLPresentAlertOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLPresentAlertOperation.m; path = private/SDLPresentAlertOperation.m; sourceTree = "<group>"; };
 		88DDD0F8229ECA57002F9623 /* SDLIAPConstantsSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPConstantsSpec.m; sourceTree = "<group>"; };
 		88DF998C22035CC600477AC1 /* EAAccessory+OCMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EAAccessory+OCMock.m"; sourceTree = "<group>"; };
 		88DF998E22035D1700477AC1 /* SDLIAPSessionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPSessionSpec.m; sourceTree = "<group>"; };
