@@ -214,8 +214,6 @@ describe(@"menu manager", ^{
             context(@"when the image is already on the head unit", ^{
                 beforeEach(^{
                     OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
-                    OCMExpect([mockFileManager hasUploadedFile:testArtwork3]);
-                    OCMExpect([mockFileManager uploadArtwork:testArtwork3 completionHandler:nil]);
                 });
 
                 it(@"should properly update an image cell", ^{
@@ -233,6 +231,7 @@ describe(@"menu manager", ^{
                     expect(submenu).to(haveCount(1));
                     expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
                     expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
+                    OCMReject([mockFileManager uploadFile:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
 
                 fit(@"should properly override an image cell", ^{
@@ -251,7 +250,7 @@ describe(@"menu manager", ^{
                     expect(submenu).to(haveCount(1));
                     expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
                     expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
-                    OCMVerifyAll(mockFileManager);
+                    OCMVerify([mockFileManager uploadFile:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
             });
 
