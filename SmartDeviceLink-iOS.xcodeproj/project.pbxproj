@@ -401,7 +401,6 @@
 		4A8BD2F524F93872000945E3 /* SDLTTSChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD2E724F93872000945E3 /* SDLTTSChunk.m */; };
 		4A8BD2F624F93872000945E3 /* SDLVehicleDataResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD2E824F93872000945E3 /* SDLVehicleDataResult.m */; };
 		4A8BD2F724F93872000945E3 /* SDLVrHelpItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD2E924F93872000945E3 /* SDLVrHelpItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4A8BD2F924F93872000945E3 /* SDLVehicleDataType.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD2EB24F93872000945E3 /* SDLVehicleDataType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD2FA24F93872000945E3 /* SDLVideoStreamingCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD2EC24F93872000945E3 /* SDLVideoStreamingCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD2FD24F938A4000945E3 /* SDLVehicleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD2FB24F938A4000945E3 /* SDLVehicleType.m */; };
 		4A8BD2FE24F938A4000945E3 /* SDLVehicleType.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD2FC24F938A4000945E3 /* SDLVehicleType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2185,7 +2184,6 @@
 		4A8BD2E824F93872000945E3 /* SDLVehicleDataResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLVehicleDataResult.m; path = public/SDLVehicleDataResult.m; sourceTree = "<group>"; };
 		4A8BD2E924F93872000945E3 /* SDLVrHelpItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLVrHelpItem.h; path = public/SDLVrHelpItem.h; sourceTree = "<group>"; };
 		4A8BD2EA24F93872000945E3 /* SDLVideoStreamingFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLVideoStreamingFormat.m; path = public/SDLVideoStreamingFormat.m; sourceTree = "<group>"; };
-		4A8BD2EB24F93872000945E3 /* SDLVehicleDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLVehicleDataType.h; path = public/SDLVehicleDataType.h; sourceTree = "<group>"; };
 		4A8BD2EC24F93872000945E3 /* SDLVideoStreamingCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLVideoStreamingCapability.h; path = public/SDLVideoStreamingCapability.h; sourceTree = "<group>"; };
 		4A8BD2FB24F938A4000945E3 /* SDLVehicleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLVehicleType.m; path = public/SDLVehicleType.m; sourceTree = "<group>"; };
 		4A8BD2FC24F938A4000945E3 /* SDLVehicleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLVehicleType.h; path = public/SDLVehicleType.h; sourceTree = "<group>"; };
@@ -5137,7 +5135,6 @@
 				4A8BD2E024F93871000945E3 /* SDLTurn.m */,
 				4A8BD2E524F93872000945E3 /* SDLVehicleDataResult.h */,
 				4A8BD2E824F93872000945E3 /* SDLVehicleDataResult.m */,
-				4A8BD2EB24F93872000945E3 /* SDLVehicleDataType.h */,
 				4A8BD2DF24F93871000945E3 /* SDLVehicleDataType.m */,
 				4A8BD2FC24F938A4000945E3 /* SDLVehicleType.h */,
 				4A8BD2FB24F938A4000945E3 /* SDLVehicleType.m */,
@@ -7352,7 +7349,6 @@
 				4ABB26BA24F7FA1C0061BF55 /* SDLLogConstants.h in Headers */,
 				4ABB28DB24F82A6A0061BF55 /* SDLOnSystemCapabilityUpdated.h in Headers */,
 				4ABB269324F7F9060061BF55 /* SDLTimer.h in Headers */,
-				4A8BD2F924F93872000945E3 /* SDLVehicleDataType.h in Headers */,
 				4ABB279924F7FF0B0061BF55 /* SDLLanguage.h in Headers */,
 				4ABB285F24F828E00061BF55 /* SDLVehicleDataActiveStatus.h in Headers */,
 				4ABB267A24F7F6840061BF55 /* SDLIconArchiveFile.h in Headers */,

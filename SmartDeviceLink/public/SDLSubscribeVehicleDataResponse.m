@@ -199,12 +199,30 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameDriverBraking ofClass:SDLVehicleDataResult.class error:nil];
 }
 
+- (void)setWindowStatus:(nullable SDLVehicleDataResult *)windowStatus {
+    [self.parameters sdl_setObject:windowStatus forName:SDLRPCParameterNameWindowStatus];
+}
+
+- (nullable SDLVehicleDataResult *)windowStatus {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowStatus ofClass:SDLVehicleDataResult.class error:&error];
+}
+
 - (void)setWiperStatus:(nullable SDLVehicleDataResult *)wiperStatus {
     [self.parameters sdl_setObject:wiperStatus forName:SDLRPCParameterNameWiperStatus];
 }
 
 - (nullable SDLVehicleDataResult *)wiperStatus {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameWiperStatus ofClass:SDLVehicleDataResult.class error:nil];
+}
+
+- (void)setHandsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering {
+    [self.parameters sdl_setObject:handsOffSteering forName:SDLRPCParameterNameHandsOffSteering];
+}
+
+- (nullable SDLVehicleDataResult *)handsOffSteering {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameHandsOffSteering ofClass:SDLVehicleDataResult.class error:&error];
 }
 
 - (void)setHeadLampStatus:(nullable SDLVehicleDataResult *)headLampStatus {
@@ -287,14 +305,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameMyKey ofClass:SDLVehicleDataResult.class error:nil];
 }
 
-- (void)setWindowStatus:(nullable SDLVehicleDataResult *)windowStatus {
-    [self.parameters sdl_setObject:windowStatus forName:SDLRPCParameterNameWindowStatus];
-}
-
-- (nullable SDLVehicleDataResult *)windowStatus {
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameWindowStatus ofClass:SDLVehicleDataResult.class error:nil];
-}
-
 - (void)setElectronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus {
     [self.parameters sdl_setObject:electronicParkBrakeStatus forName:SDLRPCParameterNameElectronicParkBrakeStatus];
 }
@@ -333,15 +343,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLVehicleDataResult *)getOEMCustomVehicleData:(NSString *)vehicleDataName {
     return [self.parameters sdl_objectForName:vehicleDataName ofClass:SDLVehicleDataResult.class error:nil];
-}
-
-- (void)setHandsOffSteering:(nullable SDLVehicleDataResult *)handsOffSteering {
-    [self.parameters sdl_setObject:handsOffSteering forName:SDLRPCParameterNameHandsOffSteering];
-}
-
-- (nullable SDLVehicleDataResult *)handsOffSteering {
-    NSError *error = nil;
-    return [self.parameters sdl_objectForName:SDLRPCParameterNameHandsOffSteering ofClass:SDLVehicleDataResult.class error:&error];
 }
 
 - (void)setSeatOccupancy:(nullable SDLVehicleDataResult *)seatOccupancy {
