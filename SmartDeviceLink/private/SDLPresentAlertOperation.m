@@ -50,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresentAlertOperation
 
+#pragma mark - Lifecycle
+
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentWindowCapability:(SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
 
     self = [super init];
@@ -92,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
-#pragma mark File, Image and Alert Uploads
+#pragma mark Uploads
 
 /// Upload the alert audio files.
 /// @param handler Called when all images have been uploaded
@@ -204,9 +206,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLAlert *)alert {
     SDLAlert *alert = [[SDLAlert alloc] init];
-    alert.alertText1 = self.alertView.text;
-    alert.alertText2 = self.alertView.secondaryText;
-    alert.alertText3 = self.alertView.tertiaryText;
+    [self sdl_assembleAlertText:alert];
     alert.duration = @((NSUInteger)(self.alertView.timeout * 1000));
     alert.alertIcon = self.alertView.icon.imageRPC;
     alert.progressIndicator = @(self.alertView.showWaitIndicator);
@@ -256,16 +256,60 @@ NS_ASSUME_NONNULL_BEGIN
     return  [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameAlertIcon];
 }
 
-- (BOOL)sdl_supportsAlertTextField1 {
-    return [self.currentCapabilities hasTextFieldOfName:SDLTextFieldNameAlertText1];
+#pragma mark - Text Helpers
+
+- (SDLAlert *)sdl_assembleAlertText:(SDLAlert *)alert {
+    NSArray *nonNilFields = [self sdl_findNonNilTextFields];
+    if (nonNilFields.count == 0) { return alert; }
+
+    NSUInteger maxNumberOfLines = self.currentCapabilities.maxNumberOfAlertMainFieldLines;
+    if (maxNumberOfLines == 1) {
+        alert = [self sdl_assembleOneLineAlertText:alert withShowFields:nonNilFields];
+    } else if (maxNumberOfLines == 2) {
+         alert = [self sdl_assembleThreeLineShowText:alert withShowFields:nonNilFields];
+    } else if (maxNumberOfLines == 3) {
+         alert = [self sdl_assembleThreeLineShowText:alert withShowFields:nonNilFields];
+    }
+
+    return alert;
 }
 
-- (BOOL)sdl_supportsAlertTextField2 {
-    return [self.currentCapabilities hasTextFieldOfName:SDLTextFieldNameAlertText2];
+- (NSArray<NSString *> *)sdl_findNonNilTextFields {
+    NSMutableArray *array = [NSMutableArray array];
+    (self.alertView.text.length > 0) ? [array addObject:self.alertView.text] : nil;
+    (self.alertView.secondaryText.length > 0) ? [array addObject:self.alertView.secondaryText] : nil;
+    (self.alertView.tertiaryText.length > 0) ? [array addObject:self.alertView.tertiaryText] : nil;
+
+    return [array copy];
 }
 
-- (BOOL)sdl_supportsAlertTextField3 {
-    return [self.currentCapabilities hasTextFieldOfName:SDLTextFieldNameAlertText3];
+- (SDLAlert *)sdl_assembleOneLineAlertText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
+    NSMutableString *alertString = [NSMutableString stringWithString:[fields objectAtIndex:0]];
+    for (NSUInteger i = 1; i < fields.count; i+= 1) {
+        [alertString appendFormat:@" - %@", fields[i]];
+    }
+    alert.alertText1 = alertString.copy;
+
+    return alert;
+}
+
+- (SDLAlert *)sdl_assembleTwoLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
+    if (fields.count <= 2) {
+        alert.alertText1 = [fields objectAtIndex:0];
+        alert.alertText2 = [fields objectAtIndex:1];
+    } else {
+        alert.alertText1 = [fields objectAtIndex:0];
+        alert.alertText2 = [NSString stringWithFormat:@"%@ - %@", [fields objectAtIndex:1], [fields objectAtIndex:2]];
+    }
+
+    return alert;
+}
+
+- (SDLAlert *)sdl_assembleThreeLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
+    alert.alertText1 = [fields objectAtIndex:0];
+    alert.alertText2 = [fields objectAtIndex:1];
+    alert.alertText3 = [fields objectAtIndex:2];
+    return alert;
 }
 
 #pragma mark - Property Overrides

@@ -42,6 +42,23 @@
     return (NSUInteger)highestFound;
 }
 
+- (NSUInteger)maxNumberOfAlertMainFieldLines {
+    NSInteger highestFound = 0;
+    for (SDLTextField *textField in self.textFields) {
+        if (![textField.name isKindOfClass:[NSString class]]) { continue; }
+        if ([textField.name isEqualToString:SDLTextFieldNameAlertText1]
+            || [textField.name isEqualToString:SDLTextFieldNameAlertText2]
+            || [textField.name isEqualToString:SDLTextFieldNameAlertText3]) {
+            NSInteger fieldNumber = [[textField.name substringFromIndex:(textField.name.length - 1)] integerValue];
+            highestFound = (highestFound < fieldNumber) ? fieldNumber : highestFound;
+
+            if (highestFound == 3) { break; }
+        }
+    }
+
+    return (NSUInteger)highestFound;
+}
+
 - (BOOL)hasImageFieldOfName:(SDLImageFieldName)name {
     for (SDLImageField *imageField in self.imageFields) {
         if ([imageField.name isEqualToString:name]) {

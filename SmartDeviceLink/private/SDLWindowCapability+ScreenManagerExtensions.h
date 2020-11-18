@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLWindowCapability (ScreenManagerExtensions)
 
 @property (assign, nonatomic, readonly) NSUInteger maxNumberOfMainFieldLines;
+@property (assign, nonatomic, readonly) NSUInteger maxNumberOfAlertMainFieldLines;
 
 - (BOOL)hasTextFieldOfName:(SDLTextFieldName)name;
 - (BOOL)hasImageFieldOfName:(SDLImageFieldName)name;
