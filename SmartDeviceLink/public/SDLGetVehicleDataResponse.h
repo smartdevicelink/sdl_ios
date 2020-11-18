@@ -231,6 +231,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLVehicleDataEventStatus driverBraking;
 
 /**
+ * See WindowStatus
+ * {"array_min_size": 0, "array_max_size": 100}
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+@property (nullable, strong, nonatomic) NSArray<SDLWindowStatus *> *windowStatus;
+
+/**
  The status of the wipers
  */
 @property (nullable, strong, nonatomic) SDLWiperStatus wiperStatus;
@@ -306,6 +314,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *cloudAppVehicleID;
 
 /**
+  The stability controls status
+*/
+ @property (nullable, strong, nonatomic) SDLStabilityControlsStatus *stabilityControlsStatus;
+
+/**
  Sets the OEM custom vehicle data state for any given OEM custom vehicle data name.
 
  @param vehicleDataName The name of the OEM custom vehicle data item.
@@ -332,15 +345,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) SDLSeatOccupancy *seatOccupancy;
 
-/**
- * See WindowStatus
- * {"array_min_size": 0, "array_max_size": 100}
- *
- * @added in SmartDeviceLink 7.0.0
- */
-@property (nullable, strong, nonatomic) NSArray<SDLWindowStatus *> *windowStatus;
-
 @end
 
 NS_ASSUME_NONNULL_END
-
