@@ -80,6 +80,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)setGearStatus:(nullable NSNumber<SDLBool> *)gearStatus {
+    [self.parameters sdl_setObject:gearStatus forName:SDLRPCParameterNameGearStatus];
+}
+
+- (nullable NSNumber<SDLBool> *)gearStatus {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameGearStatus ofClass:NSNumber.class error:nil];
+}
+
 - (void)setGps:(nullable NSNumber<SDLBool> *)gps {
     [self.parameters sdl_setObject:gps forName:SDLRPCParameterNameGPS];
 }
