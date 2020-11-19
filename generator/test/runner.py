@@ -57,7 +57,12 @@ def main():
     suite.addTests(TestLoader().loadTestsFromTestCase(CodeFormatAndQuality))
 
     runner = TextTestRunner(verbosity=2)
-    runner.run(suite)
+    test_results = runner.run(suite)
+
+    if test_results.wasSuccessful():
+        exit(0)
+    else:
+        exit(1)
 
 
 if __name__ == '__main__':

@@ -117,7 +117,7 @@ class TestFunctionsProducer(TestCase):
             name='ttsName', description=['\n      TTS string for'], is_mandatory=False,
             param_type=Array(element_type=Struct(name='TTSChunk', description=['A TTS chunk'])))
         params['isMediaApplication'] = Param(
-            name='isMediaApplication', param_type=Boolean(),
+            name='MediaApplication', param_type=Boolean(),
             description=['\n                Indicates if the application is a media or a '], is_mandatory=True)
 
         item = Function(name='RegisterAppInterface', function_id=EnumElement(name='RegisterAppInterfaceID'),
