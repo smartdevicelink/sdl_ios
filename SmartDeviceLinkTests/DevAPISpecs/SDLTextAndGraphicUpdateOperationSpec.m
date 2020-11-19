@@ -832,6 +832,7 @@ describe(@"the text and graphic operation", ^{
                     expect(firstSentRequest.mainField2).to(beEmpty());
                     expect(firstSentRequest.graphic).toNot(beNil());
                     expect(firstSentRequest.secondaryGraphic).to(beNil());
+                    OCMReject([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
 
                 it(@"should properly override artwork", ^{
