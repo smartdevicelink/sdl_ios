@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLAudioData : NSObject
+@interface SDLAudioData : NSObject <NSCopying>
 
 /// The text-to-speech prompts that will used.
 @property (nullable, copy, nonatomic, readonly) NSArray<SDLTTSChunk *> *prompts;

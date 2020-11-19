@@ -35,7 +35,7 @@ typedef void (^SDLAlertCanceledHandler)(void);
 @property (assign, nonatomic) NSTimeInterval timeout;
 
 /// Text spoken and/or tone played when the alert appears
-@property (nullable, copy, nonatomic) NSArray<SDLAlertAudioData *> *audio;
+@property (nullable, copy, nonatomic) SDLAlertAudioData *audio;
 
 /// If supported, the alert GUI will display some sort of indefinite waiting / refresh / loading indicator animation. Defaults to NO.
 @property (assign, nonatomic) BOOL showWaitIndicator;
@@ -60,7 +60,7 @@ typedef void (^SDLAlertCanceledHandler)(void);
 /// @param audio Text spoken and/or tone played when the alert appears
 /// @param softButtons Soft buttons the user may select to perform actions
 /// @param icon An artwork that will be displayed when the icon appears
-- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout showWaitIndicator:(BOOL)showWaitIndicator audioIndication:(nullable NSArray<SDLAlertAudioData *> *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon;
+- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout showWaitIndicator:(BOOL)showWaitIndicator audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon;
 
 /// Cancels the alert. If the alert has not yet been sent to Core, it will not be sent. If the alert is already presented on Core, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to modules support RPC Spec v.6.0+. On older versions of Core, the alert will not be dismissed.
 - (void)cancel;

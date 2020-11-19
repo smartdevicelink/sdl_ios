@@ -104,20 +104,14 @@ NS_ASSUME_NONNULL_BEGIN
         return handler();
     }
 
-    NSMutableArray<SDLFile *> *filesToBeUploaded = [NSMutableArray array];
-    for (SDLAlertAudioData *audioData in self.alertView.audio) {
-        if (audioData.audioFiles ==  nil) { continue; }
-        [filesToBeUploaded addObjectsFromArray:audioData.audioFiles];
-    }
-
-    if (filesToBeUploaded.count == 0) {
+    if (self.alertView.audio.audioFiles.count == 0) {
         SDLLogV(@"No audio files to upload for alert");
         return handler();
     }
 
     SDLLogD(@"Uploading audio files for alert");
     __weak typeof(self) weakself = self;
-    [self.fileManager uploadFiles:filesToBeUploaded progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
+    [self.fileManager uploadFiles:self.alertView.audio.audioFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
         __strong typeof(weakself) strongself = weakself;
         SDLLogV(@"Uploaded alert audio file: %@, error: %@, percent complete: %f.2%%", fileName, error, uploadPercentage * 100);
         if (strongself.isCancelled) {
@@ -220,22 +214,18 @@ NS_ASSUME_NONNULL_BEGIN
     }
     alert.softButtons = softButtons;
 
+    SDLAlertAudioData *alertAudio = self.alertView.audio;
+    alert.playTone = @(alertAudio.playTone);
+
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
-    BOOL playTone = NO;
-    for (SDLAlertAudioData *audioData in self.alertView.audio) {
-        if (audioData.playTone == YES) {
-            playTone = YES;
-        }
-        if ([self sdl_supportsAlertAudioFile] && audioData.audioFiles != nil) {
-            for (NSUInteger i = 0; i < audioData.audioFiles.count; i += 1) {
-                [ttsChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioData.audioFiles[i].name]];
-            }
-        }
-        if (audioData.prompts != nil) {
-            [ttsChunks addObjectsFromArray:audioData.prompts];
+    if ([self sdl_supportsAlertAudioFile] && alertAudio.audioFiles.count > 0) {
+        for (NSUInteger i = 0; i < alertAudio.audioFiles.count; i += 1) {
+            [ttsChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:alertAudio.audioFiles[i].name]];
         }
     }
-    alert.playTone = @(playTone);
+    if (alertAudio.prompts.count > 0) {
+        [ttsChunks addObjectsFromArray:self.alertView.audio.prompts];
+    }
     alert.ttsChunks = (ttsChunks.count > 0) ? ttsChunks : nil;
 
     return alert;

@@ -48,7 +48,7 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
     return self;
 }
 
-- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout showWaitIndicator:(BOOL)showWaitIndicator audioIndication:(nullable NSArray<SDLAlertAudioData *> *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon {
+- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout showWaitIndicator:(BOOL)showWaitIndicator audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon {
     self = [self init];
     if (!self) { return nil; }
 
@@ -120,12 +120,7 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
 
 - (NSString *)sdl_alertType {
     BOOL alertHasText = (_text || _secondaryText || _tertiaryText);
-    BOOL alertHasSound = NO;
-    for (SDLAlertAudioData *audioData in _audio) {
-        if (!(audioData.prompts.count > 0 || audioData.audioFiles != nil || audioData.playTone == YES)) { continue; }
-        alertHasSound = YES;
-        break;
-    }
+    BOOL alertHasSound = (_audio.prompts.count > 0 || _audio.audioFiles.count > 0);
 
     NSString *alertType;
     if (alertHasText && alertHasSound) {

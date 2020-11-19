@@ -12,40 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAlertAudioData
 
-- (instancetype)initWithAudioFile:(SDLFile *)audioFile playSystemTone:(BOOL)tone {
-    self = [super initWithAudioFile:audioFile];
-    if (!self) { return nil; }
+#pragma mark - NSCopying
 
-    _playTone = tone;
-
-    return self;
-}
-
-- (instancetype)initWithSpeechSynthesizerString:(NSString *)spokenString playSystemTone:(BOOL)tone {
-    self = [super initWithSpeechSynthesizerString:spokenString];
-    if (!self) { return nil; }
-
-    _playTone = tone;
-
-    return self;
-}
-
-- (instancetype)initWithPhoneticSpeechSynthesizerString:(NSString *)phoneticString phoneticType:(SDLSpeechCapabilities)phoneticType playSystemTone:(BOOL)tone {
-    self = [super initWithPhoneticSpeechSynthesizerString:phoneticString phoneticType:phoneticType];
-    if (!self) { return nil; }
-
-    _playTone = tone;
-
-    return self;
-}
-
-- (instancetype)initWithTone {
-    self = [self init];
-    if (!self) { return nil; }
-
-    _playTone = YES;
-    
-    return self;
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLAlertAudioData *new = [super copyWithZone:zone];
+    new->_playTone = _playTone;
+    return new;
 }
 
 @end

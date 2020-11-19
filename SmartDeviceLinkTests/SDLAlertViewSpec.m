@@ -29,7 +29,7 @@ describe(@"An SDLAlertView", ^{
     __block NSString *testTextField2 = nil;
     __block NSString *testTextField3 = nil;
     __block NSTimeInterval testTimeout = 0;
-    __block NSArray<SDLAlertAudioData *> *testAudio = nil;
+    __block SDLAlertAudioData *testAudio = nil;
     __block BOOL testShowWaitIndicator = NO;
     __block NSArray<SDLSoftButtonObject *> *testSoftButtons = nil;
     __block SDLArtwork *testIcon = nil;
@@ -38,7 +38,7 @@ describe(@"An SDLAlertView", ^{
         testTextField1 = @"testTextField1";
         testTextField2 = @"testTextField2";
         testTextField3 = @"testTextField3";
-        testAudio = @[[[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test speech synthesizer string"]];
+        testAudio = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test speech synthesizer string"];
         testSoftButtons = @[[[SDLSoftButtonObject alloc] initWithName:@"test soft button" text:@"test soft button text" artwork:nil handler:nil]];
 
         NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
@@ -61,7 +61,9 @@ describe(@"An SDLAlertView", ^{
         expect(testAlertView.secondaryText).to(equal(testTextField2));
         expect(testAlertView.tertiaryText).to(equal(testTextField3));
         expect(testAlertView.timeout).to(equal(5.0));
-        expect(testAlertView.audio).to(equal(testAudio));
+        expect(testAlertView.audio).toNot(beNil());
+        expect(testAlertView.audio.audioFiles).to(beNil());
+        expect(testAlertView.audio.prompts).to(equal(testAudio.prompts));
         expect(testAlertView.showWaitIndicator).to(beFalse());
         expect(testAlertView.softButtons).to(equal(testSoftButtons));
         expect(testAlertView.icon).to(equal(testIcon));
