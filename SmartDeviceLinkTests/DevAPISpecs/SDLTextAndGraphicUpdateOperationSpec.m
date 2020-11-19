@@ -53,7 +53,6 @@ NSString *testArtworkName = @"some artwork name";
 SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
 NSString *testArtworkName2 = @"some other artwork name";
 SDLArtwork *testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName2 fileExtension:@"png" persistent:NO];
-SDLArtwork *testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
 SDLArtwork *testStaticIcon = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
 
 SDLTemplateConfiguration *newConfiguration = [[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutTilesOnly];
@@ -100,7 +99,6 @@ describe(@"the text and graphic operation", ^{
         emptyCurrentData = [[SDLTextAndGraphicState alloc] init];
         receivedState = nil;
         receivedError = nil;
-        testArtwork3.overwrite = YES;
 
         // Default to the max version
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:SDLMaxProxyRPCVersion];
@@ -822,12 +820,12 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
-
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
-                    [testOp start];
                 });
 
                 it(@"should send a show and not upload any artworks", ^{
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+                    [testOp start];
+
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
                     SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
                     expect(firstSentRequest.mainField1).to(equal(field1String));
@@ -837,6 +835,9 @@ describe(@"the text and graphic operation", ^{
                 });
 
                 it(@"should properly override artwork", ^{
+                    SDLArtwork *testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
+                    testArtwork3.overwrite = YES;
+
                     SDLTextAndGraphicState *updatedState2 = [[SDLTextAndGraphicState alloc] init];
                     updatedState2.textField1 = field1String;
                     updatedState2.primaryGraphic = testArtwork3;
@@ -845,7 +846,9 @@ describe(@"the text and graphic operation", ^{
                     SDLTextAndGraphicUpdateOperation *testOp2 = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:updatedState newState:updatedState2 currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
                     [testOp2 start];
 
-                    OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+
+                    OCMVerify([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
             });
 
