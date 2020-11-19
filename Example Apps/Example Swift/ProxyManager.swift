@@ -171,12 +171,14 @@ extension ProxyManager: SDLManagerDelegate {
 
             // Subscribe to vehicle data.
             vehicleDataManager.subscribeToVehicleOdometer()
+
+            //Handle initial launch
+            showInitialData()
         }
 
         switch newLevel {
         case .full:
             // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
-            showInitialData()
             subscribeButtonManager.subscribeToPresetButtons()
         case .limited: break // An active NAV or MEDIA SDL app is in the background
         case .background: break // The SDL app is not in the foreground
