@@ -106,8 +106,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLFile *> *filesToBeUploaded = [NSMutableArray array];
     for (SDLAlertAudioData *audioData in self.alertView.audio) {
-        if (audioData.audioFile ==  nil) { continue; }
-        [filesToBeUploaded addObject:audioData.audioFile];
+        if (audioData.audioFiles ==  nil) { continue; }
+        [filesToBeUploaded addObjectsFromArray:audioData.audioFiles];
     }
 
     if (filesToBeUploaded.count == 0) {
@@ -226,11 +226,13 @@ NS_ASSUME_NONNULL_BEGIN
         if (audioData.playTone == YES) {
             playTone = YES;
         }
-        if ([self sdl_supportsAlertAudioFile] && audioData.audioFile != nil) {
-            [ttsChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioData.audioFile.name]];
+        if ([self sdl_supportsAlertAudioFile] && audioData.audioFiles != nil) {
+            for (NSUInteger i = 0; i < audioData.audioFiles.count; i += 1) {
+                [ttsChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioData.audioFiles[i].name]];
+            }
         }
-        if (audioData.prompt != nil) {
-            [ttsChunks addObjectsFromArray:audioData.prompt];
+        if (audioData.prompts != nil) {
+            [ttsChunks addObjectsFromArray:audioData.prompts];
         }
     }
     alert.playTone = @(playTone);
