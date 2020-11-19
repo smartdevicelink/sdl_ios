@@ -44,6 +44,7 @@ describe(@"a soft button replace operation", ^{
     __block NSString *object2State2ArtworkName = @"O2S2 Artwork";
     __block SDLArtwork *object2State1Art = nil;
     __block SDLArtwork *object2State2Art = nil;
+    __block SDLArtwork *object2State11Art = nil;
     __block SDLSoftButtonState *object2State1 = nil;
     __block SDLSoftButtonState *object2State2 = nil;
     __block SDLSoftButtonObject *buttonWithTextAndImage = nil;
@@ -97,6 +98,8 @@ describe(@"a soft button replace operation", ^{
 
         object2State1Art = [[SDLArtwork alloc] initWithData:[@"TestData" dataUsingEncoding:NSUTF8StringEncoding] name:object2State1ArtworkName fileExtension:@"png" persistent:YES];
         object2State2Art = [[SDLArtwork alloc] initWithData:[@"TestData2" dataUsingEncoding:NSUTF8StringEncoding] name:object2State2ArtworkName fileExtension:@"png" persistent:YES];
+        object2State11Art = [[SDLArtwork alloc] initWithData:[@"TestData11" dataUsingEncoding:NSUTF8StringEncoding] name:object2State1ArtworkName fileExtension:@"png" persistent:YES];
+        object2State11Art.overwrite = YES;
         object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State1Art];
         object2State2 = [[SDLSoftButtonState alloc] initWithStateName:object2State2Name text:object2State2Text artwork:object2State2Art];
         buttonWithTextAndImage = [[SDLSoftButtonObject alloc] initWithName:object2Name states:@[object2State1, object2State2] initialStateName:object2State1.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
@@ -294,6 +297,19 @@ describe(@"a soft button replace operation", ^{
                         expect(sentRequests.firstObject.softButtons.lastObject.text).to(equal(object2State1Text));
                         expect(sentRequests.firstObject.softButtons.lastObject.image).toNot(beNil());
                         expect(sentRequests.firstObject.softButtons.lastObject.type).to(equal(SDLSoftButtonTypeBoth));
+                    });
+
+                    it(@"should properly override artwork", ^{
+                        OCMExpect([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+
+                        object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State11Art];
+                        buttonWithTextAndImage = [[SDLSoftButtonObject alloc] initWithName:object2Name states:@[object2State1, object2State2] initialStateName:object2State1.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
+                        testSoftButtonObjects = @[buttonWithText, buttonWithTextAndImage];
+                        testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+
+                        [testOp start];
+
+                        OCMVerify([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
                     });
 
                     context(@"When a response is received to the upload", ^{
