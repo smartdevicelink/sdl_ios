@@ -530,7 +530,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (artwork != nil) {
         return artwork.isStaticIcon || (self.fileManager != nil && [self.fileManager hasUploadedFile:artwork]);
     }
-    return NO;
+    return YES;
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
