@@ -268,7 +268,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (maxNumberOfLines == 1) {
         alert = [self sdl_assembleOneLineAlertText:alert withShowFields:nonNilFields];
     } else if (maxNumberOfLines == 2) {
-         alert = [self sdl_assembleThreeLineShowText:alert withShowFields:nonNilFields];
+         alert = [self sdl_assembleTwoLineShowText:alert withShowFields:nonNilFields];
     } else if (maxNumberOfLines == 3) {
          alert = [self sdl_assembleThreeLineShowText:alert withShowFields:nonNilFields];
     }
