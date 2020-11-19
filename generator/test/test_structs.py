@@ -46,13 +46,15 @@ class TestStructsProducer(TestCase):
         expected['extends_class'] = 'SDLRPCStruct'
         expected['imports'] = {
             '.h': {
-                'enum': [
-                    'SDLRPCStruct'],
-                'struct': []},
+                'enum': ['SDLRPCStruct'],
+                'struct': []
+                },
             '.m': [
                 'NSMutableDictionary+Store',
                 'SDLCloudAppProperties',
-                'SDLRPCParameterNames']}
+                'SDLRPCParameterNames'
+                ]
+        }
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -98,13 +100,15 @@ class TestStructsProducer(TestCase):
         expected['extends_class'] = 'SDLRPCStruct'
         expected['imports'] = {
             '.h': {
-                'enum': [
-                    'SDLRPCStruct'],
-                'struct': []},
+                'enum': ['SDLRPCStruct'],
+                'struct': []
+                },
             '.m': [
                 'NSMutableDictionary+Store',
                 'SDLRPCParameterNames',
-                'SDLTouchEvent']}
+                'SDLTouchEvent'
+                ]
+        }
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(

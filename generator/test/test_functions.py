@@ -131,12 +131,13 @@ class TestFunctionsProducer(TestCase):
         expected['extends_class'] = 'SDLRPCRequest'
         expected['imports'] = {
             '.h': {
-                'enum': [
-                    'SDLRPCRequest'],
+                'enum': ['SDLRPCRequest'],
                 'struct': [
                     'SDLSdlMsgVersion',
                     'SDLTTSChunk',
-                    'SDLTemplateColorScheme']},
+                    'SDLTemplateColorScheme'
+                    ]
+                },
             '.m': [
                 'NSMutableDictionary+Store',
                 'SDLRPCFunctionNames',
@@ -144,7 +145,9 @@ class TestFunctionsProducer(TestCase):
                 'SDLRegisterAppInterface',
                 'SDLSdlMsgVersion',
                 'SDLTTSChunk',
-                'SDLTemplateColorScheme']}
+                'SDLTemplateColorScheme'
+                ]
+        }
         expected['history'] = None
         expected['description'] = ['Establishes an interface with a mobile application. Before registerAppInterface no '
                                    'other commands will be accepted/executed.']
@@ -241,14 +244,17 @@ class TestFunctionsProducer(TestCase):
             '.h': {
                 'enum': [
                     'SDLLanguage',
-                    'SDLRPCResponse'],
+                    'SDLRPCResponse'
+                    ],
                 'struct': []},
             '.m': [
                 'NSMutableDictionary+Store',
                 'SDLLanguage',
                 'SDLRPCFunctionNames',
                 'SDLRPCParameterNames',
-                'SDLRegisterAppInterface']}
+                'SDLRegisterAppInterface'
+                ]
+        }
         expected['history'] = None
         expected['description'] = ['The response']
         expected['params'] = (
@@ -314,7 +320,9 @@ class TestFunctionsProducer(TestCase):
                 'NSMutableDictionary+Store',
                 'SDLOnHMIStatus',
                 'SDLRPCFunctionNames',
-                'SDLRPCParameterNames']}
+                'SDLRPCParameterNames'
+                ]
+        }
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -361,7 +369,9 @@ class TestFunctionsProducer(TestCase):
                 'NSMutableDictionary+Store',
                 'SDLCreateWindow',
                 'SDLRPCFunctionNames',
-                'SDLRPCParameterNames']}
+                'SDLRPCParameterNames'
+                ]
+        }
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -458,7 +468,9 @@ class TestFunctionsProducer(TestCase):
                 'SDLChoice',
                 'SDLCreateInteractionChoiceSet',
                 'SDLRPCFunctionNames',
-                'SDLRPCParameterNames']}
+                'SDLRPCParameterNames'
+                ]
+        }
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
@@ -505,7 +517,9 @@ class TestFunctionsProducer(TestCase):
                 'NSMutableDictionary+Store',
                 'SDLRPCFunctionNames',
                 'SDLRPCParameterNames',
-                'SDLSetDisplayLayout']}
+                'SDLSetDisplayLayout'
+                ]
+        }
         expected['history'] = '3.0.0'
         expected['since'] = '6.0.0'
         expected['deprecated'] = True

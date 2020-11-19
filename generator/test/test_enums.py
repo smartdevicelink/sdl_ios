@@ -44,10 +44,8 @@ class TestEnumsProducer(TestCase):
         expected['origin'] = 'FunctionID'
         expected['name'] = 'SDLFunctionID'
         expected['imports'] = {
-            '.h': {
-                'SDLEnum'},
-            '.m': [
-                'SDLEnum']}
+            '.h': {'SDLEnum'},
+            '.m': ['SDLEnum']}
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(history=None, description=[], name='Reserved', origin='RESERVED', since=None, deprecated=False),

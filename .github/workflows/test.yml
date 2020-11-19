@@ -80,7 +80,7 @@ jobs:
                 yml: ./codecov.yml
 
     rpcTest:
-        name: RPCSpecGeneratorTests
+        name: RPC Generator Tests
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
