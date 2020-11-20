@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentWindowCapability:(SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentWindowCapability:(nullable SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
 
     self = [super init];
     if (!self) { return self; }
@@ -232,7 +232,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon && artwork.overwrite == YES);
 }
 
 - (BOOL)sdl_supportsSoftButtonImages {
@@ -245,7 +245,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_supportsAlertIcon {
-    return  [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+    return [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameAlertIcon];
 }
 
 #pragma mark - Text Helpers
@@ -254,7 +254,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return alert; }
 
-    NSUInteger maxNumberOfLines = self.currentCapabilities.maxNumberOfAlertMainFieldLines;
+    NSUInteger maxNumberOfLines = (self.currentCapabilities != nil) ? self.currentCapabilities.maxNumberOfAlertMainFieldLines : MaxAlertTextFieldLineCount;
     if (maxNumberOfLines == 1) {
         alert = [self sdl_assembleOneLineAlertText:alert withShowFields:nonNilFields];
     } else if (maxNumberOfLines == 2) {
@@ -287,10 +287,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLAlert *)sdl_assembleTwoLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
     if (fields.count <= 2) {
-        alert.alertText1 = [fields objectAtIndex:0];
-        alert.alertText2 = [fields objectAtIndex:1];
+        alert.alertText1 = fields.count > 0 ? [fields objectAtIndex:0] : nil;
+        alert.alertText2 = fields.count > 1 ? [fields objectAtIndex:1] : nil;
     } else {
-        alert.alertText1 = [fields objectAtIndex:0];
+        alert.alertText1 = fields.count > 0 ? [fields objectAtIndex:0] : nil;
         alert.alertText2 = [NSString stringWithFormat:@"%@ - %@", [fields objectAtIndex:1], [fields objectAtIndex:2]];
     }
 
@@ -298,9 +298,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAlert *)sdl_assembleThreeLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
-    alert.alertText1 = [fields objectAtIndex:0];
-    alert.alertText2 = [fields objectAtIndex:1];
-    alert.alertText3 = [fields objectAtIndex:2];
+    alert.alertText1 = fields.count > 0 ? [fields objectAtIndex:0] : nil;
+    alert.alertText2 = fields.count > 1 ? [fields objectAtIndex:1] : nil;
+    alert.alertText3 = fields.count > 2 ? [fields objectAtIndex:2] : nil;
     return alert;
 }
 

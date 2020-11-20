@@ -35,7 +35,7 @@
             NSInteger fieldNumber = [[textField.name substringFromIndex:(textField.name.length - 1)] integerValue];
             highestFound = (highestFound < fieldNumber) ? fieldNumber : highestFound;
 
-            if (highestFound == 4) { break; }
+            if (highestFound == MaxMainFieldLineCount) { break; }
         }
     }
 
@@ -52,7 +52,7 @@
             NSInteger fieldNumber = [[textField.name substringFromIndex:(textField.name.length - 1)] integerValue];
             highestFound = (highestFound < fieldNumber) ? fieldNumber : highestFound;
 
-            if (highestFound == 3) { break; }
+            if (highestFound == MaxAlertTextFieldLineCount) { break; }
         }
     }
 
