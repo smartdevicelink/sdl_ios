@@ -45,7 +45,8 @@ class TestEnumsProducer(TestCase):
         expected['name'] = 'SDLFunctionID'
         expected['imports'] = {
             '.h': {'SDLEnum'},
-            '.m': ['SDLEnum']}
+            '.m': ['SDLEnum']
+        }
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(history=None, description=[], name='Reserved', origin='RESERVED', since=None, deprecated=False),
@@ -73,10 +74,9 @@ class TestEnumsProducer(TestCase):
         expected['origin'] = 'TextFieldName'
         expected['name'] = 'SDLTextFieldName'
         expected['imports'] = {
-            '.h': {
-                'SDLEnum'},
-            '.m': [
-                'SDLEnum']}
+            '.h': {'SDLEnum'},
+            '.m': ['SDLEnum']
+        }
         expected['history'] = None
         expected['params'] = (
             self.producer.param_named(history=None, description=[], name='Success', origin='SUCCESS', since=None,

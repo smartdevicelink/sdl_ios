@@ -92,8 +92,6 @@ jobs:
             - name: Current Directory
               run: ls
             - name: Install dependencies
-              run: |
-                python3 -m pip install -r generator/requirements.txt
+              run: python3 -m pip install -r generator/requirements.txt
             - name: Run RPC generator tests
-              run: |
-                python3 generator/test/runner.py
+              run: python3 generator/test/runner.py
