@@ -11,12 +11,16 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLAlert.h"
+#import "SDLAlertResponse.h"
 #import "SDLAlertView.h"
 #import "SDLAlertAudioData.h"
 #import "SDLFileManager.h"
+#import "SDLImage.h"
 #import "SDLPresentAlertOperation.h"
 #import "SDLWindowCapability.h"
+#import "SDLSoftButton.h"
 #import "SDLSoftButtonObject.h"
+#import "SDLSoftButtonState.h"
 #import "SDLTTSChunk.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
@@ -92,32 +96,40 @@ describe(@"SDLPresentAlertOperation", ^{
             };
 
             [testPresentAlertOperation start];
+
+            [NSThread sleepForTimeInterval:1.0];
         });
 
         it(@"should send the alert", ^{
             expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLAlert class]));
             SDLAlert *alertRequest = testConnectionManager.receivedRequests.lastObject;
-            expect(alertRequest.alertText1).toEventually(equal(testAlertView.text));
+            expect(alertRequest.alertText1).to(equal(testAlertView.text));
             expect(alertRequest.alertText2).to(equal(testAlertView.secondaryText));
             expect(alertRequest.alertText3).to(equal(testAlertView.tertiaryText));
-
             expect(alertRequest.ttsChunks.count).to(equal(1));
             expect(alertRequest.ttsChunks[0].text).to(equal(testAlertView.audio.prompts.firstObject.text));
             expect(alertRequest.duration).to(equal(testAlertView.timeout * 1000));
             expect(alertRequest.playTone).to(equal(testAlertView.audio.playTone));
+            expect(alertRequest.progressIndicator).to(equal(testAlertView.showWaitIndicator));
+            expect(alertRequest.softButtons.count).to(equal(testAlertView.softButtons.count));
+            expect(alertRequest.softButtons[0].text).to(equal(testAlertView.softButtons[0].currentState.text));
+            expect(alertRequest.softButtons[1].text).to(equal(testAlertView.softButtons[1].currentState.text));
+            expect(alertRequest.cancelID).to(equal(testCancelID));
+            expect(alertRequest.alertIcon.value).to(equal(testAlertView.icon.name));
+        });
 
+        describe(@"after an alert response", ^{
+            beforeEach(^{
+                SDLAlertResponse *response = [[SDLAlertResponse alloc] init];
+                response.tryAgainTime = @5;
+                response.success = @YES;
+                [testConnectionManager respondToLastRequestWithResponse:response];
+            });
 
-//            SDLPerformInteraction *request = testConnectionManager.receivedRequests.lastObject;
-//            expect(request.initialText).to(equal(testChoiceSet.title));
-//            expect(request.initialPrompt).to(equal(testChoiceSet.initialPrompt));
-//            expect(request.interactionMode).to(equal(testInteractionMode));
-//            expect(request.interactionLayout).to(equal(SDLLayoutModeIconOnly));
-//            expect(request.timeoutPrompt).to(equal(testChoiceSet.timeoutPrompt));
-//            expect(request.helpPrompt).to(equal(testChoiceSet.helpPrompt));
-//            expect(request.timeout).to(equal(testChoiceSet.timeout * 1000));
-//            expect(request.vrHelp).to(beNil());
-//            expect(request.interactionChoiceSetIDList).to(equal(@[@65535]));
-//            expect(request.cancelID).to(equal(testCancelID));
+            it(@"should not reset the keyboard properties and should be finished", ^{
+                expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+            });
         });
     });
 });
