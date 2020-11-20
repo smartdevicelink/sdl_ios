@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation AlertManager
 
 + (void)sendAlertWithManager:(SDLManager *)sdlManager image:(nullable NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
-    SDLSoftButton *okSoftButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:AlertOKButtonText image:nil highlighted:YES buttonId:1 systemAction:nil handler:nil];
+    SDLSoftButton *okSoftButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:AlertOKButtonText image:nil highlighted:YES buttonId:2 systemAction:nil handler:nil];
     SDLAlert *alert = [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[okSoftButton] playTone:YES ttsChunks:nil duration:5000 progressIndicator:NO alertIcon:nil cancelID:0];
 
     if (imageName == nil) {

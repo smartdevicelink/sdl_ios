@@ -17,7 +17,7 @@ class AlertManager {
     ///   - textField2: The second line of text in the alert
     ///   - sdlManager: The SDLManager
     class func sendAlert(imageName: String? = nil, textField1: String, textField2: String? = nil, sdlManager: SDLManager) {
-        let okSoftButton = SDLSoftButton(type: .text, text: AlertOKButtonText, image: nil, highlighted: true, buttonId: 1, systemAction: nil, handler: nil)
+        let okSoftButton = SDLSoftButton(type: .text, text: AlertOKButtonText, image: nil, highlighted: true, buttonId: 2, systemAction: nil, handler: nil)
         let alert = SDLAlert(alertText1: textField1, alertText2: textField2, alertText3: nil, softButtons: [okSoftButton], playTone: true, ttsChunks: nil, duration: 5000, progressIndicator: false, alertIcon: nil, cancelID: 0)
 
         if let imageName = imageName {
