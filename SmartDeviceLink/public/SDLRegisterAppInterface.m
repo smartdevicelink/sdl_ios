@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    SDLMsgVersion *msgVersion = [[SDLMsgVersion alloc] initWithMajorVersionParam:majorVersion minorVersion:minorVersion patchVersion:patchVersion];
+    SDLMsgVersion *msgVersion = [[SDLMsgVersion alloc] initWithMajorVersionParam:majorVersion minorVersion:minorVersion patchVersion:@(patchVersion)];
 #pragma clang diagnostic pop
 
     return [self initWithSdlMsgVersion:msgVersion appName:lifecycleConfiguration.appName isMediaApplication:lifecycleConfiguration.isMedia languageDesired:lifecycleConfiguration.language hmiDisplayLanguageDesired:lifecycleConfiguration.language appID:lifecycleConfiguration.appId ttsName:lifecycleConfiguration.ttsName ngnMediaScreenAppName:lifecycleConfiguration.shortAppName vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames appHMIType:allHMITypes hashID:lifecycleConfiguration.resumeHash deviceInfo:[SDLDeviceInfo currentDevice] fullAppID:lifecycleConfiguration.fullAppId appInfo:[SDLAppInfo currentAppInfo] dayColorScheme:lifecycleConfiguration.dayColorScheme nightColorScheme:lifecycleConfiguration.nightColorScheme];
