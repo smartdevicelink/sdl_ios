@@ -97,11 +97,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<NSString *> *limitedCharacterList;
 
 /**
- Allows an app to prepopulate the text field with a suggested or completed entry as the user types
-
- Optional
+ * Deprecated, use autoCompleteList instead.
+ * {"string_min_length": 1, "string_max_length": 1000}
+ *
+ * @deprecated in SmartDeviceLink 6.0.0
+ * @added in SmartDeviceLink 3.0.0
  */
-@property (nullable, strong, nonatomic) NSString *autoCompleteText;
+@property (nullable, strong, nonatomic) NSString *autoCompleteText __deprecated_msg("Use autoCompleteList instead");
 
 /**
  Allows an app to show a list of possible autocomplete suggestions as the user types

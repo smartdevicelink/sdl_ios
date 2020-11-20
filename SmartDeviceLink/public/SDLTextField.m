@@ -24,6 +24,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithName:(SDLTextFieldName)name characterSet:(SDLCharacterSet)characterSet width:(NSUInteger)width rows:(NSUInteger)rows {
+    self = [self init];
+    if (!self) { return nil; }
+
+    self.nameParam = name;
+    self.characterSet = characterSet;
+    self.width = @(width);
+    self.rows = @(rows);
+
+    return self;
+}
+
 - (void)setNameParam:(SDLTextFieldName)nameParam {
     [self.store sdl_setObject:nameParam forName:SDLRPCParameterNameName];
 }
@@ -67,18 +79,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSNumber<SDLInt> *)rows {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameRows ofClass:NSNumber.class error:&error];
-}
-
-- (instancetype)initWithName:(SDLTextFieldName)name characterSet:(SDLCharacterSet)characterSet width:(NSUInteger)width rows:(NSUInteger)rows {
-    self = [self init];
-    if (!self) { return nil; }
-
-    self.name = name;
-    self.characterSet = characterSet;
-    self.width = @(width);
-    self.rows = @(rows);
-
-    return self;
 }
 
 @end

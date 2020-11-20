@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTouchEvent:(SDLTouchEvent *)touchEvent {
     self = [self init];
     if (self) {
-        _identifier = touchEvent.touchEventId.integerValue;
+        _identifier = touchEvent.idParam.integerValue;
         NSArray<NSNumber<SDLInt> *> *timestamp = touchEvent.timeStamp;
         // In the event we receive a null timestamp, we will supply a device timestamp.
         if ((timestamp == nil) || (timestamp.count == 0)) {

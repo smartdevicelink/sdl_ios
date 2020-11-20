@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.serviceType = serviceType;
-    self.serviceId = serviceId;
+    self.serviceID = serviceId;
 
     return self;
 }

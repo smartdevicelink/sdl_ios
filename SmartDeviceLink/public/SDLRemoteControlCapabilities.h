@@ -116,14 +116,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of SDLHMISettingsControlCapabilities, Array length 1 - 100
  */
-@property (nullable, strong, nonatomic) NSArray<SDLHMISettingsControlCapabilities *> *hmiSettingsControlCapabilities __deprecated_msg("Use hmiSettingsControlCapabilities instead");
+@property (nullable, strong, nonatomic) NSArray<SDLHMISettingsControlCapabilities *> *hmiSettingsControlCapabilities __deprecated_msg("Use hmiSettingsControlCapabilitiesParam instead");
 
 /**
  * If included, the platform supports light controls.
  *
  * Optional, Array of SDLLightControlCapabilities, Array length 1 - 100
  */
-@property (nullable, strong, nonatomic) NSArray<SDLLightControlCapabilities *> *lightControlCapabilities __deprecated_msg("Use hmiSettingsControlCapabilities instead");
+@property (nullable, strong, nonatomic) NSArray<SDLLightControlCapabilities *> *lightControlCapabilities __deprecated_msg("Use lightControlCapabilitiesParam instead");
 
 /**
  * If included, the platform supports hmi setting controls.

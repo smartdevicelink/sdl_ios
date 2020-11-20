@@ -26,8 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
     self.radioControlCapabilities = radioControlCapabilities;
     self.buttonCapabilities = buttonCapabilities;
     self.audioControlCapabilities = audioControlCapabilities;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     self.hmiSettingsControlCapabilitiesParam = hmiSettingsControlCapabilities;
     self.lightControlCapabilitiesParam = lightControlCapabilities;
+#pragma clang diagnostic pop
     self.seatControlCapabilities = seatControlCapabilities;
     return self;
 }

@@ -24,17 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.language = language;
-    self.keyboardLayout = layout;
-    self.keypressMode = keypressMode;
-    self.limitedCharacterList = [limitedCharacterList mutableCopy];
+    self = [[self init] initWithLanguage:language keyboardLayout:layout keypressMode:keypressMode limitedCharacterList:limitedCharacterList autoCompleteList:autoCompleteList];
+    if (!self) { return nil; }
     self.autoCompleteText = autoCompleteText;
-    self.autoCompleteList = autoCompleteList;
 
     return self;
 }

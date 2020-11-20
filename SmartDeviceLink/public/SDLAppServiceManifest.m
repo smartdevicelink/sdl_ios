@@ -58,15 +58,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithMediaServiceName:(nullable NSString *)serviceName serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers maxRPCSpecVersion:(nullable SDLMsgVersion *)maxRPCSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest {
-     return [self initWithServiceName:serviceName serviceType:SDLAppServiceTypeMedia serviceIcon:serviceIcon  allowAppConsumers:allowAppConsumers maxRPCSpecVersion:maxRPCSpecVersion handledRPCs:handledRPCs mediaServiceManifest:mediaServiceManifest weatherServiceManifest:nil navigationServiceManifest:nil];
+    return [self initWithServiceType:SDLAppServiceTypeMedia serviceName:serviceName serviceIcon:serviceIcon allowAppConsumers:@(allowAppConsumers) rpcSpecVersion:maxRPCSpecVersion handledRPCs:handledRPCs mediaServiceManifest:mediaServiceManifest weatherServiceManifest:nil navigationServiceManifest:nil];
 }
 
 - (instancetype)initWithWeatherServiceName:(nullable NSString *)serviceName serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers maxRPCSpecVersion:(nullable SDLMsgVersion *)maxRPCSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
-    return [self initWithServiceName:serviceName serviceType:SDLAppServiceTypeWeather serviceIcon:serviceIcon allowAppConsumers:allowAppConsumers maxRPCSpecVersion:maxRPCSpecVersion handledRPCs:handledRPCs mediaServiceManifest:nil weatherServiceManifest:weatherServiceManifest navigationServiceManifest:nil];
+    return [self initWithServiceType:SDLAppServiceTypeMedia serviceName:serviceName serviceIcon:serviceIcon allowAppConsumers:@(allowAppConsumers) rpcSpecVersion:maxRPCSpecVersion handledRPCs:handledRPCs mediaServiceManifest:nil weatherServiceManifest:weatherServiceManifest navigationServiceManifest:nil];
 }
 
 - (instancetype)initWithNavigationServiceName:(nullable NSString *)serviceName serviceIcon:(nullable SDLImage *)serviceIcon  allowAppConsumers:(BOOL)allowAppConsumers maxRPCSpecVersion:(nullable SDLMsgVersion *)maxRPCSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest {
-    return [self initWithServiceName:serviceName serviceType:SDLAppServiceTypeNavigation serviceIcon:serviceIcon allowAppConsumers:allowAppConsumers maxRPCSpecVersion:maxRPCSpecVersion handledRPCs:handledRPCs mediaServiceManifest:nil weatherServiceManifest:nil navigationServiceManifest:navigationServiceManifest];
+    return [self initWithServiceType:SDLAppServiceTypeMedia serviceName:serviceName serviceIcon:serviceIcon allowAppConsumers:@(allowAppConsumers) rpcSpecVersion:maxRPCSpecVersion handledRPCs:handledRPCs mediaServiceManifest:nil weatherServiceManifest:nil navigationServiceManifest:navigationServiceManifest];
 }
 
 - (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(SDLAppServiceType)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers maxRPCSpecVersion:(nullable SDLMsgVersion *)maxRPCSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest {
