@@ -165,10 +165,6 @@ extension ProxyManager: SDLManagerDelegate {
             // This is our first time in a non-NONE state
             firstHMILevelState = newLevel
 
-            // Send static menu items and soft buttons
-            createMenuAndGlobalVoiceCommands()
-            sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons()
-
             // Subscribe to vehicle data.
             vehicleDataManager.subscribeToVehicleOdometer()
 
@@ -252,6 +248,10 @@ private extension ProxyManager {
 
     /// Set the template and create the UI
     func showInitialData() {
+        // Send static menu items and soft buttons
+        createMenuAndGlobalVoiceCommands()
+        sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons()
+
         guard sdlManager.hmiLevel == .full else { return }
 
         sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia), withCompletionHandler: nil)
