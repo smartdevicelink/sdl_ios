@@ -148,7 +148,7 @@ describe(@"a preload choices operation", ^{
                         expect(@(testOp.currentState)).to(equal(SDLPreloadChoicesOperationStatePreloadingChoices));
                     });
 
-                    it(@"should properly override artwork", ^{
+                    it(@"should properly overwrite artwork", ^{
                         cell1Art2.overwrite = YES;
                         SDLChoiceCell *cell1WithArt = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:cell1Art2 voiceCommands:nil];
 

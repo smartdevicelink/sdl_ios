@@ -299,7 +299,7 @@ describe(@"a soft button replace operation", ^{
                         expect(sentRequests.firstObject.softButtons.lastObject.type).to(equal(SDLSoftButtonTypeBoth));
                     });
 
-                    it(@"should properly override artwork", ^{
+                    it(@"should properly overwrite artwork", ^{
                         OCMExpect([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
                         object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State11Art];

@@ -228,13 +228,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Images
 
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    if (artwork != nil && self.softButtonCapabilities.imageSupported) {
-        if (artwork.isStaticIcon) {
-            return NO;
-        } else {
-            return artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]);
-        }
+    if (artwork != nil && !artwork.isStaticIcon) {
+        return (artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]));
     }
+
     return NO;
 }
 

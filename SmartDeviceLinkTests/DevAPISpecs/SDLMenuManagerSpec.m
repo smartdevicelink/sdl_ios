@@ -234,7 +234,7 @@ describe(@"menu manager", ^{
                     OCMReject([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
 
-                it(@"should properly override an image cell", ^{
+                it(@"should properly overwrite an image cell", ^{
                     textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                     testManager.menuCells = @[textAndImageCell, submenuImageCell];
                     OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);

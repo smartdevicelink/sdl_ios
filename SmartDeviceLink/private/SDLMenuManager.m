@@ -552,22 +552,18 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    if (artwork != nil) {
-        if (artwork.isStaticIcon) {
-            return NO;
-        } else {
-            return (artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]));
-        }
+    if (artwork != nil && !artwork.isStaticIcon) {
+        return (artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]));
     }
+
     return NO;
 }
 
-- (BOOL) sdl_allArtworksUploaded:(NSArray<SDLMenuCell *> *)cells {
+- (BOOL) sdl_areAllCellArtworksUploaded:(NSArray<SDLMenuCell *> *)cells {
     for (SDLMenuCell *cell in cells) {
         if (![self sdl_artworkUploaded:cell.icon]) {
             return NO;
-        }
-        if (cell.subCells != nil && (cell.subCells.count) > 0) {
+        } else if (cell.subCells != nil && (cell.subCells.count) > 0) {
             return [self sdl_allArtworksUploaded:cell.subCells];
         }
     }
@@ -575,7 +571,7 @@ UInt32 const MenuCellIdMin = 1;
     return YES;
 }
 
-- (BOOL) sdl_artworkUploaded:(SDLArtwork *)artwork {
+- (BOOL) sdl_isArtworkUploaded:(nullable SDLArtwork *)artwork {
     if (artwork != nil) {
         return artwork.isStaticIcon || (self.fileManager != nil && [self.fileManager hasUploadedFile:artwork]);
     }

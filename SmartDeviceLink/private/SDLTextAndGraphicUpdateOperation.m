@@ -516,20 +516,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Should Update
 
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    if (artwork != nil) {
-        if (artwork.isStaticIcon) {
-            return NO;
-        } else {
-            return (artwork.overwrite || (![self.fileManager hasUploadedFile:artwork]));
-        }
+    if (artwork != nil && !artwork.isStaticIcon) {
+        return (artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]));
     }
+
     return NO;
 }
 
-- (BOOL) sdl_artworkUploaded:(SDLArtwork *)artwork {
+- (BOOL)sdl_artworkIsUploaded:(nullable SDLArtwork *)artwork {
     if (artwork != nil) {
         return artwork.isStaticIcon || (self.fileManager != nil && [self.fileManager hasUploadedFile:artwork]);
     }
+
     return YES;
 }
 
@@ -537,7 +535,7 @@ NS_ASSUME_NONNULL_BEGIN
     // If the template is updating, we don't yet know it's capabilities. Just assume the template supports the primary image. 
     BOOL templateSupportsPrimaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] || [self sdl_shouldUpdateTemplateConfig];
     BOOL graphicNameMatchesExisting = [self.currentScreenData.primaryGraphic.name isEqualToString:self.updatedState.primaryGraphic.name];
-    BOOL shouldOverwriteGraphic = self.updatedState.primaryGraphic != nil && self.updatedState.primaryGraphic.overwrite;
+    BOOL shouldOverwriteGraphic = self.updatedState.primaryGraphic.overwrite;
     BOOL graphicExists = (self.updatedState.primaryGraphic != nil);
 
     return (templateSupportsPrimaryArtwork && (shouldOverwriteGraphic || !graphicNameMatchesExisting) && graphicExists);

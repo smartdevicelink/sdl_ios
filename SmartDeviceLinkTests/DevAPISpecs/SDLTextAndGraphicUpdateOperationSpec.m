@@ -835,7 +835,7 @@ describe(@"the text and graphic operation", ^{
                     OCMReject([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
 
-                it(@"should properly override artwork", ^{
+                it(@"should properly overwrite artwork", ^{
                     SDLArtwork *testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
                     testArtwork3.overwrite = YES;
 
