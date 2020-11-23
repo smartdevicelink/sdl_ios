@@ -21,6 +21,7 @@
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLTextField.h"
 #import "SDLTTSChunk.h"
 #import "SDLVersion.h"
@@ -34,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSUUID *operationId;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentCapabilities;
 @property (strong, nonatomic, readwrite) SDLAlertView *alertView;
 @property (assign, nonatomic) UInt16 cancelId;
@@ -52,13 +54,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentWindowCapability:(nullable SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager currentWindowCapability:(nullable SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
 
     self = [super init];
     if (!self) { return self; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
+    _systemCapabilityManager = systemCapabilityManager;
     _alertView = alertView;
     _cancelId = cancelID;
     _operationId = [NSUUID UUID];
@@ -202,7 +205,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLAlert *alert = [[SDLAlert alloc] init];
     [self sdl_assembleAlertText:alert];
     alert.duration = @((NSUInteger)(self.alertView.timeout * 1000));
-    alert.alertIcon = self.alertView.icon.imageRPC;
+    alert.alertIcon = [self sdl_supportsAlertIcon] ? self.alertView.icon.imageRPC : nil;
     alert.progressIndicator = @(self.alertView.showWaitIndicator);
     alert.cancelID = @(self.cancelId);
 
@@ -241,7 +244,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_supportsAlertAudioFile {
-    return [SDLGlobals sharedGlobals].rpcVersion.major >= 5;
+    return ([SDLGlobals sharedGlobals].rpcVersion.major >= 5 && [self.systemCapabilityManager.speechCapabilities containsObject:SDLSpeechCapabilitiesFile]);
 }
 
 - (BOOL)sdl_supportsAlertIcon {

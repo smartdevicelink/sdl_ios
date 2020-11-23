@@ -15,13 +15,16 @@
 #import "SDLAlertView.h"
 #import "SDLAlertAudioData.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLPresentAlertOperation.h"
 #import "SDLWindowCapability.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLTTSChunk.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 #import "TestConnectionManager.h"
@@ -44,6 +47,7 @@ describe(@"SDLPresentAlertOperation", ^{
     __block SDLPresentAlertOperation *testPresentAlertOperation = nil;
     __block id mockConnectionManager = nil;
     __block id mockFileManager = nil;
+    __block id mockSystemCapabilityManager = nil;
     __block id mockCurrentWindowCapability = nil;
     __block SDLAlertView *testAlertView = nil;
     __block UInt16 testCancelID = 45;
@@ -57,6 +61,7 @@ describe(@"SDLPresentAlertOperation", ^{
     beforeEach(^{
         mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
         mockFileManager = OCMClassMock([SDLFileManager class]);
+        mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         mockCurrentWindowCapability = OCMClassMock([SDLWindowCapability class]);
 
         testAlertAudioData = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test synthesizer string"];
@@ -76,7 +81,7 @@ describe(@"SDLPresentAlertOperation", ^{
     });
 
     it(@"should be initialized correctly", ^{
-        testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+        testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
         expect(@(testPresentAlertOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
         expect(testPresentAlertOperation.connectionManager).to(equal(mockConnectionManager));
@@ -88,146 +93,262 @@ describe(@"SDLPresentAlertOperation", ^{
     });
 
     describe(@"creating the alert", ^{
-        describe(@"with all three text fields set", ^{
-            beforeEach(^{
-                testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+        describe(@"setting the text fields", ^{
+            describe(@"with all three text fields set", ^{
+                beforeEach(^{
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
 
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
+
+                it(@"should set all textfields if all textfields are supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal(testAlertView.text));
+                    expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
+                    expect(testAlert.alertText3).to(equal(testAlertView.tertiaryText));
+                });
+
+                it(@"should set textfields correctly if only two textfields are supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal(testAlertView.text));
+                    expect(testAlert.alertText2).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.secondaryText, testAlertView.tertiaryText]));
+                    expect(testAlert.alertText3).to(beNil());
+                });
+
+                it(@"should set textfields correctly if only one textfield is supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", testAlertView.text, testAlertView.secondaryText, testAlertView.tertiaryText]));
+                    expect(testAlert.alertText2).to(beNil());
+                    expect(testAlert.alertText3).to(beNil());
+                });
             });
 
-            it(@"should set all textfields if all textfields are supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal(testAlertView.text));
-                expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
-                expect(testAlert.alertText3).to(equal(testAlertView.tertiaryText));
+            describe(@"with two text fields set", ^{
+                beforeEach(^{
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
+
+                it(@"should set all textfields if all textfields are supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal(testAlertView.text));
+                    expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
+                    expect(testAlert.alertText3).to(beNil());
+                });
+
+                it(@"should set textfields correctly if only two textfields are supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal(testAlertView.text));
+                    expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
+                    expect(testAlert.alertText3).to(beNil());
+                });
+
+                it(@"should set textfields correctly if only one textfield is supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.text, testAlertView.secondaryText]));
+                    expect(testAlert.alertText2).to(beNil());
+                    expect(testAlert.alertText3).to(beNil());
+                });
             });
 
-            it(@"should set textfields correctly if only two textfields are supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal(testAlertView.text));
-                expect(testAlert.alertText2).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.secondaryText, testAlertView.tertiaryText]));
-                expect(testAlert.alertText3).to(beNil());
+            describe(@"with one text field set", ^{
+                beforeEach(^{
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:nil tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
+
+                it(@"should set all textfields if all textfields are supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal(testAlertView.text));
+                    expect(testAlert.alertText2).to(beNil());
+                    expect(testAlert.alertText3).to(beNil());
+                });
+
+                it(@"should set textfields correctly if only two textfields are supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal(testAlertView.text));
+                    expect(testAlert.alertText2).to(beNil());
+                    expect(testAlert.alertText3).to(beNil());
+                });
+
+                it(@"should set textfields correctly if only one textfield is supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal(testAlertView.text));
+                    expect(testAlert.alertText2).to(beNil());
+                    expect(testAlert.alertText3).to(beNil());
+                });
             });
 
-            it(@"should set textfields correctly if only one textfield is supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", testAlertView.text, testAlertView.secondaryText, testAlertView.tertiaryText]));
-                expect(testAlert.alertText2).to(beNil());
-                expect(testAlert.alertText3).to(beNil());
+            describe(@"with no text fields set", ^{
+                beforeEach(^{
+                    testAlertView = [[SDLAlertView alloc] initWithText:nil secondaryText:nil tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
+
+                it(@"should set all textfields if all textfields are supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(beNil());
+                    expect(testAlert.alertText2).to(beNil());
+                    expect(testAlert.alertText3).to(beNil());
+                });
+
+                it(@"should set textfields correctly if only two textfields are supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(beNil());
+                    expect(testAlert.alertText2).to(beNil());
+                    expect(testAlert.alertText3).to(beNil());
+                });
+
+                it(@"should set textfields correctly if only one textfield is supported", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(beNil());
+                    expect(testAlert.alertText2).to(beNil());
+                    expect(testAlert.alertText3).to(beNil());
+                });
+            });
+
+            describe(@"with a nil currentWindowCapability", ^{
+                beforeEach(^{
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:nil alertView:testAlertView cancelID:testCancelID];
+                });
+
+                it(@"should assume all textfields are supported", ^{
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.alertText1).to(equal(testAlertView.text));
+                    expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
+                    expect(testAlert.alertText3).to(equal(testAlertView.tertiaryText));
+                });
             });
         });
 
-        describe(@"with two text fields set", ^{
-            beforeEach(^{
-                testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+        describe(@"setting the audio data", ^{
+            describe(@"with audio data prompts set", ^{
+                beforeEach(^{
+                    SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test synthesizer string"];
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
 
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                it(@"should set the tts chunks correctly", ^{
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.ttsChunks.count).to(equal(1));
+                    expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.prompts.firstObject.text));
+                });
             });
 
-            it(@"should set all textfields if all textfields are supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal(testAlertView.text));
-                expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
-                expect(testAlert.alertText3).to(beNil());
+            describe(@"with only an audio file set but the negotiated spec version does not yet support the audio file feature", ^{
+                beforeEach(^{
+                    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+                    NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
+                    NSString *testAudioFileName = @"testAudioFile";
+                    SDLFile *testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
+
+                    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
+                    [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
+
+                    SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
+
+                it(@"should set nil (and not an empty array)", ^{
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.ttsChunks).to(beNil());
+                });
             });
 
-            it(@"should set textfields correctly if only two textfields are supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal(testAlertView.text));
-                expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
-                expect(testAlert.alertText3).to(beNil());
+            describe(@"with only an audio file set but the speech capabilities do not support the audio file feature", ^{
+                beforeEach(^{
+                    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+                    NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
+                    NSString *testAudioFileName = @"testAudioFile";
+                    SDLFile *testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
+
+                    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:2 patch:0];
+                    [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText]] speechCapabilities];
+
+                    SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
+
+                it(@"should set nil (and not an empty array)", ^{
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.ttsChunks).to(beNil());
+                });
             });
 
-            it(@"should set textfields correctly if only one textfield is supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.text, testAlertView.secondaryText]));
-                expect(testAlert.alertText2).to(beNil());
-                expect(testAlert.alertText3).to(beNil());
-            });
-        });
+            describe(@"with only an audio file set and the module supports the feature", ^{
+                beforeEach(^{
+                    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+                    NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
+                    NSString *testAudioFileName = @"testAudioFile";
+                    SDLFile *testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
 
-        describe(@"with one text field set", ^{
-            beforeEach(^{
-                testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:nil tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                    [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesFile, SDLSpeechCapabilitiesText]] speechCapabilities];
 
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
-            });
+                    SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
 
-            it(@"should set all textfields if all textfields are supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal(testAlertView.text));
-                expect(testAlert.alertText2).to(beNil());
-                expect(testAlert.alertText3).to(beNil());
+                it(@"should set the tts chunks correctly", ^{
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.ttsChunks.count).to(equal(1));
+                    expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioFiles.firstObject.name));
+                });
             });
 
-            it(@"should set textfields correctly if only two textfields are supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal(testAlertView.text));
-                expect(testAlert.alertText2).to(beNil());
-                expect(testAlert.alertText3).to(beNil());
-            });
+            describe(@"with no audio data set", ^{
+                beforeEach(^{
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:nil buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
 
-            it(@"should set textfields correctly if only one textfield is supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal(testAlertView.text));
-                expect(testAlert.alertText2).to(beNil());
-                expect(testAlert.alertText3).to(beNil());
-            });
-        });
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                });
 
-        describe(@"with no text fields set", ^{
-            beforeEach(^{
-                testAlertView = [[SDLAlertView alloc] initWithText:nil secondaryText:nil tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
-
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
-            });
-
-            it(@"should set all textfields if all textfields are supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(beNil());
-                expect(testAlert.alertText2).to(beNil());
-                expect(testAlert.alertText3).to(beNil());
-            });
-
-            it(@"should set textfields correctly if only two textfields are supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(beNil());
-                expect(testAlert.alertText2).to(beNil());
-                expect(testAlert.alertText3).to(beNil());
-            });
-
-            it(@"should set textfields correctly if only one textfield is supported", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertMainFieldLines];
-                SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(beNil());
-                expect(testAlert.alertText2).to(beNil());
-                expect(testAlert.alertText3).to(beNil());
+                it(@"should set nil (and not an empty array)", ^{
+                    SDLAlert *testAlert = testPresentAlertOperation.alert;
+                    expect(testAlert.ttsChunks).to(beNil());
+                });
             });
         });
 
-        describe(@"with a nil currentWindowCapability", ^{
+        describe(@"setting the icon", ^{
             beforeEach(^{
-                testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
-
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager currentWindowCapability:nil alertView:testAlertView cancelID:testCancelID];
+                testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:nil buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
             });
 
-            it(@"should assume all textfields are supported", ^{
+            it(@"should set the image if icons are supported on the module", ^{
+                [[[mockCurrentWindowCapability stub] andReturnValue:@YES] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
                 SDLAlert *testAlert = testPresentAlertOperation.alert;
-                expect(testAlert.alertText1).to(equal(testAlertView.text));
-                expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
-                expect(testAlert.alertText3).to(equal(testAlertView.tertiaryText));
+                expect(testAlert.alertIcon.value).to(equal(testAlertView.icon.name));
+            });
+
+
+            it(@"should not set the image if icons are not supported on the module", ^{
+                [[[mockCurrentWindowCapability stub] andReturnValue:@NO] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                SDLAlert *testAlert = testPresentAlertOperation.alert;
+                expect(testAlert.alertIcon).to(beNil());
             });
         });
     });
@@ -235,7 +356,10 @@ describe(@"SDLPresentAlertOperation", ^{
     describe(@"presenting the alert", ^{
         beforeEach(^{
             [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
-            testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+            [[[mockCurrentWindowCapability stub] andReturnValue:@YES] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+
+            testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
             testPresentAlertOperation.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;

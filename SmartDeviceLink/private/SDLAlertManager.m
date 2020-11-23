@@ -81,7 +81,7 @@ UInt16 const AlertCancelIdMin = 1;
 }
 
 - (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLAlertCompletionHandler)handler {
-    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentWindowCapability:self.currentWindowCapability alertView:[alert copy] cancelID:self.nextCancelId];
+    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager systemCapabilityManager:self.systemCapabilityManager currentWindowCapability:self.currentWindowCapability alertView:[alert copy] cancelID:self.nextCancelId];
 
     __weak typeof(op) weakPreloadOp = op;
     op.completionBlock = ^{
