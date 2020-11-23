@@ -54,6 +54,7 @@ describe(@"SDLPresentAlertOperation", ^{
     __block BOOL hasCalledOperationCompletionHandler = NO;
 
     __block SDLAlertAudioData *testAlertAudioData = nil;
+    __block SDLAlertAudioData *testAlertAudioFileData = nil;
     __block SDLSoftButtonObject *testAlertSoftButton1 = nil;
     __block SDLSoftButtonObject *testAlertSoftButton2 = nil;
     __block SDLArtwork *testAlertIcon = nil;
@@ -65,6 +66,11 @@ describe(@"SDLPresentAlertOperation", ^{
         mockCurrentWindowCapability = OCMClassMock([SDLWindowCapability class]);
 
         testAlertAudioData = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test synthesizer string"];
+        NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+        NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
+        NSString *testAudioFileName = @"testAudioFile";
+        SDLFile *testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
+        testAlertAudioFileData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
 
         testAlertSoftButton1 = [[SDLSoftButtonObject alloc] initWithName:@"button1" text:@"button1" artwork:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameKey] handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
             // TODO
@@ -73,7 +79,6 @@ describe(@"SDLPresentAlertOperation", ^{
             // TODO
         }];
 
-        NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
         UIImage *testImage = [[UIImage alloc] initWithContentsOfFile:[testBundle pathForResource:@"testImageJPEG" ofType:@"jpeg"]];
         testAlertIcon = [SDLArtwork artworkWithImage:testImage asImageFormat:SDLArtworkImageFormatPNG];
 
@@ -256,16 +261,10 @@ describe(@"SDLPresentAlertOperation", ^{
 
             describe(@"with only an audio file set but the negotiated spec version does not yet support the audio file feature", ^{
                 beforeEach(^{
-                    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
-                    NSString *testAudioFileName = @"testAudioFile";
-                    SDLFile *testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
-
                     [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
                     [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
 
-                    SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
-                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioFileData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
                 });
 
@@ -277,16 +276,10 @@ describe(@"SDLPresentAlertOperation", ^{
 
             describe(@"with only an audio file set but the speech capabilities do not support the audio file feature", ^{
                 beforeEach(^{
-                    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
-                    NSString *testAudioFileName = @"testAudioFile";
-                    SDLFile *testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
-
                     [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:2 patch:0];
                     [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText]] speechCapabilities];
 
-                    SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
-                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioFileData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
                 });
 
@@ -298,16 +291,10 @@ describe(@"SDLPresentAlertOperation", ^{
 
             describe(@"with only an audio file set and the module supports the feature", ^{
                 beforeEach(^{
-                    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
-                    NSString *testAudioFileName = @"testAudioFile";
-                    SDLFile *testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
-
                     [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
                     [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesFile, SDLSpeechCapabilitiesText]] speechCapabilities];
 
-                    SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
-                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
+                    testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioFileData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
                 });
 
@@ -358,12 +345,17 @@ describe(@"SDLPresentAlertOperation", ^{
             [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertMainFieldLines];
             [[[mockCurrentWindowCapability stub] andReturnValue:@YES] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
             [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+            [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
 
             testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
             testPresentAlertOperation.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
             };
+        });
+
+        describe(@"uploading files and artworks", ^{
+
         });
 
         it(@"should send the alert if the operation has not been cancelled", ^{
