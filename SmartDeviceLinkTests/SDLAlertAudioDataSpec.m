@@ -65,6 +65,9 @@ describe(@"SDLAlertAudioData", ^{
         expect(testAudioData.audioFiles).to(equal(@[testAudioFile]));
         expect(testAudioData.prompts).to(beNil());
     });
+
+    it(@"Should copy correctly", ^{
+    });
 });
 
 QuickSpecEnd

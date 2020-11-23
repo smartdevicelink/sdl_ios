@@ -92,10 +92,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLAudioData *new = [[[self class] allocWithZone:zone] init];
-    new->_audioFiles = [_audioFiles copyWithZone:zone];
-    new->_prompts = [_prompts copyWithZone:zone];
-    return new;
+    SDLAudioData *newAudioData = [[[self class] allocWithZone:zone] init];
+    newAudioData->_audioFiles = [self.audioFiles copyWithZone:zone];
+    newAudioData->_prompts = [self.prompts copyWithZone:zone];
+    return newAudioData;
 }
 
 

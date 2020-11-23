@@ -166,6 +166,26 @@ describe(@"SDLAudioData", ^{
             expect(testAudioData.prompts).to(beNil());
         });
     });
+
+    fdescribe(@"Copying audio data", ^{
+        __block SDLAudioData *testAudioData = nil;
+        __block SDLAudioData *copiedTestAudioData = nil;
+        __block NSString *testSpeechSynthesizerString1 = @"testSpeechSynthesizerString1";
+        __block NSString *testSpeechSynthesizerString2 = @"testSpeechSynthesizerString2";
+
+        beforeEach(^{
+            testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
+            [testAudioData addSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testSpeechSynthesizerString2]];
+
+            copiedTestAudioData = [testAudioData copy];
+        });
+
+        it(@"Should copy correctly", ^{
+            expect(testAudioData).toNot(equal(copiedTestAudioData));
+            expect(testAudioData.audioFiles).to(equal(copiedTestAudioData.audioFiles));
+            expect(testAudioData.prompts).to(equal(copiedTestAudioData.prompts));
+        });
+    });
 });
 
 QuickSpecEnd

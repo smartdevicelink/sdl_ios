@@ -212,6 +212,31 @@ describe(@"An SDLAlertView", ^{
             expect(canceledHandlerCalled).to(beTrue());
         });
     });
+
+    describe(@"copying the alert", ^{
+        __block SDLAlertView *testAlertView = nil;
+        __block SDLAlertView *copiedTestAlertView = nil;
+
+        beforeEach(^{
+            testAlertView = [[SDLAlertView alloc] initWithText:testTextField1 secondaryText:testTextField2 tertiaryText:testTextField3 timeout:testTimeout showWaitIndicator:testShowWaitIndicator audioIndication:testAudio buttons:testSoftButtons icon:testIcon];
+            copiedTestAlertView = [testAlertView copy];
+        });
+
+        it(@"should correctly copy the alert view", ^{
+            expect(testAlertView).toNot(equal(copiedTestAlertView));
+
+            expect(testAlertView.text).to(equal(copiedTestAlertView.text));
+            expect(testAlertView.secondaryText).to(equal(copiedTestAlertView.secondaryText));
+            expect(testAlertView.tertiaryText).to(equal(copiedTestAlertView.tertiaryText));
+            expect(testAlertView.timeout).to(equal(copiedTestAlertView.timeout));
+
+            expect(testAlertView.audio).toNot(equal(copiedTestAlertView.audio));
+            expect(testAlertView.audio.prompts).to(equal(copiedTestAlertView.audio.prompts));
+            expect(testAlertView.audio.audioFiles).to(equal(copiedTestAlertView.audio.audioFiles));
+            expect(testAlertView.audio.playTone).to(equal(copiedTestAlertView.audio.playTone));
+
+        });
+    });
 });
 
 QuickSpecEnd

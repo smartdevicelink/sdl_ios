@@ -134,6 +134,19 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLSoftButtonObject *newSoftButtonObject = [[SDLSoftButtonObject allocWithZone:zone] initWithName:[_name copyWithZone:zone] states:[_states copyWithZone:zone] initialStateName:[_currentStateName copyWithZone:zone] handler:[_eventHandler copyWithZone:zone]];
+    newSoftButtonObject->_name = [_name copyWithZone:zone];
+    newSoftButtonObject->_states = [_name copyWithZone:zone];
+    newSoftButtonObject->_buttonId = _buttonId;
+
+    return newSoftButtonObject;
+}
+
+#pragma mark - Debug Description
+
 - (NSString *)description {
     NSMutableArray<NSString *> *allStateNames = [NSMutableArray array];
     for (SDLSoftButtonState *state in self.states) {

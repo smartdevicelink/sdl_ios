@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A soft button wrapper object that is capable of storing and switching between states
  */
-@interface SDLSoftButtonObject : NSObject
+@interface SDLSoftButtonObject : NSObject <NSCopying>
 
 /**
  The name of this button

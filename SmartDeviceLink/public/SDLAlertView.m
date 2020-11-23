@@ -9,6 +9,7 @@
 #import "SDLAlertView.h"
 
 #import "SDLAlertAudioData.h"
+#import "SDLArtwork.h"
 #import "SDLError.h"
 #import "SDLSoftButtonObject.h"
 
@@ -108,7 +109,22 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
     return _timeout;
 }
 
-#pragma mark - Etc.
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLAlertView *newAlertView = [[[self class] allocWithZone:zone] init];
+    newAlertView->_text = [_text copyWithZone:zone];
+    newAlertView->_secondaryText = [_secondaryText copyWithZone:zone];
+    newAlertView->_tertiaryText = [_tertiaryText copyWithZone:zone];
+    newAlertView->_timeout = _timeout;
+    newAlertView->_audio = [_audio copyWithZone:zone];
+    newAlertView->_showWaitIndicator = _showWaitIndicator;
+    newAlertView->_softButtons = [_softButtons copyWithZone:zone];
+    newAlertView->_icon = [_icon copyWithZone:zone];
+    return newAlertView;
+}
+
+#pragma mark - Debug Description
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"SDLAlertView: \"%@\", text: \"%@\", secondaryText: \"%@\", tertiaryText: \"%@\"", [self sdl_alertType], _text, _secondaryText, _tertiaryText];

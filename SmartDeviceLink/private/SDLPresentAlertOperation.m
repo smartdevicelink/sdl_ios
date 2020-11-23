@@ -235,7 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon && artwork.overwrite == YES);
+    return ((artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon) || ([self.fileManager hasUploadedFile:artwork] && artwork.overwrite));
 }
 
 - (BOOL)sdl_supportsSoftButtonImages {
