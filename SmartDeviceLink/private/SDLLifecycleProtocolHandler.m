@@ -92,6 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Called when the transport is closed.
 - (void)protocolDidClose:(SDLProtocol *)protocol {
     if (self.protocol != protocol) { return; }
+    [[SDLGlobals sharedGlobals] sdl_resetProtocolVersion];
 
     SDLLogW(@"Transport disconnected");
     [self.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
