@@ -40,6 +40,19 @@ describe(@"The SDLGlobals class", ^{
             expect(testGlobals.maxHeadUnitProtocolVersion).to(equal(someVersionHigherThanMaxProxyVersion));
         });
     });
+
+    describe(@"test values after calling sdl_resetProtocolVersion", ^{
+        beforeEach(^{
+            [testGlobals sdl_resetProtocolVersion];
+        });
+
+        it(@"should return should properly set values", ^{
+            expect(testGlobals.protocolVersion.stringVersion).to(equal(@"1.0.0"));
+            expect(testGlobals.protocolVersion.major).to(equal(1));
+            expect(testGlobals.maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
+            expect(testGlobals.rpcVersion).to(equal([[SDLVersion alloc] initWithMajor:1 minor:0 patch:0]));
+        });
+    });
     
     describe(@"getting the max MTU version", ^{
         context(@"when protocol version is 1 - 2", ^{
