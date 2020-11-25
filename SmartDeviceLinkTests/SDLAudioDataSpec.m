@@ -18,14 +18,14 @@ QuickSpecBegin(SDLAudioDataSpec)
 describe(@"SDLAudioData", ^{
     __block NSString *testSpeechSynthesizerString = nil;
     __block SDLFile *testAudioFile = nil;
+    __block SDLFile *testAudioFile2 = nil;
 
     beforeEach(^{
         testSpeechSynthesizerString = @"testSpeechSynthesizerString";
 
         NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-        NSURL *testAudioFileURL = [testBundle URLForResource:@"testAudio" withExtension:@"mp3"];
-        NSString *testAudioFileName = @"testAudioFile";
-        testAudioFile = [[SDLFile alloc] initWithFileURL:testAudioFileURL name:testAudioFileName persistent:YES];
+        testAudioFile = [[SDLFile alloc] initWithFileURL:[testBundle URLForResource:@"testAudio" withExtension:@"mp3"] name:@"testAudioFile" persistent:YES];
+        testAudioFile2 = [[SDLFile alloc] initWithFileURL:[testBundle URLForResource:@"testAudio" withExtension:@"mp3"] name:@"testAudioFile2" persistent:YES];
     });
 
     describe(@"Initialization", ^{
@@ -167,11 +167,12 @@ describe(@"SDLAudioData", ^{
         });
     });
 
-    fdescribe(@"Copying audio data", ^{
+    describe(@"Copying audio data", ^{
         __block SDLAudioData *testAudioData = nil;
         __block SDLAudioData *copiedTestAudioData = nil;
         __block NSString *testSpeechSynthesizerString1 = @"testSpeechSynthesizerString1";
         __block NSString *testSpeechSynthesizerString2 = @"testSpeechSynthesizerString2";
+        __block NSString *testSpeechSynthesizerString3 = @"testSpeechSynthesizerString3";
 
         beforeEach(^{
             testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
@@ -184,6 +185,27 @@ describe(@"SDLAudioData", ^{
             expect(testAudioData).toNot(equal(copiedTestAudioData));
             expect(testAudioData.audioFiles).to(equal(copiedTestAudioData.audioFiles));
             expect(testAudioData.prompts).to(equal(copiedTestAudioData.prompts));
+        });
+
+        it(@"Should not update the copy if changes are made to the original", ^{
+            [testAudioData addSpeechSynthesizerStrings:@[testSpeechSynthesizerString3]];
+            [testAudioData addAudioFiles:@[testAudioFile2]];
+
+            expect(testAudioData.prompts.count).to(equal(3));
+            expect(testAudioData.prompts[0].text).to(contain(testSpeechSynthesizerString1));
+            expect(testAudioData.prompts[1].text).to(contain(testSpeechSynthesizerString2));
+            expect(testAudioData.prompts[2].text).to(contain(testSpeechSynthesizerString3));
+
+            expect(copiedTestAudioData.prompts.count).to(equal(2));
+            expect(copiedTestAudioData.prompts[0].text).to(contain(testSpeechSynthesizerString1));
+            expect(copiedTestAudioData.prompts[1].text).to(contain(testSpeechSynthesizerString2));
+
+            expect(testAudioData.audioFiles.count).to(equal(2));
+            expect(testAudioData.audioFiles[0].name).to(equal(testAudioFile.name));
+            expect(testAudioData.audioFiles[1].name).to(equal(testAudioFile2.name));
+
+            expect(copiedTestAudioData.audioFiles.count).to(equal(1));
+            expect(copiedTestAudioData.audioFiles[0].name).to(equal(testAudioFile.name));
         });
     });
 });
