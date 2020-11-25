@@ -426,6 +426,14 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark Artworks
 
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
+    if (artwork != nil && !artwork.isStaticIcon) {
+        return (artwork.overwrite || ![self hasUploadedFile:artwork]);
+    }
+
+    return NO;
+}
+
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
     __weak typeof(self) weakself = self;
     [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {

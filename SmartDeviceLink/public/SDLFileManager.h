@@ -137,6 +137,13 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler NS_SWIFT_NAME(upload(files:completionHandler:));
 
 /**
+ *  Check if artwork needs to be uploaded.
+ *
+ *  @param artwork      A SDLArwork containing an image to be sent
+ */
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork;
+
+/**
  *  Uploads an artwork file to the remote file system and returns the name of the uploaded artwork once completed. If an artwork with the same name is already on the remote system, the artwork is not uploaded and the artwork name is simply returned.
  *
  *  @param artwork      A SDLArwork containing an image to be sent

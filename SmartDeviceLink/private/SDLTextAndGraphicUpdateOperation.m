@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
             [strongSelf finishOperation];
         }];
-    } else if (![self sdl_artworkNeedsUpload:self.updatedState.primaryGraphic] && ![self sdl_artworkNeedsUpload:self.updatedState.secondaryGraphic]) {
+    } else if (self.fileManager != nil && ![self.fileManager sdl_artworkNeedsUpload:self.updatedState.primaryGraphic] && ![self.fileManager sdl_artworkNeedsUpload:self.updatedState.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         [self sdl_sendShow:show withHandler:^(NSError * _Nullable error) {
@@ -514,14 +514,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Should Update
-
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    if (artwork != nil && !artwork.isStaticIcon) {
-        return (artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]));
-    }
-
-    return NO;
-}
 
 - (BOOL)sdl_isArtworkUploaded:(nullable SDLArtwork *)artwork {
     if (artwork != nil) {

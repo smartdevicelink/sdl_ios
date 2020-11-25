@@ -87,10 +87,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self sdl_shouldSendChoicePrimaryImage] && [self sdl_artworkNeedsUpload:cell.artwork]) {
+        if ([self sdl_shouldSendChoicePrimaryImage] && (self.fileManager != nil && [self.fileManager sdl_artworkNeedsUpload:cell.artwork])) {
             [artworksToUpload addObject:cell.artwork];
         }
-        if ([self sdl_shouldSendChoiceSecondaryImage] && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
+        if ([self sdl_shouldSendChoiceSecondaryImage] && (self.fileManager != nil && [self.fileManager sdl_artworkNeedsUpload:cell.secondaryArtwork])) {
             [artworksToUpload addObject:cell.secondaryArtwork];
         }
     }
@@ -111,15 +111,6 @@ NS_ASSUME_NONNULL_BEGIN
 
         completionHandler(error);
     }];
-}
-
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    if (artwork != nil) {
-        if (artwork != nil && !artwork.isStaticIcon) {
-            return (artwork.overwrite || (self.fileManager != nil && ![self.fileManager hasUploadedFile:artwork]));
-        }
-    }
-    return NO;
 }
 
 - (void)sdl_preloadCells {
