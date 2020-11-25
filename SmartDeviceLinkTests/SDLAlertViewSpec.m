@@ -33,6 +33,7 @@ describe(@"An SDLAlertView", ^{
     __block BOOL testShowWaitIndicator = NO;
     __block NSArray<SDLSoftButtonObject *> *testSoftButtons = nil;
     __block SDLArtwork *testIcon = nil;
+    __block SDLArtwork *testIcon2 = nil;
     
     beforeEach(^{
         testTextField1 = @"testTextField1";
@@ -43,7 +44,9 @@ describe(@"An SDLAlertView", ^{
 
         NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
         UIImage *testImage = [[UIImage alloc] initWithContentsOfFile:[testBundle pathForResource:@"testImageJPEG" ofType:@"jpeg"]];
-        testIcon = [SDLArtwork artworkWithImage:testImage asImageFormat:SDLArtworkImageFormatPNG];
+        testIcon = [SDLArtwork artworkWithImage:testImage asImageFormat:SDLArtworkImageFormatJPG];
+        UIImage *testImage2 = [[UIImage alloc] initWithContentsOfFile:[testBundle pathForResource:@"testImagePNG" ofType:@"png"]];
+        testIcon2 = [SDLArtwork artworkWithImage:testImage2 asImageFormat:SDLArtworkImageFormatPNG];
     });
     
     it(@"should get and set correctly", ^{
@@ -225,16 +228,38 @@ describe(@"An SDLAlertView", ^{
         it(@"should correctly copy the alert view", ^{
             expect(testAlertView).toNot(equal(copiedTestAlertView));
 
-            expect(testAlertView.text).to(equal(copiedTestAlertView.text));
-            expect(testAlertView.secondaryText).to(equal(copiedTestAlertView.secondaryText));
-            expect(testAlertView.tertiaryText).to(equal(copiedTestAlertView.tertiaryText));
-            expect(testAlertView.timeout).to(equal(copiedTestAlertView.timeout));
+            expect(copiedTestAlertView.text).to(equal(testAlertView.text));
+            expect(copiedTestAlertView.secondaryText).to(equal(testAlertView.secondaryText));
+            expect(copiedTestAlertView.tertiaryText).to(equal(testAlertView.tertiaryText));
+            expect(copiedTestAlertView.timeout).to(equal(testAlertView.timeout));
+            expect(copiedTestAlertView.audio).toNot(equal(testAlertView.audio));
+            expect(copiedTestAlertView.audio.prompts).to(equal(testAlertView.audio.prompts));
+            expect(copiedTestAlertView.audio.audioFiles).to(beNil());
+            expect(testAlertView.audio.audioFiles).to(beNil());
+            expect(copiedTestAlertView.audio.playTone).to(equal(testAlertView.audio.playTone));
+            expect(copiedTestAlertView.showWaitIndicator).to(equal(testAlertView.showWaitIndicator));
+            expect(copiedTestAlertView.softButtons).to(equal(testAlertView.softButtons));
+            expect(copiedTestAlertView.icon).to(equal(testAlertView.icon));
+        });
 
-            expect(testAlertView.audio).toNot(equal(copiedTestAlertView.audio));
-            expect(testAlertView.audio.prompts).to(equal(copiedTestAlertView.audio.prompts));
-            expect(testAlertView.audio.audioFiles).to(equal(copiedTestAlertView.audio.audioFiles));
-            expect(testAlertView.audio.playTone).to(equal(copiedTestAlertView.audio.playTone));
+        it(@"Should not update the copy if changes are made to the original", ^{
+            testAlertView.text = @"changedText";
+            testAlertView.secondaryText = @"changedSecondaryText";
+            testAlertView.tertiaryText = @"changedTertiaryText";
+            testAlertView.timeout = 45;
+            testAlertView.audio = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"changedAudio"];
+            testAlertView.showWaitIndicator = YES;
+            testAlertView.softButtons = @[];
+            testAlertView.icon = testIcon2;
 
+            expect(copiedTestAlertView.text).toNot(equal(testAlertView.text));
+            expect(copiedTestAlertView.secondaryText).toNot(equal(testAlertView.secondaryText));
+            expect(copiedTestAlertView.tertiaryText).toNot(equal(testAlertView.tertiaryText));
+            expect(copiedTestAlertView.timeout).toNot(equal(testAlertView.timeout));
+            expect(copiedTestAlertView.audio).toNot(equal(testAlertView.audio));
+            expect(copiedTestAlertView.showWaitIndicator).toNot(equal(testAlertView.showWaitIndicator));
+            expect(copiedTestAlertView.softButtons).toNot(equal(testAlertView.softButtons));
+            expect(copiedTestAlertView.icon).toNot(equal(testAlertView.icon));
         });
     });
 });
