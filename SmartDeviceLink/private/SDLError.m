@@ -295,6 +295,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
 }
 
+#pragma mark Alert Manager
+
++ (NSError *)sdl_alertManager_presentationFailed:(NSDictionary *)userInfo {
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerPresentationError userInfo:userInfo];
+
+}
+
 #pragma mark System Capability Manager
 
 + (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities {

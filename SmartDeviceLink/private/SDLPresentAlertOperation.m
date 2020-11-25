@@ -10,9 +10,11 @@
 
 #import "SDLAlert.h"
 #import "SDLAlertAudioData.h"
+#import "SDLAlertResponse.h"
 #import "SDLAlertView.h"
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
@@ -192,7 +194,15 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if (error != nil) {
-            self.internalError = error;
+            SDLAlertResponse *alertResponse = (SDLAlertResponse *)response;
+            NSMutableDictionary *alertResponseUserInfo = [NSMutableDictionary dictionary];
+            alertResponseUserInfo[@"error"] = error;
+            if (alertResponse != nil && alertResponse.tryAgainTime != nil) {
+                alertResponseUserInfo[@"tryAgainTime"] = alertResponse.tryAgainTime;
+            }
+
+            NSError *alertResponseError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
+            self.internalError = alertResponseError;
         }
 
         [self finishOperation];

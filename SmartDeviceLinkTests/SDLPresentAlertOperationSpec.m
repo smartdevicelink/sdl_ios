@@ -14,6 +14,7 @@
 #import "SDLAlertResponse.h"
 #import "SDLAlertView.h"
 #import "SDLAlertAudioData.h"
+#import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
 #import "SDLImage.h"
@@ -619,10 +620,11 @@ describe(@"SDLPresentAlertOperation", ^{
                 response.success = @NO;
                 response.resultCode = SDLResultAborted;
                 NSError *defaultError = [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
+                NSError *expectedAlertResponseError = [NSError sdl_alertManager_presentationFailed:@{@"tryAgainTime": response.tryAgainTime, @"error": defaultError}];
 
                 OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg any] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, defaultError, nil])]);
 
-                expect(testPresentAlertOperation.internalError).toEventually(equal(defaultError));
+                expect(testPresentAlertOperation.internalError).toEventually(equal(expectedAlertResponseError));
                 expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                 expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
             });
