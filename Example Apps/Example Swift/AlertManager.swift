@@ -8,6 +8,7 @@
 
 import Foundation
 import SmartDeviceLink
+import SmartDeviceLinkSwift
 
 class AlertManager {
     ///  Sends an alert with up to two lines of text, an image, and a close button that will dismiss the alert when tapped.
@@ -17,18 +18,16 @@ class AlertManager {
     ///   - textField2: The second line of text in the alert
     ///   - sdlManager: The SDLManager
     class func sendAlert(imageName: String? = nil, textField1: String, textField2: String? = nil, sdlManager: SDLManager) {
-        let okSoftButton = SDLSoftButton(type: .text, text: AlertOKButtonText, image: nil, highlighted: true, buttonId: 1, systemAction: nil, handler: nil)
-        let alert = SDLAlert(alertText1: textField1, alertText2: textField2, alertText3: nil, softButtons: [okSoftButton], playTone: true, ttsChunks: nil, duration: 5000, progressIndicator: false, alertIcon: nil, cancelID: 0)
-
+        let okSoftButton = SDLSoftButtonObject(name: AlertOKButtonText, text: AlertOKButtonText, artwork: nil, handler: nil)
+        let alert = SDLAlertView(text: textField1, buttons: [okSoftButton])
+        alert.secondaryText = textField2
         if let imageName = imageName {
-            sendImage(imageName, sdlManager: sdlManager) { (success, artworkName) in
-                if success {
-                    alert.alertIcon = SDLImage(name: artworkName, isTemplate: true)
-                }
-                sdlManager.send(alert)
+            alert.icon = SDLArtwork(image: UIImage(named: imageName)!.withRenderingMode(.alwaysTemplate), persistent: false, as: .PNG)
+        }
+        sdlManager.screenManager.presentAlert(alert) { error in
+            if let error = error {
+                SDLLog.e("There was an error presenting the alert: \(error.localizedDescription)")
             }
-        } else {
-            sdlManager.send(alert)
         }
     }
 
