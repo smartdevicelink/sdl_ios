@@ -263,8 +263,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self sdl_artworkUploaded:primaryArtwork] ? primaryArtwork.imageRPC : nil;
-    newShow.secondaryGraphic = [self sdl_artworkUploaded:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
+    newShow.graphic = [self sdl_isArtworkUploaded:primaryArtwork] ? primaryArtwork.imageRPC : nil;
+    newShow.secondaryGraphic = [self sdl_isArtworkUploaded:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
 
     if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
         SDLLogV(@"No graphics to upload");
@@ -523,7 +523,7 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
-- (BOOL)sdl_artworkIsUploaded:(nullable SDLArtwork *)artwork {
+- (BOOL)sdl_isArtworkUploaded:(nullable SDLArtwork *)artwork {
     if (artwork != nil) {
         return artwork.isStaticIcon || (self.fileManager != nil && [self.fileManager hasUploadedFile:artwork]);
     }
