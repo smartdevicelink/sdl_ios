@@ -73,6 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Sending RPCs
 
+/// Send DeleteCommand RPCs for voice commands that should be deleted
+/// @param completionHandler A handler called when all DeleteCommands have completed
 - (void)sdl_sendDeleteCurrentVoiceCommands:(void(^)(void))completionHandler {
     if (self.oldVoiceCommands.count == 0) {
         SDLLogD(@"No voice commands to delete");
@@ -103,6 +105,8 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/// Send AddCommand RPCs for voice commands that should be added
+/// @param completionHandler A handler called when all AddCommands have completed
 - (void)sdl_sendCurrentVoiceCommands:(void(^)(void))completionHandler {
     if (self.pendingVoiceCommands.count == 0) {
         SDLLogD(@"No voice commands to send");
@@ -136,6 +140,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Helpers
 #pragma mark Deletes
 
+/// Create DeleteCommand RPCs for passed voice commands
+/// @param voiceCommands The voice commands that should be deleted
+/// @return The DeleteCommand RPCs for the passed voice commands
 - (NSArray<SDLDeleteCommand *> *)sdl_deleteCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     NSMutableArray<SDLDeleteCommand *> *mutableDeletes = [NSMutableArray array];
     for (SDLVoiceCommand *command in voiceCommands) {
@@ -148,6 +155,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Commands
 
+/// Create AddCommand RPCs for passed voice commands
+/// @param voiceCommands The voice commands that should be added
+/// @return The AddCommand RPCs for the passed voice commands
 - (NSArray<SDLAddCommand *> *)sdl_addCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     NSMutableArray<SDLAddCommand *> *mutableCommands = [NSMutableArray array];
     for (SDLVoiceCommand *voiceCommand in voiceCommands) {
@@ -163,6 +173,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Managing list of commands on head unit
 
+/// Remove a voice command from the array of voice commands on the head unit based on a command id
+/// @param commandId The command id to use to remove a voice command
 - (void)sdl_removeCurrentVoiceCommandWithCommandId:(UInt32)commandId {
     for (SDLVoiceCommand *voiceCommand in self.currentVoiceCommands) {
         if (voiceCommand.commandId == commandId) {
@@ -172,6 +184,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+/// Find a voice command in the pending voice command array based on a command id
+/// @param commandId The command id to use to find a voice command
 - (nullable SDLVoiceCommand *)sdl_pendingVoiceCommandWithCommandId:(UInt32)commandId {
     for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
         if (voiceCommand.commandId == commandId) {
@@ -185,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Operation Overrides
 
 - (void)finishOperation {
-    SDLLogV(@"Finishing text and graphic update operation");
+    SDLLogV(@"Finishing voice command update operation");
     if (self.isCancelled) {
         self.internalError = [NSError sdl_voiceCommandManager_pendingUpdateSuperseded];
     }
