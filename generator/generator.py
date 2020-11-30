@@ -103,11 +103,11 @@ class Generator:
         :param paths: list with paths to all Jinja2 templates
         :return: None
         """
-        loaders = list(filter(lambda l: Path(l).exists(), paths))
+        loaders = list(filter(lambda lambdaList: Path(lambdaList).exists(), paths))
         if not loaders:
             self.logger.error('Directory with templates not found %s', str(paths))
             sys.exit(1)
-        loaders = [FileSystemLoader(l) for l in loaders]
+        loaders = [FileSystemLoader(lambdaList) for lambdaList in loaders]
 
         self._env = Environment(loader=ChoiceLoader(loaders))
         self._env.filters['title'] = self.title

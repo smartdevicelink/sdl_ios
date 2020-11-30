@@ -7,7 +7,7 @@
 {%- endblock -%}
 {%- block body %}
 {% include 'description.jinja2' %}
-typedef SDLEnum {{ name }} SDL_SWIFT_ENUM{{ending}};
+typedef SDLEnum {{ name }} NS_TYPED_ENUM{{ending}};
 {%- for param in params %}
 {%- include 'description_param.jinja2' %}
 extern {{ name }} const {{ name }}{{param.name}}{{ " __deprecated" if param.deprecated and param.deprecated }};
