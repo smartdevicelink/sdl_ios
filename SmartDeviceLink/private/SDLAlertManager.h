@@ -26,7 +26,7 @@ typedef void(^SDLAlertCompletionHandler)(NSError *__nullable error);
 /// @param fileManager The file manager object for uploading files
 /// @param systemCapabilityManager The system capability manager object for reading window capabilities
 /// @return The alert manager
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager;
 
 /// Starts the manager. This method is used internally.
 - (void)start;

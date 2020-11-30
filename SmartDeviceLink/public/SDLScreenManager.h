@@ -229,7 +229,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param systemCapabilityManager The system capability manager object for reading window capabilities
  @return The screen manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager __deprecated_msg("Use initWithConnectionManager:fileManager:systemCapabilityManager:(permissionManager: instead");
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager __deprecated_msg("Use initWithConnectionManager:fileManager:systemCapabilityManager:permissionManager: instead");
 
 /**
  Initialize a screen manager
@@ -242,7 +242,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param permissionManager The permission manager object for checking RPC permissions
  @return The screen manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager;
 
 /**
  Starts the manager and all sub-managers
