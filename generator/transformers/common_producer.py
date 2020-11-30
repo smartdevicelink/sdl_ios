@@ -69,11 +69,11 @@ class InterfaceProducerCommon(ABC):
             render['params'][param.name] = self.extract_param(param, item.name)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
-        
+
         # Add additional known imports to the import list
         if isinstance(item, (Struct, Function)):
             name = 'SDL' + item.name
-            render[importsKey]['.m'].add( "NSMutableDictionary+Store" )
+            render[importsKey]['.m'].add("NSMutableDictionary+Store")
             render[importsKey]['.m'].add(name)
             render[importsKey]['.h'][enumKey] = list(render[importsKey]['.h'][enumKey])
             (render[importsKey]['.h'][enumKey]).sort()
@@ -82,11 +82,11 @@ class InterfaceProducerCommon(ABC):
 
         if isinstance(item, Struct):
             name = 'SDL' + item.name
-            render[importsKey]['.m'].add( "SDLRPCParameterNames" )
+            render[importsKey]['.m'].add("SDLRPCParameterNames")
 
         if isinstance(item, Function):
-            render[importsKey]['.m'].add( "SDLRPCFunctionNames" )
-            render[importsKey]['.m'].add( "SDLRPCParameterNames" )
+            render[importsKey]['.m'].add("SDLRPCFunctionNames")
+            render[importsKey]['.m'].add("SDLRPCParameterNames")
 
         # Sort the import list to ensure they appear in alphabetical order in the template
         render[importsKey]['.m'] = list(render[importsKey]['.m'])
@@ -364,7 +364,7 @@ class InterfaceProducerCommon(ABC):
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong',
-                'history' : param.history }
+                'history': param.history}
         if isinstance(param.param_type, (Integer, Float, String, Array)):
             data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
 
@@ -418,4 +418,3 @@ class InterfaceProducerCommon(ABC):
             return 'num_min_value'
         else:
             return parameterName
-

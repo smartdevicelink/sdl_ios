@@ -36,10 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLRPCParameterNameType:SDLTouchTypeBegin,
                                                    SDLRPCParameterNameEvent:[@[event] mutableCopy]},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnTouchEvent}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnTouchEvent* testNotification = [[SDLOnTouchEvent alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.type).to(equal(SDLTouchTypeBegin));
         expect(testNotification.event).to(equal([@[event] mutableCopy]));

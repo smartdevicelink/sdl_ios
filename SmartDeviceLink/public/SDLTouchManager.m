@@ -434,12 +434,16 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         [self sdl_cancelSingleTapTimer];
     }
 
-    __weak typeof(self) weakSelf = self;
-    self.singleTapTimer = [[SDLTimer alloc] initWithDuration:self.tapTimeThreshold];
-    self.singleTapTimer.elapsedBlock = ^{
-        [weakSelf sdl_singleTapTimerCallbackWithPoint:point];
-    };
-    [self.singleTapTimer start];
+    if (self.tapTimeThreshold == 0.0) {
+        [self sdl_singleTapTimerCallbackWithPoint:point];
+    } else {
+        __weak typeof(self) weakSelf = self;
+        self.singleTapTimer = [[SDLTimer alloc] initWithDuration:self.tapTimeThreshold];
+        self.singleTapTimer.elapsedBlock = ^{
+            [weakSelf sdl_singleTapTimerCallbackWithPoint:point];
+        };
+        [self.singleTapTimer start];
+    }
 }
 
 /**

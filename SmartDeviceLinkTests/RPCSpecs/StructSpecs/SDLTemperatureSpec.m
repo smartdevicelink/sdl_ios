@@ -27,10 +27,7 @@ describe(@"Initialization tests", ^{
         
         NSMutableDictionary* dict = [@{SDLRPCParameterNameUnit : SDLTemperatureUnitCelsius ,
                                            SDLRPCParameterNameValue:@30 } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLTemperature* testStruct = [[SDLTemperature alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.unit).to(equal(SDLTemperatureUnitCelsius));
         expect(testStruct.value).to(equal(@30));

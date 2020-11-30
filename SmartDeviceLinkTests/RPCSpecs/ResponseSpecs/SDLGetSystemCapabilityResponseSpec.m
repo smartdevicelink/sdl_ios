@@ -41,10 +41,7 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetSystemCapability
                                        }
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testResponse.systemCapability.systemCapabilityType).to(equal(SDLSystemCapabilityTypeNavigation));
         expect(testResponse.systemCapability.navigationCapability.sendLocationEnabled).to(equal(YES));

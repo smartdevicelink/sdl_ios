@@ -52,10 +52,7 @@ describe(@"Initialization tests", ^{
                                SDLRPCParameterNamePixelPerInch: @(testPixelPerInch),
                                SDLRPCParameterNameScale: @(testScale)};
 
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithDictionary:dict];
-        #pragma clang diagnostic pop
 
         expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
         expect(testStruct.maxBitrate).to(equal(testMaxBitrate));

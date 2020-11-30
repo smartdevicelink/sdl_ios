@@ -28,10 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameCommandId:@11223344},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameDeleteCommand}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDeleteCommand* testRequest = [[SDLDeleteCommand alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.cmdID).to(equal(@11223344));
     });

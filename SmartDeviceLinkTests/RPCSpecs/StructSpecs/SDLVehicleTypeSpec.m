@@ -33,10 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameModel:@"Model",
                                                        SDLRPCParameterNameModelYear:@"3.141*10^36",
                                                        SDLRPCParameterNameTrim:@"AE"} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLVehicleType* testStruct = [[SDLVehicleType alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.make).to(equal(@"Make"));
         expect(testStruct.model).to(equal(@"Model"));

@@ -31,10 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameDIDResult:[@[result] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameReadDID}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLReadDIDResponse* testResponse = [[SDLReadDIDResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.didResult).to(equal([@[result] mutableCopy]));
     });

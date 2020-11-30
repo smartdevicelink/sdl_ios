@@ -36,10 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                   SDLRPCParameterNameManualTextEntry:@"entry",
                                                   SDLRPCParameterNameTriggerSource:SDLTriggerSourceKeyboard},
                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNamePerformInteraction}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPerformInteractionResponse* testResponse = [[SDLPerformInteractionResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.choiceID).to(equal(@25));
         expect(testResponse.manualTextEntry).to(equal(@"entry"));

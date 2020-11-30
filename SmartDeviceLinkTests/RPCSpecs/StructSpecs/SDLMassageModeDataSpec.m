@@ -35,10 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameMassageMode:SDLMassageModeLow,
                                        SDLRPCParameterNameMassageZone:SDLMassageZoneLumbar
                                        } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLMassageModeData* testStruct = [[SDLMassageModeData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.massageZone).to(equal(SDLMassageZoneLumbar));
         expect(testStruct.massageMode).to(equal(SDLMassageModeLow));

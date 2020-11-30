@@ -54,10 +54,7 @@ describe(@"TemplateColor Tests", ^{
         NSDictionary *dict = @{SDLRPCParameterNameRed: @0,
                                SDLRPCParameterNameGreen: @100,
                                SDLRPCParameterNameBlue: @255};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRGBColor *testStruct = [[SDLRGBColor alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.red).to(equal(@0));
         expect(testStruct.green).to(equal(@100));

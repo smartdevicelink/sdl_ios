@@ -127,10 +127,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNameVisibility:@(testVisibility),
                                SDLRPCParameterNameWeatherIcon:testWeatherIcon
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLWeatherData *testStruct = [[SDLWeatherData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.currentTemperature).to(equal(testCurrentTemp));
         expect(testStruct.temperatureHigh).to(equal(testTempHigh));

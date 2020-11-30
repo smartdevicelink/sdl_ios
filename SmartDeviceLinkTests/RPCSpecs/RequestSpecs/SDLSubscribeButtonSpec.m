@@ -30,10 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameButtonName:SDLButtonNamePreset5},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeButton}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSubscribeButton* testRequest = [[SDLSubscribeButton alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.buttonName).to(equal(SDLButtonNamePreset5));
     });

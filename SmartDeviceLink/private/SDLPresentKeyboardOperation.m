@@ -192,7 +192,10 @@ NS_ASSUME_NONNULL_BEGIN
                 }
 
                 weakself.keyboardProperties.autoCompleteList = (newList.count > 0) ? newList : @[];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 weakself.keyboardProperties.autoCompleteText = (newList.count > 0) ? newList.firstObject : nil;
+#pragma clang diagnostic pop
                 [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
             }];
         }

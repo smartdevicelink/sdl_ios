@@ -164,12 +164,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_showInitialData {
+    // Send static menu items and soft buttons
+    [self sdlex_createMenus];
+    self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
+
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
     [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:nil];
 
     [self sdlex_updateScreen];
-    self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
 }
 
 - (nullable RefreshUIHandler)refreshUIHandler {
@@ -244,16 +247,15 @@ NS_ASSUME_NONNULL_BEGIN
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
         
-        // Send static menu items.
-        [self sdlex_createMenus];
-
         // Subscribe to vehicle data.
         [self.vehicleDataManager subscribeToVehicleOdometer];
+
+        //Handle initial launch
+        [self sdlex_showInitialData];
     }
 
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
         // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
-        [self sdlex_showInitialData];
         [self.subscribeButtonManager subscribeToAllPresetButtons];
     } else if ([newLevel isEqualToEnum:SDLHMILevelLimited]) {
         // An active NAV or MEDIA SDL app is in the background
