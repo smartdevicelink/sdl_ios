@@ -11,16 +11,23 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLKeyboardProperties
 
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
+    self = [[self init] initWithLanguage:language keyboardLayout:layout keypressMode:keypressMode limitedCharacterList:limitedCharacterList autoCompleteList:autoCompleteList];
+    if (!self) { return nil; }
+    self.autoCompleteText = autoCompleteText;
+
+    return self;
+}
+
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
     self = [self init];
     if (!self) {
         return nil;
     }
 
     self.language = language;
-    self.keyboardLayout = layout;
+    self.keyboardLayout = keyboardLayout;
     self.keypressMode = keypressMode;
-    self.limitedCharacterList = [limitedCharacterList mutableCopy];
-    self.autoCompleteText = autoCompleteText;
+    self.limitedCharacterList = limitedCharacterList;
     self.autoCompleteList = autoCompleteList;
 
     return self;
