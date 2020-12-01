@@ -426,9 +426,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark Artworks
 
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    if (artwork != nil && !artwork.isStaticIcon) {
-        return (artwork.overwrite || ![self hasUploadedFile:artwork]);
+- (BOOL)fileNeedsUpload:(SDLFile *)file {
+    if (file != nil && !file.isStaticIcon) {
+        return (file.overwrite || ![self hasUploadedFile:file]);
     }
 
     return NO;

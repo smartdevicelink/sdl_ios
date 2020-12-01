@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_uploadInitialStateImagesWithCompletionHandler:(void (^)(void))handler {
     NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
-        if (self.fileManager != nil && [self.fileManager sdl_artworkNeedsUpload:object.currentState.artwork]) {
+        if (self.fileManager != nil && [self.fileManager fileNeedsUpload:object.currentState.artwork] && self.softButtonCapabilities.imageSupported.boolValue) {
             [initialStatesToBeUploaded addObject:object.currentState.artwork];
         }
     }
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
         for (SDLSoftButtonState *state in object.states) {
             if ([state.name isEqualToString:object.currentState.name]) { continue; }
-            if (self.fileManager != nil && [self.fileManager sdl_artworkNeedsUpload:state.artwork]) {
+            if (self.fileManager != nil && [self.fileManager fileNeedsUpload:state.artwork] && self.softButtonCapabilities.imageSupported.boolValue) {
                 [otherStatesToBeUploaded addObject:state.artwork];
             }
         }
@@ -233,7 +233,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLSoftButtonObject *button in self.softButtonObjects) {
         for (SDLSoftButtonState *state in button.states) {
             SDLArtwork *artwork = state.artwork;
-            if (self.fileManager != nil && ![self.fileManager sdl_artworkNeedsUpload:artwork]) { continue; }
+            if (self.fileManager != nil && ![self.fileManager fileNeedsUpload:artwork] && self.softButtonCapabilities.imageSupported.boolValue) { continue; }
             return NO;
         }
     }
