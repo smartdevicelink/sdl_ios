@@ -1580,6 +1580,8 @@
 		883468FA234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883468F9234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m */; };
 		883581B022D659BE00405C42 /* SDLCloseApplicationResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */; };
 		883C22CB222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C22CA222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m */; };
+		883EA83725758D24007CCDBF /* SDLCancelIdManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 883EA83525758D24007CCDBF /* SDLCancelIdManager.h */; };
+		883EA83825758D24007CCDBF /* SDLCancelIdManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 883EA83625758D24007CCDBF /* SDLCancelIdManager.m */; };
 		884554AF2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 884554AE2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m */; };
 		884AF94C220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
@@ -3420,6 +3422,8 @@
 		883468F9234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingVideoScaleManagerSpec.m; sourceTree = "<group>"; };
 		883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloseApplicationResponseSpec.m; sourceTree = "<group>"; };
 		883C22CA222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCFunctionNamesSpec.m; sourceTree = "<group>"; };
+		883EA83525758D24007CCDBF /* SDLCancelIdManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCancelIdManager.h; sourceTree = "<group>"; };
+		883EA83625758D24007CCDBF /* SDLCancelIdManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCancelIdManager.m; sourceTree = "<group>"; };
 		884554AE2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceManifestSpec.m; sourceTree = "<group>"; };
 		884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetSystemCapabilitySpec.m; sourceTree = "<group>"; };
 		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
@@ -4385,6 +4389,8 @@
 				4ABB25CF24F7E7630061BF55 /* SDLTextField+ScreenManagerExtensions.m */,
 				4ABB25D324F7E7630061BF55 /* SDLWindowCapability+ScreenManagerExtensions.h */,
 				4ABB25CE24F7E7630061BF55 /* SDLWindowCapability+ScreenManagerExtensions.m */,
+				883EA83525758D24007CCDBF /* SDLCancelIdManager.h */,
+				883EA83625758D24007CCDBF /* SDLCancelIdManager.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -7224,6 +7230,7 @@
 				4ABB273924F7FD1D0061BF55 /* SDLDisplayType.h in Headers */,
 				4ABB2A7824F847D40061BF55 /* SDLPerformAppServiceInteractionResponse.h in Headers */,
 				4ABB2A8524F847DF0061BF55 /* SDLRegisterAppInterfaceResponse.h in Headers */,
+				883EA83725758D24007CCDBF /* SDLCancelIdManager.h in Headers */,
 				4A8BD24924F93135000945E3 /* SDLMenuParams.h in Headers */,
 				4ABB2A3A24F847980061BF55 /* SDLEndAudioPassThruResponse.h in Headers */,
 				4A8BD28324F9343F000945E3 /* SDLRadioControlData.h in Headers */,
@@ -8230,6 +8237,7 @@
 				4ABB28C324F82A6A0061BF55 /* SDLOnAppInterfaceUnregistered.m in Sources */,
 				4ABB2A3224F847980061BF55 /* SDLCancelInteractionResponse.m in Sources */,
 				4ABB259C24F7E6B90061BF55 /* SDLMenuConfiguration.m in Sources */,
+				883EA83825758D24007CCDBF /* SDLCancelIdManager.m in Sources */,
 				4ABB24C724F592900061BF55 /* SDLError.m in Sources */,
 				4ABB273624F7FD1D0061BF55 /* SDLDistanceUnit.m in Sources */,
 				4ABB263A24F7F4470061BF55 /* SDLStreamingAudioLifecycleManager.m in Sources */,

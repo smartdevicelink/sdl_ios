@@ -13,6 +13,7 @@
 #import "SDLAlertResponse.h"
 #import "SDLAlertView.h"
 #import "SDLArtwork.h"
+#import "SDLCancelInteraction.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLFile.h"
@@ -41,13 +42,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentCapabilities;
 @property (strong, nonatomic, readwrite) SDLAlertView *alertView;
 @property (assign, nonatomic) UInt16 cancelId;
-
 @property (copy, nonatomic, nullable) NSError *internalError;
+
+@end
+
+@interface SDLAlertView()
+
+/// Handler called when the alert should be dismissed.
+@property (nullable, copy, nonatomic) SDLAlertCanceledHandler canceledHandler;
 
 @end
 
 @interface SDLSoftButtonObject()
 
+/// Unique id assigned to the soft button.
 @property (assign, nonatomic) NSUInteger buttonId;
 
 @end
@@ -64,7 +72,13 @@ NS_ASSUME_NONNULL_BEGIN
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _systemCapabilityManager = systemCapabilityManager;
+
     _alertView = alertView;
+    __weak typeof(self) weakSelf = self;
+    self.alertView.canceledHandler = ^{
+        [weakSelf sdl_cancelInteraction];
+    };
+
     _cancelId = cancelID;
     _operationId = [NSUUID UUID];
     _currentCapabilities = currentWindowCapability;
@@ -102,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Uploads
 
 /// Upload the alert audio files.
-/// @param handler Called when all images have been uploaded
+/// @param handler Called when all audio files have been uploaded
 - (void)sdl_uploadAudioFilesWithCompletionHandler:(void (^)(void))handler {
     if (![self sdl_supportsAlertAudioFile]) {
         SDLLogV(@"Module does not support audio files for alerts");
@@ -186,6 +200,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/// Sends the alert RPC to the module. The operation is finished once a response has been received from the module.
 - (void)sdl_presentAlert {
     [self.connectionManager sendConnectionRequest:self.alert withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (self.isCancelled) {
@@ -209,8 +224,45 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+#pragma mark - Cancel
+
+/// Cancels the alert. If the alert has not yet been sent to the module, it will not be sent. If the alert is already presented on the module, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to modules supporting RPC spec versions 6.0+. On older versions alert will not be dismissed.
+- (void)sdl_cancelInteraction {
+    if (self.isFinished) {
+        SDLLogW(@"This operation has already finished so it can not be canceled.");
+        return;
+    } else if (self.isCancelled) {
+        SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
+        return;
+    } else if (self.isExecuting) {
+        if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+            SDLLogE(@"Canceling an alert is not supported on this module");
+            return;
+        }
+
+        SDLLogD(@"Canceling the presented alert");
+
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithAlertCancelID:self.cancelId];
+
+        __weak typeof(self) weakSelf = self;
+        [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                weakSelf.internalError = error;
+                SDLLogE(@"Error canceling the presented alert: %@, with error: %@", request, error);
+                return;
+            }
+            SDLLogD(@"The presented alert was canceled successfully");
+        }];
+    } else {
+        SDLLogD(@"Canceling an alert that has not yet been sent to Core");
+        [self cancel];
+    }
+}
+
 #pragma mark - Private Getters / Setters
 
+/// Assembles an `Alert` RPC from the `SDLAlertView` information.
+/// @return The `Alert` RPC to be sent to the module.
 - (SDLAlert *)alert {
     SDLAlert *alert = [[SDLAlert alloc] init];
     [self sdl_assembleAlertText:alert];
@@ -244,25 +296,37 @@ NS_ASSUME_NONNULL_BEGIN
     return alert;
 }
 
+/// Checks if an artwork needs to be uploaded to the module. An artwork only needs to be uploaded if it is a dynamic image and an artwork with the same name has not yet been uploaded to the module. If the artwork has already been uploaded to the module but the `overwrite` property has been set to true, then the artwork needs to be re-uploaded.
+/// @param artwork The artwork to check the upload status of
+/// @return True if artwork needs to be uploaded; false if not.
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
     return ((artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon) || ([self.fileManager hasUploadedFile:artwork] && artwork.overwrite));
 }
 
+/// Checks if the connected module or current template supports soft button images.
+/// @return True if soft button images are currently supported; false if not.
 - (BOOL)sdl_supportsSoftButtonImages {
     SDLSoftButtonCapabilities *softButtonCapabilities = self.currentCapabilities.softButtonCapabilities.firstObject;
     return softButtonCapabilities.imageSupported.boolValue;
 }
 
+/// Checks if the connected module supports audio files. Using an audio file in an alert will only work if connected to modules supporting RPC spec versions 5.0+.
+/// @return True if the module supports playing audio files in an alert; false if not.
 - (BOOL)sdl_supportsAlertAudioFile {
     return ([SDLGlobals sharedGlobals].rpcVersion.major >= 5 && [self.systemCapabilityManager.speechCapabilities containsObject:SDLSpeechCapabilitiesFile]);
 }
 
+/// Checks if the connected module or current template supports alert icons.
+/// @return True if alert icons are currently supported; false if not.
 - (BOOL)sdl_supportsAlertIcon {
     return [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameAlertIcon];
 }
 
 #pragma mark - Text Helpers
 
+/// Populates the alert RPC text-fields based on the number of text-fields the current template supports. If more text-fields are set in the SDLAlertView than the template supports, the text is concancated so all text fits in the currently available text-fields.
+/// @param alert The alert RPC with no text-fields set
+/// @return An alert RPC with the text-fields set
 - (SDLAlert *)sdl_assembleAlertText:(SDLAlert *)alert {
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return alert; }
@@ -279,6 +343,8 @@ NS_ASSUME_NONNULL_BEGIN
     return alert;
 }
 
+/// Generates a list of all non-empty text-fields set in the SDLAlertView in order from first, second to third.
+/// @return An array of all the text-fields set in the SDLAlertView
 - (NSArray<NSString *> *)sdl_findNonNilTextFields {
     NSMutableArray *array = [NSMutableArray array];
     (self.alertView.text.length > 0) ? [array addObject:self.alertView.text] : nil;
@@ -288,6 +354,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [array copy];
 }
 
+/// Called if the alert template only supports one line of text. A single string is created from all the text and is used to set the first text-field in the alert RPC.
+/// @param alert The alert RPC
+/// @param fields A list all the text set in the SDLAlertView
+/// @return An alert RPC with the text-fields set
 - (SDLAlert *)sdl_assembleOneLineAlertText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
     NSMutableString *alertString = [NSMutableString stringWithString:[fields objectAtIndex:0]];
     for (NSUInteger i = 1; i < fields.count; i+= 1) {
@@ -298,6 +368,10 @@ NS_ASSUME_NONNULL_BEGIN
     return alert;
 }
 
+/// Called if the alert template only supports two lines of text. The first text-field in the alert RPC is set with the first available text and the second text-field is set with a single string created from all remaining text.
+/// @param alert The alert RPC
+/// @param fields A list all the text set in the SDLAlertView
+/// @return An alert RPC with the text-fields set
 - (SDLAlert *)sdl_assembleTwoLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
     if (fields.count <= 2) {
         alert.alertText1 = fields.count > 0 ? [fields objectAtIndex:0] : nil;
@@ -310,6 +384,10 @@ NS_ASSUME_NONNULL_BEGIN
     return alert;
 }
 
+/// Called if the alert template supports all three lines of text. Each text-field in the alert RPC is set with its corresponding text.
+/// @param alert The alert RPC
+/// @param fields A list all the text set in the SDLAlertView
+/// @return An alert RPC with the text-fields set
 - (SDLAlert *)sdl_assembleThreeLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
     alert.alertText1 = fields.count > 0 ? [fields objectAtIndex:0] : nil;
     alert.alertText2 = fields.count > 1 ? [fields objectAtIndex:1] : nil;

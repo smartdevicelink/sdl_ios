@@ -9,6 +9,7 @@
 #import "SDLAlertManager.h"
 
 #import "SDLAlertView.h"
+#import "SDLCancelIdManager.h"
 #import "SDLDisplayCapability.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
@@ -33,18 +34,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
-@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
-@property (assign, nonatomic) UInt16 nextCancelId;
-
+@property (strong, nonatomic) SDLCancelIdManager *cancelIdManager;
 @end
-
-UInt16 const AlertCancelIdMin = 1;
 
 @implementation SDLAlertManager
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager cancelIdManager:(SDLCancelIdManager *)cancelIdManager {
     self = [super init];
     if (!self) { return nil; }
 
@@ -52,10 +49,9 @@ UInt16 const AlertCancelIdMin = 1;
     _fileManager = fileManager;
     _systemCapabilityManager = systemCapabilityManager;
     _permissionManager = permissionManager;
+    _cancelIdManager = cancelIdManager;
 
     _transactionQueue = [self sdl_newTransactionQueue];
-    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.alertManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
-    _nextCancelId = AlertCancelIdMin;
 
     [self sdl_subscribeToPermissions];
 
@@ -72,7 +68,6 @@ UInt16 const AlertCancelIdMin = 1;
     SDLLogD(@"Stopping manager");
 
     _currentWindowCapability = nil;
-    _nextCancelId = AlertCancelIdMin;
 
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
@@ -81,7 +76,7 @@ UInt16 const AlertCancelIdMin = 1;
 }
 
 - (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLAlertCompletionHandler)handler {
-    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager systemCapabilityManager:self.systemCapabilityManager currentWindowCapability:self.currentWindowCapability alertView:[alert copy] cancelID:self.nextCancelId];
+    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager systemCapabilityManager:self.systemCapabilityManager currentWindowCapability:self.currentWindowCapability alertView:[alert copy] cancelID:self.cancelIdManager.nextCancelId];
 
     __weak typeof(op) weakPreloadOp = op;
     op.completionBlock = ^{
@@ -129,18 +124,6 @@ UInt16 const AlertCancelIdMin = 1;
             self.transactionQueue.suspended = (status != SDLPermissionGroupStatusAllowed);
         }];
     }
-}
-
-#pragma mark - Getters
-
-- (UInt16)nextCancelId {
-    __block UInt16 cancelId = 0;
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        cancelId = self->_nextCancelId;
-        self->_nextCancelId = cancelId + 1;
-    }];
-
-    return cancelId;
 }
 
 
