@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAlertView()
 
 /// Handler called when the alert should be dismissed.
-@property (nullable, copy, nonatomic) SDLAlertCanceledHandler canceledHandler;
+@property (copy, nonatomic) SDLAlertCanceledHandler canceledHandler;
 
 @end
 
@@ -310,10 +310,12 @@ NS_ASSUME_NONNULL_BEGIN
     return softButtonCapabilities.imageSupported.boolValue;
 }
 
-/// Checks if the connected module supports audio files. Using an audio file in an alert will only work if connected to modules supporting RPC spec versions 5.0+.
+/// Checks if the connected module supports audio files. Using an audio file in an alert will only work if connected to modules supporting RPC spec versions 5.0+. If the module does not return a speechCapabilities, assume that the module supports playing an audio file.
 /// @return True if the module supports playing audio files in an alert; false if not.
 - (BOOL)sdl_supportsAlertAudioFile {
-    return ([SDLGlobals sharedGlobals].rpcVersion.major >= 5 && [self.systemCapabilityManager.speechCapabilities containsObject:SDLSpeechCapabilitiesFile]);
+    NSUInteger majorVersion = [SDLGlobals sharedGlobals].rpcVersion.major;
+    BOOL supportSpeechCapabilities = self.systemCapabilityManager.speechCapabilities == nil ? YES : [self.systemCapabilityManager.speechCapabilities containsObject:SDLSpeechCapabilitiesFile];
+    return (majorVersion >= 5 && supportSpeechCapabilities);
 }
 
 /// Checks if the connected module or current template supports alert icons.

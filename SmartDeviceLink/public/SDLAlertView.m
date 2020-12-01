@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAlertView()
 
-@property (nullable, copy, nonatomic) SDLAlertCanceledHandler canceledHandler;
+@property (copy, nonatomic) SDLAlertCanceledHandler canceledHandler;
 
 @end
 
@@ -121,6 +121,7 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
     newAlertView->_showWaitIndicator = _showWaitIndicator;
     newAlertView->_softButtons = [_softButtons copyWithZone:zone];
     newAlertView->_icon = [_icon copyWithZone:zone];
+    newAlertView->_canceledHandler = _canceledHandler;
     return newAlertView;
 }
 
@@ -131,7 +132,7 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
 }
 
 - (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"SDLAlertView: \"%@\", text: \"%@\", secondaryText: \"%@\", tertiaryText: \"%@\", timeout: %f, showWaitIndicator: %d, audio: \"%@\", softButtons: \"%@\", icon: \"%@\"", [self sdl_alertType], _text, _secondaryText, _tertiaryText, _timeout, _showWaitIndicator, _audio, _softButtons, _icon];
+    return [NSString stringWithFormat:@"SDLAlertView: \"%@\", text: \"%@\", secondaryText: \"%@\", tertiaryText: \"%@\", timeout: %.1f, showWaitIndicator: %d, audio: \"%@\", softButtons: \"%@\", icon: \"%@\"", [self sdl_alertType], _text, _secondaryText, _tertiaryText, _timeout, _showWaitIndicator, _audio, _softButtons, _icon];
 }
 
 - (NSString *)sdl_alertType {

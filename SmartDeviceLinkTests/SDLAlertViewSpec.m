@@ -222,6 +222,7 @@ describe(@"An SDLAlertView", ^{
 
         beforeEach(^{
             testAlertView = [[SDLAlertView alloc] initWithText:testTextField1 secondaryText:testTextField2 tertiaryText:testTextField3 timeout:testTimeout showWaitIndicator:testShowWaitIndicator audioIndication:testAudio buttons:testSoftButtons icon:testIcon];
+            testAlertView.canceledHandler = ^{};
             copiedTestAlertView = [testAlertView copy];
         });
 
@@ -229,6 +230,7 @@ describe(@"An SDLAlertView", ^{
             expect(testAlertView).toNot(equal(copiedTestAlertView));
 
             expect(copiedTestAlertView.text).to(equal(testAlertView.text));
+
             expect(copiedTestAlertView.secondaryText).to(equal(testAlertView.secondaryText));
             expect(copiedTestAlertView.tertiaryText).to(equal(testAlertView.tertiaryText));
             expect(copiedTestAlertView.timeout).to(equal(testAlertView.timeout));
@@ -240,6 +242,7 @@ describe(@"An SDLAlertView", ^{
             expect(copiedTestAlertView.showWaitIndicator).to(equal(testAlertView.showWaitIndicator));
             expect(copiedTestAlertView.softButtons).to(equal(testAlertView.softButtons));
             expect(copiedTestAlertView.icon).to(equal(testAlertView.icon));
+            expect((id)copiedTestAlertView.canceledHandler).to(equal((id)testAlertView.canceledHandler));
         });
 
         it(@"Should not update the copy if changes are made to the original", ^{
@@ -251,6 +254,7 @@ describe(@"An SDLAlertView", ^{
             testAlertView.showWaitIndicator = YES;
             testAlertView.softButtons = @[];
             testAlertView.icon = testIcon2;
+            testAlertView.canceledHandler = ^{};
 
             expect(copiedTestAlertView.text).toNot(equal(testAlertView.text));
             expect(copiedTestAlertView.secondaryText).toNot(equal(testAlertView.secondaryText));
@@ -260,6 +264,7 @@ describe(@"An SDLAlertView", ^{
             expect(copiedTestAlertView.showWaitIndicator).toNot(equal(testAlertView.showWaitIndicator));
             expect(copiedTestAlertView.softButtons).toNot(equal(testAlertView.softButtons));
             expect(copiedTestAlertView.icon).toNot(equal(testAlertView.icon));
+            expect((id)copiedTestAlertView.canceledHandler).toNot(equal((id)testAlertView.canceledHandler));
         });
     });
 });

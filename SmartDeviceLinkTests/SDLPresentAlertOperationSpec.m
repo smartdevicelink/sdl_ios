@@ -14,8 +14,11 @@
 #import "SDLAlertResponse.h"
 #import "SDLAlertView.h"
 #import "SDLAlertAudioData.h"
+#import "SDLCancelInteraction.h"
+#import "SDLCancelInteractionResponse.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLFunctionID.h"
 #import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLPresentAlertOperation.h"
@@ -110,6 +113,10 @@ describe(@"SDLPresentAlertOperation", ^{
     });
 
     describe(@"creating the alert", ^{
+        beforeEach(^{
+            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+        });
+
         describe(@"setting the text fields", ^{
             describe(@"with all three text fields set", ^{
                 beforeEach(^{
@@ -557,6 +564,10 @@ describe(@"SDLPresentAlertOperation", ^{
             OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
             OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
+            SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:3 patch:0];
+            id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+            OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+
             testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
             testPresentAlertOperation.completionBlock = ^{
@@ -589,7 +600,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
         it(@"should not send the alert if the operation has been cancelled", ^{
             [testPresentAlertOperation cancel];
-            OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg any] withResponseHandler:[OCMArg any]]);
+            OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
 
             [testPresentAlertOperation start];
         });
@@ -607,7 +618,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 response.success = @YES;
                 response.resultCode = SDLResultSuccess;
 
-                OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg any] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, [NSNull null], nil])]);
+                OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, [NSNull null], nil])]);
 
                 expect(testPresentAlertOperation.internalError).toEventually(beNil());
                 expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
@@ -622,11 +633,169 @@ describe(@"SDLPresentAlertOperation", ^{
                 NSError *defaultError = [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
                 NSError *expectedAlertResponseError = [NSError sdl_alertManager_presentationFailed:@{@"tryAgainTime": response.tryAgainTime, @"error": defaultError}];
 
-                OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg any] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, defaultError, nil])]);
+                OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, defaultError, nil])]);
 
                 expect(testPresentAlertOperation.internalError).toEventually(equal(expectedAlertResponseError));
                 expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                 expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+            });
+        });
+    });
+
+    describe(@"canceling the alert", ^{
+        __block SDLAlertView *testCancelAlertView = nil;
+
+        beforeEach(^{
+            testCancelAlertView = [[SDLAlertView alloc] init];
+            testCancelAlertView.text = @"Alert view to be canceled";
+
+            [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertMainFieldLines];
+
+            testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testCancelAlertView cancelID:testCancelID];
+            testPresentAlertOperation.completionBlock = ^{
+                hasCalledOperationCompletionHandler = YES;
+            };
+        });
+
+        context(@"Module supports the CancelInteration RPC", ^{
+            beforeEach(^{
+                SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+            });
+
+            describe(@"If the operation is executing", ^{
+                it(@"should attempt to send a cancel interaction", ^{
+                    OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
+                        return [value isKindOfClass:[SDLAlert class]];
+                    }] withResponseHandler:[OCMArg any]]);
+
+                    [testPresentAlertOperation start];
+
+                    OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
+                    expect(testPresentAlertOperation.isExecuting).to(beTrue());
+                    expect(testPresentAlertOperation.isFinished).to(beFalse());
+                    expect(testPresentAlertOperation.isCancelled).to(beFalse());
+
+                    OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLCancelInteraction *cancelRequest = (SDLCancelInteraction *)value;
+                        expect(cancelRequest).to(beAnInstanceOf([SDLCancelInteraction class]));
+                        expect(cancelRequest.cancelID).to(equal(testCancelID));
+                        expect(cancelRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert]));
+                        return [value isKindOfClass:[SDLCancelInteraction class]];
+                    }] withResponseHandler:[OCMArg any]]);
+
+                    [testCancelAlertView cancel];
+
+                    OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
+                });
+
+                context(@"If the cancel interaction was successful", ^{
+                    beforeEach(^{
+                        [testPresentAlertOperation start];
+                    });
+
+                    it(@"should not save an error", ^{
+                        SDLCancelInteractionResponse *testResponse = [[SDLCancelInteractionResponse alloc] init];
+                        testResponse.success = @YES;
+                        testResponse.resultCode = SDLResultSuccess;
+
+                        OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], testResponse, [NSNull null], nil])]);
+
+                        [testCancelAlertView cancel];
+
+                        expect(testPresentAlertOperation.error).to(beNil());
+                    });
+                });
+
+                context(@"If the cancel interaction was not successful", ^{
+                    beforeEach(^{
+                        [testPresentAlertOperation start];
+                    });
+
+                    it(@"should save an error", ^{
+                        SDLCancelInteractionResponse *testResponse = [[SDLCancelInteractionResponse alloc] init];
+                        testResponse.success = @NO;
+                        testResponse.resultCode = SDLResultAborted;
+                        NSError *defaultError = [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
+
+                        OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], testResponse, defaultError, nil])]);
+
+                        [testCancelAlertView cancel];
+
+                        expect(testPresentAlertOperation.error).to(equal(defaultError));
+                    });
+                });
+            });
+
+            describe(@"If the operation has already finished", ^{
+                beforeEach(^{
+                    [testPresentAlertOperation finishOperation];
+                });
+
+                it(@"should not attempt to send a cancel interaction", ^{
+                    OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+
+                    [testCancelAlertView cancel];
+                });
+            });
+
+            describe(@"If the started operation has been canceled", ^{
+                beforeEach(^{
+                    [testPresentAlertOperation start];
+                    [testPresentAlertOperation cancel];
+                });
+
+                it(@"should not attempt to send a cancel interaction", ^{
+                    OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+
+                    [testCancelAlertView cancel];
+                });
+            });
+
+            context(@"If the operation has not started", ^{
+                it(@"should not attempt to send a cancel interaction", ^{
+                    OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+
+                    [testCancelAlertView cancel];
+                });
+
+                context(@"Once the operation has started after being canceled", ^{
+                    it(@"should not attempt to send a cancel interaction", ^{
+                        OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+
+                        [testCancelAlertView cancel];
+
+                        OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+
+                        [testPresentAlertOperation start];
+                        [testCancelAlertView cancel];
+                    });
+                });
+            });
+        });
+
+        context(@"Module does not support the CancelInteration RPC", ^{
+            beforeEach(^{
+                SDLVersion *supportedVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+            });
+
+            it(@"should not attempt to send a cancel interaction if the operation is executing", ^{
+                [testPresentAlertOperation start];
+
+                OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+
+                [testCancelAlertView cancel];
+            });
+
+            it(@"should cancel the operation if it has not yet been run", ^{
+                OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+
+                [testCancelAlertView cancel];
+
+                expect(testPresentAlertOperation.isCancelled).to(beTrue());
             });
         });
     });

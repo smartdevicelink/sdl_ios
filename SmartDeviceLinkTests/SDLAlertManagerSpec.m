@@ -163,22 +163,6 @@ describe(@"alert manager tests", ^{
             });
         });
     });
-
-    describe(@"dismissing an alert", ^{
-        __block SDLAlertView *testAlertView = nil;
-
-        beforeEach(^{
-            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
-            testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager cancelIdManager:mockCancelIdManager];
-        });
-
-        it(@"should add the alert operation to the queue", ^{
-            [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
-
-            expect(testAlertManager.transactionQueue.operations.count).to(equal(1));
-            [testAlertView cancel];
-        });
-    });
 });
 
 QuickSpecEnd
