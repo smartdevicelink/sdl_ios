@@ -90,8 +90,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     return queue;
 }
 
-/// Suspend the queue if the soft button capabilities are nil (we assume that soft buttons are not supported)
-/// OR if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
+/// Suspend the queue if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
 - (void)sdl_updateTransactionQueueSuspended {
     if ([self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
         SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@", ([self.currentLevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"));
@@ -127,6 +126,8 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     [self.transactionQueue addOperation:updateOperation];
 }
 
+/// Update currently pending operations with a new set of "current" voice commands (the current state of the head unit) based on a previous completed operation
+/// @param currentVoiceCommands The new current voice commands
 - (void)sdl_updatePendingOperationsWithNewCurrentVoiceCommands:(NSArray<SDLVoiceCommand *> *)currentVoiceCommands {
     for (NSOperation *operation in self.transactionQueue.operations) {
         if (operation.isExecuting) { continue; }

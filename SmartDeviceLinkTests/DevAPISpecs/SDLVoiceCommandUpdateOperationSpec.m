@@ -1,6 +1,5 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
-#import <OCMock/OCMock.h>
 
 #import "SDLAddCommand.h"
 #import "SDLAddCommandResponse.h"
@@ -20,7 +19,7 @@
 
 @end
 
-QuickSpecBegin(SDLVoiceCommandOperationSpec)
+QuickSpecBegin(SDLVoiceCommandUpdateOperationSpec)
 
 __block SDLDeleteCommandResponse *successDelete = nil;
 __block SDLDeleteCommandResponse *failDelete = nil;
