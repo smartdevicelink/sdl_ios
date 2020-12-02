@@ -95,7 +95,8 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"Deleting voice commands progress: %f", percentComplete);
     } completionHandler:^(BOOL success) {
         if (!success) {
-            SDLLogE(@"Error deleting old voice commands: %@", errors);
+            SDLLogE(@"Failed to send voice commands: %@", errors.allKeys);
+            SDLLogE(@"Failure reasons: %@", errors.allValues);
             weakSelf.internalError = [NSError sdl_menuManager_failedToUpdateWithDictionary:errors];
             return completionHandler();
         }
@@ -127,7 +128,8 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"Sending voice commands progress: %f", percentComplete);
     } completionHandler:^(BOOL success) {
         if (!success) {
-            SDLLogE(@"Failed to send voice commands: %@", errors);
+            SDLLogE(@"Failed to send voice commands: %@", errors.allKeys);
+            SDLLogE(@"Failure reasons: %@", errors.allValues);
             weakSelf.internalError = [NSError sdl_menuManager_failedToUpdateWithDictionary:errors];
             return completionHandler();
         }
