@@ -78,3 +78,20 @@ jobs:
               uses: codecov/codecov-action@v1.0.10
               with: 
                 yml: ./codecov.yml
+
+    rpcTest:
+        name: RPC Generator Tests
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2.3.1
+              with:
+                  submodules: true
+
+            - name: Install dependencies
+              run: python3 -m pip install -r generator/requirements.txt
+
+            - name: Run RPC generator tests
+              run: python3 generator/test/runner.py

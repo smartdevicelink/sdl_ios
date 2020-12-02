@@ -44,16 +44,29 @@ class TestStructsProducer(TestCase):
         expected['origin'] = 'CloudAppProperties'
         expected['name'] = 'SDLCloudAppProperties'
         expected['extends_class'] = 'SDLRPCStruct'
-        expected['imports'] = {'.m': set(), '.h': {'enum': {'SDLRPCStruct'}, 'struct': set()}}
+        expected['imports'] = {
+            '.h': {
+                'enum': ['SDLRPCStruct'],
+                'struct': []
+                },
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLCloudAppProperties',
+                'SDLRPCParameterNames'
+                ]
+        }
+        expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
+                history=None,
                 constructor_argument='appID', constructor_argument_override=None, constructor_prefix='AppID',
-                deprecated=False, description=['{"default_value": null, "max_length": null, "min_length": null}'],
+                deprecated=False, description=['{"string_min_length": null, "string_max_length": null}'],
                 for_name='object', mandatory=True, method_suffix='AppID', modifier='strong', of_class='NSString.class',
                 origin='appID', since=None, type_native='NSString *', type_sdl='NSString *'),
             self.producer.param_named(
+                history=None,
                 constructor_argument='valueParam', constructor_argument_override=None, constructor_prefix='ValueParam',
-                deprecated=False, description=['{"default_value": null, "max_length": null, "min_length": null}'],
+                deprecated=False, description=['{"string_min_length": null, "string_max_length": null}'],
                 for_name='object', mandatory=True, method_suffix='ValueParam', modifier='strong',
                 of_class='NSString.class', origin='valueParam', since=None, type_native='NSString *',
                 type_sdl='NSString *')
@@ -67,7 +80,7 @@ class TestStructsProducer(TestCase):
         ]
 
         expected['constructors'] = (self.producer.constructor_named(
-            all=argument, arguments=argument, deprecated=False, self='',
+            all=argument, arguments=argument, self='',
             init='AppID:(NSString *)appID valueParam:(NSString *)valueParam'),)
 
         actual = self.producer.transform(item)
@@ -85,12 +98,24 @@ class TestStructsProducer(TestCase):
         expected['origin'] = 'TouchEvent'
         expected['name'] = 'SDLTouchEvent'
         expected['extends_class'] = 'SDLRPCStruct'
-        expected['imports'] = {'.h': {'enum': {'SDLRPCStruct'}, 'struct': set()}, '.m': set()}
+        expected['imports'] = {
+            '.h': {
+                'enum': ['SDLRPCStruct'],
+                'struct': []
+                },
+            '.m': [
+                'NSMutableDictionary+Store',
+                'SDLRPCParameterNames',
+                'SDLTouchEvent'
+                ]
+        }
+        expected['history'] = None
         expected['params'] = (
             self.producer.param_named(
+                history=None,
                 constructor_argument='idParam', constructor_argument_override=None,
                 constructor_prefix='IdParam', deprecated=False,
-                description=['{"default_value": null, "max_value": 9, "min_value": 0}'], for_name='object',
+                description=['{"num_min_value": 0, "num_max_value": 9}'], for_name='object',
                 mandatory=True, method_suffix='IdParam', modifier='strong', of_class='NSNumber.class',
                 origin='idParam', since=None, type_native='UInt8', type_sdl='NSNumber<SDLUInt> *'),)
 
@@ -99,7 +124,7 @@ class TestStructsProducer(TestCase):
                                          constructor_argument='@(idParam)', origin='idParam')]
 
         expected['constructors'] = (self.producer.constructor_named(
-            all=argument, arguments=argument, deprecated=False, self='',
+            all=argument, arguments=argument, self='',
             init='IdParam:(UInt8)idParam'),)
 
         actual = self.producer.transform(item)
