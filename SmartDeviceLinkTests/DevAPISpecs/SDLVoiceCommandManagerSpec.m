@@ -106,6 +106,17 @@ describe(@"voice command manager", ^{
             expect(testManager.transactionQueue.isSuspended).to(beFalse());
             expect(testManager.transactionQueue.operationCount).to(equal(1));
         });
+
+        describe(@"when the new voice commands is identical to the existing ones", ^{
+            beforeEach(^{
+                testManager.voiceCommands = @[testVoiceCommand];
+                testManager.voiceCommands = @[testVoiceCommand];
+            });
+
+            it(@"should only have one operation", ^{
+                expect(testManager.transactionQueue.operationCount).to(equal(1));
+            });
+        });
     });
 
     // on disconnect

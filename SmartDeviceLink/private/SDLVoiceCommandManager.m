@@ -105,7 +105,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     if (voiceCommands == self.voiceCommands) {
-        SDLLogD(@"New voice commands are equivalent to existing voice commands, skipping...");
+        SDLLogD(@"New voice commands are equal to the existing voice commands, skipping...");
         return;
     }
 
