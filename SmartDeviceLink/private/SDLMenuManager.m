@@ -539,7 +539,7 @@ UInt32 const MenuCellIdMin = 1;
 
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
-        if (self.fileManager != nil && [self.fileManager fileNeedsUpload:cell.icon]) {
+        if ([self.fileManager fileNeedsUpload:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
         }
 
@@ -554,9 +554,9 @@ UInt32 const MenuCellIdMin = 1;
 - (BOOL)sdl_areAllCellArtworksUploaded:(NSArray<SDLMenuCell *> *)cells {
     for (SDLMenuCell *cell in cells) {
         SDLArtwork *artwork = cell.icon;
-        if (artwork != nil && !artwork.isStaticIcon && self.fileManager != nil && ![self.fileManager hasUploadedFile:(artwork)]) {
+        if (artwork != nil && !artwork.isStaticIcon && ![self.fileManager hasUploadedFile:artwork]) {
             return NO;
-        } else if (cell.subCells != nil && (cell.subCells.count) > 0) {
+        } else if (cell.subCells.count > 0) {
             return [self sdl_areAllCellArtworksUploaded:cell.subCells];
         }
     }

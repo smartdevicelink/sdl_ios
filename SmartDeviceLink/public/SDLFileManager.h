@@ -137,17 +137,16 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler NS_SWIFT_NAME(upload(files:completionHandler:));
 
 /**
- * Check if an SdlFile needs to be uploaded to Core or not.
- * It is different from hasUploadedFile() because it takes isStaticIcon and overwrite properties into consideration.
- * ie, if the file is static icon, the method always returns false.
- * If the file is dynamic, it returns true in one of these situations:
- * 1) the file has the overwrite property set to true
- * 2) the file hasn't been uploaded to Core before.
+ * Check if an SDLFile needs to be uploaded to Core or not. This method differs from hasUploadedFile() because it takes the `isStaticIcon` and `overwrite` properties into consideration.
  *
- * @param file the SdlFile that needs to be checked
- * @return boolean that tells whether file needs to be uploaded to Core or not
+ * For example, if the file is static icon, the method always returns false.
+ *
+ * If the file is dynamic, it returns true in one of these situations: 1) the file has the overwrite property set to true, 2) the file hasn't been uploaded to Core before.
+ *
+ * @param file the SDLFile that needs to be checked
+ * @return BOOL that tells whether file needs to be uploaded to Core or not
  */
-- (BOOL)fileNeedsUpload:(SDLArtwork *)file;
+- (BOOL)fileNeedsUpload:(SDLFile *)file;
 
 /**
  *  Uploads an artwork file to the remote file system and returns the name of the uploaded artwork once completed. If an artwork with the same name is already on the remote system, the artwork is not uploaded and the artwork name is simply returned.
