@@ -17,7 +17,7 @@
  */
 
 NS_ASSUME_NONNULL_BEGIN
-__deprecated_msg("Use the displayCapabilities property in SDLSystemCapabilityManager instead.")
+__deprecated_msg("Use SDLSystemCapabilityManager.defaultMainWindowCapability instead")
 @interface SDLDisplayCapabilities : SDLRPCStruct
 
 /**
