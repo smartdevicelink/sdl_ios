@@ -70,100 +70,176 @@ describe(@"SDLAudioData", ^{
         __block NSString *testSpeechSynthesizerString3 = @"testSpeechSynthesizerString3";
         __block NSString *testEmptySpeechSynthesizerString = @"";
 
-        beforeEach(^{
-            testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
+        context(@"If adding audio files", ^{
+            it(@"Should append the new audio files to the current existing audio files", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
+                [testAudioData addAudioFiles:@[testAudioFile, testAudioFile]];
+
+                expect(testAudioData.audioFiles.count).to(equal(3));
+                expect(testAudioData.prompts).to(beNil());
+            });
+
+            it(@"Should add the new audio files to a nil list of audio files", ^{
+                testAudioData = [[SDLAudioData alloc] initWithSpeechSynthesizerString:testSpeechSynthesizerString1];
+                [testAudioData addAudioFiles:@[testAudioFile, testAudioFile]];
+
+                expect(testAudioData.audioFiles.count).to(equal(2));
+                expect(testAudioData.prompts.count).to(equal(1));
+            });
         });
 
-        it(@"Should append the additional audio files", ^{
-            [testAudioData addAudioFiles:@[testAudioFile, testAudioFile]];
+        context(@"If adding speech synthesizer strings", ^{
+            it(@"Should append the additional speech synthesizer strings to the existing prompts", ^{
+                testAudioData = [[SDLAudioData alloc] initWithSpeechSynthesizerString:testSpeechSynthesizerString1];
+                [testAudioData addSpeechSynthesizerStrings:@[testSpeechSynthesizerString2, testSpeechSynthesizerString3]];
 
-            expect(testAudioData.audioFiles.count).to(equal(3));
-            expect(testAudioData.prompts).to(beNil());
+                expect(testAudioData.audioFiles).to(beNil());
+                expect(testAudioData.prompts.count).to(equal(3));
+
+                SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
+                expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
+                expect(firstPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+
+                SDLTTSChunk *secondPrompt = testAudioData.prompts[1];
+                expect(secondPrompt.text).to(equal(testSpeechSynthesizerString2));
+                expect(secondPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+
+                SDLTTSChunk *thirdPrompt = testAudioData.prompts[2];
+                expect(thirdPrompt.text).to(equal(testSpeechSynthesizerString3));
+                expect(thirdPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+            });
+
+            it(@"Should add the new speech synthesizer strings to a nil list of prompts", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
+                [testAudioData addSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testSpeechSynthesizerString2, testSpeechSynthesizerString3]];
+
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts.count).to(equal(3));
+
+                SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
+                expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
+                expect(firstPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+
+                SDLTTSChunk *secondPrompt = testAudioData.prompts[1];
+                expect(secondPrompt.text).to(equal(testSpeechSynthesizerString2));
+                expect(secondPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+
+                SDLTTSChunk *thirdPrompt = testAudioData.prompts[2];
+                expect(thirdPrompt.text).to(equal(testSpeechSynthesizerString3));
+                expect(thirdPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+            });
+
+            it(@"Should not append any additional speech synthesizer strings that are empty", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
+                [testAudioData addSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testEmptySpeechSynthesizerString, testSpeechSynthesizerString2]];
+
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts.count).to(equal(2));
+
+                SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
+                expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
+                expect(firstPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+
+                SDLTTSChunk *secondPrompt = testAudioData.prompts[1];
+                expect(secondPrompt.text).to(equal(testSpeechSynthesizerString2));
+                expect(secondPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+            });
+
+            it(@"Should not append an array with only empty additional speech synthesizer strings", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
+                [testAudioData addSpeechSynthesizerStrings:@[testEmptySpeechSynthesizerString]];
+
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts).to(beNil());
+            });
+
+            it(@"Should not append an empty array of speech synthesizer strings", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
+                [testAudioData addSpeechSynthesizerStrings:@[]];
+
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts).to(beNil());
+            });
         });
 
-        it(@"Should append the additional speech synthesizer strings", ^{
-            [testAudioData addSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testSpeechSynthesizerString2, testSpeechSynthesizerString3]];
+        context(@"If adding phonetic speech synthesizer strings", ^{
+            it(@"Should append the additional phonetic speech synthesizer strings to the existing prompts", ^{
+                SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesSAPIPhonemes;
+                testAudioData = [[SDLAudioData alloc] initWithPhoneticSpeechSynthesizerString:testSpeechSynthesizerString1 phoneticType:testSpeechCapabilities];
+                [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString2] phoneticType:testSpeechCapabilities];
 
-            expect(testAudioData.audioFiles.count).to(equal(1));
-            expect(testAudioData.prompts.count).to(equal(3));
+                expect(testAudioData.audioFiles).to(beNil());
+                expect(testAudioData.prompts.count).to(equal(2));
 
-            SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
-            expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
-            expect(firstPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+                SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
+                expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
+                expect(firstPrompt.type).to(equal(testSpeechCapabilities));
 
-            SDLTTSChunk *secondPrompt = testAudioData.prompts[1];
-            expect(secondPrompt.text).to(equal(testSpeechSynthesizerString2));
-            expect(secondPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+                SDLTTSChunk *secondPrompt = testAudioData.prompts[1];
+                expect(secondPrompt.text).to(equal(testSpeechSynthesizerString2));
+                expect(secondPrompt.type).to(equal(testSpeechCapabilities));
+            });
 
-            SDLTTSChunk *thirdPrompt = testAudioData.prompts[2];
-            expect(thirdPrompt.text).to(equal(testSpeechSynthesizerString3));
-            expect(thirdPrompt.type).to(equal(SDLSpeechCapabilitiesText));
-        });
+            it(@"Should add the new phonetic speech synthesizer strings to a nil list of prompts", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
 
-        it(@"Should not append empty additional speech synthesizer strings", ^{
-            [testAudioData addSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testEmptySpeechSynthesizerString, testSpeechSynthesizerString2]];
+                SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesSAPIPhonemes;
+                [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString1] phoneticType:testSpeechCapabilities];
 
-            expect(testAudioData.audioFiles.count).to(equal(1));
-            expect(testAudioData.prompts.count).to(equal(2));
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts.count).to(equal(1));
 
-            SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
-            expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
-            expect(firstPrompt.type).to(equal(SDLSpeechCapabilitiesText));
+                SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
+                expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
+                expect(firstPrompt.type).to(equal(testSpeechCapabilities));
+            });
 
-            SDLTTSChunk *secondPrompt = testAudioData.prompts[1];
-            expect(secondPrompt.text).to(equal(testSpeechSynthesizerString2));
-            expect(secondPrompt.type).to(equal(SDLSpeechCapabilitiesText));
-        });
+            it(@"Should not append any additional phonetic speech synthesizer strings that are empty", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
 
-        it(@"Should not append an empty array of speech synthesizer strings", ^{
-            [testAudioData addSpeechSynthesizerStrings:@[]];
+                SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesText;
+                [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testSpeechSynthesizerString2, testEmptySpeechSynthesizerString] phoneticType:testSpeechCapabilities];
 
-            expect(testAudioData.audioFiles.count).to(equal(1));
-            expect(testAudioData.prompts).to(beNil());
-        });
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts.count).to(equal(2));
 
-        it(@"Should append the additional phonetic speech synthesizer strings", ^{
-            SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesSAPIPhonemes;
-            [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString1] phoneticType:testSpeechCapabilities];
+                SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
+                expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
+                expect(firstPrompt.type).to(equal(testSpeechCapabilities));
 
-            expect(testAudioData.audioFiles.count).to(equal(1));
-            expect(testAudioData.prompts.count).to(equal(1));
+                SDLTTSChunk *secondPrompt = testAudioData.prompts[1];
+                expect(secondPrompt.text).to(equal(testSpeechSynthesizerString2));
+                expect(secondPrompt.type).to(equal(testSpeechCapabilities));
+            });
 
-            SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
-            expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
-            expect(firstPrompt.type).to(equal(testSpeechCapabilities));
-        });
+            it(@"Should not append an array with only empty additional phonetic speech synthesizer strings", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
+                SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesText;
+                [testAudioData addPhoneticSpeechSynthesizerStrings:@[testEmptySpeechSynthesizerString] phoneticType:testSpeechCapabilities];
 
-        it(@"Should not append empty additional phonetic speech synthesizer strings", ^{
-            SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesText;
-            [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testSpeechSynthesizerString2, testEmptySpeechSynthesizerString] phoneticType:testSpeechCapabilities];
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts).to(beNil());
+            });
 
-            expect(testAudioData.audioFiles.count).to(equal(1));
-            expect(testAudioData.prompts.count).to(equal(2));
+            it(@"Should not append an empty array of phonetic speech synthesizer strings", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
 
-            SDLTTSChunk *firstPrompt = testAudioData.prompts[0];
-            expect(firstPrompt.text).to(equal(testSpeechSynthesizerString1));
-            expect(firstPrompt.type).to(equal(testSpeechCapabilities));
+                SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesText;
+                [testAudioData addPhoneticSpeechSynthesizerStrings:@[] phoneticType:testSpeechCapabilities];
 
-            SDLTTSChunk *secondPrompt = testAudioData.prompts[1];
-            expect(secondPrompt.text).to(equal(testSpeechSynthesizerString2));
-            expect(secondPrompt.type).to(equal(testSpeechCapabilities));
-        });
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts).to(beNil());
+            });
 
-        it(@"Should not append an empty array of phonetic speech synthesizer strings", ^{
-            SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesText;
-            [testAudioData addPhoneticSpeechSynthesizerStrings:@[] phoneticType:testSpeechCapabilities];
+            it(@"Should not append additional phonetic speech synthesizer strings with an invalid phonetic type", ^{
+                testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile];
 
-            expect(testAudioData.audioFiles.count).to(equal(1));
-            expect(testAudioData.prompts).to(beNil());
-        });
+                SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesFile;
+                [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testSpeechSynthesizerString2] phoneticType:testSpeechCapabilities];
 
-        it(@"Should not append additional phonetic speech synthesizer strings with an invalid phonetic type", ^{
-            SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesFile;
-            [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testSpeechSynthesizerString2] phoneticType:testSpeechCapabilities];
-
-            expect(testAudioData.audioFiles.count).to(equal(1));
-            expect(testAudioData.prompts).to(beNil());
+                expect(testAudioData.audioFiles.count).to(equal(1));
+                expect(testAudioData.prompts).to(beNil());
+            });
         });
     });
 
