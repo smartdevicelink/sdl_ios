@@ -123,14 +123,20 @@ NS_ASSUME_NONNULL_BEGIN
         return handler();
     }
 
-    if (self.alertView.audio.audioFiles.count == 0) {
-        SDLLogV(@"No audio files to upload for alert");
+    NSMutableArray<SDLFile *> *filesToBeUploaded = [NSMutableArray array];
+    for (SDLFile *file in self.alertView.audio.audioFiles) {
+        if (![self sdl_fileNeedsUpload:file]) { continue; }
+        [filesToBeUploaded addObject:file];
+    }
+
+    if (filesToBeUploaded.count == 0) {
+        SDLLogV(@"No audio files need to be uploaded for alert");
         return handler();
     }
 
     SDLLogD(@"Uploading audio files for alert");
     __weak typeof(self) weakself = self;
-    [self.fileManager uploadFiles:self.alertView.audio.audioFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
+    [self.fileManager uploadFiles:filesToBeUploaded progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
         __strong typeof(weakself) strongself = weakself;
         SDLLogV(@"Uploaded alert audio file: %@, error: %@, percent complete: %f.2%%", fileName, error, uploadPercentage * 100);
         if (strongself.isCancelled) {
@@ -300,7 +306,20 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param artwork The artwork to check the upload status of
 /// @return True if artwork needs to be uploaded; false if not.
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return ((artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon) || ([self.fileManager hasUploadedFile:artwork] && artwork.overwrite));
+    if (artwork == nil) {
+        return NO;
+    }
+    return ((![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon) || artwork.overwrite);
+}
+
+/// Checks if a file needs to be uploaded to the module. If the file has already been uploaded to the module but the `overwrite` property has been set to true, then the file needs to be re-uploaded.
+/// @param file The file to check the upload status of
+/// @return True if file needs to be uploaded; false if not.
+- (BOOL)sdl_fileNeedsUpload:(SDLFile *)file {
+    if (file == nil) {
+        return NO;
+    }
+    return (![self.fileManager hasUploadedFile:file] || file.overwrite);
 }
 
 /// Checks if the connected module or current template supports soft button images.
