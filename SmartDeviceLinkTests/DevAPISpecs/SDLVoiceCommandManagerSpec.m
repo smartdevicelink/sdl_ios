@@ -42,9 +42,12 @@ describe(@"voice command manager", ^{
     __block TestConnectionManager *mockConnectionManager = nil;
 
     __block SDLVoiceCommand *testVoiceCommand = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 1"] handler:^{}];
+    __block SDLVoiceCommand *testVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 2"] handler:^{}];
     __block SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] init];
+    __block NSArray<SDLVoiceCommand *> *testVCArray = nil;
 
     beforeEach(^{
+        testVCArray = @[testVoiceCommand];
         mockConnectionManager = [[TestConnectionManager alloc] init];
         testManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:mockConnectionManager];
     });
@@ -90,31 +93,50 @@ describe(@"voice command manager", ^{
     });
 
     // updating voice commands
-    describe(@"updating voice commands", ^{
+    describe(@"when voice commands are set", ^{
         beforeEach(^{
             newHMIStatus.hmiLevel = SDLHMILevelFull;
             newHMIStatus.windowID = @(SDLPredefinedWindowsDefaultWindow);
 
             SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+            testManager.voiceCommands = testVCArray;
         });
 
+        // should properly update a command
         it(@"should properly update a command", ^{
-            testManager.voiceCommands = @[testVoiceCommand];
-
             expect(testManager.voiceCommands.firstObject.commandId).to(equal(VoiceCommandIdMin));
             expect(testManager.transactionQueue.isSuspended).to(beFalse());
-            expect(testManager.transactionQueue.operationCount).to(equal(1));
+            expect(testManager.transactionQueue.operations).to(haveCount(1));
         });
 
-        describe(@"when the new voice commands is identical to the existing ones", ^{
+        // when new voice commands is identical to the existing ones
+        describe(@"when new voice commands is identical to the existing ones", ^{
             beforeEach(^{
-                testManager.voiceCommands = @[testVoiceCommand];
-                testManager.voiceCommands = @[testVoiceCommand];
+                testManager.voiceCommands = testVCArray;
             });
 
+            // should only have one operation
             it(@"should only have one operation", ^{
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
+                expect(testManager.transactionQueue.operations).to(haveCount(1));
+            });
+        });
+
+        // when new voice commands are set
+        describe(@"when new voice commands are set", ^{
+            beforeEach(^{
+                testManager.voiceCommands = @[testVoiceCommand2];
+            });
+
+            // should queue another operation
+            it(@"should queue another operation", ^{
+                expect(testManager.transactionQueue.operations).to(haveCount(2));
+            });
+
+            // when the first operation finishes and updates the current voice commands
+            describe(@"when the first operation finishes and updates the current voice commands", ^{
+                // TODO
             });
         });
     });
