@@ -388,8 +388,6 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should not attempt to upload audio files", ^{
-                    [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
-
                     OCMReject([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
                     [testPresentAlertOperation start];
@@ -443,7 +441,6 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     it(@"should re-upload an audio file if `overwrite` has been set to true", ^{
                         testAudioFile.overwrite = YES;
-                        [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesFile]] speechCapabilities];
                         [[[mockFileManager stub] andReturnValue:@(YES)] hasUploadedFile:testAudioFile];
 
                         OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
