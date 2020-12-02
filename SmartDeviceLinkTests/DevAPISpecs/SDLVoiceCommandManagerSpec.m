@@ -15,6 +15,12 @@
 #import "SDLVoiceCommandUpdateOperation.h"
 #import "TestConnectionManager.h"
 
+@interface SDLVoiceCommandUpdateOperation ()
+
+@property (strong, nonatomic) NSMutableArray<SDLVoiceCommand *> *currentVoiceCommands;
+
+@end
+
 @interface SDLVoiceCommand()
 
 @property (assign, nonatomic) UInt32 commandId;
@@ -136,7 +142,17 @@ describe(@"voice command manager", ^{
 
             // when the first operation finishes and updates the current voice commands
             describe(@"when the first operation finishes and updates the current voice commands", ^{
-                // TODO
+                beforeEach(^{
+                    SDLVoiceCommandUpdateOperation *firstOp = testManager.transactionQueue.operations[0];
+                    firstOp.currentVoiceCommands = [@[testVoiceCommand2] mutableCopy];
+                    [firstOp finishOperation];
+                });
+
+                it(@"should update the second operation", ^{
+                    SDLVoiceCommandUpdateOperation *secondOp = testManager.transactionQueue.operations[0];
+
+                    expect(secondOp.oldVoiceCommands.firstObject).to(equal(testVoiceCommand2));
+                });
             });
         });
     });
