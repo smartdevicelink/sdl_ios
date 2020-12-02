@@ -836,6 +836,7 @@ describe(@"the text and graphic operation", ^{
                 });
 
                 it(@"should properly overwrite artwork", ^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     SDLArtwork *testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
                     testArtwork3.overwrite = YES;
 
@@ -886,6 +887,7 @@ describe(@"the text and graphic operation", ^{
             // when there is text to update as well
             context(@"when there is text to update as well", ^{
                 beforeEach(^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
@@ -961,6 +963,7 @@ describe(@"the text and graphic operation", ^{
             // when there is no text to update
             context(@"when there is no text to update", ^{
                 beforeEach(^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.primaryGraphic = testArtwork;
 
@@ -990,6 +993,7 @@ describe(@"the text and graphic operation", ^{
             // when the image is a static icon
             context(@"when the image is a static icon", ^{
                 beforeEach(^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.primaryGraphic = testStaticIcon;
 
@@ -1016,6 +1020,7 @@ describe(@"the text and graphic operation", ^{
             context(@"if the images for the primary and secondary graphics fail the upload process", ^{
                 beforeEach(^{
                     OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     NSArray<NSString *> *testSuccessfulArtworks = @[];
                     NSError *testError = [NSError errorWithDomain:@"errorDomain"
                                                              code:9
@@ -1048,6 +1053,7 @@ describe(@"the text and graphic operation", ^{
                     NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork.name];
                     NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork2.name:@"error 2"}];
                     OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] progressHandler:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
@@ -1076,6 +1082,7 @@ describe(@"the text and graphic operation", ^{
                     NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork2.name];
                     NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork.name:@"error 2"}];
                     OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] progressHandler:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;

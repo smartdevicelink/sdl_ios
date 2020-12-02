@@ -54,6 +54,7 @@ describe(@"a preload choices operation", ^{
             windowCapability.textFields = @[primaryTextField];
 
             OCMStub([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
+            OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
         });
 
         context(@"with artworks", ^{
