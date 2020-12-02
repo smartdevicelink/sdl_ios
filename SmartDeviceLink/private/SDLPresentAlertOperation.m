@@ -283,7 +283,7 @@ NS_ASSUME_NONNULL_BEGIN
     alert.playTone = @(alertAudio.playTone);
 
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
-    if ([self sdl_supportsAlertAudioFile] && alertAudio.audioFiles.count > 0) {
+    if ([self sdl_supportsAlertAudioFile] && alertAudio != nil && alertAudio.audioFiles.count > 0) {
         for (NSUInteger i = 0; i < alertAudio.audioFiles.count; i += 1) {
             [ttsChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:alertAudio.audioFiles[i].name]];
         }
