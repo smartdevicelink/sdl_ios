@@ -491,8 +491,8 @@ describe(@"uploading / deleting single files with the file manager", ^{
 
         context(@"when artwork is dynamic", ^{
             beforeEach(^{
+                testUIImage = [FileManagerSpecHelper imagesForCount:1].firstObject;
                 expectedArtworkName = testInitialFileNames.firstObject;
-
                 artwork = [SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG];
             });
 
@@ -505,8 +505,6 @@ describe(@"uploading / deleting single files with the file manager", ^{
 
             context(@"when artwork is previously uploaded", ^{
                 beforeEach(^{
-                    testUIImage = [FileManagerSpecHelper imagesForCount:1].firstObject;
-
                     testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames];
                     testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
                     [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
