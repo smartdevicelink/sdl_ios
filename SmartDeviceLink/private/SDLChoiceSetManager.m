@@ -8,6 +8,7 @@
 
 #import "SDLChoiceSetManager.h"
 
+#import "SDLCancelIdManager.h"
 #import "SDLCheckChoiceVROptionalOperation.h"
 #import "SDLChoice.h"
 #import "SDLChoiceCell.h"
@@ -76,6 +77,7 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
 @property (assign, nonatomic) UInt16 nextChoiceId;
+@property (strong, nonatomic) SDLCancelIdManager *cancelIdManager;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
 @end
@@ -86,13 +88,14 @@ UInt16 const ChoiceCellIdMin = 1;
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager cancelIdManager:(SDLCancelIdManager *)cancelIdManager {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _systemCapabilityManager = systemCapabilityManager;
+    _cancelIdManager = cancelIdManager;
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLChoiceManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
     _transactionQueue = [self sdl_newTransactionQueue];
 
@@ -374,10 +377,10 @@ UInt16 const ChoiceCellIdMin = 1;
     SDLPresentChoiceSetOperation *presentOp = nil;
     if (delegate == nil) {
         // Non-searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:0];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.cancelIdManager.nextCancelId];
     } else {
         // Searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:0];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.cancelIdManager.nextCancelId];
     }
     self.pendingPresentOperation = presentOp;
 
@@ -415,7 +418,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     SDLLogD(@"Presenting keyboard with initial text: %@", initialText);
     // Present a keyboard with the choice set that we used to test VR's optional state
-    UInt16 keyboardCancelId = 0;
+    UInt16 keyboardCancelId = self.cancelIdManager.nextCancelId;
     self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId];
     [self.transactionQueue addOperation:self.pendingPresentOperation];
     return @(keyboardCancelId);

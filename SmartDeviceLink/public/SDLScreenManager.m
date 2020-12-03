@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
     _subscribeButtonManager = [[SDLSubscribeButtonManager alloc] initWithConnectionManager:connectionManager];
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
-    _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
+    _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager cancelIdManager:self.cancelIdManager];
     _alertManager = [[SDLAlertManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager permissionManager:permissionManager cancelIdManager:self.cancelIdManager];
 
     return self;
