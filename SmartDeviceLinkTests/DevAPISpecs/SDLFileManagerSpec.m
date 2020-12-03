@@ -466,6 +466,68 @@ describe(@"uploading / deleting single files with the file manager", ^{
             expect(testFileManager.pendingTransactions.count).to(equal(1));
         });
     });
+
+    describe(@"checking if files and artworks needs upload", ^{
+        __block UIImage *testUIImage = nil;
+        __block NSString *expectedArtworkName = nil;
+        __block SDLArtwork *artwork = nil;
+
+        context(@"when artwork is nil", ^{
+            it(@"should not allow file to be uploaded", ^{
+                expect(artwork).to(beNil());
+                BOOL testFileNeedsUpload = [testFileManager fileNeedsUpload:artwork];
+                expect(testFileNeedsUpload).to(beFalse());
+            });
+        });
+
+        context(@"when artwork is static", ^{
+            it(@"should not allow file to be uploaded", ^{
+                artwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
+
+                BOOL testFileNeedsUpload = [testFileManager fileNeedsUpload:artwork];
+                expect(testFileNeedsUpload).to(beFalse());
+            });
+        });
+
+        context(@"when artwork is dynamic", ^{
+            beforeEach(^{
+                expectedArtworkName = testInitialFileNames.firstObject;
+
+                artwork = [SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG];
+            });
+
+            context(@"when uploading artwork for the first time", ^{
+                it(@"should allow file to be uploaded", ^{
+                    BOOL testFileNeedsUpload = [testFileManager fileNeedsUpload:artwork];
+                    expect(testFileNeedsUpload).to(beTrue());
+                });
+            });
+
+            context(@"when artwork is previously uploaded", ^{
+                beforeEach(^{
+                    testUIImage = [FileManagerSpecHelper imagesForCount:1].firstObject;
+
+                    testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                    testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                    [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
+                });
+
+                it(@"should not allow file to be uploaded when overwrite is set to false", ^{
+                    artwork.overwrite = NO;
+
+                    BOOL testFileNeedsUpload = [testFileManager fileNeedsUpload:artwork];
+                    expect(testFileNeedsUpload).to(beFalse());
+                });
+
+                it(@"should not allow file to be uploaded when overwrite is set to true", ^{
+                    artwork.overwrite = YES;
+
+                    BOOL testFileNeedsUpload = [testFileManager fileNeedsUpload:artwork];
+                    expect(testFileNeedsUpload).to(beTrue());
+                });
+            });
+        });
+    });
 });
 
 describe(@"uploading/deleting multiple files in the file manager", ^{
