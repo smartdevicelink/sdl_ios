@@ -20,7 +20,7 @@ static const int MaxAlertTextFieldLineCount = 3;
 @interface SDLWindowCapability (ScreenManagerExtensions)
 
 @property (assign, nonatomic, readonly) NSUInteger maxNumberOfMainFieldLines;
-@property (assign, nonatomic, readonly) NSUInteger maxNumberOfAlertMainFieldLines;
+@property (assign, nonatomic, readonly) NSUInteger maxNumberOfAlertTextFieldLines;
 
 - (BOOL)hasTextFieldOfName:(SDLTextFieldName)name;
 - (BOOL)hasImageFieldOfName:(SDLImageFieldName)name;

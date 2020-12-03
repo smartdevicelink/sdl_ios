@@ -352,7 +352,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return alert; }
 
-    NSUInteger maxNumberOfLines = (self.currentCapabilities != nil) ? self.currentCapabilities.maxNumberOfAlertMainFieldLines : MaxAlertTextFieldLineCount;
+    NSUInteger maxNumberOfLines = (self.currentCapabilities != nil) ? self.currentCapabilities.maxNumberOfAlertTextFieldLines : MaxAlertTextFieldLineCount;
     if (maxNumberOfLines == 1) {
         alert = [self sdl_assembleOneLineAlertText:alert withShowFields:nonNilFields];
     } else if (maxNumberOfLines == 2) {

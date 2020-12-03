@@ -42,7 +42,7 @@
     return (NSUInteger)highestFound;
 }
 
-- (NSUInteger)maxNumberOfAlertMainFieldLines {
+- (NSUInteger)maxNumberOfAlertTextFieldLines {
     NSInteger highestFound = 0;
     for (SDLTextField *textField in self.textFields) {
         if (![textField.name isKindOfClass:[NSString class]]) { continue; }
