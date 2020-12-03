@@ -151,7 +151,10 @@ describe(@"the streaming video manager", ^{
 
         describe(@"after receiving a register app interface response", ^{
             __block SDLRegisterAppInterfaceResponse *someRegisterAppInterfaceResponse = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             __block SDLDisplayCapabilities *someDisplayCapabilities = nil;
+#pragma clang diagnostic pop
             __block SDLScreenParams *someScreenParams = nil;
             __block SDLImageResolution *someImageResolution = nil;
             __block SDLHMICapabilities *someHMICapabilities = nil;
@@ -194,7 +197,10 @@ describe(@"the streaming video manager", ^{
                     someHMICapabilities = [[SDLHMICapabilities alloc] init];
                     someHMICapabilities.videoStreaming = @YES;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
                     someDisplayCapabilities.screenParams = someScreenParams;
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];

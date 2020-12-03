@@ -16,7 +16,10 @@
 QuickSpecBegin(SDLRegisterAppInterfaceResponseSpec)
 
 __block SDLMsgVersion *sdlVersion = [[SDLMsgVersion alloc] initWithMajorVersion:0 minorVersion:0 patchVersion:0];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 __block SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
 __block SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
 __block SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
 __block SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];__block
