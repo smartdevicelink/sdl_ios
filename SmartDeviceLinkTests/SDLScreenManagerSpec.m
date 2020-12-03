@@ -190,8 +190,9 @@ describe(@"screen manager", ^{
         });
     });
 
+    // presenting an alert
     describe(@"presenting an alert", ^{
-        it(@"should pass the call to the alert manager manager", ^{
+        it(@"should pass the call to the alert manager", ^{
             SDLAlertView *testAlertView = [[SDLAlertView alloc] initWithText:@"Test" buttons:@[[[SDLSoftButtonObject alloc] initWithName:@"Test Button" text:@"Test Button" artwork:nil handler:nil]]];
 
             [testScreenManager presentAlert:testAlertView withCompletionHandler:nil];
