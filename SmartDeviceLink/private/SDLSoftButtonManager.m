@@ -123,14 +123,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
-    NSUInteger buttonId = 1;
     for (NSUInteger i = 0; i < softButtonObjects.count; i++) {
         NSString *buttonName = softButtonObjects[i].name;
         // HAX: Due to a SYNC 3.0 bug (https://github.com/smartdevicelink/sdl_ios/issues/1793#issue-708356008), a `buttonId` can not be zero. As a workaround we will start the `buttonId`s from 1.
-        if (buttonId == 1001) {
-            buttonId = 1;
-        }
-        softButtonObjects[i].buttonId = buttonId;
+        softButtonObjects[i].buttonId = i + 1;
         for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
@@ -138,7 +134,6 @@ NS_ASSUME_NONNULL_BEGIN
                 return;
             }
         }
-        buttonId += 1;
     }
 
     for (SDLSoftButtonObject *button in softButtonObjects) {
