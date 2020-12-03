@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAlertView()
 
-@property (copy, nonatomic) SDLAlertCanceledHandler canceledHandler;
+@property (copy, nonatomic, nullable) SDLAlertCanceledHandler canceledHandler;
 
 @end
 
@@ -128,7 +128,7 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
 #pragma mark - Debug Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLAlertView: \"%@\", text: \"%@\", secondaryText: \"%@\", tertiaryText: \"%@\"", [self sdl_alertType], _text, _secondaryText, _tertiaryText];
+    return [NSString stringWithFormat:@"SDLAlertView: \"%@\", text: \"%@\"", [self sdl_alertType], _text];
 }
 
 - (NSString *)debugDescription {
