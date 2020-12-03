@@ -48,7 +48,7 @@ extern void *const SDLConcurrentQueueName;
 /// @param block The block to run on the serial sub-queue.
 + (void)runSyncOnSerialSubQueue:(dispatch_queue_t)queue block:(void (^)(void))block;
 
-- (void)sdl_resetProtocolVersion;
+- (void)reset;
 
 @end
 

@@ -43,7 +43,7 @@ describe(@"The SDLGlobals class", ^{
 
     describe(@"test values after calling sdl_resetProtocolVersion", ^{
         beforeEach(^{
-            [testGlobals sdl_resetProtocolVersion];
+            [testGlobals reset];
         });
 
         it(@"should return should properly set values", ^{
