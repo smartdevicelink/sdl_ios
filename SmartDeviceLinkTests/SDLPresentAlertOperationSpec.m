@@ -703,6 +703,8 @@ describe(@"SDLPresentAlertOperation", ^{
 
     describe(@"canceling the alert", ^{
         __block SDLAlertView *testCancelAlertView = nil;
+        __block SDLVersion *cancelInteractionSupportedSpecVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+        __block SDLVersion *cancelInteractionNotSupportedSpecVersion = [SDLVersion versionWithMajor:5 minor:10 patch:0];
 
         beforeEach(^{
             testCancelAlertView = [[SDLAlertView alloc] init];
@@ -718,9 +720,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
         context(@"Module supports the CancelInteration RPC", ^{
             beforeEach(^{
-                SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
-                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+                [SDLGlobals sharedGlobals].rpcVersion = cancelInteractionSupportedSpecVersion;
             });
 
             describe(@"If the operation is executing", ^{
@@ -836,9 +836,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
         context(@"Module does not support the CancelInteration RPC", ^{
             beforeEach(^{
-                SDLVersion *supportedVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
-                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+                [SDLGlobals sharedGlobals].rpcVersion = cancelInteractionNotSupportedSpecVersion;
             });
 
             it(@"should not attempt to send a cancel interaction if the operation is executing", ^{
