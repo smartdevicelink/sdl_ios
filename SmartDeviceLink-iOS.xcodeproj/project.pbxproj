@@ -3422,8 +3422,8 @@
 		883468F9234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingVideoScaleManagerSpec.m; sourceTree = "<group>"; };
 		883581AF22D659BE00405C42 /* SDLCloseApplicationResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloseApplicationResponseSpec.m; sourceTree = "<group>"; };
 		883C22CA222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCFunctionNamesSpec.m; sourceTree = "<group>"; };
-		883EA83525758D24007CCDBF /* SDLCancelIdManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCancelIdManager.h; sourceTree = "<group>"; };
-		883EA83625758D24007CCDBF /* SDLCancelIdManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCancelIdManager.m; sourceTree = "<group>"; };
+		883EA83525758D24007CCDBF /* SDLCancelIdManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLCancelIdManager.h; path = private/SDLCancelIdManager.h; sourceTree = "<group>"; };
+		883EA83625758D24007CCDBF /* SDLCancelIdManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLCancelIdManager.m; path = private/SDLCancelIdManager.m; sourceTree = "<group>"; };
 		884554AE2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceManifestSpec.m; sourceTree = "<group>"; };
 		884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetSystemCapabilitySpec.m; sourceTree = "<group>"; };
 		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
