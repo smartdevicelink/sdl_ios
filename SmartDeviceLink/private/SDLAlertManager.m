@@ -50,7 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
     _systemCapabilityManager = systemCapabilityManager;
     _permissionManager = permissionManager;
     _cancelIdManager = cancelIdManager;
-
     _transactionQueue = [self sdl_newTransactionQueue];
 
     [self sdl_subscribeToPermissions];
@@ -125,7 +124,6 @@ NS_ASSUME_NONNULL_BEGIN
         }];
     }
 }
-
 
 @end
 
