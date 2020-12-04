@@ -67,6 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Alert Manager
 
 + (NSError *)sdl_alertManager_presentationFailed:(NSDictionary *)userInfo;
++ (NSError *)sdl_alertManager_alertDataInvalid;
 
 #pragma mark System Capability Manager
 

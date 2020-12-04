@@ -90,6 +90,11 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
+    if (![self sdl_isValidAlertViewData:self.alertView]) {
+        self.internalError = [NSError sdl_alertManager_alertDataInvalid];
+        [self finishOperation];
+    }
+
     dispatch_group_t uploadFilesTask = dispatch_group_create();
     dispatch_group_enter(uploadFilesTask);
 
@@ -111,6 +116,22 @@ NS_ASSUME_NONNULL_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf sdl_presentAlert];
     });
+}
+
+/// Checks the `AlertView` data to make sure it conforms to the RPC Spec, which says that at least either `alertText1`, `alertText2` or `TTSChunks` need to be provided.
+/// @return True if the alert data is valid; false if not
+- (BOOL)sdl_isValidAlertViewData:(SDLAlertView *)alertView {
+    if (alertView.text.length > 0) {
+        return YES;
+    }
+    if (alertView.secondaryText.length > 0) {
+        return YES;
+    }
+    if ([self sdl_getTTSChunksForAlertView:alertView].count > 0) {
+        return YES;
+    }
+
+    return NO;
 }
 
 #pragma mark Uploads
@@ -285,8 +306,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
     alert.softButtons = softButtons;
 
-    SDLAlertAudioData *alertAudio = self.alertView.audio;
-    alert.playTone = @(alertAudio.playTone);
+    alert.playTone = @(self.alertView.audio.playTone);
+    NSArray<SDLTTSChunk *> *ttsChunks = [self sdl_getTTSChunksForAlertView:self.alertView];
+    alert.ttsChunks = (ttsChunks.count > 0) ? ttsChunks : nil;
+
+    return alert;
+}
+
+/// Creates an array of text-to-speech chunks for the `Alert` RPC from the text strings and the audio data files.
+/// @return An array of TTS chunks
+- (NSArray<SDLTTSChunk *> *)sdl_getTTSChunksForAlertView:(SDLAlertView *)alertView {
+    SDLAlertAudioData *alertAudio = alertView.audio;
 
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
     if ([self sdl_supportsAlertAudioFile] && alertAudio != nil && alertAudio.audioFiles.count > 0) {
@@ -297,9 +327,8 @@ NS_ASSUME_NONNULL_BEGIN
     if (alertAudio.prompts.count > 0) {
         [ttsChunks addObjectsFromArray:self.alertView.audio.prompts];
     }
-    alert.ttsChunks = (ttsChunks.count > 0) ? ttsChunks : nil;
 
-    return alert;
+    return ttsChunks;
 }
 
 /// Checks if an artwork needs to be uploaded to the module. An artwork only needs to be uploaded if it is a dynamic image and an artwork with the same name has not yet been uploaded to the module. If the artwork has already been uploaded to the module but the `overwrite` property has been set to true, then the artwork needs to be re-uploaded.

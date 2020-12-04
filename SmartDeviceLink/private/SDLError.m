@@ -302,6 +302,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 }
 
++ (NSError *)sdl_alertManager_alertDataInvalid {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: @"The alert data is invalid",
+                                                       NSLocalizedFailureReasonErrorKey: @"At least either text, secondaryText or audio needs to be provided",
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"Make sure to set at least the text, secondaryText or audio properties on the SDLAlertView"
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
+
+}
+
 #pragma mark System Capability Manager
 
 + (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities {

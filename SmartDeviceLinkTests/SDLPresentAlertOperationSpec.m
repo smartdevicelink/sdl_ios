@@ -45,6 +45,8 @@
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
+- (BOOL)sdl_isValidAlertViewData:(SDLAlertView *)alertView;
+
 @end
 
 QuickSpecBegin(SDLPresentAlertOperationSpec)
@@ -611,92 +613,157 @@ describe(@"SDLPresentAlertOperation", ^{
     });
 
     describe(@"presenting the alert", ^{
-        beforeEach(^{
-            [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertTextFieldLines];
-            [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
-            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
-            [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
-            SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
-            testSoftButtonCapabilities.imageSupported = @YES;
-            OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-            [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
-            OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
-            OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+        describe(@"checking if alert data is valid", ^{
+            it(@"should be valid if at least the first text field was set", ^{
+                testAlertView = [[SDLAlertView alloc] init];
+                testAlertView.text = @"test text";
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-            SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:3 patch:0];
-            id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-            OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+                BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                expect(testAlertDataValid).to(beTrue());
+            });
 
-            testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+            it(@"should be valid if at least the second text field was set", ^{
+                testAlertView = [[SDLAlertView alloc] init];
+                testAlertView.secondaryText = @"test text";
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-            testPresentAlertOperation.completionBlock = ^{
-                hasCalledOperationCompletionHandler = YES;
-            };
+                BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                expect(testAlertDataValid).to(beTrue());
+            });
+
+            it(@"should be valid if at least the audio data was set", ^{
+                testAlertView = [[SDLAlertView alloc] init];
+                testAlertView.audio = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test audio"];
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+
+                BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                expect(testAlertDataValid).to(beTrue());
+            });
+
+            it(@"should be invalid if the first two text fields or the audio data was not set", ^{
+                testAlertView = [[SDLAlertView alloc] init];
+                testAlertView.tertiaryText = @"test text";
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+
+                BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                expect(testAlertDataValid).to(beFalse());
+            });
         });
 
-        it(@"should send the alert if the operation has not been cancelled", ^{
-            [testPresentAlertOperation start];
-            OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
-                SDLAlert *alertRequest = (SDLAlert *)value;
-                expect(alertRequest.alertText1).to(equal(testAlertView.text));
-                expect(alertRequest.alertText2).to(equal(testAlertView.secondaryText));
-                expect(alertRequest.alertText3).to(equal(testAlertView.tertiaryText));
-                expect(alertRequest.ttsChunks.count).to(equal(1));
-                expect(alertRequest.ttsChunks[0].text).to(equal(testAlertView.audio.prompts.firstObject.text));
-                expect(alertRequest.duration).to(equal(testAlertView.timeout * 1000));
-                expect(alertRequest.playTone).to(equal(testAlertView.audio.playTone));
-                expect(alertRequest.progressIndicator).to(equal(testAlertView.showWaitIndicator));
-                expect(alertRequest.softButtons.count).to(equal(testAlertView.softButtons.count));
-                expect(alertRequest.softButtons[0].text).to(equal(testAlertView.softButtons[0].currentState.text));
-                expect(alertRequest.softButtons[1].text).to(equal(testAlertView.softButtons[1].currentState.text));
-                expect(alertRequest.cancelID).to(equal(testCancelID));
-                expect(alertRequest.alertIcon.value).to(equal(testAlertView.icon.name));
-                return [value isKindOfClass:[SDLAlert class]];
-            }] withResponseHandler:[OCMArg any]]);
-
-            OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
-        });
-
-        it(@"should not send the alert if the operation has been cancelled", ^{
-            [testPresentAlertOperation cancel];
-            OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
-
-            [testPresentAlertOperation start];
-        });
-
-        describe(@"Getting a response from the module", ^{
-            __block SDLAlertResponse *response = nil;
-
+        context(@"with invalid data", ^{
             beforeEach(^{
+                testAlertView = [[SDLAlertView alloc] init];
+                testAlertView.tertiaryText = @"test text";
+
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                
+                testPresentAlertOperation.completionBlock = ^{
+                    hasCalledOperationCompletionHandler = YES;
+                };
+            });
+
+            it(@"should return an error if invalid data was set", ^{
                 [testPresentAlertOperation start];
+
+                expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertDataInvalid]));
+                expect(hasCalledOperationCompletionHandler).to(beTrue());
+                expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+            });
+        });
+
+        context(@"with valid data", ^{
+            beforeEach(^{
+                [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertTextFieldLines];
+                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
+                SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
+                testSoftButtonCapabilities.imageSupported = @YES;
+                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
+                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+                OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+
+                SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:3 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+
+                testPresentAlertOperation.completionBlock = ^{
+                    hasCalledOperationCompletionHandler = YES;
+                };
             });
 
-            it(@"should call the completion handler and finish the operation after a successful alert response", ^{
-                response = [[SDLAlertResponse alloc] init];
-                response.tryAgainTime = nil;
-                response.success = @YES;
-                response.resultCode = SDLResultSuccess;
+            it(@"should send the alert if the operation has not been cancelled", ^{
+                [testPresentAlertOperation start];
+                OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLAlert *alertRequest = (SDLAlert *)value;
+                    expect(alertRequest.alertText1).to(equal(testAlertView.text));
+                    expect(alertRequest.alertText2).to(equal(testAlertView.secondaryText));
+                    expect(alertRequest.alertText3).to(equal(testAlertView.tertiaryText));
+                    expect(alertRequest.ttsChunks.count).to(equal(1));
+                    expect(alertRequest.ttsChunks[0].text).to(equal(testAlertView.audio.prompts.firstObject.text));
+                    expect(alertRequest.duration).to(equal(testAlertView.timeout * 1000));
+                    expect(alertRequest.playTone).to(equal(testAlertView.audio.playTone));
+                    expect(alertRequest.progressIndicator).to(equal(testAlertView.showWaitIndicator));
+                    expect(alertRequest.softButtons.count).to(equal(testAlertView.softButtons.count));
+                    expect(alertRequest.softButtons[0].text).to(equal(testAlertView.softButtons[0].currentState.text));
+                    expect(alertRequest.softButtons[1].text).to(equal(testAlertView.softButtons[1].currentState.text));
+                    expect(alertRequest.cancelID).to(equal(testCancelID));
+                    expect(alertRequest.alertIcon.value).to(equal(testAlertView.icon.name));
+                    return [value isKindOfClass:[SDLAlert class]];
+                }] withResponseHandler:[OCMArg any]]);
 
-                OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, [NSNull null], nil])]);
+                OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
+            });
 
-                expect(testPresentAlertOperation.internalError).toEventually(beNil());
-                expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+            it(@"should not send the alert if the operation has been cancelled", ^{
+                [testPresentAlertOperation cancel];
+                OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
+
+                [testPresentAlertOperation start];
+
+                expect(testPresentAlertOperation.internalError).to(beNil());
+                expect(hasCalledOperationCompletionHandler).to(beTrue());
                 expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
             });
 
-            it(@"should save the error, call the completion handler and finish the operation after an unsuccessful alert response", ^{
-                response = [[SDLAlertResponse alloc] init];
-                response.tryAgainTime = @5;
-                response.success = @NO;
-                response.resultCode = SDLResultAborted;
-                NSError *defaultError = [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
-                NSError *expectedAlertResponseError = [NSError sdl_alertManager_presentationFailed:@{@"tryAgainTime": response.tryAgainTime, @"error": defaultError}];
+            describe(@"Getting a response from the module", ^{
+                __block SDLAlertResponse *response = nil;
 
-                OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, defaultError, nil])]);
+                beforeEach(^{
+                    [testPresentAlertOperation start];
+                });
 
-                expect(testPresentAlertOperation.internalError).toEventually(equal(expectedAlertResponseError));
-                expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                it(@"should call the completion handler and finish the operation after a successful alert response", ^{
+                    response = [[SDLAlertResponse alloc] init];
+                    response.tryAgainTime = nil;
+                    response.success = @YES;
+                    response.resultCode = SDLResultSuccess;
+
+                    OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, [NSNull null], nil])]);
+
+                    expect(testPresentAlertOperation.internalError).toEventually(beNil());
+                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                });
+
+                it(@"should save the error, call the completion handler and finish the operation after an unsuccessful alert response", ^{
+                    response = [[SDLAlertResponse alloc] init];
+                    response.tryAgainTime = @5;
+                    response.success = @NO;
+                    response.resultCode = SDLResultAborted;
+                    NSError *defaultError = [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
+                    NSError *expectedAlertResponseError = [NSError sdl_alertManager_presentationFailed:@{@"tryAgainTime": response.tryAgainTime, @"error": defaultError}];
+
+                    OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, defaultError, nil])]);
+
+                    expect(testPresentAlertOperation.internalError).toEventually(equal(expectedAlertResponseError));
+                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                });
             });
         });
     });

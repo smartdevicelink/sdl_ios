@@ -212,8 +212,11 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
 
 /// Errors associated with Alert Manager class
 typedef NS_ENUM(NSInteger, SDLAlertManagerError) {
-    /// The choice set has been deleted before it was presented
+    /// There was an error presenting the alert
     SDLAlertManagerPresentationError = -1,
+
+    /// The alert data is invalid
+    SDLAlertManagerInvalidDataError = -2,
 };
 
 /// Errors associated with the system capability manager
