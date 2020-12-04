@@ -1,6 +1,6 @@
 [Things to note: Pull Requests **must** fix an issue. Discussion about the feature / bug takes place in the issue, discussion of the implementation takes place in the PR. Please also see the [Contributing Guide](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/CONTRIBUTING.md) for information on branch naming and the CLA, and the [SmartDeviceLink GitHub Best Practices](https://d83tozu1c8tt6.cloudfront.net/media/resources/SDL_GitHub_BestPractices.pdf) document for more information on how to enter a pull request. Please create the PR as a draft until it is ready for review. Once this PR is ready for review, please request one from @smartdevicelink/ios and mark the PR as ready for review. 
 
-Also, remember that all new public file headers should be added as public in the `File Inspector / Target Membership` pane, added to `SmartDeviceLink.h` and to *both* `.podspec` files.
+Also, remember that all new public file headers should be added as public in the `File Inspector / Target Membership` pane, placed in the `SmartDeviceLink/public` folder on the file system, and added to `SmartDeviceLink.h`. Private files should be placed in the `SmartDeviceLink/private` folder.
 
 Delete the above section when you've read it.]
 
