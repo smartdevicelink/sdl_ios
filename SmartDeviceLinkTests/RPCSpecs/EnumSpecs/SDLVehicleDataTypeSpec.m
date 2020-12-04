@@ -53,6 +53,7 @@ describe(@"individual enum value tests", ^{
         expect(SDLVehicleDataTypeSteeringWheel).to(equal(@"VEHICLEDATA_STEERINGWHEEL"));
         expect(SDLVehicleDataTypeTirePressure).to(equal(@"VEHICLEDATA_TIREPRESSURE"));
         expect(SDLVehicleDataTypeTurnSignal).to(equal(@"VEHICLEDATA_TURNSIGNAL"));
+        expect(SDLVehicleDataTypeVehicledataClimatedata).to(equal(@"VEHICLEDATA_CLIMATEDATA"));
         expect(SDLVehicleDataTypeVIN).to(equal(@"VEHICLEDATA_VIN"));
         expect(SDLVehicleDataTypeWindowStatus).to(equal(@"VEHICLEDATA_WINDOWSTATUS"));
         expect(SDLVehicleDataTypeWiperStatus).to(equal(@"VEHICLEDATA_WIPERSTATUS"));
