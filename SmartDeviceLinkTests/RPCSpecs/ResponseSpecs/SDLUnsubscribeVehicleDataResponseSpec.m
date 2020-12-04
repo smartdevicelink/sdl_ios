@@ -35,9 +35,9 @@ describe(@"getter/setter tests", ^{
         testResponse.emergencyEvent = vehicleDataResult;
         testResponse.engineOilLife = vehicleDataResult;
         testResponse.engineTorque = vehicleDataResult;
-        testResponse.externalTemperature = vehicleDataResult;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        testResponse.externalTemperature = vehicleDataResult;
         testResponse.fuelLevel = vehicleDataResult;
         testResponse.fuelLevel_State = vehicleDataResult;
 #pragma clang diagnostic pop

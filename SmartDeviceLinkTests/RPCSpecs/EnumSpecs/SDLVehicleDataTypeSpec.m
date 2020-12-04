@@ -26,7 +26,10 @@ describe(@"individual enum value tests", ^{
         expect(SDLVehicleDataTypeEmergencyEvent).to(equal(@"VEHICLEDATA_EMERGENCYEVENT"));
         expect(SDLVehicleDataTypeEngineOilLife).to(equal(@"VEHICLEDATA_ENGINEOILLIFE"));
         expect(SDLVehicleDataTypeEngineTorque).to(equal(@"VEHICLEDATA_ENGINETORQUE"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLVehicleDataTypeExternalTemperature).to(equal(@"VEHICLEDATA_EXTERNTEMP"));
+#pragma clang diagnostic pop
         expect(SDLVehicleDataTypeFuelConsumption).to(equal(@"VEHICLEDATA_FUELCONSUMPTION"));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
