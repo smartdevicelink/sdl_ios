@@ -65,8 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.emergencyEvent = emergencyEvent;
     self.clusterModes = clusterModes;
     self.myKey = myKey;
-    self.windowStatus = windowStatus;
     self.handsOffSteering = handsOffSteering;
+    self.windowStatus = windowStatus;
     self.seatOccupancy = seatOccupancy;
     return self;
 }
