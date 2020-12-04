@@ -104,7 +104,7 @@ describe(@"SDLPresentAlertOperation", ^{
         expect(@(testPresentAlertOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
         expect(testPresentAlertOperation.connectionManager).to(equal(mockConnectionManager));
         expect(testPresentAlertOperation.fileManager).to(equal(mockFileManager));
-        expect(testPresentAlertOperation.alertView).to(equal(testAlertView));
+        expect(testPresentAlertOperation.alertView).toNot(equal(testAlertView));
         expect(@(testPresentAlertOperation.cancelId)).to(equal(@(testCancelID)));
         expect(testPresentAlertOperation.currentCapabilities).to(equal(mockCurrentWindowCapability));
         expect(testPresentAlertOperation.internalError).to(beNil());
