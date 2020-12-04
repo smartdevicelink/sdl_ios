@@ -121,7 +121,7 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
     newAlertView->_showWaitIndicator = _showWaitIndicator;
     newAlertView->_softButtons = [_softButtons copyWithZone:zone];
     newAlertView->_icon = [_icon copyWithZone:zone];
-    newAlertView->_canceledHandler = _canceledHandler;
+    newAlertView->_canceledHandler = [_canceledHandler copyWithZone:zone];
     return newAlertView;
 }
 

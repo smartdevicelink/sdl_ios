@@ -73,11 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
     _fileManager = fileManager;
     _systemCapabilityManager = systemCapabilityManager;
 
-    _alertView = alertView;
     __weak typeof(self) weakSelf = self;
-    self.alertView.canceledHandler = ^{
+    alertView.canceledHandler = ^{
         [weakSelf sdl_cancelInteraction];
     };
+    _alertView = [alertView copy];
 
     _cancelId = cancelID;
     _operationId = [NSUUID UUID];
