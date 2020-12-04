@@ -122,10 +122,7 @@ describe(@"change registration", ^ {
                                                                            SDLRPCParameterNameNGNMediaScreenAppName:someNGNMediaAppName,
                                                                            SDLRPCParameterNameVRSynonyms:someVRSynonyms},
                                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameChangeRegistration}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
             });
             
             // Since the properties are immutable, a copy should be executed as a retain, so they should be identical
@@ -156,10 +153,7 @@ describe(@"change registration", ^ {
         
         context(@"when no parameters are set", ^{
             beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:[NSMutableDictionary dictionary]];
-#pragma clang diagnostic pop
             });
             
             it(@"Should return nil if for language", ^ {

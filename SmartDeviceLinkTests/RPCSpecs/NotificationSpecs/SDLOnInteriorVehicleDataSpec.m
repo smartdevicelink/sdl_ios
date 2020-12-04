@@ -35,10 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameModuleData:someModuleData},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnInteriorVehicleData}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnInteriorVehicleData* testNotification = [[SDLOnInteriorVehicleData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.moduleData).to(equal(someModuleData));
     });

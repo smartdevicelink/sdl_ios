@@ -41,10 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
                                SDLRPCParameterNameCharacterSet:testCharacterSet,
                                SDLRPCParameterNameWidth:@(testWidth),
                                SDLRPCParameterNameRows:@(testRows)};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLTextField* testStruct = [[SDLTextField alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.name).to(equal(testName));
         expect(testStruct.characterSet).to(equal(testCharacterSet));

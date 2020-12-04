@@ -14,6 +14,8 @@ QuickSpecBegin(SDLDisplayTypeSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLDisplayTypeCID).to(equal(@"CID"));
         expect(SDLDisplayTypeType2).to(equal(@"TYPE2"));
         expect(SDLDisplayTypeType5).to(equal(@"TYPE5"));
@@ -25,6 +27,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLDisplayTypeMFD5).to(equal(@"MFD5"));
         expect(SDLDisplayTypeGen38Inch).to(equal(@"GEN3_8-INCH"));
         expect(SDLDisplayTypeGeneric).to(equal(@"SDL_GENERIC"));
+#pragma clang diagnostic pop
     });
 });
 

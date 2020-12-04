@@ -202,7 +202,7 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
                 OCMStub([mockedApplication sharedApplication]).andReturn(mockedApplication);
                 OCMExpect([mockedApplication openURL:[OCMArg checkWithBlock:^BOOL(id obj) {
                     return [((NSURL *)obj).absoluteString isEqualToString:@"myApp://"];
-                }]]);
+                }] options:@{} completionHandler:nil]);
 
                 SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -225,8 +225,8 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
 
-            it(@"should do nothing", ^{
-                OCMReject([mockSession uploadTaskWithRequest:[OCMArg any] fromData:[OCMArg any] completionHandler:[OCMArg any]]).andReturn(nil);
+            it(@"should not send anything to the module", ^{
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
             });
         });
     });

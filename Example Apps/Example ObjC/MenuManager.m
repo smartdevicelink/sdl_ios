@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (NSArray<NSString *> *)sdlex_allVehicleDataTypes {
-    return @[ACAccelerationPedalPositionMenuName, ACAirbagStatusMenuName, ACBeltStatusMenuName, ACBodyInformationMenuName, ACClusterModeStatusMenuName, ACDeviceStatusMenuName, ACDriverBrakingMenuName, ACECallInfoMenuName, ACElectronicParkBrakeStatus, ACEmergencyEventMenuName, ACEngineOilLifeMenuName, ACEngineTorqueMenuName, ACExternalTemperatureMenuName, ACFuelLevelMenuName, ACFuelLevelStateMenuName, ACFuelRangeMenuName, ACGPSMenuName, ACHeadLampStatusMenuName, ACInstantFuelConsumptionMenuName, ACMyKeyMenuName, ACOdometerMenuName, ACPRNDLMenuName, ACRPMMenuName, ACSpeedMenuName, ACSteeringWheelAngleMenuName, ACTirePressureMenuName, ACTurnSignalMenuName, ACVINMenuName, ACWiperStatusMenuName];
+    return @[ACAccelerationPedalPositionMenuName, ACAirbagStatusMenuName, ACBeltStatusMenuName, ACBodyInformationMenuName, ACClusterModeStatusMenuName, ACDeviceStatusMenuName, ACDriverBrakingMenuName, ACECallInfoMenuName, ACElectronicParkBrakeStatus, ACEmergencyEventMenuName, ACEngineOilLifeMenuName, ACEngineTorqueMenuName, ACExternalTemperatureMenuName, ACFuelLevelMenuName, ACFuelLevelStateMenuName, ACFuelRangeMenuName, ACGearStatusMenuName, ACGPSMenuName, ACHeadLampStatusMenuName, ACInstantFuelConsumptionMenuName, ACMyKeyMenuName, ACOdometerMenuName, ACPRNDLMenuName, ACRPMMenuName, ACSpeedMenuName, ACSteeringWheelAngleMenuName, ACTirePressureMenuName, ACTurnSignalMenuName, ACVINMenuName, ACWiperStatusMenuName];
 }
 
 + (SDLMenuCell *)sdlex_menuCellShowPerformInteractionWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager {
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (SDLMenuCell *)sdlex_menuCellDialNumberWithManager:(SDLManager *)manager {
     return [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:PhoneBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         if (![RPCPermissionsManager isDialNumberRPCAllowedWithManager:manager]) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to dial a number" textField2:nil iconName:nil]];
+            [AlertManager sendAlertWithManager:manager image:nil textField1:AlertDialNumberPermissionsWarningText textField2:nil];
             return;
         }
 
@@ -97,10 +97,9 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Non - Media
     SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
-        [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-            if (!response.success) {
-                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil iconName:nil]];
+        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:^(NSError * _Nullable error) {
+            if (error != nil) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
             }
         }];
     }];
@@ -108,10 +107,9 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Graphic With Text
     SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText];
-        [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-            if (!response.success) {
-                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil iconName:nil]];
+        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText] withCompletionHandler:^(NSError * _Nullable error) {
+            if (error != nil) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
             }
         }];
     }];
@@ -124,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray *submenuItems = [NSMutableArray array];
     for (int i = 0; i < 75; i++) {
         SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil iconName:nil]];
+            [AlertManager sendAlertWithManager:manager image:nil textField1:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil];
         }];
         [submenuItems addObject:cell];
     }
@@ -138,11 +136,11 @@ NS_ASSUME_NONNULL_BEGIN
         [manager sendRequest:sliderRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
                 if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
-                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider timed out" textField2:nil iconName:nil]];
+                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertSliderTimedOutWarningText textField2:nil];
                 } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
-                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider cancelled" textField2:nil iconName:nil]];
+                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertSliderCancelledWarningText textField2:nil];
                 } else {
-                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Slider could not be displayed" textField2:nil iconName:nil]];
+                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertSliderGeneralWarningText textField2:nil];
                 }
             }
         }];
@@ -155,11 +153,11 @@ NS_ASSUME_NONNULL_BEGIN
         [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
            if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
                 if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
-                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message timed out" textField2:nil iconName:nil]];
+                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageTimedOutWarningText textField2:nil];
                 } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
-                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message cancelled" textField2:nil iconName:nil]];
+                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageCancelledWarningText textField2:nil];
                 } else {
-                    [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Scrollable Message could not be displayed" textField2:nil iconName:nil]];
+                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageGeneralWarningText textField2:nil];
                 }
            }
         }];
@@ -170,13 +168,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLVoiceCommand *)sdlex_voiceCommandStartWithManager:(SDLManager *)manager {
     return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStop] handler:^{
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStop] textField2:nil iconName:nil]];
+        [AlertManager sendAlertWithManager:manager image:nil textField1:[NSString stringWithFormat:@"%@ voice command selected!", VCStop] textField2:nil];
     }];
 }
 
 + (SDLVoiceCommand *)sdlex_voiceCommandStopWithManager:(SDLManager *)manager {
     return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStart] handler:^{
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStart] textField2:nil iconName:nil]];
+        [AlertManager sendAlertWithManager:manager image:nil textField1:[NSString stringWithFormat:@"%@ voice command selected!", VCStart] textField2:nil];
     }];
 }
 

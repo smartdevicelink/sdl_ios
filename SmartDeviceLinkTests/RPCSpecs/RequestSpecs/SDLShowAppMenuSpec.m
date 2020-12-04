@@ -30,13 +30,10 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized with dictonary", ^ {
         NSDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
                                                            @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNameMenuId:@4345645,
+                                                                 @{SDLRPCParameterNameMenuID:@4345645,
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameShowAppMenu}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLShowAppMenu* testRequest = [[SDLShowAppMenu alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
          expect(testRequest.menuID).to(equal(@(menuId)));
     });
 

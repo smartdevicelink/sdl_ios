@@ -5,21 +5,19 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLRPCParameterNames.h"
-#import "SDLWindowTypeCapabilities.h"
-#import "SDLWindowCapability.h"
+#import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapability.h"
-#import "SDLTextField.h"
 #import "SDLImageField.h"
 #import "SDLImageType.h"
-#import "SDLButtonCapabilities.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSoftButtonCapabilities.h"
+#import "SDLTextField.h"
+#import "SDLWindowCapability.h"
+#import "SDLWindowTypeCapabilities.h"
 
 QuickSpecBegin(SDLDisplayCapabilitySpec)
 
 describe(@"Getter/Setter Tests", ^ {
-    
-    
     __block SDLWindowCapability* testWindowCapability = nil;
     __block SDLWindowTypeCapabilities* testWindowTypeCapabilities = nil;
     __block SDLTextField *testTextField = nil;
@@ -64,10 +62,9 @@ describe(@"Getter/Setter Tests", ^ {
         testWindowCapability.buttonCapabilities = @[testButtonCapabilities];
         testWindowCapability.softButtonCapabilities = @[testSoftButtonscapabilities];
     });
-    
-    
+
     it(@"Should set and get correctly", ^ {
-        SDLDisplayCapability* testStruct = [[SDLDisplayCapability alloc] init];
+        SDLDisplayCapability *testStruct = [[SDLDisplayCapability alloc] init];
         testStruct.displayName = testDisplayName;
         testStruct.windowCapabilities = @[testWindowCapability];
         testStruct.windowTypeSupported = @[testWindowTypeCapabilities];
@@ -83,6 +80,41 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.windowCapabilities.firstObject.buttonCapabilities.firstObject.shortPressAvailable).to(equal(@YES));
         expect(testStruct.windowCapabilities.firstObject.buttonCapabilities.firstObject.longPressAvailable).to(equal(@YES));
         expect(testStruct.windowCapabilities.firstObject.buttonCapabilities.firstObject.name).to(equal(SDLButtonNameOk));
+    });
+
+    it(@"Should get correctly when initialized with a dictionary", ^ {
+        NSDictionary *dict = @{SDLRPCParameterNameDisplayName: testDisplayName,
+                               SDLRPCParameterNameWindowCapabilities: @[testWindowCapability],
+                               SDLRPCParameterNameWindowTypeSupported: @[testWindowTypeCapabilities]};
+        SDLDisplayCapability *testStruct = [[SDLDisplayCapability alloc] initWithDictionary:dict];
+
+        expect(testStruct.displayName).to(equal(testDisplayName));
+        expect(testStruct.windowCapabilities).to(equal(@[testWindowCapability]));
+        expect(testStruct.windowTypeSupported).to(equal(@[testWindowTypeCapabilities]));
+    });
+
+    it(@"Should initialize correctly with initWithDisplayName:", ^{
+        SDLDisplayCapability *testStruct = [[SDLDisplayCapability alloc] initWithDisplayName:testDisplayName];
+
+        expect(testStruct.displayName).to(equal(testDisplayName));
+        expect(testStruct.windowCapabilities).to(beNil());
+        expect(testStruct.windowTypeSupported).to(beNil());
+    });
+
+    it(@"Should initialize correctly with initWithDisplayName:windowCapabilities:windowTypeSupported:", ^{
+        SDLDisplayCapability *testStruct = [[SDLDisplayCapability alloc] initWithDisplayName:testDisplayName windowCapabilities:@[testWindowCapability] windowTypeSupported:@[testWindowTypeCapabilities]];
+
+        expect(testStruct.displayName).to(equal(testDisplayName));
+        expect(testStruct.windowCapabilities).to(equal(@[testWindowCapability]));
+        expect(testStruct.windowTypeSupported).to(equal(@[testWindowTypeCapabilities]));
+    });
+
+    it(@"Should be nil if not set", ^{
+        SDLDisplayCapability *testStruct = [[SDLDisplayCapability alloc] init];
+
+        expect(testStruct.displayName).to(beNil());
+        expect(testStruct.windowCapabilities).to(beNil());
+        expect(testStruct.windowTypeSupported).to(beNil());
     });
 });
 

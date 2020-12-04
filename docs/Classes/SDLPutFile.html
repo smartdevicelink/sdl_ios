@@ -6,10 +6,8 @@
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithFileName:fileType:">-initWithFileName:fileType:</a></li>
   <li><a href="#section--initWithFileName:fileType:persistentFile:">-initWithFileName:fileType:persistentFile:</a></li>
-  <li><a href="#section--initWithFileName:fileType:persistentFile:systemFile:offset:length:">-initWithFileName:fileType:persistentFile:systemFile:offset:length:</a></li>
   <li><a href="#section--initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:">-initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:</a></li>
   <li><a href="#section--initWithFileName:fileType:persistentFile:systemFile:offset:length:bulkData:">-initWithFileName:fileType:persistentFile:systemFile:offset:length:bulkData:</a></li>
-  <li><a href="#section-syncFileName">syncFileName</a></li>
   <li><a href="#section-sdlFileName">sdlFileName</a></li>
   <li><a href="#section-fileType">fileType</a></li>
   <li><a href="#section-persistentFile">persistentFile</a></li>
@@ -117,48 +115,6 @@
     <p>A SDLPutFile object</p>
   </div>
   
-  <h3 id="section--initWithFileName:fileType:persistentFile:systemFile:offset:length:">
-      -initWithFileName:fileType:persistentFile:systemFile:offset:length:
-  </h3>
-  
-  <p>Convenience init for creating a putfile that is part of a multiple frame payload.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFileName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span>
-                                <span class="nf">fileType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">)</span><span class="nv">fileType</span>
-                          <span class="nf">persistentFile</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">persistentFile</span>
-                              <span class="nf">systemFile</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">systemFile</span>
-                                  <span class="nf">offset</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">offset</span>
-                                  <span class="nf">length</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">length</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">fileType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLFileType.h@T@SDLFileType">SDLFileType</a></span><span class="p">,</span> <span class="nv">persistentFile</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">systemFile</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">offset</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">length</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>fileName</dt>
-      <dd><p>The file&rsquo;s name</p></dd>
-      <dt>fileType</dt>
-      <dd><p>The file&rsquo;s format</p></dd>
-      <dt>persistentFile</dt>
-      <dd><p>Whether or not the image should persist between ignition cycles</p></dd>
-      <dt>systemFile</dt>
-      <dd><p>Whether or not the file is meant to be passed through Core to elsewhere on the system</p></dd>
-      <dt>offset</dt>
-      <dd><p>Offset in bytes for resuming partial data chunks</p></dd>
-      <dt>length</dt>
-      <dd><p>Length in bytes for resuming partial data chunks</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>A SDLPutFile object</p>
-  </div>
-  
   <h3 id="section--initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:">
       -initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:
   </h3>
@@ -248,26 +204,6 @@
     <h4>Return Value</h4>
     <p>A SDLPutFile object</p>
   </div>
-  
-  <h3 id="section-syncFileName">
-      syncFileName
-  </h3>
-  
-  <p>File reference name</p>
-
-<p>Required, max length 255 characters</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"use sdlFileName instead"</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">syncFileName</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">syncFileName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-  
-  
   
   <h3 id="section-sdlFileName">
       sdlFileName

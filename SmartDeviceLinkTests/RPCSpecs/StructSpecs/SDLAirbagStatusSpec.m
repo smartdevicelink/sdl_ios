@@ -47,10 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameDriverKneeAirbagDeployed:SDLVehicleDataEventStatusNo,
                                        SDLRPCParameterNamePassengerSideAirbagDeployed:SDLVehicleDataEventStatusYes,
                                        SDLRPCParameterNamePassengerKneeAirbagDeployed:SDLVehicleDataEventStatusNoEvent} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAirbagStatus* testStruct = [[SDLAirbagStatus alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.driverAirbagDeployed).to(equal(SDLVehicleDataEventStatusYes));
         expect(testStruct.driverSideAirbagDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));

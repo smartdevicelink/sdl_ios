@@ -151,7 +151,10 @@ describe(@"the streaming video manager", ^{
 
         describe(@"after receiving a register app interface response", ^{
             __block SDLRegisterAppInterfaceResponse *someRegisterAppInterfaceResponse = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             __block SDLDisplayCapabilities *someDisplayCapabilities = nil;
+#pragma clang diagnostic pop
             __block SDLScreenParams *someScreenParams = nil;
             __block SDLImageResolution *someImageResolution = nil;
             __block SDLHMICapabilities *someHMICapabilities = nil;
@@ -194,7 +197,10 @@ describe(@"the streaming video manager", ^{
                     someHMICapabilities = [[SDLHMICapabilities alloc] init];
                     someHMICapabilities.videoStreaming = @YES;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
                     someDisplayCapabilities.screenParams = someScreenParams;
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
@@ -556,7 +562,6 @@ describe(@"the streaming video manager", ^{
                     });
 
                     it(@"should have set all the right properties", ^{
-                        expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(testMTU));
                         expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(testVideoWidth, testVideoHeight)))).to(beTrue());
                         expect(streamingLifecycleManager.videoEncrypted).to(equal(YES));
                         expect(streamingLifecycleManager.videoFormat).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:testVideoCodec protocol:testVideoProtocol]));
@@ -646,7 +651,7 @@ describe(@"the streaming video manager", ^{
                         testPreferredResolutions = @[testImageResolution, testImageResolution2];
                         streamingLifecycleManager.preferredResolutions = testPreferredResolutions;
 
-                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameHeightKey], [NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
+                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameHeightKey], [NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]] reason:@"failed"];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
                         [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
@@ -668,7 +673,7 @@ describe(@"the streaming video manager", ^{
                         testPreferredResolutions = @[testImageResolution];
                         streamingLifecycleManager.preferredResolutions = testPreferredResolutions;
 
-                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
+                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]] reason:@"failed"];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
                         [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
@@ -689,7 +694,7 @@ describe(@"the streaming video manager", ^{
                         testPreferredResolutions = @[testImageResolution];
                         streamingLifecycleManager.preferredResolutions = testPreferredResolutions;
 
-                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
+                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]] reason:@"failed"];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
                         [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });
@@ -704,7 +709,7 @@ describe(@"the streaming video manager", ^{
                         streamingLifecycleManager.preferredFormats = testPreferredFormats;
                         streamingLifecycleManager.preferredResolutions = testPreferredResolutions;
 
-                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:nil];
+                        testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:nil reason:nil];
                         testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
                         [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:testVideoMessage];
                     });

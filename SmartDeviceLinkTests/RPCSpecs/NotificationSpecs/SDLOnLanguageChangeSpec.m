@@ -33,10 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLRPCParameterNameLanguage:SDLLanguageEsEs,
                                                    SDLRPCParameterNameHMIDisplayLanguage:SDLLanguageDeDe},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnLanguageChange}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnLanguageChange* testNotification = [[SDLOnLanguageChange alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.language).to(equal(SDLLanguageEsEs));
         expect(testNotification.hmiDisplayLanguage).to(equal(SDLLanguageDeDe));

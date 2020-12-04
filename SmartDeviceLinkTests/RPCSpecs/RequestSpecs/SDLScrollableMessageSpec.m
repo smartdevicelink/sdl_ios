@@ -55,17 +55,14 @@ describe(@"Getter/Setter Tests", ^ {
 
     describe(@"Initializing", ^{
         it(@"Should initialize correctly with a dictionary", ^ {
-            NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
-                                                               @{SDLRPCParameterNameParameters:
-                                                                     @{SDLRPCParameterNameScrollableMessageBody:testScrollableMessageBody,
-                                                                       SDLRPCParameterNameTimeout:@(testTimeout),
-                                                                       SDLRPCParameterNameSoftButtons:testSoftButtons,
-                                                                       SDLRPCParameterNameCancelID:@(testCancelID)},
-                                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameScrollableMessage}};
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                                       @{SDLRPCParameterNameParameters:
+                                                             @{SDLRPCParameterNameScrollableMessageBody:testScrollableMessageBody,
+                                                               SDLRPCParameterNameTimeout:@(testTimeout),
+                                                               SDLRPCParameterNameSoftButtons:testSoftButtons,
+                                                               SDLRPCParameterNameCancelID:@(testCancelID)},
+                                                         SDLRPCParameterNameOperationName:SDLRPCFunctionNameScrollableMessage}};
             testRequest = [[SDLScrollableMessage alloc] initWithDictionary:dict];
-            #pragma clang diagnostic pop
 
             expect(testRequest.scrollableMessageBody).to(equal(testScrollableMessageBody));
             expect(testRequest.timeout).to(equal(testTimeout));
@@ -90,18 +87,6 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testRequest.timeout).to(equal(testTimeout));
             expect(testRequest.softButtons).to(equal(testSoftButtons));
             expect(testRequest.cancelID).to(equal(testCancelID));
-        });
-
-        it(@"Should initialize correctly with initWithMessage:timeout:softButtons:", ^{
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testRequest = [[SDLScrollableMessage alloc] initWithMessage:testScrollableMessageBody timeout:testTimeout softButtons:testSoftButtons];
-            #pragma clang diagnostic pop
-
-            expect(testRequest.scrollableMessageBody).to(equal(testScrollableMessageBody));
-            expect(testRequest.timeout).to(equal(testTimeout));
-            expect(testRequest.softButtons).to(equal(testSoftButtons));
-            expect(testRequest.cancelID).to(beNil());
         });
     });
 

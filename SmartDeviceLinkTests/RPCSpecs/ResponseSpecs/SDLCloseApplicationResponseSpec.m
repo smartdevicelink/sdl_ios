@@ -25,10 +25,7 @@ describe(@"Getter/Setter Tests", ^{
         NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
                                        SDLRPCParameterNameParameters:@{},
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameCloseApplication}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLCloseApplicationResponse *testResponse = [[SDLCloseApplicationResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testResponse.name).to(equal(SDLRPCFunctionNameCloseApplication));
         expect(testResponse.parameters).to(beEmpty());

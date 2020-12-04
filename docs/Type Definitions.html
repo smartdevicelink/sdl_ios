@@ -14,6 +14,7 @@
   <li><a href="#section-SDLButtonEventMode">SDLButtonEventMode</a></li>
   <li><a href="#section-SDLButtonName">SDLButtonName</a></li>
   <li><a href="#section-SDLButtonPressMode">SDLButtonPressMode</a></li>
+  <li><a href="#section-SDLCapacityUnit">SDLCapacityUnit</a></li>
   <li><a href="#section-SDLCarModeStatus">SDLCarModeStatus</a></li>
   <li><a href="#section-SDLCharacterSet">SDLCharacterSet</a></li>
   <li><a href="#section-SDLChoiceSetCanceledHandler">SDLChoiceSetCanceledHandler</a></li>
@@ -32,6 +33,7 @@
   <li><a href="#section-SDLElectronicParkBrakeStatus">SDLElectronicParkBrakeStatus</a></li>
   <li><a href="#section-SDLEmergencyEventType">SDLEmergencyEventType</a></li>
   <li><a href="#section-SDLEnum">SDLEnum</a></li>
+  <li><a href="#section-SDLErrorDomain">SDLErrorDomain</a></li>
   <li><a href="#section-SDLFileManagerStartupCompletionHandler">SDLFileManagerStartupCompletionHandler</a></li>
   <li><a href="#section-SDLFileName">SDLFileName</a></li>
   <li><a href="#section-SDLFileManagerUploadCompletionHandler">SDLFileManagerUploadCompletionHandler</a></li>
@@ -65,7 +67,6 @@
   <li><a href="#section-SDLLayoutMode">SDLLayoutMode</a></li>
   <li><a href="#section-SDLLightName">SDLLightName</a></li>
   <li><a href="#section-SDLLightStatus">SDLLightStatus</a></li>
-  <li><a href="#section-SDLLockScreenStatus">SDLLockScreenStatus</a></li>
   <li><a href="#section-SwipeGestureCallbackBlock">SwipeGestureCallbackBlock</a></li>
   <li><a href="#section-SDLLogFilterBlock">SDLLogFilterBlock</a></li>
   <li><a href="#section-SDLMaintenanceModeStatus">SDLMaintenanceModeStatus</a></li>
@@ -135,6 +136,7 @@
   <li><a href="#section-SDLTimerMode">SDLTimerMode</a></li>
   <li><a href="#section-SDLTouchEventHandler">SDLTouchEventHandler</a></li>
   <li><a href="#section-SDLTouchType">SDLTouchType</a></li>
+  <li><a href="#section-SDLTransmissionType">SDLTransmissionType</a></li>
   <li><a href="#section-SDLTriggerSource">SDLTriggerSource</a></li>
   <li><a href="#section-SDLTurnSignal">SDLTurnSignal</a></li>
   <li><a href="#section-SDLUpdateMode">SDLUpdateMode</a></li>
@@ -382,6 +384,24 @@
   
   
   
+  <h3 id="section-SDLCapacityUnit">
+      SDLCapacityUnit
+  </h3>
+  
+  <p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLCapacityUnit</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLCapacityUnit</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLCarModeStatus">
       SDLCarModeStatus
   </h3>
@@ -409,9 +429,9 @@
       SDLCharacterSet
   </h3>
   
-  <p>Character sets supported by SDL. Used to describe text field capabilities.</p>
+  <p>The list of potential character sets</p>
 
-<p>@since SDL 1.0</p>
+<p>@since SDL 1.0.0</p>
 
   
   
@@ -610,7 +630,9 @@
 
 </div>
 
-<p>@since SDL 1.0</p>
+<p>@deprecated
+@history SDL 1.0.0
+@since SDL 5.0.0</p>
 
   
   
@@ -735,6 +757,21 @@
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLEnum</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLErrorDomain">
+      SDLErrorDomain
+  </h3>
+  
+  <p>A typedef declaration of the SDL error domain</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">NSString</span> <span class="n">SDLErrorDomain</span></code></pre>
+
+  
   
   
   
@@ -1214,7 +1251,7 @@ This is for internal use only.</p>
       SDLImageFieldName
   </h3>
   
-  <p>The name that identifies the filed. Used in DisplayCapabilities.</p>
+  <p>The name that identifies the field. Used in DisplayCapabilities.</p>
 
 <p>@since SmartDeviceLink 3.0</p>
 
@@ -1477,26 +1514,6 @@ This is for internal use only.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLLightStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLLockScreenStatus">
-      SDLLockScreenStatus
-  </h3>
-  
-  <p>Describes what the status of the lock screen should be</p>
-
-<p>Used in OnLockScreenStatus</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLLockScreenStatus</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLLockScreenStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2173,7 +2190,7 @@ c = character <br></p>
   <h4>Parameters</h4>
   <dl>
       <dt>updatedPermissionStatuses</dt>
-      <dd><p>A dictionary of the new current status of all subscription items; containing <key(String): SDLPermissionRPCName, object(SDLRPCPermissionStatus)></p></dd>
+      <dd><p>A dictionary of the new current status of all subscription items; containing <key(String): SDLRPCFunctionName, object(SDLRPCPermissionStatus)></p></dd>
       <dt>status</dt>
       <dd><p>The unified group status of the RPCs in the updatedPermissionStatuses dictionary. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed</p></dd>
   </dl>
@@ -2639,11 +2656,10 @@ c = character <br></p>
   </h3>
   
   <p>List possible seats that is a remote controllable seat.</p>
-<div class="aside aside-warning">
-    <p class="aside-title">Warning</p>
-    This should not be used to supported seats, this is a deprecated parameter.
 
-</div>
+<p>@deprecated
+ @history SDL 5.0.0
+ @since SDL 6.0.0</p>
 
   
   
@@ -2941,6 +2957,26 @@ c = character <br></p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTouchType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransmissionType">
+      SDLTransmissionType
+  </h3>
+  
+  <p>Type of transmission used in the vehicle.</p>
+
+<p>@since SDL 7.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLTransmissionType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTransmissionType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   

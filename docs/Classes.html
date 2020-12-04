@@ -68,6 +68,8 @@
   <li><a href="#section-SDLDialNumberResponse">SDLDialNumberResponse</a></li>
   <li><a href="#section-SDLDisplayCapabilities">SDLDisplayCapabilities</a></li>
   <li><a href="#section-SDLDisplayCapability">SDLDisplayCapability</a></li>
+  <li><a href="#section-SDLDriverDistractionCapability">SDLDriverDistractionCapability</a></li>
+  <li><a href="#section-SDLDynamicUpdateCapabilities">SDLDynamicUpdateCapabilities</a></li>
   <li><a href="#section-SDLECallInfo">SDLECallInfo</a></li>
   <li><a href="#section-SDLEmergencyEvent">SDLEmergencyEvent</a></li>
   <li><a href="#section-SDLEncodedSyncPData">SDLEncodedSyncPData</a></li>
@@ -82,6 +84,7 @@
   <li><a href="#section-SDLFuelRange">SDLFuelRange</a></li>
   <li><a href="#section-SDLFunctionID">SDLFunctionID</a></li>
   <li><a href="#section-SDLGPSData">SDLGPSData</a></li>
+  <li><a href="#section-SDLGearStatus">SDLGearStatus</a></li>
   <li><a href="#section-SDLGenericResponse">SDLGenericResponse</a></li>
   <li><a href="#section-SDLGetAppServiceData">SDLGetAppServiceData</a></li>
   <li><a href="#section-SDLGetAppServiceDataResponse">SDLGetAppServiceDataResponse</a></li>
@@ -163,14 +166,16 @@
   <li><a href="#section-SDLOnInteriorVehicleData">SDLOnInteriorVehicleData</a></li>
   <li><a href="#section-SDLOnKeyboardInput">SDLOnKeyboardInput</a></li>
   <li><a href="#section-SDLOnLanguageChange">SDLOnLanguageChange</a></li>
-  <li><a href="#section-SDLOnLockScreenStatus">SDLOnLockScreenStatus</a></li>
   <li><a href="#section-SDLOnPermissionsChange">SDLOnPermissionsChange</a></li>
   <li><a href="#section-SDLOnRCStatus">SDLOnRCStatus</a></li>
+  <li><a href="#section-SDLOnSubtleAlertPressed">SDLOnSubtleAlertPressed</a></li>
   <li><a href="#section-SDLOnSyncPData">SDLOnSyncPData</a></li>
   <li><a href="#section-SDLOnSystemCapabilityUpdated">SDLOnSystemCapabilityUpdated</a></li>
   <li><a href="#section-SDLOnSystemRequest">SDLOnSystemRequest</a></li>
   <li><a href="#section-SDLOnTBTClientState">SDLOnTBTClientState</a></li>
   <li><a href="#section-SDLOnTouchEvent">SDLOnTouchEvent</a></li>
+  <li><a href="#section-SDLOnUpdateFile">SDLOnUpdateFile</a></li>
+  <li><a href="#section-SDLOnUpdateSubMenu">SDLOnUpdateSubMenu</a></li>
   <li><a href="#section-SDLOnVehicleData">SDLOnVehicleData</a></li>
   <li><a href="#section-SDLOnWayPointChange">SDLOnWayPointChange</a></li>
   <li><a href="#section-SDLParameterPermissions">SDLParameterPermissions</a></li>
@@ -254,6 +259,7 @@
   <li><a href="#section-SDLSoftButtonState">SDLSoftButtonState</a></li>
   <li><a href="#section-SDLSpeak">SDLSpeak</a></li>
   <li><a href="#section-SDLSpeakResponse">SDLSpeakResponse</a></li>
+  <li><a href="#section-SDLStabilityControlsStatus">SDLStabilityControlsStatus</a></li>
   <li><a href="#section-SDLStartTime">SDLStartTime</a></li>
   <li><a href="#section-SDLStationIDNumber">SDLStationIDNumber</a></li>
   <li><a href="#section-SDLStreamingMediaConfiguration">SDLStreamingMediaConfiguration</a></li>
@@ -265,12 +271,14 @@
   <li><a href="#section-SDLSubscribeVehicleDataResponse">SDLSubscribeVehicleDataResponse</a></li>
   <li><a href="#section-SDLSubscribeWayPoints">SDLSubscribeWayPoints</a></li>
   <li><a href="#section-SDLSubscribeWayPointsResponse">SDLSubscribeWayPointsResponse</a></li>
-  <li><a href="#section-SDLSyncMsgVersion">SDLSyncMsgVersion</a></li>
+  <li><a href="#section-SDLSubtleAlert">SDLSubtleAlert</a></li>
+  <li><a href="#section-SDLSubtleAlertResponse">SDLSubtleAlertResponse</a></li>
   <li><a href="#section-SDLSyncPData">SDLSyncPData</a></li>
   <li><a href="#section-SDLSyncPDataResponse">SDLSyncPDataResponse</a></li>
   <li><a href="#section-SDLSystemCapability">SDLSystemCapability</a></li>
   <li><a href="#section-SDLSystemCapabilityManager">SDLSystemCapabilityManager</a></li>
   <li><a href="#section-SDLSystemRequest">SDLSystemRequest</a></li>
+  <li><a href="#section-SDLSystemRequestResponse">SDLSystemRequestResponse</a></li>
   <li><a href="#section-SDLTTSChunk">SDLTTSChunk</a></li>
   <li><a href="#section-SDLTemperature">SDLTemperature</a></li>
   <li><a href="#section-SDLTemplateColorScheme">SDLTemplateColorScheme</a></li>
@@ -307,6 +315,8 @@
   <li><a href="#section-SDLWeatherServiceData">SDLWeatherServiceData</a></li>
   <li><a href="#section-SDLWeatherServiceManifest">SDLWeatherServiceManifest</a></li>
   <li><a href="#section-SDLWindowCapability">SDLWindowCapability</a></li>
+  <li><a href="#section-SDLWindowState">SDLWindowState</a></li>
+  <li><a href="#section-SDLWindowStatus">SDLWindowStatus</a></li>
   <li><a href="#section-SDLWindowTypeCapabilities">SDLWindowTypeCapabilities</a></li>
 </ul>
 
@@ -663,11 +673,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLArtwork</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLFile.html">SDLFile</a></span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLArtwork</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLFile.html">SDLFile</a></span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLArtwork</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLFile.html">SDLFile</a></span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLArtwork</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLFile.html">SDLFile</a></span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
   
   
@@ -1694,6 +1704,44 @@
   
   
   
+  <h3 id="section-SDLDriverDistractionCapability">
+      SDLDriverDistractionCapability
+  </h3>
+  
+  <p>@since SDL 7.0.0</p>
+
+  <a href="Classes/SDLDriverDistractionCapability.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLDriverDistractionCapability</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLDriverDistractionCapability</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDynamicUpdateCapabilities">
+      SDLDynamicUpdateCapabilities
+  </h3>
+  
+  <p>@since SDL 7.0</p>
+
+  <a href="Classes/SDLDynamicUpdateCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLDynamicUpdateCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLDynamicUpdateCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLECallInfo">
       SDLECallInfo
   </h3>
@@ -1972,6 +2020,25 @@ see SDLPerformAudioPassThru</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGPSData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLGearStatus">
+      SDLGearStatus
+  </h3>
+  
+  <p>@since SDL 7.0.0</p>
+
+  <a href="Classes/SDLGearStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGearStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGearStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -2906,10 +2973,13 @@ cases the language of the head unit changes or does not match the app language.<
   
   <p>The Apple System Log target is an iOS 2.0+ compatible log target that logs to both the Console and to the System Log.</p>
 
+<p>Deprecated. Please use SDLLogTargetOSLog instead.</p>
+
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLogTargetAppleSystemLog</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/SDLLogTarget.html">SDLLogTarget</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight objective_c"><code>
+<span class="k">@interface</span> <span class="nc">SDLLogTargetAppleSystemLog</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/SDLLogTarget.html">SDLLogTarget</a></span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3667,34 +3737,6 @@ the application has subscribed.</p>
   
   
   
-  <h3 id="section-SDLOnLockScreenStatus">
-      SDLOnLockScreenStatus
-  </h3>
-  
-  <p>To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.</p>
-
-<p>This lockscreen must perform the following:</p>
-
-<p>Limit all application control usability from the mobile device with a full-screen static image overlay or separate view.</p>
-
-<p>For simplicity, the <code>OnLockScreenStatus</code> RPC will be provided via the <code>onOnLockScreenNotification</code> call back. The call back will include the LockScreenStatus enum which indicates if the lockscreen is required, optional or not required.</p>
-
-<p>The call back also includes details regarding the current HMI_Status level, driver distraction status and user selection status of the application.</p>
-
-  <a href="Classes/SDLOnLockScreenStatus.html" class="slightly-smaller">See more</a>
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code>
-<span class="k">@interface</span> <span class="nc">SDLOnLockScreenStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnLockScreenStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
-
-  
-  
-  
   <h3 id="section-SDLOnPermissionsChange">
       SDLOnPermissionsChange
   </h3>
@@ -3734,6 +3776,26 @@ the application has subscribed.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnRCStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLOnSubtleAlertPressed">
+      SDLOnSubtleAlertPressed
+  </h3>
+  
+  <p>Sent when the alert itself is touched (outside of a soft button). Touching (or otherwise selecting) the alert should open the app before sending this notification.</p>
+
+<p>@since SDL 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLOnSubtleAlertPressed</span> <span class="p">:</span> <span class="nc"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnSubtleAlertPressed</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
 
   
   
@@ -3830,6 +3892,48 @@ the application has subscribed.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnTouchEvent</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLOnUpdateFile">
+      SDLOnUpdateFile
+  </h3>
+  
+  <p>This notification tells an app to upload and update a file with a given name.</p>
+
+<p>@since SDL 7.0.0</p>
+
+  <a href="Classes/SDLOnUpdateFile.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLOnUpdateFile</span> <span class="p">:</span> <span class="nc"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnUpdateFile</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLOnUpdateSubMenu">
+      SDLOnUpdateSubMenu
+  </h3>
+  
+  <p>This notification tells an app to update the AddSubMenu or its &lsquo;sub&rsquo; AddCommand and AddSubMenus with the requested data</p>
+
+<p>@since SDL 7.0</p>
+
+  <a href="Classes/SDLOnUpdateSubMenu.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLOnUpdateSubMenu</span> <span class="p">:</span> <span class="nc"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnUpdateSubMenu</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
 
   
   
@@ -5099,7 +5203,8 @@ Subsequent calls with the same service type will update the manifest for that se
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSetDisplayLayout</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight objective_c"><code>
+<span class="k">@interface</span> <span class="nc">SDLSetDisplayLayout</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5120,7 +5225,8 @@ Subsequent calls with the same service type will update the manifest for that se
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSetDisplayLayoutResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+  <pre class="highlight objective_c"><code>
+<span class="k">@interface</span> <span class="nc">SDLSetDisplayLayoutResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5611,6 +5717,25 @@ change the settings of a specific remote control module.</p>
   
   
   
+  <h3 id="section-SDLStabilityControlsStatus">
+      SDLStabilityControlsStatus
+  </h3>
+  
+  <p>@since SDL 7.0.0</p>
+
+  <a href="Classes/SDLStabilityControlsStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLStabilityControlsStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLStabilityControlsStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLStartTime">
       SDLStartTime
   </h3>
@@ -5890,24 +6015,42 @@ change the settings of a specific remote control module.</p>
   
   
   
-  <h3 id="section-SDLSyncMsgVersion">
-      SDLSyncMsgVersion
+  <h3 id="section-SDLSubtleAlert">
+      SDLSubtleAlert
   </h3>
   
-  <p>Specifies the version number of the SDL V4 interface. This is used by both the application and SDL to declare what interface version each is using.</p>
+  <p>Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.</p>
 
-<p>@since SDL 1.0</p>
+<p>@since SDL 7.0.0</p>
 
-  <a href="Classes/SDLSyncMsgVersion.html" class="slightly-smaller">See more</a>
+  <a href="Classes/SDLSubtleAlert.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code>
-<span class="k">@interface</span> <span class="nc">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSubtleAlert</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSubtleAlert</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSubtleAlertResponse">
+      SDLSubtleAlertResponse
+  </h3>
+  
+  <p>@since SDL 7.0.0</p>
+
+  <a href="Classes/SDLSubtleAlertResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSubtleAlertResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSubtleAlertResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   
@@ -6011,6 +6154,26 @@ change the settings of a specific remote control module.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSystemRequest</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSystemRequestResponse">
+      SDLSystemRequestResponse
+  </h3>
+  
+  <p>Response to SystemRequest</p>
+
+<p>Since SmartDeviceLink 3.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSystemRequestResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSystemRequestResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   
@@ -6751,6 +6914,46 @@ See SDLSubscribeButton</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLWindowCapability</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLWindowState">
+      SDLWindowState
+  </h3>
+  
+  <p>@since SDL 7.0.0</p>
+
+  <a href="Classes/SDLWindowState.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLWindowState</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLWindowState</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLWindowStatus">
+      SDLWindowStatus
+  </h3>
+  
+  <p>Describes the status of a window of a door/liftgate etc.</p>
+
+<p>@since SDL 7.0.0</p>
+
+  <a href="Classes/SDLWindowStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLWindowStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLWindowStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   

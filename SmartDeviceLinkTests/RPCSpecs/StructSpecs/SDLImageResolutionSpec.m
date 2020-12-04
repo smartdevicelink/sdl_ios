@@ -28,10 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSDictionary *dict = @{SDLRPCParameterNameResolutionHeight:@69,
                                        SDLRPCParameterNameResolutionWidth:@869,
                                        };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLImageResolution *testStruct = [[SDLImageResolution alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.resolutionWidth).to(equal(@869));
         expect(testStruct.resolutionHeight).to(equal(@69));

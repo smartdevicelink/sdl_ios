@@ -111,7 +111,7 @@ extension VehicleDataManager {
         guard hasPermissionToAccessVehicleData(with: manager) else { return }
 
         SDLLog.d("App has permission to access vehicle data. Requesting all vehicle data...")
-        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, cloudAppVehicleID: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, electronicParkBrakeStatus: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, turnSignal: true, vin: true, wiperStatus: true)
+        let getAllVehicleData = SDLGetVehicleData(gps: NSNumber(true), speed: NSNumber(true), rpm: NSNumber(true), instantFuelConsumption: NSNumber(true), fuelRange: NSNumber(true), externalTemperature: NSNumber(true), turnSignal: NSNumber(true), vin: NSNumber(true), gearStatus: NSNumber(true), tirePressure: NSNumber(true), odometer: NSNumber(true), beltStatus: NSNumber(true), bodyInformation: NSNumber(true), deviceStatus: NSNumber(true), driverBraking: NSNumber(true), wiperStatus: NSNumber(true), headLampStatus: NSNumber(true), engineTorque: NSNumber(true), accPedalPosition: NSNumber(true), steeringWheelAngle: NSNumber(true), engineOilLife: NSNumber(true), electronicParkBrakeStatus: NSNumber(true), cloudAppVehicleID: NSNumber(true), stabilityControlsStatus: NSNumber(true), eCallInfo: NSNumber(true), airbagStatus: NSNumber(true), emergencyEvent: NSNumber(true), clusterModeStatus: NSNumber(true), myKey: NSNumber(true), handsOffSteering: NSNumber(true), windowStatus: NSNumber(true))
 
         manager.send(request: getAllVehicleData) { (request, response, error) in
             guard didAccessVehicleDataSuccessfully(with: manager, response: response, error: error) else { return }
@@ -144,9 +144,7 @@ extension VehicleDataManager {
             if triggerSource == .menu {
                 let title = !alertTitle.isEmpty ? alertTitle : "No Vehicle Data Available"
                 let detailMessage = !alertMessage.isEmpty ? alertMessage : nil
-                let alert = AlertManager.alertWithMessageAndCloseButton(title,
-                    textField2: detailMessage)
-                manager.send(alert)
+                AlertManager.sendAlert(textField1: title, textField2: detailMessage, sdlManager: manager)
             } else {
                 let spokenAlert = !alertMessage.isEmpty ? alertMessage : alertTitle
                 manager.send(SDLSpeak(tts: spokenAlert))
@@ -192,9 +190,9 @@ extension VehicleDataManager {
         case ACExternalTemperatureMenuName:
             vehicleDataDescription = vehicleData.externalTemperature?.description ?? notAvailable
         case ACFuelLevelMenuName:
-            vehicleDataDescription = vehicleData.fuelLevel?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.fuelRange?.first?.level?.description ?? notAvailable
         case ACFuelLevelStateMenuName:
-            vehicleDataDescription = vehicleData.fuelLevel_State?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.fuelRange?.first?.levelState?.rawValue.rawValue ?? notAvailable
         case ACFuelRangeMenuName:
             vehicleDataDescription = vehicleData.fuelRange?.description ?? notAvailable
         case ACGPSMenuName:
@@ -208,7 +206,7 @@ extension VehicleDataManager {
         case ACOdometerMenuName:
             vehicleDataDescription = vehicleData.odometer?.description ?? notAvailable
         case ACPRNDLMenuName:
-            vehicleDataDescription = vehicleData.prndl?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.gearStatus?.actualGear?.rawValue.rawValue ?? notAvailable
         case ACSpeedMenuName:
             vehicleDataDescription = vehicleData.speed?.description ?? notAvailable
         case ACSteeringWheelAngleMenuName:
@@ -233,8 +231,7 @@ extension VehicleDataManager {
         SDLLog.d("Checking if app has permission to access vehicle data...")
 
         guard manager.permissionManager.isRPCNameAllowed(SDLRPCFunctionName.getVehicleData) else {
-            let alert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
-            manager.send(request: alert)
+            AlertManager.sendAlert(textField1: AlertVehicleDataPermissionsWarningText, sdlManager: manager)
             return false
         }
 
@@ -252,8 +249,7 @@ extension VehicleDataManager {
         SDLLog.d("Checking if Core returned vehicle data")
 
         guard response != nil, error == nil else {
-            let alert = AlertManager.alertWithMessageAndCloseButton("Something went wrong while getting vehicle data")
-            manager.send(request: alert)
+            AlertManager.sendAlert(textField1: AlertVehicleDataGeneralWarningText, sdlManager: manager)
             return false
         }
 
@@ -272,14 +268,14 @@ extension VehicleDataManager {
         SDLLog.d("Checking phone call capability")
         manager.systemCapabilityManager.updateCapabilityType(.phoneCall, completionHandler: { (error, systemCapabilityManager) in
             guard let phoneCapability = systemCapabilityManager.phoneCapability else {
-                manager.send(AlertManager.alertWithMessageAndCloseButton("The head unit does not support the phone call capability"))
+                AlertManager.sendAlert(textField1: AlertDialNumberPermissionsWarningText, sdlManager: manager)
                 return
             }
             if phoneCapability.dialNumberEnabled?.boolValue ?? false {
                 SDLLog.d("Dialing phone number \(phoneNumber)...")
                 dialPhoneNumber(phoneNumber, manager: manager)
             } else {
-                manager.send(AlertManager.alertWithMessageAndCloseButton("A phone call can not be made"))
+                AlertManager.sendAlert(textField1: AlertDialNumberUnavailableWarningText, sdlManager: manager)
             }
         })
     }

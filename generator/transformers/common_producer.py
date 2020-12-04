@@ -30,7 +30,7 @@ class InterfaceProducerCommon(ABC):
         self.key_words = key_words
         self.param_named = namedtuple('param_named',
                                       'origin constructor_argument constructor_prefix deprecated mandatory since '
-                                      'method_suffix of_class type_native type_sdl modifier for_name description '
+                                      'method_suffix of_class type_native type_sdl modifier for_name description history '
                                       'constructor_argument_override')
         self.constructor_named = namedtuple('constructor', 'init self arguments all')
         self.argument_named = namedtuple('argument', 'origin constructor_argument variable deprecated')
@@ -49,6 +49,11 @@ class InterfaceProducerCommon(ABC):
         :param render: dictionary with pre filled entries, which going to be filled/changed by reference
         :return: dictionary which going to be applied to Jinja2 template
         """
+
+        importsKey = 'imports'
+        enumKey = 'enum'
+        structKey = 'struct'
+
         if item.description:
             render['description'] = self.extract_description(item.description)
         if item.since:
@@ -64,6 +69,28 @@ class InterfaceProducerCommon(ABC):
             render['params'][param.name] = self.extract_param(param, item.name)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
+
+        # Add additional known imports to the import list
+        if isinstance(item, (Struct, Function)):
+            name = 'SDL' + item.name
+            render[importsKey]['.m'].add("NSMutableDictionary+Store")
+            render[importsKey]['.m'].add(name)
+            render[importsKey]['.h'][enumKey] = list(render[importsKey]['.h'][enumKey])
+            (render[importsKey]['.h'][enumKey]).sort()
+            render[importsKey]['.h'][structKey] = list(render[importsKey]['.h'][structKey])
+            (render[importsKey]['.h'][structKey]).sort()
+
+        if isinstance(item, Struct):
+            name = 'SDL' + item.name
+            render[importsKey]['.m'].add("SDLRPCParameterNames")
+
+        if isinstance(item, Function):
+            render[importsKey]['.m'].add("SDLRPCFunctionNames")
+            render[importsKey]['.m'].add("SDLRPCParameterNames")
+
+        # Sort the import list to ensure they appear in alphabetical order in the template
+        render[importsKey]['.m'] = list(render[importsKey]['.m'])
+        (render[importsKey]['.m']).sort()
 
         if 'constructors' not in render and isinstance(item, (Struct, Function)):
             render['constructors'] = self.extract_constructors(render['params'])
@@ -158,7 +185,7 @@ class InterfaceProducerCommon(ABC):
             return []
         if isinstance(data, list):
             data = ' '.join(data)
-        return textwrap.wrap(re.sub(r'(\s{2,}|\n|\[@TODO.+)', ' ', data).strip(), length)
+        return textwrap.wrap(re.sub(r'(\s{2,}|\n)', ' ', data).strip(), length)
 
     @staticmethod
     def nullable(type_native: str, mandatory: bool) -> str:
@@ -168,7 +195,7 @@ class InterfaceProducerCommon(ABC):
         :param mandatory: is parameter mandatory
         :return: string with modificator
         """
-        if mandatory or re.match(r'BOOL|float|double', type_native):
+        if mandatory or re.match(r'BOOL', type_native):
             return ''
         return 'nullable '
 
@@ -307,7 +334,7 @@ class InterfaceProducerCommon(ABC):
         else:
             data = self.evaluate_type(param.param_type)
 
-        if not param.is_mandatory and re.match(r'\w*Int\d*|BOOL', data['type_native']):
+        if not param.is_mandatory and re.match(r'\w*Int\d*|BOOL|\w*float\d*', data['type_native']):
             data['type_native'] = data['type_sdl']
 
         return data
@@ -336,7 +363,8 @@ class InterfaceProducerCommon(ABC):
                 'since': param.since,
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
-                'modifier': 'strong'}
+                'modifier': 'strong',
+                'history': param.history}
         if isinstance(param.param_type, (Integer, Float, String, Array)):
             data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
 
@@ -390,4 +418,3 @@ class InterfaceProducerCommon(ABC):
             return 'num_min_value'
         else:
             return parameterName
-

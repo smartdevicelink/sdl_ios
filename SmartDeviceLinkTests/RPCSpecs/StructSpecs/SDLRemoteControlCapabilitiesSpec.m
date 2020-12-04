@@ -52,10 +52,7 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameLightControlCapabilities:someLightControlCapabilities,
                                        SDLRPCParameterNameHmiSettingsControlCapabilities:someHMISettingsControlCapabilities
                                        };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRemoteControlCapabilities* testStruct = [[SDLRemoteControlCapabilities alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.seatControlCapabilities).to(equal([@[someSeatControlCapabilities] copy]));
         expect(testStruct.climateControlCapabilities).to(equal([@[someClimateControlCapabilities] copy]));
@@ -84,18 +81,6 @@ describe(@"Initialization tests", ^{
         expect(testStruct.audioControlCapabilities).to(equal([@[someAudioControlCapabilities] copy]));
         expect(testStruct.hmiSettingsControlCapabilities).to(equal([@[someHMISettingsControlCapabilities] copy]));
         expect(testStruct.lightControlCapabilities).to(equal([@[someLightControlCapabilities] copy]));
-    });
-
-    it(@"Should get correctly when initialized with climateControlCapabilities and other RemoteControlCapabilities parameters", ^ {
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLRemoteControlCapabilities* testStruct = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:[@[someClimateControlCapabilities] copy] radioControlCapabilities:[@[someRadioControlCapabilities] copy] buttonCapabilities:[@[someButtonControlCapabilities] copy]];
-
-        expect(testStruct.seatControlCapabilities).to(beNil());
-        expect(testStruct.climateControlCapabilities).to(equal(([@[someClimateControlCapabilities] copy])));
-        expect(testStruct.radioControlCapabilities).to(equal([@[someRadioControlCapabilities] copy]));
-        expect(testStruct.buttonCapabilities).to(equal([@[someButtonControlCapabilities] copy]));
-        #pragma clang diagnostic pop
     });
 
     it(@"Should get correctly when initialized with climateControlCapabilities and other RemoteControlCapabilities parameters", ^ {

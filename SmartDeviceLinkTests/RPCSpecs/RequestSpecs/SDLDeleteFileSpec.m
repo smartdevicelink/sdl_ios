@@ -28,10 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameSyncFileName:@"synchro"},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameDeleteFile}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDeleteFile* testRequest = [[SDLDeleteFile alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.syncFileName).to(equal(@"synchro"));
     });

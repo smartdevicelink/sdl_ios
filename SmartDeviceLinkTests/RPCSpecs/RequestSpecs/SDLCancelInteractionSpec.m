@@ -50,10 +50,7 @@ describe(@"Getter/Setter Tests", ^{
                                                    SDLRPCParameterNameFunctionID:@(testFunctionID)
                                                    },
                                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameCancelInteraction}};
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testRequest = [[SDLCancelInteraction alloc] initWithDictionary:dict];
-            #pragma clang diagnostic pop
 
             expect(testRequest.cancelID).to(equal(testCancelID));
             expect(testRequest.functionID).to(equal(testFunctionID));
@@ -103,6 +100,13 @@ describe(@"Getter/Setter Tests", ^{
             expect(testRequest.cancelID).to(equal(testCancelID));
         });
 
+        it(@"Should initialize correctly with initWithSubtleAlertCancelID:", ^{
+            testRequest = [[SDLCancelInteraction alloc] initWithSubtleAlertCancelID:testCancelID];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert]));
+            expect(testRequest.cancelID).to(equal(testCancelID));
+        });
+
         it(@"Should initialize correctly with alert:", ^{
             testRequest = [SDLCancelInteraction alert];
 
@@ -128,6 +132,13 @@ describe(@"Getter/Setter Tests", ^{
             testRequest = [SDLCancelInteraction performInteraction];
 
             expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
+            expect(testRequest.cancelID).to(beNil());
+        });
+
+        it(@"Should initialize correctly with subtleAlert:", ^{
+            testRequest = [SDLCancelInteraction subtleAlert];
+
+            expect(testRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert]));
             expect(testRequest.cancelID).to(beNil());
         });
     });

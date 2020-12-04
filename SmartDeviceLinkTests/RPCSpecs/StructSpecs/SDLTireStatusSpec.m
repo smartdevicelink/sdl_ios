@@ -51,10 +51,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameRightRear:tire4,
                                        SDLRPCParameterNameInnerLeftRear:tire5,
                                        SDLRPCParameterNameInnerRightRear:tire6} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLTireStatus* testStruct = [[SDLTireStatus alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.pressureTelltale).to(equal(SDLWarningLightStatusOff));
         expect(testStruct.leftFront).to(equal(tire1));

@@ -134,6 +134,10 @@
       url: Classes/SDLDisplayCapabilities.html
     - name: SDLDisplayCapability
       url: Classes/SDLDisplayCapability.html
+    - name: SDLDriverDistractionCapability
+      url: Classes/SDLDriverDistractionCapability.html
+    - name: SDLDynamicUpdateCapabilities
+      url: Classes/SDLDynamicUpdateCapabilities.html
     - name: SDLECallInfo
       url: Classes/SDLECallInfo.html
     - name: SDLEmergencyEvent
@@ -162,6 +166,8 @@
       url: Classes/SDLFunctionID.html
     - name: SDLGPSData
       url: Classes/SDLGPSData.html
+    - name: SDLGearStatus
+      url: Classes/SDLGearStatus.html
     - name: SDLGenericResponse
       url: Classes.html#/c:objc(cs)SDLGenericResponse
     - name: SDLGetAppServiceData
@@ -324,12 +330,12 @@
       url: Classes/SDLOnKeyboardInput.html
     - name: SDLOnLanguageChange
       url: Classes/SDLOnLanguageChange.html
-    - name: SDLOnLockScreenStatus
-      url: Classes/SDLOnLockScreenStatus.html
     - name: SDLOnPermissionsChange
       url: Classes/SDLOnPermissionsChange.html
     - name: SDLOnRCStatus
       url: Classes/SDLOnRCStatus.html
+    - name: SDLOnSubtleAlertPressed
+      url: Classes.html#/c:objc(cs)SDLOnSubtleAlertPressed
     - name: SDLOnSyncPData
       url: Classes/SDLOnSyncPData.html
     - name: SDLOnSystemCapabilityUpdated
@@ -340,6 +346,10 @@
       url: Classes/SDLOnTBTClientState.html
     - name: SDLOnTouchEvent
       url: Classes/SDLOnTouchEvent.html
+    - name: SDLOnUpdateFile
+      url: Classes/SDLOnUpdateFile.html
+    - name: SDLOnUpdateSubMenu
+      url: Classes/SDLOnUpdateSubMenu.html
     - name: SDLOnVehicleData
       url: Classes/SDLOnVehicleData.html
     - name: SDLOnWayPointChange
@@ -506,6 +516,8 @@
       url: Classes/SDLSpeak.html
     - name: SDLSpeakResponse
       url: Classes.html#/c:objc(cs)SDLSpeakResponse
+    - name: SDLStabilityControlsStatus
+      url: Classes/SDLStabilityControlsStatus.html
     - name: SDLStartTime
       url: Classes/SDLStartTime.html
     - name: SDLStationIDNumber
@@ -528,8 +540,10 @@
       url: Classes.html#/c:objc(cs)SDLSubscribeWayPoints
     - name: SDLSubscribeWayPointsResponse
       url: Classes.html#/c:objc(cs)SDLSubscribeWayPointsResponse
-    - name: SDLSyncMsgVersion
-      url: Classes/SDLSyncMsgVersion.html
+    - name: SDLSubtleAlert
+      url: Classes/SDLSubtleAlert.html
+    - name: SDLSubtleAlertResponse
+      url: Classes/SDLSubtleAlertResponse.html
     - name: SDLSyncPData
       url: Classes.html#/c:objc(cs)SDLSyncPData
     - name: SDLSyncPDataResponse
@@ -540,6 +554,8 @@
       url: Classes/SDLSystemCapabilityManager.html
     - name: SDLSystemRequest
       url: Classes/SDLSystemRequest.html
+    - name: SDLSystemRequestResponse
+      url: Classes.html#/c:objc(cs)SDLSystemRequestResponse
     - name: SDLTTSChunk
       url: Classes/SDLTTSChunk.html
     - name: SDLTemperature
@@ -612,6 +628,10 @@
       url: Classes/SDLWeatherServiceManifest.html
     - name: SDLWindowCapability
       url: Classes/SDLWindowCapability.html
+    - name: SDLWindowState
+      url: Classes/SDLWindowState.html
+    - name: SDLWindowStatus
+      url: Classes/SDLWindowStatus.html
     - name: SDLWindowTypeCapabilities
       url: Classes/SDLWindowTypeCapabilities.html
 - name: Constants
@@ -656,6 +676,8 @@
       url: Constants.html#/c:@SDLAppHMITypeSystem
     - name: SDLAppHMITypeTesting
       url: Constants.html#/c:@SDLAppHMITypeTesting
+    - name: SDLAppHMITypeWebView
+      url: Constants.html#/c:@SDLAppHMITypeWebView
     - name: SDLAppInterfaceUnregisteredReasonAppUnauthorized
       url: Constants.html#/c:@SDLAppInterfaceUnregisteredReasonAppUnauthorized
     - name: SDLAppInterfaceUnregisteredReasonBluetoothOff
@@ -674,6 +696,8 @@
       url: Constants.html#/c:@SDLAppInterfaceUnregisteredReasonProtocolViolation
     - name: SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHMILevel
       url: Constants.html#/c:@SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHMILevel
+    - name: SDLAppInterfaceUnregisteredReasonResourceConstraint
+      url: Constants.html#/c:@SDLAppInterfaceUnregisteredReasonResourceConstraint
     - name: SDLAppInterfaceUnregisteredReasonTooManyRequests
       url: Constants.html#/c:@SDLAppInterfaceUnregisteredReasonTooManyRequests
     - name: SDLAppInterfaceUnregisteredReasonUSBDisconnected
@@ -832,6 +856,12 @@
       url: Constants.html#/c:@SDLButtonPressModeLong
     - name: SDLButtonPressModeShort
       url: Constants.html#/c:@SDLButtonPressModeShort
+    - name: SDLCapacityUnitKilograms
+      url: Constants.html#/c:@SDLCapacityUnitKilograms
+    - name: SDLCapacityUnitKilowatthours
+      url: Constants.html#/c:@SDLCapacityUnitKilowatthours
+    - name: SDLCapacityUnitLiters
+      url: Constants.html#/c:@SDLCapacityUnitLiters
     - name: SDLCarModeStatusCrash
       url: Constants.html#/c:@SDLCarModeStatusCrash
     - name: SDLCarModeStatusFactory
@@ -840,14 +870,20 @@
       url: Constants.html#/c:@SDLCarModeStatusNormal
     - name: SDLCarModeStatusTransport
       url: Constants.html#/c:@SDLCarModeStatusTransport
+    - name: SDLCharacterSetAscii
+      url: Constants.html#/c:@SDLCharacterSetAscii
     - name: SDLCharacterSetCID1
       url: Constants.html#/c:@SDLCharacterSetCID1
     - name: SDLCharacterSetCID2
       url: Constants.html#/c:@SDLCharacterSetCID2
+    - name: SDLCharacterSetIso88591
+      url: Constants.html#/c:@SDLCharacterSetIso88591
     - name: SDLCharacterSetType2
       url: Constants.html#/c:@SDLCharacterSetType2
     - name: SDLCharacterSetType5
       url: Constants.html#/c:@SDLCharacterSetType5
+    - name: SDLCharacterSetUtf8
+      url: Constants.html#/c:@SDLCharacterSetUtf8
     - name: SDLCompassDirectionEast
       url: Constants.html#/c:@SDLCompassDirectionEast
     - name: SDLCompassDirectionNorth
@@ -910,8 +946,6 @@
       url: Constants.html#/c:@SDLDidChangeHMIStatusNotification
     - name: SDLDidChangeLanguageNotification
       url: Constants.html#/c:@SDLDidChangeLanguageNotification
-    - name: SDLDidChangeLockScreenStatusNotification
-      url: Constants.html#/c:@SDLDidChangeLockScreenStatusNotification
     - name: SDLDidChangePermissionsNotification
       url: Constants.html#/c:@SDLDidChangePermissionsNotification
     - name: SDLDidChangeTurnByTurnStateNotification
@@ -1164,6 +1198,12 @@
       url: Constants.html#/c:@SDLDidReceiveSubscribeWayPointsRequest
     - name: SDLDidReceiveSubscribeWaypointsResponse
       url: Constants.html#/c:@SDLDidReceiveSubscribeWaypointsResponse
+    - name: SDLDidReceiveSubtleAlertPressedNotification
+      url: Constants.html#/c:@SDLDidReceiveSubtleAlertPressedNotification
+    - name: SDLDidReceiveSubtleAlertRequest
+      url: Constants.html#/c:@SDLDidReceiveSubtleAlertRequest
+    - name: SDLDidReceiveSubtleAlertResponse
+      url: Constants.html#/c:@SDLDidReceiveSubtleAlertResponse
     - name: SDLDidReceiveSyncPDataNotification
       url: Constants.html#/c:@SDLDidReceiveSyncPDataNotification
     - name: SDLDidReceiveSyncPDataRequest
@@ -1200,6 +1240,10 @@
       url: Constants.html#/c:@SDLDidReceiveUnsubscribeWayPointsRequest
     - name: SDLDidReceiveUnsubscribeWaypointsResponse
       url: Constants.html#/c:@SDLDidReceiveUnsubscribeWaypointsResponse
+    - name: SDLDidReceiveUpdateFileNotification
+      url: Constants.html#/c:@SDLDidReceiveUpdateFileNotification
+    - name: SDLDidReceiveUpdateSubMenuNotification
+      url: Constants.html#/c:@SDLDidReceiveUpdateSubMenuNotification
     - name: SDLDidReceiveUpdateTurnListRequest
       url: Constants.html#/c:@SDLDidReceiveUpdateTurnListRequest
     - name: SDLDidReceiveUpdateTurnListResponse
@@ -1296,6 +1340,32 @@
       url: Constants.html#/c:@SDLEmergencyEventTypeRollover
     - name: SDLEmergencyEventTypeSide
       url: Constants.html#/c:@SDLEmergencyEventTypeSide
+    - name: SDLErrorDomainAudioStreamManager
+      url: Constants.html#/c:@SDLErrorDomainAudioStreamManager
+    - name: SDLErrorDomainCacheFileManager
+      url: Constants.html#/c:@SDLErrorDomainCacheFileManager
+    - name: SDLErrorDomainChoiceSetManager
+      url: Constants.html#/c:@SDLErrorDomainChoiceSetManager
+    - name: SDLErrorDomainEncryptionLifecycleManager
+      url: Constants.html#/c:@SDLErrorDomainEncryptionLifecycleManager
+    - name: SDLErrorDomainFileManager
+      url: Constants.html#/c:@SDLErrorDomainFileManager
+    - name: SDLErrorDomainLifecycleManager
+      url: Constants.html#/c:@SDLErrorDomainLifecycleManager
+    - name: SDLErrorDomainMenuManager
+      url: Constants.html#/c:@SDLErrorDomainMenuManager
+    - name: SDLErrorDomainRPCStore
+      url: Constants.html#/c:@SDLErrorDomainRPCStore
+    - name: SDLErrorDomainSoftButtonManager
+      url: Constants.html#/c:@SDLErrorDomainSoftButtonManager
+    - name: SDLErrorDomainSubscribeButtonManager
+      url: Constants.html#/c:@SDLErrorDomainSubscribeButtonManager
+    - name: SDLErrorDomainSystemCapabilityManager
+      url: Constants.html#/c:@SDLErrorDomainSystemCapabilityManager
+    - name: SDLErrorDomainTextAndGraphicManager
+      url: Constants.html#/c:@SDLErrorDomainTextAndGraphicManager
+    - name: SDLErrorDomainTransport
+      url: Constants.html#/c:@SDLErrorDomainTransport
     - name: SDLFileTypeAAC
       url: Constants.html#/c:@SDLFileTypeAAC
     - name: SDLFileTypeBMP
@@ -1406,6 +1476,10 @@
       url: Constants.html#/c:@SDLImageFieldNameShowConstantTBTNextTurnIcon
     - name: SDLImageFieldNameSoftButtonImage
       url: Constants.html#/c:@SDLImageFieldNameSoftButtonImage
+    - name: SDLImageFieldNameSubMenuIcon
+      url: Constants.html#/c:@SDLImageFieldNameSubMenuIcon
+    - name: SDLImageFieldNameSubtleAlertIcon
+      url: Constants.html#/c:@SDLImageFieldNameSubtleAlertIcon
     - name: SDLImageFieldNameTurnIcon
       url: Constants.html#/c:@SDLImageFieldNameTurnIcon
     - name: SDLImageFieldNameVoiceRecognitionHelpItem
@@ -1646,12 +1720,6 @@
       url: Constants.html#/c:@SDLLockScreenManagerWillDismissLockScreenViewController
     - name: SDLLockScreenManagerWillPresentLockScreenViewController
       url: Constants.html#/c:@SDLLockScreenManagerWillPresentLockScreenViewController
-    - name: SDLLockScreenStatusOff
-      url: Constants.html#/c:@SDLLockScreenStatusOff
-    - name: SDLLockScreenStatusOptional
-      url: Constants.html#/c:@SDLLockScreenStatusOptional
-    - name: SDLLockScreenStatusRequired
-      url: Constants.html#/c:@SDLLockScreenStatusRequired
     - name: SDLMaintenanceModeStatusActive
       url: Constants.html#/c:@SDLMaintenanceModeStatusActive
     - name: SDLMaintenanceModeStatusFeatureNotPresent
@@ -1790,6 +1858,8 @@
       url: Constants.html#/c:@SDLPRNDLLowGear
     - name: SDLPRNDLNeutral
       url: Constants.html#/c:@SDLPRNDLNeutral
+    - name: SDLPRNDLNinth
+      url: Constants.html#/c:@SDLPRNDLNinth
     - name: SDLPRNDLPark
       url: Constants.html#/c:@SDLPRNDLPark
     - name: SDLPRNDLReverse
@@ -1802,6 +1872,8 @@
       url: Constants.html#/c:@SDLPRNDLSixth
     - name: SDLPRNDLSport
       url: Constants.html#/c:@SDLPRNDLSport
+    - name: SDLPRNDLTenth
+      url: Constants.html#/c:@SDLPRNDLTenth
     - name: SDLPRNDLThird
       url: Constants.html#/c:@SDLPRNDLThird
     - name: SDLPRNDLUnknown
@@ -1880,6 +1952,8 @@
       url: Constants.html#/c:@SDLPredefinedLayoutTilesOnly
     - name: SDLPredefinedLayoutTilesWithGraphic
       url: Constants.html#/c:@SDLPredefinedLayoutTilesWithGraphic
+    - name: SDLPredefinedLayoutWebView
+      url: Constants.html#/c:@SDLPredefinedLayoutWebView
     - name: SDLPrerecordedSpeechHelp
       url: Constants.html#/c:@SDLPrerecordedSpeechHelp
     - name: SDLPrerecordedSpeechInitial
@@ -2006,6 +2080,8 @@
       url: Constants.html#/c:@SDLRPCFunctionNameOnPermissionsChange
     - name: SDLRPCFunctionNameOnRCStatus
       url: Constants.html#/c:@SDLRPCFunctionNameOnRCStatus
+    - name: SDLRPCFunctionNameOnSubtleAlertPressed
+      url: Constants.html#/c:@SDLRPCFunctionNameOnSubtleAlertPressed
     - name: SDLRPCFunctionNameOnSyncPData
       url: Constants.html#/c:@SDLRPCFunctionNameOnSyncPData
     - name: SDLRPCFunctionNameOnSystemCapabilityUpdated
@@ -2016,6 +2092,10 @@
       url: Constants.html#/c:@SDLRPCFunctionNameOnTBTClientState
     - name: SDLRPCFunctionNameOnTouchEvent
       url: Constants.html#/c:@SDLRPCFunctionNameOnTouchEvent
+    - name: SDLRPCFunctionNameOnUpdateFile
+      url: Constants.html#/c:@SDLRPCFunctionNameOnUpdateFile
+    - name: SDLRPCFunctionNameOnUpdateSubMenu
+      url: Constants.html#/c:@SDLRPCFunctionNameOnUpdateSubMenu
     - name: SDLRPCFunctionNameOnVehicleData
       url: Constants.html#/c:@SDLRPCFunctionNameOnVehicleData
     - name: SDLRPCFunctionNameOnWayPointChange
@@ -2074,6 +2154,8 @@
       url: Constants.html#/c:@SDLRPCFunctionNameSubscribeVehicleData
     - name: SDLRPCFunctionNameSubscribeWayPoints
       url: Constants.html#/c:@SDLRPCFunctionNameSubscribeWayPoints
+    - name: SDLRPCFunctionNameSubtleAlert
+      url: Constants.html#/c:@SDLRPCFunctionNameSubtleAlert
     - name: SDLRPCFunctionNameSyncPData
       url: Constants.html#/c:@SDLRPCFunctionNameSyncPData
     - name: SDLRPCFunctionNameSystemRequest
@@ -2256,6 +2338,16 @@
       url: Constants.html#/c:@SDLServiceUpdateManifestUpdate
     - name: SDLServiceUpdatePublished
       url: Constants.html#/c:@SDLServiceUpdatePublished
+    - name: SDLServiceUpdateReasonActivated
+      url: Constants.html#/c:@SDLServiceUpdateReasonActivated
+    - name: SDLServiceUpdateReasonDeactivated
+      url: Constants.html#/c:@SDLServiceUpdateReasonDeactivated
+    - name: SDLServiceUpdateReasonManifestUpdate
+      url: Constants.html#/c:@SDLServiceUpdateReasonManifestUpdate
+    - name: SDLServiceUpdateReasonPublished
+      url: Constants.html#/c:@SDLServiceUpdateReasonPublished
+    - name: SDLServiceUpdateReasonRemoved
+      url: Constants.html#/c:@SDLServiceUpdateReasonRemoved
     - name: SDLServiceUpdateRemoved
       url: Constants.html#/c:@SDLServiceUpdateRemoved
     - name: SDLSoftButtonTypeBoth
@@ -2644,6 +2736,8 @@
       url: Constants.html#/c:@SDLSystemCapabilityTypeAppServices
     - name: SDLSystemCapabilityTypeDisplays
       url: Constants.html#/c:@SDLSystemCapabilityTypeDisplays
+    - name: SDLSystemCapabilityTypeDriverDistraction
+      url: Constants.html#/c:@SDLSystemCapabilityTypeDriverDistraction
     - name: SDLSystemCapabilityTypeNavigation
       url: Constants.html#/c:@SDLSystemCapabilityTypeNavigation
     - name: SDLSystemCapabilityTypePhoneCall
@@ -2762,6 +2856,12 @@
       url: Constants.html#/c:@SDLTextFieldNameSliderHeader
     - name: SDLTextFieldNameStatusBar
       url: Constants.html#/c:@SDLTextFieldNameStatusBar
+    - name: SDLTextFieldNameSubtleAlertSoftButtonText
+      url: Constants.html#/c:@SDLTextFieldNameSubtleAlertSoftButtonText
+    - name: SDLTextFieldNameSubtleAlertText1
+      url: Constants.html#/c:@SDLTextFieldNameSubtleAlertText1
+    - name: SDLTextFieldNameSubtleAlertText2
+      url: Constants.html#/c:@SDLTextFieldNameSubtleAlertText2
     - name: SDLTextFieldNameTemplateTitle
       url: Constants.html#/c:@SDLTextFieldNameTemplateTitle
     - name: SDLTextFieldNameTertiaryText
@@ -2782,6 +2882,22 @@
       url: Constants.html#/c:@SDLTouchTypeEnd
     - name: SDLTouchTypeMove
       url: Constants.html#/c:@SDLTouchTypeMove
+    - name: SDLTransmissionTypeAutomatic
+      url: Constants.html#/c:@SDLTransmissionTypeAutomatic
+    - name: SDLTransmissionTypeContinuouslyVariable
+      url: Constants.html#/c:@SDLTransmissionTypeContinuouslyVariable
+    - name: SDLTransmissionTypeDirectDrive
+      url: Constants.html#/c:@SDLTransmissionTypeDirectDrive
+    - name: SDLTransmissionTypeDualClutch
+      url: Constants.html#/c:@SDLTransmissionTypeDualClutch
+    - name: SDLTransmissionTypeElectricVariable
+      url: Constants.html#/c:@SDLTransmissionTypeElectricVariable
+    - name: SDLTransmissionTypeInfinitelyVariable
+      url: Constants.html#/c:@SDLTransmissionTypeInfinitelyVariable
+    - name: SDLTransmissionTypeManual
+      url: Constants.html#/c:@SDLTransmissionTypeManual
+    - name: SDLTransmissionTypeSemiAutomatic
+      url: Constants.html#/c:@SDLTransmissionTypeSemiAutomatic
     - name: SDLTransportConnectError
       url: Constants.html#/c:@SDLTransportConnectError
     - name: SDLTransportDidConnect
@@ -2906,6 +3022,10 @@
       url: Constants.html#/c:@SDLVehicleDataTypeFuelRange
     - name: SDLVehicleDataTypeGPS
       url: Constants.html#/c:@SDLVehicleDataTypeGPS
+    - name: SDLVehicleDataTypeGearStatus
+      url: Constants.html#/c:@SDLVehicleDataTypeGearStatus
+    - name: SDLVehicleDataTypeHandsOffSteering
+      url: Constants.html#/c:@SDLVehicleDataTypeHandsOffSteering
     - name: SDLVehicleDataTypeHeadlampStatus
       url: Constants.html#/c:@SDLVehicleDataTypeHeadlampStatus
     - name: SDLVehicleDataTypeMyKey
@@ -2920,6 +3040,8 @@
       url: Constants.html#/c:@SDLVehicleDataTypeRPM
     - name: SDLVehicleDataTypeSpeed
       url: Constants.html#/c:@SDLVehicleDataTypeSpeed
+    - name: SDLVehicleDataTypeStabilityControlsStatus
+      url: Constants.html#/c:@SDLVehicleDataTypeStabilityControlsStatus
     - name: SDLVehicleDataTypeSteeringWheel
       url: Constants.html#/c:@SDLVehicleDataTypeSteeringWheel
     - name: SDLVehicleDataTypeTirePressure
@@ -2928,6 +3050,8 @@
       url: Constants.html#/c:@SDLVehicleDataTypeTurnSignal
     - name: SDLVehicleDataTypeVIN
       url: Constants.html#/c:@SDLVehicleDataTypeVIN
+    - name: SDLVehicleDataTypeWindowStatus
+      url: Constants.html#/c:@SDLVehicleDataTypeWindowStatus
     - name: SDLVehicleDataTypeWiperStatus
       url: Constants.html#/c:@SDLVehicleDataTypeWiperStatus
     - name: SDLVentilationModeBoth
@@ -3160,6 +3284,8 @@
       url: Type%20Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLCapabilityUpdateHandler
     - name: SDLCapabilityUpdateWithErrorHandler
       url: Type%20Definitions.html#/c:SDLSystemCapabilityManager.h@T@SDLCapabilityUpdateWithErrorHandler
+    - name: SDLCapacityUnit
+      url: Type%20Definitions.html#/c:SDLCapacityUnit.h@T@SDLCapacityUnit
     - name: SDLCarModeStatus
       url: Type%20Definitions.html#/c:SDLCarModeStatus.h@T@SDLCarModeStatus
     - name: SDLCharacterSet
@@ -3196,6 +3322,8 @@
       url: Type%20Definitions.html#/c:SDLEmergencyEventType.h@T@SDLEmergencyEventType
     - name: SDLEnum
       url: Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum
+    - name: SDLErrorDomain
+      url: Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain
     - name: SDLFileManagerDeleteCompletionHandler
       url: Type%20Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerDeleteCompletionHandler
     - name: SDLFileManagerListFilesCompletionHandler
@@ -3262,8 +3390,6 @@
       url: Type%20Definitions.html#/c:SDLLightName.h@T@SDLLightName
     - name: SDLLightStatus
       url: Type%20Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus
-    - name: SDLLockScreenStatus
-      url: Type%20Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus
     - name: SDLLogFilterBlock
       url: Type%20Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock
     - name: SDLMaintenanceModeStatus
@@ -3386,6 +3512,8 @@
       url: Type%20Definitions.html#/c:SDLTouchManager.h@T@SDLTouchEventHandler
     - name: SDLTouchType
       url: Type%20Definitions.html#/c:SDLTouchType.h@T@SDLTouchType
+    - name: SDLTransmissionType
+      url: Type%20Definitions.html#/c:SDLTransmissionType.h@T@SDLTransmissionType
     - name: SDLTriggerSource
       url: Type%20Definitions.html#/c:SDLTriggerSource.h@T@SDLTriggerSource
     - name: SDLTurnSignal

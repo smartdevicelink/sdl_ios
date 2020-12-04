@@ -1,7 +1,6 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLSyncMsgVersion.h"
 #import "SDLMsgVersion.h"
 #import "SDLVersion.h"
 
@@ -53,22 +52,6 @@ describe(@"a version object", ^{
                 expectAction(^{
                     testVersion = [[SDLVersion alloc] initWithString:@"-1.-2.-3"];
                 }).to(raiseException());
-            });
-        });
-
-        context(@"created from a SyncMsgVersion object", ^{
-            beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                SDLSyncMsgVersion *msgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:major minorVersion:minor patchVersion:patch];
-                testVersion = [[SDLVersion alloc] initWithSyncMsgVersion:msgVersion];
-#pragma clang diagnostic pop
-            });
-
-            it(@"should match the parameters", ^{
-                expect(testVersion.major).to(equal(major));
-                expect(testVersion.minor).to(equal(minor));
-                expect(testVersion.patch).to(equal(patch));
             });
         });
 

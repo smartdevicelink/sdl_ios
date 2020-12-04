@@ -1,0 +1,113 @@
+<h1>SDLOnUpdateSubMenu Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithMenuID:">-initWithMenuID:</a></li>
+  <li><a href="#section--initWithMenuID:updateSubCells:">-initWithMenuID:updateSubCells:</a></li>
+  <li><a href="#section-menuID">menuID</a></li>
+  <li><a href="#section-updateSubCells">updateSubCells</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>This notification tells an app to update the AddSubMenu or its &lsquo;sub&rsquo; AddCommand and AddSubMenus with the requested data</p>
+
+<p>@since SDL 7.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithMenuID:">
+      -initWithMenuID:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMenuID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">menuID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">menuID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>menuID</dt>
+      <dd><p>- @(menuID)</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLOnUpdateSubMenu object</p>
+  </div>
+  
+  <h3 id="section--initWithMenuID:updateSubCells:">
+      -initWithMenuID:updateSubCells:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMenuID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">menuID</span>
+                        <span class="nf">updateSubCells</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">updateSubCells</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">menuID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">updateSubCells</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>menuID</dt>
+      <dd><p>- @(menuID)</p></dd>
+      <dt>updateSubCells</dt>
+      <dd><p>- updateSubCells</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLOnUpdateSubMenu object</p>
+  </div>
+  
+  <h3 id="section-menuID">
+      menuID
+  </h3>
+  
+  <p>This menuID must match a menuID in the current menu structure
+{&ldquo;num_min_value&rdquo;: 0, &ldquo;num_max_value&rdquo;: 2000000000}</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">menuID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">menuID</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-updateSubCells">
+      updateSubCells
+  </h3>
+  
+  <p>If not set, assume false. If true, the app should send AddCommands with parentIDs matching the menuID. These AddCommands will then be attached to the submenu and displayed if the submenu is selected.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">updateSubCells</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">updateSubCells</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

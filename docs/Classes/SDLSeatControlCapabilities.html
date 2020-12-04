@@ -3,9 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--initWithName:">-initWithName:</a></li>
   <li><a href="#section--initWithName:moduleInfo:">-initWithName:moduleInfo:</a></li>
-  <li><a href="#section--initWithName:heatingEnabledAvailable:coolingEnabledAvailable:heatingLevelAvailable:coolingLevelAvailable:horizontalPositionAvailable:verticalPositionAvailable:frontVerticalPositionAvailable:backVerticalPositionAvailable:backTiltAngleAvailable:headSupportHorizontalPositionAvailable:headSupportVerticalPositionAvailable:massageEnabledAvailable:massageModeAvailable:massageCushionFirmnessAvailable:memoryAvailable:">-initWithName:heatingEnabledAvailable:coolingEnabledAvailable:heatingLevelAvailable:coolingLevelAvailable:horizontalPositionAvailable:verticalPositionAvailable:frontVerticalPositionAvailable:backVerticalPositionAvailable:backTiltAngleAvailable:headSupportHorizontalPositionAvailable:headSupportVerticalPositionAvailable:massageEnabledAvailable:massageModeAvailable:massageCushionFirmnessAvailable:memoryAvailable:</a></li>
   <li><a href="#section--initWithName:moduleInfo:heatingEnabledAvailable:coolingEnabledAvailable:heatingLevelAvailable:coolingLevelAvailable:horizontalPositionAvailable:verticalPositionAvailable:frontVerticalPositionAvailable:backVerticalPositionAvailable:backTiltAngleAvailable:headSupportHorizontalPositionAvailable:headSupportVerticalPositionAvailable:massageEnabledAvailable:massageModeAvailable:massageCushionFirmnessAvailable:memoryAvailable:">-initWithName:moduleInfo:heatingEnabledAvailable:coolingEnabledAvailable:heatingLevelAvailable:coolingLevelAvailable:horizontalPositionAvailable:verticalPositionAvailable:frontVerticalPositionAvailable:backVerticalPositionAvailable:backTiltAngleAvailable:headSupportHorizontalPositionAvailable:headSupportVerticalPositionAvailable:massageEnabledAvailable:massageModeAvailable:massageCushionFirmnessAvailable:memoryAvailable:</a></li>
   <li><a href="#section-moduleName">moduleName</a></li>
   <li><a href="#section-heatingEnabledAvailable">heatingEnabledAvailable</a></li>
@@ -32,33 +30,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--initWithName:">
-      -initWithName:
-  </h3>
-  
-  <p>Constructs a newly allocated SDLSeatControlCapabilities object with moduleName</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">name</span> <span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>moduleName</dt>
-      <dd><p>The short friendly name of the module.</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An SDLSeatControlCapabilities object</p>
-  </div>
-  
   <h3 id="section--initWithName:moduleInfo:">
       -initWithName:moduleInfo:
   </h3>
@@ -83,80 +54,6 @@
       <dd><p>The short friendly name of the module.</p></dd>
       <dt>moduleInfo</dt>
       <dd><p>Information about a RC module, including its id</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>An SDLSeatControlCapabilities object</p>
-  </div>
-  
-  <h3 id="section--initWithName:heatingEnabledAvailable:coolingEnabledAvailable:heatingLevelAvailable:coolingLevelAvailable:horizontalPositionAvailable:verticalPositionAvailable:frontVerticalPositionAvailable:backVerticalPositionAvailable:backTiltAngleAvailable:headSupportHorizontalPositionAvailable:headSupportVerticalPositionAvailable:massageEnabledAvailable:massageModeAvailable:massageCushionFirmnessAvailable:memoryAvailable:">
-      -initWithName:heatingEnabledAvailable:coolingEnabledAvailable:heatingLevelAvailable:coolingLevelAvailable:horizontalPositionAvailable:verticalPositionAvailable:frontVerticalPositionAvailable:backVerticalPositionAvailable:backTiltAngleAvailable:headSupportHorizontalPositionAvailable:headSupportVerticalPositionAvailable:massageEnabledAvailable:massageModeAvailable:massageCushionFirmnessAvailable:memoryAvailable:
-  </h3>
-  
-  <p>Constructs a newly allocated SDLSeatControlCapabilities object with given parameters</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span>
-                   <span class="nf">heatingEnabledAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatingEnabledAvail</span>
-                   <span class="nf">coolingEnabledAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">coolingEnabledAvail</span>
-                     <span class="nf">heatingLevelAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">heatingLevelAvail</span>
-                     <span class="nf">coolingLevelAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">coolingLevelAvail</span>
-               <span class="nf">horizontalPositionAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">horizontalPositionAvail</span>
-                 <span class="nf">verticalPositionAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">verticalPositionAvail</span>
-            <span class="nf">frontVerticalPositionAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">frontVerticalPositionAvail</span>
-             <span class="nf">backVerticalPositionAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">backVerticalPositionAvail</span>
-                    <span class="nf">backTiltAngleAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">backTitlAngleAvail</span>
-    <span class="nf">headSupportHorizontalPositionAvailable</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">headSupportHorizontalPositionAvail</span>
-      <span class="nf">headSupportVerticalPositionAvailable</span><span class="p">:</span>
-          <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">headSupportVerticalPositionAvail</span>
-                   <span class="nf">massageEnabledAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">massageEnabledAvail</span>
-                      <span class="nf">massageModeAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">massageModeAvail</span>
-           <span class="nf">massageCushionFirmnessAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">massageCushionFirmnessAvail</span>
-                           <span class="nf">memoryAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">memoryAvail</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">name</span> <span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)heatingEnabledAvailable">heatingEnabledAvailable</a></span> <span class="nv">heatingEnabledAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)coolingEnabledAvailable">coolingEnabledAvailable</a></span> <span class="nv">coolingEnabledAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)heatingLevelAvailable">heatingLevelAvailable</a></span> <span class="nv">heatingLevelAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)coolingLevelAvailable">coolingLevelAvailable</a></span> <span class="nv">coolingLevelAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)horizontalPositionAvailable">horizontalPositionAvailable</a></span> <span class="nv">horizontalPositionAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)verticalPositionAvailable">verticalPositionAvailable</a></span> <span class="nv">verticalPositionAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)frontVerticalPositionAvailable">frontVerticalPositionAvailable</a></span> <span class="nv">frontVerticalPositionAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)backVerticalPositionAvailable">backVerticalPositionAvailable</a></span> <span class="nv">backVerticalPositionAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)backTiltAngleAvailable">backTiltAngleAvailable</a></span> <span class="nv">backTitlAngleAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)headSupportHorizontalPositionAvailable">headSupportHorizontalPositionAvailable</a></span> <span class="nv">headSupportHorizontalPositionAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)headSupportVerticalPositionAvailable">headSupportVerticalPositionAvailable</a></span> <span class="nv">headSupportVerticalPositionAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)massageEnabledAvailable">massageEnabledAvailable</a></span> <span class="nv">massageEnabledAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)massageModeAvailable">massageModeAvailable</a></span> <span class="nv">massageModeAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)massageCushionFirmnessAvailable">massageCushionFirmnessAvailable</a></span> <span class="nv">massageCushionFirmnessAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLSeatControlCapabilities.html#/c:objc(cs)SDLSeatControlCapabilities(py)memoryAvailable">memoryAvailable</a></span> <span class="nv">memoryAvail</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>moduleName</dt>
-      <dd><p>The short friendly name of the module.</p></dd>
-      <dt>heatingEnabledAvail</dt>
-      <dd><p>Whether or not heating is available</p></dd>
-      <dt>coolingEnabledAvail</dt>
-      <dd><p>Whether or not heating is available</p></dd>
-      <dt>heatingLevelAvail</dt>
-      <dd><p>Whether or not heating level is available</p></dd>
-      <dt>coolingLevelAvail</dt>
-      <dd><p>Whether or not cooling level is available</p></dd>
-      <dt>horizontalPositionAvail</dt>
-      <dd><p>Whether or not horizontal Position is aavailable</p></dd>
-      <dt>verticalPositionAvail</dt>
-      <dd><p>Whether or not vertical position is available</p></dd>
-      <dt>frontVerticalPositionAvail</dt>
-      <dd><p>Whether or not front vertical position is available</p></dd>
-      <dt>backVerticalPositionAvail</dt>
-      <dd><p>Whether or not back vertical position is available</p></dd>
-      <dt>backTitlAngleAvail</dt>
-      <dd><p>Whether or not backTilt angle is available</p></dd>
-      <dt>headSupportHorizontalPositionAvail</dt>
-      <dd><p>Whether or not head supports for horizontal position is available</p></dd>
-      <dt>headSupportVerticalPositionAvail</dt>
-      <dd><p>Whether or not head supports for vertical position is available</p></dd>
-      <dt>massageEnabledAvail</dt>
-      <dd><p>Whether or not massage enabled is available</p></dd>
-      <dt>massageModeAvail</dt>
-      <dd><p>Whether or not massage mode is available</p></dd>
-      <dt>massageCushionFirmnessAvail</dt>
-      <dd><p>Whether or not massage cushion firmness is available</p></dd>
-      <dt>memoryAvail</dt>
-      <dd><p>Whether or not massage cushion firmness is available</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>

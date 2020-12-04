@@ -50,10 +50,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameAudioType:SDLAudioTypePCM,
                                                    SDLRPCParameterNameMuteAudio:@NO},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNamePerformAudioPassThru}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPerformAudioPassThru* testRequest = [[SDLPerformAudioPassThru alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.audioPassThruDisplayText1).to(equal(@"passthru#1"));
         expect(testRequest.audioPassThruDisplayText2).to(equal(@"passthru#2"));

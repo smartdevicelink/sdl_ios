@@ -30,10 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNavigationText:@"NAVTEXT",
                                                        SDLRPCParameterNameTurnIcon:image} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLTurn* testStruct = [[SDLTurn alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.navigationText).to(equal(@"NAVTEXT"));
         expect(testStruct.turnIcon).to(equal(image));

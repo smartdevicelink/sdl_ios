@@ -51,10 +51,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameYear:@4000,
                                        SDLRPCParameterNameTimezoneMinuteOffset:@0,
                                        SDLRPCParameterNameTimezoneHourOffset:@1000} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDateTime* testStruct = [[SDLDateTime alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.millisecond).to(equal(@100));
         expect(testStruct.second).to(equal(@4));
