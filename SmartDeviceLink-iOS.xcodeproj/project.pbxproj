@@ -1657,6 +1657,7 @@
 		88EEC5BE220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5BD220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m */; };
 		88EED83B1F33BECB00E6C42E /* SDLHapticRectSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */; };
 		88EF8EBA22D8F48300CB06C2 /* SDLCancelInteractionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EF8EB922D8F48300CB06C2 /* SDLCancelInteractionSpec.m */; };
+		88F14F37257A8AC300875394 /* SDLCancelIdManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F14F36257A8AC300875394 /* SDLCancelIdManagerSpec.m */; };
 		88F37A4D226F84BE00DF119B /* SDLIAPDataSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F37A4C226F84BE00DF119B /* SDLIAPDataSessionSpec.m */; };
 		88F50D5F220B720E00F34648 /* SDLPerformAppServiceInteractionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50D5E220B720E00F34648 /* SDLPerformAppServiceInteractionSpec.m */; };
 		88F65133220C6DC300CAF321 /* SDLWeatherAlertSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F65132220C6DC300CAF321 /* SDLWeatherAlertSpec.m */; };
@@ -3496,6 +3497,7 @@
 		88EEC5BD220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPublishAppServiceResponseSpec.m; sourceTree = "<group>"; };
 		88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticRectSpec.m; sourceTree = "<group>"; };
 		88EF8EB922D8F48300CB06C2 /* SDLCancelInteractionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCancelInteractionSpec.m; sourceTree = "<group>"; };
+		88F14F36257A8AC300875394 /* SDLCancelIdManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCancelIdManagerSpec.m; sourceTree = "<group>"; };
 		88F37A4C226F84BE00DF119B /* SDLIAPDataSessionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPDataSessionSpec.m; sourceTree = "<group>"; };
 		88F50D5E220B720E00F34648 /* SDLPerformAppServiceInteractionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionSpec.m; sourceTree = "<group>"; };
 		88F65132220C6DC300CAF321 /* SDLWeatherAlertSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherAlertSpec.m; sourceTree = "<group>"; };
@@ -6671,6 +6673,7 @@
 			isa = PBXGroup;
 			children = (
 				8889C2EC2559C7E2004F5966 /* SDLAudioDataSpec.m */,
+				88F14F36257A8AC300875394 /* SDLCancelIdManagerSpec.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -8686,6 +8689,7 @@
 				162E83791A9BDE8B00906325 /* SDLDeviceStatusSpec.m in Sources */,
 				162E83821A9BDE8B00906325 /* SDLImageSpec.m in Sources */,
 				162E834A1A9BDE8B00906325 /* SDLAddSubMenuResponseSpec.m in Sources */,
+				88F14F37257A8AC300875394 /* SDLCancelIdManagerSpec.m in Sources */,
 				162E830C1A9BDE8B00906325 /* SDLWarningLightStatusSpec.m in Sources */,
 				881BBF5B255ADB8300761B7E /* SDLAlertViewSpec.m in Sources */,
 				1EE8C45F1F3884FF00FDC2CF /* SDLSetInteriorVehicleDataSpec.m in Sources */,

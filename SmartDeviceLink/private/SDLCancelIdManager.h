@@ -12,10 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLCancelIdManager : NSObject
 
-/**
- Stop the manager and reset all properties
- */
+/// Stop the manager and reset all properties
 - (void)stop;
+
+/// Gets the next available cancel id
 - (UInt16)nextCancelId;
 
 @end
