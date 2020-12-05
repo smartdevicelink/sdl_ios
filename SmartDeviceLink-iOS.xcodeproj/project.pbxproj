@@ -1667,6 +1667,8 @@
 		B360F9DF255F52A50027CA17 /* SDLSeatStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B360F9DD255F52A40027CA17 /* SDLSeatStatus.m */; };
 		B360F9E4255F52BA0027CA17 /* SDLSeatOccupancy.m in Sources */ = {isa = PBXBuildFile; fileRef = B360F9E2255F52B90027CA17 /* SDLSeatOccupancy.m */; };
 		B360F9E5255F52BA0027CA17 /* SDLSeatOccupancy.h in Headers */ = {isa = PBXBuildFile; fileRef = B360F9E3255F52B90027CA17 /* SDLSeatOccupancy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B38389D6257C187500420C11 /* SDLSeatOccupancySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38389D4257C187400420C11 /* SDLSeatOccupancySpec.m */; };
+		B38389D7257C187500420C11 /* SDLSeatStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38389D5257C187500420C11 /* SDLSeatStatusSpec.m */; };
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
@@ -3494,6 +3496,8 @@
 		B360F9DD255F52A40027CA17 /* SDLSeatStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSeatStatus.m; path = public/SDLSeatStatus.m; sourceTree = "<group>"; };
 		B360F9E2255F52B90027CA17 /* SDLSeatOccupancy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSeatOccupancy.m; path = public/SDLSeatOccupancy.m; sourceTree = "<group>"; };
 		B360F9E3255F52B90027CA17 /* SDLSeatOccupancy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLSeatOccupancy.h; path = public/SDLSeatOccupancy.h; sourceTree = "<group>"; };
+		B38389D4257C187400420C11 /* SDLSeatOccupancySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSeatOccupancySpec.m; path = SmartDeviceLinkTests/RPCSpecs/ResponseSpecs/SDLSeatOccupancySpec.m; sourceTree = SOURCE_ROOT; };
+		B38389D5257C187500420C11 /* SDLSeatStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSeatStatusSpec.m; path = SmartDeviceLinkTests/RPCSpecs/ResponseSpecs/SDLSeatStatusSpec.m; sourceTree = SOURCE_ROOT; };
 		B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatusSpec.m; sourceTree = "<group>"; };
 		B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionTypeSpec.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
@@ -4029,6 +4033,8 @@
 				5DADA7771F4E059E0084D17D /* SDLRectangleSpec.m */,
 				5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */,
 				162E82A71A9BDE8A00906325 /* SDLScreenParamsSpec.m */,
+				B38389D4257C187400420C11 /* SDLSeatOccupancySpec.m */,
+				B38389D5257C187500420C11 /* SDLSeatStatusSpec.m */,
 				1E89B0E1203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m */,
 				1E89B0DD2031636000A47992 /* SDLSeatControlDataSpec.m */,
 				1EB59CD9202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m */,
@@ -8649,6 +8655,7 @@
 				162E835D1A9BDE8B00906325 /* SDLReadDIDResponseSpec.m in Sources */,
 				5DAD5F87205087430025624C /* SDLTextAndGraphicManagerSpec.m in Sources */,
 				162E82D41A9BDE8A00906325 /* SDLCharacterSetSpec.m in Sources */,
+				B38389D7257C187500420C11 /* SDLSeatStatusSpec.m in Sources */,
 				162E830F1A9BDE8B00906325 /* SDLOnAppInterfaceUnregisteredSpec.m in Sources */,
 				162E83971A9BDE8B00906325 /* SDLVehicleTypeSpec.m in Sources */,
 				887BE4D422272B2200B397C2 /* SDLControlFramePayloadConstantsSpec.m in Sources */,
@@ -8708,6 +8715,7 @@
 				1EE8C4501F38629200FDC2CF /* SDLRemoteControlCapabilitiesSpec.m in Sources */,
 				1EAA47662035B8D3000FE74B /* SDLLightControlDataSpec.m in Sources */,
 				162E82CF1A9BDE8A00906325 /* SDLBitsPerSampleSpec.m in Sources */,
+				B38389D6257C187500420C11 /* SDLSeatOccupancySpec.m in Sources */,
 				883581B022D659BE00405C42 /* SDLCloseApplicationResponseSpec.m in Sources */,
 				162E831E1A9BDE8B00906325 /* SDLOnTBTClientStateSpec.m in Sources */,
 				162E83351A9BDE8B00906325 /* SDLReadDIDSpec.m in Sources */,
