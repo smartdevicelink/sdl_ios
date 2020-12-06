@@ -27,6 +27,10 @@ describe(@"getter/setter tests", ^{
         testStruct.status = status;
         testStruct.state = state;
 
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.location).to(equal(location));
             expect(testStruct.status).to(equal(status));
@@ -42,6 +46,10 @@ describe(@"getter/setter tests", ^{
         };
         SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] initWithDictionary:dict];
 
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.location).to(equal(location));
             expect(testStruct.status).to(equal(status));
@@ -51,6 +59,10 @@ describe(@"getter/setter tests", ^{
 
     context(@"init", ^{
         SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] init];
+
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
 
         it(@"expect all properties to be nil", ^{
             expect(testStruct.location).to(beNil());
@@ -62,6 +74,10 @@ describe(@"getter/setter tests", ^{
     context(@"initWithLocation:status:", ^{
         SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] initWithLocation:location status:status];
 
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.location).to(equal(location));
             expect(testStruct.status).to(equal(status));
@@ -71,6 +87,10 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithLocation:status:state:", ^{
         SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] initWithLocation:location status:status state:state];
+
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
 
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.location).to(equal(location));

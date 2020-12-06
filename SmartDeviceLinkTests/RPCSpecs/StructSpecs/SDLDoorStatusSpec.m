@@ -21,6 +21,11 @@ SDLDoorStatusType status = SDLDoorStatusTypeAjar;
 describe(@"getter/setter tests", ^{
     context(@"init and assign", ^{
         SDLDoorStatus* testStruct = [[SDLDoorStatus alloc] init];
+
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         testStruct.location = location;
         testStruct.status = status;
 
@@ -37,6 +42,10 @@ describe(@"getter/setter tests", ^{
         };
         SDLDoorStatus *testStruct = [[SDLDoorStatus alloc] initWithDictionary:dict];
 
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.location).to(equal(location));
             expect(testStruct.status).to(equal(status));
@@ -46,6 +55,10 @@ describe(@"getter/setter tests", ^{
     context(@"init", ^{
         SDLDoorStatus *testStruct = [[SDLDoorStatus alloc] init];
 
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         it(@"expect all properties to be nil", ^{
             expect(testStruct.location).to(beNil());
             expect(testStruct.status).to(beNil());
@@ -54,6 +67,11 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithLocation:status:", ^{
         SDLDoorStatus *testStruct = [[SDLDoorStatus alloc] initWithLocation:location status:status];
+
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         testStruct.location = location;
         testStruct.status = status;
 

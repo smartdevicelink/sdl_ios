@@ -21,10 +21,16 @@ QuickSpecBegin(SDLBodyInformationSpec)
 NSArray<SDLDoorStatus *> *doorStatuses = @[[[SDLDoorStatus alloc] init]];
 NSArray<SDLGateStatus *> *gateStatuses = @[[[SDLGateStatus alloc] init]];
 NSArray<SDLRoofStatus *> *roofStatuses = @[[[SDLRoofStatus alloc] init]];
+SDLIgnitionStableStatus ignitionStableStatus = SDLIgnitionStableStatusStable;
+SDLIgnitionStatus ignitionStatus = SDLIgnitionStatusStart;
 
 describe(@"getter/setter tests", ^{
     context(@"init and assign", ^{
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] init];
+
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
 
         testStruct.parkBrakeActive = @YES;
         testStruct.ignitionStableStatus = SDLIgnitionStableStatusStable;
@@ -75,6 +81,10 @@ describe(@"getter/setter tests", ^{
         };
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithDictionary:dict];
 
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.parkBrakeActive).to(equal(@YES));
             expect(testStruct.ignitionStableStatus).to(equal(SDLIgnitionStableStatusNotStable));
@@ -95,6 +105,10 @@ describe(@"getter/setter tests", ^{
     context(@"init", ^{
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] init];
 
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
         it(@"expect all properties to be nil", ^{
             expect(testStruct.parkBrakeActive).to(beNil());
             expect(testStruct.ignitionStableStatus).to(beNil());
@@ -109,6 +123,54 @@ describe(@"getter/setter tests", ^{
             expect(testStruct.doorStatuses).to(beNil());
             expect(testStruct.gateStatuses).to(beNil());
             expect(testStruct.roofStatuses).to(beNil());
+        });
+    });
+
+    context(@"initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:", ^{
+        SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithParkBrakeActive:YES ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus];
+
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
+        it(@"expect all properties to be set correctly", ^{
+            expect(testStruct.parkBrakeActive).to(equal(@YES));
+            expect(testStruct.ignitionStableStatus).to(equal(ignitionStableStatus));
+            expect(testStruct.ignitionStatus).to(equal(ignitionStatus));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testStruct.driverDoorAjar).to(beNil());
+            expect(testStruct.passengerDoorAjar).to(beNil());
+            expect(testStruct.rearLeftDoorAjar).to(beNil());
+            expect(testStruct.rearRightDoorAjar).to(beNil());
+#pragma clang diagnostic pop
+            expect(testStruct.doorStatuses).to(beNil());
+            expect(testStruct.gateStatuses).to(beNil());
+            expect(testStruct.roofStatuses).to(beNil());
+        });
+    });
+
+    context(@"initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:", ^{
+        SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithParkBrakeActive:YES ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus doorStatuses:doorStatuses gateStatuses:gateStatuses roofStatuses:roofStatuses];
+
+        it(@"expect struct is not nil", ^{
+            expect(testStruct).notTo(beNil());
+        });
+
+        it(@"expect all properties to be set correctly", ^{
+            expect(testStruct.parkBrakeActive).to(equal(@YES));
+            expect(testStruct.ignitionStableStatus).to(equal(ignitionStableStatus));
+            expect(testStruct.ignitionStatus).to(equal(ignitionStatus));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testStruct.driverDoorAjar).to(beNil());
+            expect(testStruct.passengerDoorAjar).to(beNil());
+            expect(testStruct.rearLeftDoorAjar).to(beNil());
+            expect(testStruct.rearRightDoorAjar).to(beNil());
+#pragma clang diagnostic pop
+            expect(testStruct.doorStatuses).to(equal(doorStatuses));
+            expect(testStruct.gateStatuses).to(equal(gateStatuses));
+            expect(testStruct.roofStatuses).to(equal(roofStatuses));
         });
     });
 });
