@@ -64,3 +64,7 @@ SDLTextFieldName const SDLTextFieldNamePhoneNumber = @"phoneNumber";
 SDLTextFieldName const SDLTextFieldNameSubtleAlertText1 = @"subtleAlertText1";
 SDLTextFieldName const SDLTextFieldNameSubtleAlertText2 = @"subtleAlertText2";
 SDLTextFieldName const SDLTextFieldNameSubtleAlertSoftButtonText = @"subtleAlertSoftButtonText";
+SDLTextFieldName const SDLTextFieldNameMenuCommandSecondaryText = @"menuCommandSecondaryText";
+SDLTextFieldName const SDLTextFieldNameMenuCommandTertiaryText = @"menuCommandTertiaryText";
+SDLTextFieldName const SDLTextFieldNameMenuSubMenuSecondaryText = @"menuSubMenuSecondaryText";
+SDLTextFieldName const SDLTextFieldNameMenuSubMenuTertiaryText = @"menuSubMenuTertiaryText";
