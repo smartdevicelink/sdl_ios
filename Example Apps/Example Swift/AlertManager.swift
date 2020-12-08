@@ -21,9 +21,15 @@ class AlertManager {
         let okSoftButton = SDLSoftButtonObject(name: AlertOKButtonText, text: AlertOKButtonText, artwork: nil, handler: nil)
         let alert = SDLAlertView(text: textField1, buttons: [okSoftButton])
         alert.secondaryText = textField2
+
+        let alertAudioData = SDLAlertAudioData(speechSynthesizerString: "alert")
+        alertAudioData.playTone = true
+        alert.audio = alertAudioData
+
         if let imageName = imageName {
             alert.icon = SDLArtwork(image: UIImage(named: imageName)!.withRenderingMode(.alwaysTemplate), persistent: false, as: .PNG)
         }
+
         sdlManager.screenManager.presentAlert(alert) { error in
             if let error = error {
                 SDLLog.e("There was an error presenting the alert: \(error.localizedDescription)")

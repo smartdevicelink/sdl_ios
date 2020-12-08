@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)sendAlertWithManager:(SDLManager *)sdlManager image:(nullable NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
     SDLSoftButtonObject *okSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertOKButtonText text:AlertOKButtonText artwork:nil handler:nil];
-
     SDLAlertView *alert = [[SDLAlertView alloc] initWithText:textField1 buttons:@[okSoftButton]];
     alert.secondaryText = textField2;
 
