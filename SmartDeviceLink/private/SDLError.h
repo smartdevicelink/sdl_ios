@@ -68,6 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSError *)sdl_alertManager_presentationFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_alertManager_alertDataInvalid;
++ (NSError *)sdl_alertManager_alertAudioFileNotSupported;
 
 #pragma mark System Capability Manager
 

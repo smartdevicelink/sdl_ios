@@ -91,7 +91,11 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isCancelled) { return; }
 
     if (![self sdl_isValidAlertViewData:self.alertView]) {
-        self.internalError = [NSError sdl_alertManager_alertDataInvalid];
+        if (self.alertView.audio.audioFiles.count > 0) {
+            self.internalError = [NSError sdl_alertManager_alertAudioFileNotSupported];
+        } else {
+            self.internalError = [NSError sdl_alertManager_alertDataInvalid];
+        }
         [self finishOperation];
     }
 

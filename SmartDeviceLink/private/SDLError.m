@@ -309,7 +309,15 @@ NS_ASSUME_NONNULL_BEGIN
                                                        NSLocalizedRecoverySuggestionErrorKey: @"Make sure to set at least the text, secondaryText or audio properties on the SDLAlertView"
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
+}
 
++ (NSError *)sdl_alertManager_alertAudioFileNotSupported {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: @"The module does not support the use of only audio file data in an alert",
+                                                       NSLocalizedFailureReasonErrorKey: @"The alert has no data and can not be sent to the module",
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"The use of audio file data in an alert is only supported on modules supporting RPC Spec v5.0 or newer"
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
 }
 
 #pragma mark System Capability Manager
