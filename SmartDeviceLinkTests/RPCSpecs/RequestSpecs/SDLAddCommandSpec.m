@@ -18,7 +18,8 @@ QuickSpecBegin(SDLAddCommandSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     SDLMenuParams* menu = [[SDLMenuParams alloc] init];
-    SDLImage* image = [[SDLImage alloc] init];
+    SDLImage *image = [[SDLImage alloc] initWithName:@"Icon" ofType:SDLImageTypeDynamic isTemplate:YES];
+    SDLImage *testSecondaryImage = [[SDLImage alloc] initWithStaticIconName:SDLStaticIconNameKey];
 
     it(@"Should set and get correctly", ^ {
         SDLAddCommand* testRequest = [[SDLAddCommand alloc] init];
@@ -27,27 +28,31 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.menuParams = menu;
         testRequest.vrCommands = [@[@"name", @"anotherName"] mutableCopy];
         testRequest.cmdIcon = image;
+        testRequest.secondaryImage = testSecondaryImage;
         
         expect(testRequest.cmdID).to(equal(@434577));
         expect(testRequest.menuParams).to(equal(menu));
         expect(testRequest.vrCommands).to(equal([@[@"name", @"anotherName"] mutableCopy]));
         expect(testRequest.cmdIcon).to(equal(image));
+        expect(testRequest.secondaryImage).to(equal(testSecondaryImage));
     });
-    
+
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
                                                           @{SDLRPCParameterNameParameters:
                                                                 @{SDLRPCParameterNameCommandId:@434577,
                                                                   SDLRPCParameterNameMenuParams:menu,
                                                                   SDLRPCParameterNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
-                                                                  SDLRPCParameterNameCommandIcon:image},
-                                                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddCommand}} mutableCopy];
+                                                                  SDLRPCParameterNameCommandIcon:image,
+                                                                  SDLRPCParameterNameSecondaryImage: testSecondaryImage},
+                                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddCommand}} mutableCopy];
         SDLAddCommand* testRequest = [[SDLAddCommand alloc] initWithDictionary:dict];
 
         expect(testRequest.cmdID).to(equal(@434577));
         expect(testRequest.menuParams).to(equal(menu));
         expect(testRequest.vrCommands).to(equal([@[@"name", @"anotherName"] mutableCopy]));
         expect(testRequest.cmdIcon).to(equal(image));
+        expect(testRequest.secondaryImage).to(equal(testSecondaryImage));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -57,6 +62,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.menuParams).to(beNil());
         expect(testRequest.vrCommands).to(beNil());
         expect(testRequest.cmdIcon).to(beNil());
+        expect(testRequest.secondaryImage).to(beNil());
     });
 });
 
@@ -65,6 +71,9 @@ describe(@"initializers", ^{
     __block UInt32 commandId = 1234;
     __block NSArray<NSString *> *vrCommands = @[@"commands"];
     __block NSString *menuName = @"Menu Name";
+    SDLImage *image = [[SDLImage alloc] initWithName:@"Icon" ofType:SDLImageTypeDynamic isTemplate:YES];
+    SDLImage *testSecondaryImage = [[SDLImage alloc] initWithStaticIconName:SDLStaticIconNameKey];
+    SDLMenuParams *testMenuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
     void (^handler)(SDLOnCommand *) = ^(SDLOnCommand *command) {};
 
     beforeEach(^{
@@ -180,6 +189,41 @@ describe(@"initializers", ^{
             expect(testCommand.menuParams.position).to(equal(position));
 
             expect(testCommand.cmdIcon).to(beNil());
+        });
+    });
+
+    context(@"- (instancetype)initWithCmdID:menuParams:vrCommands:cmdIcon:secondaryImage", ^{
+        it(@"should initialize with an image", ^{
+            testCommand = [[SDLAddCommand alloc] initWithCmdID:commandId menuParams:testMenuParams vrCommands:vrCommands cmdIcon:image secondaryImage:testSecondaryImage handler: nil];
+
+            expect(testCommand.cmdID).to(equal(commandId));
+            expect(testCommand.vrCommands).to(equal(vrCommands));
+            expect(testCommand.menuParams).to(equal(testMenuParams));
+
+            expect(testCommand.cmdIcon).toNot(beNil());
+            expect(testCommand.cmdIcon.value).to(equal(image.value));
+            expect(testCommand.cmdIcon.imageType).to(equal(image.imageType));
+            expect(testCommand.cmdIcon.isTemplate).to(equal(image.isTemplate));
+
+            expect(testCommand.secondaryImage).toNot(beNil());
+            expect(testCommand.secondaryImage.value).to(equal(testSecondaryImage.value));
+            expect(testCommand.secondaryImage.imageType).to(equal(testSecondaryImage.imageType));
+            expect(testCommand.secondaryImage.isTemplate).to(equal(testSecondaryImage.isTemplate));
+        });
+
+        it(@"should initialize without an image", ^{
+            testCommand = [[SDLAddCommand alloc] initWithCmdID:commandId menuParams:testMenuParams vrCommands:vrCommands cmdIcon:image secondaryImage:nil handler:nil];
+
+            expect(testCommand.cmdID).to(equal(commandId));
+            expect(testCommand.vrCommands).to(equal(vrCommands));
+            expect(testCommand.menuParams).to(equal(testMenuParams));
+
+            expect(testCommand.cmdIcon).toNot(beNil());
+            expect(testCommand.cmdIcon.value).to(equal(image.value));
+            expect(testCommand.cmdIcon.imageType).to(equal(image.imageType));
+            expect(testCommand.cmdIcon.isTemplate).to(equal(image.isTemplate));
+
+            expect(testCommand.secondaryImage).to(beNil());
         });
     });
 });
