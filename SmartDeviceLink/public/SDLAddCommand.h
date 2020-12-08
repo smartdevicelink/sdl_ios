@@ -97,6 +97,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position icon:(nullable SDLImage *)icon handler:(nullable SDLRPCCommandNotificationHandler)handler;
 
 /**
+ * @param cmdID - @(cmdID)
+ * @param menuParams - menuParams
+ * @param vrCommands - vrCommands
+ * @param cmdIcon - cmdIcon
+ * @param secondaryImage - secondaryImage
+ * @return A SDLAddCommand object
+ */
+- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon secondaryImage:(nullable SDLImage *)secondaryImage;
+
+/**
  *  A handler that will let you know when the button you created is subscribed.
  *
  *  @warning This will only work if you use `SDLManager`.
@@ -138,6 +148,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  Optional
  */
 @property (nullable, strong, nonatomic) SDLImage *cmdIcon;
+
+/**
+ * Optional secondary image struct for menu cell
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) SDLImage *secondaryImage;
 
 @end
 

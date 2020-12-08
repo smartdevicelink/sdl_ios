@@ -87,6 +87,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon secondaryImage:(nullable SDLImage *)secondaryImage {
+    self = [self initWithCmdID:cmdID];
+    if (!self) {
+        return nil;
+    }
+    self.menuParams = menuParams;
+    self.vrCommands = vrCommands;
+    self.cmdIcon = cmdIcon;
+    self.secondaryImage = secondaryImage;
+    return self;
+}
+
 #pragma mark - Getters / Setters
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
@@ -120,6 +132,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)cmdIcon {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameCommandIcon ofClass:SDLImage.class error:nil];
+}
+
+- (void)setSecondaryImage:(nullable SDLImage *)secondaryImage {
+    [self.parameters sdl_setObject:secondaryImage forName:SDLRPCParameterNameSecondaryImage];
+}
+
+- (nullable SDLImage *)secondaryImage {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSecondaryImage ofClass:SDLImage.class error:nil];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {
