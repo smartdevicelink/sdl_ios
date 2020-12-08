@@ -673,23 +673,64 @@ describe(@"SDLPresentAlertOperation", ^{
         });
 
         context(@"with invalid data", ^{
-            beforeEach(^{
-                testAlertView = [[SDLAlertView alloc] init];
-                testAlertView.tertiaryText = @"test text";
+            context(@"the module supports audio data uploads", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = alertAudioFileSupportedSpecVersion;
+                });
 
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
-                
-                testPresentAlertOperation.completionBlock = ^{
-                    hasCalledOperationCompletionHandler = YES;
-                };
+                it(@"should return an error if invalid data was set", ^{
+                    testAlertView = [[SDLAlertView alloc] init];
+                    testAlertView.tertiaryText = @"test text";
+
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                    testPresentAlertOperation.completionBlock = ^{
+                        hasCalledOperationCompletionHandler = YES;
+                    };
+
+                    [testPresentAlertOperation start];
+
+                    expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertDataInvalid]));
+                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                });
             });
 
-            it(@"should return an error if invalid data was set", ^{
-                [testPresentAlertOperation start];
+            context(@"the module does not support audio data uploads", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = alertAudioFileNotSupportedSpecVersion;
+                });
 
-                expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertDataInvalid]));
-                expect(hasCalledOperationCompletionHandler).to(beTrue());
-                expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                it(@"should return an error if valid audio data was set but the module does not support audio files", ^{
+                    testAlertView = [[SDLAlertView alloc] init];
+                    testAlertView.audio = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
+
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                    testPresentAlertOperation.completionBlock = ^{
+                        hasCalledOperationCompletionHandler = YES;
+                    };
+
+                    [testPresentAlertOperation start];
+
+                    expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertAudioFileNotSupported]));
+                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                });
+
+                it(@"should return an error if invalid data was set", ^{
+                    testAlertView = [[SDLAlertView alloc] init];
+                    testAlertView.tertiaryText = @"test text";
+
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                    testPresentAlertOperation.completionBlock = ^{
+                        hasCalledOperationCompletionHandler = YES;
+                    };
+
+                    [testPresentAlertOperation start];
+
+                    expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertDataInvalid]));
+                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                });
             });
         });
 
