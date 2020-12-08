@@ -18,6 +18,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Handler called when the alert either dismisses from the screen or it has failed to present
 typedef void(^SDLAlertCompletionHandler)(NSError *__nullable error);
 
 @interface SDLAlertManager : NSObject
@@ -26,6 +27,7 @@ typedef void(^SDLAlertCompletionHandler)(NSError *__nullable error);
 /// @param connectionManager The connection manager object for sending RPCs
 /// @param fileManager The file manager object for uploading files
 /// @param systemCapabilityManager The system capability manager object for reading window capabilities
+/// @param cancelIdManager The manager responsible for generating cancel ids for RPCs
 /// @return The alert manager
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager cancelIdManager:(SDLCancelIdManager *)cancelIdManager;
 
