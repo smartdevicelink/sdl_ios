@@ -517,7 +517,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
                     expect(testFileNeedsUpload).to(beFalse());
                 });
 
-                it(@"should not allow file to be uploaded when overwrite is set to true", ^{
+                it(@"should allow file to be uploaded when overwrite is set to true", ^{
                     artwork.overwrite = YES;
 
                     BOOL testFileNeedsUpload = [testFileManager fileNeedsUpload:artwork];
