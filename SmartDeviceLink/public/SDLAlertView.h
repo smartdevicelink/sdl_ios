@@ -62,7 +62,7 @@ typedef void (^SDLAlertCanceledHandler)(void);
 /// @param icon An artwork that will be displayed when the icon appears
 - (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSTimeInterval)timeout showWaitIndicator:(BOOL)showWaitIndicator audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon;
 
-/// Cancels the alert. If the alert has not yet been sent to Core, it will not be sent. If the alert is already presented on Core, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to modules support RPC Spec v.6.0+. On older versions of Core, the alert will not be dismissed.
+/// Cancels the alert. If the alert has not yet been sent to the module, it will not be sent. If the alert is already presented on the module, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to modules support RPC Spec v.6.0+. On older versions the alert will not be dismissed.
 - (void)cancel;
 
 @end

@@ -89,10 +89,12 @@ NS_ASSUME_NONNULL_BEGIN
     [self.transactionQueue addOperation:op];
 }
 
+/// Creates a new concurrent queue that can send multiple `Alert` RPCs without having to wait for the module to respond to the previous `Alert` request. The queue is initially suspended until the manager knows it can send the `Alert` RPCS without getting a disallowed response.
+/// @return A concurrent operation queue
 - (NSOperationQueue *)sdl_newTransactionQueue {
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"SDLAlertManager Transaction Queue";
-    queue.maxConcurrentOperationCount = 3;
+    queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
     queue.qualityOfService = NSQualityOfServiceUserInitiated;
     queue.suspended = YES;
 
@@ -101,6 +103,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Observers
 
+/// Called when the current window capabilities have updated.
+/// @param systemCapability The new current window capabilities.
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
     SDLDisplayCapability *mainDisplay = capabilities[0];
@@ -113,6 +117,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+/// Subscribes to permission updates for the `Alert` RPC. If the alert is not allowed at the current HMI level, the queue is suspended. Any `Alert` RPCs added while the queue is suspended will be sent when the `Alert` RPC is allowed at the current HMI level and the queue is unsuspended.
+/// @discussion If there is no permission manager, the queue is not suspended and the `Alert` RPCs can be sent at any HMI level. This may mean that some requests are rejected due to invalid permissions.
 - (void)sdl_subscribeToPermissions {
     if (self.permissionManager == nil) {
         self.transactionQueue.suspended = NO;
