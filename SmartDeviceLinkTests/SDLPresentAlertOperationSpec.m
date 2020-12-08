@@ -614,40 +614,61 @@ describe(@"SDLPresentAlertOperation", ^{
 
     describe(@"presenting the alert", ^{
         describe(@"checking if alert data is valid", ^{
-            it(@"should be valid if at least the first text field was set", ^{
-                testAlertView = [[SDLAlertView alloc] init];
-                testAlertView.text = @"test text";
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+            context(@"the module does not support audio data uploads", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = alertAudioFileSupportedSpecVersion;
+                });
 
-                BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                expect(testAlertDataValid).to(beTrue());
+                it(@"should be valid if at least the first text field was set", ^{
+                    testAlertView = [[SDLAlertView alloc] init];
+                    testAlertView.text = @"test text";
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+
+                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertDataValid).to(beTrue());
+                });
+
+                it(@"should be valid if at least the second text field was set", ^{
+                    testAlertView = [[SDLAlertView alloc] init];
+                    testAlertView.secondaryText = @"test text";
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+
+                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertDataValid).to(beTrue());
+                });
+
+                it(@"should be valid if at least the audio data was set", ^{
+                    testAlertView = [[SDLAlertView alloc] init];
+                    testAlertView.audio = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test audio"];
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+
+                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertDataValid).to(beTrue());
+                });
+
+                it(@"should be invalid if the first two text fields or the audio data was not set", ^{
+                    testAlertView = [[SDLAlertView alloc] init];
+                    testAlertView.tertiaryText = @"test text";
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+
+                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertDataValid).to(beFalse());
+                });
             });
 
-            it(@"should be valid if at least the second text field was set", ^{
-                testAlertView = [[SDLAlertView alloc] init];
-                testAlertView.secondaryText = @"test text";
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+            context(@"the module does not support audio data uploads", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = alertAudioFileNotSupportedSpecVersion;
+                });
 
-                BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                expect(testAlertDataValid).to(beTrue());
-            });
+                it(@"should be invalid if only audio data was set but audio data is not supported on the module", ^{
+                    testAlertView = [[SDLAlertView alloc] init];
+                    testAlertView.audio = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
+                    testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-            it(@"should be valid if at least the audio data was set", ^{
-                testAlertView = [[SDLAlertView alloc] init];
-                testAlertView.audio = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test audio"];
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
-
-                BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                expect(testAlertDataValid).to(beTrue());
-            });
-
-            it(@"should be invalid if the first two text fields or the audio data was not set", ^{
-                testAlertView = [[SDLAlertView alloc] init];
-                testAlertView.tertiaryText = @"test text";
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
-
-                BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                expect(testAlertDataValid).to(beFalse());
+                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertDataValid).to(beFalse());
+                });
             });
         });
 

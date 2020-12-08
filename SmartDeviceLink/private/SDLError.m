@@ -450,10 +450,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSException exceptionWithName:@"InvalidSoftButtonState" reason:@"Attempting to transition to a state that does not exist" userInfo:nil];
 }
 
-+ (NSException *)sdl_invalidAlertSoftButtonStatesException {
-    return [NSException exceptionWithName:@"InvalidSoftButtonStates" reason:@"Attempting create a soft button for an Alert with more than one state. Alerts only support soft buttons with one state" userInfo:nil];
-}
-
 + (NSException *)sdl_carWindowOrientationException {
     return [NSException exceptionWithName:@"com.sdl.carwindow.orientationException"
                                    reason:@"SDLCarWindow rootViewController must support only a single interface orientation"
