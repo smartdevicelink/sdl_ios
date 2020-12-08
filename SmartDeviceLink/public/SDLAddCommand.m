@@ -87,8 +87,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon secondaryImage:(nullable SDLImage *)secondaryImage {
-    self = [self initWithCmdID:cmdID];
+- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon secondaryImage:(nullable SDLImage *)secondaryImage handler:(nullable SDLRPCCommandNotificationHandler)handler {
+//    self = [self initWithCmdID:cmdID];
+    self = [self initWithId:cmdID vrCommands:vrCommands handler:handler];
     if (!self) {
         return nil;
     }

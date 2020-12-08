@@ -102,9 +102,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param vrCommands - vrCommands
  * @param cmdIcon - cmdIcon
  * @param secondaryImage - secondaryImage
+ * @param handler     Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
  * @return A SDLAddCommand object
  */
-- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon secondaryImage:(nullable SDLImage *)secondaryImage;
+- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon secondaryImage:(nullable SDLImage *)secondaryImage handler:(nullable SDLRPCCommandNotificationHandler)handler;
 
 /**
  *  A handler that will let you know when the button you created is subscribed.
