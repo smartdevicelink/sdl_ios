@@ -1668,6 +1668,7 @@
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		C975877F257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */; };
+		C9758785257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */; };
 		C9DFFE78257ACE0000F7D57A /* SDLSeekStreamingIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */; };
 		C9DFFE79257ACE0000F7D57A /* SDLSeekStreamingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DFFE77257ACE0000F7D57A /* SDLSeekStreamingIndicator.m */; };
 		C9DFFE7E257AD07E00F7D57A /* SDLSeekIndicatorType.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE7C257AD07E00F7D57A /* SDLSeekIndicatorType.h */; };
@@ -3496,6 +3497,7 @@
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekIndicatorTypeSpec.m; sourceTree = "<group>"; };
+		C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekStreamingIndicatorSpec.m; sourceTree = "<group>"; };
 		C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSeekStreamingIndicator.h; path = public/SDLSeekStreamingIndicator.h; sourceTree = "<group>"; };
 		C9DFFE77257ACE0000F7D57A /* SDLSeekStreamingIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSeekStreamingIndicator.m; path = public/SDLSeekStreamingIndicator.m; sourceTree = "<group>"; };
 		C9DFFE7C257AD07E00F7D57A /* SDLSeekIndicatorType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSeekIndicatorType.h; path = public/SDLSeekIndicatorType.h; sourceTree = "<group>"; };
@@ -4034,7 +4036,10 @@
 				162E82A71A9BDE8A00906325 /* SDLScreenParamsSpec.m */,
 				1E89B0E1203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m */,
 				1E89B0DD2031636000A47992 /* SDLSeatControlDataSpec.m */,
+				000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */,
+				000DD56D22EF01FC005AB7A7 /* SDLSeatLocationSpec.m */,
 				1EB59CD9202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m */,
+				C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */,
 				162E82A81A9BDE8A00906325 /* SDLSingleTireStatusSpec.m */,
 				1EAA47792036BD46000FE74B /* SDLSISDataSpec.m */,
 				162E82A91A9BDE8A00906325 /* SDLSoftButtonCapabilitiesSpec.m */,
@@ -4061,8 +4066,6 @@
 				8855F9DF220C93B700A5C897 /* SDLWeatherDataSpec.m */,
 				880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */,
 				880D267F220E038800B3F496 /* SDLWeatherServiceManifestSpec.m */,
-				000DD56B22EEF8E4005AB7A7 /* SDLSeatLocationCapabilitySpec.m */,
-				000DD56D22EF01FC005AB7A7 /* SDLSeatLocationSpec.m */,
 				9FA0CFFF22DF06A0009CF344 /* SDLWindowCapabilitySpec.m */,
 				9FA0D00222DF06B9009CF344 /* SDLWindowTypeCapabilitiesSpec.m */,
 			);
@@ -8685,6 +8688,7 @@
 				162E83081A9BDE8B00906325 /* SDLVehicleDataResultCodeSpec.m in Sources */,
 				5DE35E4C20CB1C1C0034BE5A /* SDLCheckChoiceVROptionalOperationSpec.m in Sources */,
 				8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */,
+				C9758785257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m in Sources */,
 				162E83621A9BDE8B00906325 /* SDLSetDisplayLayoutResponseSpec.m in Sources */,
 				162E832E1A9BDE8B00906325 /* SDLEndAudioPassThruSpec.m in Sources */,
 				1680B1191A9CD7AD00DBD79E /* SDLV2ProtocolMessageSpec.m in Sources */,
