@@ -199,6 +199,8 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
 /**
  The current list of voice commands available for the user to speak and be recognized by the IVI's voice recognition engine.
+
+ @warning May not be an empty string
  */
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;
 

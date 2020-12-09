@@ -395,6 +395,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
         weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSDLMsgVersion:weakSelf.registerResponse.sdlMsgVersion];
+        SDLLogD(@"Did register app; RPC version: %@, SDL version: %@, starting languages: (VR) %@, (HMI) %@, vehicle type: %@", weakSelf.registerResponse.sdlMsgVersion, (weakSelf.registerResponse.sdlVersion ?: @"unavailable"), weakSelf.registerResponse.language, weakSelf.registerResponse.hmiDisplayLanguage, weakSelf.registerResponse.vehicleType);
+
         [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
     }];
 }
