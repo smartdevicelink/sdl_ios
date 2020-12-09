@@ -498,7 +498,7 @@ describe(@"the streaming video manager", ^{
                             response.systemCapability = [[SDLSystemCapability alloc] init];
                             response.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
 
-                            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:8.5 pixelPerInch:117 scale:1.25];
+                            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:8.5 pixelPerInch:117 scale:1.25 preferredFPS:15];
                             response.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
                             [testConnectionManager respondToLastRequestWithResponse:response];
                         });

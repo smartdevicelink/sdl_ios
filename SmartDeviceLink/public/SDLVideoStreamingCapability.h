@@ -28,9 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param diagonalScreenSize The diagonal screen size in inches
  @param pixelPerInch The diagonal resolution in pixels divided by the diagonal screen size in inches
  @param scale The scaling factor the app should use to change the size of the projecting view
+ @param preferredFPS The preferred frame rate specified by head unit
  @return A SDLVideoStreamingCapability object
  */
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale;
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale preferredFPS:(uint32_t)preferredFPS;
 
 /**
  The preferred resolution of a video stream for decoding and rendering on HMI
