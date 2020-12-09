@@ -48,7 +48,7 @@
 #import "SDLVideoStreamingCapability.h"
 
 static NSUInteger const FramesToSendOnBackground = 30;
-static NSUInteger const defaultFrameRate = 15;
+static NSUInteger const DefaultFrameRate = 15;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -388,7 +388,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             if (capability.maxBitrate != nil) {
                 weakSelf.videoEncoderSettings[(__bridge NSString *) kVTCompressionPropertyKey_AverageBitRate] = [[NSNumber alloc] initWithUnsignedLongLong:(capability.maxBitrate.unsignedLongLongValue * 1000)];
             }
-            NSUInteger  preferredFPS = (capability.preferredFPS.integerValue == 0) ? defaultFrameRate : capability.preferredFPS.unsignedIntValue;
+            NSUInteger  preferredFPS = (capability.preferredFPS.unsignedIntValue == 0) ? DefaultFrameRate : capability.preferredFPS.unsignedIntValue;
             SDLLogD(@"videoEncoderSettings = %@", weakSelf.videoEncoderSettings);
             weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(preferredFPS);
             SDLLogD(@"SDLCarWindow#didEnterStateVideoStreamStarting preferredFPS=%lu", (unsigned long)preferredFPS);
@@ -409,8 +409,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)weakSelf.videoScaleManager.displayViewportResolution.width height:(uint16_t)weakSelf.videoScaleManager.displayViewportResolution.height];
             weakSelf.preferredFormats = @[format];
             weakSelf.preferredResolutions = @[resolution];
-            weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(defaultFrameRate);
-            SDLLogD(@"SDLCarWindow#didEnterStateVideoStreamStarting preferredFPS is default value (capability is nil)");
+            weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(DefaultFrameRate);
 
             if (weakSelf.focusableItemManager != nil) {
                 weakSelf.focusableItemManager.enableHapticDataRequests = NO;

@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale {
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale preferredFPS:(uint32_t)preferredFPS {
     self = [self init];
     if (!self) {
         return self;
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.diagonalScreenSize = @(diagonalScreenSize);
     self.pixelPerInch = @(pixelPerInch);
     self.scale = @(scale);
-    self.preferredFPS = @(15);
+    self.preferredFPS = @(preferredFPS);
 
     return self;
 }
@@ -91,11 +91,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
 }
 
-- (void)setPreferredFPS:(nullable NSNumber<SDLInt> *)preferredFPS {
+- (void)setPreferredFPS:(nullable NSNumber<SDLUInt> *)preferredFPS {
     [self.store sdl_setObject:preferredFPS forName:SDLRPCParameterNamePreferredFPS];
 }
 
-- (nullable NSNumber<SDLInt> *)preferredFPS {
+- (nullable NSNumber<SDLUInt> *)preferredFPS {
     return [self.store sdl_objectForName:SDLRPCParameterNamePreferredFPS ofClass:NSNumber.class error:nil];
 }
 
