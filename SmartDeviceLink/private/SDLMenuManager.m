@@ -472,7 +472,7 @@ UInt32 const MenuCellIdMin = 1;
     NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
     NSArray<SDLRPCRequest *> *subMenuCommands = nil;
 
-    if (![self sdl_areAllCellArtworksUploaded:self.menuCells] || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if (![self sdl_shouldRPCsIncludeImages:self.menuCells] || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         // Send artwork-less menu
         mainMenuCommands = [self sdl_mainMenuCommandsForCells:updatedMenu withArtwork:NO usingIndexesFrom:menu];
         subMenuCommands =  [self sdl_subMenuCommandsForCells:updatedMenu withArtwork:NO];
@@ -551,13 +551,13 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableArtworks allObjects];
 }
 
-- (BOOL)sdl_areAllCellArtworksUploaded:(NSArray<SDLMenuCell *> *)cells {
+- (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells {
     for (SDLMenuCell *cell in cells) {
         SDLArtwork *artwork = cell.icon;
         if (artwork != nil && !artwork.isStaticIcon && ![self.fileManager hasUploadedFile:artwork]) {
             return NO;
         } else if (cell.subCells.count > 0) {
-            return [self sdl_areAllCellArtworksUploaded:cell.subCells];
+            return [self sdl_shouldRPCsIncludeImages:cell.subCells];
         }
     }
 

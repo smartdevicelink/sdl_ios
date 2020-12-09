@@ -35,7 +35,7 @@
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
 
-- (BOOL)sdl_areAllCellArtworksUploaded:(NSArray<SDLMenuCell *> *)cells;
+- (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells;
 
 @end
 
@@ -188,8 +188,8 @@ describe(@"menu manager", ^{
         it(@"should check if all artworks are uploaded and return NO", ^{
             textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
             testManager.menuCells = @[textAndImageCell, textOnlyCell];
-            OCMVerify([testManager sdl_areAllCellArtworksUploaded:testManager.menuCells]);
-            expect([testManager sdl_areAllCellArtworksUploaded:testManager.menuCells]).to(beFalse());
+            OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
+            expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beFalse());
         });
 
         it(@"should properly update a text cell", ^{
@@ -228,8 +228,8 @@ describe(@"menu manager", ^{
                 it(@"should check if all artworks are uploaded", ^{
                     textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                     testManager.menuCells = @[textAndImageCell, textOnlyCell];
-                    OCMVerify([testManager sdl_areAllCellArtworksUploaded:testManager.menuCells]);
-                    expect([testManager sdl_areAllCellArtworksUploaded:testManager.menuCells]).to(beTrue());
+                    OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
+                    expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beTrue());
                 });
 
                 it(@"should properly update an image cell", ^{
