@@ -22,6 +22,7 @@
 #import "SDLPutFile.h"
 #import "SDLStateMachine.h"
 #import "SDLUploadFileOperation.h"
+#import "SDLVersion.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -377,9 +378,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return;
     }
 
-    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not.
-    if (!file.persistent && ![self hasUploadedFile:file]) {
-        file.overwrite = true;
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not. This is only needed if connecting to Core v4.3.1 or less which corresponds to RPC v4.3.1 or less
+    if (!file.persistent && ![self hasUploadedFile:file] && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
+        file.overwrite = YES;
     }
 
     // Check our overwrite settings and error out if it would overwrite

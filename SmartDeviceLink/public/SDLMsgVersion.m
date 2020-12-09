@@ -71,7 +71,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@.%@.%@", self.majorVersion, self.minorVersion, self.patchVersion];
+    return [NSString stringWithFormat:@"%@.%@.%@", self.majorVersion, self.minorVersion, (self.patchVersion ?: @"0")];
 }
 
 @end

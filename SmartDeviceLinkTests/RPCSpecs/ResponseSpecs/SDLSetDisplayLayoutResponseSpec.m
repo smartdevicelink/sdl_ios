@@ -19,7 +19,10 @@
 
 QuickSpecBegin(SDLSetDisplayLayoutResponseSpec)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
 SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
 SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
 SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];
