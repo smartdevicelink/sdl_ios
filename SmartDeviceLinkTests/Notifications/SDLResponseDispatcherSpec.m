@@ -242,8 +242,11 @@ describe(@"a response dispatcher", ^{
                 testCommandId = 1;
                 testAddCommandCorrelationId = @42;
                 numTimesHandlerCalled = 0;
-                
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testAddCommand = [[SDLAddCommand alloc] initWithId:testCommandId vrCommands:nil handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+#pragma clang diagnostic pop
                     numTimesHandlerCalled++;
                 }];
                 testAddCommand.correlationID = testAddCommandCorrelationId;
@@ -343,7 +346,10 @@ describe(@"a response dispatcher", ^{
         
         context(@"without a handler", ^{
             beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testAddCommand = [[SDLAddCommand alloc] initWithId:1 vrCommands:nil handler:nil];
+#pragma clang diagnostic pop
             });
                                   
             it(@"should not add the command", ^{

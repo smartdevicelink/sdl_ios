@@ -92,7 +92,10 @@ describe(@"initializers", ^{
 
     context(@"initWithHandler:", ^{
         it(@"should initialize correctly", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithHandler:handler];
+#pragma clang diagnostic pop
 
             expect(testCommand).toNot(beNil());
             expect(testCommand.vrCommands).to(beNil());
@@ -103,7 +106,10 @@ describe(@"initializers", ^{
 
     context(@"initWithId:vrCommands:handler:", ^{
         it(@"should initialize correctly", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands handler:nil];
+#pragma clang diagnostic pop
 
             expect(testCommand.cmdID).to(equal(commandId));
             expect(testCommand.vrCommands).to(equal(vrCommands));
@@ -114,7 +120,10 @@ describe(@"initializers", ^{
 
     context(@"initWithId:vrCommands:menuName:handler:", ^{
         it(@"should initialize correctly", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName handler:nil];
+#pragma clang diagnostic pop
 
             expect(testCommand.cmdID).to(equal(commandId));
             expect(testCommand.vrCommands).to(equal(vrCommands));
@@ -131,8 +140,10 @@ describe(@"initializers", ^{
             NSString *iconValue = @"Icon";
             SDLImageType imageType = SDLImageTypeDynamic;
             BOOL imageIsTemplate = YES;
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position iconValue:iconValue iconType:imageType iconIsTemplate:imageIsTemplate handler:nil];
+#pragma clang diagnostic pop
 
             expect(testCommand.cmdID).to(equal(commandId));
             expect(testCommand.vrCommands).to(equal(vrCommands));
@@ -147,7 +158,10 @@ describe(@"initializers", ^{
         });
 
         it(@"should initialize without an image", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position iconValue:nil iconType:nil iconIsTemplate:NO handler:nil];
+#pragma clang diagnostic pop
 
             expect(testCommand.cmdID).to(equal(commandId));
             expect(testCommand.vrCommands).to(equal(vrCommands));
@@ -164,8 +178,10 @@ describe(@"initializers", ^{
 
         it(@"should initialize with an image", ^{
             SDLImage *image = [[SDLImage alloc] initWithName:@"Icon" ofType:SDLImageTypeDynamic isTemplate:YES];
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position icon:image handler:nil];
+#pragma clang diagnostic pop
 
             expect(testCommand.cmdID).to(equal(commandId));
             expect(testCommand.vrCommands).to(equal(vrCommands));
@@ -180,7 +196,10 @@ describe(@"initializers", ^{
         });
 
         it(@"should initialize without an image", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position icon:nil handler:nil];
+#pragma clang diagnostic pop
 
             expect(testCommand.cmdID).to(equal(commandId));
             expect(testCommand.vrCommands).to(equal(vrCommands));
