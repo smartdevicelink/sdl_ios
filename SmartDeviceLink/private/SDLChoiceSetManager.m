@@ -503,7 +503,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
     } else {
         SDLLogD(@"Updating keyboard configuration to a new configuration: %@", keyboardConfiguration);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         _keyboardConfiguration = [[SDLKeyboardProperties alloc] initWithLanguage:keyboardConfiguration.language layout:keyboardConfiguration.keyboardLayout keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:keyboardConfiguration.limitedCharacterList autoCompleteText:keyboardConfiguration.autoCompleteText autoCompleteList:keyboardConfiguration.autoCompleteList];
+#pragma clang diagnostic pop
 
         if (keyboardConfiguration.keypressMode != SDLKeypressModeResendCurrentEntry) {
             SDLLogW(@"Attempted to set a keyboard configuration with an invalid keypress mode; only .resentCurrentEntry is valid. This value will be ignored, the rest of the properties will be set.");
@@ -512,7 +515,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (SDLKeyboardProperties *)sdl_defaultKeyboardConfiguration {
-    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
+    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs keyboardLayout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil];
 }
 
 #pragma mark - Getters

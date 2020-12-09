@@ -131,6 +131,12 @@ typedef NSNumber *MTUBox;
     }
 }
 
+- (void)reset {
+    _protocolVersion = [[SDLVersion alloc] initWithString:@"1.0.0"];
+    _maxHeadUnitProtocolVersion = [[SDLVersion alloc] initWithString:@"0.0.0"];
+    _rpcVersion = [[SDLVersion alloc] initWithString:@"1.0.0"];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
