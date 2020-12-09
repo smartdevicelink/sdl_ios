@@ -366,7 +366,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIImage *blankImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-    _blankArtwork = [SDLArtwork artworkWithImage:blankImage name:@"sdl_BlankArt" asImageFormat:SDLArtworkImageFormatPNG];
+    _blankArtwork = [SDLArtwork persistentArtworkWithImage:blankImage name:@"sdl_BlankArt" asImageFormat:SDLArtworkImageFormatPNG];
 
     return _blankArtwork;
 }
