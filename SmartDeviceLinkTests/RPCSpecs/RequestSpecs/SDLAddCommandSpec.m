@@ -192,9 +192,9 @@ describe(@"initializers", ^{
         });
     });
 
-    context(@"- (instancetype)initWithCmdID:menuParams:vrCommands:cmdIcon:secondaryImage", ^{
+    context(@"initWithCmdID:menuParams:vrCommands:cmdIcon:secondaryImage", ^{
         it(@"should initialize with an image", ^{
-            testCommand = [[SDLAddCommand alloc] initWithCmdID:commandId menuParams:testMenuParams vrCommands:vrCommands cmdIcon:image secondaryImage:testSecondaryImage handler: nil];
+            testCommand = [[SDLAddCommand alloc] initWithCmdID:commandId menuParams:testMenuParams vrCommands:vrCommands cmdIcon:image secondaryImage:testSecondaryImage];
 
             expect(testCommand.cmdID).to(equal(commandId));
             expect(testCommand.vrCommands).to(equal(vrCommands));
@@ -212,7 +212,7 @@ describe(@"initializers", ^{
         });
 
         it(@"should initialize without an image", ^{
-            testCommand = [[SDLAddCommand alloc] initWithCmdID:commandId menuParams:testMenuParams vrCommands:vrCommands cmdIcon:image secondaryImage:nil handler:nil];
+            testCommand = [[SDLAddCommand alloc] initWithCmdID:commandId menuParams:testMenuParams vrCommands:vrCommands cmdIcon:image secondaryImage:nil];
 
             expect(testCommand.cmdID).to(equal(commandId));
             expect(testCommand.vrCommands).to(equal(vrCommands));
