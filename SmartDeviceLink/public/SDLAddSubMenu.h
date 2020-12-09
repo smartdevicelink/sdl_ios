@@ -74,6 +74,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID;
 
 /**
+ * @param menuID - @(menuID)
+ * @param menuName - menuName
+ * @param position - position
+ * @param menuIcon - menuIcon
+ * @param menuLayout - menuLayout
+ * @param parentID - parentID
+ * @param secondaryText - secondaryText
+ * @param tertiaryText - tertiaryText
+ * @param secondaryImage - secondaryImage
+ * @return A SDLAddSubMenu object
+ */
+- (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryImage:(nullable SDLImage *)secondaryImage;
+
+/**
  * a Menu ID that identifies a sub menu
  * @discussion This value is used in
  * <i>SDLAddCommand</i> to which SDLSubMenu is the parent of the command being added
@@ -124,6 +138,29 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 7.0.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLUInt> *parentID;
+
+/**
+ * Optional secondary text to display
+ * {"string_min_length": 1, "string_max_length": 500}
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) NSString *secondaryText;
+
+/**
+ * Optional tertiary text to display
+ * {"string_min_length": 1, "string_max_length": 500}
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) NSString *tertiaryText;
+
+/**
+ * Optional secondary image struct for sub-menu cell
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) SDLImage *secondaryImage;
 
 @end
 
