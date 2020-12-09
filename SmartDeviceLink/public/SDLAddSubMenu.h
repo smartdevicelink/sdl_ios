@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param parentID - parentID
  * @return A SDLAddSubMenu object
  */
-- (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID;
+- (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID __deprecated_msg("Use initWithMenuID:menuName:position:menuIcon:menuLayout:parentID:secondaryText:tertiaryText:secondaryImage: instead");
 
 /**
  * @param menuID - @(menuID)

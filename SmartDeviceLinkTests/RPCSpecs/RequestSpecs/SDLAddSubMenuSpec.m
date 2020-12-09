@@ -45,7 +45,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"should correctly initialize with initWithMenuID:menuName:menuLayout:menuIcon:position:parentID:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddSubMenu *testRequest = [[SDLAddSubMenu alloc] initWithMenuID:menuId menuName:menuName position:@(position) menuIcon:image menuLayout:testLayout parentID:parentID];
+#pragma clang diagnostic pop
 
         expect(testRequest.menuID).to(equal(@(menuId)));
         expect(testRequest.position).to(equal(@(position)));
@@ -106,11 +109,11 @@ describe(@"Getter/Setter Tests", ^ {
                                                                            SDLRPCParameterNameValue: image.value
                                                                    },
                                                                    SDLRPCParameterNameMenuLayout: testLayout,
-                                                                   SDLRPCParameterNameParentID: parentID
+                                                                   SDLRPCParameterNameParentID: parentID,
+                                                                   SDLRPCParameterNameSecondaryText: secondaryText,
+                                                                   SDLRPCParameterNameTertiaryText: tertiaryText,
+                                                                   SDLRPCParameterNameSecondaryImage: secondaryImage
                                                                    },
-                                                             SDLRPCParameterNameSecondaryText: secondaryText,
-                                                             SDLRPCParameterNameTertiaryText: tertiaryText,
-                                                             SDLRPCParameterNameSecondaryImage: secondaryImage,
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddSubMenu}};
         SDLAddSubMenu *testRequest = [[SDLAddSubMenu alloc] initWithDictionary:dict];
 
