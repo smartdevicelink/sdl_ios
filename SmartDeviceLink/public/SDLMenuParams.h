@@ -20,6 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instance of the add submenu class
 - (instancetype)initWithMenuName:(NSString *)menuName;
 
+/// Convenience init with all parameters.
+///
+/// @param menuName The menu name
+/// @param parentId The unique ID of an existing submenu to which a command will be added
+/// @param position The position within the items of the parent Command Menu
+/// @return An instance of the add submenu class
+- (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position __deprecated_msg("Use initWithMenuName:parentID:position:secondaryText:tertiaryText: instead");
+
 /**
  * @param menuName - menuName
  * @param parentID - parentID

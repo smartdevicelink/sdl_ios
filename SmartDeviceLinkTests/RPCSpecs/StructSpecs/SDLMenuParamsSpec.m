@@ -55,6 +55,17 @@ describe(@"Initialization tests", ^{
     });
 
     it(@"should properly initialize initWithMenuName:parentId:position:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        SDLMenuParams* testStruct = [[SDLMenuParams alloc] initWithMenuName:testMenuName parentId:testParentId position:testPosition];
+#pragma clang diagnostic pop
+
+        expect(testStruct.parentID).to(equal(@(testParentId)));
+        expect(testStruct.position).to(equal(@(testPosition)));
+        expect(testStruct.menuName).to(equal(testMenuName));
+    });
+
+    it(@"should properly initialize initWithMenuName:parentID:position:secondaryText:tertiaryText:", ^{
         SDLMenuParams* testStruct = [[SDLMenuParams alloc] initWithMenuName:testMenuName parentID:[[NSNumber alloc] initWithInt:testParentId] position:[[NSNumber alloc] initWithInt:testPosition] secondaryText:testSecondaryText tertiaryText:testTertiaryText];
 
         expect(testStruct.parentID).to(equal(@(testParentId)));
