@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Menu Items
 
 + (SDLMenuCell *)sdlex_menuCellSpeakNameWithManager:(SDLManager *)manager {
-    return [[SDLMenuCell alloc] initWithTitle:ACSpeakAppNameMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:SpeakBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACSpeakAppNameMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    return [[SDLMenuCell alloc] initWithTitle:ACSpeakAppNameMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:SpeakBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACSpeakAppNameMenuName] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [manager sendRequest:[[SDLSpeak alloc] initWithTTS:ExampleAppNameTTS]];
     }];
 }
@@ -52,13 +52,13 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray *submenuItems = [[NSMutableArray alloc] init];
     NSArray<NSString *> *allVehicleDataTypes = [self sdlex_allVehicleDataTypes];
     for (NSString *vehicleDataType in allVehicleDataTypes) {
-        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:vehicleDataType icon:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameSettings] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:vehicleDataType icon:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameSettings] voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
             [VehicleDataManager getAllVehicleDataWithManager:manager triggerSource:triggerSource vehicleDataType:vehicleDataType];
         }];
         [submenuItems addObject:cell];
     }
 
-    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] submenuLayout:SDLMenuLayoutTiles subCells:submenuItems];
+    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] submenuLayout:SDLMenuLayoutTiles subCells:submenuItems secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
 }
 
 + (NSArray<NSString *> *)sdlex_allVehicleDataTypes {
@@ -66,20 +66,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLMenuCell *)sdlex_menuCellShowPerformInteractionWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager {
-    return [[SDLMenuCell alloc] initWithTitle:ACShowChoiceSetMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACShowChoiceSetMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    return [[SDLMenuCell alloc] initWithTitle:ACShowChoiceSetMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACShowChoiceSetMenuName] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [performManager showWithTriggerSource:triggerSource];
     }];
 }
 
 + (SDLMenuCell *)sdlex_menuCellRecordInCarMicrophoneAudioWithManager:(SDLManager *)manager {
     AudioManager *audioManager = [[AudioManager alloc] initWithManager:manager];
-    return [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MicrophoneBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    return [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MicrophoneBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [audioManager startRecording];
     }];
 }
 
 + (SDLMenuCell *)sdlex_menuCellDialNumberWithManager:(SDLManager *)manager {
-    return [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:PhoneBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    return [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:PhoneBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACDialPhoneNumberMenuName] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         if (![RPCPermissionsManager isDialNumberRPCAllowedWithManager:manager]) {
             [AlertManager sendAlertWithManager:manager image:nil textField1:AlertDialNumberPermissionsWarningText textField2:nil];
             return;
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *errorMessage = @"Changing the template failed";
     
     // Non - Media
-    SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
                 [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
@@ -106,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
     [submenuItems addObject:cell];
     
     // Graphic With Text
-    SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText] withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
                 [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
@@ -115,23 +115,23 @@ NS_ASSUME_NONNULL_BEGIN
     }];
     [submenuItems addObject:cell2];
     
-    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuTemplateMenuName icon:nil submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
+    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuTemplateMenuName icon:nil submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
 }
 
 + (SDLMenuCell *)sdlex_menuCellWithSubmenuWithManager:(SDLManager *)manager {
     NSMutableArray *submenuItems = [NSMutableArray array];
     for (int i = 0; i < 75; i++) {
-        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
             [AlertManager sendAlertWithManager:manager image:nil textField1:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil];
         }];
         [submenuItems addObject:cell];
     }
 
-    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
+    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
 }
 
 + (SDLMenuCell *)sdlex_sliderMenuCellWithManager:(SDLManager *)manager {
-    return [[SDLMenuCell alloc] initWithTitle:ACSliderMenuName icon:nil voiceCommands:@[ACSliderMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    return [[SDLMenuCell alloc] initWithTitle:ACSliderMenuName icon:nil voiceCommands:@[ACSliderMenuName] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSlider *sliderRPC = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHeader:@"Select a letter" sliderFooters:@[@"A", @"B", @"C"] timeout:10000];
         [manager sendRequest:sliderRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
@@ -148,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLMenuCell *)sdlex_scrollableMessageMenuCellWithManager:(SDLManager *)manager {
-    return [[SDLMenuCell alloc] initWithTitle:ACScrollableMessageMenuName icon:nil voiceCommands:@[ACScrollableMessageMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    return [[SDLMenuCell alloc] initWithTitle:ACScrollableMessageMenuName icon:nil voiceCommands:@[ACScrollableMessageMenuName] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines"];
         [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
            if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {

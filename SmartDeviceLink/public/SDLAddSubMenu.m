@@ -137,6 +137,30 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.parameters sdl_objectForName:SDLRPCParameterNameParentID ofClass:NSNumber.class error:nil];
 }
 
+- (void)setSecondaryText:(nullable NSString *)secondaryText {
+    [self.parameters sdl_setObject:secondaryText forName:SDLRPCParameterNameSecondaryText];
+}
+
+- (nullable NSString *)secondaryText {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSecondaryText ofClass:NSString.class error:nil];
+}
+
+- (void)setTertiaryText:(nullable NSString *)tertiaryText {
+    [self.parameters sdl_setObject:tertiaryText forName:SDLRPCParameterNameTertiaryText];
+}
+
+- (nullable NSString *)tertiaryText {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTertiaryText ofClass:NSString.class error:nil];
+}
+
+- (void)setSecondaryImage:(nullable SDLImage *)secondaryImage {
+    [self.parameters sdl_setObject:secondaryImage forName:SDLRPCParameterNameSecondaryImage];
+}
+
+- (nullable SDLImage *)secondaryImage {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSecondaryImage ofClass:SDLImage.class error:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
