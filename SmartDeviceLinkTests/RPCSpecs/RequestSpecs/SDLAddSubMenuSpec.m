@@ -109,10 +109,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                            SDLRPCParameterNameValue: image.value
                                                                    },
                                                                    SDLRPCParameterNameMenuLayout: testLayout,
-                                                                   SDLRPCParameterNameParentID: parentID,
                                                                    SDLRPCParameterNameSecondaryText: secondaryText,
                                                                    SDLRPCParameterNameTertiaryText: tertiaryText,
-                                                                   SDLRPCParameterNameSecondaryImage: secondaryImage
+                                                                   SDLRPCParameterNameSecondaryImage: secondaryImage,
+                                                                   SDLRPCParameterNameParentID: parentID
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddSubMenu}};
         SDLAddSubMenu *testRequest = [[SDLAddSubMenu alloc] initWithDictionary:dict];

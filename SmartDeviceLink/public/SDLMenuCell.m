@@ -51,6 +51,45 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork handler:(SDLMenuCellSelectionHandler)handler {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _title = title;
+    _icon = icon;
+    _voiceCommands = voiceCommands;
+    _handler = handler;
+
+    _cellId = UINT32_MAX;
+    _parentCellId = UINT32_MAX;
+
+    _secondaryText = secondaryText;
+    _tertiaryText = tertiaryText;
+    _secondaryArtwork = secondaryArtwork;
+
+    return self;
+}
+
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork {
+
+    self = [super init];
+    if (!self) { return nil; }
+
+    _title = title;
+    _submenuLayout = layout;
+    _icon = icon;
+    _subCells = subCells;
+
+    _cellId = UINT32_MAX;
+    _parentCellId = UINT32_MAX;
+
+    _secondaryText = secondaryText;
+    _tertiaryText = tertiaryText;
+    _secondaryArtwork = secondaryArtwork;
+
+    return self;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
 }
