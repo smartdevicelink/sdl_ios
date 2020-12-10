@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_sendNewSoftButtons {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.mainField1 = self.mainField1;
+    newShow.mainField1 = self.mainField1 ?: @"";
     newShow.softButtons = [self sdl_currentStateSoftButtonsForObjects:self.softButtons];
 
     [self.connectionManager sendConnectionRequest:newShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {

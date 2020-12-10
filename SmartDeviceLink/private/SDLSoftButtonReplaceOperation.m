@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLShow *show = [[SDLShow alloc] init];
-    show.mainField1 = self.mainField1;
+    show.mainField1 = self.mainField1 ?: @"";
     show.softButtons = [softButtons copy];
 
     [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
