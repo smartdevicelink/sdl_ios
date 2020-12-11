@@ -148,6 +148,7 @@ SDLRPCParameterName const SDLRPCParameterNameCommandIcon = @"cmdIcon";
 SDLRPCParameterName const SDLRPCParameterNameCommandId = @"cmdID";
 SDLRPCParameterName const SDLRPCParameterNameCompassDirection = @"compassDirection";
 SDLRPCParameterName const SDLRPCParameterNameCorrelationId = @"correlationID";
+SDLRPCParameterName const SDLRPCParameterNameCountRate = @"countRate";
 SDLRPCParameterName const SDLRPCParameterNameCountryCode = @"countryCode";
 SDLRPCParameterName const SDLRPCParameterNameCountryName = @"countryName";
 SDLRPCParameterName const SDLRPCParameterNameCRC = @"crc";
