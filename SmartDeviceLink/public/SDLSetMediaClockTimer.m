@@ -22,6 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.updateMode = updateMode;
+    return self;
+}
+
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
     self = [self init];
     if (!self) { return nil; }
@@ -31,6 +40,18 @@ NS_ASSUME_NONNULL_BEGIN
     self.endTime = endTime;
     self.audioStreamingIndicator = playPauseIndicator;
 
+    return self;
+}
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime audioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
+    self = [self initWithUpdateMode:updateMode];
+    if (!self) {
+        return nil;
+    }
+    self.startTime = startTime;
+    self.endTime = endTime;
+    self.audioStreamingIndicator = audioStreamingIndicator;
+    self.countRate = countRate;
     return self;
 }
 
@@ -110,6 +131,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
     return [self.parameters sdl_enumForName:SDLRPCParameterNameAudioStreamingIndicator error:nil];
+}
+
+- (void)setCountRate:(nullable NSNumber<SDLFloat> *)countRate {
+    [self.parameters sdl_setObject:countRate forName:SDLRPCParameterNameCountRate];
+}
+
+- (nullable NSNumber<SDLFloat> *)countRate {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameCountRate ofClass:NSNumber.class error:nil];
 }
 
 @end
