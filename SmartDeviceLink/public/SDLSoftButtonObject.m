@@ -134,8 +134,6 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
-#pragma mark - Debug Description
-
 - (NSString *)description {
     NSMutableArray<NSString *> *allStateNames = [NSMutableArray array];
     for (SDLSoftButtonState *state in self.states) {
