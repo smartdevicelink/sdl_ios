@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
-@property (copy, nonatomic, nullable) SDLWindowCapability *currentCapabilities;
+@property (copy, nonatomic) SDLWindowCapability *currentCapabilities;
 @property (strong, nonatomic, readwrite) SDLAlertView *alertView;
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager currentWindowCapability:(nullable SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager currentWindowCapability:(SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
 
     self = [super init];
     if (!self) { return self; }
@@ -243,9 +243,12 @@ NS_ASSUME_NONNULL_BEGIN
             SDLAlertResponse *alertResponse = (SDLAlertResponse *)response;
             NSMutableDictionary *alertResponseUserInfo = [NSMutableDictionary dictionary];
             alertResponseUserInfo[@"error"] = error;
+
+            NSNumber *tryAgainTime = nil;
             if (alertResponse != nil && alertResponse.tryAgainTime != nil) {
-                alertResponseUserInfo[@"tryAgainTime"] = alertResponse.tryAgainTime;
+                tryAgainTime = alertResponse.tryAgainTime;
             }
+            alertResponseUserInfo[@"tryAgainTime"] = tryAgainTime;
 
             NSError *alertResponseError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
             self.internalError = alertResponseError;
