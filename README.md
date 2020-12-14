@@ -1,5 +1,3 @@
-Test Doc 1s
-
 [![Accio compatible](https://img.shields.io/badge/Accio-compatible-4BC51D.svg?style=flat)](https://github.com/JamitLabs/Accio)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
