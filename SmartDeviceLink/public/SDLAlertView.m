@@ -136,17 +136,17 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
 
 - (NSString *)sdl_alertType {
     BOOL alertHasText = (_text || _secondaryText || _tertiaryText);
-    BOOL alertHasSound = (_audio.prompts.count > 0 || _audio.audioFiles.count > 0);
+    BOOL alertHasAudio = (_audio.prompts.count > 0 || _audio.audioFiles.count > 0);
 
     NSString *alertType;
-    if (alertHasText && alertHasSound) {
-        alertType = @"Text-and-sound alert";
+    if (alertHasText && alertHasAudio) {
+        alertType = @"Text-and-audio alert";
     } else if (alertHasText) {
         alertType = @"Text-only alert";
-    } else if (alertHasSound) {
-        alertType = @"Sound-only alert";
+    } else if (alertHasAudio) {
+        alertType = @"Audio-only alert";
     } else {
-        alertType = @"Invalid alert (no text or sound)";
+        alertType = @"Invalid alert";
     }
 
     return alertType;
