@@ -465,7 +465,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 #import "SDLAlertAudioData.h"
 #import "SDLAlertView.h"
-
 #import "SDLAudioData.h"
 
 #pragma mark Touches
