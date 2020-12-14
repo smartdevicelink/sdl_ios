@@ -11,7 +11,6 @@
 #import "SDLInteractionMode.h"
 #import "NSNumber+NumberType.h"
 
-@class SDLCancelIdManager;
 @class SDLChoiceCell;
 @class SDLChoiceSet;
 @class SDLFileManager;
@@ -54,10 +53,9 @@ extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
  @param connectionManager The connection manager object for sending RPCs
  @param fileManager The file manager object for uploading files
  @param systemCapabilityManager The system capability manager object for reading window capabilities
- @param cancelIdManager The manager responsible for generating cancel ids for RPCs
  @return The choice set manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager cancelIdManager:(SDLCancelIdManager *)cancelIdManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
 
 /**
  Start the manager and prepare to manage choice sets

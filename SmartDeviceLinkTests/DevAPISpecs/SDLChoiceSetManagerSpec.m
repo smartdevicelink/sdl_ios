@@ -4,7 +4,6 @@
 
 #import "SDLChoiceSetManager.h"
 
-#import "SDLCancelIdManager.h"
 #import "SDLCheckChoiceVROptionalOperation.h"
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
@@ -75,7 +74,6 @@ describe(@"choice set manager tests", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
-    __block SDLCancelIdManager *mockCancelIdManager = nil;
 
     __block SDLWindowCapability *enabledWindowCapability = nil;
     __block SDLWindowCapability *disabledWindowCapability = nil;
@@ -89,9 +87,8 @@ describe(@"choice set manager tests", ^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMClassMock([SDLFileManager class]);
         testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
-        mockCancelIdManager = OCMClassMock([SDLCancelIdManager class]);
 
-        testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager cancelIdManager:mockCancelIdManager];
+        testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
 
         testCell1 = [[SDLChoiceCell alloc] initWithText:@"test1"];
         testCell2 = [[SDLChoiceCell alloc] initWithText:@"test2"];
