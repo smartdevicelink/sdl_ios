@@ -23,12 +23,14 @@
 @interface SDLAlertManager()
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (assign, nonatomic) UInt16 nextCancelId;
 
 @end
 
 @interface SDLPresentAlertOperation()
 
 @property (copy, nonatomic, nullable) NSError *internalError;
+@property (assign, nonatomic) UInt16 cancelId;
 
 @end
 
@@ -79,6 +81,40 @@ describe(@"alert manager tests", ^{
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
 
             expect(testAlertManager.transactionQueue.suspended).to(beTrue());
+        });
+    });
+
+    describe(@"generating a cancel id", ^{
+        __block SDLAlertView *testAlertView = nil;
+        beforeEach(^{
+            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
+            testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
+        });
+
+        it(@"should set the first cancelID correctly", ^{
+            [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
+
+            expect(testAlertManager.transactionQueue.operations.count).to(equal(1));
+
+            SDLPresentAlertOperation *testPresentOp = (SDLPresentAlertOperation *)testAlertManager.transactionQueue.operations.firstObject;
+            expect(@(testPresentOp.cancelId)).to(equal(1));
+        });
+
+        it(@"should reset the cancelID correctly once the max has been reached", ^{
+            testAlertManager.nextCancelId = 1000;
+            [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
+
+            expect(testAlertManager.transactionQueue.operations.count).to(equal(1));
+
+            SDLPresentAlertOperation *testPresentOp = (SDLPresentAlertOperation *)testAlertManager.transactionQueue.operations[0];
+            expect(@(testPresentOp.cancelId)).to(equal(1000));
+
+            [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
+
+            expect(testAlertManager.transactionQueue.operations.count).to(equal(2));
+
+            SDLPresentAlertOperation *testPresentOp2 = (SDLPresentAlertOperation *)testAlertManager.transactionQueue.operations[1];
+            expect(@(testPresentOp2.cancelId)).to(equal(1));
         });
     });
 

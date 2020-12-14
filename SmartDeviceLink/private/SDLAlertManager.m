@@ -33,7 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
+
+@property (assign, nonatomic) UInt16 nextCancelId;
+
 @end
+
+UInt16 const AlertCancelIdMin = 1;
+UInt16 const AlertCancelIdMax = 1000;
 
 @implementation SDLAlertManager
 
@@ -48,6 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
     _systemCapabilityManager = systemCapabilityManager;
     _permissionManager = permissionManager;
     _transactionQueue = [self sdl_newTransactionQueue];
+
+    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.alertManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
+    _nextCancelId = AlertCancelIdMin;
 
     [self sdl_subscribeToPermissions];
 
@@ -64,6 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Stopping manager");
 
     _currentWindowCapability = nil;
+    _nextCancelId = AlertCancelIdMin;
 
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
@@ -72,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLAlertCompletionHandler)handler {
-    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager systemCapabilityManager:self.systemCapabilityManager currentWindowCapability:self.currentWindowCapability alertView:alert cancelID:0];
+    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager systemCapabilityManager:self.systemCapabilityManager currentWindowCapability:self.currentWindowCapability alertView:alert cancelID:self.nextCancelId];
 
     __weak typeof(op) weakPreloadOp = op;
     op.completionBlock = ^{
@@ -126,6 +137,23 @@ NS_ASSUME_NONNULL_BEGIN
             self.transactionQueue.suspended = (status != SDLPermissionGroupStatusAllowed);
         }];
     }
+}
+
+#pragma mark - Getters
+
+/// Generates a `cancelID` for an Alert `CancelInteraction` request. `cancelID`s do not need to be unique for different RPC functions, however, we will set a max value for `cancelID`s so if a developer, for some reason, is using both the alert manager and the `Alert` RPC they can use any value above the max `cancelID` without worrying about conflicts. Once an alert with the associated `cancelID` has been dismissed, the `cancelID` can be reused so it is very unlikely there will be conflicts with an already existing generated `cancelID`.
+- (UInt16)nextCancelId {
+    __block UInt16 cancelId = 0;
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
+        cancelId = self->_nextCancelId;
+        if (cancelId >= AlertCancelIdMax) {
+            self->_nextCancelId = AlertCancelIdMin;
+        } else {
+            self->_nextCancelId = cancelId + 1;
+        }
+    }];
+
+    return cancelId;
 }
 
 @end
