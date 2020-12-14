@@ -427,7 +427,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     });
 
                     it(@"should upload the audio file if it has not yet been uploaded", ^{
-                        [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:testAudioFile];
+                        [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:testAudioFile];
 
                         OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
                             NSArray<SDLPutFile *> *files = (NSArray<SDLPutFile *> *)value;
@@ -443,7 +443,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     it(@"should re-upload an audio file if `overwrite` has been set to true", ^{
                         testAudioFile.overwrite = YES;
-                        [[[mockFileManager stub] andReturnValue:@(YES)] hasUploadedFile:testAudioFile];
+                        [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:testAudioFile];
 
                         OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
                             NSArray<SDLPutFile *> *files = (NSArray<SDLPutFile *> *)value;
@@ -470,7 +470,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:[OCMArg any]];
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
@@ -489,9 +489,9 @@ describe(@"SDLPresentAlertOperation", ^{
             it(@"should not upload the soft button images if soft button images are not supported on the module", ^{
                 [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
-                testSoftButtonCapabilities.imageSupported = @NO;
+                testSoftButtonCapabilities.imageSupported = @(NO);
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:[OCMArg any]];
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
@@ -510,7 +510,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:[OCMArg any]];
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;

@@ -150,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLFile *> *filesToBeUploaded = [NSMutableArray array];
     for (SDLFile *file in self.alertView.audio.audioFiles) {
-        if (![self sdl_fileNeedsUpload:file]) { continue; }
+        if (![self.fileManager fileNeedsUpload:file]) { continue; }
         [filesToBeUploaded addObject:file];
     }
 
@@ -186,12 +186,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_uploadImagesWithCompletionHandler:(void (^)(void))handler {
     NSMutableArray<SDLArtwork *> *artworksToBeUploaded = [NSMutableArray array];
 
-    if ([self sdl_supportsAlertIcon] && [self sdl_artworkNeedsUpload:self.alertView.icon]) {
+    if ([self sdl_supportsAlertIcon] && [self.fileManager fileNeedsUpload:self.alertView.icon]) {
         [artworksToBeUploaded addObject:self.alertView.icon];
     }
 
     for (SDLSoftButtonObject *object in self.alertView.softButtons) {
-        if ([self sdl_supportsSoftButtonImages] && [self sdl_artworkNeedsUpload:object.currentState.artwork]) {
+        if ([self sdl_supportsSoftButtonImages] && [self.fileManager fileNeedsUpload:object.currentState.artwork]) {
             [artworksToBeUploaded addObject:object.currentState.artwork];
         }
     }
@@ -333,26 +333,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return ttsChunks;
-}
-
-/// Checks if an artwork needs to be uploaded to the module. An artwork only needs to be uploaded if it is a dynamic image and an artwork with the same name has not yet been uploaded to the module. If the artwork has already been uploaded to the module but the `overwrite` property has been set to true, then the artwork needs to be re-uploaded.
-/// @param artwork The artwork to check the upload status of
-/// @return True if artwork needs to be uploaded; false if not.
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    if (artwork == nil) {
-        return NO;
-    }
-    return ((![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon) || artwork.overwrite);
-}
-
-/// Checks if a file needs to be uploaded to the module. If the file has already been uploaded to the module but the `overwrite` property has been set to true, then the file needs to be re-uploaded.
-/// @param file The file to check the upload status of
-/// @return True if file needs to be uploaded; false if not.
-- (BOOL)sdl_fileNeedsUpload:(SDLFile *)file {
-    if (file == nil) {
-        return NO;
-    }
-    return (![self.fileManager hasUploadedFile:file] || file.overwrite);
 }
 
 /// Checks if the connected module or current template supports soft button images.
