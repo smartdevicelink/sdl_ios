@@ -126,7 +126,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set all textfields if all textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
@@ -134,7 +134,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.secondaryText, testAlertView.tertiaryText]));
@@ -142,7 +142,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", testAlertView.text, testAlertView.secondaryText, testAlertView.tertiaryText]));
                     expect(testAlert.alertText2).to(beNil());
@@ -158,7 +158,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set all textfields if all textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
@@ -166,7 +166,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
@@ -174,7 +174,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.text, testAlertView.secondaryText]));
                     expect(testAlert.alertText2).to(beNil());
@@ -190,7 +190,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set all textfields if all textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
@@ -198,7 +198,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
@@ -206,7 +206,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
@@ -222,7 +222,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set all textfields if all textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
@@ -230,7 +230,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
@@ -238,7 +238,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertFieldLines];
                     SDLAlert *testAlert = testPresentAlertOperation.alert;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
@@ -265,7 +265,7 @@ describe(@"SDLPresentAlertOperation", ^{
         describe(@"setting the audio data", ^{
             context(@"only audio prompts set", ^{
                 beforeEach(^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertTextFieldLines];
+                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
 
                     SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test synthesizer string"];
                     testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:4 showWaitIndicator:YES audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
@@ -736,7 +736,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
         context(@"with valid data", ^{
             beforeEach(^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertTextFieldLines];
+                [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertFieldLines];
                 [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
                 [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
@@ -839,7 +839,7 @@ describe(@"SDLPresentAlertOperation", ^{
             testCancelAlertView = [[SDLAlertView alloc] init];
             testCancelAlertView.text = @"Alert view to be canceled";
 
-            [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertTextFieldLines];
+            [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertFieldLines];
 
             testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testCancelAlertView cancelID:testCancelID];
             testPresentAlertOperation.completionBlock = ^{

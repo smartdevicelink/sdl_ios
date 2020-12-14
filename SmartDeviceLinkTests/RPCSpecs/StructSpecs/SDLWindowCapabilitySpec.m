@@ -20,7 +20,7 @@
 @interface SDLWindowCapability()
 
 - (NSUInteger)maxNumberOfMainFieldLines;
-- (NSUInteger)maxNumberOfAlertTextFieldLines;
+- (NSUInteger)maxNumberOfAlertFieldLines;
 
 @end
 
@@ -203,28 +203,28 @@ describe(@"extensions", ^{
 
         it(@"should return 0 if none of the text fields are supported", ^ {
             testStruct.textFields = @[];
-            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertTextFieldLines];
+            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertFieldLines];
 
             expect(maxNumberOfAlertMainFieldLines).to(equal(0));
         });
 
         it(@"should return 1 if only one text field is supported", ^ {
             testStruct.textFields = @[testAlertTextField1];
-            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertTextFieldLines];
+            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertFieldLines];
 
             expect(maxNumberOfAlertMainFieldLines).to(equal(1));
         });
 
         it(@"should return 2 if two text fields are supported", ^ {
             testStruct.textFields = @[testAlertTextField1, testAlertTextField2];
-            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertTextFieldLines];
+            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertFieldLines];
 
             expect(maxNumberOfAlertMainFieldLines).to(equal(2));
         });
 
         it(@"should return 3 if all the text fields are supported", ^ {
             testStruct.textFields = @[testAlertTextField1, testAlertTextField2, testAlertTextField3];
-            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertTextFieldLines];
+            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertFieldLines];
 
             expect(maxNumberOfAlertMainFieldLines).to(equal(3));
         });
