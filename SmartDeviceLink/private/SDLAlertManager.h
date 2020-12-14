@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @class SDLAlertView;
-@class SDLCancelIdManager;
 @class SDLFileManager;
 @class SDLPermissionManager;
 @class SDLSystemCapabilityManager;
@@ -27,9 +26,8 @@ typedef void(^SDLAlertCompletionHandler)(NSError *__nullable error);
 /// @param connectionManager The connection manager object for sending RPCs
 /// @param fileManager The file manager object for uploading files
 /// @param systemCapabilityManager The system capability manager object for reading window capabilities
-/// @param cancelIdManager The manager responsible for generating cancel ids for RPCs
 /// @return The alert manager
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager cancelIdManager:(SDLCancelIdManager *)cancelIdManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager;
 
 /// Starts the manager. This method is used internally.
 - (void)start;

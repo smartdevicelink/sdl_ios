@@ -9,7 +9,6 @@
 #import "SDLAlertManager.h"
 
 #import "SDLAlertView.h"
-#import "SDLCancelIdManager.h"
 #import "SDLDisplayCapability.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
@@ -34,14 +33,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
-@property (strong, nonatomic) SDLCancelIdManager *cancelIdManager;
 @end
 
 @implementation SDLAlertManager
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager cancelIdManager:(SDLCancelIdManager *)cancelIdManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager {
     self = [super init];
     if (!self) { return nil; }
 
@@ -49,7 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
     _fileManager = fileManager;
     _systemCapabilityManager = systemCapabilityManager;
     _permissionManager = permissionManager;
-    _cancelIdManager = cancelIdManager;
     _transactionQueue = [self sdl_newTransactionQueue];
 
     [self sdl_subscribeToPermissions];
@@ -75,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLAlertCompletionHandler)handler {
-    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager systemCapabilityManager:self.systemCapabilityManager currentWindowCapability:self.currentWindowCapability alertView:alert cancelID:self.cancelIdManager.nextCancelId];
+    SDLPresentAlertOperation *op = [[SDLPresentAlertOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager systemCapabilityManager:self.systemCapabilityManager currentWindowCapability:self.currentWindowCapability alertView:alert cancelID:0];
 
     __weak typeof(op) weakPreloadOp = op;
     op.completionBlock = ^{

@@ -10,7 +10,6 @@
 
 #import "SDLAlertManager.h"
 #import "SDLArtwork.h"
-#import "SDLCancelIdManager.h"
 #import "SDLChoiceSetManager.h"
 #import "SDLMenuManager.h"
 #import "SDLPermissionManager.h"
@@ -30,7 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLChoiceSetManager *choiceSetManager;
 @property (strong, nonatomic) SDLSubscribeButtonManager *subscribeButtonManager;
 @property (strong, nonatomic) SDLAlertManager *alertManager;
-@property (strong, nonatomic) SDLCancelIdManager *cancelIdManager;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
@@ -57,14 +55,13 @@ NS_ASSUME_NONNULL_BEGIN
     _systemCapabilityManager = systemCapabilityManager;
     _permissionManager = permissionManager;
 
-    _cancelIdManager = [[SDLCancelIdManager alloc] init];
     _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _subscribeButtonManager = [[SDLSubscribeButtonManager alloc] initWithConnectionManager:connectionManager];
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
-    _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager cancelIdManager:self.cancelIdManager];
-    _alertManager = [[SDLAlertManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager permissionManager:permissionManager cancelIdManager:self.cancelIdManager];
+    _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
+    _alertManager = [[SDLAlertManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager permissionManager:permissionManager];
 
     return self;
 }
@@ -88,7 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.choiceSetManager stop];
     [self.subscribeButtonManager stop];
     [self.alertManager stop];
-    [self.cancelIdManager stop];
 }
 
 #pragma mark - Setters
