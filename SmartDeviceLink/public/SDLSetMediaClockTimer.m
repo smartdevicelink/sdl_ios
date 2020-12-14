@@ -55,49 +55,49 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-+ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
++ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
     SDLStartTime *startTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:startTime];
     SDLStartTime *endTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:endTime];
 
-    return [[self alloc] initWithUpdateMode:SDLUpdateModeCountUp startTime:startTimeRPC endTime:endTimeRPC playPauseIndicator:playPauseIndicator];
+    return [[self alloc] initWithUpdateMode:SDLUpdateModeCountUp startTime:startTimeRPC endTime:endTimeRPC audioStreamingIndicator:playPauseIndicator countRate:countRate];
 }
 
-+ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
-    return [[self alloc] initWithUpdateMode:SDLUpdateModeCountUp startTime:startTime endTime:endTime playPauseIndicator:playPauseIndicator];
++ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
+    return [[self alloc] initWithUpdateMode:SDLUpdateModeCountUp startTime:startTime endTime:endTime audioStreamingIndicator:playPauseIndicator countRate:countRate];
 }
 
-+ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
++ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
     SDLStartTime *startTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:startTime];
     SDLStartTime *endTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:endTime];
 
-    return [[self alloc] initWithUpdateMode:SDLUpdateModeCountDown startTime:startTimeRPC endTime:endTimeRPC playPauseIndicator:playPauseIndicator];
+    return [[self alloc] initWithUpdateMode:SDLUpdateModeCountDown startTime:startTimeRPC endTime:endTimeRPC audioStreamingIndicator:playPauseIndicator countRate:countRate];
 }
 
-+ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
-    return [[self alloc] initWithUpdateMode:SDLUpdateModeCountDown startTime:startTime endTime:endTime playPauseIndicator:playPauseIndicator];
++ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
+    return [[self alloc] initWithUpdateMode:SDLUpdateModeCountDown startTime:startTime endTime:endTime audioStreamingIndicator:playPauseIndicator countRate:countRate];
 }
 
 + (instancetype)pauseWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
-    return [[self alloc] initWithUpdateMode:SDLUpdateModePause startTime:nil endTime:nil playPauseIndicator:playPauseIndicator];
+    return [[self alloc] initWithUpdateMode:SDLUpdateModePause startTime:nil endTime:nil audioStreamingIndicator:playPauseIndicator countRate:nil];
 }
 
 + (instancetype)updatePauseWithNewStartTimeInterval:(NSTimeInterval)startTime endTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
     SDLStartTime *startTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:startTime];
     SDLStartTime *endTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:endTime];
 
-    return [[self alloc] initWithUpdateMode:SDLUpdateModePause startTime:startTimeRPC endTime:endTimeRPC playPauseIndicator:playPauseIndicator];
+    return [[self alloc] initWithUpdateMode:SDLUpdateModePause startTime:startTimeRPC endTime:endTimeRPC audioStreamingIndicator:playPauseIndicator countRate:nil];
 }
 
 + (instancetype)updatePauseWithNewStartTime:(SDLStartTime *)startTime endTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
-    return [[self alloc] initWithUpdateMode:SDLUpdateModePause startTime:startTime endTime:endTime playPauseIndicator:playPauseIndicator];
+    return [[self alloc] initWithUpdateMode:SDLUpdateModePause startTime:startTime endTime:endTime audioStreamingIndicator:playPauseIndicator countRate:nil];
 }
 
-+ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
-    return [[self alloc] initWithUpdateMode:SDLUpdateModeResume startTime:nil endTime:nil playPauseIndicator:playPauseIndicator];
++ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
+    return [[self alloc] initWithUpdateMode:SDLUpdateModeResume startTime:nil endTime:nil audioStreamingIndicator:playPauseIndicator countRate:countRate];
 }
 
 + (instancetype)clearWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
-    return [[self alloc] initWithUpdateMode:SDLUpdateModeClear startTime:nil endTime:nil playPauseIndicator:playPauseIndicator];
+    return [[self alloc] initWithUpdateMode:SDLUpdateModeClear startTime:nil endTime:nil audioStreamingIndicator:playPauseIndicator countRate:nil];
 }
 
 - (void)setStartTime:(nullable SDLStartTime *)startTime {

@@ -66,10 +66,7 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with countUpWithStartTimeInterval:endTimeInterval:playPauseIndicator:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator];
-#pragma clang diagnostic pop
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator countRate:nil];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
@@ -78,10 +75,7 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with countUpWithStartTime:endTime:playPauseIndicator:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator];
-#pragma clang diagnostic pop
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator countRate:nil];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
@@ -90,10 +84,7 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with countUpWithStartTimeInterval:endTimeInterval:playPauseIndicator:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator];
-#pragma clang diagnostic pop
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator countRate:nil];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
@@ -102,10 +93,7 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with countDownWithStartTime:endTime:playPauseIndicator:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator];
-#pragma clang diagnostic pop
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator countRate:nil];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
@@ -150,10 +138,7 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with resumeWithPlayPauseIndicator:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer resumeWithPlayPauseIndicator:testIndicator];
-#pragma clang diagnostic pop
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer resumeWithPlayPauseIndicator:testIndicator countRate:nil];
 
             expect(testRequest.startTime).to(beNil());
             expect(testRequest.endTime).to(beNil());
