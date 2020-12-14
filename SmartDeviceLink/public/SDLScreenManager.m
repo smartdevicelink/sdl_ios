@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [self initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager permissionManager:nil];
     if (!self) { return nil; }
 
-    return nil;
+    return self;
 }
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager {
