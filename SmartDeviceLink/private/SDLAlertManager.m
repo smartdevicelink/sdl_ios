@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) dispatch_queue_t readWriteQueue;
 
 @property (assign, nonatomic) UInt16 nextCancelId;
+@property (assign, nonatomic) BOOL isAlertRPCAllowed;
 
 @end
 
@@ -58,6 +59,8 @@ UInt16 const AlertCancelIdMax = 1000;
 
     _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.alertManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _nextCancelId = AlertCancelIdMin;
+
+    _currentWindowCapability = [self sdl_extractCurrentWindowCapabilityFromDisplayCapabilities:self.systemCapabilityManager.displays];
 
     [self sdl_subscribeToPermissions];
 
@@ -109,32 +112,69 @@ UInt16 const AlertCancelIdMax = 1000;
     return queue;
 }
 
+/// Suspend the queue if the window capabilities are nil (we assume that text and graphics are not supported yet)
+- (void)sdl_updateTransactionQueueSuspended {
+    if (self.currentWindowCapability == nil || !self.isAlertRPCAllowed) {
+        SDLLogD(@"Suspending the transaction queue. Window capabilities is nil: %@, alert has permission be sent at the current HMI level: %@", (self.currentWindowCapability == nil ? @"YES" : @"NO"), self.isAlertRPCAllowed ? @"YES" : @"NO");
+        self.transactionQueue.suspended = YES;
+    } else {
+        SDLLogD(@"Starting the transaction queue");
+        self.transactionQueue.suspended = NO;
+    }
+}
+
+/// Updates pending operations in the queue with the new window capability (i.e. the window capability will change when the template changes)
+/// @param windowCapability The new window capability
+- (void)sdl_updatePendingOperationsWithNewWindowCapability:(nullable SDLWindowCapability *)windowCapability {
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if (operation.isExecuting) { continue; }
+
+        SDLPresentAlertOperation *updateOp = (SDLPresentAlertOperation *)operation;
+        updateOp.currentWindowCapability = windowCapability;
+    }
+}
+
 #pragma mark - Observers
 
 /// Called when the current window capabilities have updated.
 /// @param systemCapability The new current window capabilities.
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
-    SDLDisplayCapability *mainDisplay = capabilities[0];
+    self.currentWindowCapability = [self sdl_extractCurrentWindowCapabilityFromDisplayCapabilities:systemCapability.displayCapabilities];
+    [self sdl_updateTransactionQueueSuspended];
+    [self sdl_updatePendingOperationsWithNewWindowCapability:self.currentWindowCapability];
+}
+
+/// Helper method for extracting the current window capability from the list of display capabilities
+/// @param displayCapabilities A list of display capabilities
+/// @return The current window capability, if it exists
+- (nullable SDLWindowCapability *)sdl_extractCurrentWindowCapabilityFromDisplayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
+    if (displayCapabilities == nil || displayCapabilities.count == 0) {
+        return nil;
+    }
+
+    SDLDisplayCapability *mainDisplay = displayCapabilities.firstObject;
     for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
         NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
         if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
 
-        self.currentWindowCapability = windowCapability;
-        break;
+        return windowCapability;
     }
+
+    return nil;
 }
 
 /// Subscribes to permission updates for the `Alert` RPC. If the alert is not allowed at the current HMI level, the queue is suspended. Any `Alert` RPCs added while the queue is suspended will be sent when the `Alert` RPC is allowed at the current HMI level and the queue is unsuspended.
 /// @discussion If there is no permission manager, the queue is not suspended and the `Alert` RPCs can be sent at any HMI level. This may mean that some requests are rejected due to invalid permissions.
 - (void)sdl_subscribeToPermissions {
     if (self.permissionManager == nil) {
-        self.transactionQueue.suspended = NO;
+        self.isAlertRPCAllowed = true;
+        [self sdl_updateTransactionQueueSuspended];
     } else {
         SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];
         [self.permissionManager subscribeToRPCPermissions:@[alertPermissionElement] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+            self.isAlertRPCAllowed = (status == SDLPermissionGroupStatusAllowed);
 
-            self.transactionQueue.suspended = (status != SDLPermissionGroupStatusAllowed);
+            [self sdl_updateTransactionQueueSuspended];
         }];
     }
 }

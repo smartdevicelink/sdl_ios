@@ -39,7 +39,6 @@
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
-@property (copy, nonatomic, nullable) SDLWindowCapability *currentCapabilities;
 @property (strong, nonatomic, readwrite) SDLAlertView *alertView;
 @property (strong, nonatomic, readwrite) SDLAlert *alert;
 @property (assign, nonatomic) UInt16 cancelId;
@@ -108,7 +107,7 @@ describe(@"SDLPresentAlertOperation", ^{
         expect(testPresentAlertOperation.fileManager).to(equal(mockFileManager));
         expect(testPresentAlertOperation.alertView).toNot(equal(testAlertView));
         expect(@(testPresentAlertOperation.cancelId)).to(equal(@(testCancelID)));
-        expect(testPresentAlertOperation.currentCapabilities).to(equal(mockCurrentWindowCapability));
+        expect(testPresentAlertOperation.currentWindowCapability).to(equal(mockCurrentWindowCapability));
         expect(testPresentAlertOperation.internalError).to(beNil());
     });
 

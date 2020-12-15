@@ -39,7 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
-@property (copy, nonatomic) SDLWindowCapability *currentCapabilities;
 @property (strong, nonatomic, readwrite) SDLAlertView *alertView;
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -81,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _cancelId = cancelID;
     _operationId = [NSUUID UUID];
-    _currentCapabilities = currentWindowCapability;
+    _currentWindowCapability = currentWindowCapability;
 
     return self;
 }
@@ -341,7 +340,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Checks if the connected module or current template supports soft button images.
 /// @return True if soft button images are currently supported; false if not.
 - (BOOL)sdl_supportsSoftButtonImages {
-    SDLSoftButtonCapabilities *softButtonCapabilities = self.currentCapabilities.softButtonCapabilities.firstObject;
+    SDLSoftButtonCapabilities *softButtonCapabilities = self.currentWindowCapability.softButtonCapabilities.firstObject;
     return softButtonCapabilities.imageSupported.boolValue;
 }
 
@@ -356,7 +355,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Checks if the connected module or current template supports alert icons.
 /// @return True if alert icons are currently supported; false if not.
 - (BOOL)sdl_supportsAlertIcon {
-    return [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+    return [self.currentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon];
 }
 
 #pragma mark - Text Helpers
@@ -368,7 +367,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return alert; }
 
-    NSUInteger maxNumberOfLines = (self.currentCapabilities != nil) ? self.currentCapabilities.maxNumberOfAlertFieldLines : MaxAlertTextFieldLineCount;
+    NSUInteger maxNumberOfLines = (self.currentWindowCapability != nil) ? self.currentWindowCapability.maxNumberOfAlertFieldLines : MaxAlertTextFieldLineCount;
     if (maxNumberOfLines == 1) {
         alert = [self sdl_assembleOneLineAlertText:alert withShowFields:nonNilFields];
     } else if (maxNumberOfLines == 2) {
