@@ -138,8 +138,8 @@ describe(@"alert manager tests", ^{
             expect(testAlertManager.transactionQueue.suspended).toEventually(beTrue());
             SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
-            expect(presentAlertOp1.currentWindowCapability).to(beNil());
-            expect(presentAlertOp2.currentWindowCapability).to(beNil());
+            expect(presentAlertOp1.currentWindowCapability).toEventually(beNil());
+            expect(presentAlertOp2.currentWindowCapability).toEventually(beNil());
         });
 
         it(@"should start the queue if the new capability is not nil and update the pending operations with the new capability", ^{
@@ -156,8 +156,8 @@ describe(@"alert manager tests", ^{
             expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
             SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
-            expect(presentAlertOp1.currentWindowCapability).to(equal(testSystemCapability.displayCapabilities.firstObject.windowCapabilities.firstObject));
-            expect(presentAlertOp2.currentWindowCapability).to(equal(testSystemCapability.displayCapabilities.firstObject.windowCapabilities.firstObject));
+            expect(presentAlertOp1.currentWindowCapability).toEventually(equal(testSystemCapability.displayCapabilities.firstObject.windowCapabilities.firstObject));
+            expect(presentAlertOp2.currentWindowCapability).toEventually(equal(testSystemCapability.displayCapabilities.firstObject.windowCapabilities.firstObject));
         });
     });
 
