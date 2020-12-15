@@ -433,7 +433,7 @@ describe(@"SDLPresentAlertOperation", ^{
                             expect(files.count).to(equal(1));
                             expect(files.firstObject.name).to(equal(testAlertAudioFileData.audioFiles.firstObject.name));
                             return [value isKindOfClass:[NSArray class]];
-                        }] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                        }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                         [testPresentAlertOperation start];
 
@@ -449,7 +449,7 @@ describe(@"SDLPresentAlertOperation", ^{
                             expect(files.count).to(equal(1));
                             expect(files.firstObject.name).to(equal(testAlertAudioFileData.audioFiles.firstObject.name));
                             return [value isKindOfClass:[NSArray class]];
-                        }] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                        }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                         [testPresentAlertOperation start];
 
@@ -478,7 +478,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(files[1].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
                     expect(files[2].name).to(equal(testAlertView.softButtons[1].currentState.artwork.name));
                     return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                 [testPresentAlertOperation start];
 
@@ -497,7 +497,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(files.count).to(equal(1));
                     expect(files[0].name).to(equal(testAlertView.icon.name));
                     return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                 [testPresentAlertOperation start];
 
@@ -517,7 +517,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(files[0].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
                     expect(files[1].name).to(equal(testAlertView.softButtons[1].currentState.artwork.name));
                     return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                 [testPresentAlertOperation start];
 
@@ -553,7 +553,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(files[0].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
                     expect(files[1].name).to(equal(testAlertView.softButtons[1].currentState.artwork.name));
                     return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                 [testPresentAlertOperation start];
             });
@@ -578,7 +578,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(files[0].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
                     expect(files[1].name).to(equal(testAlertView.softButtons[1].currentState.artwork.name));
                     return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                 [testPresentAlertOperation start];
             });
@@ -604,7 +604,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(files[1].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
                     expect(files[2].name).to(equal(testAlertView.softButtons[1].currentState.artwork.name));
                     return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                 [testPresentAlertOperation start];
             });
