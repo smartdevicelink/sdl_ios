@@ -143,7 +143,7 @@ extern SDLTextFieldName const SDLTextFieldNameNavigationText2;
  *
  * @since SDL 2.0
  */
-extern SDLTextFieldName const SDLTextFieldNameEta;
+extern SDLTextFieldName const SDLTextFieldNameETA;
 
 /**
  * Total distance to destination for navigation.
