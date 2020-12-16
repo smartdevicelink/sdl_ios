@@ -365,6 +365,8 @@ class InterfaceProducerCommon(ABC):
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong',
                 'history': param.history}
+
+        parameterItems = OrderedDict()
         if isinstance(param.param_type, (Integer, Float, String, Array)):
             self.create_param_type_descriptor(param.param_type, parameterItems)
 
