@@ -60,8 +60,8 @@ extern SDLTextFieldName const SDLTextFieldNameMainField3;
 
 /**
  * The second line of the second set of main fields of the persistent display. Applies to SDLShow.
- *
- * @since SDL 2.0
+
+ @since SDL 2.0
  */
 extern SDLTextFieldName const SDLTextFieldNameMainField4;
 
@@ -201,28 +201,28 @@ extern SDLTextFieldName const SDLTextFieldNameTertiaryText;
 extern SDLTextFieldName const SDLTextFieldNameMenuTitle;
 
 /**
- * Optional name / title of intended location for SDLSendLocation.
+ * Optional name / title of intended location for SDLSendLocation
  *
  * @since SDL 4.0
  */
 extern SDLTextFieldName const SDLTextFieldNameLocationName;
 
 /**
- * Optional description of intended location / establishment (if applicable) for SDLSendLocation.
+ * Optional description of intended location / establishment (if applicable) for SDLSendLocation
  *
  * @since SDL 4.0
  */
 extern SDLTextFieldName const SDLTextFieldNameLocationDescription;
 
 /**
- * Optional location address (if applicable) for SDLSendLocation.
+ * Optional location address (if applicable) for SDLSendLocation
  *
  * @since SDL 4.0
  */
 extern SDLTextFieldName const SDLTextFieldNameAddressLines;
 
 /**
- * Optional hone number of intended location / establishment (if applicable) for SDLSendLocation.
+ * Optional hone number of intended location / establishment (if applicable) for SDLSendLocation
  *
  * @since SDL 4.0
  */
