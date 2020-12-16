@@ -33,218 +33,227 @@
 #import "SDLEnum.h"
 
 /**
- * Names of the text fields that can appear on a SDL display. Used in TextFieldName.
- *
- * @since SDL 1.0
+ * @added in SmartDeviceLink 1.0.0
  */
 typedef SDLEnum SDLTextFieldName NS_TYPED_ENUM;
 
 /**
- * The first line of the first set of main fields of the persistent display. Applies to SDLShow.
+ * The first line of first set of main fields of the persistent display; applies to "Show"
  */
 extern SDLTextFieldName const SDLTextFieldNameMainField1;
 
 /**
- * The second line of the first set of main fields of the persistent display. Applies to SDLShow.
- *
- * @since SDL 2.0
+ * The second line of first set of main fields of the persistent display; applies to "Show"
  */
 extern SDLTextFieldName const SDLTextFieldNameMainField2;
 
 /**
- * The first line of the second set of main fields of the persistent display. Applies to SDLShow.
- *
- * @since SDL 2.0
+ * The first line of second set of main fields of persistent display; applies to "Show"
  */
 extern SDLTextFieldName const SDLTextFieldNameMainField3;
 
 /**
- * The second line of the second set of main fields of the persistent display. Applies to SDLShow.
-
- @since SDL 2.0
+ * The second line of second set of main fields of the persistent display; applies to "Show"
  */
 extern SDLTextFieldName const SDLTextFieldNameMainField4;
 
 /**
- The title line of the persistent display. Applies to SDLShow.
-
- @since SDL 6.0
- */
-extern SDLTextFieldName const SDLTextFieldNameTemplateTitle;
-
-/**
- * The status bar on the NGN display. Applies to SDLShow.
+ * The status bar on NGN; applies to "Show"
  */
 extern SDLTextFieldName const SDLTextFieldNameStatusBar;
 
 /**
- * Text value for MediaClock field. Must be properly formatted according to MediaClockFormat. Applies to SDLShow.
- *
- * @discussion This field is commonly used to show elapsed or remaining time in an audio track or audio capture.
+ * Text value for MediaClock field; applies to "Show"
  */
 extern SDLTextFieldName const SDLTextFieldNameMediaClock;
 
 /**
- * The track field of NGN type ACMs. This field is only available for media applications on a NGN display. Applies to SDLShow.
- *
- * @discussion This field is commonly used to show the current track number
+ * The track field of NGN and GEN1.1 MFD displays. This field is only available for media applications; applies to "Show"
  */
 extern SDLTextFieldName const SDLTextFieldNameMediaTrack;
 
 /**
- * The first line of the alert text field. Applies to SDLAlert.
+ * The title of the new template that will be displayed; applies to "Show"
+ *
+ * @added in SmartDeviceLink 6.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameTemplateTitle;
+
+/**
+ * The first line of the alert text field; applies to "Alert"
  */
 extern SDLTextFieldName const SDLTextFieldNameAlertText1;
 
 /**
- * The second line of the alert text field. Applies to SDLAlert.
+ * The second line of the alert text field; applies to "Alert"
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameAlertText2;
 
 /**
- * The third line of the alert text field. Applies to SDLAlert.
+ * The third line of the alert text field; applies to "Alert"
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameAlertText3;
 
 /**
- * Long form body of text that can include newlines and tabs. Applies to SDLScrollableMessage.
+ * Long form body of text that can include newlines and tabs; applies to "ScrollableMessage"
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameScrollableMessageBody;
 
 /**
- * First line suggestion for a user response (in the case of VR enabled interaction).
+ * First line suggestion for a user response (in the case of VR enabled interaction)
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameInitialInteractionText;
 
 /**
- * First line of navigation text.
+ * First line of navigation text
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameNavigationText1;
 
 /**
- * Second line of navigation text.
+ * Second line of navigation text
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameNavigationText2;
 
 /**
- * Estimated Time of Arrival time for navigation.
+ * Estimated Time of Arrival time for navigation
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
-extern SDLTextFieldName const SDLTextFieldNameETA;
+extern SDLTextFieldName const SDLTextFieldNameEta;
 
 /**
- * Total distance to destination for navigation.
+ * Total distance to destination for navigation
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameTotalDistance;
 
 /**
- * First line of text for audio pass thru.
+ * First line of text for audio pass thru
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameAudioPassThruDisplayText1;
 
 /**
- * Second line of text for audio pass thru.
+ * Second line of text for audio pass thru
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameAudioPassThruDisplayText2;
 
 /**
- * Header text for slider.
+ * Header text for slider
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameSliderHeader;
 
 /**
  * Footer text for slider
  *
- * @since SDL 2.0
+ * @added in SmartDeviceLink 2.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameSliderFooter;
 
 /**
- * Primary text for SDLChoice
+ * Primary text for Choice
  */
 extern SDLTextFieldName const SDLTextFieldNameMenuName;
 
 /**
- * Secondary text for SDLChoice
+ * Secondary text for Choice
  */
 extern SDLTextFieldName const SDLTextFieldNameSecondaryText;
 
 /**
- * Tertiary text for SDLChoice
+ * Tertiary text for Choice
  */
 extern SDLTextFieldName const SDLTextFieldNameTertiaryText;
 
 /**
- * Optional text to label an app menu button (for certain touchscreen platforms)
+ * Optional text to label an app menu button (for certain touchscreen platforms).
  */
 extern SDLTextFieldName const SDLTextFieldNameMenuTitle;
 
 /**
- * Optional name / title of intended location for SDLSendLocation
+ * Optional name / title of intended location for SendLocation.
  *
- * @since SDL 4.0
+ * @added in SmartDeviceLink 4.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameLocationName;
 
 /**
- * Optional description of intended location / establishment (if applicable) for SDLSendLocation
+ * Optional description of intended location / establishment (if applicable) for SendLocation.
  *
- * @since SDL 4.0
+ * @added in SmartDeviceLink 4.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameLocationDescription;
 
 /**
- * Optional location address (if applicable) for SDLSendLocation
+ * Optional location address (if applicable) for SendLocation.
  *
- * @since SDL 4.0
+ * @added in SmartDeviceLink 4.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameAddressLines;
 
 /**
- * Optional hone number of intended location / establishment (if applicable) for SDLSendLocation
+ * Optional phone number of intended location / establishment (if applicable) for SendLocation.
  *
- * @since SDL 4.0
+ * @added in SmartDeviceLink 4.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNamePhoneNumber;
 
 /**
+ * Optional time to destination field for navigationTexts parameter in ShowConstantTB
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameTimeToDestination;
+
+/**
+ * Turn text for turnList parameter of UpdateTurnList
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameTurnText;
+
+/**
+ * Navigation text for turnList parameter of UpdateTurnList
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameNavigationText;
+
+/**
  * The first line of the subtle alert text field; applies to `SubtleAlert` `alertText1`
  *
- * @since SDL 7.0.0
+ * @added in SmartDeviceLink 7.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameSubtleAlertText1;
 
 /**
  * The second line of the subtle alert text field; applies to `SubtleAlert` `alertText2`
  *
- * @since SDL 7.0.0
+ * @added in SmartDeviceLink 7.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameSubtleAlertText2;
 
 /**
  * A text field in the soft button of a subtle alert; applies to `SubtleAlert` `softButtons`
  *
- * @since SDL 7.0.0
+ * @added in SmartDeviceLink 7.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameSubtleAlertSoftButtonText;
