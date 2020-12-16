@@ -418,13 +418,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", weakSelf.preferredFormats, weakSelf.preferredResolutions);
         }
 
-        // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings
-        // (Exception: ExpectedFrameRate, AverageBitRate)
+        // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
         for (id key in self.customEncoderSettings.keyEnumerator) {
-            // do NOT override framerate or average bitreate if custom setting is higher than current setting.
-            // See SDL 0323 (https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0323-align-VideoStreamingParameter-with-capability.md) for details.
-            if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] ||
-                [(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]) {
+            if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]) {
+                // do NOT override framerate if custom setting is higher than current setting.
                 if ([self.customEncoderSettings valueForKey:key] < self.videoEncoderSettings[key]) {
                     self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
                 }
