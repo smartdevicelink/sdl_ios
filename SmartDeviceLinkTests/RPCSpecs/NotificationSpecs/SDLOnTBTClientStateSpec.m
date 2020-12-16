@@ -30,10 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameState:SDLTBTStateETARequest},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnTBTClientState}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnTBTClientState* testNotification = [[SDLOnTBTClientState alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.state).to(equal(SDLTBTStateETARequest));
     });

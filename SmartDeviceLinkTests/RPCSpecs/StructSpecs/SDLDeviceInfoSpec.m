@@ -39,10 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLRPCParameterNameOSVersion:@"9.9",
                                                        SDLRPCParameterNameCarrier:@"ThatOneWirelessCompany",
                                                        SDLRPCParameterNameMaxNumberRFCOMMPorts:@20} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLDeviceInfo* testStruct = [[SDLDeviceInfo alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.hardware).to(equal(@"GDFR34F"));
         expect(testStruct.firmwareRev).to(equal(@"4.2a"));

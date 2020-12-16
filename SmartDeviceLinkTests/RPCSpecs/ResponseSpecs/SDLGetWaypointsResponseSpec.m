@@ -69,10 +69,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            }
                                                    }
                                            };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResponse = [[SDLGetWayPointsResponse alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
-#pragma clang diagnostic pop
             });
             
             // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
@@ -89,10 +86,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameParameters: @{}
                                                    }
                                            };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testResponse = [[SDLGetWayPointsResponse alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
-#pragma clang diagnostic pop
             });
             
             it(@"should return nil for waypoints", ^{

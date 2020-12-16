@@ -39,10 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLRPCParameterNameChannelName:@"channel",
                                        SDLRPCParameterNameChannelSetting:@45
                                        } mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLEqualizerSettings* testStruct = [[SDLEqualizerSettings alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.channelId).to(equal(@2));
         expect(testStruct.channelName).to(equal(@"channel"));

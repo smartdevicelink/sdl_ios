@@ -32,10 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLRPCParameterNameCommandId:@5676544,
                                                    SDLRPCParameterNameTriggerSource:SDLTriggerSourceKeyboard},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnCommand}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLOnCommand* testNotification = [[SDLOnCommand alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testNotification.cmdID).to(equal(@5676544));
         expect(testNotification.triggerSource).to(equal(SDLTriggerSourceKeyboard));

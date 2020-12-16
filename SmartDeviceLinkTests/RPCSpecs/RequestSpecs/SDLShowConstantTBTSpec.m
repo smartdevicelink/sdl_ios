@@ -65,10 +65,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameManeuverComplete:@NO,
                                                                    SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameShowConstantTBT}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLShowConstantTBT* testRequest = [[SDLShowConstantTBT alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.navigationText1).to(equal(@"nav1"));
         expect(testRequest.navigationText2).to(equal(@"nav2"));

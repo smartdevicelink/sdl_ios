@@ -6,7 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString* SDLRPCParameterName SDL_SWIFT_ENUM;
+typedef NSString* SDLRPCParameterName NS_TYPED_ENUM;
 {% for param in params %}
 extern SDLRPCParameterName const SDLRPCParameterName{{ param.name }};
 {%- endfor %}

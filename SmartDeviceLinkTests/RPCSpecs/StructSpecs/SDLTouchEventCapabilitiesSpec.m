@@ -30,10 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNamePressAvailable:@YES,
                                                        SDLRPCParameterNameMultiTouchAvailable:@NO,
                                                        SDLRPCParameterNameDoublePressAvailable:@NO} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLTouchEventCapabilities* testStruct = [[SDLTouchEventCapabilities alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testStruct.pressAvailable).to(equal(@YES));
         expect(testStruct.multiTouchAvailable).to(equal(@NO));

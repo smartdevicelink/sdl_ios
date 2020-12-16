@@ -31,10 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    @{SDLRPCParameterNameParameters:
                                                          @{SDLRPCParameterNameServiceID:@"idToUnpublish"},
                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnpublishAppService}};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnpublishAppService* testRequest = [[SDLUnpublishAppService alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.serviceID).to(equal(@"idToUnpublish"));
     });

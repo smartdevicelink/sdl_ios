@@ -74,10 +74,7 @@ describe(@"Getter/Setter Tests", ^ {
                                SDLRPCParameterNameSeatLocationCapability: testSeatLocationCapability,
                                SDLRPCParameterNameDriverDistractionCapability: testDriverDistractionCapability
                                };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeNavigation));
         expect(testStruct.appServicesCapabilities).to(equal(testAppServicesCapabilities));

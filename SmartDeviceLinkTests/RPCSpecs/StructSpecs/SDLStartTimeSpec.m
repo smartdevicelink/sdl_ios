@@ -33,10 +33,7 @@ describe(@"StartTime Spec", ^ {
             NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameHours:@(testHours),
                                                    SDLRPCParameterNameMinutes:@(testMinutes),
                                                    SDLRPCParameterNameSeconds:@(testSeconds)};
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLStartTime *testStruct = [[SDLStartTime alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
             expect(testStruct.hours).to(equal(@(testHours)));
             expect(testStruct.minutes).to(equal(@(testMinutes)));

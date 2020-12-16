@@ -50,10 +50,7 @@ describe(@"SetDisplayLayout Tests", ^ {
                                                                @{SDLRPCParameterNameParameters:
                                                                      @{SDLRPCParameterNameDisplayLayout:@"wat"},
                                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetDisplayLayout}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetDisplayLayout* testRequest = [[SDLSetDisplayLayout alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
             expect(testRequest.displayLayout).to(equal(@"wat"));
         });

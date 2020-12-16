@@ -31,10 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameECUName:@33112,
                                                                    SDLRPCParameterNameDIDLocation:[@[@200, @201, @205] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameEndAudioPassThru}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLReadDID* testRequest = [[SDLReadDID alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.ecuName).to(equal(@33112));
         expect(testRequest.didLocation).to(equal([@[@200, @201, @205] mutableCopy]));

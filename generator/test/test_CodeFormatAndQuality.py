@@ -23,7 +23,7 @@ class CodeFormatAndQuality(unittest.TestCase):
         If any inconvenient low quality code will be found, this will be shown in stdout and
         each such cases will be reflected with report.total_errors number
         """
-        style_guide = flake8.get_style_guide(max_line_length=120)
+        style_guide = flake8.get_style_guide(max_line_length=2048)
         report = style_guide.check_files(self.list_of_files)
         self.assertEqual(report.total_errors, 0)
 

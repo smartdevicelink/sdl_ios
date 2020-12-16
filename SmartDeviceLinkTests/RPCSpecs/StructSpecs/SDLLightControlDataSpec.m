@@ -32,10 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
 
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameLightState:[@[someLightState] copy]} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLLightControlData* testStruct = [[SDLLightControlData alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
 
         expect(testStruct.lightState).to(equal([@[someLightState] copy]));
     });

@@ -15,13 +15,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- The handler run when the update has completed
-
- @param error An error if the update failed and an error occurred
- */
-typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
-
 @interface SDLVoiceCommandManager : NSObject
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager;

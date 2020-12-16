@@ -36,10 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLRPCParameterNameTTSChunks:[@[tts] mutableCopy],
                                                                    SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlertManeuver}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAlertManeuver* testRequest = [[SDLAlertManeuver alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testRequest.ttsChunks).to(equal([@[tts] mutableCopy]));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));

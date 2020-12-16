@@ -40,10 +40,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLRPCParameterNameParameters:
                                                                  @{SDLRPCParameterNameAllowed:allowed},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetInteriorVehicleData}} mutableCopy];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLGetInteriorVehicleDataConsentResponse *testResponse = [[SDLGetInteriorVehicleDataConsentResponse alloc] initWithDictionary:dict];
-#pragma clang diagnostic pop
         
         expect(testResponse.allowed).to(equal(allowed));
     });
