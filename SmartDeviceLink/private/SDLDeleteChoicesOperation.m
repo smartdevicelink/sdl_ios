@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLDeleteChoicesOperation()
 
 @property (strong, nonatomic) NSUUID *operationId;
-@property (strong, nonatomic) NSSet<SDLChoiceCell *> *cellsToDelete;
+@property (strong, nonatomic) NSArray<SDLChoiceCell *> *cellsToDelete;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSArray<SDLChoiceCell *> *)cells {
     self = [super init];
     if (!self) { return nil; }
 

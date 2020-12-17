@@ -69,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *uniqueNamedMenuCells;
 
 @end
 
@@ -85,6 +86,7 @@ UInt32 const MenuCellIdMin = 1;
     _menuConfiguration = [[SDLMenuConfiguration alloc] init];
     _menuCells = @[];
     _oldMenuCells = @[];
+    _uniqueNamedMenuCells = @[];
     _dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeOnWithCompatibility;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
@@ -163,9 +165,10 @@ UInt32 const MenuCellIdMin = 1;
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+        // We are in NONE or the menu is in use, bail out of here
         SDLLogD(@"Waiting for HMI update to send menu cells");
         self.waitingOnHMIUpdate = YES;
-        self.waitingUpdateMenuCells = menuCells;
+        self.waitingUpdateMenuCells = [self menuCellListToBeUsed];
         return;
     }
 
@@ -174,7 +177,7 @@ UInt32 const MenuCellIdMin = 1;
     NSMutableSet *titleCheckSet = [NSMutableSet set];
     NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
     NSUInteger voiceCommandCount = 0;
-    for (SDLMenuCell *cell in menuCells) {
+    for (SDLMenuCell *cell in [self menuCellListToBeUsed]) {
         [titleCheckSet addObject:cell.title];
         if (cell.voiceCommands == nil) { continue; }
         [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
@@ -182,7 +185,7 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     // Check for duplicate titles
-    if (titleCheckSet.count != menuCells.count) {
+    if (titleCheckSet.count != [self menuCellListToBeUsed].count) {
         SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
         return;
     }
@@ -193,8 +196,13 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
-    _oldMenuCells = _menuCells;
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]) {
+        _oldMenuCells = self.uniqueNamedMenuCells;
+    } else {
+        _oldMenuCells = self.menuCells;
+    }
     _menuCells = menuCells;
+    _uniqueNamedMenuCells = @[];
 
     if ([self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) {
         [self sdl_startDynamicMenuUpdate];
@@ -343,13 +351,13 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Updating System
 
 - (void)sdl_startDynamicMenuUpdate {
-    SDLDynamicMenuUpdateRunScore *runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
+    SDLDynamicMenuUpdateRunScore *runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:[self menuCellListToBeUsed]];
 
     NSArray<NSNumber *> *deleteMenuStatus = runScore.oldStatus;
     NSArray<NSNumber *> *addMenuStatus = runScore.updatedStatus;
 
     NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:self.oldMenuCells basedOnStatusList:deleteMenuStatus];
-    NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:self.menuCells basedOnStatusList:addMenuStatus];
+    NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:[self menuCellListToBeUsed] basedOnStatusList:addMenuStatus];
     // These arrays should ONLY contain KEEPS. These will be used for SubMenu compares
     NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:self.oldMenuCells basedOnStatusList:deleteMenuStatus];
     NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.menuCells basedOnStatusList:addMenuStatus];
@@ -407,7 +415,7 @@ UInt32 const MenuCellIdMin = 1;
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         self.waitingOnHMIUpdate = YES;
-        self.waitingUpdateMenuCells = self.menuCells;
+        self.waitingUpdateMenuCells = [self menuCellListToBeUsed];
         return;
     }
 
@@ -564,10 +572,18 @@ UInt32 const MenuCellIdMin = 1;
     return YES;
 }
 
+- (NSArray<SDLMenuCell *> *) menuCellListToBeUsed {
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]) {
+        return self.uniqueNamedMenuCells;
+    } else {
+        return self.menuCells;
+    }
+}
+
 #pragma mark IDs
 
 - (void)sdl_updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
-    for (SDLMenuCell *cell in menuCells) {
+    for (SDLMenuCell *cell in [self menuCellListToBeUsed]) {
         cell.cellId = self.lastMenuId++;
         cell.parentCellId = parentId;
         if (cell.subCells.count > 0) {

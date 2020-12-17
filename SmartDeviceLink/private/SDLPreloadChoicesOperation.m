@@ -18,6 +18,8 @@
 #import "SDLFileManager.h"
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
+#import "SDLGlobals.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
@@ -32,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPreloadChoicesOperation()
 
 @property (strong, nonatomic) NSUUID *operationId;
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *cellsToUpload;
+@property (strong, nonatomic) NSMutableArray<SDLChoiceCell *> *cellsToUpload;
 @property (strong, nonatomic) SDLWindowCapability *windowCapability;
 @property (strong, nonatomic) NSString *displayName;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
@@ -45,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPreloadChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSArray<SDLChoiceCell *> *)cells {
     self = [super init];
     if (!self) { return nil; }
 
@@ -54,7 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
     _displayName = displayName;
     _windowCapability = defaultMainWindowCapability;
     _vrOptional = isVROptional;
-    _cellsToUpload = [cells mutableCopy];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]) {
+        _cellsToUpload = [self sdl_updateCellsForUniqueNames:([cells copy])];
+    } else {
+        _cellsToUpload = [cells mutableCopy];
+    }
     _operationId = [NSUUID UUID];
 
     _currentState = SDLPreloadChoicesOperationStateWaitingToStart;
@@ -73,10 +79,17 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (BOOL)removeChoicesFromUpload:(NSSet<SDLChoiceCell *> *)choices {
+- (BOOL)removeChoicesFromUpload:(NSArray<SDLChoiceCell *> *)choices {
     if (self.isExecuting) { return NO; }
 
-    [self.cellsToUpload minusSet:choices];
+    for (SDLChoiceCell *choiceToRemove in choices) {
+        for (SDLChoiceCell *cellToUpload in self.cellsToUpload) {
+            if (cellToUpload.choiceId == choiceToRemove.choiceId) {
+                [self.cellsToUpload removeObject:choiceToRemove];
+                break;
+            }
+        }
+    }
     return YES;
 }
 
@@ -146,6 +159,23 @@ NS_ASSUME_NONNULL_BEGIN
 
         [weakSelf finishOperation];
     }];
+}
+
+- (NSMutableArray<SDLChoiceCell *> *)sdl_updateCellsForUniqueNames:(NSMutableArray<SDLChoiceCell *> *)cells {
+    for (NSUInteger i = 0; i < cells.count; i++) {
+        NSString *testName = cells[i].text;
+        int counter = 1;
+        for (NSUInteger j = i+1; j < cells.count; j++) {
+            if (cells[j].text == testName) {
+                if (counter == 1) {
+                    cells[i] = [[SDLChoiceCell alloc] initWithText:[NSString stringWithFormat: @"%@%@", testName, @"(1)"] secondaryText:cells[i].secondaryText tertiaryText:cells[i].tertiaryText voiceCommands:cells[i].voiceCommands artwork:cells[i].artwork secondaryArtwork:cells[i].secondaryArtwork];
+                }
+                counter++;
+                cells[j] = [[SDLChoiceCell alloc] initWithText:[NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter, @")"] secondaryText:cells[i].secondaryText tertiaryText:cells[i].tertiaryText voiceCommands:cells[i].voiceCommands artwork:cells[i].artwork secondaryArtwork:cells[i].secondaryArtwork];
+            }
+        }
+    }
+    return cells;
 }
 
 #pragma mark - Assembling Choice Data

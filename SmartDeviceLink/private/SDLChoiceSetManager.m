@@ -69,9 +69,9 @@ typedef NSNumber * SDLChoiceId;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
-@property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
+@property (strong, nonatomic) NSMutableArray<SDLChoiceCell *> *preloadedMutableChoices;
+@property (strong, nonatomic, readonly) NSArray<SDLChoiceCell *> *pendingPreloadChoices;
+@property (strong, nonatomic) NSMutableArray<SDLChoiceCell *> *pendingMutablePreloadChoices;
 @property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
 @property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
@@ -100,8 +100,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.choiceSetManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
 
-    _preloadedMutableChoices = [NSMutableSet set];
-    _pendingMutablePreloadChoices = [NSMutableSet set];
+    _preloadedMutableChoices = [NSMutableArray array];
+    _pendingMutablePreloadChoices = [NSMutableArray array];
 
     _nextChoiceId = ChoiceCellIdMin;
     _nextCancelId = ChoiceCellCancelIdMin;
@@ -177,8 +177,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
-    _preloadedMutableChoices = [NSMutableSet set];
-    _pendingMutablePreloadChoices = [NSMutableSet set];
+    _preloadedMutableChoices = [NSMutableArray array];
+    _pendingMutablePreloadChoices = [NSMutableArray array];
     _pendingPresentationSet = nil;
 
     _vrOptional = YES;
@@ -225,11 +225,12 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         return;
     }
 
-    NSMutableSet<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
+    NSMutableArray<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
 
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [choicesToUpload minusSet:self.preloadedMutableChoices];
-        [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
+//        [choicesToUpload removeObjectsInArray:[[self.preloadedMutableChoices allObjects] copy]];
+        [choicesToUpload removeObjectsInArray:self.preloadedMutableChoices];
+        [choicesToUpload removeObjectsInArray:self.pendingMutablePreloadChoices];
     }];
 
     if (choicesToUpload.count == 0) {
@@ -245,7 +246,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     // Add the preload cells to the pending preloads
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
+        [self.pendingMutablePreloadChoices addObjectsFromArray:[choicesToUpload copy]];
     }];
 
     // Upload pending preloads
@@ -273,8 +274,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload];
-            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
+            [strongSelf.preloadedMutableChoices addObjectsFromArray:choicesToUpload];
+            [strongSelf.pendingMutablePreloadChoices removeObjectsInArray:choicesToUpload];
         }];
     };
     [self.transactionQueue addOperation:preloadOp];
@@ -288,13 +289,13 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
 
     // Find cells to be deleted that are already uploaded or are pending upload
-    NSSet<SDLChoiceCell *> *cellsToBeDeleted = [self sdl_choicesToBeDeletedWithArray:choices];
-    NSSet<SDLChoiceCell *> *cellsToBeRemovedFromPending = [self sdl_choicesToBeRemovedFromPendingWithArray:choices];
+    NSArray<SDLChoiceCell *> *cellsToBeDeleted = [self sdl_choicesToBeDeletedWithArray:choices];
+    NSArray<SDLChoiceCell *> *cellsToBeRemovedFromPending = [self sdl_choicesToBeRemovedFromPendingWithArray:choices];
 
     // If choices are deleted that are already uploaded or pending and are used by a pending presentation, cancel it and send an error
-    NSSet<SDLChoiceCell *> *pendingPresentationChoices = [NSSet setWithArray:self.pendingPresentationSet.choices];
+    NSArray<SDLChoiceCell *> *pendingPresentationChoices = self.pendingPresentationSet.choices;
     if ((!self.pendingPresentOperation.isCancelled && !self.pendingPresentOperation.isFinished)
-        && ([cellsToBeDeleted intersectsSet:pendingPresentationChoices] || [cellsToBeRemovedFromPending intersectsSet:pendingPresentationChoices])) {
+        && ([self intersectsArrayWithFirstArray:cellsToBeDeleted secondArray:pendingPresentationChoices] || [self intersectsArrayWithFirstArray:cellsToBeRemovedFromPending secondArray:pendingPresentationChoices])) {
         [self.pendingPresentOperation cancel];
         if (self.pendingPresentationSet.delegate != nil) {
             [self.pendingPresentationSet.delegate choiceSet:self.pendingPresentationSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
@@ -304,7 +305,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     // Remove the cells from pending and delete choices
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
+        [self.pendingMutablePreloadChoices removeObjectsInArray:cellsToBeRemovedFromPending];
     }];
 
     for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
@@ -339,7 +340,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices minusSet:cellsToBeDeleted];
+            [strongSelf.preloadedMutableChoices removeObjectsInArray:cellsToBeDeleted];
         }];
     };
     [self.transactionQueue addOperation:deleteOp];
@@ -347,6 +348,14 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark Present
 
+- (BOOL)intersectsArrayWithFirstArray:(NSArray <SDLChoiceCell *> *)firstArray secondArray:(NSArray <SDLChoiceCell *> *)secondArray {
+    for (SDLChoiceCell *cell in secondArray) {
+        if ([firstArray containsObject:cell]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
         SDLLogE(@"Attempted to present choices in an incorrect state: %@, it will not be presented", self.currentState);
@@ -443,9 +452,9 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// Checks the passed list of choices to be uploaded and returns the items that have not yet been uploaded to the module.
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
-- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
-    [choicesSet minusSet:self.preloadedChoices];
+- (NSArray<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableArray<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
+    [choicesSet removeObjectsInArray:self.preloadedChoices];
 
     return [choicesSet copy];
 }
@@ -453,7 +462,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// Checks the passed list of choices to be deleted and returns the items that have been uploaded to the module.
 /// @param choices The choices to be deleted
 /// @return The choices that have been uploaded to the module
-- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeDeletedWithArray:(NSArray<SDLChoiceCell *> *)choices {
+- (NSArray<SDLChoiceCell *> *)sdl_choicesToBeDeletedWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
     [choicesSet intersectSet:self.preloadedChoices];
 
@@ -463,16 +472,16 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// Checks the passed list of choices to be deleted and returns the items that are waiting to be uploaded to the module.
 /// @param choices The choices to be deleted
 /// @return The choices that are waiting to be uploaded to the module
-- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeRemovedFromPendingWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
-    [choicesSet intersectSet:self.pendingPreloadChoices];
+- (NSArray<SDLChoiceCell *> *)sdl_choicesToBeRemovedFromPendingWithArray:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableArray<SDLChoiceCell *> *choicesSet = [choices mutableCopy];
+    [choicesSet addObjectsFromArray:self.pendingPreloadChoices];
 
     return [choicesSet copy];
 }
 
 /// Assigns a unique id to each choice item.
 /// @param choices An array of choices
-- (void)sdl_updateIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
+- (void)sdl_updateIdsOnChoices:(NSMutableArray<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         cell.choiceId = self.nextChoiceId;
     }
@@ -481,14 +490,19 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// Checks each choice item to find out if it has already been uploaded or if it is the the process of being uploaded. If so, the choice item is assigned the unique id of the uploaded item.
 /// @param choiceSet A set of choice items
 - (void)sdl_findIdsOnChoiceSet:(SDLChoiceSet *)choiceSet {
-    [self sdl_findIdsOnChoices:[NSSet setWithArray:choiceSet.choices]];
+    [self sdl_findIdsOnChoices:choiceSet.choices];
 }
 
 /// Checks each choice item to find out if it has already been uploaded or if it is the the process of being uploaded. If so, the choice item is assigned the unique id of the uploaded item.
 /// @param choices An array of choice items
-- (void)sdl_findIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
+- (void)sdl_findIdsOnChoices:(NSArray<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
-        SDLChoiceCell *uploadCell = [self.pendingPreloadChoices member:cell] ?: [self.preloadedChoices member:cell];
+        SDLChoiceCell *uploadCell;
+        if ([self.pendingPreloadChoices containsObject:cell]) {
+            uploadCell = cell;
+        } else if ([self.preloadedChoices containsObject:cell]) {
+            uploadCell = cell;
+        }
         if (uploadCell == nil) { continue; }
         cell.choiceId = uploadCell.choiceId;
     }

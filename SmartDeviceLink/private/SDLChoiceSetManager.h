@@ -45,7 +45,7 @@ extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
 /**
  Cells will be hashed by their text, image names, and VR command text. When assembling an SDLChoiceSet, you can pull objects from here, or recreate them. The preloaded versions will be used so long as their text, image names, and VR commands are the same.
  */
-@property (copy, nonatomic, readonly) NSSet<SDLChoiceCell *> *preloadedChoices;
+@property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *preloadedChoices;
 
 /**
  Initialize the manager with required dependencies

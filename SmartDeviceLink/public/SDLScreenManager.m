@@ -239,7 +239,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSSet<SDLChoiceCell *> *)preloadedChoices {
-    return _choiceSetManager.preloadedChoices;
+    return [_choiceSetManager.preloadedChoices copy];
 }
 
 - (SDLKeyboardProperties *)keyboardConfiguration {
