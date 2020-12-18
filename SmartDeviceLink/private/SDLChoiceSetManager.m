@@ -453,30 +453,30 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
 - (NSArray<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableArray<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
-    [choicesSet removeObjectsInArray:self.preloadedChoices];
+    NSMutableArray<SDLChoiceCell *> *choicesArray = [choices mutableCopy];
+    [choicesArray removeObjectsInArray:self.preloadedChoices];
 
-    return [choicesSet copy];
+    return [choicesArray copy];
 }
 
 /// Checks the passed list of choices to be deleted and returns the items that have been uploaded to the module.
 /// @param choices The choices to be deleted
 /// @return The choices that have been uploaded to the module
 - (NSArray<SDLChoiceCell *> *)sdl_choicesToBeDeletedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
-    [choicesSet intersectSet:self.preloadedChoices];
+    NSMutableArray<SDLChoiceCell *> *choicesArray;
+    choicesArray = [self intersectArray:choices secondArray:self.preloadedChoices];
 
-    return [choicesSet copy];
+    return [choicesArray copy];
 }
 
 /// Checks the passed list of choices to be deleted and returns the items that are waiting to be uploaded to the module.
 /// @param choices The choices to be deleted
 /// @return The choices that are waiting to be uploaded to the module
 - (NSArray<SDLChoiceCell *> *)sdl_choicesToBeRemovedFromPendingWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableArray<SDLChoiceCell *> *choicesSet = [choices mutableCopy];
-    [choicesSet addObjectsFromArray:self.pendingPreloadChoices];
+    NSMutableArray<SDLChoiceCell *> *choicesArray;
+    choicesArray = [self intersectArray:choices secondArray:self.pendingPreloadChoices];
 
-    return [choicesSet copy];
+    return [choicesArray copy];
 }
 
 /// Assigns a unique id to each choice item.
@@ -506,6 +506,21 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         if (uploadCell == nil) { continue; }
         cell.choiceId = uploadCell.choiceId;
     }
+}
+
+/// Replaces intersectSet function found in NSMutableSet after refactoring from NSSet/NSMutableSet to NSArray/NSMutableArray
+- (nullable NSMutableArray<SDLChoiceCell *> *)intersectArray:(NSArray<SDLChoiceCell *> *)firstArray secondArray:(NSArray<SDLChoiceCell *> *)secondArray {
+    NSMutableArray <SDLChoiceCell *> *intersectedArray;
+    NSMutableDictionary<NSString *, SDLChoiceCell *> *dict;
+    for (SDLChoiceCell *cell in firstArray) {
+        [dict setObject:cell forKey:[NSString stringWithFormat:@"%d",cell.choiceId]];
+    }
+    for (SDLChoiceCell *cell in secondArray) {
+        if ([dict objectForKey:[NSString stringWithFormat:@"%d",cell.choiceId]]) {
+            [intersectedArray addObject:cell];
+        }
+    }
+    return intersectedArray;
 }
 
 #pragma mark - Keyboard Configuration
