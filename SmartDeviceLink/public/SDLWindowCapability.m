@@ -36,13 +36,14 @@
 #import "SDLButtonCapabilities.h"
 #import "SDLDynamicUpdateCapabilities.h"
 #import "SDLImageField.h"
+#import "SDLKeyboardCapabilities.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLTextField.h"
 
 @implementation SDLWindowCapability
 
-- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
+- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities keyboardCapabilities:(nullable SDLKeyboardCapabilities *)keyboardCapabilities {
     self = [super init];
     if (!self) {
         return nil;
@@ -57,6 +58,12 @@
     self.softButtonCapabilities = softButtonCapabilities;
     self.menuLayoutsAvailable = menuLayoutsAvailable;
     self.dynamicUpdateCapabilities = dynamicUpdateCapabilities;
+    self.keyboardCapabilities = keyboardCapabilities;
+    return self;
+}
+
+- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
+    self = [self initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:dynamicUpdateCapabilities keyboardCapabilities:nil];
     return self;
 }
 
@@ -139,6 +146,14 @@
 
 - (nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
     return [self.store sdl_objectForName:SDLRPCParameterNameDynamicUpdateCapabilities ofClass:SDLDynamicUpdateCapabilities.class error:nil];
+}
+
+- (void)setKeyboardCapabilities:(nullable SDLKeyboardCapabilities *)keyboardCapabilities {
+    [self.store sdl_setObject:keyboardCapabilities forName:SDLRPCParameterNameKeyboardCapabilities];
+}
+
+- (nullable SDLKeyboardCapabilities *)keyboardCapabilities {
+    return [self.store sdl_objectForName:SDLRPCParameterNameKeyboardCapabilities ofClass:SDLKeyboardCapabilities.class error:nil];
 }
 
 @end

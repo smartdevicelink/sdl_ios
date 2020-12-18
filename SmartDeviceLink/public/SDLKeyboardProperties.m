@@ -19,17 +19,22 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
+    self = [self initWithLanguage:language keyboardLayout:keyboardLayout keypressMode:keypressMode limitedCharacterList:limitedCharacterList autoCompleteList:autoCompleteList maskInputCharacters:nil customizeKeys:nil];
+    return self;
+}
+
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList maskInputCharacters:(nullable SDLKeyboardInputMask)maskInputCharacters customizeKeys:(nullable NSArray<NSString *> *)customizeKeys {
     self = [self init];
     if (!self) {
         return nil;
     }
-
     self.language = language;
     self.keyboardLayout = keyboardLayout;
     self.keypressMode = keypressMode;
     self.limitedCharacterList = limitedCharacterList;
     self.autoCompleteList = autoCompleteList;
-
+    self.maskInputCharacters = maskInputCharacters;
+    self.customizeKeys = customizeKeys;
     return self;
 }
 
@@ -79,6 +84,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<NSString *> *)autoCompleteList {
     return [self.store sdl_objectsForName:SDLRPCParameterNameAutoCompleteList ofClass:NSString.class error:nil];
+}
+
+- (void)setMaskInputCharacters:(nullable SDLKeyboardInputMask)maskInputCharacters {
+    [self.store sdl_setObject:maskInputCharacters forName:SDLRPCParameterNameMaskInputCharacters];
+}
+
+- (nullable SDLKeyboardInputMask)maskInputCharacters {
+    return [self.store sdl_enumForName:SDLRPCParameterNameMaskInputCharacters error:nil];
+}
+
+- (void)setCustomizeKeys:(nullable NSArray<NSString *> *)customizeKeys {
+    [self.store sdl_setObject:customizeKeys forName:SDLRPCParameterNameCustomizeKeys];
+}
+
+- (nullable NSArray<NSString *> *)customizeKeys {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameCustomizeKeys ofClass:NSString.class error:nil];
 }
 
 @end

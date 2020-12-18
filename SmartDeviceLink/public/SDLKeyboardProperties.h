@@ -3,6 +3,7 @@
 
 #import "SDLRPCMessage.h"
 
+#import "SDLKeyboardInputMask.h"
 #import "SDLKeyboardLayout.h"
 #import "SDLKeypressMode.h"
 #import "SDLLanguage.h"
@@ -38,6 +39,18 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A SDLKeyboardProperties object
  */
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList;
+
+/**
+ * @param language - language
+ * @param keyboardLayout - keyboardLayout
+ * @param keypressMode - keypressMode
+ * @param limitedCharacterList - limitedCharacterList
+ * @param autoCompleteList - autoCompleteList
+ * @param maskInputCharacters - maskInputCharacters
+ * @param customizeKeys - customizeKeys
+ * @return A SDLKeyboardProperties object
+ */
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList maskInputCharacters:(nullable SDLKeyboardInputMask)maskInputCharacters customizeKeys:(nullable NSArray<NSString *> *)customizeKeys;
 
 /**
  The keyboard language
@@ -84,6 +97,21 @@ NS_ASSUME_NONNULL_BEGIN
  Optional, 1-100 items, max string length 1000 characters (note that these may not all be displayed on the screen)
  */
 @property (nullable, strong, nonatomic) NSArray<NSString *> *autoCompleteList;
+
+/**
+ * Allows an app to mask entered characters on HMI
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) SDLKeyboardInputMask maskInputCharacters;
+
+/**
+ * Array of special characters to show in customizable Keys. If omitted, keyboard will show default special characters
+ * {"array_min_size": 1, "array_max_size": 10, "string_min_length": 1, "string_max_length": 1}
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) NSArray<NSString *> *customizeKeys;
 
 @end
 
