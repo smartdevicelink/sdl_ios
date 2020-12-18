@@ -1671,11 +1671,11 @@
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
 		B3992623258C1E490048F09B /* SDLKeyboardCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B3992621258C1E480048F09B /* SDLKeyboardCapabilities.m */; };
-		B3992624258C1E490048F09B /* SDLKeyboardCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B3992622258C1E480048F09B /* SDLKeyboardCapabilities.h */; };
-		B3992629258C24130048F09B /* SDLKeyboardInputMask.h in Headers */ = {isa = PBXBuildFile; fileRef = B3992627258C24120048F09B /* SDLKeyboardInputMask.h */; };
+		B3992624258C1E490048F09B /* SDLKeyboardCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B3992622258C1E480048F09B /* SDLKeyboardCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3992629258C24130048F09B /* SDLKeyboardInputMask.h in Headers */ = {isa = PBXBuildFile; fileRef = B3992627258C24120048F09B /* SDLKeyboardInputMask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B399262A258C24130048F09B /* SDLKeyboardInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = B3992628258C24130048F09B /* SDLKeyboardInputMask.m */; };
 		B3992633258C276B0048F09B /* SDLConfigurableKeyboards.m in Sources */ = {isa = PBXBuildFile; fileRef = B3992631258C276A0048F09B /* SDLConfigurableKeyboards.m */; };
-		B3992634258C276B0048F09B /* SDLConfigurableKeyboards.h in Headers */ = {isa = PBXBuildFile; fileRef = B3992632258C276B0048F09B /* SDLConfigurableKeyboards.h */; };
+		B3992634258C276B0048F09B /* SDLConfigurableKeyboards.h in Headers */ = {isa = PBXBuildFile; fileRef = B3992632258C276B0048F09B /* SDLConfigurableKeyboards.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
 		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
