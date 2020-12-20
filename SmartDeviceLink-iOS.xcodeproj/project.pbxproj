@@ -1676,6 +1676,9 @@
 		B399262A258C24130048F09B /* SDLKeyboardInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = B3992628258C24130048F09B /* SDLKeyboardInputMask.m */; };
 		B3992633258C276B0048F09B /* SDLConfigurableKeyboards.m in Sources */ = {isa = PBXBuildFile; fileRef = B3992631258C276A0048F09B /* SDLConfigurableKeyboards.m */; };
 		B3992634258C276B0048F09B /* SDLConfigurableKeyboards.h in Headers */ = {isa = PBXBuildFile; fileRef = B3992632258C276B0048F09B /* SDLConfigurableKeyboards.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3992642258FAAE00048F09B /* SDLConfigurableKeyboardsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3992641258FAADF0048F09B /* SDLConfigurableKeyboardsSpec.m */; };
+		B399264A258FAB6B0048F09B /* SDLKeyboardCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3992649258FAB6B0048F09B /* SDLKeyboardCapabilitiesSpec.m */; };
+		B3992650258FABF70048F09B /* SDLKeyboardInputMaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B399264F258FABF60048F09B /* SDLKeyboardInputMaskSpec.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
 		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
@@ -3510,6 +3513,9 @@
 		B3992628258C24130048F09B /* SDLKeyboardInputMask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLKeyboardInputMask.m; path = public/SDLKeyboardInputMask.m; sourceTree = "<group>"; };
 		B3992631258C276A0048F09B /* SDLConfigurableKeyboards.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLConfigurableKeyboards.m; path = public/SDLConfigurableKeyboards.m; sourceTree = "<group>"; };
 		B3992632258C276B0048F09B /* SDLConfigurableKeyboards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLConfigurableKeyboards.h; path = public/SDLConfigurableKeyboards.h; sourceTree = "<group>"; };
+		B3992641258FAADF0048F09B /* SDLConfigurableKeyboardsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLConfigurableKeyboardsSpec.m; sourceTree = "<group>"; };
+		B3992649258FAB6B0048F09B /* SDLKeyboardCapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardCapabilitiesSpec.m; sourceTree = "<group>"; };
+		B399264F258FABF60048F09B /* SDLKeyboardInputMaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardInputMaskSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
 		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
@@ -3719,6 +3725,7 @@
 				162E81FD1A9BDE8A00906325 /* SDLImageTypeSpec.m */,
 				162E81FE1A9BDE8A00906325 /* SDLInteractionModeSpec.m */,
 				162E81FF1A9BDE8A00906325 /* SDLKeyboardEventSpec.m */,
+				B399264F258FABF60048F09B /* SDLKeyboardInputMaskSpec.m */,
 				162E82001A9BDE8A00906325 /* SDLKeyboardLayoutSpec.m */,
 				162E82011A9BDE8A00906325 /* SDLKeypressModeSpec.m */,
 				162E82021A9BDE8A00906325 /* SDLLanguageSpec.m */,
@@ -3989,6 +3996,7 @@
 				1EE8C4431F34A1B900FDC2CF /* SDLClimateControlDataSpec.m */,
 				885468372225CBA400994D8D /* SDLCloudAppPropertiesSpec.m */,
 				162E82951A9BDE8A00906325 /* SDLClusterModeStatusSpec.m */,
+				B3992641258FAADF0048F09B /* SDLConfigurableKeyboardsSpec.m */,
 				DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */,
 				162E82961A9BDE8A00906325 /* SDLDeviceInfoSpec.m */,
 				162E82971A9BDE8A00906325 /* SDLDeviceStatusSpec.m */,
@@ -4011,6 +4019,7 @@
 				162E829F1A9BDE8A00906325 /* SDLImageFieldSpec.m */,
 				5DB202261F5F2D030061D189 /* SDLImageResolutionSpec.m */,
 				162E82A01A9BDE8A00906325 /* SDLImageSpec.m */,
+				B3992649258FAB6B0048F09B /* SDLKeyboardCapabilitiesSpec.m */,
 				162E82A11A9BDE8A00906325 /* SDLKeyboardPropertiesSpec.m */,
 				1EAA476B2036A52F000FE74B /* SDLLightCapabilitiesSpec.m */,
 				1EAA476920369ECC000FE74B /* SDLLightControlCapabilitiesSpec.m */,
@@ -8306,6 +8315,7 @@
 				1680B11E1A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m in Sources */,
 				162E82FD1A9BDE8B00906325 /* SDLSystemContextSpec.m in Sources */,
 				162E82E21A9BDE8B00906325 /* SDLIgnitionStableStatusSpec.m in Sources */,
+				B3992642258FAAE00048F09B /* SDLConfigurableKeyboardsSpec.m in Sources */,
 				162E82EE1A9BDE8B00906325 /* SDLMediaClockFormatSpec.m in Sources */,
 				5D76751822D921CB00E8D71A /* SDLMenuLayoutSpec.m in Sources */,
 				5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */,
@@ -8586,6 +8596,7 @@
 				5D5DBF0B1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m in Sources */,
 				5DB1BCD41D243A8E002FFC37 /* SDLListFilesOperationSpec.m in Sources */,
 				8863747E22D650DE00D2671F /* SDLCloseApplicationSpec.m in Sources */,
+				B3992650258FABF70048F09B /* SDLKeyboardInputMaskSpec.m in Sources */,
 				162E834B1A9BDE8B00906325 /* SDLAlertManeuverResponseSpec.m in Sources */,
 				162E833E1A9BDE8B00906325 /* SDLShowSpec.m in Sources */,
 				5D6035D8202CF5C900A429C9 /* TestRequestProgressResponse.m in Sources */,
@@ -8595,6 +8606,7 @@
 				162E82EF1A9BDE8B00906325 /* SDLPermissionStatusSpec.m in Sources */,
 				881F388D22D904BE00DF6DCE /* SDLCancelInteractionResponseSpec.m in Sources */,
 				8BA12B1822DCF59700371E82 /* SDLUnpublishAppServiceResponseSpec.m in Sources */,
+				B399264A258FAB6B0048F09B /* SDLKeyboardCapabilitiesSpec.m in Sources */,
 				DA9F7EA61DCC05F500ACAE48 /* SDLUnsubscribeWaypointsSpec.m in Sources */,
 				1E89B0E2203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m in Sources */,
 				162E82F01A9BDE8B00906325 /* SDLPowerModeQualificationStatusSpec.m in Sources */,
