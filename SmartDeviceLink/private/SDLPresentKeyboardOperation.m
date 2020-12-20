@@ -209,6 +209,12 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
         // Notify of abort / cancellation
         [self.keyboardDelegate keyboardDidAbortWithReason:onKeyboard.event];
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskDisabled]) {
+        // Notify of key mask change
+        if ([self.keyboardDelegate respondsToSelector:@selector(keyboardDidEnableInputKeyMask:)]) {
+            const BOOL isEnabled = [onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+            [self.keyboardDelegate keyboardDidEnableInputKeyMask:isEnabled];
+        }
     }
 }
 
