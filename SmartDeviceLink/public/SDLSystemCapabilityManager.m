@@ -53,7 +53,10 @@ typedef NSString * SDLServiceID;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 @property (nullable, strong, nonatomic, readwrite) NSArray<SDLDisplayCapability *> *displays;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
+#pragma clang diagnostic pop
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
@@ -201,6 +204,8 @@ typedef NSString * SDLServiceID;
 /// @param display The old-style `SDLDisplayCapabilities` object to convert
 /// @param buttons The old-style `SDLButtonCapabilities` object to convert
 /// @param softButtons The old-style `SDLSoftButtonCapabilities` to convert
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities:(SDLDisplayCapabilities *)display buttons:(NSArray<SDLButtonCapabilities *> *)buttons softButtons:(NSArray<SDLSoftButtonCapabilities *> *)softButtons {
     SDLLogV(@"Creating display capability from deprecated display capabilities");
     // Based on deprecated Display capabilities we don't know if widgets are supported. The default MAIN window is the only window we know is supported, so it's the only one we will expose.
@@ -246,6 +251,7 @@ typedef NSString * SDLServiceID;
     displayCapability.windowCapabilities = @[defaultWindowCapability];
     return @[displayCapability];
 }
+#pragma clang diagnostic pop
 
 #pragma mark Convert New to Deprecated
 
@@ -258,7 +264,10 @@ typedef NSString * SDLServiceID;
     }
     
     // Create the deprecated capabilities for backward compatibility if developers try to access them
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SDLDisplayCapabilities *convertedCapabilities = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
     convertedCapabilities.displayType = SDLDisplayTypeGeneric; // deprecated but it is mandatory

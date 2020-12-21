@@ -156,9 +156,17 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSObject overrides
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLArtworkImageFormat imageFormat = self.fileType == SDLFileTypePNG ? SDLArtworkImageFormatPNG : SDLArtworkImageFormatJPG;
+    SDLArtwork *artwork = nil;
+    if (self.isStaticIcon) {
+        artwork = [[SDLArtwork allocWithZone:zone] initWithStaticIcon:[[NSString alloc] initWithData:self.data encoding:NSASCIIStringEncoding]];
+    } else {
+        SDLArtworkImageFormat imageFormat = self.fileType == SDLFileTypePNG ? SDLArtworkImageFormatPNG : SDLArtworkImageFormatJPG;
+        artwork = [[SDLArtwork allocWithZone:zone] initWithImage:[self.image copy] name:[self.name copy] persistent:self.isPersistent asImageFormat:imageFormat];
+    }
 
-    return [[SDLArtwork allocWithZone:zone] initWithImage:[self.image copy] name:[self.name copy] persistent:self.isPersistent asImageFormat:imageFormat];
+    artwork.overwrite = self.overwrite;
+
+    return artwork;
 }
 
 - (NSUInteger)hash {
@@ -184,7 +192,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLArtwork name: %@, image: %@, isTemplate: %@, isStaticIcon: %@", self.name, self.image, (self.isTemplate ? @"YES" : @"NO"), (self.isStaticIcon ? @"YES" : @"NO")];
+    return [NSString stringWithFormat:@"SDLArtwork name: %@, image: %@, isTemplate: %@, isStaticIcon: %@, isOverwrite: %@", self.name, self.image, (self.isTemplate ? @"YES" : @"NO"), (self.isStaticIcon ? @"YES" : @"NO"), (self.overwrite ? @"YES" : @"NO")];
 }
 
 @end

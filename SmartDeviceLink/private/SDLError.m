@@ -262,6 +262,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorRPCsFailed userInfo:userInfo];
 }
 
++ (NSError *)sdl_voiceCommandManager_pendingUpdateSuperseded {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorPendingUpdateSuperseded userInfo:@{
+        NSLocalizedDescriptionKey: @"Voice Command Manager error",
+        NSLocalizedFailureReasonErrorKey: @"Voice command operation was cancelled because it was superseded by another update"
+    }];
+}
+
 #pragma mark Choice Set Manager
 
 + (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo {
