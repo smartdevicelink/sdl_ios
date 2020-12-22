@@ -4,6 +4,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ConnectionTCPTableViewController : UITableViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@class VideoStreamSettings;
 
+@interface ConnectionTCPTableViewController : UITableViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@property (strong, nonatomic, nullable) VideoStreamSettings *videoStreamSettings;
 @end

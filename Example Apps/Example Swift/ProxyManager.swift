@@ -165,16 +165,17 @@ extension ProxyManager: SDLManagerDelegate {
             // This is our first time in a non-NONE state
             firstHMILevelState = newLevel
 
+            // Send static menu items.
+            createMenuAndGlobalVoiceCommands()
+
             // Subscribe to vehicle data.
             vehicleDataManager.subscribeToVehicleOdometer()
-
-            //Handle initial launch
-            showInitialData()
         }
 
         switch newLevel {
         case .full:
             // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
+            showInitialData()
             subscribeButtonManager.subscribeToPresetButtons()
         case .limited: break // An active NAV or MEDIA SDL app is in the background
         case .background: break // The SDL app is not in the foreground
@@ -248,15 +249,13 @@ private extension ProxyManager {
 
     /// Set the template and create the UI
     func showInitialData() {
-        // Send static menu items and soft buttons
-        createMenuAndGlobalVoiceCommands()
-        sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons()
-
         guard sdlManager.hmiLevel == .full else { return }
-
-        sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia), withCompletionHandler: nil)
+        
+        let setDisplayLayout = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
+        sdlManager.send(setDisplayLayout)
 
         updateScreen()
+        sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons(with: sdlManager)
     }
 
     /// Update the UI's textfields, images and soft buttons

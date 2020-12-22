@@ -19,6 +19,7 @@ fileprivate enum SpeechRecognitionAuthState {
     case authorized, notAuthorized, badRegion
 }
 
+@available(iOS 10.0, *)
 class AudioManager: NSObject {
     fileprivate let sdlManager: SDLManager
     fileprivate var audioData: Data?
@@ -59,7 +60,7 @@ class AudioManager: NSObject {
     func startRecording() {
         guard speechRecognitionAuthState == .authorized else {
             SDLLog.w("This app does not have permission to access the Speech Recognition API")
-            AlertManager.sendAlert(textField1: AlertSpeechPermissionsWarningText, sdlManager: sdlManager)
+            sdlManager.send(AlertManager.alertWithMessageAndCloseButton("You must give this app permission to access Speech Recognition"))
             return
         }
 
@@ -87,6 +88,7 @@ class AudioManager: NSObject {
 
 // MARK: - Audio Pass Thru Notifications
 
+@available(iOS 10.0, *)
 private extension AudioManager {
     /// SDL streams the audio data as it is collected.
     var audioDataReceivedHandler: SDLAudioPassThruHandler? {
@@ -104,19 +106,20 @@ private extension AudioManager {
     /// Called when `PerformAudioPassThru` request times out or when a `EndAudioPassThru` request is sent
     var audioPassThruEndedHandler: SDLResponseHandler? {
         return { [weak self] (request, response, error) in
-            guard let self = self, let response = response else { return }
+            guard let response = response else { return }
 
             switch response.resultCode {
             case .success: // The `PerformAudioPassThru` timed out or the "Done" button was pressed in the pop-up.
                 SDLLog.d("Audio Pass Thru ended successfully")
-                AlertManager.sendAlert(textField1: "You said: \(self.speechTranscription.isEmpty ? "No speech detected" : self.speechTranscription)", sdlManager: self.sdlManager)
+                guard let speechTranscription = self?.speechTranscription else { return }
+                self?.sdlManager.send(AlertManager.alertWithMessageAndCloseButton("You said: \(speechTranscription.isEmpty ? "No speech detected" : speechTranscription)"))
             case .aborted: // The "Cancel" button was pressed in the pop-up. Ignore this audio pass thru.
                 SDLLog.d("Audio recording canceled")
             default:
                 SDLLog.d("Audio recording not successful: \(response.resultCode)")
             }
 
-            self.stopSpeechRecognitionTask()
+            self?.stopSpeechRecognitionTask()
         }
     }
 
@@ -142,6 +145,7 @@ private extension AudioManager {
 
 // MARK: - Speech Recognition
 
+@available(iOS 10.0, *)
 private extension AudioManager {
     /// Configures speech recognition
     func startSpeechRecognitionTask() {
@@ -183,6 +187,7 @@ private extension AudioManager {
 
 // MARK: - Speech Recognition Authorization
 
+@available(iOS 10.0, *)
 extension AudioManager: SFSpeechRecognizerDelegate {
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         speechRecognitionAuthState = AudioManager.checkAuthorization(speechRecognizer: speechRecognizer)
