@@ -101,12 +101,12 @@
 
 
 #pragma mark Interactive Transition
-// method stubs to supress compiler warnings
+
 - (void)updateInteractiveTransition:(CGFloat)percentComplete {}
 - (void)finishInteractiveTransition {}
 - (void)cancelInteractiveTransition {}
 - (void)pauseInteractiveTransition {}
-@synthesize animated;
-@synthesize interactive;
+
+
 
 @end

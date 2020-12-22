@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mM3-m6-I5t">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mM3-m6-I5t">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -40,7 +40,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="t1a-s2-nn6">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="RYa-fE-Qek">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="RYa-fE-Qek">
                             <rect key="frame" x="67.5" y="6" width="240" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -51,12 +51,6 @@
                                 <action selector="connectionTypeSegmentedControlSelectedIndexDidChange:" destination="cXb-Co-0MA" eventType="valueChanged" id="i3j-Ux-1be"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9Rv-u2-0S2">
-                            <connections>
-                                <action selector="actionEditSettings:" destination="cXb-Co-0MA" id="78X-Bm-9yk"/>
-                                <segue destination="TxX-lo-zc5" kind="show" id="eSU-M4-H76"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="connectionTypeSegmentedControl" destination="RYa-fE-Qek" id="uda-9c-u0v"/>
@@ -65,150 +59,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETn-uq-A6g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1576" y="527"/>
-        </scene>
-        <!--Video Streaming Settings View Controller-->
-        <scene sceneID="tg7-tb-BYA">
-            <objects>
-                <viewController id="TxX-lo-zc5" customClass="VideoStreamingSettingsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="C8G-fd-nHI"/>
-                        <viewControllerLayoutGuide type="bottom" id="K4R-Z3-gZY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="XWV-NZ-vfh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b9p-UF-1rG">
-                                <rect key="frame" x="16" y="87" width="343" height="70"/>
-                                <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9hG-1Z-Ssk">
-                                        <rect key="frame" x="222" y="19.5" width="101" height="32"/>
-                                        <segments>
-                                            <segment title="6.2.0"/>
-                                            <segment title="7.0.0"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="actionSwitchSDLVersion:" destination="TxX-lo-zc5" eventType="valueChanged" id="v3e-s2-47S"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SDL Version:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gf3-VA-YQe">
-                                        <rect key="frame" x="20" y="0.0" width="98" height="70"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="gf3-VA-YQe" firstAttribute="leading" secondItem="b9p-UF-1rG" secondAttribute="leading" constant="20" id="KrA-3y-4WS"/>
-                                    <constraint firstAttribute="height" constant="70" id="WoQ-jt-tIN"/>
-                                    <constraint firstItem="9hG-1Z-Ssk" firstAttribute="centerY" secondItem="b9p-UF-1rG" secondAttribute="centerY" id="c5c-jz-Gr1"/>
-                                    <constraint firstAttribute="trailing" secondItem="9hG-1Z-Ssk" secondAttribute="trailing" constant="20" id="cfj-Hn-X7O"/>
-                                    <constraint firstAttribute="bottom" secondItem="gf3-VA-YQe" secondAttribute="bottom" id="mT9-YN-xAE"/>
-                                    <constraint firstItem="gf3-VA-YQe" firstAttribute="top" secondItem="b9p-UF-1rG" secondAttribute="top" id="yuk-Vi-zRa"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPY-dT-PPs" userLabel="View- Landscape">
-                                <rect key="frame" x="16" y="177" width="343" height="90"/>
-                                <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DLo-aT-RSg">
-                                        <rect key="frame" x="204" y="29.5" width="119" height="32"/>
-                                        <segments>
-                                            <segment title="-1-"/>
-                                            <segment title="-2-"/>
-                                            <segment title="-3-"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="actionSwitchLandscapePreset:" destination="TxX-lo-zc5" eventType="valueChanged" id="Hdb-zg-egn"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Supported Landscape Streaming Range" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KLP-Lq-BPg">
-                                        <rect key="frame" x="20" y="0.0" width="120" height="90"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="120" id="Tg7-6n-s16"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="75N-Gv-91y"/>
-                                    <constraint firstItem="KLP-Lq-BPg" firstAttribute="leading" secondItem="fPY-dT-PPs" secondAttribute="leading" constant="20" id="GjN-Eq-wlI"/>
-                                    <constraint firstAttribute="trailing" secondItem="DLo-aT-RSg" secondAttribute="trailing" constant="20" id="OUc-Wt-NFJ"/>
-                                    <constraint firstItem="DLo-aT-RSg" firstAttribute="centerY" secondItem="fPY-dT-PPs" secondAttribute="centerY" id="oC1-oF-asm"/>
-                                    <constraint firstAttribute="bottom" secondItem="KLP-Lq-BPg" secondAttribute="bottom" id="r5D-hx-oe8"/>
-                                    <constraint firstItem="KLP-Lq-BPg" firstAttribute="top" secondItem="fPY-dT-PPs" secondAttribute="top" id="s2p-jm-Jf7"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B0H-J8-cLN" userLabel="View- Portrait">
-                                <rect key="frame" x="16" y="287" width="343" height="90"/>
-                                <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GTs-nd-ywV">
-                                        <rect key="frame" x="204" y="29.5" width="119" height="32"/>
-                                        <segments>
-                                            <segment title="-1-"/>
-                                            <segment title="-2-"/>
-                                            <segment title="-3-"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="actionSwitchPortraitPreset:" destination="TxX-lo-zc5" eventType="valueChanged" id="Ewh-2D-plg"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Supported Portrait Streaming Range" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n7R-QE-aoE">
-                                        <rect key="frame" x="20" y="0.0" width="120" height="90"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="120" id="6xi-uH-Qdq"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="GTs-nd-ywV" firstAttribute="centerY" secondItem="B0H-J8-cLN" secondAttribute="centerY" id="Gtq-go-oE6"/>
-                                    <constraint firstAttribute="bottom" secondItem="n7R-QE-aoE" secondAttribute="bottom" id="WbG-G1-87z"/>
-                                    <constraint firstItem="n7R-QE-aoE" firstAttribute="leading" secondItem="B0H-J8-cLN" secondAttribute="leading" constant="20" id="Yep-eM-HA0"/>
-                                    <constraint firstItem="n7R-QE-aoE" firstAttribute="top" secondItem="B0H-J8-cLN" secondAttribute="top" id="gNl-yU-u6g"/>
-                                    <constraint firstAttribute="trailing" secondItem="GTs-nd-ywV" secondAttribute="trailing" constant="20" id="jW3-yY-jMu"/>
-                                    <constraint firstAttribute="height" constant="90" id="l5z-ks-kiE"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="74B-cS-mfh">
-                                <rect key="frame" x="16" y="397" width="343" height="265"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="b9p-UF-1rG" firstAttribute="leading" secondItem="XWV-NZ-vfh" secondAttribute="leadingMargin" id="11c-kD-JD7"/>
-                            <constraint firstItem="b9p-UF-1rG" firstAttribute="top" secondItem="C8G-fd-nHI" secondAttribute="bottom" constant="43" id="2D5-5C-7mX"/>
-                            <constraint firstItem="K4R-Z3-gZY" firstAttribute="top" secondItem="74B-cS-mfh" secondAttribute="bottom" constant="5" id="9gJ-Su-CvP"/>
-                            <constraint firstItem="b9p-UF-1rG" firstAttribute="trailing" secondItem="XWV-NZ-vfh" secondAttribute="trailingMargin" id="D4O-wU-6vR"/>
-                            <constraint firstItem="fPY-dT-PPs" firstAttribute="top" secondItem="b9p-UF-1rG" secondAttribute="bottom" constant="20" id="WDe-X9-b6l"/>
-                            <constraint firstItem="B0H-J8-cLN" firstAttribute="top" secondItem="fPY-dT-PPs" secondAttribute="bottom" constant="20" id="dfZ-96-yLq"/>
-                            <constraint firstItem="fPY-dT-PPs" firstAttribute="trailing" secondItem="XWV-NZ-vfh" secondAttribute="trailingMargin" id="jgt-l2-889"/>
-                            <constraint firstItem="B0H-J8-cLN" firstAttribute="trailing" secondItem="XWV-NZ-vfh" secondAttribute="trailingMargin" id="lKp-51-s5Q"/>
-                            <constraint firstItem="B0H-J8-cLN" firstAttribute="leading" secondItem="XWV-NZ-vfh" secondAttribute="leadingMargin" id="mIX-AH-Z6q"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="74B-cS-mfh" secondAttribute="trailing" id="oGj-3r-cP9"/>
-                            <constraint firstItem="74B-cS-mfh" firstAttribute="top" secondItem="B0H-J8-cLN" secondAttribute="bottom" constant="20" id="oWO-8I-1f9"/>
-                            <constraint firstItem="74B-cS-mfh" firstAttribute="leading" secondItem="XWV-NZ-vfh" secondAttribute="leadingMargin" id="t6K-d2-3M3"/>
-                            <constraint firstItem="fPY-dT-PPs" firstAttribute="leading" secondItem="XWV-NZ-vfh" secondAttribute="leadingMargin" id="yra-tt-vSX"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="rI9-fr-Fma"/>
-                    <connections>
-                        <outlet property="labDescription" destination="74B-cS-mfh" id="1Dr-Eu-E3A"/>
-                        <outlet property="toggleSDLVersion" destination="9hG-1Z-Ssk" id="gFQ-CR-tPt"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="d7T-33-tPr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2336.8000000000002" y="513.19340329835086"/>
         </scene>
     </scenes>
 </document>
