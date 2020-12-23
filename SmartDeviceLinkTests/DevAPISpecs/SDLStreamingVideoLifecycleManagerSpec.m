@@ -269,13 +269,14 @@ describe(@"test internals", ^{
         SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
 
         context(@"test didEnterStateVideoStreamStopped", ^{
-            streamingLifecycleManager.shouldAutoResume = YES;
             it(@"state before and after", ^{
+                streamingLifecycleManager.shouldAutoResume = YES;
                 SDLState *stateBefore = streamingLifecycleManager.videoStreamStateMachine.currentState;
-                [streamingLifecycleManager didEnterStateVideoStreamStopped];
-                SDLState *stateAfter = streamingLifecycleManager.videoStreamStateMachine.currentState;
-
                 expect([stateBefore isEqualToString:SDLVideoStreamManagerStateStopped]).to(equal(YES));
+
+                [streamingLifecycleManager didEnterStateVideoStreamStopped];
+
+                SDLState *stateAfter = streamingLifecycleManager.videoStreamStateMachine.currentState;
                 expect([stateAfter isEqualToString:SDLVideoStreamManagerStateStarting]).to(equal(YES));
             });
         });
@@ -287,13 +288,15 @@ describe(@"test internals", ^{
         SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
 
         context(@"test videoStreamingCapabilityUpdated", ^{
-            streamingLifecycleManager.shouldAutoResume = YES;
             SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
             streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
             it(@"expect correct state", ^{
+                streamingLifecycleManager.shouldAutoResume = YES;
                 expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).notTo(beNil());
                 expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).to(equal(videoStreamingCapabilityUpdated));
+
                 [streamingLifecycleManager didEnterStateVideoStreamStarting];
+
                 expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).to(beNil());
                 expect(streamingLifecycleManager.testVideoCapabilityUpdatedWhileStarting).to(equal(videoStreamingCapabilityUpdated));
             });
@@ -316,8 +319,9 @@ describe(@"test internals", ^{
         context(@"test didEnterStateVideoStreamSuspended", ^{
             SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
             streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
-            streamingLifecycleManager.shouldAutoResume = YES;
             it(@"expect properties to update properly", ^{
+                streamingLifecycleManager.shouldAutoResume = YES;
+
                 expect(streamingLifecycleManager.shouldAutoResume).to(equal(YES));
                 expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).notTo(beNil());
                 expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).to(equal(videoStreamingCapabilityUpdated));
