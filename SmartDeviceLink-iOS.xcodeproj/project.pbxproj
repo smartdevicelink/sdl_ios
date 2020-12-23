@@ -1550,7 +1550,6 @@
 		5DEF69611FD6FB75004B8C2F /* SDLAudioStreamManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEF69601FD6FB75004B8C2F /* SDLAudioStreamManagerSpec.m */; };
 		5DEF69661FD6FEF7004B8C2F /* SDLStreamingAudioManagerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEF69651FD6FEF7004B8C2F /* SDLStreamingAudioManagerMock.m */; };
 		5DF40B26208FA7DE00DD6FDA /* SDLMenuManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */; };
-		5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		752ECDB9228C42E100D945F4 /* SDLMenuRunScoreSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDB8228C42E100D945F4 /* SDLMenuRunScoreSpec.m */; };
 		752ECDBB228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */; };
 		7538765622DCAF5400FE8484 /* SDLShowAppMenuSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7538765522DCAF5400FE8484 /* SDLShowAppMenuSpec.m */; };
@@ -8807,7 +8806,6 @@
 				B3A3CEA025222A2900A7121D /* SDLOnAppCapabilityUpdatedSpec.m in Sources */,
 				162E831E1A9BDE8B00906325 /* SDLOnTBTClientStateSpec.m in Sources */,
 				162E83351A9BDE8B00906325 /* SDLReadDIDSpec.m in Sources */,
-				5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */,
 				4AD1F1742559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m in Sources */,
 				88B3BFA020DA8FD000943565 /* SDLFuelTypeSpec.m in Sources */,
 				162E836F1A9BDE8B00906325 /* SDLUnsubscribeVehicleDataResponseSpec.m in Sources */,
