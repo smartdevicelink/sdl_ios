@@ -13,11 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Implement subscripting methods for NSMapTable to allow for easily pushing and pulling objects.
  */
-@interface NSMapTable<KeyType, ObjectType> (Subscripting)
+@interface NSMapTable (Subscripting)
 
-- (void)setObject:(nullable ObjectType)obj forKeyedSubscript:(KeyType<NSCopying>)key;
-- (nullable ObjectType)objectForKeyedSubscript:(KeyType<NSCopying>)key;
-@property (readonly, copy) NSArray<KeyType> *allKeys;
+- (void)setObject:(nullable id)anObject forKeyedSubscript:(id<NSCopying>)key;
+- (nullable id)objectForKeyedSubscript:(id<NSCopying>)key;
 
 @end
 

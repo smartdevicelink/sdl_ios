@@ -21,6 +21,7 @@
 #import "SDLLockScreenManager.h"
 #import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
+#import "SDLMsgVersion.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnAppInterfaceUnregistered.h"
 #import "SDLOnAppServiceData.h"
@@ -62,6 +63,19 @@
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (strong, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 @property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
+- (void)didEnterStateConnected;
+@end
+
+@interface SDLLifecycleTestManager : SDLLifecycleManager
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+@property (strong, nonatomic, nullable) __kindof SDLRPCMessage *testRequest;
+@end
+
+@implementation SDLLifecycleTestManager
+// override parent method
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    self.testRequest = request;
+}
 @end
 
 @interface SDLGlobals ()
@@ -87,6 +101,29 @@ QuickConfigurationEnd
 
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
+
+describe(@"test lifecycle manager internals", ^{
+    // note: this test was created to satisfy Cocodev
+    context(@"init and assign version", ^{
+        SDLLifecycleTestManager *manager = [[SDLLifecycleTestManager alloc] init];
+        it(@"expect object to be created", ^{
+            expect(manager).notTo(beNil());
+        });
+        const UInt8 majorVersion = 9;
+        const UInt8 minorVersion = 8;
+        const UInt8 patchVersion = 7;
+        SDLMsgVersion *expectedVersion = [[SDLMsgVersion alloc] initWithMajorVersion:majorVersion minorVersion:minorVersion patchVersion:patchVersion];
+        manager.sdlMsgVersionString = [NSString stringWithFormat:@"%d.%d.%d", (int)majorVersion, (int)minorVersion, (int)patchVersion];
+        context(@"didEnterStateConnected", ^{
+            [manager didEnterStateConnected];
+            it(@"expect request to be of proper kind and with a proper version", ^{
+                expect([manager.testRequest isKindOfClass:SDLRegisterAppInterface.class]).to(equal(YES));
+                SDLRegisterAppInterface *regRequest = manager.testRequest;
+                expect([regRequest.sdlMsgVersion isEqual:expectedVersion]).to(equal(YES));
+            });
+        });
+    });
+});
 
 describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;

@@ -20,6 +20,9 @@ describe(@"getter/setter tests", ^{
 
     context(@"init", ^{
         SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] init];
+        it(@"expect object to be created", ^{
+            expect(testStruct).notTo(beNil());
+        });
         it(@"expect all properties to be nil", ^{
             expect(testStruct.appCapability).to(beNil());
         });
@@ -28,6 +31,9 @@ describe(@"getter/setter tests", ^{
     context(@"init & assign", ^{
         SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] init];
         testStruct.appCapability = appCapability;
+        it(@"expect object to be created", ^{
+            expect(testStruct).notTo(beNil());
+        });
         it(@"expect all properties to be set properly", ^{
             expect(testStruct.appCapability).to(equal(appCapability));
         });
@@ -35,6 +41,9 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithVideoStreamingCapability:", ^{
         SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] initWithAppCapability:appCapability];
+        it(@"expect object to be created", ^{
+            expect(testStruct).notTo(beNil());
+        });
         it(@"expect all properties to be set properly", ^{
             expect(testStruct.appCapability).to(equal(appCapability));
         });
@@ -50,6 +59,9 @@ describe(@"getter/setter tests", ^{
         };
         SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] initWithDictionary:dict];
 
+        it(@"expect object to be created", ^{
+            expect(testStruct).notTo(beNil());
+        });
         it(@"expect all properties to be set properly", ^{
             expect(testStruct.appCapability).to(equal(appCapability));
         });

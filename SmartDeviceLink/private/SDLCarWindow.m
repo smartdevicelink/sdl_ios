@@ -50,17 +50,14 @@ NS_ASSUME_NONNULL_BEGIN
     _renderingType = configuration.carWindowRenderingType;
     _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
 
-    //Note: the notification center can or should be local, not default
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
-    [notificationCenter addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
-    [notificationCenter addObserver:self selector:@selector(sdl_didReceiveVideoStreamSuspended:) name:SDLVideoStreamSuspendedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_willPresentLockScreenViewController:) name:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_willDismissLockScreenViewController:) name:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
-    [notificationCenter addObserver:self selector:@selector(sdl_willPresentLockScreenViewController:) name:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
-    [notificationCenter addObserver:self selector:@selector(sdl_willDismissLockScreenViewController:) name:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
-    [notificationCenter addObserver:self selector:@selector(sdl_didPresentLockScreenViewController:) name:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
-    [notificationCenter addObserver:self selector:@selector(sdl_didDismissLockScreenViewController:) name:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didPresentLockScreenViewController:) name:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didDismissLockScreenViewController:) name:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
 
     return self;
 }
@@ -81,12 +78,10 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
+    UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
     switch (self.renderingType) {
         case SDLCarWindowRenderingTypeLayer: {
-            [self.rootViewController.view.layer renderInContext:context];
+            [self.rootViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
         } break;
         case SDLCarWindowRenderingTypeViewAfterScreenUpdates: {
             [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
@@ -100,11 +95,12 @@ NS_ASSUME_NONNULL_BEGIN
     UIGraphicsEndImageContext();
 
     CGImageRef imageRef = screenshot.CGImage;
-    CVPixelBufferRef pixelBuffer = imageRef ? [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool] : nil;
+    CVPixelBufferRef pixelBuffer = [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
     if (pixelBuffer != nil) {
-        const BOOL success = [self.streamManager sendVideoData:pixelBuffer];
+        BOOL success = [self.streamManager sendVideoData:pixelBuffer];
         if (!success) {
             SDLLogE(@"Video frame will not be sent because the video frame encoding failed");
+            return;
         }
         CVPixelBufferRelease(pixelBuffer);
     } else {
@@ -113,17 +109,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateVdeoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
-    [self sdl_applyDisplayDimensionsToViewController:self.rootViewController];
+    [self sdl_applyDisplayDimensionsToRootViewController:self.rootViewController];
 }
 
 - (void)dealloc {
-    [self unsubscribeFromNotifications];
-}
-
-#pragma mark - Notifications
-
-- (void)unsubscribeFromNotifications {
-    //Note: use a proper center
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -151,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Video stream started");
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self sdl_applyDisplayDimensionsToViewController:self.rootViewController];
+        [self sdl_applyDisplayDimensionsToRootViewController:self.rootViewController];
     });
 }
 
@@ -160,16 +149,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // And also reset the streamingViewController's frame, because we are about to show it.
-        UIViewController *viewController = self.rootViewController;
-        const CGRect frame = [UIScreen mainScreen].bounds;
-        viewController.view.frame = frame;
-        viewController.view.bounds = frame;
-
+        self.rootViewController.view.frame = [UIScreen mainScreen].bounds;
         SDLLogD(@"Video stream ended, setting view controller frame back: %@", NSStringFromCGRect(self.rootViewController.view.frame));
     });
-}
-
-- (void)sdl_didReceiveVideoStreamSuspended:(NSNotification *)notification {
 }
 
 #pragma mark - Custom Accessors
@@ -187,16 +169,16 @@ NS_ASSUME_NONNULL_BEGIN
                 @throw [NSException sdl_carWindowOrientationException];
             }
 
-        [self sdl_applyDisplayDimensionsToViewController:rootViewController];
+        [self sdl_applyDisplayDimensionsToRootViewController:rootViewController];
         self->_rootViewController = rootViewController;
     });
 }
 
 #pragma mark - Private Helpers
-// memory management 'create': release the result object when done
+// memory management 'create': release the result object when done (create* - follow the naming convention)
 + (nullable CVPixelBufferRef)sdl_createPixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
-    const size_t imageWidth = CGImageGetWidth(imageRef);
-    const size_t imageHeight = CGImageGetHeight(imageRef);
+    size_t imageWidth = CGImageGetWidth(imageRef);
+    size_t imageHeight = CGImageGetHeight(imageRef);
 
     CVPixelBufferRef pixelBuffer;
     CVReturn result = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pool, &pixelBuffer);
@@ -217,13 +199,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     return pixelBuffer;
 }
-
 /**
- Sets the viewController frame to the display viewport dimensions.
+ Sets the rootViewController's frame to the display's viewport dimensions.
 
- @param viewController (aka rootViewController) The view controller to resize
+ @param rootViewController The view controller to resize
  */
-- (void)sdl_applyDisplayDimensionsToViewController:(UIViewController *)viewController {
+- (void)sdl_applyDisplayDimensionsToRootViewController:(UIViewController *)rootViewController {
     const CGSize displSize = self.streamManager.videoScaleManager.displayViewportResolution;
     if (1 > displSize.width) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
@@ -232,8 +213,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     const CGRect appFrame = self.streamManager.videoScaleManager.appViewportFrame;
-    viewController.view.frame = appFrame;
-    viewController.view.bounds = appFrame;
+    rootViewController.view.frame = appFrame;
+    rootViewController.view.bounds = appFrame;
 
     SDLLogD(@"Setting CarWindow frame to: %@ (display size: %@)", NSStringFromCGSize(appFrame.size), NSStringFromCGSize(displSize));
 }

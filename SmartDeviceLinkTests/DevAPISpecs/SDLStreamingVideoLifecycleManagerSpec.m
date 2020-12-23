@@ -17,6 +17,7 @@
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGenericResponse.h"
 #import "SDLGlobals.h"
+#import "SDLH264VideoEncoder.h"
 #import "SDLHMICapabilities.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
@@ -57,11 +58,65 @@
 @property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedLandscapeStreamingRange;
 @property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedPortraitStreamingRange;
+@property (weak, nonatomic, nullable) id<SDLStreamingMediaDelegate> delegate;
+@property (assign, nonatomic) BOOL shouldAutoResume;
+@property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapabilityUpdated;
+@property (strong, nonatomic, nullable) CADisplayLink *displayLink;
 
 - (void)shutDown;
 - (NSArray<SDLVideoStreamingCapability *>* __nullable)matchVideoCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
+- (void)suspendVideo;
+- (void)didEnterStateVideoStreamStopped;
+- (void)didEnterStateVideoStreamStarting;
+- (void)didEnterStateVideoStreamReady;
+- (void)didEnterStateVideoStreamSuspended;
+- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
 
 @end
+
+@interface SDLStreamingVideoLifecycleTestManager : SDLStreamingVideoLifecycleManager
+@property (assign) BOOL didStopVideoSession;
+@property (strong, nullable) id testVideoCapabilityUpdatedWhileStarting;
+@property (strong, nullable) id testVideoCapabilityUpdatedWhenStreaming;
+@end
+
+@implementation SDLStreamingVideoLifecycleTestManager
+
+- (BOOL)isVideoConnected {
+    return NO;
+}
+
+- (void)sdl_stopVideoSession {
+    self.didStopVideoSession = YES;
+}
+
+- (void)sdl_applyVideoCapabilityWhileStarting:(SDLVideoStreamingCapability *)videoCapabilityUpdated {
+    self.testVideoCapabilityUpdatedWhileStarting = videoCapabilityUpdated;
+}
+
+- (void)sdl_applyVideoCapabilityWhenStreaming:(nullable SDLVideoStreamingCapability *)videoCapability {
+    self.testVideoCapabilityUpdatedWhenStreaming = videoCapability;
+}
+
+- (BOOL)isAppStateVideoStreamCapable {
+    return YES;
+}
+
+- (SDLVideoStreamingFormat *)videoFormat {
+    return [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+}
+
+- (SDLH264VideoEncoder *)videoEncoder {
+    return OCMClassMock([SDLH264VideoEncoder class]);
+}
+
+- (BOOL)useDisplayLink {
+    return YES;
+}
+
+@end
+
 
 // expose private methods to the test suite
 @interface SDLVideoStreamingCapability (test)
@@ -181,6 +236,163 @@ QuickSpecEnd
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_Runtime)
 
+describe(@"test internals", ^{
+    // note: this test suite created to satisfy Cocodev
+    context(@"init extended manager", ^{
+        id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+        SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+        SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+        SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
+        it(@"suspendVideo with and without a protocol", ^{
+            expect(streamingLifecycleManager.didStopVideoSession).to(equal(NO));
+            [streamingLifecycleManager suspendVideo];
+            expect(streamingLifecycleManager.didStopVideoSession).to(equal(NO));
+            streamingLifecycleManager.protocol = protocolMock;
+            [streamingLifecycleManager suspendVideo];
+            expect(streamingLifecycleManager.didStopVideoSession).to(equal(YES));
+        });
+
+        context(@"test delegate", ^{
+            TestStreamingMediaDelegate *delegate = [[TestStreamingMediaDelegate alloc] init];
+            streamingLifecycleManager.delegate = delegate;
+            it(@"expect delegate to be stopped in time", ^{
+                expect(delegate.isStopped).to(equal(NO));
+                [streamingLifecycleManager didEnterStateVideoStreamStopped];
+                expect(delegate.isStopped).toEventually(equal(YES));
+            });
+        });
+    });
+
+    context(@"init extended manager", ^{
+        id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+        SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+        SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+
+        context(@"test didEnterStateVideoStreamStopped", ^{
+            streamingLifecycleManager.shouldAutoResume = YES;
+            it(@"state before and after", ^{
+                SDLState *stateBefore = streamingLifecycleManager.videoStreamStateMachine.currentState;
+                [streamingLifecycleManager didEnterStateVideoStreamStopped];
+                SDLState *stateAfter = streamingLifecycleManager.videoStreamStateMachine.currentState;
+
+                expect([stateBefore isEqualToString:SDLVideoStreamManagerStateStopped]).to(equal(YES));
+                expect([stateAfter isEqualToString:SDLVideoStreamManagerStateStarting]).to(equal(YES));
+            });
+        });
+    });
+
+    context(@"init extended manager", ^{
+        id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+        SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+        SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+
+        context(@"test videoStreamingCapabilityUpdated", ^{
+            streamingLifecycleManager.shouldAutoResume = YES;
+            SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
+            streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
+            it(@"expect correct state", ^{
+                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).notTo(beNil());
+                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).to(equal(videoStreamingCapabilityUpdated));
+                [streamingLifecycleManager didEnterStateVideoStreamStarting];
+                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).to(beNil());
+                expect(streamingLifecycleManager.testVideoCapabilityUpdatedWhileStarting).to(equal(videoStreamingCapabilityUpdated));
+            });
+        });
+    });
+
+    context(@"init extended manager", ^{
+        id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+        SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+        SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+
+        context(@"test didEnterStateVideoStreamReady", ^{
+            it(@"expect displayLink update properly", ^{
+                expect(streamingLifecycleManager.displayLink).to(beNil());
+                [streamingLifecycleManager didEnterStateVideoStreamReady];
+                expect([streamingLifecycleManager.displayLink isKindOfClass:[CADisplayLink class]]).toEventually(beTrue());
+            });
+        });
+
+        context(@"test didEnterStateVideoStreamSuspended", ^{
+            SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
+            streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
+            streamingLifecycleManager.shouldAutoResume = YES;
+            it(@"expect properties to update properly", ^{
+                expect(streamingLifecycleManager.shouldAutoResume).to(equal(YES));
+                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).notTo(beNil());
+                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).to(equal(videoStreamingCapabilityUpdated));
+
+                [streamingLifecycleManager didEnterStateVideoStreamSuspended];
+
+                expect(streamingLifecycleManager.shouldAutoResume).to(equal(NO));
+                expect(streamingLifecycleManager.videoStreamingCapability).toEventually(equal(videoStreamingCapabilityUpdated));
+                expect(streamingLifecycleManager.shouldAutoResume).toEventually(equal(NO));
+
+                [streamingLifecycleManager.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStarting];
+                SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
+                SDLProtocolMessage *startServiceNAK = OCMClassMock([SDLProtocolMessage class]);
+                SDLState *stateBefore = streamingLifecycleManager.videoStreamStateMachine.currentState;
+                [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceNAK:startServiceNAK];
+                SDLState *stateAfter = streamingLifecycleManager.videoStreamStateMachine.currentState;
+
+                expect(stateBefore).to(equal(SDLVideoStreamManagerStateStarting));
+                expect(stateAfter).to(equal(SDLVideoStreamManagerStateStarting));
+            });
+        });
+    });
+
+    context(@"init extended manager", ^{
+        id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+        SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+        SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+
+        context(@"test sdl_displayCapabilityDidUpdate", ^{
+            streamingLifecycleManager.shouldAutoResume = YES;
+            SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
+            streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
+            it(@"expect correct state", ^{
+                SDLSystemCapability *systemCapability = nil;
+                [streamingLifecycleManager.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStarting];
+                SDLState *stateBefore = streamingLifecycleManager.videoStreamStateMachine.currentState;
+                [streamingLifecycleManager sdl_displayCapabilityDidUpdate:systemCapability];
+                expect(streamingLifecycleManager.testVideoCapabilityUpdatedWhileStarting).to(beNil());
+                expect(streamingLifecycleManager.testVideoCapabilityUpdatedWhenStreaming).to(beNil());
+                SDLState *stateAfter = streamingLifecycleManager.videoStreamStateMachine.currentState;
+
+                expect(stateBefore).to(equal(SDLVideoStreamManagerStateStarting));
+                expect(stateAfter).to(equal(SDLVideoStreamManagerStateStarting));
+
+                systemCapability = [[SDLSystemCapability alloc] init];
+                systemCapability.videoStreamingCapability = OCMClassMock([SDLVideoStreamingCapability class]);
+
+                stateBefore = streamingLifecycleManager.videoStreamStateMachine.currentState;
+                [streamingLifecycleManager sdl_displayCapabilityDidUpdate:systemCapability];
+                expect(streamingLifecycleManager.testVideoCapabilityUpdatedWhileStarting).to(equal(systemCapability.videoStreamingCapability));
+                expect(streamingLifecycleManager.testVideoCapabilityUpdatedWhenStreaming).to(beNil());
+                stateAfter = streamingLifecycleManager.videoStreamStateMachine.currentState;
+
+                expect(stateBefore).to(equal(SDLVideoStreamManagerStateStarting));
+                expect(stateAfter).to(equal(SDLVideoStreamManagerStateStarting));
+
+                // state ready
+                streamingLifecycleManager.testVideoCapabilityUpdatedWhileStarting = nil;
+                streamingLifecycleManager.testVideoCapabilityUpdatedWhenStreaming = nil;
+
+                [streamingLifecycleManager.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
+                stateBefore = streamingLifecycleManager.videoStreamStateMachine.currentState;
+                [streamingLifecycleManager sdl_displayCapabilityDidUpdate:systemCapability];
+                expect(streamingLifecycleManager.testVideoCapabilityUpdatedWhileStarting).to(beNil());
+                expect(streamingLifecycleManager.testVideoCapabilityUpdatedWhenStreaming).to(equal(systemCapability.videoStreamingCapability));
+                stateAfter = streamingLifecycleManager.videoStreamStateMachine.currentState;
+
+                expect(stateBefore).to(equal(SDLVideoStreamManagerStateReady));
+                expect(stateAfter).to(equal(SDLVideoStreamManagerStateReady));
+            });
+        });
+    });
+
+});
+
 describe(@"runtime tests", ^{
     __block SDLStreamingVideoLifecycleManager *streamingLifecycleManager = nil;
     SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
@@ -224,6 +436,13 @@ describe(@"runtime tests", ^{
             [streamingLifecycleManager shutDown];
             streamingLifecycleManager = nil;
         }
+    });
+
+    describe(@"QQQQQ", ^{
+        context(@"", ^{
+            ;
+            [streamingLifecycleManager suspendVideo];
+        });
     });
 
     describe(@"when started", ^{

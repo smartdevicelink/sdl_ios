@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TestStreamingMediaDelegate : NSObject <SDLStreamingMediaDelegate>
 @property (nonatomic, readonly) NSArray *recordedSizes;
+@property (nonatomic, assign) BOOL isStopped;
 - (void)reset;
 @end
 

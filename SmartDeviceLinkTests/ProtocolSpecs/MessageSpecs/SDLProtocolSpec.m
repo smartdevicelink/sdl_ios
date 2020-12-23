@@ -35,9 +35,9 @@ NSDictionary* dictionaryV1 = @{SDLRPCParameterNameRequest:
                                          @{SDLRPCParameterNameCommandId:@55}}};
 NSDictionary* dictionaryV2 = @{SDLRPCParameterNameCommandId:@55};
 
-describe(@"Send StartService Tests", ^ {
+describe(@"Send StartService Tests", ^{
     context(@"Insecure", ^{
-        it(@"Should send the correct data", ^ {
+        it(@"Should send the correct data", ^{
             // Reset max protocol version before test. (This test case expects V1 header. If other test ran
             // prior to this one, SDLGlobals would keep the max protocol version and this test case would fail.)
             [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"1.0.0"];
@@ -100,7 +100,7 @@ describe(@"Send StartService Tests", ^ {
     });
     
     context(@"Secure", ^{
-        it(@"Should send the correct data", ^ {
+        it(@"Should send the correct data", ^{
             // TODO: How do we properly test the security? Assume a correct / fail?
             // TODO: The security methods need to be split out to their own class so they can be public.
             // Abstract Protocol needs to be combined into Protocol
@@ -108,9 +108,9 @@ describe(@"Send StartService Tests", ^ {
     });
 });
 
-describe(@"Send EndSession Tests", ^ {
-    context(@"During V1 session", ^ {
-        it(@"Should send the correct data", ^ {
+describe(@"Send EndSession Tests", ^{
+    context(@"During V1 session", ^{
+        it(@"Should send the correct data", ^{
             __block BOOL verified = NO;
             id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
@@ -137,8 +137,8 @@ describe(@"Send EndSession Tests", ^ {
         });
     });
     
-    context(@"During V2 session", ^ {
-        it(@"Should send the correct data", ^ {
+    context(@"During V2 session", ^{
+        it(@"Should send the correct data", ^{
             __block BOOL verified = NO;
             id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
@@ -166,8 +166,8 @@ describe(@"Send EndSession Tests", ^ {
     });
 });
 
-describe(@"Send Register Secondary Transport Tests", ^ {
-    it(@"Should send the correct data", ^ {
+describe(@"Send Register Secondary Transport Tests", ^{
+    it(@"Should send the correct data", ^{
         __block BOOL verified = NO;
         id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
         [[[transportMock stub] andDo:^(NSInvocation* invocation) {
@@ -199,14 +199,14 @@ describe(@"Send Register Secondary Transport Tests", ^ {
     });
 });
 
-describe(@"SendRPCRequest Tests", ^ {
+describe(@"SendRPCRequest Tests", ^{
     __block id mockRequest;
-    beforeEach(^ {
+    beforeEach(^{
         mockRequest = OCMPartialMock([[SDLRPCRequest alloc] init]);
     });
     
-    context(@"During V1 session", ^ {
-        it(@"Should send the correct data", ^ {
+    context(@"During V1 session", ^{
+        it(@"Should send the correct data", ^{
             [[[[mockRequest stub] andReturn:dictionaryV1] ignoringNonObjectArgs] serializeAsDictionary:1];
             
             __block BOOL verified = NO;
@@ -241,8 +241,8 @@ describe(@"SendRPCRequest Tests", ^ {
         });
     });
     
-    context(@"During V2 session", ^ {
-        it(@"Should send the correct data bulk data when bulk data is available", ^ {
+    context(@"During V2 session", ^{
+        it(@"Should send the correct data bulk data when bulk data is available", ^{
             [[[[mockRequest stub] andReturn:dictionaryV2] ignoringNonObjectArgs] serializeAsDictionary:2];
             [[[mockRequest stub] andReturn:@0x98765] correlationID];
             [[[mockRequest stub] andReturn:@"DeleteCommand"] name];
@@ -288,9 +288,9 @@ describe(@"SendRPCRequest Tests", ^ {
     });
 });
 
-describe(@"HandleBytesFromTransport Tests", ^ {
-    context(@"During V1 session", ^ {
-//        it(@"Should parse the data correctly", ^ {
+describe(@"HandleBytesFromTransport Tests", ^{
+    context(@"During V1 session", ^{
+//        it(@"Should parse the data correctly", ^{
 //            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
 //            
 //            //Override initialization methods so that our protocol will use our object instead
@@ -336,8 +336,8 @@ describe(@"HandleBytesFromTransport Tests", ^ {
 //        });
     });
     
-    context(@"During V2 session", ^ {
-//        it(@"Should parse the data correctly", ^ {
+    context(@"During V2 session", ^{
+//        it(@"Should parse the data correctly", ^{
 //            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
 //            
 //            //Override initialization methods so that our protocol will use our object instead
@@ -395,7 +395,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
     });
 });
 
-describe(@"HandleProtocolSessionStarted tests", ^ {
+describe(@"HandleProtocolSessionStarted tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
@@ -691,7 +691,7 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
         testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
     });
 
-    it(@"Should pass information along to delegate when ACKed", ^ {
+    it(@"Should pass information along to delegate when ACKed", ^{
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
 
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
@@ -711,7 +711,7 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 
-    it(@"Should pass information along to delegate when NAKed", ^ {
+    it(@"Should pass information along to delegate when NAKed", ^{
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
 
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
@@ -750,12 +750,12 @@ describe(@"HandleHeartbeatForSession Tests", ^{
         [testProtocol handleHeartbeatForSession:0x44];
     });
 
-    it(@"Should pass information along to delegate", ^ {
+    it(@"Should pass information along to delegate", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
-describe(@"OnProtocolMessageReceived Tests", ^ {
+describe(@"OnProtocolMessageReceived Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
@@ -776,12 +776,12 @@ describe(@"OnProtocolMessageReceived Tests", ^ {
         [testProtocol protocol:testProtocol didReceiveMessage:testMessage];
     });
 
-    it(@"Should pass information along to delegate", ^ {
+    it(@"Should pass information along to delegate", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
-describe(@"OnProtocolOpened Tests", ^ {
+describe(@"OnProtocolOpened Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
@@ -797,12 +797,12 @@ describe(@"OnProtocolOpened Tests", ^ {
         [testProtocol onTransportConnected];
     });
 
-    it(@"Should pass information along to delegate", ^ {
+    it(@"Should pass information along to delegate", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
-describe(@"OnProtocolClosed Tests", ^ {
+describe(@"OnProtocolClosed Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
@@ -818,8 +818,39 @@ describe(@"OnProtocolClosed Tests", ^ {
         [testProtocol onTransportDisconnected];
     });
 
-    it(@"Should pass information along to delegate", ^ {
+    it(@"Should pass information along to delegate", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
+    });
+});
+
+describe(@"delegate table test", ^{
+    id<SDLProtocolDelegate> mockDelegate = OCMProtocolMock(@protocol(SDLProtocolDelegate));
+    id mockTransport = OCMProtocolMock(@protocol(SDLTransportType));
+    __block SDLProtocol *testProtocol = nil;
+
+    beforeEach(^{
+        testProtocol = [[SDLProtocol alloc] initWithTransport:mockTransport encryptionManager:nil];
+        // add the delegate twice though it must be added once only
+        [testProtocol addDelegate:mockDelegate];
+        [testProtocol addDelegate:mockDelegate];
+    });
+
+    context(@"test created protocol", ^{
+        it(@"make sure object created", ^{
+            expect(testProtocol).notTo(beNil());
+        });
+
+        it(@"expect delegates table to contain one proper delegate alone", ^{
+            expect(testProtocol.protocolDelegateTable.allObjects.count).to(equal(1));
+            expect(testProtocol.protocolDelegateTable.allObjects.firstObject).to(equal(mockDelegate));
+        });
+    });
+
+    context(@"remove delegate", ^{
+        it(@"expect delegates table to be empty", ^{
+            [testProtocol removeDelegate:mockDelegate];
+            expect(testProtocol.protocolDelegateTable.allObjects.count).to(equal(0));
+        });
     });
 });
 

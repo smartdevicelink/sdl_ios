@@ -39,6 +39,7 @@
 
 - (void)videoManagerDidStop:(id)manager {
     SDLLogD(@"SDLStreamingMediaDelegate videoManagerDidStop");
+    self.isStopped = YES;
 }
 
 @end
