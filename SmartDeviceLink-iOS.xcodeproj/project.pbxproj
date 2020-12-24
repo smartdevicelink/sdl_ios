@@ -1672,6 +1672,7 @@
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
+		B3A0BA2925940ED100CC3BDF /* SDLCarWindowSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A0BA212593FE7400CC3BDF /* SDLCarWindowSpec.m */; };
 		B3A3CE9E2522241600A7121D /* SDLAppCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A3CE9D2522241600A7121D /* SDLAppCapabilitySpec.m */; };
 		B3A3CEA025222A2900A7121D /* SDLOnAppCapabilityUpdatedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A3CE9F25222A2900A7121D /* SDLOnAppCapabilityUpdatedSpec.m */; };
 		B3DF19ED251225300090D7BA /* TestSmartConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19EB251225300090D7BA /* TestSmartConnectionManager.m */; };
@@ -3512,6 +3513,7 @@
 		B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatusSpec.m; sourceTree = "<group>"; };
 		B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionTypeSpec.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
+		B3A0BA212593FE7400CC3BDF /* SDLCarWindowSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCarWindowSpec.m; sourceTree = "<group>"; };
 		B3A3CE9D2522241600A7121D /* SDLAppCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppCapabilitySpec.m; sourceTree = "<group>"; };
 		B3A3CE9F25222A2900A7121D /* SDLOnAppCapabilityUpdatedSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnAppCapabilityUpdatedSpec.m; sourceTree = "<group>"; };
 		B3DF19EB251225300090D7BA /* TestSmartConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSmartConnectionManager.m; sourceTree = "<group>"; };
@@ -6167,6 +6169,7 @@
 				5DAD5F8320507DF30025624C /* Text and Graphic */,
 				4AD1F16A2559952D00637FE1 /* Voice Command */,
 				5DAD5F8420507E1F0025624C /* SDLScreenManagerSpec.m */,
+				B3A0BA212593FE7400CC3BDF /* SDLCarWindowSpec.m */,
 			);
 			name = Screen;
 			sourceTree = "<group>";
@@ -8359,6 +8362,7 @@
 				5DB92D2F1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m in Sources */,
 				88DF999122035D5A00477AC1 /* SDLIAPTransportSpec.m in Sources */,
 				162E838A1A9BDE8B00906325 /* SDLSingleTireStatusSpec.m in Sources */,
+				B3A0BA2925940ED100CC3BDF /* SDLCarWindowSpec.m in Sources */,
 				5D6EB4CC1BF28DC600693731 /* NSMapTable+SubscriptingSpec.m in Sources */,
 				B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */,
 				88F37A4D226F84BE00DF119B /* SDLIAPDataSessionSpec.m in Sources */,

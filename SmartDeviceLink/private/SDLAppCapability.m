@@ -15,12 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithVideoStreamingCapability:(SDLVideoStreamingCapability *)capability {
     self = [self init];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.appCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+        self.videoStreamingCapability = capability;
     }
-
-    self.appCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
-    self.videoStreamingCapability = capability;
 
     return self;
 }
