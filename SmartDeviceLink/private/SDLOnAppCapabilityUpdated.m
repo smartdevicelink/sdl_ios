@@ -23,11 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAppCapability:(SDLAppCapability *)appCapability {
     self = [self init];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.appCapability = appCapability;
     }
-
-    self.appCapability = appCapability;
 
     return self;
 }

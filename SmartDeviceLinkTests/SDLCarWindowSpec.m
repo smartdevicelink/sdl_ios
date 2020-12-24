@@ -156,6 +156,14 @@ describe(@"test car window", ^{
                 expect(streamingLifecycleManager.sendVideoDataDidCall).to(beFalse());
                 [carWindow syncFrame];
                 expect(streamingLifecycleManager.sendVideoDataDidCall).to(beTrue());
+
+                streamingLifecycleManager.sendVideoDataDidCall = NO;
+                streamingLifecycleManager.videoScaleManager.displayViewportResolution = CGSizeMake(-1, -1);
+
+                // should not get called with wrong resolution
+                expect(streamingLifecycleManager.sendVideoDataDidCall).to(beFalse());
+                [carWindow syncFrame];
+                expect(streamingLifecycleManager.sendVideoDataDidCall).to(beFalse());
             });
         });
     });
