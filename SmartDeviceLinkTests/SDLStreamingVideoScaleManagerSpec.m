@@ -9,12 +9,13 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLStreamingVideoScaleManager.h"
+#import "SDLHapticRect.h"
+#import "SDLImageResolution.h"
 #import "SDLOnTouchEvent.h"
+#import "SDLRectangle.h"
+#import "SDLStreamingVideoScaleManager.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchCoord.h"
-#import "SDLRectangle.h"
-#import "SDLHapticRect.h"
 
 QuickSpecBegin(SDLStreamingVideoScaleManagerSpec)
 
@@ -131,6 +132,22 @@ describe(@"the streaming video scale manager", ^{
              SDLHapticRect *testRect = [videoScaleManager scaleHapticRect:hapticRect];
              expect(testRect.rect).to(equal(expectedRect));
          });
+    });
+
+    context(@"makeScaledResolution", ^{
+        videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testScale displayViewportResolution:testScreenSize];
+
+        it(@"expect scaled resolution to be of proper size", ^{
+            videoScaleManager.scale = 2.0;
+            SDLImageResolution *scaledResolution2 = [videoScaleManager makeScaledResolution];
+            SDLImageResolution *expectedResolution2 = [[SDLImageResolution alloc] initWithWidth:100 height:200];
+            expect(scaledResolution2).to(equal(expectedResolution2));
+
+            videoScaleManager.scale = 4.0;
+            SDLImageResolution *scaledResolution4 = [videoScaleManager makeScaledResolution];
+            SDLImageResolution *expectedResolution4 = [[SDLImageResolution alloc] initWithWidth:50 height:100];
+            expect(scaledResolution4).to(equal(expectedResolution4));
+        });
     });
 });
 

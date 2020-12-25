@@ -43,14 +43,25 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.resolutionHeight).to(beNil());
         expect(testStruct.resolutionWidth).to(beNil());
     });
+});
 
-    context(@"initWithWidth:height:", ^{
-        SDLImageResolution *testStruct = [[SDLImageResolution alloc] initWithWidth:width height:height];
-        SDLImageResolution *copyStruct = [testStruct copy];
-        it(@"copy ant equal test", ^{
+describe(@"method tests", ^{
+    SDLImageResolution *testStruct = [[SDLImageResolution alloc] initWithWidth:width height:height];
+    SDLImageResolution *copyStruct = [testStruct copy];
+
+    context(@"isEqual:", ^{
+
+        it(@"expect to be equal", ^{
             expect(testStruct).notTo(beNil());
             expect(copyStruct).notTo(beNil());
             expect(copyStruct).to(equal(testStruct));
+        });
+
+        it(@"expect to be not equal", ^{
+            expect(testStruct).notTo(beNil());
+            id object = [[NSObject alloc] init];
+            expect(testStruct).toNot(equal(nil));
+            expect(testStruct).toNot(equal(object));
         });
     });
 });
