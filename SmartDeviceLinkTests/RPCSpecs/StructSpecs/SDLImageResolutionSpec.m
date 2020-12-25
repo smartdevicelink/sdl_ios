@@ -59,9 +59,10 @@ describe(@"method tests", ^{
 
         it(@"expect to be not equal", ^{
             expect(testStruct).notTo(beNil());
-            id object = [[NSObject alloc] init];
-            expect(testStruct).toNot(equal(nil));
-            expect(testStruct).toNot(equal(object));
+            BOOL isEqual = [testStruct isEqual:nil];
+            expect(isEqual).to(beFalse());
+            isEqual = [testStruct isEqual:[[NSObject alloc] init]];
+            expect(isEqual).to(beFalse());
         });
     });
 });
