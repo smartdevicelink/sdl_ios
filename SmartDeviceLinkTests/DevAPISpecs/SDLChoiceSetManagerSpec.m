@@ -233,7 +233,7 @@ describe(@"choice set manager tests", ^{
         describe(@"preloading choices", ^{
             context(@"when some choices are already uploaded", ^{
                 beforeEach(^{
-                    testManager.preloadedMutableChoices = [NSMutableSet setWithArray:@[testCell1]];
+                    testManager.preloadedMutableChoices = [NSMutableArray arrayWithObject:testCell1];
 
                     [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
                     }];
@@ -257,7 +257,7 @@ describe(@"choice set manager tests", ^{
 
             context(@"when some choices are already pending", ^{
                 beforeEach(^{
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithArray:@[testCell1]];
+                    testManager.pendingMutablePreloadChoices = [NSMutableArray arrayWithObject:testCell1];
 
                     [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
                     }];
@@ -281,7 +281,7 @@ describe(@"choice set manager tests", ^{
 
             context(@"when the manager shuts down during preloading", ^{
                 beforeEach(^{
-                    testManager.pendingMutablePreloadChoices = [NSMutableArray setWithArray:@[testCell1]];
+                    testManager.pendingMutablePreloadChoices = [NSMutableArray arrayWithObject:testCell1];
 
                     [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
                     }];
@@ -316,11 +316,11 @@ describe(@"choice set manager tests", ^{
                 beforeEach(^{
                     choiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
                     pendingPresentOp = OCMClassMock([SDLPresentChoiceSetOperation class]);
-                    OCMStub(pendingPresentOp.choiceSet.choices).andReturn([NSArray setWithArray:@[testCell1]]);
+                    OCMStub(pendingPresentOp.choiceSet.choices).andReturn(@[testCell1]);
                     testManager.pendingPresentOperation = pendingPresentOp;
                     testManager.pendingPresentationSet = [[SDLChoiceSet alloc] initWithTitle:@"Test" delegate:choiceDelegate choices:@[testCell1]];
 
-                    testManager.preloadedMutableChoices = [NSMutableSet setWithObject:testCell1];
+                    testManager.preloadedMutableChoices = [NSMutableArray arrayWithObject:testCell1];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
@@ -344,7 +344,7 @@ describe(@"choice set manager tests", ^{
 
                     [testManager.transactionQueue addOperation:pendingPreloadOp];
 
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithObject:testCell1];
+                    testManager.pendingMutablePreloadChoices = [NSMutableArray arrayWithObject:testCell1];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
@@ -362,10 +362,10 @@ describe(@"choice set manager tests", ^{
                 beforeEach(^{
                     choiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
                     pendingPresentOp = OCMClassMock([SDLPresentChoiceSetOperation class]);
-                    OCMStub(pendingPresentOp.choiceSet.choices).andReturn([NSSet setWithArray:@[testCell1]]);
+                    OCMStub(pendingPresentOp.choiceSet.choices).andReturn(@[testCell1]);
                     testManager.pendingPresentOperation = pendingPresentOp;
                     testManager.pendingPresentationSet = [[SDLChoiceSet alloc] initWithTitle:@"Test" delegate:choiceDelegate choices:@[testCell1]];
-                    testManager.preloadedMutableChoices = [NSMutableSet setWithObject:testCell1];
+                    testManager.preloadedMutableChoices = [NSMutableArray arrayWithObject:testCell1];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
@@ -377,8 +377,8 @@ describe(@"choice set manager tests", ^{
                     OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
 
                     [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
-                    testManager.preloadedMutableChoices = [NSMutableSet set];
+                    testManager.pendingMutablePreloadChoices = [NSMutableArray array];
+                    testManager.preloadedMutableChoices = [NSMutableArray array];
 
                     testManager.transactionQueue.operations.lastObject.completionBlock();
 
@@ -480,8 +480,8 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
 
                     [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
-                    testManager.preloadedMutableChoices = [NSMutableSet set];
+                    testManager.pendingMutablePreloadChoices = [NSMutableArray array];
+                    testManager.preloadedMutableChoices = [NSMutableArray array];
 
                     testManager.transactionQueue.operations.lastObject.completionBlock();
 

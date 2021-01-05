@@ -13,7 +13,7 @@ QuickSpecBegin(SDLDeleteChoicesOperationSpec)
 describe(@"delete choices operation", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLDeleteChoicesOperation *testOp = nil;
-    __block NSSet<SDLChoiceCell *> *testCellsToDelete = nil;
+    __block NSArray<SDLChoiceCell *> *testCellsToDelete = nil;
 
     __block BOOL hasCalledOperationCompletionHandler = NO;
     __block NSError *resultError = nil;
@@ -22,7 +22,7 @@ describe(@"delete choices operation", ^{
         hasCalledOperationCompletionHandler = NO;
 
         testConnectionManager = [[TestConnectionManager alloc] init];
-        testCellsToDelete = [NSSet setWithArray:@[[[SDLChoiceCell alloc] initWithText:@"Text"], [[SDLChoiceCell alloc] initWithText:@"Text 2"]]];
+        testCellsToDelete = @[[[SDLChoiceCell alloc] initWithText:@"Text"], [[SDLChoiceCell alloc] initWithText:@"Text 2"]];
         testOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:testConnectionManager cellsToDelete:testCellsToDelete];
         testOp.completionBlock = ^{
             hasCalledOperationCompletionHandler = YES;

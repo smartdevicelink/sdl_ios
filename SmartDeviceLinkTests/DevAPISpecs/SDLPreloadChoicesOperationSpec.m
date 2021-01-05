@@ -58,8 +58,8 @@ describe(@"a preload choices operation", ^{
         });
 
         context(@"with artworks", ^{
-            __block NSSet<SDLChoiceCell *> *cellsWithArtwork = nil;
-            __block NSSet<SDLChoiceCell *> *cellsWithStaticIcon = nil;
+            __block NSArray<SDLChoiceCell *> *cellsWithArtwork = nil;
+            __block NSArray<SDLChoiceCell *> *cellsWithStaticIcon = nil;
             __block NSString *art1Name = @"Art1Name";
             __block NSString *art2Name = @"Art2Name";
             __block SDLArtwork *cell1Art2 = [[SDLArtwork alloc] initWithData:cellArtData2 name:art1Name fileExtension:@"png" persistent:NO];
@@ -74,8 +74,8 @@ describe(@"a preload choices operation", ^{
                 SDLArtwork *staticIconArt = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
                 SDLChoiceCell *cellWithStaticIcon = [[SDLChoiceCell alloc] initWithText:@"Static Icon" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:staticIconArt secondaryArtwork:nil];
 
-                cellsWithArtwork = [NSSet setWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
-                cellsWithStaticIcon = [NSSet setWithArray:@[cellWithStaticIcon]];
+                cellsWithArtwork = @[cell1WithArt, cell2WithArtAndSecondary];
+                cellsWithStaticIcon = @[cellWithStaticIcon];
             });
             
             context(@"if the menuName is not set", ^{
@@ -159,8 +159,8 @@ describe(@"a preload choices operation", ^{
                         SDLArtwork *staticIconArt = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
                         SDLChoiceCell *cellWithStaticIcon = [[SDLChoiceCell alloc] initWithText:@"Static Icon" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:staticIconArt secondaryArtwork:nil];
 
-                        cellsWithArtwork = [NSSet setWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
-                        cellsWithStaticIcon = [NSSet setWithArray:@[cellWithStaticIcon]];
+                        cellsWithArtwork = @[cell1WithArt, cell2WithArtAndSecondary];
+                        cellsWithStaticIcon = @[cellWithStaticIcon];
                         testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork];
                         [testOp start];
 
@@ -200,12 +200,12 @@ describe(@"a preload choices operation", ^{
         });
 
         context(@"without artworks", ^{
-            __block NSSet<SDLChoiceCell *> *cellsWithoutArtwork = nil;
+            __block NSArray<SDLChoiceCell *> *cellsWithoutArtwork = nil;
             beforeEach(^{
                 SDLChoiceCell *cellBasic = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
                 SDLChoiceCell *cellWithVR = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:@[@"Cell2"] artwork:nil secondaryArtwork:nil];
                 SDLChoiceCell *cellWithAllText = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:@"Cell2" tertiaryText:@"Cell2" voiceCommands:nil artwork:nil secondaryArtwork:nil];
-                cellsWithoutArtwork = [NSSet setWithArray:@[cellBasic, cellWithVR, cellWithAllText]];
+                cellsWithoutArtwork = @[cellBasic, cellWithVR, cellWithAllText];
             });
 
             it(@"should skip to preloading cells", ^{
