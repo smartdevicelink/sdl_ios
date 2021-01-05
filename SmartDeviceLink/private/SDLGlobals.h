@@ -40,6 +40,7 @@ extern void *const SDLConcurrentQueueName;
 
 + (instancetype)sharedGlobals;
 
+- (instancetype)init;
 - (void)setDynamicMTUSize:(NSUInteger)maxMTUSize forServiceType:(SDLServiceType)serviceType;
 - (NSUInteger)mtuSizeForServiceType:(SDLServiceType)serviceType;
 

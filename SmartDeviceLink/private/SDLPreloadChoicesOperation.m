@@ -56,7 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
     _displayName = displayName;
     _windowCapability = defaultMainWindowCapability;
     _vrOptional = isVROptional;
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]) {
+    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
+    SDLGlobals *globals = [[SDLGlobals alloc] init];
+    if ([globals.rpcVersion isLessThanVersion:version]) {
         _cellsToUpload = [self sdl_updateCellsForUniqueNames:([cells copy])];
     } else {
         _cellsToUpload = [cells mutableCopy];

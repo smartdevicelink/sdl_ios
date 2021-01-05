@@ -356,6 +356,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
     return NO;
 }
+
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
         SDLLogE(@"Attempted to present choices in an incorrect state: %@, it will not be presented", self.currentState);
@@ -548,8 +549,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark - Getters
 
-- (NSSet<SDLChoiceCell *> *)preloadedChoices {
-    __block NSSet<SDLChoiceCell *> *set = nil;
+- (NSArray<SDLChoiceCell *> *)preloadedChoices {
+    __block NSArray<SDLChoiceCell *> *set = nil;
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         set = [self->_preloadedMutableChoices copy];
     }];
@@ -557,8 +558,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     return set;
 }
 
-- (NSSet<SDLChoiceCell *> *)pendingPreloadChoices {
-    __block NSSet<SDLChoiceCell *> *set = nil;
+- (NSArray<SDLChoiceCell *> *)pendingPreloadChoices {
+    __block NSArray<SDLChoiceCell *> *set = nil;
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         set = [self->_pendingMutablePreloadChoices copy];
     }];

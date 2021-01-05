@@ -184,6 +184,16 @@ UInt32 const MenuCellIdMin = 1;
         voiceCommandCount += cell.voiceCommands.count;
     }
 
+    // Update our Lists
+    // set old list, according to version changes
+    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
+    SDLGlobals *globals = [[SDLGlobals alloc] init];
+    if ([globals.rpcVersion isLessThanVersion:version]) {
+        _oldMenuCells = self.uniqueNamedMenuCells;
+    } else {
+        _oldMenuCells = self.menuCells;
+    }
+
     // Check for duplicate titles
     if (titleCheckSet.count != [self menuCellListToBeUsed].count) {
         SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
@@ -196,11 +206,6 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]) {
-        _oldMenuCells = self.uniqueNamedMenuCells;
-    } else {
-        _oldMenuCells = self.menuCells;
-    }
     _menuCells = menuCells;
     _uniqueNamedMenuCells = @[];
 
@@ -573,7 +578,9 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (NSArray<SDLMenuCell *> *) menuCellListToBeUsed {
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]) {
+    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
+    SDLGlobals *globals = [[SDLGlobals alloc] init];
+    if ([globals.rpcVersion isLessThanVersion:version]) {
         return self.uniqueNamedMenuCells;
     } else {
         return self.menuCells;
