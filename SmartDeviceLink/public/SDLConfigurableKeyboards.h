@@ -52,7 +52,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLKeyboardLayout keyboardLayout;
 
 /**
- * {"num_min_value": null, "num_max_value": null}
+ * @property numConfigurableKeys
+ * SDL<Int> min value, SDL<Int> max value,
+ * Required
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *numConfigurableKeys;
 

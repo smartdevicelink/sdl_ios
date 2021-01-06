@@ -40,11 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithKeyboardLayout:(SDLKeyboardLayout)keyboardLayout numConfigurableKeys:(UInt32)numConfigurableKeys {
     self = [self init];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.keyboardLayout = keyboardLayout;
+        self.numConfigurableKeys = @(numConfigurableKeys);
     }
-    self.keyboardLayout = keyboardLayout;
-    self.numConfigurableKeys = @(numConfigurableKeys);
     return self;
 }
 
