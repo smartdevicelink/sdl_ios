@@ -27,13 +27,14 @@ typedef void(^SDLAlertCompletionHandler)(NSError *__nullable error);
 /// @param connectionManager The connection manager object for sending RPCs
 /// @param fileManager The file manager object for uploading files
 /// @param systemCapabilityManager The system capability manager object for reading window capabilities
+/// @param permissionManager The permission manager object for checking permissions
 /// @return The alert manager
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager;
 
-/// Starts the manager. This method is used internally.
+/// Starts the manager.
 - (void)start;
 
-/// Stops the manager. This method is used internally.
+/// Stops the manager.
 - (void)stop;
 
 /// Present the alert on the screen.
