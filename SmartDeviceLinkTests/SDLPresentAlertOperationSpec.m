@@ -152,7 +152,6 @@ describe(@"SDLPresentAlertOperation", ^{
             describe(@"with two text fields set", ^{
                 beforeEach(^{
                     testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
-
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
                 });
 
@@ -184,7 +183,6 @@ describe(@"SDLPresentAlertOperation", ^{
             describe(@"with one text field set", ^{
                 beforeEach(^{
                     testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:nil tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
-
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
                 });
 
@@ -216,7 +214,6 @@ describe(@"SDLPresentAlertOperation", ^{
             describe(@"with no text fields set", ^{
                 beforeEach(^{
                     testAlertView = [[SDLAlertView alloc] initWithText:nil secondaryText:nil tertiaryText:nil timeout:4 showWaitIndicator:YES audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
-
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
                 });
 
@@ -375,7 +372,7 @@ describe(@"SDLPresentAlertOperation", ^{
         });
     });
 
-    describe(@"uploading files", ^{
+    describe(@"uploading", ^{
         describe(@"audio files", ^{
             beforeEach(^{
                 testAlertView.audio = testAlertAudioFileData;

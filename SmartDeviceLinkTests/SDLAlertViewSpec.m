@@ -114,7 +114,7 @@ describe(@"An SDLAlertView", ^{
     });
 
     describe(@"setting invalid data", ^{
-        it(@"should thow an exception if any button has multiple states", ^{
+        it(@"should throw an exception if any button has multiple states", ^{
             SDLAlertView *testAlertView = [[SDLAlertView alloc] init];
 
             SDLSoftButtonState *state1 = [[SDLSoftButtonState alloc] initWithStateName:@"state1" text:@"state 1" image:nil];
