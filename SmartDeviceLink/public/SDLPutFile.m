@@ -22,6 +22,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSdlFileName:(NSString *)sdlFileName fileType:(SDLFileType)fileType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.sdlFileName = sdlFileName;
+    self.fileType = fileType;
+    return self;
+}
+
+- (instancetype)initWithSdlFileName:(NSString *)sdlFileName fileType:(SDLFileType)fileType persistentFile:(nullable NSNumber<SDLBool> *)persistentFile systemFile:(nullable NSNumber<SDLBool> *)systemFile offset:(nullable NSNumber<SDLUInt> *)offset length:(nullable NSNumber<SDLUInt> *)length crc:(nullable NSNumber<SDLUInt> *)crc {
+    self = [self initWithSdlFileName:sdlFileName fileType:fileType];
+    if (!self) {
+        return nil;
+    }
+    self.persistentFile = persistentFile;
+    self.systemFile = systemFile;
+    self.offset = offset;
+    self.length = length;
+    self.crc = crc;
+    return self;
+}
+
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType {
     self = [self init];
     if (!self) {

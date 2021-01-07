@@ -15,6 +15,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLFuelRange
 
+- (instancetype)initWithTypeParam:(nullable SDLFuelType)type range:(nullable NSNumber<SDLFloat> *)range level:(nullable NSNumber<SDLFloat> *)level levelState:(nullable SDLComponentVolumeStatus)levelState capacity:(nullable NSNumber<SDLFloat> *)capacity capacityUnit:(nullable SDLCapacityUnit)capacityUnit {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.type = type;
+    self.range = range;
+    self.level = level;
+    self.levelState = levelState;
+    self.capacity = capacity;
+    self.capacityUnit = capacityUnit;
+    return self;
+}
+
 - (instancetype)initWithType:(nullable SDLFuelType)type range:(float)range level:(float)level levelState:(nullable SDLComponentVolumeStatus)levelState capacity:(float)capacity capacityUnit:(nullable SDLCapacityUnit)capacityUnit {
     self = [super init];
     if (!self) {

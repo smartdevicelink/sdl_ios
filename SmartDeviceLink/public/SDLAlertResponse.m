@@ -20,6 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithTryAgainTime:(nullable NSNumber<SDLUInt> *)tryAgainTime {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.tryAgainTime = tryAgainTime;
+    return self;
+}
+
 - (void)setTryAgainTime:(nullable NSNumber<SDLInt> *)tryAgainTime {
     [self.parameters sdl_setObject:tryAgainTime forName:SDLRPCParameterNameTryAgainTime];}
 

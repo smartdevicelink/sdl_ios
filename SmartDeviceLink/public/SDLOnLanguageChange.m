@@ -21,6 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.language = language;
+    self.hmiDisplayLanguage = hmiDisplayLanguage;
+    return self;
+}
+
 - (void)setLanguage:(SDLLanguage)language {
     [self.parameters sdl_setObject:language forName:SDLRPCParameterNameLanguage];
 }

@@ -22,6 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithInteractionChoiceSetID:(UInt32)interactionChoiceSetID choiceSet:(NSArray<SDLChoice *> *)choiceSet {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.interactionChoiceSetID = @(interactionChoiceSetID);
+    self.choiceSet = choiceSet;
+    return self;
+}
+
 - (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray<SDLChoice *> *)choiceSet {
     self = [self init];
     if (!self) {

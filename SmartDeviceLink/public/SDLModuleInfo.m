@@ -13,6 +13,26 @@
 
 @implementation SDLModuleInfo
 
+- (instancetype)initWithModuleId:(NSString *)moduleId {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleId = moduleId;
+    return self;
+}
+
+- (instancetype)initWithModuleId:(NSString *)moduleId location:(nullable SDLGrid *)location serviceArea:(nullable SDLGrid *)serviceArea allowMultipleAccess:(nullable NSNumber<SDLBool> *)allowMultipleAccess {
+    self = [self initWithModuleId:moduleId];
+    if (!self) {
+        return nil;
+    }
+    self.location = location;
+    self.serviceArea = serviceArea;
+    self.allowMultipleAccess = allowMultipleAccess;
+    return self;
+}
+
 - (void)setModuleId:(NSString *)moduleId {
     [self.store sdl_setObject:moduleId forName:SDLRPCParameterNameModuleId];
 }

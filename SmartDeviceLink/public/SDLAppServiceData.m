@@ -19,6 +19,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceData
 
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceID:(NSString *)serviceID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.serviceType = serviceType;
+    self.serviceID = serviceID;
+    return self;
+}
+
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceID:(NSString *)serviceID mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData {
+    self = [self initWithServiceType:serviceType serviceID:serviceID];
+    if (!self) {
+        return nil;
+    }
+    self.mediaServiceData = mediaServiceData;
+    self.weatherServiceData = weatherServiceData;
+    self.navigationServiceData = navigationServiceData;
+    return self;
+}
+
 - (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType serviceId:(NSString *)serviceId {
     self = [super init];
     if (!self) {
@@ -26,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.serviceType = serviceType;
-    self.serviceId = serviceId;
+    self.serviceID = serviceId;
 
     return self;
 }
@@ -84,6 +105,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)serviceType {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:&error];
+}
+
+- (void)setServiceID:(NSString *)serviceID {
+    [self.store sdl_setObject:serviceID forName:SDLRPCParameterNameServiceID];
+}
+
+- (NSString *)serviceID {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
 }
 
 - (void)setServiceId:(NSString *)serviceId {

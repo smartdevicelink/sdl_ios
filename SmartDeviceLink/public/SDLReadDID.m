@@ -21,6 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithEcuName:(UInt16)ecuName didLocation:(NSArray<NSNumber<SDLUInt> *> *)didLocation {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.ecuName = @(ecuName);
+    self.didLocation = didLocation;
+    return self;
+}
+
 - (instancetype)initWithECUName:(UInt16)ecuName didLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
     self = [self init];
     if (!self) {

@@ -37,6 +37,8 @@
 
 @class SDLImage;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Add a SDLSubMenu to the Command Menu
  * <p>
@@ -50,9 +52,6 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLDeleteSubMenu SDLAddCommand SDLDeleteCommand
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SDLAddSubMenu : SDLRPCRequest
 
 /**

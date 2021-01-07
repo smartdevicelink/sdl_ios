@@ -13,6 +13,21 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLDIDResult : SDLRPCStruct
 
 /**
+ * @param resultCode - resultCode
+ * @param didLocation - @(didLocation)
+ * @return A SDLDIDResult object
+ */
+- (instancetype)initWithResultCode:(SDLVehicleDataResultCode)resultCode didLocation:(UInt16)didLocation;
+
+/**
+ * @param resultCode - resultCode
+ * @param didLocation - @(didLocation)
+ * @param data - data
+ * @return A SDLDIDResult object
+ */
+- (instancetype)initWithResultCode:(SDLVehicleDataResultCode)resultCode didLocation:(UInt16)didLocation data:(nullable NSString *)data;
+
+/**
  Individual DID result code.
 
  Required

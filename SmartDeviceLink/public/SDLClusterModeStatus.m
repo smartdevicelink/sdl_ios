@@ -10,6 +10,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLClusterModeStatus
 
+- (instancetype)initWithPowerModeActive:(BOOL)powerModeActive powerModeQualificationStatus:(SDLPowerModeQualificationStatus)powerModeQualificationStatus carModeStatus:(SDLCarModeStatus)carModeStatus powerModeStatus:(SDLPowerModeStatus)powerModeStatus {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.powerModeActive = @(powerModeActive);
+    self.powerModeQualificationStatus = powerModeQualificationStatus;
+    self.carModeStatus = carModeStatus;
+    self.powerModeStatus = powerModeStatus;
+    return self;
+}
+
 - (void)setPowerModeActive:(NSNumber<SDLBool> *)powerModeActive {
     [self.store sdl_setObject:powerModeActive forName:SDLRPCParameterNamePowerModeActive];
 }

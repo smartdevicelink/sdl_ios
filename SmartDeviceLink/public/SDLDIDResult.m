@@ -10,6 +10,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDIDResult
 
+- (instancetype)initWithResultCode:(SDLVehicleDataResultCode)resultCode didLocation:(UInt16)didLocation {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.resultCode = resultCode;
+    self.didLocation = @(didLocation);
+    return self;
+}
+
+- (instancetype)initWithResultCode:(SDLVehicleDataResultCode)resultCode didLocation:(UInt16)didLocation data:(nullable NSString *)data {
+    self = [self initWithResultCode:resultCode didLocation:didLocation];
+    if (!self) {
+        return nil;
+    }
+    self.data = data;
+    return self;
+}
+
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
     [self.store sdl_setObject:resultCode forName:SDLRPCParameterNameResultCode];
 }

@@ -1,5 +1,34 @@
-//  SDLShow.h
-//
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCRequest.h"
 
@@ -11,6 +40,8 @@
 @class SDLMetadataTags;
 @class SDLTemplateConfiguration;
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Updates the application's display text area, regardless of whether or not
@@ -34,10 +65,28 @@
  * Since SmartDeviceLink 1.0
  * See SDLAlert SDLSetMediaClockTimer
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SDLShow : SDLRPCRequest
+
+/**
+ * @param mainField1 - mainField1
+ * @param mainField2 - mainField2
+ * @param mainField3 - mainField3
+ * @param mainField4 - mainField4
+ * @param alignment - alignment
+ * @param statusBar - statusBar
+ * @param mediaClock - mediaClock
+ * @param mediaTrack - mediaTrack
+ * @param graphic - graphic
+ * @param secondaryGraphic - secondaryGraphic
+ * @param softButtons - softButtons
+ * @param customPresets - customPresets
+ * @param metadataTags - metadataTags
+ * @param templateTitle - templateTitle
+ * @param windowID - windowID
+ * @param templateConfiguration - templateConfiguration
+ * @return A SDLShow object
+ */
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic secondaryGraphic:(nullable SDLImage *)secondaryGraphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets metadataTags:(nullable SDLMetadataTags *)metadataTags templateTitle:(nullable NSString *)templateTitle windowID:(nullable NSNumber<SDLInt> *)windowID templateConfiguration:(nullable SDLTemplateConfiguration *)templateConfiguration;
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -45,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mainField2 The text displayed on the second display line
 /// @param alignment The alignment that specifies how the text should be aligned on display
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment __deprecated_msg("Use another initializer instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -55,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mainField2Type Text field metadata types
 /// @param alignment The alignment that specifies how the text should be aligned on display
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type alignment:(nullable SDLTextAlignment)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type alignment:(nullable SDLTextAlignment)alignment __deprecated_msg("Use another initializer instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -65,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mainField4 The text displayed on the fourth display line
 /// @param alignment The alignment that specifies how the text should be aligned on display
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment __deprecated_msg("Use another initializer instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -79,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mainField4Type Text field metadata types
 /// @param alignment The alignment that specifies how the text should be aligned on display
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment __deprecated_msg("Use another initializer instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -90,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mediaClock The value for the mediaClock field
 /// @param mediaTrack The text in the track field
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack __deprecated_msg("Use another initializer instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -107,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param customPresets The custom presets defined by the App
 /// @param metadata Text field metadata
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata __deprecated_msg("Use another initializer instead");
 
 /**
  * The text displayed in a single-line display, or in the upper display

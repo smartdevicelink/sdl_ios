@@ -21,6 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithEcuHeader:(nullable NSNumber<SDLUInt> *)ecuHeader dtc:(nullable NSArray<NSString *> *)dtc {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.ecuHeader = ecuHeader;
+    self.dtc = dtc;
+    return self;
+}
+
 - (void)setEcuHeader:(nullable NSNumber<SDLInt> *)ecuHeader {
     [self.parameters sdl_setObject:ecuHeader forName:SDLRPCParameterNameECUHeader];
 }

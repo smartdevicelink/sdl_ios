@@ -25,6 +25,23 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServiceData : SDLRPCStruct
 
 /**
+ * @param serviceType - serviceType
+ * @param serviceID - serviceID
+ * @return A SDLAppServiceData object
+ */
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceID:(NSString *)serviceID;
+
+/**
+ * @param serviceType - serviceType
+ * @param serviceID - serviceID
+ * @param mediaServiceData - mediaServiceData
+ * @param weatherServiceData - weatherServiceData
+ * @param navigationServiceData - navigationServiceData
+ * @return A SDLAppServiceData object
+ */
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceID:(NSString *)serviceID mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData;
+
+/**
  *  Convenience init for service type and service id.
  *
  *  @param serviceType              The type of service that is to be offered by this app.
@@ -70,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param navigationServiceData    The navigation service data
  *  @return                         A SDLAppServiceData object
  */
-- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData;
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData __deprecated_msg("Use initWithServiceType:serviceID: instead");
 
 /**
  *  The type of service that is to be offered by this app. See `AppServiceType` for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.
@@ -80,11 +97,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *serviceType;
 
 /**
+ * {"string_min_length": 1, "string_max_length": null}
+ */
+@property (strong, nonatomic) NSString *serviceID;
+
+/**
  *  A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.
  *
  *  String, Required
  */
-@property (strong, nonatomic) NSString *serviceId;
+@property (strong, nonatomic) NSString *serviceId __deprecated_msg("Use serviceID instead");
 
 /**
  *  The media service data.

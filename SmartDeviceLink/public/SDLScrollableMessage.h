@@ -1,6 +1,34 @@
-//  SDLScrollableMessage.h
-//
-
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCRequest.h"
 
@@ -18,12 +46,27 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLScrollableMessage : SDLRPCRequest
 
 /**
+ * @param scrollableMessageBody - scrollableMessageBody
+ * @return A SDLScrollableMessage object
+ */
+- (instancetype)initWithScrollableMessageBody:(NSString *)scrollableMessageBody;
+
+/**
+ * @param scrollableMessageBody - scrollableMessageBody
+ * @param timeout - timeout
+ * @param softButtons - softButtons
+ * @param cancelID - cancelID
+ * @return A SDLScrollableMessage object
+ */
+- (instancetype)initWithScrollableMessageBody:(NSString *)scrollableMessageBody timeout:(nullable NSNumber<SDLUInt> *)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(nullable NSNumber<SDLInt> *)cancelID;
+
+/**
  Convenience init for creating a scrolling message with text.
 
  @param message Body of text that can include newlines and tabs
  @return A SDLScrollableMessage object
  */
-- (instancetype)initWithMessage:(NSString *)message;
+- (instancetype)initWithMessage:(NSString *)message __deprecated_msg("Use initWithScrollableMessageBody: instead");
 
 /**
  Convenience init for creating a scrolling message with text and buttons.
@@ -34,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param cancelID An ID for this specific scrollable message to allow cancellation through the `CancelInteraction` RPC
  @return A SDLScrollableMessage object
  */
-- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID;
+- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(UInt32)cancelID __deprecated_msg("Use initWithScrollableMessageBody:timeout:softButtons:cancelID: instead");
 
 /**
  Body of text that can include newlines and tabs.

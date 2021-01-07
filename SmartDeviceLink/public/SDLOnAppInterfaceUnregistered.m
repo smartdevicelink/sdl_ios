@@ -20,6 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithReason:(SDLAppInterfaceUnregisteredReason)reason {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.reason = reason;
+    return self;
+}
+
 - (void)setReason:(SDLAppInterfaceUnregisteredReason)reason {
     [self.parameters sdl_setObject:reason forName:SDLRPCParameterNameReason];
 }

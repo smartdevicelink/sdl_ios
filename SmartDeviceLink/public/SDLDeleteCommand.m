@@ -21,6 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithCmdID:(UInt32)cmdID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.cmdID = @(cmdID);
+    return self;
+}
+
 - (instancetype)initWithId:(UInt32)commandId {
     self = [self init];
     if (!self) {

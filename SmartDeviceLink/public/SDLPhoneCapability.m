@@ -15,6 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPhoneCapability
 
+- (instancetype)initWithDialNumberEnabled:(nullable NSNumber<SDLBool> *)dialNumberEnabled {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.dialNumberEnabled = dialNumberEnabled;
+    return self;
+}
+
 - (instancetype)initWithDialNumber:(BOOL)dialNumberEnabled {
     self = [self init];
     if (!self) {

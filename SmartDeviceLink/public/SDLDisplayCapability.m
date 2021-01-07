@@ -11,11 +11,14 @@
 
 @implementation SDLDisplayCapability
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithDisplayName:(nullable NSString *)displayName windowTypeSupported:(nullable NSArray<SDLWindowTypeCapabilities *> *)windowTypeSupported windowCapabilities:(nullable NSArray<SDLWindowCapability *> *)windowCapabilities {
+    self = [self init];
     if (!self) {
         return nil;
     }
+    self.displayName = displayName;
+    self.windowTypeSupported = windowTypeSupported;
+    self.windowCapabilities = windowCapabilities;
     return self;
 }
 

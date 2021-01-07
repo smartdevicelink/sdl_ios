@@ -22,6 +22,30 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSamplingRate:(SDLSamplingRate)samplingRate maxDuration:(UInt32)maxDuration bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.samplingRate = samplingRate;
+    self.maxDuration = @(maxDuration);
+    self.bitsPerSample = bitsPerSample;
+    self.audioType = audioType;
+    return self;
+}
+
+- (instancetype)initWithSamplingRate:(SDLSamplingRate)samplingRate maxDuration:(UInt32)maxDuration bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 muteAudio:(nullable NSNumber<SDLBool> *)muteAudio {
+    self = [self initWithSamplingRate:samplingRate maxDuration:maxDuration bitsPerSample:bitsPerSample audioType:audioType];
+    if (!self) {
+        return nil;
+    }
+    self.initialPrompt = initialPrompt;
+    self.audioPassThruDisplayText1 = audioPassThruDisplayText1;
+    self.audioPassThruDisplayText2 = audioPassThruDisplayText2;
+    self.muteAudio = muteAudio;
+    return self;
+}
+
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio {
     return [self initWithInitialPrompt:initialPrompt audioPassThruDisplayText1:audioPassThruDisplayText1 audioPassThruDisplayText2:audioPassThruDisplayText2 samplingRate:samplingRate bitsPerSample:bitsPerSample audioType:audioType maxDuration:maxDuration muteAudio:muteAudio audioDataHandler:nil];
 }

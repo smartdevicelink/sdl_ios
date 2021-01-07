@@ -23,6 +23,26 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithCmdID:(UInt32)cmdID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.cmdID = @(cmdID);
+    return self;
+}
+
+- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon {
+    self = [self initWithCmdID:cmdID];
+    if (!self) {
+        return nil;
+    }
+    self.menuParams = menuParams;
+    self.vrCommands = vrCommands;
+    self.cmdIcon = cmdIcon;
+    return self;
+}
+
 - (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler {
     self = [self init];
     if (!self) {

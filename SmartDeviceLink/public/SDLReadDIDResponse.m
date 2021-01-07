@@ -22,6 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithDidResult:(nullable NSArray<SDLDIDResult *> *)didResult {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.didResult = didResult;
+    return self;
+}
+
 - (void)setDidResult:(nullable NSArray<SDLDIDResult *> *)didResult {
     [self.parameters sdl_setObject:didResult forName:SDLRPCParameterNameDIDResult];
 }

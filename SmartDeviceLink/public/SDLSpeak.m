@@ -22,11 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithTTS:(NSString *)ttsText {
-    NSArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
-    return [self initWithTTSChunks:ttsChunks];
-}
-
 - (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks {
     self = [self init];
     if (!self) {
@@ -36,6 +31,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.ttsChunks = [ttsChunks mutableCopy];
 
     return self;
+}
+
++ (instancetype)speakWithText:(NSString *)text {
+    return [[self alloc] initWithTTSChunks:[SDLTTSChunk textChunksFromString:text]];
+}
+
+- (instancetype)initWithTTS:(NSString *)ttsText {
+    NSArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
+    return [self initWithTTSChunks:ttsChunks];
 }
 
 - (void)setTtsChunks:(NSArray<SDLTTSChunk *> *)ttsChunks {

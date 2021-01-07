@@ -11,6 +11,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHMIPermissions
 
+- (instancetype)initWithAllowed:(NSArray<SDLHMILevel> *)allowed userDisallowed:(NSArray<SDLHMILevel> *)userDisallowed {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.allowed = allowed;
+    self.userDisallowed = userDisallowed;
+    return self;
+}
+
 - (void)setAllowed:(NSArray<SDLHMILevel> *)allowed {
     [self.store sdl_setObject:allowed forName:SDLRPCParameterNameAllowed];
 }

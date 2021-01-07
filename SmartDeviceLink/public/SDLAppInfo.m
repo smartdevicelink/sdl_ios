@@ -13,6 +13,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppInfo
 
+- (instancetype)initWithAppDisplayName:(NSString *)appDisplayName appBundleID:(NSString *)appBundleID appVersion:(NSString *)appVersion {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.appDisplayName = appDisplayName;
+    self.appBundleID = appBundleID;
+    self.appVersion = appVersion;
+    return self;
+}
+
+- (instancetype)initWithAppDisplayName:(NSString *)appDisplayName appBundleID:(NSString *)appBundleID appVersion:(NSString *)appVersion appIcon:(nullable NSString *)appIcon {
+    self = [self initWithAppDisplayName:appDisplayName appBundleID:appBundleID appVersion:appVersion];
+    if (!self) {
+        return nil;
+    }
+    self.appIcon = appIcon;
+    return self;
+}
+
 + (instancetype)currentAppInfo {
     static SDLAppInfo *appInfo = nil;
     if (appInfo == nil) {
@@ -51,6 +71,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)appVersion {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameAppVersion ofClass:NSString.class error:&error];
+}
+
+- (void)setAppIcon:(nullable NSString *)appIcon {
+    [self.store sdl_setObject:appIcon forName:SDLRPCParameterNameAppIcon];
+}
+
+- (nullable NSString *)appIcon {
+    return [self.store sdl_objectForName:SDLRPCParameterNameAppIcon ofClass:NSString.class error:nil];
 }
 
 @end

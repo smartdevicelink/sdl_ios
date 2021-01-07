@@ -19,6 +19,15 @@
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithWindowID:(UInt32)windowID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.windowID = @(windowID);
+    return self;
+}
+
 - (instancetype)initWithId:(NSUInteger)windowId {
     self = [self init];
     if (!self) {

@@ -21,6 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithModuleData:(SDLModuleData *)moduleData {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleData = moduleData;
+    return self;
+}
+
 - (void)setModuleData:(SDLModuleData *)moduleData {
     [self.parameters sdl_setObject:moduleData forName:SDLRPCParameterNameModuleData];
 }

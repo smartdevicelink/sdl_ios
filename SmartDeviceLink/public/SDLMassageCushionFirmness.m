@@ -9,6 +9,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMassageCushionFirmness
 
+- (instancetype)initWithCushion:(SDLMassageCushion)cushion firmness:(UInt8)firmness {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.cushion = cushion;
+    self.firmness = @(firmness);
+    return self;
+}
+
 - (instancetype)initWithMassageCushion:(SDLMassageCushion)cushion firmness:(UInt8)firmness {
     self = [super init];
     if (!self) {

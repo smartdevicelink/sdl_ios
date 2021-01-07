@@ -23,11 +23,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeleteInteractionChoiceSet : SDLRPCRequest
 
+/**
+ * @param interactionChoiceSetID - @(interactionChoiceSetID)
+ * @return A SDLDeleteInteractionChoiceSet object
+ */
+- (instancetype)initWithInteractionChoiceSetID:(UInt32)interactionChoiceSetID;
+
 /// Convenience init to delete a choice set
 ///
 /// @param choiceId A unique ID that identifies the Choice Set
 /// @return An SDLDeleteInteractionChoiceSet object
-- (instancetype)initWithId:(UInt32)choiceId;
+- (instancetype)initWithId:(UInt32)choiceId __deprecated_msg("Use initWithInteractionChoiceSetID: instead");
 
 /**
  * a unique ID that identifies the Choice Set

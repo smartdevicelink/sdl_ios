@@ -15,6 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLNavigationServiceManifest
 
+- (instancetype)initWithAcceptsWayPointsParam:(nullable NSNumber<SDLBool> *)acceptsWayPoints {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.acceptsWayPoints = acceptsWayPoints;
+    return self;
+}
+
 - (instancetype)initWithAcceptsWayPoints:(BOOL)acceptsWayPoints {
     self = [self init];
     if (!self) {

@@ -16,6 +16,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMediaServiceData
 
+- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(nullable NSNumber<SDLBool> *)isExplicit trackPlaybackProgress:(nullable NSNumber<SDLInt> *)trackPlaybackProgress trackPlaybackDuration:(nullable NSNumber<SDLInt> *)trackPlaybackDuration queuePlaybackProgress:(nullable NSNumber<SDLInt> *)queuePlaybackProgress queuePlaybackDuration:(nullable NSNumber<SDLInt> *)queuePlaybackDuration queueCurrentTrackNumber:(nullable NSNumber<SDLInt> *)queueCurrentTrackNumber queueTotalTrackCount:(nullable NSNumber<SDLInt> *)queueTotalTrackCount mediaImage:(nullable SDLImage *)mediaImage {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.mediaType = mediaType;
+    self.mediaTitle = mediaTitle;
+    self.mediaArtist = mediaArtist;
+    self.mediaAlbum = mediaAlbum;
+    self.playlistName = playlistName;
+    self.isExplicit = isExplicit;
+    self.trackPlaybackProgress = trackPlaybackProgress;
+    self.trackPlaybackDuration = trackPlaybackDuration;
+    self.queuePlaybackProgress = queuePlaybackProgress;
+    self.queuePlaybackDuration = queuePlaybackDuration;
+    self.queueCurrentTrackNumber = queueCurrentTrackNumber;
+    self.queueTotalTrackCount = queueTotalTrackCount;
+    self.mediaImage = mediaImage;
+    return self;
+}
+
 - (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaImage:(nullable SDLImage *)mediaImage mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgress:(UInt32)queuePlaybackProgress queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount {
     self = [self init];
     if (!self) {

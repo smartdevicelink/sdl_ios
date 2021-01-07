@@ -24,19 +24,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithCoordinate:(SDLLocationCoordinate *)coordinate locationName:(nullable NSString *)locationName addressLines:(nullable NSArray<NSString *> *)addressLines locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString*)phoneNumber locationImage:(nullable SDLImage *)locationImage searchAddress:(nullable SDLOasisAddress *)searchAddress {
-    self = [self initWithCoordinate:coordinate];
+- (instancetype)initWithCoordinate:(nullable SDLLocationCoordinate *)coordinate locationName:(nullable NSString *)locationName addressLines:(nullable NSArray<NSString *> *)addressLines locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString *)phoneNumber locationImage:(nullable SDLImage *)locationImage searchAddress:(nullable SDLOasisAddress *)searchAddress {
+    self = [self init];
     if (!self) {
         return nil;
     }
-
+    self.coordinate = coordinate;
     self.locationName = locationName;
     self.addressLines = addressLines;
     self.locationDescription = locationDescription;
     self.phoneNumber = phoneNumber;
     self.locationImage = locationImage;
     self.searchAddress = searchAddress;
-
     return self;
 }
 

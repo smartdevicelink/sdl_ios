@@ -32,22 +32,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSdlMsgVersion:(SDLMsgVersion *)sdlMsgVersion appName:(NSString *)appName isMediaApplication:(BOOL)isMediaApplication languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.sdlMsgVersion = sdlMsgVersion;
+    self.appName = appName;
+    self.isMediaApplication = @(isMediaApplication);
+    self.languageDesired = languageDesired;
+    self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
+    self.appID = appID;
+    return self;
+}
+
+- (instancetype)initWithSdlMsgVersion:(SDLMsgVersion *)sdlMsgVersion appName:(NSString *)appName isMediaApplication:(BOOL)isMediaApplication languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms appHMIType:(nullable NSArray<SDLAppHMIType> *)appHMIType hashID:(nullable NSString *)hashID deviceInfo:(nullable SDLDeviceInfo *)deviceInfo fullAppID:(nullable NSString *)fullAppID appInfo:(nullable SDLAppInfo *)appInfo dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithSdlMsgVersion:sdlMsgVersion appName:appName isMediaApplication:isMediaApplication languageDesired:languageDesired hmiDisplayLanguageDesired:hmiDisplayLanguageDesired appID:appID];
+    if (!self) {
+        return nil;
+    }
+    self.ttsName = ttsName;
+    self.ngnMediaScreenAppName = ngnMediaScreenAppName;
+    self.vrSynonyms = vrSynonyms;
+    self.appHMIType = appHMIType;
+    self.hashID = hashID;
+    self.deviceInfo = deviceInfo;
+    self.fullAppID = fullAppID;
+    self.appInfo = appInfo;
+    self.dayColorScheme = dayColorScheme;
+    self.nightColorScheme = nightColorScheme;
+    return self;
+}
+
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
     NSArray<SDLAppHMIType> *allHMITypes = lifecycleConfiguration.additionalAppTypes ? [lifecycleConfiguration.additionalAppTypes arrayByAddingObject:lifecycleConfiguration.appType] : @[lifecycleConfiguration.appType];
 
-    return [self initWithAppName:lifecycleConfiguration.appName
-                           appId:lifecycleConfiguration.appId
-                       fullAppId:lifecycleConfiguration.fullAppId
-                 languageDesired:lifecycleConfiguration.language
-                      isMediaApp:lifecycleConfiguration.isMedia
-                        appTypes:allHMITypes
-                    shortAppName:lifecycleConfiguration.shortAppName
-                         ttsName:lifecycleConfiguration.ttsName
-                      vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames
-       hmiDisplayLanguageDesired:lifecycleConfiguration.language
-                      resumeHash:lifecycleConfiguration.resumeHash
-                  dayColorScheme:lifecycleConfiguration.dayColorScheme
-                nightColorScheme:lifecycleConfiguration.nightColorScheme];
+    UInt8 majorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(0, 1)].intValue;
+    UInt8 minorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(2, 1)].intValue;
+    UInt8 patchVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(4, 1)].intValue;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    SDLMsgVersion *msgVersion = [[SDLMsgVersion alloc] initWithMajorVersionParam:majorVersion minorVersion:minorVersion patchVersion:@(patchVersion)];
+#pragma clang diagnostic pop
+
+    return [self initWithSdlMsgVersion:msgVersion appName:lifecycleConfiguration.appName isMediaApplication:lifecycleConfiguration.isMedia languageDesired:lifecycleConfiguration.language hmiDisplayLanguageDesired:lifecycleConfiguration.language appID:lifecycleConfiguration.appId ttsName:lifecycleConfiguration.ttsName ngnMediaScreenAppName:lifecycleConfiguration.shortAppName vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames appHMIType:allHMITypes hashID:lifecycleConfiguration.resumeHash deviceInfo:[SDLDeviceInfo currentDevice] fullAppID:lifecycleConfiguration.fullAppId appInfo:[SDLAppInfo currentAppInfo] dayColorScheme:lifecycleConfiguration.dayColorScheme nightColorScheme:lifecycleConfiguration.nightColorScheme];
 }
 
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired {

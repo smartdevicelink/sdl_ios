@@ -11,6 +11,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSingleTireStatus
 
+- (instancetype)initWithStatus:(SDLComponentVolumeStatus)status {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.status = status;
+    return self;
+}
+
+- (instancetype)initWithStatus:(SDLComponentVolumeStatus)status tpms:(nullable SDLTPMS)tpms pressure:(nullable NSNumber<SDLFloat> *)pressure {
+    self = [self initWithStatus:status];
+    if (!self) {
+        return nil;
+    }
+    self.monitoringSystemStatus = tpms;
+    self.pressure = pressure;
+    return self;
+}
+
 - (void)setStatus:(SDLComponentVolumeStatus)status {
     [self.store sdl_setObject:status forName:SDLRPCParameterNameStatus];
 }

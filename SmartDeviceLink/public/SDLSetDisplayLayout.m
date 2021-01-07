@@ -25,6 +25,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithDisplayLayout:(NSString *)displayLayout {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.displayLayout = displayLayout;
+    return self;
+}
+
+- (instancetype)initWithDisplayLayout:(NSString *)displayLayout dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithDisplayLayout:displayLayout];
+    if (!self) {
+        return nil;
+    }
+    self.dayColorScheme = dayColorScheme;
+    self.nightColorScheme = nightColorScheme;
+    return self;
+}
+
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout {
     return [self initWithLayout:predefinedLayout];
 }
@@ -40,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout dayColorScheme:(SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(SDLTemplateColorScheme *)nightColorScheme {
+- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
     return [self initWithLayout:predefinedLayout dayColorScheme:dayColorScheme nightColorScheme:nightColorScheme];
 }
 

@@ -21,6 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithType:(SDLTouchType)type event:(NSArray<SDLTouchEvent *> *)event {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.type = type;
+    self.event = event;
+    return self;
+}
+
 - (void)setType:(SDLTouchType)type {
     [self.parameters sdl_setObject:type forName:SDLRPCParameterNameType];
 }

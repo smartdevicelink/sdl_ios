@@ -21,6 +21,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithTargetID:(UInt16)targetID messageLength:(UInt16)messageLength messageData:(NSArray<NSNumber<SDLUInt> *> *)messageData {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.targetID = @(targetID);
+    self.messageLength = @(messageLength);
+    self.messageData = messageData;
+    return self;
+}
+
 - (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray<NSData *> *)data {
     self = [self init];
     if (!self) {

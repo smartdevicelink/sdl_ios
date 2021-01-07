@@ -22,6 +22,15 @@
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithAllowed:(nullable NSArray<NSNumber<SDLBool> *> *)allowed {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.allowed = allowed;
+    return self;
+}
+
 - (void)setAllowed:(nullable NSArray<NSNumber *> *)allowed {
     [self.parameters sdl_setObject:allowed forName:SDLRPCParameterNameAllowed];
 }

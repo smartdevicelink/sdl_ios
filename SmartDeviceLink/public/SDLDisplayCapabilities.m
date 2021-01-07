@@ -15,6 +15,30 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SDLDisplayCapabilities
 
+- (instancetype)initWithTextFields:(NSArray<SDLTextField *> *)textFields mediaClockFormats:(NSArray<SDLMediaClockFormat> *)mediaClockFormats graphicSupported:(BOOL)graphicSupported {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.textFields = textFields;
+    self.mediaClockFormats = mediaClockFormats;
+    self.graphicSupported = @(graphicSupported);
+    return self;
+}
+
+- (instancetype)initWithTextFields:(NSArray<SDLTextField *> *)textFields mediaClockFormats:(NSArray<SDLMediaClockFormat> *)mediaClockFormats graphicSupported:(BOOL)graphicSupported displayName:(nullable NSString *)displayName imageFields:(nullable NSArray<SDLImageField *> *)imageFields templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable screenParams:(nullable SDLScreenParams *)screenParams numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable {
+    self = [self initWithTextFields:textFields mediaClockFormats:mediaClockFormats graphicSupported:graphicSupported];
+    if (!self) {
+        return nil;
+    }
+    self.displayName = displayName;
+    self.imageFields = imageFields;
+    self.templatesAvailable = templatesAvailable;
+    self.screenParams = screenParams;
+    self.numCustomPresetsAvailable = numCustomPresetsAvailable;
+    return self;
+}
+
 - (void)setDisplayType:(SDLDisplayType)displayType {
     [self.store sdl_setObject:displayType forName:SDLRPCParameterNameDisplayType];
 }

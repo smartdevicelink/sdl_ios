@@ -24,6 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithData:(NSArray<NSString *> *)data {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.data = data;
+    return self;
+}
+
 - (void)setData:(NSArray<NSString *> *)data {
     [self.parameters sdl_setObject:data forName:SDLRPCParameterNameData];
 }

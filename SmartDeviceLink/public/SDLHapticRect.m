@@ -15,6 +15,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHapticRect
 
+- (instancetype)initWithIdParam:(UInt32)idParam rect:(SDLRectangle *)rect {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.idParam = @(idParam);
+    self.rect = rect;
+    return self;
+}
+
 - (instancetype)initWithId:(UInt32)id rect:(nonnull SDLRectangle *)rect {
     self = [self init];
     if (!self) {
@@ -25,6 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.rect = rect;
 
     return self;
+}
+
+- (void)setIdParam:(NSNumber<SDLUInt> *)idParam {
+    [self.store sdl_setObject:idParam forName:SDLRPCParameterNameId];
+}
+
+- (NSNumber<SDLInt> *)idParam {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setId:(NSNumber<SDLInt> *)id {

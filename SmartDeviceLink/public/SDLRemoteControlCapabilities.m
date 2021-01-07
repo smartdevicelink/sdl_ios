@@ -17,6 +17,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRemoteControlCapabilities
 
+- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities audioControlCapabilities:(nullable NSArray<SDLAudioControlCapabilities *> *)audioControlCapabilities hmiSettingsControlCapabilities:(nullable SDLHMISettingsControlCapabilities *)hmiSettingsControlCapabilities lightControlCapabilities:(nullable SDLLightControlCapabilities *)lightControlCapabilities seatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.climateControlCapabilities = climateControlCapabilities;
+    self.radioControlCapabilities = radioControlCapabilities;
+    self.buttonCapabilities = buttonCapabilities;
+    self.audioControlCapabilities = audioControlCapabilities;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    self.hmiSettingsControlCapabilitiesParam = hmiSettingsControlCapabilities;
+    self.lightControlCapabilitiesParam = lightControlCapabilities;
+#pragma clang diagnostic pop
+    self.seatControlCapabilities = seatControlCapabilities;
+    return self;
+}
+
 - (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities seatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities audioControlCapabilities:(nullable NSArray<SDLAudioControlCapabilities *> *)audioControlCapabilities hmiSettingsControlCapabilities:(nullable NSArray<SDLHMISettingsControlCapabilities *> *)hmiSettingsControlCapabilities lightControlCapabilities:(nullable NSArray<SDLLightControlCapabilities *> *)lightControlCapabilities {
     self = [super init];
     if (!self) {
@@ -110,6 +128,22 @@ NS_ASSUME_NONNULL_BEGIN
     if (capability == nil) { return nil; }
 
     return @[capability];
+}
+
+- (void)setHmiSettingsControlCapabilitiesParam:(nullable SDLHMISettingsControlCapabilities *)hmiSettingsControlCapabilities {
+    [self.store sdl_setObject:hmiSettingsControlCapabilities forName:SDLRPCParameterNameHmiSettingsControlCapabilities];
+}
+
+- (nullable SDLHMISettingsControlCapabilities *)hmiSettingsControlCapabilitiesParam {
+    return [self.store sdl_objectForName:SDLRPCParameterNameHmiSettingsControlCapabilities ofClass:SDLHMISettingsControlCapabilities.class error:nil];
+}
+
+- (void)setLightControlCapabilitiesParam:(nullable SDLLightControlCapabilities *)lightControlCapabilities {
+    [self.store sdl_setObject:lightControlCapabilities forName:SDLRPCParameterNameLightControlCapabilities];
+}
+
+- (nullable SDLLightControlCapabilities *)lightControlCapabilitiesParam {
+    return [self.store sdl_objectForName:SDLRPCParameterNameLightControlCapabilities ofClass:SDLLightControlCapabilities.class error:nil];
 }
 
 @end

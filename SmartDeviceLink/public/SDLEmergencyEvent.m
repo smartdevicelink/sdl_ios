@@ -10,6 +10,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLEmergencyEvent
 
+- (instancetype)initWithEmergencyEventType:(SDLEmergencyEventType)emergencyEventType fuelCutoffStatus:(SDLFuelCutoffStatus)fuelCutoffStatus rolloverEvent:(SDLVehicleDataEventStatus)rolloverEvent maximumChangeVelocity:(UInt8)maximumChangeVelocity multipleEvents:(SDLVehicleDataEventStatus)multipleEvents {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.emergencyEventType = emergencyEventType;
+    self.fuelCutoffStatus = fuelCutoffStatus;
+    self.rolloverEvent = rolloverEvent;
+    self.maximumChangeVelocity = @(maximumChangeVelocity);
+    self.multipleEvents = multipleEvents;
+    return self;
+}
+
 - (void)setEmergencyEventType:(SDLEmergencyEventType)emergencyEventType {
     [self.store sdl_setObject:emergencyEventType forName:SDLRPCParameterNameEmergencyEventType];
 }

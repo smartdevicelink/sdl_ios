@@ -21,6 +21,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithChoiceID:(nullable NSNumber<SDLUInt> *)choiceID manualTextEntry:(nullable NSString *)manualTextEntry triggerSource:(nullable SDLTriggerSource)triggerSource {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.choiceID = choiceID;
+    self.manualTextEntry = manualTextEntry;
+    self.triggerSource = triggerSource;
+    return self;
+}
+
 - (void)setChoiceID:(nullable NSNumber<SDLInt> *)choiceID {
     [self.parameters sdl_setObject:choiceID forName:SDLRPCParameterNameChoiceId];
 }

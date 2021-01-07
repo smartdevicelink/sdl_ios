@@ -21,6 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithSpaceAvailable:(nullable NSNumber<SDLUInt> *)spaceAvailable {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.spaceAvailable = spaceAvailable;
+    return self;
+}
+
 - (void)setSpaceAvailable:(nullable NSNumber<SDLInt> *)spaceAvailable {
     [self.parameters sdl_setObject:spaceAvailable forName:SDLRPCParameterNameSpaceAvailable];
 }

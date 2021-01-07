@@ -21,6 +21,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithRequestType:(SDLRequestType)requestType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.requestType = requestType;
+    return self;
+}
+
+- (instancetype)initWithRequestType:(SDLRequestType)requestType requestSubType:(nullable NSString *)requestSubType fileName:(nullable NSString *)fileName {
+    self = [self initWithRequestType:requestType];
+    if (!self) {
+        return nil;
+    }
+    self.requestSubType = requestSubType;
+    self.fileName = fileName;
+    return self;
+}
+
 - (instancetype)initWithType:(SDLRequestType)requestType fileName:(nullable NSString *)fileName {
     self = [self init];
     if (!self) {

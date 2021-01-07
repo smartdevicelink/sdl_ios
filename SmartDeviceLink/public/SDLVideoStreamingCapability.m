@@ -17,6 +17,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLUInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported diagonalScreenSize:(nullable NSNumber<SDLFloat> *)diagonalScreenSize pixelPerInch:(nullable NSNumber<SDLFloat> *)pixelPerInch scale:(nullable NSNumber<SDLFloat> *)scale {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.preferredResolution = preferredResolution;
+    self.maxBitrate = maxBitrate;
+    self.supportedFormats = supportedFormats;
+    self.hapticSpatialDataSupported = hapticSpatialDataSupported;
+    self.diagonalScreenSize = diagonalScreenSize;
+    self.pixelPerInch = pixelPerInch;
+    self.scale = scale;
+    return self;
+}
+
 - (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale {
     self = [self init];
     if (!self) {

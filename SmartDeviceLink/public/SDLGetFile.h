@@ -25,6 +25,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFileName:(NSString *)fileName;
 
 /**
+ * @param fileName - fileName
+ * @param appServiceId - appServiceId
+ * @param fileType - fileType
+ * @param offset - offset
+ * @param length - length
+ * @return A SDLGetFile object
+ */
+- (instancetype)initWithFileNameParam:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(nullable NSNumber<SDLUInt> *)offset length:(nullable NSNumber<SDLUInt> *)length __deprecated_msg("This will eventually be replaced with a non-param initializer");
+
+/**
  *  Convenience init for sending a small file.
  *
  *  @param fileName     File name that should be retrieved.
@@ -32,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param fileType     Selected file type
  *  @return             A SDLGetFile object
  */
-- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType;
+- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType __deprecated_msg("Use initWithFileName: instead");
 
 /**
  *  Convenience init for sending a large file in multiple data chunks.
@@ -44,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param length       Length in bytes for resuming partial data chunks
  *  @return             A SDLGetFile object
  */
-- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(UInt32)offset length:(UInt32)length;
+- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(UInt32)offset length:(UInt32)length __deprecated_msg("The parameter types will eventually change");
 
 /**
  *  File name that should be retrieved.

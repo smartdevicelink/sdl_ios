@@ -20,6 +20,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName buttonPressMode:(SDLButtonPressMode)buttonPressMode {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.buttonName = buttonName;
+    self.buttonPressMode = buttonPressMode;
+    return self;
+}
+
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName buttonPressMode:(SDLButtonPressMode)buttonPressMode customButtonID:(nullable NSNumber<SDLUInt> *)customButtonID {
+    self = [self initWithButtonName:buttonName buttonPressMode:buttonPressMode];
+    if (!self) {
+        return nil;
+    }
+    self.customButtonID = customButtonID;
+    return self;
+}
+
 - (void)setButtonName:(SDLButtonName)buttonName {
     [self.parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
 }

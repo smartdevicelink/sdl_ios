@@ -23,7 +23,16 @@
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleId:(NSString *)moduleId {
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleType = moduleType;
+    return self;
+}
+
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType moduleId:(nullable NSString *)moduleId {
     self = [self init];
     if (!self) {
         return nil;

@@ -11,6 +11,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLImageResolution
 
+- (instancetype)initWithResolutionWidth:(UInt16)resolutionWidth resolutionHeight:(UInt16)resolutionHeight {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.resolutionWidth = @(resolutionWidth);
+    self.resolutionHeight = @(resolutionHeight);
+    return self;
+}
+
 - (instancetype)initWithWidth:(uint16_t)width height:(uint16_t)height {
     self = [self init];
     if (!self) { return nil; }

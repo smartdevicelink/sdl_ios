@@ -21,6 +21,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithEcuName:(UInt16)ecuName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.ecuName = @(ecuName);
+    return self;
+}
+
+- (instancetype)initWithEcuName:(UInt16)ecuName dtcMask:(nullable NSNumber<SDLUInt> *)dtcMask {
+    self = [self initWithEcuName:ecuName];
+    if (!self) {
+        return nil;
+    }
+    self.dtcMask = dtcMask;
+    return self;
+}
+
 - (instancetype)initWithECUName:(UInt16)name mask:(UInt8)mask {
     self = [self initWithECUName:name];
     if (!self) {

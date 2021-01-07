@@ -16,6 +16,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTemplateColorScheme
 
+- (instancetype)initWithPrimaryColorParam:(nullable SDLRGBColor *)primaryColor secondaryColor:(nullable SDLRGBColor *)secondaryColor backgroundColor:(nullable SDLRGBColor *)backgroundColor {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.primaryColor = primaryColor;
+    self.secondaryColor = secondaryColor;
+    self.backgroundColor = backgroundColor;
+    return self;
+}
+
 - (instancetype)initWithPrimaryRGBColor:(SDLRGBColor *)primaryColor secondaryRGBColor:(SDLRGBColor *)secondaryColor backgroundRGBColor:(SDLRGBColor *)backgroundColor {
     self = [self init];
     if (!self) { return nil; }
@@ -36,6 +47,16 @@ NS_ASSUME_NONNULL_BEGIN
     self.backgroundColor = [[SDLRGBColor alloc] initWithColor:backgroundColor];
 
     return self;
+}
+
++ (instancetype)schemeWithPrimaryUIColor:(UIColor *)primaryColor secondaryUIColor:(UIColor *)secondaryColor backgroundUIColor:(UIColor *)backgroundColor {
+    SDLTemplateColorScheme *colorScheme = [[SDLTemplateColorScheme alloc] init];
+
+    colorScheme.primaryColor = [[SDLRGBColor alloc] initWithColor:primaryColor];
+    colorScheme.secondaryColor = [[SDLRGBColor alloc] initWithColor:secondaryColor];
+    colorScheme.backgroundColor = [[SDLRGBColor alloc] initWithColor:backgroundColor];
+
+    return colorScheme;
 }
 
 - (void)setPrimaryColor:(nullable SDLRGBColor *)primaryColor {

@@ -12,6 +12,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTouchEvent
 
+- (instancetype)initWithIdParam:(UInt8)idParam ts:(NSArray<NSNumber<SDLUInt> *> *)ts c:(NSArray<SDLTouchCoord *> *)c {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.idParam = @(idParam);
+    self.timeStamp = ts;
+    self.coord = c;
+    return self;
+}
+
+- (void)setIdParam:(NSNumber<SDLUInt> *)idParam {
+    [self.store sdl_setObject:idParam forName:SDLRPCParameterNameId];
+}
+
+- (NSNumber<SDLUInt> *)idParam {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
+}
+
 - (void)setTouchEventId:(NSNumber<SDLInt> *)touchEventId {
     [self.store sdl_setObject:touchEventId forName:SDLRPCParameterNameId];
 }

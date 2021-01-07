@@ -11,6 +11,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTouchCoord
 
+- (instancetype)initWithX:(UInt16)x y:(UInt16)y {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.x = @(x);
+    self.y = @(y);
+    return self;
+}
+
 - (void)setX:(NSNumber<SDLFloat> *)x {
     [self.store sdl_setObject:x forName:SDLRPCParameterNameX];
 }

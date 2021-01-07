@@ -11,6 +11,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMenuParams
 
+- (instancetype)initWithMenuName:(NSString *)menuName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.menuName = menuName;
+    return self;
+}
+
+- (instancetype)initWithMenuName:(NSString *)menuName parentID:(nullable NSNumber<SDLUInt> *)parentID position:(nullable NSNumber<SDLUInt> *)position {
+    self = [self initWithMenuName:menuName];
+    if (!self) {
+        return nil;
+    }
+    self.parentID = parentID;
+    self.position = position;
+    return self;
+}
+
 - (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position {
     self = [self initWithMenuName:menuName];
     if (!self) {
@@ -19,17 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.parentID = @(parentId);
     self.position = @(position);
-
-    return self;
-}
-
-- (instancetype)initWithMenuName:(NSString *)menuName {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.menuName = menuName;
 
     return self;
 }

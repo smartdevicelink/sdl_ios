@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Describes the status of a window of a door/liftgate etc.
  *
- * @since SDL 7.0.0
+ * @added in SmartDeviceLink 7.0.0
  */
 @interface SDLWindowStatus : SDLRPCStruct
 

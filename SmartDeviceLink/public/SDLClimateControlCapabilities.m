@@ -10,6 +10,41 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLClimateControlCapabilities
 
+- (instancetype)initWithModuleName:(NSString *)moduleName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.moduleName = moduleName;
+    return self;
+}
+
+- (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo currentTemperatureAvailable:(nullable NSNumber<SDLBool> *)currentTemperatureAvailable fanSpeedAvailable:(nullable NSNumber<SDLBool> *)fanSpeedAvailable desiredTemperatureAvailable:(nullable NSNumber<SDLBool> *)desiredTemperatureAvailable acEnableAvailable:(nullable NSNumber<SDLBool> *)acEnableAvailable acMaxEnableAvailable:(nullable NSNumber<SDLBool> *)acMaxEnableAvailable circulateAirEnableAvailable:(nullable NSNumber<SDLBool> *)circulateAirEnableAvailable autoModeEnableAvailable:(nullable NSNumber<SDLBool> *)autoModeEnableAvailable dualModeEnableAvailable:(nullable NSNumber<SDLBool> *)dualModeEnableAvailable defrostZoneAvailable:(nullable NSNumber<SDLBool> *)defrostZoneAvailable defrostZone:(nullable NSArray<SDLDefrostZone> *)defrostZone ventilationModeAvailable:(nullable NSNumber<SDLBool> *)ventilationModeAvailable ventilationMode:(nullable NSArray<SDLVentilationMode> *)ventilationMode heatedSteeringWheelAvailable:(nullable NSNumber<SDLBool> *)heatedSteeringWheelAvailable heatedWindshieldAvailable:(nullable NSNumber<SDLBool> *)heatedWindshieldAvailable heatedRearWindowAvailable:(nullable NSNumber<SDLBool> *)heatedRearWindowAvailable heatedMirrorsAvailable:(nullable NSNumber<SDLBool> *)heatedMirrorsAvailable climateEnableAvailable:(nullable NSNumber<SDLBool> *)climateEnableAvailable {
+    self = [self initWithModuleName:moduleName];
+    if (!self) {
+        return nil;
+    }
+    self.moduleInfo = moduleInfo;
+    self.currentTemperatureAvailable = currentTemperatureAvailable;
+    self.fanSpeedAvailable = fanSpeedAvailable;
+    self.desiredTemperatureAvailable = desiredTemperatureAvailable;
+    self.acEnableAvailable = acEnableAvailable;
+    self.acMaxEnableAvailable = acMaxEnableAvailable;
+    self.circulateAirEnableAvailable = circulateAirEnableAvailable;
+    self.autoModeEnableAvailable = autoModeEnableAvailable;
+    self.dualModeEnableAvailable = dualModeEnableAvailable;
+    self.defrostZoneAvailable = defrostZoneAvailable;
+    self.defrostZone = defrostZone;
+    self.ventilationModeAvailable = ventilationModeAvailable;
+    self.ventilationMode = ventilationMode;
+    self.heatedSteeringWheelAvailable = heatedSteeringWheelAvailable;
+    self.heatedWindshieldAvailable = heatedWindshieldAvailable;
+    self.heatedRearWindowAvailable = heatedRearWindowAvailable;
+    self.heatedMirrorsAvailable = heatedMirrorsAvailable;
+    self.climateEnableAvailable = climateEnableAvailable;
+    return self;
+}
+
 - (instancetype)initWithModuleName:(NSString *)moduleName moduleInfo:(nullable SDLModuleInfo *)moduleInfo fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable heatedSteeringWheelAvailable:(BOOL)steeringWheelAvailable heatedWindshieldAvailable:(BOOL)windshieldAvailable heatedRearWindowAvailable:(BOOL)rearWindowAvailable heatedMirrorsAvailable:(BOOL)mirrorsAvailable climateEnableAvailable:(BOOL)climateEnableAvailable{
     self = [self init];
     if (!self) {
@@ -50,6 +85,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)fanSpeedAvailable {
     return [self.store sdl_objectForName:SDLRPCParameterNameFanSpeedAvailable ofClass:NSNumber.class error:nil];
+}
+
+- (void)setCurrentTemperatureAvailable:(nullable NSNumber<SDLBool> *)currentTemperatureAvailable {
+    [self.store sdl_setObject:currentTemperatureAvailable forName:SDLRPCParameterNameCurrentTemperatureAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)currentTemperatureAvailable {
+    return [self.store sdl_objectForName:SDLRPCParameterNameCurrentTemperatureAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setDesiredTemperatureAvailable:(nullable NSNumber<SDLBool> *)desiredTemperatureAvailable {

@@ -31,6 +31,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithLocationDetailsParam:(SDLLocationDetails *)locationDetails action:(SDLNavigationAction)action eta:(nullable SDLDateTime *)eta bearing:(nullable NSNumber<SDLUInt> *)bearing junctionType:(nullable SDLNavigationJunction)junctionType drivingSide:(nullable SDLDirection)drivingSide details:(nullable NSString *)details image:(nullable SDLImage *)image {
+    self = [self initWithLocationDetails:locationDetails action:action];
+    if (!self) {
+        return nil;
+    }
+    self.eta = eta;
+    self.bearing = bearing;
+    self.junctionType = junctionType;
+    self.drivingSide = drivingSide;
+    self.details = details;
+    self.image = image;
+    return self;
+}
+
 - (instancetype)initWithLocationDetails:(SDLLocationDetails *)locationDetails action:(SDLNavigationAction)action eta:(nullable SDLDateTime *)eta bearing:(UInt16)bearing junctionType:(nullable SDLNavigationJunction)junctionType drivingSide:(nullable SDLDirection)drivingSide details:(nullable NSString *)details image:(nullable SDLImage *)image {
     self = [self initWithLocationDetails:locationDetails action:action];
     if (!self) {

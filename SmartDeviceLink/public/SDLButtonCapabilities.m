@@ -10,6 +10,36 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLButtonCapabilities
 
+- (instancetype)initWithNameParam:(SDLButtonName)nameParam shortPressAvailable:(BOOL)shortPressAvailable longPressAvailable:(BOOL)longPressAvailable upDownAvailable:(BOOL)upDownAvailable {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.nameParam = nameParam;
+    self.shortPressAvailable = @(shortPressAvailable);
+    self.longPressAvailable = @(longPressAvailable);
+    self.upDownAvailable = @(upDownAvailable);
+    return self;
+}
+
+- (instancetype)initWithNameParam:(SDLButtonName)nameParam shortPressAvailable:(BOOL)shortPressAvailable longPressAvailable:(BOOL)longPressAvailable upDownAvailable:(BOOL)upDownAvailable moduleInfo:(nullable SDLModuleInfo *)moduleInfo {
+    self = [self initWithNameParam:nameParam shortPressAvailable:shortPressAvailable longPressAvailable:longPressAvailable upDownAvailable:upDownAvailable];
+    if (!self) {
+        return nil;
+    }
+    self.moduleInfo = moduleInfo;
+    return self;
+}
+
+- (void)setNameParam:(SDLButtonName)nameParam {
+    [self.store sdl_setObject:nameParam forName:SDLRPCParameterNameName];
+}
+
+- (SDLButtonName)nameParam {
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameName error:&error];
+}
+
 - (void)setName:(SDLButtonName)name {
     [self.store sdl_setObject:name forName:SDLRPCParameterNameName];
 }

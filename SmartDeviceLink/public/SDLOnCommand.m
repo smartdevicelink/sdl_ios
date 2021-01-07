@@ -20,6 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithCmdID:(UInt32)cmdID triggerSource:(SDLTriggerSource)triggerSource {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.cmdID = @(cmdID);
+    self.triggerSource = triggerSource;
+    return self;
+}
+
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
     [self.parameters sdl_setObject:cmdID forName:SDLRPCParameterNameCommandId];
 }

@@ -12,6 +12,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLImageField
 
+- (instancetype)initWithNameParam:(SDLImageFieldName)nameParam imageTypeSupported:(NSArray<SDLFileType> *)imageTypeSupported {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.nameParam = nameParam;
+    self.imageTypeSupported = imageTypeSupported;
+    return self;
+}
+
+- (instancetype)initWithNameParam:(SDLImageFieldName)nameParam imageTypeSupported:(NSArray<SDLFileType> *)imageTypeSupported imageResolution:(nullable SDLImageResolution *)imageResolution {
+    self = [self initWithNameParam:nameParam imageTypeSupported:imageTypeSupported];
+    if (!self) {
+        return nil;
+    }
+    self.imageResolution = imageResolution;
+    return self;
+}
+
+- (void)setNameParam:(SDLImageFieldName)nameParam {
+    [self.store sdl_setObject:nameParam forName:SDLRPCParameterNameName];
+}
+
+- (SDLImageFieldName)nameParam {
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameName error:&error];
+}
+
 - (void)setName:(SDLImageFieldName)name {
     [self.store sdl_setObject:name forName:SDLRPCParameterNameName];
 }

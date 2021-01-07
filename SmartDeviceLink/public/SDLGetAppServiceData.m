@@ -25,6 +25,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithServiceType:(NSString *)serviceType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.serviceType = serviceType;
+    return self;
+}
+
+- (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(nullable NSNumber<SDLBool> *)subscribe {
+    self = [self initWithServiceType:serviceType];
+    if (!self) {
+        return nil;
+    }
+    self.subscribe = subscribe;
+    return self;
+}
+
 - (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType {
     self = [self init];
     if (!self) {
@@ -37,22 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initAndSubscribeToAppServiceType:(SDLAppServiceType)serviceType {
-    return [self initWithServiceType:serviceType subscribe:YES];
+    return [self initWithServiceType:serviceType subscribe:@YES];
 }
 
 - (instancetype)initAndUnsubscribeToAppServiceType:(SDLAppServiceType)serviceType {
-    return [self initWithServiceType:serviceType subscribe:NO];
-}
-
-- (instancetype)initWithServiceType:(SDLAppServiceType)serviceType subscribe:(BOOL)subscribe {
-    self = [self initWithAppServiceType:serviceType];
-    if (!self) {
-        return nil;
-    }
-
-    self.subscribe = @(subscribe);
-
-    return self;
+    return [self initWithServiceType:serviceType subscribe:@NO];
 }
 
 - (void)setServiceType:(NSString *)serviceType {

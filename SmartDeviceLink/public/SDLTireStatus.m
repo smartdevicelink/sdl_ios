@@ -11,6 +11,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTireStatus
 
+- (instancetype)initWithPressureTelltale:(SDLWarningLightStatus)pressureTelltale leftFront:(SDLSingleTireStatus *)leftFront rightFront:(SDLSingleTireStatus *)rightFront leftRear:(SDLSingleTireStatus *)leftRear rightRear:(SDLSingleTireStatus *)rightRear innerLeftRear:(SDLSingleTireStatus *)innerLeftRear innerRightRear:(SDLSingleTireStatus *)innerRightRear {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.pressureTelltale = pressureTelltale;
+    self.leftFront = leftFront;
+    self.rightFront = rightFront;
+    self.leftRear = leftRear;
+    self.rightRear = rightRear;
+    self.innerLeftRear = innerLeftRear;
+    self.innerRightRear = innerRightRear;
+    return self;
+}
+
 - (void)setPressureTelltale:(SDLWarningLightStatus)pressureTelltale {
     [self.store sdl_setObject:pressureTelltale forName:SDLRPCParameterNamePressureTelltale];
 }

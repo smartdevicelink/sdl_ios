@@ -50,6 +50,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithFunctionIDParam:(UInt32)functionIDParam {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.functionIDParam = @(functionIDParam);
+    return self;
+}
+
+- (instancetype)initWithFunctionIDParam:(UInt32)functionIDParam cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    self = [self initWithFunctionIDParam:functionIDParam];
+    if (!self) {
+        return nil;
+    }
+    self.cancelID = cancelID;
+    return self;
+}
 
 - (instancetype)initWithFunctionID:(UInt32)functionID {
     self = [self init];
@@ -74,43 +91,43 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithAlertCancelID:(UInt32)cancelID {
-    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue cancelID:@(cancelID)];
 }
 
 - (instancetype)initWithSliderCancelID:(UInt32)cancelID {
-    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue cancelID:@(cancelID)];
 }
 
 - (instancetype)initWithScrollableMessageCancelID:(UInt32)cancelID {
-    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue cancelID:@(cancelID)];
 }
 
 - (instancetype)initWithPerformInteractionCancelID:(UInt32)cancelID {
-    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue cancelID:@(cancelID)];
 }
 
 - (instancetype)initWithSubtleAlertCancelID:(UInt32)cancelID {
-    return [self initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert].unsignedIntValue cancelID:cancelID];
+    return [self initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert].unsignedIntValue cancelID:@(cancelID)];
 }
 
 + (instancetype)alert {
-    return [[self alloc] initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue];
+    return [[self alloc] initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAlert].unsignedIntValue];
 }
 
 + (instancetype)slider {
-    return [[self alloc] initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue];
+    return [[self alloc] initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSlider].unsignedIntValue];
 }
 
 + (instancetype)scrollableMessage {
-    return [[self alloc] initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue];
+    return [[self alloc] initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameScrollableMessage].unsignedIntValue];
 }
 
 + (instancetype)performInteraction {
-    return [[self alloc] initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue];
+    return [[self alloc] initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction].unsignedIntValue];
 }
 
 + (instancetype)subtleAlert {
-    return [[self alloc] initWithFunctionID:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert].unsignedIntValue];
+    return [[self alloc] initWithFunctionIDParam:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameSubtleAlert].unsignedIntValue];
 }
 
 - (void)setCancelID:(nullable NSNumber<SDLInt> *)cancelID {
@@ -119,6 +136,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLInt> *)cancelID {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameCancelID ofClass:NSNumber.class error:nil];
+}
+
+- (void)setFunctionIDParam:(NSNumber<SDLInt> *)functionIDParam {
+    [self.parameters sdl_setObject:functionIDParam forName:SDLRPCParameterNameFunctionID];
+}
+
+- (NSNumber<SDLInt> *)functionIDParam {
+    NSError *error = nil;
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameFunctionID ofClass:NSNumber.class error:&error];
 }
 
 - (void)setFunctionID:(NSNumber<SDLInt> *)functionID {

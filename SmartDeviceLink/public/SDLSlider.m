@@ -21,6 +21,41 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.numTicks = @(numTicks);
+    self.position = @(position);
+    self.sliderHeader = sliderHeader;
+    return self;
+}
+
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSArray<NSString *> *)sliderFooter timeout:(nullable NSNumber<SDLUInt> *)timeout cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    self = [self initWithNumTicks:numTicks position:position sliderHeader:sliderHeader];
+    if (!self) {
+        return nil;
+    }
+    self.sliderFooter = sliderFooter;
+    self.timeout = timeout;
+    self.cancelID = cancelID;
+    return self;
+}
+
++ (instancetype)staticFooterSliderWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSString *)sliderFooter timeout:(nullable NSNumber<SDLUInt> *)timeout cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    NSArray<NSString *> *footer = nil;
+    if (sliderFooter != nil) {
+        footer = @[sliderFooter];
+    }
+
+    return [[self alloc] initWithNumTicks:numTicks position:position sliderHeader:sliderHeader sliderFooter:footer timeout:timeout cancelID:cancelID];
+}
+
++ (instancetype)dynamicFooterSliderWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(nullable NSNumber<SDLUInt> *)timeout cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    return [[self alloc] initWithNumTicks:numTicks position:position sliderHeader:sliderHeader sliderFooter:sliderFooters timeout:timeout cancelID:cancelID];
+}
+
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout cancelID:(UInt32)cancelID {
     self = [self init];
     if (!self) {

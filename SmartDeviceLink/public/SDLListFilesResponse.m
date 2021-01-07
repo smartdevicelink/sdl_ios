@@ -21,6 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithFilenames:(nullable NSArray<NSString *> *)filenames spaceAvailable:(nullable NSNumber<SDLUInt> *)spaceAvailable {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.filenames = filenames;
+    self.spaceAvailable = spaceAvailable;
+    return self;
+}
+
 - (void)setFilenames:(nullable NSArray<NSString *> *)filenames {
     [self.parameters sdl_setObject:filenames forName:SDLRPCParameterNameFilenames];
 }

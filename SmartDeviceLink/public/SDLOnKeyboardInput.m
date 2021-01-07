@@ -20,6 +20,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithEvent:(SDLKeyboardEvent)event {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.event = event;
+    return self;
+}
+
+- (instancetype)initWithEvent:(SDLKeyboardEvent)event data:(nullable NSString *)data {
+    self = [self initWithEvent:event];
+    if (!self) {
+        return nil;
+    }
+    self.data = data;
+    return self;
+}
+
 - (void)setEvent:(SDLKeyboardEvent)event {
     [self.parameters sdl_setObject:event forName:SDLRPCParameterNameEvent];
 }

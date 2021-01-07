@@ -1,5 +1,34 @@
-//  SDLShowConstantTBT.h
-//
+/*
+ * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * Neither the name of the SmartDeviceLink Consortium Inc. nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "SDLRPCRequest.h"
 
@@ -16,6 +45,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLShowConstantTBT : SDLRPCRequest
 
+/**
+ * @param navigationText1 - navigationText1
+ * @param navigationText2 - navigationText2
+ * @param eta - eta
+ * @param timeToDestination - timeToDestination
+ * @param totalDistance - totalDistance
+ * @param turnIcon - turnIcon
+ * @param nextTurnIcon - nextTurnIcon
+ * @param distanceToManeuver - distanceToManeuver
+ * @param distanceToManeuverScale - distanceToManeuverScale
+ * @param maneuverComplete - maneuverComplete
+ * @param softButtons - softButtons
+ * @return A SDLShowConstantTBT object
+ */
+- (instancetype)initWithNavigationText1Param:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(nullable NSNumber<SDLFloat> *)distanceToManeuver distanceToManeuverScale:(nullable NSNumber<SDLFloat> *)distanceToManeuverScale maneuverComplete:(nullable NSNumber<SDLBool> *)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Eventually an initializer without param will be added");
+
 /// Convenience init to create navigation directions
 ///
 /// @param navigationText1 The first line of text in a multi-line overlay screen
@@ -30,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param maneuverComplete If and when a maneuver has completed while an AlertManeuver is active, the app must send this value set to TRUE in order to clear the AlertManeuver overlay. If omitted the value will be assumed as FALSE
 /// @param softButtons Three dynamic SoftButtons available (first SoftButton is fixed to "Turns")
 /// @return An SDLShowConstantTBT object
-- (instancetype)initWithNavigationText1:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
+- (instancetype)initWithNavigationText1:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons __deprecated_msg("Eventually an initializer with different parameter types will be added");
 
 /**
  *  The first line of text in a multi-line overlay screen.

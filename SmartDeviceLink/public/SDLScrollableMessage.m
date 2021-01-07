@@ -22,17 +22,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
-- (instancetype)initWithScrollableMessageBody:(NSString *)message timeout:(nullable NSNumber *)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(nullable NSNumber *)cancelID {
+- (instancetype)initWithScrollableMessageBody:(NSString *)scrollableMessageBody {
     self = [self init];
     if (!self) {
         return nil;
     }
+    self.scrollableMessageBody = scrollableMessageBody;
+    return self;
+}
 
-    self.scrollableMessageBody = message;
+- (instancetype)initWithScrollableMessageBody:(NSString *)scrollableMessageBody timeout:(nullable NSNumber<SDLUInt> *)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    self = [self initWithScrollableMessageBody:scrollableMessageBody];
+    if (!self) {
+        return nil;
+    }
     self.timeout = timeout;
     self.softButtons = softButtons;
     self.cancelID = cancelID;
-
     return self;
 }
 

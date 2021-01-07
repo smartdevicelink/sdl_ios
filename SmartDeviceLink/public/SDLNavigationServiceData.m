@@ -18,6 +18,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLNavigationServiceData
 
+- (instancetype)initWithTimeStamp:(SDLDateTime *)timeStamp {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.timeStamp = timeStamp;
+    return self;
+}
+
+- (instancetype)initWithTimeStamp:(SDLDateTime *)timeStamp origin:(nullable SDLLocationDetails *)origin destination:(nullable SDLLocationDetails *)destination destinationETA:(nullable SDLDateTime *)destinationETA instructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions nextInstructionETA:(nullable SDLDateTime *)nextInstructionETA nextInstructionDistance:(nullable NSNumber<SDLFloat> *)nextInstructionDistance nextInstructionDistanceScale:(nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale prompt:(nullable NSString *)prompt {
+    self = [self initWithTimeStamp:timeStamp];
+    if (!self) {
+        return nil;
+    }
+    self.origin = origin;
+    self.destination = destination;
+    self.destinationETA = destinationETA;
+    self.instructions = instructions;
+    self.nextInstructionETA = nextInstructionETA;
+    self.nextInstructionDistance = nextInstructionDistance;
+    self.nextInstructionDistanceScale = nextInstructionDistanceScale;
+    self.prompt = prompt;
+    return self;
+}
+
 - (instancetype)initWithTimestamp:(SDLDateTime *)timestamp {
     self = [super init];
     if (!self) {
@@ -45,6 +70,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.prompt = prompt;
 
     return self;
+}
+
+- (void)setTimeStamp:(SDLDateTime *)timeStamp {
+    [self.store sdl_setObject:timeStamp forName:SDLRPCParameterNameTimeStamp];
+}
+
+- (SDLDateTime *)timeStamp {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameTimeStamp ofClass:SDLDateTime.class error:&error];
 }
 
 - (void)setTimestamp:(SDLDateTime *)timestamp {

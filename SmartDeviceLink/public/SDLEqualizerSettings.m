@@ -11,13 +11,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithChannelId:(UInt8)channelId channelSetting:(UInt8)channelSetting {
     self = [self init];
-    if(!self) {
+    if (!self) {
         return nil;
     }
-
     self.channelId = @(channelId);
     self.channelSetting = @(channelSetting);
+    return self;
+}
 
+- (instancetype)initWithChannelId:(UInt8)channelId channelSetting:(UInt8)channelSetting channelName:(nullable NSString *)channelName {
+    self = [self initWithChannelId:channelId channelSetting:channelSetting];
+    if (!self) {
+        return nil;
+    }
+    self.channelName = channelName;
     return self;
 }
 

@@ -15,6 +15,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSeatLocationCapability
 
+- (instancetype)initWithRows:(nullable NSNumber<SDLUInt> *)rows columns:(nullable NSNumber<SDLUInt> *)columns levels:(nullable NSNumber<SDLUInt> *)levels seats:(nullable NSArray<SDLSeatLocation *> *)seats {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.rows = rows;
+    self.columns = columns;
+    self.levels = levels;
+    self.seats = seats;
+    return self;
+}
+
 - (instancetype)initWithSeats:(NSArray<SDLSeatLocation *> *)seats cols:(NSNumber<SDLInt> *)cols rows:(NSNumber<SDLInt> *)rows levels:(NSNumber<SDLInt> *)levels {
     self = [self init];
     if (!self) {
@@ -27,6 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
     self.levels = levels;
 
     return self;
+}
+
+- (void)setColumns:(nullable NSNumber<SDLUInt> *)columns {
+    [self.store sdl_setObject:columns forName:SDLRPCParameterNameColumns];
+}
+
+- (nullable NSNumber<SDLUInt> *)columns {
+    return [self.store sdl_objectForName:SDLRPCParameterNameColumns ofClass:NSNumber.class error:nil];
 }
 
 - (void)setCols:(nullable NSNumber<SDLInt> *)cols {

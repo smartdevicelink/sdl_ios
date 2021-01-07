@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
  *      2. App service providers will correctly respond to the requests
  *      3. The requested app service provider will become the active service of that type
  *      4. The `serviceUri` will be a correctly formatted URI from the app service consumer
+ *
+ *  @added in SmartDeviceLink 5.1.0
  */
 @interface SDLPerformAppServiceInteraction : SDLRPCRequest
 
@@ -36,6 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp;
 
 /**
+ * @param serviceUri - serviceUri
+ * @param serviceID - serviceID
+ * @param originApp - originApp
+ * @param requestServiceActive - requestServiceActive
+ * @return A SDLPerformAppServiceInteraction object
+ */
+- (instancetype)initWithServiceUriParam:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(nullable NSNumber<SDLBool> *)requestServiceActive __deprecated_msg("Eventually an initializer without param will be added");
+
+/**
  *  Convenience init for all parameters.
  *
  *  @param serviceUri               The service URI
@@ -44,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param requestServiceActive     Whether or not the service is active
  *  @return                         A SDLPerformAppServiceInteraction object
  */
-- (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive;
+- (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive __deprecated_msg("Eventually an initializer with different parameter types will be added");
 
 /**
  *  Fully qualified URI based on a predetermined scheme provided by the app service. SDL makes no guarantee that this URI is correct.

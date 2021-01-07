@@ -12,6 +12,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRadioControlData
 
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLUInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLUInt> *)frequencyFraction band:(nullable SDLRadioBand)band rdsData:(nullable SDLRDSData *)rdsData hdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable availableHdChannels:(nullable NSArray<NSNumber<SDLUInt> *> *)availableHdChannels hdChannel:(nullable NSNumber<SDLUInt> *)hdChannel signalStrength:(nullable NSNumber<SDLUInt> *)signalStrength signalChangeThreshold:(nullable NSNumber<SDLUInt> *)signalChangeThreshold radioEnable:(nullable NSNumber<SDLBool> *)radioEnable state:(nullable SDLRadioState)state sisData:(nullable SDLSISData *)sisData {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.frequencyInteger = frequencyInteger;
+    self.frequencyFraction = frequencyFraction;
+    self.band = band;
+    self.rdsData = rdsData;
+    self.hdRadioEnable = hdRadioEnable;
+    self.availableHdChannels = availableHdChannels;
+    self.hdChannel = hdChannel;
+    self.signalStrength = signalStrength;
+    self.signalChangeThreshold = signalChangeThreshold;
+    self.radioEnable = radioEnable;
+    self.state = state;
+    self.sisData = sisData;
+    return self;
+}
+
 - (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable hdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable {
     self = [self init];
     if(!self) {
@@ -97,6 +117,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLRDSData *)rdsData {
     return [self.store sdl_objectForName:SDLRPCParameterNameRDSData ofClass:SDLRDSData.class error:nil];
+}
+
+- (void)setAvailableHdChannels:(nullable NSArray<NSNumber<SDLUInt> *> *)availableHdChannels {
+    [self.store sdl_setObject:availableHdChannels forName:SDLRPCParameterNameAvailableHDChannels];
+}
+
+- (nullable NSArray<NSNumber<SDLUInt> *> *)availableHdChannels {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameAvailableHDChannels ofClass:NSNumber.class error:nil];
 }
 
 - (void)setAvailableHDChannels:(nullable NSNumber<SDLInt> *)availableHDChannels {

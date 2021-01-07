@@ -24,6 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithMenuIDParam:(nullable NSNumber<SDLUInt> *)menuID {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.menuID = menuID;
+    return self;
+}
+
 - (instancetype)initWithMenuID:(UInt32)menuID {
     self = [self init];
     if (!self) {

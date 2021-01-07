@@ -14,6 +14,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeviceInfo
 
+- (instancetype)initWithHardware:(nullable NSString *)hardware firmwareRev:(nullable NSString *)firmwareRev os:(nullable NSString *)os osVersion:(nullable NSString *)osVersion carrier:(nullable NSString *)carrier maxNumberRFCOMMPorts:(nullable NSNumber<SDLUInt> *)maxNumberRFCOMMPorts {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.hardware = hardware;
+    self.firmwareRev = firmwareRev;
+    self.os = os;
+    self.osVersion = osVersion;
+    self.carrier = carrier;
+    self.maxNumberRFCOMMPorts = maxNumberRFCOMMPorts;
+    return self;
+}
+
 + (instancetype)currentDevice {
     static SDLDeviceInfo *deviceInfo = nil;
     if (deviceInfo == nil) {

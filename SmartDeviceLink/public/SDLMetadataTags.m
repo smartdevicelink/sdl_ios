@@ -15,6 +15,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMetadataTags
 
+- (instancetype)initWithMainField1:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2 mainField3:(nullable NSArray<SDLMetadataType> *)mainField3 mainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.mainField1 = mainField1;
+    self.mainField2 = mainField2;
+    self.mainField3 = mainField3;
+    self.mainField4 = mainField4;
+    return self;
+}
+
 - (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
     self = [self init];
     if (!self) {

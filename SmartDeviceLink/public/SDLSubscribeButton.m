@@ -21,6 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.buttonName = buttonName;
+    return self;
+}
+
 - (instancetype)initWithHandler:(nullable SDLRPCButtonNotificationHandler)handler {
     self = [self init];
     if (!self) {

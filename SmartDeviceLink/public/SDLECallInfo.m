@@ -10,6 +10,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLECallInfo
 
+- (instancetype)initWithECallNotificationStatus:(SDLVehicleDataNotificationStatus)eCallNotificationStatus auxECallNotificationStatus:(SDLVehicleDataNotificationStatus)auxECallNotificationStatus eCallConfirmationStatus:(SDLECallConfirmationStatus)eCallConfirmationStatus {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.eCallNotificationStatus = eCallNotificationStatus;
+    self.auxECallNotificationStatus = auxECallNotificationStatus;
+    self.eCallConfirmationStatus = eCallConfirmationStatus;
+    return self;
+}
+
 - (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus)eCallNotificationStatus {
     [self.store sdl_setObject:eCallNotificationStatus forName:SDLRPCParameterNameECallNotificationStatus];
 }

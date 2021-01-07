@@ -23,6 +23,32 @@ NS_ASSUME_NONNULL_BEGIN
 }
 #pragma clang diagnostic pop
 
+- (instancetype)initWithInitialText:(NSString *)initialText interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.initialText = initialText;
+    self.interactionMode = interactionMode;
+    self.interactionChoiceSetIDList = interactionChoiceSetIDList;
+    return self;
+}
+
+- (instancetype)initWithInitialText:(NSString *)initialText interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt timeout:(nullable NSNumber<SDLUInt> *)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)interactionLayout cancelID:(nullable NSNumber<SDLInt> *)cancelID {
+    self = [self initWithInitialText:initialText interactionMode:interactionMode interactionChoiceSetIDList:interactionChoiceSetIDList];
+    if (!self) {
+        return nil;
+    }
+    self.initialPrompt = initialPrompt;
+    self.helpPrompt = helpPrompt;
+    self.timeoutPrompt = timeoutPrompt;
+    self.timeout = timeout;
+    self.vrHelp = vrHelp;
+    self.interactionLayout = interactionLayout;
+    self.cancelID = cancelID;
+    return self;
+}
+
 - (instancetype)initWithInitialDisplayText:(NSString *)initialText initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt interactionMode:(SDLInteractionMode)interactionMode interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt timeout:(nullable NSNumber *)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)interactionLayout cancelID:(nullable NSNumber *)cancelID {
     self = [self init];
     if (!self) {
