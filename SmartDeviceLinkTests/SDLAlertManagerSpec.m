@@ -64,55 +64,76 @@ describe(@"alert manager tests", ^{
     });
 
     describe(@"when initialized", ^{
-        it(@"should not start the transaction queue until the alert rpc has the correct permissions to be sent", ^{
-            OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
-            OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusDisallowed), nil])]);
-
-            testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
-
-            expect(testAlertManager.transactionQueue.suspended).to(beTrue());
-        });
-
-        it(@"should not start the transaction queue until the currentWindowCapability has been set", ^{
+        it(@"the transaction queue should be suspended", ^{
             OCMStub([mockSystemCapabilityManager displays]).andReturn(nil);
-            OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
 
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
 
-            expect(testAlertManager.transactionQueue.suspended).to(beTrue());
-        });
-
-        it(@"should start the transaction queue if the permission manager is nil and the currentWindowCapability has been set", ^{
-            OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
-
-            testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:nil];
-
-            expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
-        });
-
-        it(@"should start the transaction queue if the alert rpc has the correct permissions and the currentWindowCapability has been set", ^{
-            OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
-            OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
-
-            testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
-
-            expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
+            expect(testAlertManager.transactionQueue.suspended).toEventually(beTrue());
         });
     });
 
-    describe(@"When started", ^{
-        it(@"should subscribe to capability updates", ^{
+    describe(@"when started", ^{
+        it(@"should subscribe to capability and permission updates", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
             SEL testSelector = @selector(sdl_displayCapabilityDidUpdate:);
 #pragma clang diagnostic pop
 
             OCMExpect([mockSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:[OCMArg any] selector:testSelector]);
+            OCMExpect([mockPermissionManager subscribeToRPCPermissions:[OCMArg checkWithBlock:^BOOL(id value) {
+                NSArray<SDLPermissionElement *> *permissionElements = (NSArray<SDLPermissionElement *> *)value;
+                SDLPermissionElement *permissionElement = permissionElements[0];
+                expect(permissionElement.rpcName).to(equal(SDLRPCFunctionNameAlert));
+                return [permissionElement isKindOfClass:[SDLPermissionElement class]];
+            }] groupType:SDLPermissionGroupTypeAny withHandler:[OCMArg any]]);
 
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
             [testAlertManager start];
 
             OCMVerifyAll(mockSystemCapabilityManager);
+            OCMVerifyAll(mockPermissionManager);
+        });
+
+        describe(@"transaction queue state", ^{
+            it(@"should start the transaction queue if the permission manager is nil and the currentWindowCapability has been set", ^{
+                OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+
+                testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:nil];
+                [testAlertManager start];
+
+                expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
+            });
+
+            it(@"should not start the transaction queue until the alert rpc has the correct permissions to be sent", ^{
+                OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+                OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusDisallowed), nil])]);
+
+                testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
+                [testAlertManager start];
+
+                expect(testAlertManager.transactionQueue.suspended).toEventually(beTrue());
+            });
+
+            it(@"should start the transaction queue if the alert rpc has the correct permissions and the currentWindowCapability has been set", ^{
+                OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+                OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
+
+                testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
+                [testAlertManager start];
+
+                expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
+            });
+
+            it(@"should not start the transaction queue until the currentWindowCapability has been set", ^{
+                OCMStub([mockSystemCapabilityManager displays]).andReturn(nil);
+                OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
+
+                testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
+                [testAlertManager start];
+
+                expect(testAlertManager.transactionQueue.suspended).toEventually(beTrue());
+            });
         });
     });
 
@@ -129,6 +150,8 @@ describe(@"alert manager tests", ^{
             OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
             OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
+            [testAlertManager start];
+
             expect(testAlertManager.transactionQueue.suspended).to(beFalse());
 
             [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
@@ -146,6 +169,8 @@ describe(@"alert manager tests", ^{
             OCMStub([mockSystemCapabilityManager displays]).andReturn(nil);
             OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
+            [testAlertManager start];
+
             expect(testAlertManager.transactionQueue.suspended).to(beTrue());
 
             [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
@@ -166,6 +191,7 @@ describe(@"alert manager tests", ^{
         beforeEach(^{
             testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
+            [testAlertManager start];
         });
 
         it(@"should set the first cancelID correctly", ^{
@@ -203,6 +229,7 @@ describe(@"alert manager tests", ^{
             testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
             testAlertView2 = [[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
+            [testAlertManager start];
         });
 
         it(@"should add the alert operation to the queue", ^{

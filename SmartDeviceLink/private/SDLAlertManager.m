@@ -62,14 +62,13 @@ UInt16 const AlertCancelIdMax = 1000;
 
     _currentWindowCapability = [self sdl_extractCurrentWindowCapabilityFromDisplayCapabilities:self.systemCapabilityManager.displays];
 
-    [self sdl_subscribeToPermissions];
-
     return self;
 }
 
 - (void)start {
     SDLLogD(@"Starting manager");
 
+    [self sdl_subscribeToPermissions];
     [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
 }
 
@@ -82,6 +81,7 @@ UInt16 const AlertCancelIdMax = 1000;
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
 
+    [self sdl_unsubscribeToPermissions];
     [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self];
 }
 
@@ -174,6 +174,15 @@ UInt16 const AlertCancelIdMax = 1000;
             [self sdl_updateTransactionQueueSuspended];
         }];
     }
+}
+
+/// UNsubscribes to permission updates for the `Alert` RPC.
+- (void)sdl_unsubscribeToPermissions {
+    if (self.permissionManager == nil) {
+        return;
+    }
+
+    [self.permissionManager removeAllObservers];
 }
 
 #pragma mark - Getters
