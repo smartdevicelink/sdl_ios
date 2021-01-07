@@ -176,7 +176,7 @@ UInt16 const AlertCancelIdMax = 1000;
     }
 }
 
-/// UNsubscribes to permission updates for the `Alert` RPC.
+/// Unsubscribes to permission updates for the `Alert` RPC.
 - (void)sdl_unsubscribeToPermissions {
     if (self.permissionManager == nil) {
         return;

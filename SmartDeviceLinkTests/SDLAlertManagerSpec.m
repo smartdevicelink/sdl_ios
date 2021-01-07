@@ -288,15 +288,21 @@ describe(@"alert manager tests", ^{
                 [testAlertManager presentAlert:testAlertView2 withCompletionHandler:nil];
             });
 
-            it(@"should cancel any pending operations", ^{
+            it(@"should cancel any pending operations and unsubscribe to capability and permission updates", ^{
                 SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
                 SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
+
+                OCMExpect([mockSystemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:[OCMArg any]]);
+                OCMExpect([mockPermissionManager removeAllObservers]);
 
                 [testAlertManager stop];
 
                 expect(presentAlertOp1.isCancelled).to(beTrue());
                 expect(presentAlertOp2.isCancelled).to(beTrue());
                 expect(testAlertManager.transactionQueue.operationCount).to(equal(0));
+
+                OCMVerifyAll(mockSystemCapabilityManager);
+                OCMVerifyAll(mockPermissionManager);
             });
         });
     });
