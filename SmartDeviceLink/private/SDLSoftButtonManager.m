@@ -33,6 +33,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static const int SDLShowSoftButtonIDMin = 1;
+static const int SDLShowSoftButtonIDCount = 8;
+
 @interface SDLSoftButtonObject()
 
 @property (assign, nonatomic) NSUInteger buttonId;
@@ -124,12 +127,14 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
-    for (NSUInteger i = 0; i < softButtonObjects.count; i++) {
+    // Set the soft button ids. The number of alert soft buttons sent must be capped so there are no clashes with soft button ids assigned by other managers (And thus leading to clashes saving/retreiving the button handlers in the  `SDLResponseDispatcher` class)
+    // Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
+    NSUInteger softButtonCount = MIN(softButtonObjects.count, SDLShowSoftButtonIDCount);
+    for (NSUInteger i = 0; i < softButtonCount; i++) {
         NSString *buttonName = softButtonObjects[i].name;
         // HAX: Due to a SYNC 3.0 bug (https://github.com/smartdevicelink/sdl_ios/issues/1793#issue-708356008), a `buttonId` can not be zero. As a workaround we will start the `buttonId`s from 1.
-        softButtonObjects[i].buttonId = i + 1;
-        for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
+        softButtonObjects[i].buttonId = i + SDLShowSoftButtonIDMin;
+        for (NSUInteger j = (i + 1); j < softButtonCount; j++) {
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
                 SDLLogE(@"Attempted to set soft button objects, but two buttons had the same name: %@", softButtonObjects);

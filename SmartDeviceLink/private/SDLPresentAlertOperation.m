@@ -307,7 +307,7 @@ static const int SDLAlertSoftButtonCount = 4;
     alert.progressIndicator = @(self.alertView.showWaitIndicator);
     alert.cancelID = @(self.cancelId);
 
-    // The number of alert soft buttons sent must be capped so there are no clashes with button handlers saved for soft button ids in the `SDLResponseDispatcher` class
+    // The number of alert soft buttons sent must be capped so there are no clashes with soft button ids assigned by other managers (And thus leading to clashes saving/retreiving the button handlers in the  `SDLResponseDispatcher` class)
     NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:alert.softButtons.count];
     for (NSUInteger i = 0; i < MIN(self.alertView.softButtons.count, SDLAlertSoftButtonCount); i += 1) {
         SDLSoftButtonObject *button = self.alertView.softButtons[i];
