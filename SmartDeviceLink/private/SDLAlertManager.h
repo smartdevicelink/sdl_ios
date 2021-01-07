@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Handler called when the alert either dismisses from the screen or it has failed to present
 typedef void(^SDLAlertCompletionHandler)(NSError *__nullable error);
 
+/// An alert manager that handles uploading images and audio needed by an alert, sending an alert and cancelling an alert.
 @interface SDLAlertManager : NSObject
 
 /// Initialize the manager with required dependencies
