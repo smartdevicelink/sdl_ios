@@ -24,6 +24,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+UInt16 const AlertCancelIdMin = 1;
+UInt16 const AlertCancelIdMax = 10;
+
 @interface SDLAlertManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -39,9 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL isAlertRPCAllowed;
 
 @end
-
-UInt16 const AlertCancelIdMin = 1;
-UInt16 const AlertCancelIdMax = 1000;
 
 @implementation SDLAlertManager
 
@@ -168,10 +168,11 @@ UInt16 const AlertCancelIdMax = 1000;
         [self sdl_updateTransactionQueueSuspended];
     } else {
         SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];
+        __weak typeof(self) weakself = self;
         [self.permissionManager subscribeToRPCPermissions:@[alertPermissionElement] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
-            self.isAlertRPCAllowed = (status == SDLPermissionGroupStatusAllowed);
+            weakself.isAlertRPCAllowed = (status == SDLPermissionGroupStatusAllowed);
 
-            [self sdl_updateTransactionQueueSuspended];
+            [weakself sdl_updateTransactionQueueSuspended];
         }];
     }
 }
