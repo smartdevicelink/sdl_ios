@@ -309,9 +309,9 @@ static const int SDLAlertSoftButtonCount = 4;
 
     // The number of alert soft buttons sent must be capped so there are no clashes with button handlers saved for soft button ids in the `SDLResponseDispatcher` class
     NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:alert.softButtons.count];
-    for (NSUInteger i = SDLAlertSoftButtonIDMin; i < SDLAlertSoftButtonIDMin + MIN(self.alertView.softButtons.count, SDLAlertSoftButtonCount); i += 1) {
+    for (NSUInteger i = 0; i < MIN(self.alertView.softButtons.count, SDLAlertSoftButtonCount); i += 1) {
         SDLSoftButtonObject *button = self.alertView.softButtons[i];
-        button.buttonId = (i * 100) + 1;
+        button.buttonId = i + SDLAlertSoftButtonIDMin;
         [softButtons addObject:button.currentStateSoftButton.copy];
     }
     alert.softButtons = softButtons;
