@@ -90,7 +90,7 @@ UInt16 const AlertCancelIdMax = 1000;
 
     __weak typeof(op) weakPreloadOp = op;
     op.completionBlock = ^{
-        SDLLogD(@"Alert finished preloading");
+        SDLLogD(@"Alert finished presenting: %@", alert);
 
         if (handler != nil) {
             handler(weakPreloadOp.error);
@@ -129,8 +129,7 @@ UInt16 const AlertCancelIdMax = 1000;
     for (NSOperation *operation in self.transactionQueue.operations) {
         if (operation.isExecuting) { continue; }
 
-        SDLPresentAlertOperation *updateOp = (SDLPresentAlertOperation *)operation;
-        updateOp.currentWindowCapability = windowCapability;
+        ((SDLPresentAlertOperation *)operation).currentWindowCapability = windowCapability;
     }
 }
 
@@ -148,9 +147,7 @@ UInt16 const AlertCancelIdMax = 1000;
 /// @param displayCapabilities A list of display capabilities
 /// @return The current window capability, if it exists
 - (nullable SDLWindowCapability *)sdl_extractCurrentWindowCapabilityFromDisplayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
-    if (displayCapabilities == nil || displayCapabilities.count == 0) {
-        return nil;
-    }
+    if (displayCapabilities == nil || displayCapabilities.count == 0) { return nil; }
 
     SDLDisplayCapability *mainDisplay = displayCapabilities.firstObject;
     for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
@@ -167,7 +164,7 @@ UInt16 const AlertCancelIdMax = 1000;
 /// @discussion If there is no permission manager, the queue is not suspended and the `Alert` RPCs can be sent at any HMI level. This may mean that some requests are rejected due to invalid permissions.
 - (void)sdl_subscribeToPermissions {
     if (self.permissionManager == nil) {
-        self.isAlertRPCAllowed = true;
+        self.isAlertRPCAllowed = YES;
         [self sdl_updateTransactionQueueSuspended];
     } else {
         SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];

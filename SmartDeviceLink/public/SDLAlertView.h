@@ -36,7 +36,7 @@ typedef void (^SDLAlertCanceledHandler)(void);
 /// @discussion Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.
 @property (assign, nonatomic) NSTimeInterval timeout;
 
-/// Text spoken and/or tone played when the alert appears
+/// Text spoken, file(s) played, and/or tone played when the alert appears
 @property (nullable, copy, nonatomic) SDLAlertAudioData *audio;
 
 /// If supported, the alert GUI will display some sort of indefinite waiting / refresh / loading indicator animation. Defaults to NO.

@@ -69,7 +69,7 @@ static const int SDLAlertSoftButtonCount = 4;
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager currentWindowCapability:(nullable SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
 
     self = [super init];
-    if (!self) { return self; }
+    if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
@@ -146,7 +146,7 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @param handler Called when all audio files have been uploaded
 - (void)sdl_uploadAudioFilesWithCompletionHandler:(void (^)(void))handler {
     if (![self sdl_supportsAlertAudioFile]) {
-        SDLLogV(@"Module does not support audio files for alerts");
+        SDLLogD(@"Module does not support audio files for alerts, skipping upload of audio files");
         return handler();
     }
 
@@ -165,7 +165,7 @@ static const int SDLAlertSoftButtonCount = 4;
     __weak typeof(self) weakself = self;
     [self.fileManager uploadFiles:filesToBeUploaded progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
         __strong typeof(weakself) strongself = weakself;
-        SDLLogV(@"Uploaded alert audio file: %@, error: %@, percent complete: %f.2%%", fileName, error, uploadPercentage * 100);
+        SDLLogD(@"Uploaded alert audio file: %@, error: %@, percent complete: %f.2%%", fileName, error, uploadPercentage * 100);
         if (strongself.isCancelled) {
             [strongself finishOperation];
             return NO;
@@ -187,7 +187,6 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @param handler Called when all images have been uploaded
 - (void)sdl_uploadImagesWithCompletionHandler:(void (^)(void))handler {
     NSMutableArray<SDLArtwork *> *artworksToBeUploaded = [NSMutableArray array];
-
     if ([self sdl_supportsAlertIcon] && [self.fileManager fileNeedsUpload:self.alertView.icon]) {
         [artworksToBeUploaded addObject:self.alertView.icon];
     }
@@ -215,7 +214,7 @@ static const int SDLAlertSoftButtonCount = 4;
     __weak typeof(self) weakself = self;
     [self.fileManager uploadArtworks:[images copy] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
         __strong typeof(weakself) strongself = weakself;
-        SDLLogV(@"Uploaded alert images: %@, error: %@, percent complete: %f.2%%", artworkName, error, uploadPercentage * 100);
+        SDLLogD(@"Uploaded alert images: %@, error: %@, percent complete: %f.2%%", artworkName, error, uploadPercentage * 100);
         if (strongself.isCancelled) {
             [strongself finishOperation];
             return NO;
@@ -277,7 +276,6 @@ static const int SDLAlertSoftButtonCount = 4;
         }
 
         SDLLogD(@"Canceling the presented alert");
-
         SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithAlertCancelID:self.cancelId];
 
         __weak typeof(self) weakSelf = self;
@@ -414,7 +412,7 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @return An alert RPC with the text-fields set
 - (SDLAlert *)sdl_assembleTwoLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
     if (fields.count <= 2) {
-        alert.alertText1 = fields.count > 0 ? [fields objectAtIndex:0] : nil;
+        alert.alertText1 = fields.count > 0 ? fields[0] : nil;
         alert.alertText2 = fields.count > 1 ? [fields objectAtIndex:1] : nil;
     } else {
         alert.alertText1 = fields.count > 0 ? [fields objectAtIndex:0] : nil;
@@ -429,7 +427,7 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @param fields A list all the text set in the SDLAlertView
 /// @return An alert RPC with the text-fields set
 - (SDLAlert *)sdl_assembleThreeLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
-    alert.alertText1 = fields.count > 0 ? [fields objectAtIndex:0] : nil;
+    alert.alertText1 = fields.count > 0 ? fields[0] : nil;
     alert.alertText2 = fields.count > 1 ? [fields objectAtIndex:1] : nil;
     alert.alertText3 = fields.count > 2 ? [fields objectAtIndex:2] : nil;
     return alert;

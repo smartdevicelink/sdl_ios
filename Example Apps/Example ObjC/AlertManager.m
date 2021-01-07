@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [sdlManager.screenManager presentAlert:alert withCompletionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogD(@"There was an error presenting the alert: %@", error.localizedDescription);
+            SDLLogD(@"There was an error presenting the alert: %@", error);
         }
     }];
 }
