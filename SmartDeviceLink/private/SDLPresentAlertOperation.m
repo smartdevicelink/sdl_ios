@@ -33,6 +33,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static const int SDLAlertSoftButtonIDMin = 10;
+static const int SDLAlertSoftButtonCount = 4;
+
 @interface SDLPresentAlertOperation()
 
 @property (strong, nonatomic) NSUUID *operationId;
@@ -304,8 +307,9 @@ NS_ASSUME_NONNULL_BEGIN
     alert.progressIndicator = @(self.alertView.showWaitIndicator);
     alert.cancelID = @(self.cancelId);
 
+    // The number of alert soft buttons sent must be capped so there are no clashes with button handlers saved for soft button ids in the `SDLResponseDispatcher` class
     NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:alert.softButtons.count];
-    for (NSUInteger i = 0; i < self.alertView.softButtons.count; i += 1) {
+    for (NSUInteger i = SDLAlertSoftButtonIDMin; i < SDLAlertSoftButtonIDMin + MIN(self.alertView.softButtons.count, SDLAlertSoftButtonCount); i += 1) {
         SDLSoftButtonObject *button = self.alertView.softButtons[i];
         button.buttonId = (i * 100) + 1;
         [softButtons addObject:button.currentStateSoftButton.copy];
