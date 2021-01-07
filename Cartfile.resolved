@@ -1,4 +1,4 @@
-github "Quick/Nimble" "v9.0.0-rc.3"
+github "Quick/Nimble" "v9.0.0"
 github "Quick/Quick" "v3.0.0"
-github "erikdoe/ocmock" "v3.7.1"
+github "erikdoe/ocmock" "v3.8.1"
 github "uber/ios-snapshot-test-case" "6.2.0"
