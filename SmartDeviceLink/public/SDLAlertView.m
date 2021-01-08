@@ -34,7 +34,7 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
     self = [super init];
     if (!self) { return nil; }
 
-    _timeout = TimoutDefault;
+    _timeout = TimeoutDefault;
 
     return self;
 }
@@ -87,22 +87,22 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
 }
 
 + (NSTimeInterval)defaultTimeout {
-   if (_defaultAlertTimeout < TimoutMinCap) {
-        return TimoutMinCap;
-    } else if (_defaultAlertTimeout > TimoutMaxCap) {
-        return TimoutMaxCap;
+   if (_defaultAlertTimeout < TimeoutMinCap) {
+        return TimeoutMinCap;
+    } else if (_defaultAlertTimeout > TimeoutMaxCap) {
+        return TimeoutMaxCap;
     }
 
     return _defaultAlertTimeout;
 }
 
 - (NSTimeInterval)timeout {
-    if (_timeout == TimoutDefault) {
+    if (_timeout == TimeoutDefault) {
         return SDLAlertView.defaultTimeout;
-    } else if (_timeout < TimoutMinCap) {
-        return TimoutMinCap;
-    } else if (_timeout > TimoutMaxCap) {
-        return TimoutMaxCap;
+    } else if (_timeout < TimeoutMinCap) {
+        return TimeoutMinCap;
+    } else if (_timeout > TimeoutMaxCap) {
+        return TimeoutMaxCap;
     }
 
     return _timeout;
