@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // this returns a copy array of all capabilities including itself but with no recursion
 // in the result objects the .additionalVideoStreamingCapabilities will be nil
-- (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain;
+- (NSArray <SDLVideoStreamingCapability*> *)allVideoStreamingCapabilitiesPlain;
 
 - (SDLImageResolution *)makeImageResolution;
 

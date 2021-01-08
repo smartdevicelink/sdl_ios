@@ -116,10 +116,10 @@ NS_ASSUME_NONNULL_BEGIN
     return aCopy;
 }
 
-- (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain {
+- (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilitiesPlain {
     NSMutableArray *capabilitiesArray = [NSMutableArray arrayWithObject:[self shortCopy]];
     for (SDLVideoStreamingCapability *capability in self.additionalVideoStreamingCapabilities) {
-        NSArray* childCapabilities = [capability allVideoStreamingCapabilitiesPlain];
+        NSArray *childCapabilities = [capability allVideoStreamingCapabilitiesPlain];
         if (childCapabilities.count) {
             [capabilitiesArray addObjectsFromArray:childCapabilities];
         }
@@ -128,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLImageResolution *)makeImageResolution {
-    const float scale = (nil == self.scale) ? 1.0 : self.scale.floatValue;
+    const float scale = (self.scale == nil) ? 1.0 : self.scale.floatValue;
     const CGSize size = [SDLStreamingVideoScaleManager scale:scale size:self.preferredResolution.makeSize];
     return [[SDLImageResolution alloc] initWithWidth:(uint16_t)size.width height:(uint16_t)size.height];
 }
@@ -161,14 +161,14 @@ NS_ASSUME_NONNULL_BEGIN
     return resolutions;
 }
 
-#define EQUAL_RES ((nil == self.preferredResolution && nil == cap2.preferredResolution) ? YES : [self.preferredResolution isEqual:cap2.preferredResolution])
-#define EQUAL_NUM(property) ((nil == self.property && nil == cap2.property) ? YES : [self.property isEqualToNumber:cap2.property])
+#define EQUAL_RES ((self.preferredResolution == nil && other.preferredResolution == nil) ? YES : [self.preferredResolution isEqual:other.preferredResolution])
+#define EQUAL_NUM(property) ((self.property == nil && other.property == nil) ? YES : [self.property isEqualToNumber:other.property])
 
 - (BOOL)isEqual:(id)object {
     if (![object isKindOfClass:self.class]) {
         return NO;
     }
-    typeof(self) cap2 = object;
+    typeof(self) other = object;
     if (!EQUAL_RES) {
         return NO;
     }
@@ -192,10 +192,39 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)description {
     NSMutableString *formats = [NSMutableString string];
-    for (SDLVideoStreamingFormat * f in self.supportedFormats) {
+    [formats setString:@"supportedFormats:"];
+    for (SDLVideoStreamingFormat *f in self.supportedFormats) {
         [formats appendFormat:@"%@; ", f];
     }
-    return [NSString stringWithFormat:@"<%@:%p>{\n\tsupportedFormats:%@\n\tpreferredResolution:%@\n\tmaxBitrate:%@\n\thapticSpatialDataSupported:%@\n\tdiagonalScreenSize:%@\n\tpixelPerInch:%@\n\tscale:%@\n\tadditionalVideoStreamingCapabilities[%d]:%@ }", NSStringFromClass(self.class), self, formats, self.preferredResolution, self.maxBitrate, self.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO", self.diagonalScreenSize, self.pixelPerInch, self.scale, (int)self.additionalVideoStreamingCapabilities.count, self.additionalVideoStreamingCapabilities];
+    NSString *strClass = [NSString stringWithFormat:@"<%@:%p>", NSStringFromClass(self.class), self];
+    NSString *strResolution = [NSString stringWithFormat:@"preferredResolution:%@", self.preferredResolution];
+    NSString *strBitrate = [NSString stringWithFormat:@"maxBitrate:%@", self.maxBitrate];
+    NSString *strHaptic = [NSString stringWithFormat:@"hapticSpatialDataSupported:%@", self.hapticSpatialDataSupported == nil ? @"(nil)" : (self.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO")];
+    NSString *strDiagonal = [NSString stringWithFormat:@"diagonalScreenSize:%@", self.diagonalScreenSize];
+    NSString *strPPI = [NSString stringWithFormat:@"pixelPerInch:%@", self.pixelPerInch];
+    NSString *strScale = [NSString stringWithFormat:@"scale:%@", self.scale];
+    NSString *strAdditionalVideoStreamingCapabilities = [NSString stringWithFormat:@"additionalVideoStreamingCapabilities[%d]:%@", (int)self.additionalVideoStreamingCapabilities.count, self.additionalVideoStreamingCapabilities];
+
+    NSMutableString *resultDescription = [NSMutableString stringWithCapacity:strClass.length + strResolution.length + strBitrate.length + strHaptic.length + strDiagonal.length + strPPI.length + strScale.length + strAdditionalVideoStreamingCapabilities.length + 20];
+    [resultDescription appendString:strClass];
+    [resultDescription appendString:@"{\n\t"];
+    [resultDescription appendString:strResolution];
+    [resultDescription appendString:@"\n\t"];
+    [resultDescription appendString:strBitrate];
+    [resultDescription appendString:@"\n\t"];
+    [resultDescription appendString:strHaptic];
+    [resultDescription appendString:@"\n\t"];
+    [resultDescription appendString:strDiagonal];
+    [resultDescription appendString:@"\n\t"];
+    [resultDescription appendString:strPPI];
+    [resultDescription appendString:@"\n\t"];
+    [resultDescription appendString:strScale];
+    [resultDescription appendString:@"\n\t"];
+    [resultDescription appendString:strAdditionalVideoStreamingCapabilities];
+    [resultDescription appendString:@"}"];
+
+    // return immutable copy
+    return [resultDescription copy];
 }
 
 @end

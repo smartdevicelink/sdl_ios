@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)syncFrame;
 
-- (void)updateVdeoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
+- (void)updateVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
 
 @end
 

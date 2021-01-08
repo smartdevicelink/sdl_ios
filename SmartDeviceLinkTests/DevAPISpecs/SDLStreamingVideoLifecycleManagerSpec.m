@@ -120,7 +120,7 @@
 
 // expose private methods to the test suite
 @interface SDLVideoStreamingCapability (test)
-- (NSArray <SDLVideoStreamingCapability*>*)allVideoStreamingCapabilitiesPlain;
+- (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilitiesPlain;
 - (instancetype)shortCopy;
 @end
 

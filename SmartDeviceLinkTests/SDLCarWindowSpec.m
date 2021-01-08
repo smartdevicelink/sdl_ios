@@ -139,14 +139,14 @@ describe(@"test car window", ^{
                 expect(streamingLifecycleManager).notTo(beNil());
                 expect(carWindow.rootViewController).to(equal(rootViewController));
                 expect(CGSizeEqualToSize(frame.size, rootViewController.view.frame.size)).to(beTrue());
-                [carWindow updateVdeoStreamingCapability:videoStreamingCapability];
+                [carWindow updateVideoStreamingCapability:videoStreamingCapability];
 
                 const CGSize scaledSize = CGSizeMake(imgResolution.resolutionWidth.floatValue/scale, imgResolution.resolutionHeight.floatValue/scale);
                 expect(CGSizeEqualToSize(scaledSize, rootViewController.view.frame.size)).to(beTrue());
 
                 SDLImageResolution *resolution = nil;
                 SDLVideoStreamingCapability *videoStreamingCapability2 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:999 supportedFormats:nil hapticDataSupported:YES diagonalScreenSize:2.2 pixelPerInch:100 scale:1];
-                [carWindow updateVdeoStreamingCapability:videoStreamingCapability2];
+                [carWindow updateVideoStreamingCapability:videoStreamingCapability2];
                 // the size should not change
                 expect(CGSizeEqualToSize(scaledSize, rootViewController.view.frame.size)).to(beTrue());
 

@@ -422,7 +422,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamStarting {
     SDLLogD(@"Video stream starting");
 
-    if (self.shouldAutoResume && (nil != self.videoStreamingCapabilityUpdated)) {
+    if (self.shouldAutoResume && (self.videoStreamingCapabilityUpdated != nil)) {
         //apply previously received video capabilities
         [self sdl_applyVideoCapabilityWhileStarting:self.videoStreamingCapabilityUpdated];
     } else {
@@ -685,7 +685,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 }
 
-- (void)subscribeForNotifications:(NSNotificationCenter*)notificationCenter {
+- (void)subscribeForNotifications:(NSNotificationCenter *)notificationCenter {
     if (!self.subscriptionCenter) {
         self.subscriptionCenter = notificationCenter;
         [notificationCenter addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
@@ -723,15 +723,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_applyVideoCapabilityWhileStarting:(nullable SDLVideoStreamingCapability *)videoCapabilityUpdated {
     SDLVideoStreamingCapability *videoCapability = (nil == videoCapabilityUpdated) ? [self sdl_defaultVideoCapability] : videoCapabilityUpdated;
-    NSArray<SDLVideoStreamingCapability *>* capabilityMatches = [self matchVideoCapability:videoCapability];
+    NSArray<SDLVideoStreamingCapability *> *capabilityMatches = [self matchVideoCapability:videoCapability];
 
-    if (0 == capabilityMatches.count) {
+    if (capabilityMatches.count == 0) {
         // use default video capability if no match found
         capabilityMatches = @[[self sdl_defaultVideoCapability]];
     }
 
     SDLVideoStreamingCapability *matchedVideoCapability = capabilityMatches.firstObject;
-    if (1 < capabilityMatches.count) {
+    if (capabilityMatches.count > 1) {
         // add the remaining capabilities that match video streaming criteria
         matchedVideoCapability.additionalVideoStreamingCapabilities = [capabilityMatches subarrayWithRange:NSMakeRange(1, capabilityMatches.count - 1)];
     } else {
@@ -790,7 +790,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (!videoCapability.hapticSpatialDataSupported) {
         videoCapability.hapticSpatialDataSupported = self.videoStreamingCapability.hapticSpatialDataSupported;
     }
-    if (0 == videoCapability.supportedFormats.count) {
+    if (videoCapability.supportedFormats.count == 0) {
         if (self.videoFormat) {
             // video format may not come, use the previous one instead
             SDLLogD(@"Video capability received, no supported formats, trying to fix");
@@ -817,9 +817,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return @[];
     }
 
-    NSArray <SDLVideoStreamingCapability*>* allCapabilities = [videoStreamingCapability allVideoStreamingCapabilitiesPlain];
+    NSArray <SDLVideoStreamingCapability*> *allCapabilities = [videoStreamingCapability allVideoStreamingCapabilitiesPlain];
     NSMutableArray *matchCapabilities = [NSMutableArray arrayWithCapacity:allCapabilities.count];
-    for (SDLVideoStreamingCapability* nextCapability in allCapabilities) {
+    for (SDLVideoStreamingCapability *nextCapability in allCapabilities) {
         SDLImageResolution *imageResolution = [nextCapability makeImageResolution];
         BOOL isMatch = NO;
         switch (imageResolution.kind) {
@@ -1026,7 +1026,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)sdl_applyVideoCapability:(SDLVideoStreamingCapability *)capability {
-    assert(nil != capability);
+    assert(capability != nil);
 
     self.videoStreamingCapability = capability;
     self.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue; // nil capability makes NO

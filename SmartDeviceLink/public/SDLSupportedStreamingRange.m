@@ -72,17 +72,21 @@
     }
 
     BOOL isInRange = YES;
-    if (1.f <= self.minimumAspectRatio) {
+    if (self.minimumAspectRatio >= 1.f) {
         isInRange = (aspectRatio >= self.minimumAspectRatio);
     }
-    if (isInRange && (1.f <= self.maximumAspectRatio)) {
+    if (isInRange && (self.maximumAspectRatio >= 1.f)) {
         isInRange = (aspectRatio <= self.maximumAspectRatio);
     }
     return isInRange;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@: ratio-min/max:[%2.2f/%2.2f], min-diagonal:%2.2f, resolution-min/max:[%@/%@]", NSStringFromClass(self.class), self.minimumAspectRatio, self.maximumAspectRatio, self.minimumDiagonal, self.minimumResolution.stringValue, self.maximumResolution.stringValue];
+    NSString *strClass = NSStringFromClass(self.class);
+    NSString *strRatio = [NSString stringWithFormat:@"ratio-min/max:[%2.2f/%2.2f]", self.minimumAspectRatio, self.maximumAspectRatio];
+    NSString *strDiagonal = [NSString stringWithFormat:@"min-diagonal:%2.2f", self.minimumDiagonal];
+    NSString *strResolution = [NSString stringWithFormat:@"resolution-min/max:[%@/%@]", self.minimumResolution.stringValue, self.maximumResolution.stringValue];
+    return [NSString stringWithFormat:@"%@: {%@, %@, %@}", strClass, strRatio, strDiagonal, strResolution];
 }
 
 @end

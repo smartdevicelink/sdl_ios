@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     const CGRect bounds = self.streamManager.videoScaleManager.appViewportFrame;
-    if (1 > bounds.size.width) {
+    if (bounds.size.width < 1) {
         SDLLogD(@"CarWindow: Invalid viewport frame");
         return;
     }
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)updateVdeoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
+- (void)updateVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
     [self sdl_applyDisplayDimensionsToRootViewController:self.rootViewController];
 }
 
@@ -206,7 +206,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_applyDisplayDimensionsToRootViewController:(UIViewController *)rootViewController {
     const CGSize displSize = self.streamManager.videoScaleManager.displayViewportResolution;
-    if (1 > displSize.width) {
+    if (displSize.width < 1) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
         SDLLogW(@"The display screen dimensions are unknown. The CarWindow will not resize.");
         return;

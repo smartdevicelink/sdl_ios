@@ -14,7 +14,7 @@
 
 + (nullable instancetype)versionWithString:(NSString *)versionString {
     NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
-    if (3 != components.count) {
+    if (components.count != 3) {
         return nil;
     }
     const UInt8 majorVersion = (UInt8)components[0].intValue;

@@ -87,7 +87,6 @@ typedef NSString * SDLServiceID;
 
 @end
 
-
 @implementation SDLSystemCapabilityManager
 
 #pragma mark - Lifecycle
@@ -558,7 +557,7 @@ typedef NSString * SDLServiceID;
 
     SDLSystemCapabilityObserver *observerObject = [[SDLSystemCapabilityObserver alloc] initWithObserver:observer selector:selector];
 
-    return nil != [self sdl_subscribeToCapabilityType:type observerObject:observerObject];
+    return [self sdl_subscribeToCapabilityType:type observerObject:observerObject] != nil;
 }
 
 /// Helper method for subscribing to a system capability type
@@ -576,7 +575,7 @@ typedef NSString * SDLServiceID;
     // store the observer
     [self sdl_addSyncObserver:observerObject ofType:type];
 
-    if (0 == observersCount) {
+    if (observersCount == 0) {
         SDLLogD(@"This is the first subscription to capability type: %@, sending a GetSystemCapability with subscribe true", type);
 
         // We don't want to send this for the displays type because that's automatically subscribed
@@ -756,7 +755,7 @@ typedef NSString * SDLServiceID;
     self.speechCapabilities = response.speechCapabilities;
     self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
     NSArray<SDLVRCapabilities> *vrCapabilities = response.vrCapabilities;
-    self.vrCapability = (0 < vrCapabilities.count && [vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]);
+    self.vrCapability = (vrCapabilities.count > 0 && [vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]);
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapability = response.pcmStreamCapabilities;
 
