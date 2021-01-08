@@ -26,7 +26,7 @@
 @property (assign, nonatomic) UInt16 nextCancelId;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_displayCapabilityDidUpdate;
 
 @end
 
@@ -77,7 +77,7 @@ describe(@"alert manager tests", ^{
         it(@"should subscribe to capability and permission updates", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-            SEL testSelector = @selector(sdl_displayCapabilityDidUpdate:);
+            SEL testSelector = @selector(sdl_displayCapabilityDidUpdate);
 #pragma clang diagnostic pop
 
             OCMExpect([mockSystemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:[OCMArg any] selector:testSelector]);
@@ -133,12 +133,12 @@ describe(@"alert manager tests", ^{
         __block SDLAlertView *testAlertView2 = nil;
 
         beforeEach(^{
-            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
-            testAlertView2 = [[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
+            testAlertView = OCMPartialMock([[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil]);
+            testAlertView2 = OCMPartialMock([[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil]);
         });
 
-        it(@"should suspend the queue if the new capability is nil and update the pending operations with the new capability", ^{
-            OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+        it(@"should suspend the queue if the new capability is nil and it should not update operations that are currently excecuting with the new capability", ^{
+            OCMExpect([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
             OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
             [testAlertManager start];
@@ -147,17 +147,20 @@ describe(@"alert manager tests", ^{
 
             [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
             [testAlertManager presentAlert:testAlertView2 withCompletionHandler:nil];
-            [testAlertManager sdl_displayCapabilityDidUpdate:nil];
+            expect(testAlertManager.transactionQueue.operationCount).to(equal(2));
 
-            expect(testAlertManager.transactionQueue.suspended).toEventually(beTrue());
+            OCMExpect([mockSystemCapabilityManager displays]).andReturn(nil);
+            [testAlertManager sdl_displayCapabilityDidUpdate];
+
+            expect(testAlertManager.transactionQueue.suspended).to(beTrue());
             SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
-            expect(presentAlertOp1.currentWindowCapability).toEventually(beNil());
-            expect(presentAlertOp2.currentWindowCapability).toEventually(beNil());
+            expect(presentAlertOp1.currentWindowCapability).toEventually(equal([[testDisplayCapability windowCapabilities] firstObject]));
+            expect(presentAlertOp2.currentWindowCapability).toEventually(equal([[testDisplayCapability windowCapabilities] firstObject]));
         });
 
         it(@"should start the queue if the new capability is not nil and update the pending operations with the new capability", ^{
-            OCMStub([mockSystemCapabilityManager displays]).andReturn(nil);
+            OCMExpect([mockSystemCapabilityManager displays]).andReturn(nil);
             OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
             [testAlertManager start];
@@ -166,14 +169,14 @@ describe(@"alert manager tests", ^{
 
             [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
             [testAlertManager presentAlert:testAlertView2 withCompletionHandler:nil];
-            SDLSystemCapability *testSystemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:@[testDisplayCapability]];
-            [testAlertManager sdl_displayCapabilityDidUpdate:testSystemCapability];
+            OCMExpect([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+            [testAlertManager sdl_displayCapabilityDidUpdate];
 
             expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
             SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
-            expect(presentAlertOp1.currentWindowCapability).toEventually(equal(testSystemCapability.displayCapabilities.firstObject.windowCapabilities.firstObject));
-            expect(presentAlertOp2.currentWindowCapability).toEventually(equal(testSystemCapability.displayCapabilities.firstObject.windowCapabilities.firstObject));
+            expect(presentAlertOp1.currentWindowCapability).toEventually(equal([[testDisplayCapability windowCapabilities] firstObject]));
+            expect(presentAlertOp2.currentWindowCapability).toEventually(equal([[testDisplayCapability windowCapabilities] firstObject]));
         });
     });
 
