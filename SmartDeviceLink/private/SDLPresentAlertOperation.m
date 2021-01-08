@@ -36,18 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 static const int SDLAlertSoftButtonIDMin = 10;
 static const int SDLAlertSoftButtonCount = 4;
 
-@interface SDLPresentAlertOperation()
-
-@property (strong, nonatomic) NSUUID *operationId;
-@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic) SDLFileManager *fileManager;
-@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
-@property (strong, nonatomic, readwrite) SDLAlertView *alertView;
-@property (assign, nonatomic) UInt16 cancelId;
-@property (copy, nonatomic, nullable) NSError *internalError;
-
-@end
-
 @interface SDLAlertView()
 
 /// Handler called when the alert should be dismissed.
@@ -59,6 +47,18 @@ static const int SDLAlertSoftButtonCount = 4;
 
 /// Unique id assigned to the soft button.
 @property (assign, nonatomic) NSUInteger buttonId;
+
+@end
+
+@interface SDLPresentAlertOperation()
+
+@property (strong, nonatomic) NSUUID *operationId;
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
+@property (strong, nonatomic, readwrite) SDLAlertView *alertView;
+@property (assign, nonatomic) UInt16 cancelId;
+@property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
 
