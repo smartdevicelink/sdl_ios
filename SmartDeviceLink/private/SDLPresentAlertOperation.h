@@ -17,6 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Operation that handles uploading images and audio data needed by the alert and, once the data uploads are complete, sending the alert.
 @interface SDLPresentAlertOperation : SDLAsynchronousOperation
 
 /// The current window capabilities
