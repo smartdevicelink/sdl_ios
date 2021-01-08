@@ -1,5 +1,5 @@
 //
-//  SDLWindowCapability+ShowManagerExtensions.m
+//  SDLWindowCapability+ScreenManagerExtensions.m
 //  SmartDeviceLink
 //
 //  Created by Joel Fischer on 2/28/18.
