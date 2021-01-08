@@ -10,6 +10,7 @@
 
 #import "SDLAlertView.h"
 #import "SDLDisplayCapability.h"
+#import "SDLDisplayCapability+ScreenManagerExtensions.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
@@ -60,7 +61,7 @@ UInt16 const AlertCancelIdMax = 10;
     _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.alertManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _nextCancelId = AlertCancelIdMin;
 
-    _currentWindowCapability = [self sdl_extractCurrentWindowCapabilityFromDisplayCapabilities:self.systemCapabilityManager.displays];
+    _currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
 
     return self;
 }
@@ -69,7 +70,7 @@ UInt16 const AlertCancelIdMax = 10;
     SDLLogD(@"Starting manager");
 
     [self sdl_subscribeToPermissions];
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
 - (void)stop {
@@ -136,28 +137,10 @@ UInt16 const AlertCancelIdMax = 10;
 #pragma mark - Observers
 
 /// Called when the current window capabilities have updated.
-/// @param systemCapability The new current window capabilities.
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    self.currentWindowCapability = [self sdl_extractCurrentWindowCapabilityFromDisplayCapabilities:systemCapability.displayCapabilities];
+- (void)sdl_displayCapabilityDidUpdate {
+    self.currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
     [self sdl_updateTransactionQueueSuspended];
     [self sdl_updatePendingOperationsWithNewWindowCapability:self.currentWindowCapability];
-}
-
-/// Helper method for extracting the current window capability from the list of display capabilities
-/// @param displayCapabilities A list of display capabilities
-/// @return The current window capability, if it exists
-- (nullable SDLWindowCapability *)sdl_extractCurrentWindowCapabilityFromDisplayCapabilities:(nullable NSArray<SDLDisplayCapability *> *)displayCapabilities {
-    if (displayCapabilities == nil || displayCapabilities.count == 0) { return nil; }
-
-    SDLDisplayCapability *mainDisplay = displayCapabilities.firstObject;
-    for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-        NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-        if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
-
-        return windowCapability;
-    }
-
-    return nil;
 }
 
 /// Subscribes to permission updates for the `Alert` RPC. If the alert is not allowed at the current HMI level, the queue is suspended. Any `Alert` RPCs added while the queue is suspended will be sent when the `Alert` RPC is allowed at the current HMI level and the queue is unsuspended.

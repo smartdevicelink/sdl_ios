@@ -1618,6 +1618,8 @@
 		8889C2FD2559CFE3004F5966 /* SDLAudioData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8889C2FB2559CFE3004F5966 /* SDLAudioData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8889C3052559E109004F5966 /* SDLAlertAudioDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8889C3042559E109004F5966 /* SDLAlertAudioDataSpec.m */; };
 		888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */; };
+		889BCD7925A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 889BCD7725A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.h */; };
+		889BCD7A25A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 889BCD7825A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.m */; };
 		889D0B9624D065EE008AD494 /* SDLSubtleAlertResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */; };
 		889D0B9824D06E52008AD494 /* SDLSubtleAlertSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */; };
 		889D0B9E24D07FF8008AD494 /* SDLOnSubtleAlertPressedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 889D0B9D24D07FF8008AD494 /* SDLOnSubtleAlertPressedSpec.m */; };
@@ -3458,6 +3460,8 @@
 		8889C2FB2559CFE3004F5966 /* SDLAudioData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLAudioData.h; path = public/SDLAudioData.h; sourceTree = "<group>"; };
 		8889C3042559E109004F5966 /* SDLAlertAudioDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAlertAudioDataSpec.m; sourceTree = "<group>"; };
 		888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCOperationSpec.m; sourceTree = "<group>"; };
+		889BCD7725A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SDLDisplayCapability+ScreenManagerExtensions.h"; path = "private/SDLDisplayCapability+ScreenManagerExtensions.h"; sourceTree = "<group>"; };
+		889BCD7825A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "SDLDisplayCapability+ScreenManagerExtensions.m"; path = "private/SDLDisplayCapability+ScreenManagerExtensions.m"; sourceTree = "<group>"; };
 		889D0B9524D065EE008AD494 /* SDLSubtleAlertResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertResponseSpec.m; sourceTree = "<group>"; };
 		889D0B9724D06E52008AD494 /* SDLSubtleAlertSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSubtleAlertSpec.m; sourceTree = "<group>"; };
 		889D0B9D24D07FF8008AD494 /* SDLOnSubtleAlertPressedSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnSubtleAlertPressedSpec.m; sourceTree = "<group>"; };
@@ -4445,6 +4449,8 @@
 				4ABB25CF24F7E7630061BF55 /* SDLTextField+ScreenManagerExtensions.m */,
 				4ABB25D324F7E7630061BF55 /* SDLWindowCapability+ScreenManagerExtensions.h */,
 				4ABB25CE24F7E7630061BF55 /* SDLWindowCapability+ScreenManagerExtensions.m */,
+				889BCD7725A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.h */,
+				889BCD7825A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -6986,6 +6992,7 @@
 				4ABB259624F7E6880061BF55 /* SDLMenuCell.h in Headers */,
 				4ABB292E24F842A00061BF55 /* SDLDiagnosticMessage.h in Headers */,
 				4ABB272424F7FCAE0061BF55 /* SDLComponentVolumeStatus.h in Headers */,
+				889BCD7925A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.h in Headers */,
 				4ABB254224F7E48D0061BF55 /* SDLViewControllerPresentable.h in Headers */,
 				4ABB27B024F7FFDA0061BF55 /* SDLMassageCushion.h in Headers */,
 				4ABB267324F7F6640061BF55 /* SDLPrioritizedObjectCollection.h in Headers */,
@@ -7874,6 +7881,7 @@
 				4ABB2AB724F847F40061BF55 /* SDLSetGlobalPropertiesResponse.m in Sources */,
 				4ABB2B0B24F84D950061BF55 /* SDLAppServiceData.m in Sources */,
 				88D79EEE255D8D5B005FACB1 /* SDLPresentAlertOperation.m in Sources */,
+				889BCD7A25A8C2E800059041 /* SDLDisplayCapability+ScreenManagerExtensions.m in Sources */,
 				4ABB282C24F824E70061BF55 /* SDLTBTState.m in Sources */,
 				4ABB27DF24F800CA0061BF55 /* SDLPowerModeQualificationStatus.m in Sources */,
 				4ABB269D24F7F9710061BF55 /* SDLRPCParameterNames.m in Sources */,
