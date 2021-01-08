@@ -110,15 +110,7 @@ static NSTimeInterval _defaultTimeout = 5.0;
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLAlertView *newAlertView = [[[self class] allocWithZone:zone] init];
-    newAlertView->_text = [_text copyWithZone:zone];
-    newAlertView->_secondaryText = [_secondaryText copyWithZone:zone];
-    newAlertView->_tertiaryText = [_tertiaryText copyWithZone:zone];
-    newAlertView->_timeout = _timeout;
-    newAlertView->_audio = [_audio copyWithZone:zone];
-    newAlertView->_showWaitIndicator = _showWaitIndicator;
-    newAlertView->_softButtons = [_softButtons copyWithZone:zone];
-    newAlertView->_icon = [_icon copyWithZone:zone];
+    SDLAlertView *newAlertView = [[SDLAlertView allocWithZone:zone] initWithText:[_text copyWithZone:zone] secondaryText:[_secondaryText copyWithZone:zone] tertiaryText:[_tertiaryText copyWithZone:zone] timeout:@(_timeout) showWaitIndicator:@(_showWaitIndicator) audioIndication:[_audio copyWithZone:zone] buttons:[_softButtons copyWithZone:zone] icon:[_icon copyWithZone:zone]];
     newAlertView->_canceledHandler = [_canceledHandler copyWithZone:zone];
     return newAlertView;
 }
