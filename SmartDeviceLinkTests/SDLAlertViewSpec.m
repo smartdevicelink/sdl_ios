@@ -125,7 +125,7 @@ describe(@"An SDLAlertView", ^{
 
             expectAction(^{
                 [testAlertView setSoftButtons:testInvalidSoftButtons];
-            }).to(raiseException());
+            }).to(raiseException().named(@"InvalidSoftButtonStates"));
         });
     });
 

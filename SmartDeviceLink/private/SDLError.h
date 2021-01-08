@@ -103,6 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSException *)sdl_missingHandlerException;
 + (NSException *)sdl_missingIdException;
 + (NSException *)sdl_missingFilesException;
++ (NSException *)sdl_invalidAlertSoftButtonStatesException;
 + (NSException *)sdl_invalidSoftButtonStateException;
 + (NSException *)sdl_carWindowOrientationException;
 + (NSException *)sdl_invalidLockscreenSetupException;

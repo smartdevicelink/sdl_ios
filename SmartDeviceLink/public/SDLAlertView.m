@@ -74,7 +74,8 @@ static NSTimeInterval _defaultTimeout = 5.0;
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons {
     for (SDLSoftButtonObject *softButton in softButtons) {
-        NSParameterAssert(softButton.states.count == 1);
+        if (softButton.states.count == 1) { continue; }
+        @throw [NSException sdl_invalidAlertSoftButtonStatesException];
     }
 
     _softButtons = softButtons;
