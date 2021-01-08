@@ -39,6 +39,7 @@
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLWindowCapability.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -53,6 +54,7 @@ typedef NSNumber * SDLChoiceId;
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
+//@property (nonatomic, readwrite) NSString *uniqueText;
 
 @end
 
@@ -445,7 +447,25 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
+    NSMutableArray<SDLChoiceCell *> *choicess = [choices mutableCopy];
+    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
+        for (NSUInteger i = 0; i < choicess.count; i++) {
+            NSString *testName = choicess[i].uniqueText;
+            int counter = 1;
+            for (NSUInteger j = i+1; j < choicess.count; j++) {
+                if (choicess[j].uniqueText == testName) {
+                    if (counter == 1) {
+                        choicess[i].uniqueText = testName;
+                    }
+                    counter++;
+                    choicess[j].uniqueText = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter, @")"];
+                }
+            }
+        }
+    }
+
+    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choicess];
     [choicesSet minusSet:self.preloadedChoices];
 
     return [choicesSet copy];

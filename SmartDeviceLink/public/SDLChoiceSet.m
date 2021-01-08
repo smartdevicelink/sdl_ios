@@ -12,8 +12,16 @@
 #import "SDLLogMacros.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
+#import "SDLVersion.h"
+#import "SDLGlobals.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLChoiceCell()
+
+//@property (copy, nonatomic, readwrite) NSString *uniqueText;
+
+@end
 
 @interface SDLChoiceSet()
 
@@ -72,15 +80,11 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     NSUInteger allVoiceCommandsCount = 0;
     NSUInteger choiceCellWithVoiceCommandCount = 0;
     for (SDLChoiceCell *cell in choices) {
-        [choiceTextSet addObject:cell.text];
+        [choiceTextSet addObject:cell.uniqueText];
         if (cell.voiceCommands == nil) { continue; }
         [uniqueVoiceCommands addObjectsFromArray:cell.voiceCommands];
         choiceCellWithVoiceCommandCount += 1;
         allVoiceCommandsCount += cell.voiceCommands.count;
-    }
-    if (choiceTextSet.count < choices.count) {
-        SDLLogE(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
-        return nil;
     }
 
     // All or none of the choices must have VR commands
