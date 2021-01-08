@@ -87,7 +87,7 @@ describe(@"An SDLAlertView", ^{
         });
         
         it(@"should initialize correctly with initWithText:secondaryText:tertiaryText:timeout: showWaitIndicator:audioIndication:buttons:icon:", ^{
-            SDLAlertView *testAlertView = [[SDLAlertView alloc] initWithText:testTextField1 secondaryText:testTextField2 tertiaryText:testTextField3 timeout:testTimeout showWaitIndicator:testShowWaitIndicator audioIndication:testAudio buttons:testSoftButtons icon:testIcon];
+            SDLAlertView *testAlertView = [[SDLAlertView alloc] initWithText:testTextField1 secondaryText:testTextField2 tertiaryText:testTextField3 timeout:@(testTimeout) showWaitIndicator:@(testShowWaitIndicator) audioIndication:testAudio buttons:testSoftButtons icon:testIcon];
             
             expect(testAlertView.text).to(equal(testTextField1));
             expect(testAlertView.secondaryText).to(equal(testTextField2));
@@ -234,7 +234,7 @@ describe(@"An SDLAlertView", ^{
         __block SDLAlertView *copiedTestAlertView = nil;
 
         beforeEach(^{
-            testAlertView = [[SDLAlertView alloc] initWithText:testTextField1 secondaryText:testTextField2 tertiaryText:testTextField3 timeout:testTimeout showWaitIndicator:testShowWaitIndicator audioIndication:testAudio buttons:testSoftButtons icon:testIcon];
+            testAlertView = [[SDLAlertView alloc] initWithText:testTextField1 secondaryText:testTextField2 tertiaryText:testTextField3 timeout:@(testTimeout) showWaitIndicator:@(testShowWaitIndicator) audioIndication:testAudio buttons:testSoftButtons icon:testIcon];
             testAlertView.canceledHandler = ^{};
             copiedTestAlertView = [testAlertView copy];
         });

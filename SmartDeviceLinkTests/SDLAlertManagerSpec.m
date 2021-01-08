@@ -133,8 +133,8 @@ describe(@"alert manager tests", ^{
         __block SDLAlertView *testAlertView2 = nil;
 
         beforeEach(^{
-            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
-            testAlertView2 = [[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
+            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
+            testAlertView2 = [[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
         });
 
         it(@"should suspend the queue if the new capability is nil and update the pending operations with the new capability", ^{
@@ -180,7 +180,7 @@ describe(@"alert manager tests", ^{
     describe(@"generating a cancel id", ^{
         __block SDLAlertView *testAlertView = nil;
         beforeEach(^{
-            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
+            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
             [testAlertManager start];
         });
@@ -217,8 +217,8 @@ describe(@"alert manager tests", ^{
         __block SDLAlertView *testAlertView2 = nil;
 
         beforeEach(^{
-            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
-            testAlertView2 = [[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:5.0 showWaitIndicator:false audioIndication:nil buttons:nil icon:nil];
+            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
+            testAlertView2 = [[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
             [testAlertManager start];
         });

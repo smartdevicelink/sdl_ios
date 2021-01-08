@@ -49,17 +49,17 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
     return self;
 }
 
-- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(NSNumber<SDLFloat> *)timeout showWaitIndicator:(NSNumber<SDLBool> *)showWaitIndicator audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon {
+- (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(nullable NSNumber<SDLFloat> *)timeout showWaitIndicator:(nullable NSNumber<SDLBool> *)showWaitIndicator audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon {
     self = [self init];
     if (!self) { return nil; }
 
     _text = text;
     _secondaryText = secondaryText;
     _tertiaryText = tertiaryText;
-    _timeout = timeout;
-    _showWaitIndicator = showWaitIndicator;
+    self.timeout = timeout.doubleValue;
+    _showWaitIndicator = showWaitIndicator.boolValue;
     _audio = audio;
-    _softButtons = softButtons;
+    self.softButtons = softButtons;
     _icon = icon;
 
     return self;
