@@ -96,15 +96,6 @@ describe(@"alert manager tests", ^{
         });
 
         describe(@"transaction queue state", ^{
-            it(@"should start the transaction queue if the permission manager is nil and the currentWindowCapability has been set", ^{
-                OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
-
-                testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:nil];
-                [testAlertManager start];
-
-                expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
-            });
-
             it(@"should not start the transaction queue until the alert rpc has the correct permissions to be sent", ^{
                 OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
                 OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusDisallowed), nil])]);

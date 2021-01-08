@@ -29,7 +29,7 @@ typedef void(^SDLAlertCompletionHandler)(NSError *__nullable error);
 /// @param systemCapabilityManager The system capability manager object for reading window capabilities
 /// @param permissionManager The permission manager object for checking permissions
 /// @return The alert manager
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager;
 
 /// Starts the manager.
 - (void)start;

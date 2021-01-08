@@ -40,10 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLScreenManager
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager {
-    self = [self initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager permissionManager:nil];
-    if (!self) { return nil; }
-
-    return self;
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"This convenience init is for internal use only and is no longer used. The initWithConnectionManager:fileManager:systemCapabilityManager:permissionManager: convenience init is now used." userInfo:nil];
 }
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager {

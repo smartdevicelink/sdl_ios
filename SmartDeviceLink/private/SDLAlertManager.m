@@ -32,7 +32,7 @@ UInt16 const AlertCancelIdMax = 10;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
-@property (weak, nonatomic, nullable) SDLPermissionManager *permissionManager;
+@property (weak, nonatomic) SDLPermissionManager *permissionManager;
 
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
@@ -47,7 +47,7 @@ UInt16 const AlertCancelIdMax = 10;
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager {
     self = [super init];
     if (!self) { return nil; }
 
