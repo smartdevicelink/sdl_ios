@@ -26,15 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 static const float TimeoutDefault = 0.0;
 static const float TimeoutMinCap = 3.0;
 static const float TimeoutMaxCap = 10.0;
-static const float DefaultAlertTimeout = 5.0;
-
-static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
+static NSTimeInterval _defaultTimeout = 5.0;
 
 - (instancetype)init {
     self = [super init];
     if (!self) { return nil; }
 
-    _timeout = TimeoutDefault;
+    _timeout = self.class.defaultTimeout;
 
     return self;
 }
@@ -83,17 +81,17 @@ static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
 }
 
 + (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
-    _defaultAlertTimeout = defaultTimeout;
+    _defaultTimeout = defaultTimeout;
 }
 
 + (NSTimeInterval)defaultTimeout {
-   if (_defaultAlertTimeout < TimeoutMinCap) {
+   if (_defaultTimeout < TimeoutMinCap) {
         return TimeoutMinCap;
-    } else if (_defaultAlertTimeout > TimeoutMaxCap) {
+    } else if (_defaultTimeout > TimeoutMaxCap) {
         return TimeoutMaxCap;
     }
 
-    return _defaultAlertTimeout;
+    return _defaultTimeout;
 }
 
 - (NSTimeInterval)timeout {
