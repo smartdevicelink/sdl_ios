@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAlertView
 
-static const float TimoutDefault = 0.0;
-static const float TimoutMinCap = 3.0;
-static const float TimoutMaxCap = 10.0;
+static const float TimeoutDefault = 0.0;
+static const float TimeoutMinCap = 3.0;
+static const float TimeoutMaxCap = 10.0;
 static const float DefaultAlertTimeout = 5.0;
 
 static NSTimeInterval _defaultAlertTimeout = DefaultAlertTimeout;
