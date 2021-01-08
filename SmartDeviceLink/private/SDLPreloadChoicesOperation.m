@@ -160,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSString *menuName = nil;
     if ([self sdl_shouldSendChoiceText]) {
-        menuName = cell.text;
+        menuName = cell.uniqueText;
     }
 
     if(!menuName) {
