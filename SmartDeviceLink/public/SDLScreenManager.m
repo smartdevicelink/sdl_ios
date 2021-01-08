@@ -30,9 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLSubscribeButtonManager *subscribeButtonManager;
 @property (strong, nonatomic) SDLAlertManager *alertManager;
 
-@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic) SDLFileManager *fileManager;
-@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
+@property (weak, nonatomic, nullable) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic, nullable) SDLFileManager *fileManager;
+@property (weak, nonatomic, nullable) SDLSystemCapabilityManager *systemCapabilityManager;
 @property (weak, nonatomic, nullable) SDLPermissionManager *permissionManager;
 
 @end
