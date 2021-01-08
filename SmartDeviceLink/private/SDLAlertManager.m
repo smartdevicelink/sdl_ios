@@ -81,7 +81,7 @@ UInt16 const AlertCancelIdMax = 10;
     [_transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
 
-    [self sdl_unsubscribeToPermissions];
+    [self.permissionManager removeAllObservers];
     [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self];
 }
 
@@ -163,27 +163,13 @@ UInt16 const AlertCancelIdMax = 10;
 /// Subscribes to permission updates for the `Alert` RPC. If the alert is not allowed at the current HMI level, the queue is suspended. Any `Alert` RPCs added while the queue is suspended will be sent when the `Alert` RPC is allowed at the current HMI level and the queue is unsuspended.
 /// @discussion If there is no permission manager, the queue is not suspended and the `Alert` RPCs can be sent at any HMI level. This may mean that some requests are rejected due to invalid permissions.
 - (void)sdl_subscribeToPermissions {
-    if (self.permissionManager == nil) {
-        self.isAlertRPCAllowed = YES;
-        [self sdl_updateTransactionQueueSuspended];
-    } else {
-        SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];
-        __weak typeof(self) weakself = self;
-        [self.permissionManager subscribeToRPCPermissions:@[alertPermissionElement] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
-            weakself.isAlertRPCAllowed = (status == SDLPermissionGroupStatusAllowed);
+    SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];
+    __weak typeof(self) weakself = self;
+    [self.permissionManager subscribeToRPCPermissions:@[alertPermissionElement] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+        weakself.isAlertRPCAllowed = (status == SDLPermissionGroupStatusAllowed);
 
-            [weakself sdl_updateTransactionQueueSuspended];
-        }];
-    }
-}
-
-/// Unsubscribes to permission updates for the `Alert` RPC.
-- (void)sdl_unsubscribeToPermissions {
-    if (self.permissionManager == nil) {
-        return;
-    }
-
-    [self.permissionManager removeAllObservers];
+        [weakself sdl_updateTransactionQueueSuspended];
+    }];
 }
 
 #pragma mark - Getters
