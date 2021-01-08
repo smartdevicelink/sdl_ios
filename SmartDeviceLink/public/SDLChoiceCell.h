@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryArtwork;
 
+@property (nonatomic, readwrite) NSString *uniqueText;
 /**
  Initialize the cell with nothing. This is unavailable
 

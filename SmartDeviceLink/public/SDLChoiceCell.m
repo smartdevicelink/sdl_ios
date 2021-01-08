@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
     _voiceCommands = voiceCommands;
     _artwork = artwork;
     _secondaryArtwork = secondaryArtwork;
+    _uniqueText = text;
     
     _choiceId = UINT16_MAX;
 
@@ -84,7 +85,7 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
 #pragma mark - Etc.
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count];
+    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu", _choiceId, _text, _secondaryText, _tertiaryText, _uniqueText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count];
 }
 
 @end
