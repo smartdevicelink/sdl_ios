@@ -40,12 +40,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithExternalTemperature:(nullable SDLTemperature *)externalTemperature cabinTemperature:(nullable SDLTemperature *)cabinTemperature atmosphericPressure:(nullable NSNumber<SDLFloat> *)atmosphericPressure {
     self = [self init];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.externalTemperature = externalTemperature;
+        self.cabinTemperature = cabinTemperature;
+        self.atmosphericPressure = atmosphericPressure;
     }
-    self.externalTemperature = externalTemperature;
-    self.cabinTemperature = cabinTemperature;
-    self.atmosphericPressure = atmosphericPressure;
     return self;
 }
 
