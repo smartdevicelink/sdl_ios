@@ -9,6 +9,7 @@
 #import "SDLSoftButtonManager.h"
 
 #import "SDLConnectionManagerType.h"
+#import "SDLDisplayCapability+ScreenManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
@@ -79,7 +80,7 @@ static const int SDLShowSoftButtonIDCount = 8;
 }
 
 - (void)start {
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
 - (void)stop {
@@ -218,23 +219,12 @@ static const int SDLShowSoftButtonIDCount = 8;
 
 #pragma mark - Observers
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
+- (void)sdl_displayCapabilityDidUpdate {
     SDLSoftButtonCapabilities *oldCapabilities = self.softButtonCapabilities;
 
     // Extract and update the capabilities
-    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
-    if (capabilities == nil || capabilities.count == 0) {
-        self.softButtonCapabilities = nil;
-    } else {
-        SDLDisplayCapability *mainDisplay = capabilities[0];
-        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
-            
-            self.softButtonCapabilities = windowCapability.softButtonCapabilities.firstObject;
-            break;
-        }
-    }
+    SDLWindowCapability *mainDisplay = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
+    self.softButtonCapabilities = mainDisplay.softButtonCapabilities.firstObject;
 
     // Update the queue's suspend state
     [self sdl_updateTransactionQueueSuspended];

@@ -46,7 +46,7 @@
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification;
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_displayCapabilityDidUpdate;
 
 @end
 
@@ -97,7 +97,9 @@ describe(@"a soft button manager", ^{
         SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
         windowCapability.softButtonCapabilities = @[softButtonCapabilities];
         SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[windowCapability] windowTypeSupported:nil];
-        [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+
+        OCMExpect([testSystemCapabilityManager displays]).andReturn(@[displayCapability]);
+        [testManager sdl_displayCapabilityDidUpdate];
     });
 
     it(@"should instantiate correctly", ^{
@@ -138,7 +140,9 @@ describe(@"a soft button manager", ^{
         beforeEach(^{
             SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
             SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[windowCapability] windowTypeSupported:nil];
-            [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+
+            OCMExpect([testSystemCapabilityManager displays]).andReturn(@[displayCapability]);
+            [testManager sdl_displayCapabilityDidUpdate];
         });
 
         it(@"should set the buttons but have the queue suspended", ^{
