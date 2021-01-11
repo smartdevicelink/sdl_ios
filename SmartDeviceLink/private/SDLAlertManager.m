@@ -125,12 +125,11 @@ UInt16 const AlertCancelIdMax = 10;
 }
 
 /// Updates pending operations in the queue with the new window capability (i.e. the window capability will change when the template changes)
-/// @param windowCapability The new window capability
-- (void)sdl_updatePendingOperationsWithNewWindowCapability:(nullable SDLWindowCapability *)windowCapability {
+- (void)sdl_updatePendingOperationsWithNewWindowCapability {
     for (NSOperation *operation in self.transactionQueue.operations) {
         if (operation.isExecuting) { continue; }
 
-        ((SDLPresentAlertOperation *)operation).currentWindowCapability = windowCapability;
+        ((SDLPresentAlertOperation *)operation).currentWindowCapability = self.currentWindowCapability;
     }
 }
 
@@ -140,7 +139,7 @@ UInt16 const AlertCancelIdMax = 10;
 - (void)sdl_displayCapabilityDidUpdate {
     self.currentWindowCapability = [self.systemCapabilityManager defaultMainWindowCapability];
     [self sdl_updateTransactionQueueSuspended];
-    [self sdl_updatePendingOperationsWithNewWindowCapability:self.currentWindowCapability];
+    [self sdl_updatePendingOperationsWithNewWindowCapability];
 }
 
 /// Subscribes to permission updates for the `Alert` RPC. If the alert is not allowed at the current HMI level, the queue is suspended. Any `Alert` RPCs added while the queue is suspended will be sent when the `Alert` RPC is allowed at the current HMI level and the queue is unsuspended.
