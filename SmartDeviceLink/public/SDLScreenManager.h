@@ -244,7 +244,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
  @param permissionManager The permission manager object for checking RPC permissions
  @return The screen manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(nullable SDLPermissionManager *)permissionManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager;
 
 /**
  Starts the manager and all sub-managers
