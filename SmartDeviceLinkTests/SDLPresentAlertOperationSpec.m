@@ -65,6 +65,10 @@ describe(@"SDLPresentAlertOperation", ^{
     __block SDLAlertAudioData *testAlertAudioFileData = nil;
     __block SDLSoftButtonObject *testAlertSoftButton1 = nil;
     __block SDLSoftButtonObject *testAlertSoftButton2 = nil;
+    __block SDLSoftButtonObject *testAlertSoftButton3 = nil;
+    __block SDLSoftButtonObject *testAlertSoftButton4 = nil;
+    __block SDLSoftButtonObject *testAlertSoftButton5 = nil;
+    __block SDLSoftButtonObject *testAlertSoftButton6 = nil;
     __block SDLArtwork *testAlertIcon = nil;
     __block SDLArtwork *testButton1Icon = nil;
     __block SDLArtwork *testButton2Icon = nil;
@@ -92,6 +96,10 @@ describe(@"SDLPresentAlertOperation", ^{
 
         testAlertSoftButton1 = [[SDLSoftButtonObject alloc] initWithName:@"button1" text:@"button1" artwork:testButton1Icon handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
         testAlertSoftButton2 = [[SDLSoftButtonObject alloc] initWithName:@"button2" text:@"button2" artwork:testButton2Icon handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
+        testAlertSoftButton3 = [[SDLSoftButtonObject alloc] initWithName:@"button3" text:@"button3" artwork:testButton2Icon handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
+        testAlertSoftButton4 = [[SDLSoftButtonObject alloc] initWithName:@"button4" text:@"button4" artwork:testButton2Icon handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
+        testAlertSoftButton5 = [[SDLSoftButtonObject alloc] initWithName:@"button5" text:@"button5" artwork:testButton2Icon handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
+        testAlertSoftButton6 = [[SDLSoftButtonObject alloc] initWithName:@"button6" text:@"button6" artwork:testButton2Icon handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
 
         UIImage *testImage = [[UIImage alloc] initWithContentsOfFile:[testBundle pathForResource:@"testImageJPEG" ofType:@"jpeg"]];
         testAlertIcon = [SDLArtwork artworkWithImage:testImage asImageFormat:SDLArtworkImageFormatPNG];
@@ -730,6 +738,64 @@ describe(@"SDLPresentAlertOperation", ^{
             });
         });
 
+        context(@"with too many soft buttons", ^{
+            __block SDLAlertView *testAlertViewWithExtraSoftButtons = nil;
+
+            beforeEach(^{
+                [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertFieldLines];
+                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
+                SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
+                testSoftButtonCapabilities.imageSupported = @YES;
+                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
+                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+                OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+
+                SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:3 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
+
+                testAlertViewWithExtraSoftButtons = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:@(4) showWaitIndicator:@(YES) audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2, testAlertSoftButton3, testAlertSoftButton4, testAlertSoftButton5, testAlertSoftButton6] icon:testAlertIcon];
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertViewWithExtraSoftButtons cancelID:testCancelID];
+
+                testPresentAlertOperation.completionBlock = ^{
+                    hasCalledOperationCompletionHandler = YES;
+                };
+            });
+
+            it(@"should send the alert but only allow 4 soft buttons to be sent", ^{
+                [testPresentAlertOperation start];
+                OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLAlert *alertRequest = (SDLAlert *)value;
+                    expect(alertRequest.alertText1).to(equal(testAlertView.text));
+                    expect(alertRequest.alertText2).to(equal(testAlertView.secondaryText));
+                    expect(alertRequest.alertText3).to(equal(testAlertView.tertiaryText));
+                    expect(alertRequest.ttsChunks.count).to(equal(1));
+                    expect(alertRequest.ttsChunks[0].text).to(equal(testAlertView.audio.prompts.firstObject.text));
+                    expect(alertRequest.duration).to(equal(testAlertView.timeout * 1000));
+                    expect(alertRequest.playTone).to(equal(testAlertView.audio.playTone));
+                    expect(alertRequest.progressIndicator).to(equal(testAlertView.showWaitIndicator));
+                    expect(alertRequest.softButtons.count).to(equal(4));
+                    expect(alertRequest.softButtons[0].text).to(equal(testAlertViewWithExtraSoftButtons.softButtons[0].currentState.text));
+                    expect(alertRequest.softButtons[1].text).to(equal(testAlertViewWithExtraSoftButtons.softButtons[1].currentState.text));
+                    expect(alertRequest.softButtons[2].text).to(equal(testAlertViewWithExtraSoftButtons.softButtons[2].currentState.text));
+                    expect(alertRequest.softButtons[3].text).to(equal(testAlertViewWithExtraSoftButtons.softButtons[3].currentState.text));
+                    expect(alertRequest.softButtons[0].softButtonID).to(equal(10));
+                    expect(alertRequest.softButtons[1].softButtonID).to(equal(11));
+                    expect(alertRequest.softButtons[2].softButtonID).to(equal(12));
+                    expect(alertRequest.softButtons[3].softButtonID).to(equal(13));
+
+                    expect(alertRequest.cancelID).to(equal(testCancelID));
+                    expect(alertRequest.alertIcon.value).to(equal(testAlertView.icon.name));
+                    return [value isKindOfClass:[SDLAlert class]];
+                }] withResponseHandler:[OCMArg any]]);
+
+                OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
+            });
+        });
+
         context(@"with valid data", ^{
             beforeEach(^{
                 [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertFieldLines];
@@ -766,9 +832,11 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(alertRequest.duration).to(equal(testAlertView.timeout * 1000));
                     expect(alertRequest.playTone).to(equal(testAlertView.audio.playTone));
                     expect(alertRequest.progressIndicator).to(equal(testAlertView.showWaitIndicator));
-                    expect(alertRequest.softButtons.count).to(equal(testAlertView.softButtons.count));
+                    expect(alertRequest.softButtons.count).to(equal(2));
                     expect(alertRequest.softButtons[0].text).to(equal(testAlertView.softButtons[0].currentState.text));
                     expect(alertRequest.softButtons[1].text).to(equal(testAlertView.softButtons[1].currentState.text));
+                    expect(alertRequest.softButtons[0].softButtonID).to(equal(10));
+                    expect(alertRequest.softButtons[1].softButtonID).to(equal(11));
                     expect(alertRequest.cancelID).to(equal(testCancelID));
                     expect(alertRequest.alertIcon.value).to(equal(testAlertView.icon.name));
                     return [value isKindOfClass:[SDLAlert class]];
