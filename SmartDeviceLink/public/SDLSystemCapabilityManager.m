@@ -14,7 +14,6 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapability.h"
-#import "SDLDisplayCapability+ScreenManagerExtensions.h"
 #import "SDLDriverDistractionCapability.h"
 #import "SDLError.h"
 #import "SDLGenericResponse.h"
@@ -171,7 +170,15 @@ typedef NSString * SDLServiceID;
         return nil;
     }
 
-    return [capabilities.firstObject windowCapabilityForWindowID:windowID];
+    SDLDisplayCapability *mainDisplay = capabilities[0];
+    for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
+        NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
+        if (currentWindowID != windowID) { continue; }
+
+        return windowCapability;
+    }
+
+    return nil;
 }
 
 - (nullable SDLWindowCapability *)defaultMainWindowCapability {

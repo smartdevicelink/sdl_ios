@@ -46,7 +46,7 @@ describe(@"alert manager tests", ^{
     __block id mockSystemCapabilityManager = nil;
     __block id mockCurrentWindowCapability = nil;
     __block id mockPermissionManager = nil;
-    __block SDLDisplayCapability *testDisplayCapability = nil;
+    __block SDLWindowCapability *testWindowCapability = nil;
 
     beforeEach(^{
         mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
@@ -55,17 +55,14 @@ describe(@"alert manager tests", ^{
         mockCurrentWindowCapability = OCMClassMock([SDLWindowCapability class]);
         mockPermissionManager = OCMClassMock([SDLPermissionManager class]);
 
-        SDLWindowCapability *testWindowCapability = [[SDLWindowCapability alloc] init];
+        testWindowCapability = [[SDLWindowCapability alloc] init];
         testWindowCapability.numCustomPresetsAvailable = @10;
         testWindowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
-
-        testDisplayCapability = [[SDLDisplayCapability alloc] init];
-        testDisplayCapability.windowCapabilities = @[testWindowCapability];
     });
 
     describe(@"when initialized", ^{
         it(@"the transaction queue should be suspended", ^{
-            OCMStub([mockSystemCapabilityManager displays]).andReturn(nil);
+            OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
 
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
 
@@ -97,18 +94,18 @@ describe(@"alert manager tests", ^{
 
         describe(@"transaction queue state", ^{
             it(@"should not start the transaction queue until the alert rpc has the correct permissions to be sent", ^{
-                OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
-                OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusDisallowed), nil])]);
+                OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+                OCMExpect([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusDisallowed), nil])]);
 
                 testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
                 [testAlertManager start];
 
-                expect(testAlertManager.transactionQueue.suspended).toEventually(beTrue());
+                expect(testAlertManager.transactionQueue.suspended).to(beTrue());
             });
 
             it(@"should start the transaction queue if the alert rpc has the correct permissions and the currentWindowCapability has been set", ^{
-                OCMStub([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
-                OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
+                OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+                OCMExpect([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
 
                 testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
                 [testAlertManager start];
@@ -117,8 +114,8 @@ describe(@"alert manager tests", ^{
             });
 
             it(@"should not start the transaction queue until the currentWindowCapability has been set", ^{
-                OCMStub([mockSystemCapabilityManager displays]).andReturn(nil);
-                OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
+                OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(nil);
+                OCMExpect([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
 
                 testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
                 [testAlertManager start];
@@ -133,13 +130,13 @@ describe(@"alert manager tests", ^{
         __block SDLAlertView *testAlertView2 = nil;
 
         beforeEach(^{
-            testAlertView = OCMPartialMock([[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil]);
-            testAlertView2 = OCMPartialMock([[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil]);
+            testAlertView = [[SDLAlertView alloc] initWithText:@"alert text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
+            testAlertView2 = [[SDLAlertView alloc] initWithText:@"alert 2 text" secondaryText:nil tertiaryText:nil timeout:@(5.0) showWaitIndicator:@(NO) audioIndication:nil buttons:nil icon:nil];
         });
 
         it(@"should suspend the queue if the new capability is nil and it should not update operations that are currently excecuting with the new capability", ^{
-            OCMExpect([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
-            OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
+            OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            OCMExpect([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
             [testAlertManager start];
 
@@ -149,19 +146,19 @@ describe(@"alert manager tests", ^{
             [testAlertManager presentAlert:testAlertView2 withCompletionHandler:nil];
             expect(testAlertManager.transactionQueue.operationCount).to(equal(2));
 
-            OCMExpect([mockSystemCapabilityManager displays]).andReturn(nil);
+            OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(nil);
             [testAlertManager sdl_displayCapabilityDidUpdate];
 
             expect(testAlertManager.transactionQueue.suspended).to(beTrue());
             SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
-            expect(presentAlertOp1.currentWindowCapability).toEventually(equal([[testDisplayCapability windowCapabilities] firstObject]));
-            expect(presentAlertOp2.currentWindowCapability).toEventually(equal([[testDisplayCapability windowCapabilities] firstObject]));
+            expect(presentAlertOp1.currentWindowCapability).toEventually(equal(testWindowCapability));
+            expect(presentAlertOp2.currentWindowCapability).toEventually(equal(testWindowCapability));
         });
 
         it(@"should start the queue if the new capability is not nil and update the pending operations with the new capability", ^{
-            OCMExpect([mockSystemCapabilityManager displays]).andReturn(nil);
-            OCMStub([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
+            OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(nil);
+            OCMExpect([mockPermissionManager subscribeToRPCPermissions:[OCMArg any] groupType:SDLPermissionGroupTypeAny withHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], @(SDLPermissionGroupStatusAllowed), nil])]);
             testAlertManager = [[SDLAlertManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
             [testAlertManager start];
 
@@ -169,14 +166,16 @@ describe(@"alert manager tests", ^{
 
             [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
             [testAlertManager presentAlert:testAlertView2 withCompletionHandler:nil];
-            OCMExpect([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+            expect(testAlertManager.transactionQueue.operationCount).to(equal(2));
+
+            OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
             [testAlertManager sdl_displayCapabilityDidUpdate];
 
             expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
             SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
-            expect(presentAlertOp1.currentWindowCapability).toEventually(equal([[testDisplayCapability windowCapabilities] firstObject]));
-            expect(presentAlertOp2.currentWindowCapability).toEventually(equal([[testDisplayCapability windowCapabilities] firstObject]));
+            expect(presentAlertOp1.currentWindowCapability).toEventually(equal(testWindowCapability));
+            expect(presentAlertOp2.currentWindowCapability).toEventually(equal(testWindowCapability));
         });
     });
 

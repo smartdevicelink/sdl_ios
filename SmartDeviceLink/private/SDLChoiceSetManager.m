@@ -18,7 +18,6 @@
 #import "SDLCreateInteractionChoiceSetResponse.h"
 #import "SDLDeleteChoicesOperation.h"
 #import "SDLDisplayCapability.h"
-#import "SDLDisplayCapability+ScreenManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
@@ -566,7 +565,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 #pragma mark - RPC Responses / Notifications
 
 - (void)sdl_displayCapabilityDidUpdate {
-    self.currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
+    self.currentWindowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     [self sdl_updateTransactionQueueSuspended];
 }
 

@@ -10,7 +10,6 @@
 
 #import "SDLAlertView.h"
 #import "SDLDisplayCapability.h"
-#import "SDLDisplayCapability+ScreenManagerExtensions.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
@@ -61,7 +60,7 @@ UInt16 const AlertCancelIdMax = 10;
     _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.alertManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _nextCancelId = AlertCancelIdMin;
 
-    _currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
+    _currentWindowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
 
     return self;
 }
@@ -138,7 +137,7 @@ UInt16 const AlertCancelIdMax = 10;
 
 /// Called when the current window capabilities have updated.
 - (void)sdl_displayCapabilityDidUpdate {
-    self.currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
+    self.currentWindowCapability = [self.systemCapabilityManager defaultMainWindowCapability];
     [self sdl_updateTransactionQueueSuspended];
     [self sdl_updatePendingOperationsWithNewWindowCapability:self.currentWindowCapability];
 }

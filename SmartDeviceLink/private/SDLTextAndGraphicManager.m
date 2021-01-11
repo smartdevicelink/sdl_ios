@@ -11,7 +11,6 @@
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapability.h"
-#import "SDLDisplayCapability+ScreenManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
@@ -377,7 +376,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Subscribed notifications
 
 - (void)sdl_displayCapabilityDidUpdate {
-    SDLWindowCapability *currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
+    SDLWindowCapability *currentWindowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
 
     // Check if the window capability is equal to the one we already have. If it is, abort.
     if ([currentWindowCapability isEqual:self.windowCapability]) { return; }

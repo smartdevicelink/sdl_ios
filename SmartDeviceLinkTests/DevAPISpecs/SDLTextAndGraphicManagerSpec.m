@@ -491,9 +491,8 @@ describe(@"text and graphic manager", ^{
 
             testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
             testDisplayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"Test display" windowCapabilities:@[testWindowCapability] windowTypeSupported:nil];
-//            testSystemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:@[testDisplayCapability]];
 
-            OCMExpect([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+            OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
             [testManager sdl_displayCapabilityDidUpdate];
         });
 
@@ -561,7 +560,7 @@ describe(@"text and graphic manager", ^{
         });
 
         it(@"should start the transaction queue and not send a transaction", ^{
-            OCMExpect([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+            OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
             [testManager sdl_displayCapabilityDidUpdate];
 
             expect(testManager.transactionQueue.isSuspended).to(beFalse());
@@ -571,7 +570,7 @@ describe(@"text and graphic manager", ^{
         context(@"if there's data", ^{
             beforeEach(^{
                 testManager.textField1 = @"test";
-                OCMExpect([mockSystemCapabilityManager displays]).andReturn(@[testDisplayCapability]);
+                OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
                 [testManager sdl_displayCapabilityDidUpdate];
             });
 

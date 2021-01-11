@@ -76,6 +76,8 @@ describe(@"a soft button manager", ^{
     __block SDLArtwork *object2State1Art = [[SDLArtwork alloc] initWithData:[@"TestData" dataUsingEncoding:NSUTF8StringEncoding] name:object2State1ArtworkName fileExtension:@"png" persistent:YES];
     __block SDLSoftButtonState *object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State1Art];
 
+    __block SDLWindowCapability *testWindowCapability = nil;
+
     beforeEach(^{
         testFileManager = OCMClassMock([SDLFileManager class]);
         testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
@@ -94,11 +96,10 @@ describe(@"a soft button manager", ^{
         softButtonCapabilities.longPressAvailable = @YES;
         softButtonCapabilities.shortPressAvailable = @YES;
 
-        SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
-        windowCapability.softButtonCapabilities = @[softButtonCapabilities];
-        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[windowCapability] windowTypeSupported:nil];
+        testWindowCapability = [[SDLWindowCapability alloc] init];
+        testWindowCapability.softButtonCapabilities = @[softButtonCapabilities];
 
-        OCMExpect([testSystemCapabilityManager displays]).andReturn(@[displayCapability]);
+        OCMExpect([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
         [testManager sdl_displayCapabilityDidUpdate];
     });
 
@@ -139,9 +140,7 @@ describe(@"a soft button manager", ^{
     context(@"when there are no soft button capabilities", ^{
         beforeEach(^{
             SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
-            SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[windowCapability] windowTypeSupported:nil];
-
-            OCMExpect([testSystemCapabilityManager displays]).andReturn(@[displayCapability]);
+            OCMExpect([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(windowCapability);
             [testManager sdl_displayCapabilityDidUpdate];
         });
 

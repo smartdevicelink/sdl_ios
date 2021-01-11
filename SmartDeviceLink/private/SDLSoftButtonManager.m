@@ -9,7 +9,6 @@
 #import "SDLSoftButtonManager.h"
 
 #import "SDLConnectionManagerType.h"
-#import "SDLDisplayCapability+ScreenManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
@@ -223,7 +222,7 @@ static const int SDLShowSoftButtonIDCount = 8;
     SDLSoftButtonCapabilities *oldCapabilities = self.softButtonCapabilities;
 
     // Extract and update the capabilities
-    SDLWindowCapability *currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
+    SDLWindowCapability *currentWindowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     self.softButtonCapabilities = currentWindowCapability.softButtonCapabilities.firstObject;
 
     // Update the queue's suspend state
