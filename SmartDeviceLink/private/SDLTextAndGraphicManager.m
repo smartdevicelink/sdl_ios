@@ -377,11 +377,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Subscribed notifications
 
 - (void)sdl_displayCapabilityDidUpdate {
-    SDLWindowCapability *mainDisplay = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
+    SDLWindowCapability *currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
 
     // Check if the window capability is equal to the one we already have. If it is, abort.
-    if ([mainDisplay isEqual:self.windowCapability]) { return; }
-    self.windowCapability = mainDisplay;
+    if ([currentWindowCapability isEqual:self.windowCapability]) { return; }
+    self.windowCapability = currentWindowCapability;
 
     [self sdl_updateTransactionQueueSuspended];
     

@@ -16,13 +16,17 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLDisplayCapability (ScreenManagerExtensions)
 
 - (nullable SDLWindowCapability *)currentWindowCapability {
+    return [self windowCapabilityForWindowID:SDLPredefinedWindowsDefaultWindow];
+}
+
+- (nullable SDLWindowCapability *)windowCapabilityForWindowID:(NSUInteger)windowID {
     if (self.windowCapabilities == nil || self.windowCapabilities.count == 0) {
         return nil;
     }
 
     for (SDLWindowCapability *windowCapability in self.windowCapabilities) {
         NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-        if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
+        if (currentWindowID != windowID) { continue; }
 
         return windowCapability;
     }

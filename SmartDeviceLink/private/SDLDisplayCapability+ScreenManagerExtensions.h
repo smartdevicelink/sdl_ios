@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic, nullable, readonly) SDLWindowCapability *currentWindowCapability;
 
+- (nullable SDLWindowCapability *)windowCapabilityForWindowID:(NSUInteger)windowID;
+
 @end
 
 NS_ASSUME_NONNULL_END

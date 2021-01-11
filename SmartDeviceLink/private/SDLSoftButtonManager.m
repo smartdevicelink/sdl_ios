@@ -223,8 +223,8 @@ static const int SDLShowSoftButtonIDCount = 8;
     SDLSoftButtonCapabilities *oldCapabilities = self.softButtonCapabilities;
 
     // Extract and update the capabilities
-    SDLWindowCapability *mainDisplay = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
-    self.softButtonCapabilities = mainDisplay.softButtonCapabilities.firstObject;
+    SDLWindowCapability *currentWindowCapability = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
+    self.softButtonCapabilities = currentWindowCapability.softButtonCapabilities.firstObject;
 
     // Update the queue's suspend state
     [self sdl_updateTransactionQueueSuspended];
