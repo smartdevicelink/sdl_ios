@@ -45,7 +45,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryArtwork;
 
-@property (nonatomic, readwrite) NSString *uniqueText;
+/**
+ Title to be displayed, used to distinguish cells with same text in case it is not supported by the module.
+ */
+@property (nonatomic, readonly) NSString *uniqueText;
 /**
  Initialize the cell with nothing. This is unavailable
 

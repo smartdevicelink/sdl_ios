@@ -17,12 +17,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLChoiceCell()
-
-//@property (copy, nonatomic, readwrite) NSString *uniqueText;
-
-@end
-
 @interface SDLChoiceSet()
 
 @property (nullable, copy, nonatomic) SDLChoiceSetCanceledHandler canceledHandler;

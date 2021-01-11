@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
+@property (nonatomic, readwrite) NSString *uniqueText;
 
 @end
 
