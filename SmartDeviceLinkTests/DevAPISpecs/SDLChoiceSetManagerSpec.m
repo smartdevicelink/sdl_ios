@@ -62,7 +62,7 @@
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification;
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_displayCapabilityDidUpdate;
 
 @end
 
@@ -136,7 +136,8 @@ describe(@"choice set manager tests", ^{
                 testManager.currentWindowCapability = disabledWindowCapability;
 
                 SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[enabledWindowCapability] windowTypeSupported:nil];
-                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+                OCMExpect([testSystemCapabilityManager displays]).andReturn(@[displayCapability]);
+                [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beFalse());
             });
@@ -159,14 +160,16 @@ describe(@"choice set manager tests", ^{
 
             it(@"should suspend the queue when receiving a bad display capability", ^{
                 SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[disabledWindowCapability] windowTypeSupported:nil];
-                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+                OCMExpect([testSystemCapabilityManager displays]).andReturn(@[displayCapability]);
+                [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
             });
 
             it(@"should not suspend the queue when receiving an empty display capability", ^{
                 SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[blankWindowCapability] windowTypeSupported:nil];
-                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+                OCMExpect([testSystemCapabilityManager displays]).andReturn(@[displayCapability]);
+                [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
             });

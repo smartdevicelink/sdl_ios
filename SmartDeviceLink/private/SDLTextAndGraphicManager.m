@@ -11,6 +11,7 @@
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapability.h"
+#import "SDLDisplayCapability+ScreenManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
@@ -90,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Make sure none of the properties were set after the manager was shut down
     [self sdl_reset];
 
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
 - (void)stop {
@@ -375,23 +376,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Subscribed notifications
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    // Extract and update the capabilities
-    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
-    if (capabilities == nil || capabilities.count == 0) {
-        self.windowCapability = nil;
-    } else {
-        SDLDisplayCapability *mainDisplay = capabilities[0];
-        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
+- (void)sdl_displayCapabilityDidUpdate {
+    SDLWindowCapability *mainDisplay = self.systemCapabilityManager.displays.firstObject.currentWindowCapability;
 
-            // Check if the window capability is equal to the one we already have. If it is, abort.
-            if ([windowCapability isEqual:self.windowCapability]) { return; }
-            self.windowCapability = windowCapability;
-            break;
-        }
-    }
+    // Check if the window capability is equal to the one we already have. If it is, abort.
+    if ([mainDisplay isEqual:self.windowCapability]) { return; }
+    self.windowCapability = mainDisplay;
 
     [self sdl_updateTransactionQueueSuspended];
     
