@@ -104,9 +104,10 @@ UInt16 const AlertCancelIdMax = 10;
 /// @return A concurrent operation queue
 - (NSOperationQueue *)sdl_newTransactionQueue {
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    queue.name = @"SDLAlertManager Transaction Queue";
-    queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
-    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.name = @"com.sdl.screenManager.alertManager.transactionQueue";
+    queue.maxConcurrentOperationCount = 1;
+    queue.qualityOfService = NSQualityOfServiceUserInteractive;
+    queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
     return queue;
