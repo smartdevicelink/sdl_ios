@@ -372,11 +372,11 @@ static const int SDLAlertSoftButtonCount = 4;
 
     NSUInteger maxNumberOfLines = (self.currentWindowCapability != nil) ? self.currentWindowCapability.maxNumberOfAlertFieldLines : MaxAlertTextFieldLineCount;
     if (maxNumberOfLines == 1) {
-        alert = [self sdl_assembleOneLineAlertText:alert withShowFields:nonNilFields];
+        alert = [self sdl_assembleOneLineAlertText:alert withAlertFields:nonNilFields];
     } else if (maxNumberOfLines == 2) {
-         alert = [self sdl_assembleTwoLineShowText:alert withShowFields:nonNilFields];
+         alert = [self sdl_assembleTwoLineAlertText:alert withAlertFields:nonNilFields];
     } else if (maxNumberOfLines == 3) {
-         alert = [self sdl_assembleThreeLineShowText:alert withShowFields:nonNilFields];
+         alert = [self sdl_assembleThreeLineAlertText:alert withAlertFields:nonNilFields];
     }
 
     return alert;
@@ -397,7 +397,7 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @param alert The alert RPC
 /// @param fields A list all the text set in the SDLAlertView
 /// @return An alert RPC with the text-fields set
-- (SDLAlert *)sdl_assembleOneLineAlertText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
+- (SDLAlert *)sdl_assembleOneLineAlertText:(SDLAlert *)alert withAlertFields:(NSArray<NSString *> *)fields {
     NSMutableString *alertString = [NSMutableString stringWithString:[fields objectAtIndex:0]];
     for (NSUInteger i = 1; i < fields.count; i+= 1) {
         [alertString appendFormat:@" - %@", fields[i]];
@@ -411,7 +411,7 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @param alert The alert RPC
 /// @param fields A list all the text set in the SDLAlertView
 /// @return An alert RPC with the text-fields set
-- (SDLAlert *)sdl_assembleTwoLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
+- (SDLAlert *)sdl_assembleTwoLineAlertText:(SDLAlert *)alert withAlertFields:(NSArray<NSString *> *)fields {
     if (fields.count <= 2) {
         alert.alertText1 = fields.count > 0 ? fields[0] : nil;
         alert.alertText2 = fields.count > 1 ? [fields objectAtIndex:1] : nil;
@@ -427,7 +427,7 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @param alert The alert RPC
 /// @param fields A list all the text set in the SDLAlertView
 /// @return An alert RPC with the text-fields set
-- (SDLAlert *)sdl_assembleThreeLineShowText:(SDLAlert *)alert withShowFields:(NSArray<NSString *> *)fields {
+- (SDLAlert *)sdl_assembleThreeLineAlertText:(SDLAlert *)alert withAlertFields:(NSArray<NSString *> *)fields {
     alert.alertText1 = fields.count > 0 ? fields[0] : nil;
     alert.alertText2 = fields.count > 1 ? [fields objectAtIndex:1] : nil;
     alert.alertText3 = fields.count > 2 ? [fields objectAtIndex:2] : nil;
