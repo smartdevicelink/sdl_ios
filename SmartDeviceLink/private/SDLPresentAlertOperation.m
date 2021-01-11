@@ -234,7 +234,7 @@ static const int SDLAlertSoftButtonCount = 4;
 
 /// Sends the alert RPC to the module. The operation is finished once a response has been received from the module.
 - (void)sdl_presentAlert {
-    [self.connectionManager sendConnectionRequest:self.alert withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:self.alertRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (self.isCancelled) {
             [self finishOperation];
             return;
@@ -297,7 +297,7 @@ static const int SDLAlertSoftButtonCount = 4;
 
 /// Assembles an `Alert` RPC from the `SDLAlertView` information.
 /// @return The `Alert` RPC to be sent to the module.
-- (SDLAlert *)alert {
+- (SDLAlert *)alertRPC {
     SDLAlert *alert = [[SDLAlert alloc] init];
     [self sdl_assembleAlertText:alert];
     alert.duration = @((NSUInteger)(self.alertView.timeout * 1000));
