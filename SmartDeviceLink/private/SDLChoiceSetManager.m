@@ -448,19 +448,21 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// @return The choices that have not yet been uploaded to the module
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableArray<SDLChoiceCell *> *choicess = [choices mutableCopy];
+    NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
     SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
         for (NSUInteger i = 0; i < choicess.count; i++) {
-            NSString *testName = choicess[i].uniqueText;
-            int counter = 1;
-            for (NSUInteger j = i+1; j < choicess.count; j++) {
-                if (choicess[j].uniqueText == testName) {
-                    if (counter == 1) {
-                        choicess[i].uniqueText = testName;
-                    }
-                    counter++;
-                    choicess[j].uniqueText = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter, @")"];
-                }
+            NSString *cellName = choicess[i].text;
+            NSNumber *counter = dictCounter[cellName];
+            if (counter) {
+                [dictCounter setObject:[NSNumber numberWithInt:counter.intValue + 1] forKey:cellName];
+            } else {
+                [dictCounter setObject:[NSNumber numberWithInt:1] forKey:cellName];
+            }
+            counter = dictCounter[cellName];
+            if (counter.intValue > 1) {
+                NSString *testName = choicess[i].uniqueText;
+                choicess[i].uniqueText = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter.intValue, @")"];
             }
         }
     }
