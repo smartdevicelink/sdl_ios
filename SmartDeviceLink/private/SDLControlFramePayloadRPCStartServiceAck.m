@@ -10,6 +10,7 @@
 
 #import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
+#import "SDLVehicleType.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,9 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *secondaryTransports;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSNumber *> *audioServiceTransports;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSNumber *> *videoServiceTransports;
+@property (strong, nonatomic, readwrite, nullable) SDLVehicleType *vehicleType;
 
 @end
 
+SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject);
 
 @implementation SDLControlFramePayloadRPCStartServiceAck
 
@@ -145,10 +148,31 @@ NS_ASSUME_NONNULL_BEGIN
         self.secondaryTransports = [secondaryTransports copy];
     }
 
+    self.vehicleType = sdl_parseVehicleType(&payloadObject);
+
     self.audioServiceTransports = [self sdl_getServiceTransports:&payloadObject forKey:SDLControlFrameAudioServiceTransportsKey];
     self.videoServiceTransports = [self sdl_getServiceTransports:&payloadObject forKey:SDLControlFrameVideoServiceTransportsKey];
 
     bson_object_deinitialize(&payloadObject);
+}
+
+NSString *sdl_getStringValue(BsonObject *const payloadObject, const char *key) {
+    const char *cValue = key && payloadObject ? bson_object_get_string(payloadObject, key) : NULL;
+    return cValue ? [NSString stringWithUTF8String:cValue] : nil;
+}
+
+SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject) {
+    SDLVehicleType *vehicleType = nil;
+    NSString *make = payloadObject ? sdl_getStringValue(payloadObject, SDLControlFrameVehicleMake) : nil;
+    if (0 < make.length) {
+        vehicleType = [[SDLVehicleType alloc] init];
+        vehicleType.make = make;
+        vehicleType.model = sdl_getStringValue(payloadObject, SDLControlFrameVehicleModel);
+        vehicleType.modelYear = sdl_getStringValue(payloadObject, SDLControlFrameVehicleModelYear);
+        vehicleType.trim = sdl_getStringValue(payloadObject, SDLControlFrameVehicleTrim);
+    }
+
+    return vehicleType;
 }
 
 - (nullable NSArray<NSNumber *> *)sdl_getServiceTransports:(BsonObject *)payloadObject forKey:(const char * const)key {

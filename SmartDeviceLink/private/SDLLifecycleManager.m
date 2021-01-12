@@ -62,6 +62,7 @@
 #import "SDLSystemCapabilityManager.h"
 #import "SDLTCPTransport.h"
 #import "SDLUnregisterAppInterface.h"
+#import "SDLVehicleTypeHandler.h"
 #import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 
@@ -88,6 +89,9 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 @end
 
+@interface SDLLifecycleManager (VehicleTypeHandler) <SDLVehicleTypeHandler>
+@end
+
 #pragma mark - SDLLifecycleManager Private Interface
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
@@ -109,6 +113,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
+@property (strong, nonatomic) SDLVehicleType *enabledVehicleType;
 
 // RPC Handlers
 @property (strong, nonatomic) SDLLifecycleSyncPDataHandler *syncPDataHandler;
@@ -278,6 +283,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     SDLProtocol *newProtocol = [[SDLProtocol alloc] initWithTransport:newTransport encryptionManager:self.encryptionLifecycleManager];
     self.protocolHandler = [[SDLLifecycleProtocolHandler alloc] initWithProtocol:newProtocol notificationDispatcher:self.notificationDispatcher configuration:self.configuration];
+    self.protocolHandler.vehicleTypeHandler = self;
     [self.protocolHandler start];
 
     [self.secondaryTransportManager startWithPrimaryProtocol:self.protocolHandler.protocol]; // Will not run if secondaryTransportManager is nil
@@ -346,6 +352,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     self.audioStreamingState = nil;
     self.videoStreamingState = nil;
     self.systemContext = nil;
+    self.enabledVehicleType = nil;
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
     // Apple Bug ID #30059457
@@ -394,7 +401,13 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
             return;
         }
 
-        weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+        SDLRegisterAppInterfaceResponse *raiResponse = (SDLRegisterAppInterfaceResponse *)response;
+        const BOOL shouldProceed = (nil == raiResponse) || [weakSelf shouldProceedWithVehicleType:raiResponse.vehicleType];
+        if (!shouldProceed) {
+            [weakSelf doDisconnectWithVehicleType:raiResponse.vehicleType];
+            return;
+        }
+        weakSelf.registerResponse = raiResponse;
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSDLMsgVersion:weakSelf.registerResponse.sdlMsgVersion];
         SDLLogD(@"Did register app; RPC version: %@, SDL version: %@, starting languages: (VR) %@, (HMI) %@, vehicle type: %@", weakSelf.registerResponse.sdlMsgVersion, (weakSelf.registerResponse.sdlVersion ?: @"unavailable"), weakSelf.registerResponse.language, weakSelf.registerResponse.hmiDisplayLanguage, weakSelf.registerResponse.vehicleType);
 
@@ -965,6 +978,34 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     } else {
         [self sdl_transitionToState:SDLLifecycleStateReconnecting];
     }
+}
+
+@end
+
+#pragma mark - SDLVehicleTypeHandler
+
+@implementation SDLLifecycleManager (VehicleTypeHandler)
+
+- (BOOL)shouldProceedWithVehicleType:(SDLVehicleType *)vehicleType {
+    if ([self.enabledVehicleType isEqual:vehicleType]) {
+        // no need to check it twice (it has already been enabled previously)
+        return YES;
+    }
+    // if the delegate present (not nil) and responds to the optional selector then ask it or answer YES instead.
+    const BOOL shouldProceed = [self.delegate respondsToSelector:@selector(didReceiveVehicleType:)] ? [self.delegate didReceiveVehicleType:vehicleType] : YES;
+    if (shouldProceed) {
+        self.enabledVehicleType = vehicleType;
+    }
+
+    SDLLogD(@"Should proceed with the vehicle type '%@' ? %@", vehicleType, shouldProceed ? @"YES" : @"NO");
+
+    return shouldProceed;
+}
+
+- (void)doDisconnectWithVehicleType:(SDLVehicleType *)vehicleType {
+    SDLLogD(@"The vehicle type '%@' is not supported. Full stop.", vehicleType);
+
+    [self sdl_transitionToState:SDLLifecycleStateStopped];
 }
 
 @end

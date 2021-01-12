@@ -26,3 +26,10 @@ extern char *const SDLControlFrameVideoServiceTransportsKey;
 extern char *const SDLControlFrameTCPIPAddressKey;
 extern char *const SDLControlFrameTCPPortKey;
 extern char *const SDLControlFrameAuthTokenKey;
+// Vehicle type related keys
+extern char *const SDLControlFrameVehicleHardVersion;
+extern char *const SDLControlFrameVehicleMake;
+extern char *const SDLControlFrameVehicleModel;
+extern char *const SDLControlFrameVehicleModelYear;
+extern char *const SDLControlFrameVehicleSoftVersion;
+extern char *const SDLControlFrameVehicleTrim;

@@ -10,6 +10,8 @@
 
 #import "SDLControlFramePayloadType.h"
 
+@class SDLVehicleType;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLControlFramePayloadRPCStartServiceAck : NSObject <SDLControlFramePayloadType>
@@ -34,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** List of transports that are allowed to carry video service. The values can be either 1 (primary transport) or 2 (secondary transport) and are listed in preferred order. */
 @property (copy, nonatomic, readonly, nullable) NSArray<NSNumber *> *videoServiceTransports;
+
+@property (strong, nonatomic, readonly, nullable) SDLVehicleType *vehicleType;
 
 - (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu authToken:(nullable NSString *)authToken protocolVersion:(nullable NSString *)protocolVersion secondaryTransports:(nullable NSArray<NSString *> *)secondaryTransports audioServiceTransports:(nullable NSArray<NSNumber *> *)audioServiceTransports videoServiceTransports:(nullable NSArray<NSNumber *> *)videoServiceTransports;
 

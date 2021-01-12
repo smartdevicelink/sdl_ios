@@ -1667,6 +1667,7 @@
 		9FA0D00C22DF0B65009CF344 /* SDLCreateWindowResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D00B22DF0B65009CF344 /* SDLCreateWindowResponseSpec.m */; };
 		9FA0D00F22DF0B90009CF344 /* SDLDeleteWindowSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D00E22DF0B90009CF344 /* SDLDeleteWindowSpec.m */; };
 		9FA0D01222DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D01122DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m */; };
+		B32278C225AE220000CAB039 /* SDLVehicleTypeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B32278C125AE220000CAB039 /* SDLVehicleTypeHandler.h */; };
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
@@ -3495,6 +3496,7 @@
 		9FA0D00B22DF0B65009CF344 /* SDLCreateWindowResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCreateWindowResponseSpec.m; sourceTree = "<group>"; };
 		9FA0D00E22DF0B90009CF344 /* SDLDeleteWindowSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDeleteWindowSpec.m; sourceTree = "<group>"; };
 		9FA0D01122DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDeleteWindowResponseSpec.m; sourceTree = "<group>"; };
+		B32278C125AE220000CAB039 /* SDLVehicleTypeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLVehicleTypeHandler.h; path = private/SDLVehicleTypeHandler.h; sourceTree = "<group>"; };
 		B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatusSpec.m; sourceTree = "<group>"; };
 		B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionTypeSpec.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
@@ -4208,6 +4210,7 @@
 		4A3BA4E9249147E6003E56B8 /* Protocol Delegate Handler */ = {
 			isa = PBXGroup;
 			children = (
+				B32278C125AE220000CAB039 /* SDLVehicleTypeHandler.h */,
 				4ABB252824F7E41D0061BF55 /* SDLLifecycleProtocolHandler.h */,
 				4ABB252924F7E41D0061BF55 /* SDLLifecycleProtocolHandler.m */,
 			);
@@ -7107,6 +7110,7 @@
 				4ABB286724F828E00061BF55 /* SDLVehicleDataStatus.h in Headers */,
 				4A8BD25024F93135000945E3 /* SDLMetadataTags.h in Headers */,
 				4ABB2A3424F847980061BF55 /* SDLCancelInteractionResponse.h in Headers */,
+				B32278C225AE220000CAB039 /* SDLVehicleTypeHandler.h in Headers */,
 				4ABB2AF424F849CF0061BF55 /* SDLGenericResponse.h in Headers */,
 				4ABB280A24F824600061BF55 /* SDLServiceUpdateReason.h in Headers */,
 				4ABB2B5124F84EF50061BF55 /* SDLDisplayCapability.h in Headers */,

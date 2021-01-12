@@ -5,6 +5,7 @@
 
 @class SDLProtocol;
 @class SDLProtocolMessage;
+@class SDLVehicleType;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -79,6 +80,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param error The error
 /// @param protocol The transport's protocol
 - (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error;
+
+- (BOOL)protocol:(SDLProtocol *)protocol shouldProceedWithVehicleType:(SDLVehicleType *)vehicleType;
+
+- (void)protocol:(SDLProtocol *)protocol doDisconnectWithVehicleType:(SDLVehicleType *)vehicleType;
 
 #pragma mark - Deprecated Protocol Messages
 

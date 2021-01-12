@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLProtocolDelegate.h"
+#import "SDLVehicleTypeHandler.h"
 
 @class SDLConfiguration;
 @class SDLNotificationDispatcher;
@@ -19,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLifecycleProtocolHandler : NSObject <SDLProtocolDelegate>
 
 @property (strong, nonatomic) SDLProtocol *protocol;
+
+@property (weak, nonatomic, nullable) id<SDLVehicleTypeHandler> vehicleTypeHandler;
 
 /// Initialize the object
 /// @param protocol A protocol to receive protocol messages from and to send RPC data to

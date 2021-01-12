@@ -171,6 +171,15 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (BOOL)protocol:(SDLProtocol *)protocol shouldProceedWithVehicleType:(SDLVehicleType *)vehicleType {
+    return [self.vehicleTypeHandler shouldProceedWithVehicleType:vehicleType];
+}
+
+- (void)protocol:(SDLProtocol *)protocol doDisconnectWithVehicleType:(SDLVehicleType *)vehicleType {
+    [self.rpcStartServiceTimeoutTimer cancel];
+    [self.vehicleTypeHandler doDisconnectWithVehicleType:vehicleType];
+}
+
 #pragma mark - Utilities
 
 - (void)sdl_sendCallbackForMessage:(SDLRPCMessage *)message {

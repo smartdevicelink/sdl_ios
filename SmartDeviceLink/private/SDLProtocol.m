@@ -507,12 +507,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceACK:(SDLProtocolMessage *)startServiceACK {
     SDLLogD(@"Received start service ACK: %@", startServiceACK);
+    NSLog(@"Received start service ACK: %@", startServiceACK);
 
+    SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = nil;
     // V5+ Packet
     if (startServiceACK.header.version >= 5) {
         switch (startServiceACK.header.serviceType) {
             case SDLServiceTypeRPC: {
-                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+                startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
@@ -528,14 +530,14 @@ NS_ASSUME_NONNULL_BEGIN
                 // TODO: Hash id?
             } break;
             case SDLServiceTypeAudio: {
-                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+                startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
                 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeAudio];
                 }
             } break;
             case SDLServiceTypeVideo: {
-                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+                startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
                 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeVideo];
@@ -559,9 +561,31 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Pass along to all the listeners
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
-    for (id<SDLProtocolDelegate> listener in listeners) {
-        if ([listener respondsToSelector:@selector(protocol:didReceiveStartServiceACK:)]) {
-            [listener protocol:protocol didReceiveStartServiceACK:startServiceACK];
+    BOOL shouldProceed = YES;
+    if (startServiceACKPayload.vehicleType) {
+        for (id<SDLProtocolDelegate> listener in listeners) {
+            if ([listener respondsToSelector:@selector(protocol:shouldProceedWithVehicleType:)]) {
+                shouldProceed = [listener protocol:protocol shouldProceedWithVehicleType:startServiceACKPayload.vehicleType];
+                if (!shouldProceed) {
+                    break;
+                }
+            }
+        }
+    }
+
+    if (!shouldProceed) {
+        // ask listeners to stop, the main listener must call then [this_protocol stopWithCompletionHandler:]
+        for (id<SDLProtocolDelegate> listener in listeners) {
+            if ([listener respondsToSelector:@selector(protocol:doDisconnectWithVehicleType:)]) {
+                [listener protocol:protocol doDisconnectWithVehicleType:startServiceACKPayload.vehicleType];
+            }
+        }
+    } else {
+        // continue as always
+        for (id<SDLProtocolDelegate> listener in listeners) {
+            if ([listener respondsToSelector:@selector(protocol:didReceiveStartServiceACK:)]) {
+                [listener protocol:protocol didReceiveStartServiceACK:startServiceACK];
+            }
         }
     }
 }
