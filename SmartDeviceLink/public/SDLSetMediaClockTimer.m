@@ -47,6 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
++ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
+    return [self countUpFromStartTimeInterval:startTime toEndTimeInterval:endTime playPauseIndicator:playPauseIndicator countRate:nil];
+}
+
 + (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
     SDLStartTime *startTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:startTime];
     SDLStartTime *endTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:endTime];
@@ -54,8 +58,16 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithUpdateMode:SDLUpdateModeCountUp startTime:startTimeRPC endTime:endTimeRPC audioStreamingIndicator:playPauseIndicator countRate:countRate];
 }
 
++ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
+    return [self countUpFromStartTime:startTime toEndTime:endTime playPauseIndicator:playPauseIndicator countRate:nil];
+}
+
 + (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
     return [[self alloc] initWithUpdateMode:SDLUpdateModeCountUp startTime:startTime endTime:endTime audioStreamingIndicator:playPauseIndicator countRate:countRate];
+}
+
++ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
+    return [self countDownFromStartTimeInterval:startTime toEndTimeInterval:endTime playPauseIndicator:playPauseIndicator countRate:nil];
 }
 
 + (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
@@ -63,6 +75,10 @@ NS_ASSUME_NONNULL_BEGIN
     SDLStartTime *endTimeRPC = [[SDLStartTime alloc] initWithTimeInterval:endTime];
 
     return [[self alloc] initWithUpdateMode:SDLUpdateModeCountDown startTime:startTimeRPC endTime:endTimeRPC audioStreamingIndicator:playPauseIndicator countRate:countRate];
+}
+
++ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
+    return [self countDownFromStartTime:startTime toEndTime:endTime playPauseIndicator:playPauseIndicator countRate:nil];
 }
 
 + (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
@@ -82,6 +98,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)updatePauseWithNewStartTime:(SDLStartTime *)startTime endTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
     return [[self alloc] initWithUpdateMode:SDLUpdateModePause startTime:startTime endTime:endTime audioStreamingIndicator:playPauseIndicator countRate:nil];
+}
+
++ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
+    return [self resumeWithPlayPauseIndicator:playPauseIndicator countRate:nil];
 }
 
 + (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {

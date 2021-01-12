@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
++ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:)) __deprecated_msg("Use countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:countRate: instead");
+
 + (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:countRate:));
 
 /**
@@ -45,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
++ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:)) __deprecated_msg("Use countUpFromStartTime:toEndTime:playPauseIndicator:countRate: instead");
+
 + (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:countRate:));
 
 /**
@@ -57,6 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
++ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:)) __deprecated_msg("Use countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:countRate: instead");
+
 + (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:countRate:));
 
 /**
@@ -69,6 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
++ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:)) __deprecated_msg("Use countDownFromStartTime:toEndTime:playPauseIndicator:countRate: instead");
+
 + (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:countRate:));
 
 /**
@@ -77,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)pauseWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(playPauseIndicator:)) __deprecated_msg("Use initWithUpdateMode:startTime:endTime:audioStreamingIndicator:countRate: instead");
++ (instancetype)pauseWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(playPauseIndicator:));
 
 /**
  Update a pause time (or pause and update the time) on a media clock timer
@@ -98,6 +106,9 @@ NS_ASSUME_NONNULL_BEGIN
  @return An object of SetMediaClockTimer
  */
 + (instancetype)updatePauseWithNewStartTime:(SDLStartTime *)startTime endTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(newStart:newEnd:playPauseIndicator:));
+
+
++ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator  NS_SWIFT_NAME(resume(playPauseIndicator:)) __deprecated_msg("Use resumeWithPlayPauseIndicator:playPauseIndicator:countRate:");
 
 /**
  Resume a paused media clock timer. It resumes at the same time at which it was paused.

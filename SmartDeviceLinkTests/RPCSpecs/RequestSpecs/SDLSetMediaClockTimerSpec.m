@@ -102,10 +102,7 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with pauseWithPlayPauseIndicator:", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer pauseWithPlayPauseIndicator:testIndicator];
-#pragma clang diagnostic pop
 
             expect(testRequest.startTime).to(beNil());
             expect(testRequest.endTime).to(beNil());
