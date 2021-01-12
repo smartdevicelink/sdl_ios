@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)updatePauseWithNewStartTimeInterval:(NSTimeInterval)startTime endTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(newStart:newEnd:playPauseIndicator:)) __deprecated_msg("Use initWithUpdateMode:startTime:endTime:audioStreamingIndicator:countRate: instead");
++ (instancetype)updatePauseWithNewStartTimeInterval:(NSTimeInterval)startTime endTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(newStart:newEnd:playPauseIndicator:));
 
 /**
  Update a pause time (or pause and update the time) on a media clock timer
@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)updatePauseWithNewStartTime:(SDLStartTime *)startTime endTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(newStart:newEnd:playPauseIndicator:)) __deprecated_msg("Use initWithUpdateMode:startTime:endTime:audioStreamingIndicator:countRate: instead");
++ (instancetype)updatePauseWithNewStartTime:(SDLStartTime *)startTime endTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(newStart:newEnd:playPauseIndicator:));
 
 /**
  Resume a paused media clock timer. It resumes at the same time at which it was paused.
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)clearWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(clear(playPauseIndicator:)) __deprecated_msg("Use initWithUpdateMode:startTime:endTime:audioStreamingIndicator:countRate: instead");
++ (instancetype)clearWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(clear(playPauseIndicator:));
 
 /**
  * @param updateMode - updateMode

@@ -32,15 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
-    self = [self init];
-    if (!self) { return nil; }
-
-    self.updateMode = updateMode;
-    self.startTime = startTime;
-    self.endTime = endTime;
-    self.audioStreamingIndicator = playPauseIndicator;
-
-    return self;
+    return [self initWithUpdateMode:updateMode startTime:startTime endTime:endTime audioStreamingIndicator:playPauseIndicator countRate:nil];
 }
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime audioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate {
