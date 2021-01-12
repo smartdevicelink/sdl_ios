@@ -8,10 +8,18 @@
 
 #import "SDLAudioData.h"
 
+#import "SDLFile.h"
 #import "SDLSpeak.h"
 #import "SDLTTSChunk.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLAudioData()
+
+/// The audio file data that will be uploaded.
+@property (nullable, copy, nonatomic, readonly) NSDictionary<NSString *, SDLFile *> *audioFileData;
+
+@end
 
 @implementation SDLAudioData
 
@@ -19,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    _audioFiles = @[audioFile];
+    _audioData = [SDLTTSChunk fileChunksWithName:audioFile.name];
 
     return self;
 }
@@ -28,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    _prompts = [SDLTTSChunk textChunksFromString:spokenString];
+    _audioData = [SDLTTSChunk textChunksFromString:spokenString];
 
     return self;
 }
@@ -41,13 +49,18 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _prompts = @[[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
+    _audioData = @[[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
 
     return self;
 }
 
 - (void)addAudioFiles:(NSArray<SDLFile *> *)audioFiles {
-    _audioFiles = (_audioFiles == nil) ? audioFiles : [_audioFiles arrayByAddingObjectsFromArray:audioFiles];
+    NSMutableArray *newAudioFiles = [NSMutableArray array];
+    for (SDLFile *audioFile in audioFiles) {
+        [newAudioFiles addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
+    }
+
+    _audioData = (_audioData == nil) ? newAudioFiles : [_audioData arrayByAddingObjectsFromArray:newAudioFiles];
 }
 
 - (void)addSpeechSynthesizerStrings:(NSArray<NSString *> *)spokenStrings {
@@ -60,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     if (newPrompts.count == 0) { return; }
 
-    _prompts = (_prompts == nil) ? [newPrompts copy] : [_prompts arrayByAddingObjectsFromArray:newPrompts];
+    _audioData = (_audioData == nil) ? [newPrompts copy] : [_audioData arrayByAddingObjectsFromArray:newPrompts];
 }
 
 - (void)addPhoneticSpeechSynthesizerStrings:(NSArray<NSString *> *)phoneticStrings phoneticType:(SDLSpeechCapabilities)phoneticType {
@@ -75,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     if (newPrompts.count == 0) { return; }
 
-    _prompts = (_prompts == nil) ? [newPrompts copy] : [_prompts arrayByAddingObjectsFromArray:newPrompts];
+    _audioData = (_audioData == nil) ? [newPrompts copy] : [_audioData arrayByAddingObjectsFromArray:newPrompts];
 }
 
 /// Checks if the phonetic type can be used to create a text-to-speech string.
@@ -93,8 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLAudioData *newAudioData = [[self class] allocWithZone:zone];
-    newAudioData->_audioFiles = [_audioFiles copyWithZone:zone];
-    newAudioData->_prompts = [_prompts copyWithZone:zone];
+    newAudioData->_audioData = [_audioData copyWithZone:zone];
     return newAudioData;
 }
 

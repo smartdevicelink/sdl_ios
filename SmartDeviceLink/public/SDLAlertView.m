@@ -127,7 +127,7 @@ static NSTimeInterval _defaultTimeout = 5.0;
 
 - (NSString *)sdl_alertType {
     BOOL alertHasText = (_text || _secondaryText || _tertiaryText);
-    BOOL alertHasAudio = (_audio.prompts.count > 0 || _audio.audioFiles.count > 0);
+    BOOL alertHasAudio = _audio.audioData.count > 0;
 
     NSString *alertType;
     if (alertHasText && alertHasAudio) {

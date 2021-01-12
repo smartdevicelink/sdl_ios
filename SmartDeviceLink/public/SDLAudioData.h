@@ -17,11 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAudioData : NSObject <NSCopying>
 
-/// The text-to-speech prompts that will used.
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLTTSChunk *> *prompts;
-
-/// The audio files that will be uploaded and used.
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLFile *> *audioFiles;
+/// The text-to-speech prompts that will used and/or audio files that will be played. The audio prompts and files will be played in the same order they are added.
+@property (nullable, copy, nonatomic, readonly) NSArray<SDLTTSChunk *> *audioData;
 
 /// Initialize with an SDLFile holding data or pointing to a file on the file system. When this object is passed to an `Alert` or `Speak`, the file will be uploaded if it is not already, then played if the system supports that feature.
 /// @discussion Only available on systems supporting RPC Spec v5.0+

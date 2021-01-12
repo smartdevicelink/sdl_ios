@@ -36,6 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
 static const int SDLAlertSoftButtonIDMin = 10;
 static const int SDLAlertSoftButtonCount = 4;
 
+@interface SDLAlertAudioData()
+
+@property (nullable, copy, nonatomic, readonly) NSDictionary<SDLFileName *, SDLFile *> *audioFileData;
+
+@end
+
 @interface SDLAlertView()
 
 /// Handler called when the alert should be dismissed.
@@ -93,7 +99,7 @@ static const int SDLAlertSoftButtonCount = 4;
     if (self.isCancelled) { return; }
 
     if (![self sdl_isValidAlertViewData:self.alertView]) {
-        if (self.alertView.audio.audioFiles.count > 0) {
+        if (self.alertView.audio.audioData.count > 0) {
             self.internalError = [NSError sdl_alertManager_alertAudioFileNotSupported];
         } else {
             self.internalError = [NSError sdl_alertManager_alertDataInvalid];
@@ -151,9 +157,11 @@ static const int SDLAlertSoftButtonCount = 4;
     }
 
     NSMutableArray<SDLFile *> *filesToBeUploaded = [NSMutableArray array];
-    for (SDLFile *file in self.alertView.audio.audioFiles) {
-        if (![self.fileManager fileNeedsUpload:file]) { continue; }
-        [filesToBeUploaded addObject:file];
+    for (SDLTTSChunk *ttsChunk in self.alertView.audio.audioData) {
+        if (ttsChunk.type != SDLSpeechCapabilitiesFile) { continue; }
+        SDLFile *audioFile = self.alertView.audio.audioFileData[ttsChunk.text];
+        if (![self.fileManager fileNeedsUpload:audioFile]) { continue; }
+        [filesToBeUploaded addObject:audioFile];
     }
 
     if (filesToBeUploaded.count == 0) {
@@ -328,13 +336,9 @@ static const int SDLAlertSoftButtonCount = 4;
     SDLAlertAudioData *alertAudio = alertView.audio;
 
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
-    if ([self sdl_supportsAlertAudioFile] && alertAudio != nil && alertAudio.audioFiles.count > 0) {
-        for (NSUInteger i = 0; i < alertAudio.audioFiles.count; i += 1) {
-            [ttsChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:alertAudio.audioFiles[i].name]];
-        }
-    }
-    if (alertAudio.prompts.count > 0) {
-        [ttsChunks addObjectsFromArray:self.alertView.audio.prompts];
+    for (SDLTTSChunk *audioData in alertAudio.audioData) {
+        if (audioData.type == SDLSpeechCapabilitiesFile && ![self sdl_supportsAlertAudioFile]) { continue; }
+        [ttsChunks addObject:audioData];
     }
 
     return ttsChunks;
