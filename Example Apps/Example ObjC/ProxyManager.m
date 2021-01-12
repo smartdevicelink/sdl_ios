@@ -318,6 +318,14 @@ NS_ASSUME_NONNULL_BEGIN
     return update;
 }
 
+- (BOOL)didReceiveVehicleType:(SDLVehicleType *)type {
+    SDLLogD(@"The vehicle type is: %@", type);
+    return YES;
+    // check the type and return Yes or No depending on your business logic.
+    // usage example:
+    // return [type.make isEqualToString:@"Ford"];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
