@@ -133,7 +133,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set all textfields if all textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
@@ -141,7 +141,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.secondaryText, testAlertView.tertiaryText]));
@@ -149,7 +149,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(1);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", testAlertView.text, testAlertView.secondaryText, testAlertView.tertiaryText]));
                     expect(testAlert.alertText2).to(beNil());
@@ -164,7 +164,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set all textfields if all textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
@@ -172,7 +172,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
@@ -180,7 +180,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(1);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.text, testAlertView.secondaryText]));
                     expect(testAlert.alertText2).to(beNil());
@@ -195,7 +195,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set all textfields if all textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
@@ -203,7 +203,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
@@ -211,7 +211,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(1);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
@@ -226,7 +226,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set all textfields if all textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
@@ -234,7 +234,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(2)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
@@ -242,7 +242,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(1)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(1);
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
@@ -269,7 +269,7 @@ describe(@"SDLPresentAlertOperation", ^{
         describe(@"setting the audio data", ^{
             context(@"only audio prompts set", ^{
                 beforeEach(^{
-                    [[[mockCurrentWindowCapability stub] andReturnValue:@(3)] maxNumberOfAlertFieldLines];
+                    OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
 
                     SDLAlertAudioData *audioData = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test synthesizer string"];
                     testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:@(4) showWaitIndicator:@(YES) audioIndication:audioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
@@ -307,7 +307,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     context(@"the module does not support the speech capability of type `file`", ^{
                         beforeEach(^{
-                            [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesSilence]] speechCapabilities];
+                            OCMStub([mockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesSilence]));
                         });
 
                         it(@"should set the `ttsChunks` to nil (and not an empty array) if only an audio file was set", ^{
@@ -318,7 +318,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     context(@"the module supports the speech capability of type `file`", ^{
                         beforeEach(^{
-                            [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesFile, SDLSpeechCapabilitiesText]] speechCapabilities];
+                            OCMStub([mockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesFile, SDLSpeechCapabilitiesText]));
                         });
 
                         it(@"should set the tts chunks correctly", ^{
@@ -367,13 +367,13 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should set the image if icons are supported on the module", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                 expect(testAlert.alertIcon.value).to(equal(testAlertView.icon.name));
             });
 
             it(@"should not set the image if icons are not supported on the module", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(NO)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
                 SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                 expect(testAlert.alertIcon).to(beNil());
             });
@@ -407,7 +407,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 context(@"the module does not support the speech capability of type `file`", ^{
                     beforeEach(^{
-                        [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText]] speechCapabilities];
+                        OCMStub([mockSystemCapabilityManager speechCapabilities]).andReturn(@[SDLSpeechCapabilitiesText]);
                     });
 
                     it(@"should not attempt to upload audio files", ^{
@@ -419,11 +419,11 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 context(@"the module supports the speech capability of type `file`", ^{
                     beforeEach(^{
-                        [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
+                        OCMStub([mockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]));
                     });
 
                     it(@"should not upload the audio file if it has already been uploaded", ^{
-                        [[[mockFileManager stub] andReturnValue:@(YES)] hasUploadedFile:testAudioFile];
+                        OCMStub([mockFileManager hasUploadedFile:testAudioFile]).andReturn(YES);
 
                         OCMReject([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
@@ -431,7 +431,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     });
 
                     it(@"should upload the audio file if it has not yet been uploaded", ^{
-                        [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:testAudioFile];
+                        OCMStub([mockFileManager fileNeedsUpload:testAudioFile]).andReturn(YES);
 
                         OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
                             NSArray<SDLPutFile *> *files = (NSArray<SDLPutFile *> *)value;
@@ -447,7 +447,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     it(@"should re-upload an audio file if `overwrite` has been set to true", ^{
                         testAudioFile.overwrite = YES;
-                        [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:testAudioFile];
+                        OCMStub([mockFileManager fileNeedsUpload:testAudioFile]).andReturn(YES);;
 
                         OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
                             NSArray<SDLPutFile *> *files = (NSArray<SDLPutFile *> *)value;
@@ -470,11 +470,11 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should upload the alert icons and soft button images if they are supported on the module", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:[OCMArg any]];
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
@@ -491,11 +491,11 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should not upload the soft button images if soft button images are not supported on the module", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @(NO);
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:[OCMArg any]];
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
@@ -510,11 +510,11 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should upload the alert icon if the alert icon is not supported on the module", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(NO)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(YES)] fileNeedsUpload:[OCMArg any]];
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
@@ -530,11 +530,11 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should not upload any images if the alert icon and soft button graphics are not supported on the module", ^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(NO)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @NO;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
 
                 OCMReject([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
@@ -546,11 +546,11 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
@@ -569,13 +569,13 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(YES)] hasUploadedFile:testAlertIcon];
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:testButton1Icon];
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:testButton2Icon];
+                OCMStub([mockFileManager hasUploadedFile:testAlertIcon]).andReturn(YES);
+                OCMStub([mockFileManager hasUploadedFile:testButton1Icon]).andReturn(NO);
+                OCMStub([mockFileManager hasUploadedFile:testButton2Icon]).andReturn(NO);
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
@@ -594,13 +594,13 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(YES)] hasUploadedFile:testAlertIcon];
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:testButton1Icon];
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:testButton2Icon];
+                OCMStub([mockFileManager hasUploadedFile:testAlertIcon]).andReturn(YES);
+                OCMStub([mockFileManager hasUploadedFile:testButton1Icon]).andReturn(NO);
+                OCMStub([mockFileManager hasUploadedFile:testButton2Icon]).andReturn(NO);
 
                 OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
@@ -742,14 +742,14 @@ describe(@"SDLPresentAlertOperation", ^{
             __block SDLAlertView *testAlertViewWithExtraSoftButtons = nil;
 
             beforeEach(^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertFieldLines];
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
-                [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
+                OCMStub([mockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]));;
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
                 OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
                 OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
@@ -798,14 +798,14 @@ describe(@"SDLPresentAlertOperation", ^{
 
         context(@"with valid data", ^{
             beforeEach(^{
-                [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertFieldLines];
-                [[[mockCurrentWindowCapability stub] andReturnValue:@(YES)] hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+                OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
+                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
-                [[[mockSystemCapabilityManager stub] andReturn:@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]] speechCapabilities];
+                OCMStub([mockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]));;
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                [[[mockFileManager stub] andReturnValue:@(NO)] hasUploadedFile:[OCMArg any]];
+                OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
                 OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
                 OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
@@ -903,7 +903,7 @@ describe(@"SDLPresentAlertOperation", ^{
             testCancelAlertView = [[SDLAlertView alloc] init];
             testCancelAlertView.text = @"Alert view to be canceled";
 
-            [[[mockCurrentWindowCapability stub] andReturnValue:@3] maxNumberOfAlertFieldLines];
+            OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
 
             testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testCancelAlertView cancelID:testCancelID];
             testPresentAlertOperation.completionBlock = ^{
