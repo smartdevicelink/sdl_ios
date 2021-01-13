@@ -32,7 +32,7 @@ static NSTimeInterval _defaultTimeout = 5.0;
     self = [super init];
     if (!self) { return nil; }
 
-    _timeout = self.class.defaultTimeout;
+    _timeout = 0.0;
 
     return self;
 }

@@ -48,9 +48,6 @@ describe(@"An SDLAlertView", ^{
         testIcon = [SDLArtwork artworkWithImage:testImage asImageFormat:SDLArtworkImageFormatJPG];
         UIImage *testImage2 = [[UIImage alloc] initWithContentsOfFile:[testBundle pathForResource:@"testImagePNG" ofType:@"png"]];
         testIcon2 = [SDLArtwork artworkWithImage:testImage2 asImageFormat:SDLArtworkImageFormatPNG];
-
-        // Need to reset before every test to prevent random test failures
-        SDLAlertView.defaultTimeout = 5.0;
     });
 
     it(@"should get and set correctly", ^{
@@ -155,37 +152,49 @@ describe(@"An SDLAlertView", ^{
     });
 
     describe(@"setting the default timeout", ^{
+        __block SDLAlertView *testAlertView = nil;
+
+        beforeEach(^{
+            testAlertView = [[SDLAlertView alloc] init];
+        });
+
         it(@"should return 10 if a value greater than 10 has been set", ^{
             SDLAlertView.defaultTimeout = 15.0;
             expect(SDLAlertView.defaultTimeout).to(equal(10.0));
+            expect(testAlertView.timeout).to(equal(10.0));
         });
 
         it(@"should return 3 if a value less than 3 has been set", ^{
             SDLAlertView.defaultTimeout = -2.0;
             expect(SDLAlertView.defaultTimeout).to(equal(3.0));
+            expect(testAlertView.timeout).to(equal(3.0));
         });
 
         it(@"should return the set value if a value between 3 and 10 has been set", ^{
             SDLAlertView.defaultTimeout = 4.5;
             expect(SDLAlertView.defaultTimeout).to(equal(4.5));
+            expect(testAlertView.timeout).to(equal(4.5));
         });
 
         it(@"should return the set value if 3 has been set", ^{
             SDLAlertView.defaultTimeout = 3.0;
             expect(SDLAlertView.defaultTimeout).to(equal(3.0));
+            expect(testAlertView.timeout).to(equal(3.0));
         });
 
         it(@"should return the set value if 10 has been set", ^{
             SDLAlertView.defaultTimeout = 10.0;
             expect(SDLAlertView.defaultTimeout).to(equal(10.0));
+            expect(testAlertView.timeout).to(equal(10.0));
         });
     });
 
     describe(@"setting the timeout", ^{
         __block SDLAlertView *testAlertView = nil;
+        __block NSTimeInterval testDefaultTimeout = 5.0;
 
         beforeEach(^{
-            SDLAlertView.defaultTimeout = 5.0;
+            SDLAlertView.defaultTimeout = testDefaultTimeout;
             testAlertView = [[SDLAlertView alloc] init];
         });
 
@@ -195,7 +204,7 @@ describe(@"An SDLAlertView", ^{
 
         it(@"should return the default timeout if 0 has been set", ^{
             testAlertView.timeout = 0.0;
-            expect(testAlertView.timeout).to(equal(5.0));
+            expect(testAlertView.timeout).to(equal(testDefaultTimeout));
         });
 
         it(@"should return 10 if a value greater than 10 has been set", ^{
@@ -216,11 +225,6 @@ describe(@"An SDLAlertView", ^{
         it(@"should return the set value if 3 has been set", ^{
             testAlertView.timeout = 3.0;
             expect(testAlertView.timeout).to(equal(3.0));
-        });
-
-        it(@"should return the set value if 10 has been set", ^{
-            testAlertView.timeout = 10.0;
-            expect(testAlertView.timeout).to(equal(10.0));
         });
     });
 
