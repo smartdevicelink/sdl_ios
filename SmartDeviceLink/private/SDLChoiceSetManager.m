@@ -462,9 +462,9 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             NSString *cellName = cell.text;
             NSNumber *counter = dictCounter[cellName];
             if (counter) {
-                [dictCounter setObject:[NSNumber numberWithInt:counter.intValue + 1] forKey:cellName];
+                dictCounter[cellName] = @(counter.intValue + 1);
             } else {
-                [dictCounter setObject:[NSNumber numberWithInt:1] forKey:cellName];
+                dictCounter[cellName] = @1;
             }
             counter = dictCounter[cellName];
             if (counter.intValue > 1) {
