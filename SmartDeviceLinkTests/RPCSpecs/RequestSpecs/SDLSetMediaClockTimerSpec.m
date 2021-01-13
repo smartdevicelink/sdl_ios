@@ -66,39 +66,43 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:", ^{
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator countRate:nil];
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator countRate:@(testCountRate)];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
             expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
         });
 
         it(@"should properly initialize with countUpFromStartTime:toEndTime:playPauseIndicator:countRate:", ^{
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator countRate:nil];
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator countRate:@(testCountRate)];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
             expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
         });
 
         it(@"should properly initialize with countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:countRate:", ^{
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator countRate:nil];
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator countRate:@(testCountRate)];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
             expect(testRequest.updateMode).to(equal(SDLUpdateModeCountDown));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
         });
 
         it(@"should properly initialize with countDownFromStartTime:toEndTime:playPauseIndicator:countRate:", ^{
-            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator countRate:nil];
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator countRate:@(testCountRate)];
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
             expect(testRequest.updateMode).to(equal(SDLUpdateModeCountDown));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
         });
 
         it(@"should properly initialize with pauseWithPlayPauseIndicator:", ^{
@@ -135,6 +139,7 @@ describe(@"SetMediaClocktimer Spec", ^ {
             expect(testRequest.endTime).to(beNil());
             expect(testRequest.updateMode).to(equal(SDLUpdateModeResume));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
         });
 
         it(@"should properly initialize with clearWithPlayPauseIndicator:", ^{
