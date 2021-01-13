@@ -69,12 +69,10 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         return nil;
     }
 
-    NSMutableSet<NSString *> *choiceTextSet = [NSMutableSet setWithCapacity:choices.count];
     NSMutableSet<NSString *> *uniqueVoiceCommands = [NSMutableSet set];
     NSUInteger allVoiceCommandsCount = 0;
     NSUInteger choiceCellWithVoiceCommandCount = 0;
     for (SDLChoiceCell *cell in choices) {
-        [choiceTextSet addObject:cell.uniqueText];
         if (cell.voiceCommands == nil) { continue; }
         [uniqueVoiceCommands addObjectsFromArray:cell.voiceCommands];
         choiceCellWithVoiceCommandCount += 1;

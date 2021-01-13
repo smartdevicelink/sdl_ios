@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Title to be displayed, used to distinguish cells with same text in case it is not supported by the module.
  */
-@property (nonatomic, readonly) NSString *uniqueText;
+@property (strong, nonatomic, readonly) NSString *uniqueText;
 /**
  Initialize the cell with nothing. This is unavailable
 

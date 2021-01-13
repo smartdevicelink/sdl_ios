@@ -54,7 +54,7 @@ typedef NSNumber * SDLChoiceId;
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
-@property (nonatomic, readwrite) NSString *uniqueText;
+@property (strong, nonatomic, readwrite) NSString *uniqueText;
 
 @end
 
@@ -447,12 +447,19 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableArray<SDLChoiceCell *> *choicess = [choices mutableCopy];
+    NSMutableSet<SDLChoiceCell *> *choicesSet = [self sdl_addUniqueNamesToCells:choices];
+    [choicesSet minusSet:self.preloadedChoices];
+
+    return [choicesSet copy];
+}
+
+- (NSMutableSet<SDLChoiceCell *> *)sdl_addUniqueNamesToCells:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableSet<SDLChoiceCell *> *choicess = [NSMutableSet setWithArray:choices];
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
     SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
-        for (NSUInteger i = 0; i < choicess.count; i++) {
-            NSString *cellName = choicess[i].text;
+        for (SDLChoiceCell *cell in choicess) {
+            NSString *cellName = cell.text;
             NSNumber *counter = dictCounter[cellName];
             if (counter) {
                 [dictCounter setObject:[NSNumber numberWithInt:counter.intValue + 1] forKey:cellName];
@@ -461,16 +468,12 @@ UInt16 const ChoiceCellCancelIdMin = 1;
             }
             counter = dictCounter[cellName];
             if (counter.intValue > 1) {
-                NSString *testName = choicess[i].uniqueText;
-                choicess[i].uniqueText = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter.intValue, @")"];
+                NSString *testName = cell.uniqueText;
+                cell.uniqueText = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter.intValue, @")"];
             }
         }
     }
-
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choicess];
-    [choicesSet minusSet:self.preloadedChoices];
-
-    return [choicesSet copy];
+    return choicess;
 }
 
 /// Checks the passed list of choices to be deleted and returns the items that have been uploaded to the module.
