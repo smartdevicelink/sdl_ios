@@ -15,14 +15,8 @@
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLTextField.h"
 #import "SDLTextFieldName.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
-
-@interface SDLWindowCapability()
-
-- (NSUInteger)maxNumberOfMainFieldLines;
-- (NSUInteger)maxNumberOfAlertFieldLines;
-
-@end
 
 QuickSpecBegin(SDLWindowCapabilitySpec)
 
