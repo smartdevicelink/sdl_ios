@@ -169,9 +169,9 @@ describe(@"menu manager", ^{
         });
 
         context(@"duplicate titles", ^{
-            it(@"should fail with a duplicate title", ^{
+            it(@"should not fail with a duplicate title", ^{
                 testManager.menuCells = @[textOnlyCell, textOnlyCell];
-                expect(testManager.menuCells).to(beEmpty());
+                expect(testManager.menuCells).toNot(beEmpty());
             });
         });
 

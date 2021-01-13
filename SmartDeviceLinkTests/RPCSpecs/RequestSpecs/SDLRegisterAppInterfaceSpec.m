@@ -42,7 +42,7 @@ describe(@"RegisterAppInterface Tests", ^{
     __block SDLDeviceInfo *info = nil;
     __block SDLAppInfo *appInfo = nil;
     __block SDLTemplateColorScheme *colorScheme = nil;
-    __block SDLMsgVersion * currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:7 minorVersion:0 patchVersion:0];
+    __block SDLMsgVersion * currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:7 minorVersion:1 patchVersion:0];
 
     beforeEach(^{
         testRegisterAppInterface = nil;
