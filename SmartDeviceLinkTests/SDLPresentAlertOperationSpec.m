@@ -44,7 +44,7 @@
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
-- (BOOL)sdl_isValidAlertViewData:(SDLAlertView *)alertView;
+- (nullable NSError *)sdl_isValidAlertViewData:(SDLAlertView *)alertView;
 
 @end
 
@@ -628,8 +628,8 @@ describe(@"SDLPresentAlertOperation", ^{
                     testAlertView.text = @"test text";
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                    expect(testAlertDataValid).to(beTrue());
+                    NSError *testAlertValidError = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertValidError).to(beNil());
                 });
 
                 it(@"should be valid if at least the second text field was set", ^{
@@ -637,8 +637,8 @@ describe(@"SDLPresentAlertOperation", ^{
                     testAlertView.secondaryText = @"test text";
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                    expect(testAlertDataValid).to(beTrue());
+                    NSError *testAlertValidError = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertValidError).to(beNil());
                 });
 
                 it(@"should be valid if at least the audio data was set", ^{
@@ -646,8 +646,8 @@ describe(@"SDLPresentAlertOperation", ^{
                     testAlertView.audio = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"test audio"];
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                    expect(testAlertDataValid).to(beTrue());
+                    NSError *testAlertValidError = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertValidError).to(beNil());
                 });
 
                 it(@"should be invalid if the first two text fields or the audio data was not set", ^{
@@ -655,8 +655,8 @@ describe(@"SDLPresentAlertOperation", ^{
                     testAlertView.tertiaryText = @"test text";
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                    expect(testAlertDataValid).to(beFalse());
+                    NSError *testAlertValidError = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertValidError).to(equal([NSError sdl_alertManager_alertDataInvalid]));
                 });
             });
 
@@ -670,8 +670,8 @@ describe(@"SDLPresentAlertOperation", ^{
                     testAlertView.audio = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
                     testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                    BOOL testAlertDataValid = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
-                    expect(testAlertDataValid).to(beFalse());
+                    NSError *testAlertValidError = [testPresentAlertOperation sdl_isValidAlertViewData:testAlertView];
+                    expect(testAlertValidError).to(equal([NSError sdl_alertManager_alertAudioFileNotSupported]));
                 });
             });
         });

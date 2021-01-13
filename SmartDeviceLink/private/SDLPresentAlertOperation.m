@@ -98,13 +98,11 @@ static const int SDLAlertSoftButtonCount = 4;
     [super start];
     if (self.isCancelled) { return; }
 
-    if (![self sdl_isValidAlertViewData:self.alertView]) {
-        if (self.alertView.audio.audioData.count > 0) {
-            self.internalError = [NSError sdl_alertManager_alertAudioFileNotSupported];
-        } else {
-            self.internalError = [NSError sdl_alertManager_alertDataInvalid];
-        }
+    NSError *alertViewValidatedError = [self sdl_isValidAlertViewData:self.alertView];
+    if (alertViewValidatedError) {
         [self finishOperation];
+        self.internalError = alertViewValidatedError;
+        return;
     }
 
     dispatch_group_t uploadFilesTask = dispatch_group_create();
@@ -124,26 +122,33 @@ static const int SDLAlertSoftButtonCount = 4;
 
     // This will always run after all `leave`s
     __weak typeof(self) weakSelf = self;
-    dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+    dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlConcurrentQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf sdl_presentAlert];
     });
 }
 
 /// Checks the `AlertView` data to make sure it conforms to the RPC Spec, which says that at least either `alertText1`, `alertText2` or `TTSChunks` need to be provided.
-/// @return True if the alert data is valid; false if not
-- (BOOL)sdl_isValidAlertViewData:(SDLAlertView *)alertView {
+/// @return The error if the alert view does not have valid data; nil if the alert view data is valid
+- (nullable NSError *)sdl_isValidAlertViewData:(SDLAlertView *)alertView {
+    BOOL isValidData = NO;
     if (alertView.text.length > 0) {
-        return YES;
+        isValidData = YES;
     }
     if (alertView.secondaryText.length > 0) {
-        return YES;
+        isValidData = YES;
     }
     if ([self sdl_getTTSChunksForAlertView:alertView].count > 0) {
-        return YES;
+        isValidData = YES;
     }
 
-    return NO;
+    if (isValidData) {
+        return nil;
+    } else if (!isValidData && alertView.audio.audioData.count > 0) {
+        return [NSError sdl_alertManager_alertAudioFileNotSupported];
+    } else {
+        return [NSError sdl_alertManager_alertDataInvalid];
+    }
 }
 
 #pragma mark Uploads
@@ -243,11 +248,6 @@ static const int SDLAlertSoftButtonCount = 4;
 /// Sends the alert RPC to the module. The operation is finished once a response has been received from the module.
 - (void)sdl_presentAlert {
     [self.connectionManager sendConnectionRequest:self.alertRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (self.isCancelled) {
-            [self finishOperation];
-            return;
-        }
-
         if (error != nil) {
             SDLAlertResponse *alertResponse = (SDLAlertResponse *)response;
             NSMutableDictionary *alertResponseUserInfo = [NSMutableDictionary dictionary];
@@ -280,6 +280,7 @@ static const int SDLAlertSoftButtonCount = 4;
     } else if (self.isExecuting) {
         if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
             SDLLogE(@"Canceling an alert is not supported on this module");
+            [self cancel];
             return;
         }
 
