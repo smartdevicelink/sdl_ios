@@ -15,6 +15,7 @@
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
 #import "SDLStaticIconName.h"
+#import "SDLTTSChunk.h"
 
 @interface SDLAlertView()
 
@@ -34,7 +35,7 @@ describe(@"An SDLAlertView", ^{
     __block NSArray<SDLSoftButtonObject *> *testSoftButtons = nil;
     __block SDLArtwork *testIcon = nil;
     __block SDLArtwork *testIcon2 = nil;
-    
+
     beforeEach(^{
         testTextField1 = @"testTextField1";
         testTextField2 = @"testTextField2";
@@ -47,8 +48,11 @@ describe(@"An SDLAlertView", ^{
         testIcon = [SDLArtwork artworkWithImage:testImage asImageFormat:SDLArtworkImageFormatJPG];
         UIImage *testImage2 = [[UIImage alloc] initWithContentsOfFile:[testBundle pathForResource:@"testImagePNG" ofType:@"png"]];
         testIcon2 = [SDLArtwork artworkWithImage:testImage2 asImageFormat:SDLArtworkImageFormatPNG];
+
+        // Need to reset before every test to prevent random test failures
+        SDLAlertView.defaultTimeout = 5.0;
     });
-    
+
     it(@"should get and set correctly", ^{
         SDLAlertView *testAlertView = [[SDLAlertView alloc] init];
         testAlertView.text = testTextField1;
@@ -59,23 +63,27 @@ describe(@"An SDLAlertView", ^{
         testAlertView.showWaitIndicator = testShowWaitIndicator;
         testAlertView.softButtons = testSoftButtons;
         testAlertView.icon = testIcon;
-        
+
         expect(testAlertView.text).to(equal(testTextField1));
         expect(testAlertView.secondaryText).to(equal(testTextField2));
         expect(testAlertView.tertiaryText).to(equal(testTextField3));
         expect(testAlertView.timeout).to(equal(5.0));
-        expect(testAlertView.audio).toNot(beNil());
-        expect(testAlertView.audio.audioFiles).to(beNil());
-        expect(testAlertView.audio.prompts).to(equal(testAudio.prompts));
+
+        expect(testAlertView.audio == testAudio).to(beFalse());
+        expect(testAlertView.audio.audioData[0].text).to(equal(testAudio.audioData[0].text));
+        expect(testAlertView.audio.playTone).to(equal(testAudio.playTone));
+
         expect(testAlertView.showWaitIndicator).to(beFalse());
         expect(testAlertView.softButtons).to(equal(testSoftButtons));
+
+        expect(testAlertView.icon == testIcon).to(beFalse());
         expect(testAlertView.icon.name).to(equal(testIcon.name));
     });
-    
+
     describe(@"initializing", ^{
         it(@"should initialize correctly with initWithText:buttons:", ^{
             SDLAlertView *testAlertView = [[SDLAlertView alloc] initWithText:testTextField1 buttons:testSoftButtons];
-            
+
             expect(testAlertView.text).to(equal(testTextField1));
             expect(testAlertView.secondaryText).to(beNil());
             expect(testAlertView.tertiaryText).to(beNil());
@@ -85,23 +93,30 @@ describe(@"An SDLAlertView", ^{
             expect(testAlertView.softButtons).to(equal(testSoftButtons));
             expect(testAlertView.icon).to(beNil());
         });
-        
+
         it(@"should initialize correctly with initWithText:secondaryText:tertiaryText:timeout: showWaitIndicator:audioIndication:buttons:icon:", ^{
             SDLAlertView *testAlertView = [[SDLAlertView alloc] initWithText:testTextField1 secondaryText:testTextField2 tertiaryText:testTextField3 timeout:@(testTimeout) showWaitIndicator:@(testShowWaitIndicator) audioIndication:testAudio buttons:testSoftButtons icon:testIcon];
-            
+
             expect(testAlertView.text).to(equal(testTextField1));
             expect(testAlertView.secondaryText).to(equal(testTextField2));
             expect(testAlertView.tertiaryText).to(equal(testTextField3));
             expect(testAlertView.timeout).to(equal(5.0));
-            expect(testAlertView.audio).to(equal(testAudio));
+            expect(testAlertView.audio).toNot(beNil());
+
+            expect(testAlertView.audio == testAudio).to(beFalse());
+            expect(testAlertView.audio.audioData[0].text).to(equal(testAudio.audioData[0].text));
+            expect(testAlertView.audio.playTone).to(equal(testAudio.playTone));
+
             expect(testAlertView.showWaitIndicator).to(beFalse());
             expect(testAlertView.softButtons).to(equal(testSoftButtons));
-            expect(testAlertView.icon).to(equal(testIcon));
+
+            expect(testAlertView.icon == testIcon).to(beFalse());
+            expect(testAlertView.icon.name).to(equal(testIcon.name));
         });
-        
-        it(@"should return nil if not set", ^{
+
+        it(@"should set a default value for timeout and set nil for all other properties", ^{
             SDLAlertView *testAlertView = [[SDLAlertView alloc] init];
-            
+
             expect(testAlertView.text).to(beNil());
             expect(testAlertView.secondaryText).to(beNil());
             expect(testAlertView.tertiaryText).to(beNil());
@@ -114,17 +129,27 @@ describe(@"An SDLAlertView", ^{
     });
 
     describe(@"setting invalid data", ^{
-        it(@"should throw an exception if any button has multiple states", ^{
-            SDLAlertView *testAlertView = [[SDLAlertView alloc] init];
+        __block NSArray<SDLSoftButtonObject *> *testInvalidSoftButtons = nil;
 
+        beforeEach(^{
             SDLSoftButtonState *state1 = [[SDLSoftButtonState alloc] initWithStateName:@"state1" text:@"state 1" image:nil];
             SDLSoftButtonState *state2 = [[SDLSoftButtonState alloc] initWithStateName:@"state2" text:@"state 2" image:nil];
             SDLSoftButtonObject *testInvalidSoftButton = [[SDLSoftButtonObject alloc] initWithName:@"invalid soft button" states:@[state1, state2] initialStateName:state1.name handler:nil];
             SDLSoftButtonObject *testValidSoftButton = [[SDLSoftButtonObject alloc] initWithName:@"valid soft button" text:@"state 3" artwork:nil handler:nil];
-            __block NSArray<SDLSoftButtonObject *> *testInvalidSoftButtons = @[testValidSoftButton, testInvalidSoftButton];
+            testInvalidSoftButtons = @[testValidSoftButton, testInvalidSoftButton];
+        });
+
+        it(@"should throw an exception if any button has multiple states", ^{
+            SDLAlertView *testAlertView = [[SDLAlertView alloc] init];
 
             expectAction(^{
                 [testAlertView setSoftButtons:testInvalidSoftButtons];
+            }).to(raiseException().named(@"InvalidSoftButtonStates"));
+        });
+
+        it(@"should throw an exception if any button has multiple states when the property is set via a convenience init", ^{
+            expectAction(^{
+                (void)[[SDLAlertView alloc] initWithText:@"test" buttons:testInvalidSoftButtons];
             }).to(raiseException().named(@"InvalidSoftButtonStates"));
         });
     });
@@ -240,21 +265,24 @@ describe(@"An SDLAlertView", ^{
         });
 
         it(@"should correctly copy the alert view", ^{
-            expect(testAlertView).toNot(equal(copiedTestAlertView));
+            expect(testAlertView == copiedTestAlertView).to(beFalse());
 
             expect(copiedTestAlertView.text).to(equal(testAlertView.text));
-
             expect(copiedTestAlertView.secondaryText).to(equal(testAlertView.secondaryText));
             expect(copiedTestAlertView.tertiaryText).to(equal(testAlertView.tertiaryText));
             expect(copiedTestAlertView.timeout).to(equal(testAlertView.timeout));
-            expect(copiedTestAlertView.audio).toNot(equal(testAlertView.audio));
-            expect(copiedTestAlertView.audio.prompts).to(equal(testAlertView.audio.prompts));
-            expect(copiedTestAlertView.audio.audioFiles).to(beNil());
-            expect(testAlertView.audio.audioFiles).to(beNil());
+
+            expect(copiedTestAlertView.audio == testAlertView.audio).to(beFalse());
+            expect(copiedTestAlertView.audio.audioData).to(haveCount(1));
+            expect(copiedTestAlertView.audio.audioData[0]).to(equal(testAlertView.audio.audioData[0]));
             expect(copiedTestAlertView.audio.playTone).to(equal(testAlertView.audio.playTone));
+
             expect(copiedTestAlertView.showWaitIndicator).to(equal(testAlertView.showWaitIndicator));
             expect(copiedTestAlertView.softButtons).to(equal(testAlertView.softButtons));
+
+            expect(copiedTestAlertView.icon == testAlertView.icon).to(beFalse());
             expect(copiedTestAlertView.icon.name).to(equal(testAlertView.icon.name));
+
             expect((id)copiedTestAlertView.canceledHandler).to(equal((id)testAlertView.canceledHandler));
         });
 
@@ -275,6 +303,7 @@ describe(@"An SDLAlertView", ^{
             expect(copiedTestAlertView.timeout).toNot(equal(testAlertView.timeout));
             expect(copiedTestAlertView.audio).toNot(equal(testAlertView.audio));
             expect(copiedTestAlertView.showWaitIndicator).toNot(equal(testAlertView.showWaitIndicator));
+            expect(copiedTestAlertView.softButtons).to(haveCount(1));
             expect(copiedTestAlertView.softButtons).toNot(equal(testAlertView.softButtons));
             expect(copiedTestAlertView.icon).toNot(equal(testAlertView.icon));
             expect((id)copiedTestAlertView.canceledHandler).toNot(equal((id)testAlertView.canceledHandler));

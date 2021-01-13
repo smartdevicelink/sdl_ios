@@ -13,6 +13,13 @@
 #import "SDLFile.h"
 #import "SDLTTSChunk.h"
 
+
+@interface SDLAlertAudioData()
+
+@property (nullable, copy, nonatomic, readonly) NSDictionary<NSString *, SDLFile *> *audioFileData;
+
+@end
+
 QuickSpecBegin(SDLAlertAudioDataSpec)
 
 describe(@"SDLAlertAudioData", ^{
@@ -29,42 +36,13 @@ describe(@"SDLAlertAudioData", ^{
     });
 
     describe(@"Initialization", ^{
-        it(@"Should get correctly when initialized with initWithAudioFile:", ^{
-            SDLAlertAudioData *testAlertAudioData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
-
-            expect(testAlertAudioData.playTone).to(beFalse());
-            expect(testAlertAudioData.audioFiles).to(equal(@[testAudioFile]));
-            expect(testAlertAudioData.prompts).to(beNil());
-        });
-
-        it(@"Should get correctly when initialized with initWithSpeechSynthesizerString:", ^{
-            SDLAlertAudioData *testAlertAudioData = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:testSpeechSynthesizerString];
-
-            expect(testAlertAudioData.playTone).to(beFalse());
-            expect(testAlertAudioData.audioFiles).to(beNil());
-            expect(testAlertAudioData.prompts.count).to(equal(1));
-            expect(testAlertAudioData.prompts.firstObject.text).to(equal(testSpeechSynthesizerString));
-            expect(testAlertAudioData.prompts.firstObject.type).to(equal(SDLSpeechCapabilitiesText));
-        });
-
-        it(@"Should get correctly when initialized with initWithPhoneticSpeechSynthesizerString:phoneticType:", ^{
-            SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesLHPlusPhonemes;
-            SDLAlertAudioData *testAlertAudioData = [[SDLAlertAudioData alloc] initWithPhoneticSpeechSynthesizerString:testSpeechSynthesizerString phoneticType:testSpeechCapabilities];
-
-            expect(testAlertAudioData.playTone).to(beFalse());
-            expect(testAlertAudioData.audioFiles).to(beNil());
-            expect(testAlertAudioData.prompts.count).to(equal(1));
-            expect(testAlertAudioData.prompts.firstObject.text).to(equal(testSpeechSynthesizerString));
-            expect(testAlertAudioData.prompts.firstObject.type).to(equal(testSpeechCapabilities));
-        });
-
         it(@"Should get and set playTone correctly", ^{
             SDLAlertAudioData *testAlertAudioData = [[SDLAlertAudioData alloc] initWithAudioFile:testAudioFile];
             testAlertAudioData.playTone = YES;
 
             expect(testAlertAudioData.playTone).to(beTrue());
-            expect(testAlertAudioData.audioFiles).to(equal(@[testAudioFile]));
-            expect(testAlertAudioData.prompts).to(beNil());
+            expect(testAlertAudioData.audioData).to(haveCount(1));
+            expect(testAlertAudioData.audioFileData).to(haveCount(1));
         });
     });
 
@@ -83,9 +61,9 @@ describe(@"SDLAlertAudioData", ^{
         });
 
         it(@"Should copy correctly", ^{
-            expect(testAlertAudioData).toNot(equal(copiedTestAlertAudioData));
-            expect(testAlertAudioData.audioFiles).to(equal(copiedTestAlertAudioData.audioFiles));
-            expect(testAlertAudioData.prompts).to(equal(copiedTestAlertAudioData.prompts));
+            expect(testAlertAudioData == copiedTestAlertAudioData).to(beFalse());
+            expect(testAlertAudioData.audioData).to(equal(copiedTestAlertAudioData.audioData));
+            expect(testAlertAudioData.audioFileData).to(equal(copiedTestAlertAudioData.audioFileData));
             expect(testAlertAudioData.playTone).to(equal(copiedTestAlertAudioData.playTone));
         });
 
@@ -94,16 +72,22 @@ describe(@"SDLAlertAudioData", ^{
             [testAlertAudioData addAudioFiles:@[testAudioFile2]];
             testAlertAudioData.playTone = NO;
 
-            expect(testAlertAudioData.prompts.count).to(equal(2));
-            expect(testAlertAudioData.prompts[0].text).to(contain(testSpeechSynthesizerString1));
-            expect(testAlertAudioData.prompts[1].text).to(contain(testSpeechSynthesizerString2));
+            expect(testAlertAudioData.audioData).to(haveCount(4));
+            expect(testAlertAudioData.audioData[0].text).to(equal(testAudioFile.name));
+            expect(testAlertAudioData.audioData[1].text).to(equal(testSpeechSynthesizerString1));
+            expect(testAlertAudioData.audioData[2].text).to(equal(testSpeechSynthesizerString2));
+            expect(testAlertAudioData.audioData[3].text).to(equal(testAudioFile2.name));
 
-            expect(copiedTestAlertAudioData.prompts.count).to(equal(1));
-            expect(copiedTestAlertAudioData.prompts[0].text).to(contain(testSpeechSynthesizerString1));
+            expect(copiedTestAlertAudioData.audioData).to(haveCount(2));
+            expect(copiedTestAlertAudioData.audioData[0].text).to(equal(testAudioFile.name));
+            expect(copiedTestAlertAudioData.audioData[1].text).to(equal(testSpeechSynthesizerString1));
 
-            expect(testAlertAudioData.audioFiles.count).to(equal(2));
-            expect(testAlertAudioData.audioFiles[0].name).to(equal(testAudioFile.name));
-            expect(testAlertAudioData.audioFiles[1].name).to(equal(testAudioFile2.name));
+            expect(testAlertAudioData.audioFileData).to(haveCount(2));
+            expect(testAlertAudioData.audioFileData[testAudioFile.name]).to(equal(testAudioFile));
+            expect(testAlertAudioData.audioFileData[testAudioFile2.name]).to(equal(testAudioFile2));
+
+            expect(copiedTestAlertAudioData.audioFileData).to(haveCount(1));
+            expect(testAlertAudioData.audioFileData[testAudioFile.name]).to(equal(testAudioFile));
 
             expect(testAlertAudioData.playTone).to(beFalse());
             expect(copiedTestAlertAudioData.playTone).to(beTrue());

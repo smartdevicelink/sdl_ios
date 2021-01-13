@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     _audioData = [SDLTTSChunk fileChunksWithName:audioFile.name];
+    _audioFileData = @{audioFile.name: audioFile};
 
     return self;
 }
@@ -55,12 +56,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)addAudioFiles:(NSArray<SDLFile *> *)audioFiles {
-    NSMutableArray *newAudioFiles = [NSMutableArray array];
+    NSMutableArray *newAudioFiles = [NSMutableArray arrayWithCapacity:audioFiles.count];
+    NSMutableDictionary *newAudioFileData = [NSMutableDictionary dictionaryWithCapacity:audioFiles.count];
     for (SDLFile *audioFile in audioFiles) {
         [newAudioFiles addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
+        newAudioFileData[audioFile.name] = audioFile;
     }
 
     _audioData = (_audioData == nil) ? newAudioFiles : [_audioData arrayByAddingObjectsFromArray:newAudioFiles];
+
+    [newAudioFileData addEntriesFromDictionary:_audioFileData];
+    _audioFileData = newAudioFileData;
 }
 
 - (void)addSpeechSynthesizerStrings:(NSArray<NSString *> *)spokenStrings {
@@ -107,6 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLAudioData *newAudioData = [[self class] allocWithZone:zone];
     newAudioData->_audioData = [_audioData copyWithZone:zone];
+    newAudioData->_audioFileData = [_audioFileData copyWithZone:zone];
     return newAudioData;
 }
 

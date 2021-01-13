@@ -50,6 +50,8 @@ typedef void (^SDLAlertCanceledHandler)(void);
 /// An artwork that will be displayed when the icon appears. This will be uploaded prior to the appearance of the alert if necessary. This will not be uploaded if the head unit does not declare support for alertIcon.
 @property (nullable, copy, nonatomic) SDLArtwork *icon;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER; 
+
 /// Initialize a basic alert with a message and buttons
 /// @param text The primary line of text for display on the alert
 /// @param softButtons Soft buttons the user may select to perform actions

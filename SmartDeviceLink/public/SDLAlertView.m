@@ -42,23 +42,21 @@ static NSTimeInterval _defaultTimeout = 5.0;
     if (!self) { return nil; }
 
     _text = text;
-    _softButtons = softButtons;
+    self.softButtons = softButtons;
 
     return self;
 }
 
 - (instancetype)initWithText:(nullable NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText timeout:(nullable NSNumber<SDLFloat> *)timeout showWaitIndicator:(nullable NSNumber<SDLBool> *)showWaitIndicator audioIndication:(nullable SDLAlertAudioData *)audio buttons:(nullable NSArray<SDLSoftButtonObject *> *)softButtons icon:(nullable SDLArtwork *)icon {
-    self = [self init];
+    self = [self initWithText:text buttons:softButtons];
     if (!self) { return nil; }
 
-    _text = text;
     _secondaryText = secondaryText;
     _tertiaryText = tertiaryText;
     self.timeout = timeout.doubleValue;
     _showWaitIndicator = showWaitIndicator.boolValue;
-    _audio = audio;
-    self.softButtons = softButtons;
-    _icon = icon;
+    self.audio = audio;
+    self.icon = icon;
 
     return self;
 }

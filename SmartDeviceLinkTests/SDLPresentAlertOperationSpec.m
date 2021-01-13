@@ -279,7 +279,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 it(@"should set the tts chunks correctly", ^{
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.ttsChunks.count).to(equal(1));
-                    expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.prompts.firstObject.text));
+                    expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioData.firstObject.text));
                 });
             });
 
@@ -324,7 +324,7 @@ describe(@"SDLPresentAlertOperation", ^{
                         it(@"should set the tts chunks correctly", ^{
                             SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                             expect(testAlert.ttsChunks.count).to(equal(1));
-                            expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioFiles.firstObject.name));
+                            expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioData.firstObject.text));
                         });
                     });
                 });
@@ -342,8 +342,8 @@ describe(@"SDLPresentAlertOperation", ^{
                 it(@"should set the tts chunks correctly", ^{
                     SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.ttsChunks.count).to(equal(2));
-                    expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioFiles[0].name));
-                    expect(testAlert.ttsChunks[1].text).to(equal(testAlertView.audio.prompts[0].text));
+                    expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioData[0].text));
+                    expect(testAlert.ttsChunks[1].text).to(equal(testAlertView.audio.audioData[1].text));
                 });
             });
 
@@ -436,7 +436,7 @@ describe(@"SDLPresentAlertOperation", ^{
                         OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
                             NSArray<SDLPutFile *> *files = (NSArray<SDLPutFile *> *)value;
                             expect(files.count).to(equal(1));
-                            expect(files.firstObject.name).to(equal(testAlertAudioFileData.audioFiles.firstObject.name));
+                            expect(files.firstObject.name).to(equal(testAlertAudioFileData.audioData.firstObject.text));
                             return [value isKindOfClass:[NSArray class]];
                         }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
@@ -452,7 +452,7 @@ describe(@"SDLPresentAlertOperation", ^{
                         OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
                             NSArray<SDLPutFile *> *files = (NSArray<SDLPutFile *> *)value;
                             expect(files.count).to(equal(1));
-                            expect(files.firstObject.name).to(equal(testAlertAudioFileData.audioFiles.firstObject.name));
+                            expect(files.firstObject.name).to(equal(testAlertAudioFileData.audioData.firstObject.text));
                             return [value isKindOfClass:[NSArray class]];
                         }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
@@ -773,7 +773,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(alertRequest.alertText2).to(equal(testAlertView.secondaryText));
                     expect(alertRequest.alertText3).to(equal(testAlertView.tertiaryText));
                     expect(alertRequest.ttsChunks.count).to(equal(1));
-                    expect(alertRequest.ttsChunks[0].text).to(equal(testAlertView.audio.prompts.firstObject.text));
+                    expect(alertRequest.ttsChunks[0].text).to(equal(testAlertView.audio.audioData.firstObject.text));
                     expect(alertRequest.duration).to(equal(testAlertView.timeout * 1000));
                     expect(alertRequest.playTone).to(equal(testAlertView.audio.playTone));
                     expect(alertRequest.progressIndicator).to(equal(testAlertView.showWaitIndicator));
@@ -828,7 +828,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(alertRequest.alertText2).to(equal(testAlertView.secondaryText));
                     expect(alertRequest.alertText3).to(equal(testAlertView.tertiaryText));
                     expect(alertRequest.ttsChunks.count).to(equal(1));
-                    expect(alertRequest.ttsChunks[0].text).to(equal(testAlertView.audio.prompts.firstObject.text));
+                    expect(alertRequest.ttsChunks[0].text).to(equal(testAlertView.audio.audioData.firstObject.text));
                     expect(alertRequest.duration).to(equal(testAlertView.timeout * 1000));
                     expect(alertRequest.playTone).to(equal(testAlertView.audio.playTone));
                     expect(alertRequest.progressIndicator).to(equal(testAlertView.showWaitIndicator));
