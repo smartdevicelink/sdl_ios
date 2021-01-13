@@ -176,16 +176,10 @@ describe(@"An SDLAlertView", ^{
             expect(testAlertView.timeout).to(equal(4.5));
         });
 
-        it(@"should return the set value if 3 has been set", ^{
+        it(@"should return the set value if it is between 3 and 10", ^{
             SDLAlertView.defaultTimeout = 3.0;
             expect(SDLAlertView.defaultTimeout).to(equal(3.0));
             expect(testAlertView.timeout).to(equal(3.0));
-        });
-
-        it(@"should return the set value if 10 has been set", ^{
-            SDLAlertView.defaultTimeout = 10.0;
-            expect(SDLAlertView.defaultTimeout).to(equal(10.0));
-            expect(testAlertView.timeout).to(equal(10.0));
         });
     });
 
@@ -220,11 +214,6 @@ describe(@"An SDLAlertView", ^{
         it(@"should return the set value if a value between 3 and 10 has been set", ^{
             testAlertView.timeout = 9.5;
             expect(testAlertView.timeout).to(equal(9.5));
-        });
-
-        it(@"should return the set value if 3 has been set", ^{
-            testAlertView.timeout = 3.0;
-            expect(testAlertView.timeout).to(equal(3.0));
         });
     });
 
