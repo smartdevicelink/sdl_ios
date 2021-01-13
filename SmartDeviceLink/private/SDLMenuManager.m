@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (strong, nonatomic, readwrite) NSString *uniqueTitle;
 
 @end
 
@@ -160,31 +161,25 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
+    NSArray<SDLMenuCell *> *cells = [self sdl_addUniqueNamesToCells:menuCells];
+
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         SDLLogD(@"Waiting for HMI update to send menu cells");
         self.waitingOnHMIUpdate = YES;
-        self.waitingUpdateMenuCells = menuCells;
+        self.waitingUpdateMenuCells = cells;
         return;
     }
 
     self.waitingOnHMIUpdate = NO;
 
-    NSMutableSet *titleCheckSet = [NSMutableSet set];
     NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
     NSUInteger voiceCommandCount = 0;
-    for (SDLMenuCell *cell in menuCells) {
-        [titleCheckSet addObject:cell.title];
+    for (SDLMenuCell *cell in cells) {
         if (cell.voiceCommands == nil) { continue; }
         [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
         voiceCommandCount += cell.voiceCommands.count;
-    }
-
-    // Check for duplicate titles
-    if (titleCheckSet.count != menuCells.count) {
-        SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
-        return;
     }
 
     // Check for duplicate voice recognition commands
@@ -194,7 +189,7 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     _oldMenuCells = _menuCells;
-    _menuCells = menuCells;
+    _menuCells = cells;
 
     if ([self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) {
         [self sdl_startDynamicMenuUpdate];
@@ -530,6 +525,29 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
+- (NSArray<SDLMenuCell *> *)sdl_addUniqueNamesToCells:(NSArray<SDLMenuCell *> *)choices {
+    NSMutableArray<SDLMenuCell *> *choicess = [choices mutableCopy];
+    NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
+        for (NSUInteger i = 0; i < choicess.count; i++) {
+            NSString *cellName = choicess[i].title;
+            NSNumber *counter = dictCounter[cellName];
+            if (counter) {
+                [dictCounter setObject:[NSNumber numberWithInt:counter.intValue + 1] forKey:cellName];
+            } else {
+                [dictCounter setObject:[NSNumber numberWithInt:1] forKey:cellName];
+            }
+            counter = dictCounter[cellName];
+            if (counter.intValue > 1) {
+                NSString *testName = choicess[i].uniqueTitle;
+                choicess[i].uniqueTitle = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter.intValue, @")"];
+            }
+        }
+    }
+    return [choices copy];
+}
+
 #pragma mark Artworks
 
 - (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
@@ -651,7 +669,7 @@ UInt32 const MenuCellIdMin = 1;
     SDLAddCommand *command = [[SDLAddCommand alloc] init];
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
-    params.menuName = cell.title;
+    params.menuName = cell.uniqueTitle;
     params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
     params.position = @(position);
 
@@ -673,7 +691,7 @@ UInt32 const MenuCellIdMin = 1;
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
 
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil];
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.uniqueTitle position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil];
 }
 
 #pragma mark - Calling handlers

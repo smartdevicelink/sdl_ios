@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (strong, nonatomic, readwrite) NSString *uniqueTitle;
 
 @end
 
@@ -29,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
     _icon = icon;
     _voiceCommands = voiceCommands;
     _handler = handler;
+    _uniqueTitle = title;
 
     _cellId = UINT32_MAX;
     _parentCellId = UINT32_MAX;
@@ -44,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
     _submenuLayout = layout;
     _icon = icon;
     _subCells = subCells;
+    _uniqueTitle = title;
 
     _cellId = UINT32_MAX;
     _parentCellId = UINT32_MAX;
@@ -52,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
+    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\"-\"%@\", artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, _uniqueTitle, _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
 }
 
 #pragma mark - Object Equality

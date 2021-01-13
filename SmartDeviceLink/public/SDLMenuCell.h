@@ -56,6 +56,11 @@ typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
 @property (strong, nonatomic, readonly, nullable) SDLMenuLayout submenuLayout;
 
 /**
+ Title to be displayed, used to distinguish cells with same text in case it is not supported by the module.
+ */
+@property (strong, nonatomic, readonly) NSString *uniqueTitle;
+
+/**
  Create a menu cell that has no subcells.
 
  @param title The cell's primary text
