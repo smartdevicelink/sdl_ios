@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject);
+BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSString *value);
 
 @implementation SDLControlFramePayloadRPCStartServiceAck
 
@@ -108,12 +109,23 @@ SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject);
     [self sdl_addServiceTransports:&payloadObject fromArray:self.audioServiceTransports forKey:SDLControlFrameAudioServiceTransportsKey];
     [self sdl_addServiceTransports:&payloadObject fromArray:self.videoServiceTransports forKey:SDLControlFrameVideoServiceTransportsKey];
 
-    BytePtr bsonData = bson_object_to_bytes(&payloadObject);
-    NSUInteger length = bson_object_size(&payloadObject);
+    if (self.vehicleType) {
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleMake, self.vehicleType.make);
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleModel, self.vehicleType.model);
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleModelYear, self.vehicleType.modelYear);
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleTrim, self.vehicleType.trim);
+    }
+
+    const BytePtr bsonData = bson_object_to_bytes(&payloadObject);
+    const NSUInteger length = bson_object_size(&payloadObject);
 
     bson_object_deinitialize(&payloadObject);
 
-    return [[NSData alloc] initWithBytes:bsonData length:length];
+    NSData *data = (bsonData && length) ? [[NSData alloc] initWithBytes:bsonData length:length] : nil;
+    if (bsonData) {
+        free(bsonData);
+    }
+    return data;
 }
 
 - (void)sdl_parse:(NSData *)data {
@@ -159,6 +171,21 @@ SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject);
 NSString *sdl_getStringValue(BsonObject *const payloadObject, const char *key) {
     const char *cValue = key && payloadObject ? bson_object_get_string(payloadObject, key) : NULL;
     return cValue ? [NSString stringWithUTF8String:cValue] : nil;
+}
+
+BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSString *value) {
+    BOOL success = NO;
+    if (payloadObject && key && value) {
+        // rationale: bson_object_put_string does not respect const so we have to make a tmp copy
+        const NSUInteger leng = 1 + [value lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        char *buf = malloc(leng);
+        if (buf) {
+            strncpy(buf, value.UTF8String, leng);
+            success = bson_object_put_string(payloadObject, key, buf);
+            free(buf);
+        }
+    }
+    return success;
 }
 
 SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject) {

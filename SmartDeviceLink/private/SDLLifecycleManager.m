@@ -113,7 +113,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
-@property (strong, nonatomic) SDLVehicleType *enabledVehicleType;
+@property (strong, nonatomic, nullable) SDLVehicleType *enabledVehicleType;
 
 // RPC Handlers
 @property (strong, nonatomic) SDLLifecycleSyncPDataHandler *syncPDataHandler;

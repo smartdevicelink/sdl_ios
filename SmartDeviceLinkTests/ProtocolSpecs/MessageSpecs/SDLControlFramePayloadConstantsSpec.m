@@ -13,8 +13,8 @@
 
 QuickSpecBegin(SDLControlFramePayloadConstantsSpec)
 
-describe(@"Individual Enum Value Tests", ^ {
-    it(@"Should match internal values", ^ {
+describe(@"individual enum value tests", ^ {
+    it(@"should match internal values", ^ {
         expect(SDLControlFrameInt32NotFound).to(equal(-1));
         expect(SDLControlFrameInt64NotFound).to(equal(-1));
         expect(SDLControlFrameProtocolVersionKey).to(equal(@"protocolVersion"));
@@ -32,6 +32,18 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLControlFrameWidthKey).to(equal(@"width"));
         expect(SDLControlFrameTCPIPAddressKey).to(equal(@"tcpIpAddress"));
         expect(SDLControlFrameTCPPortKey).to(equal(@"tcpPort"));
+        expect(SDLControlFrameVehicleHardVersion).to(equal("systemHardwareVersion"));
+        expect(strcmp("systemHardwareVersion", SDLControlFrameVehicleHardVersion)).to(equal(0));
+        expect(SDLControlFrameVehicleMake).to(equal("make"));
+        expect(strcmp("make", SDLControlFrameVehicleMake)).to(equal(0));
+        expect(SDLControlFrameVehicleModel).to(equal("model"));
+        expect(strcmp("model", SDLControlFrameVehicleModel)).to(equal(0));
+        expect(SDLControlFrameVehicleModelYear).to(equal("model year"));
+        expect(strcmp("model year", SDLControlFrameVehicleModelYear)).to(equal(0));
+        expect(SDLControlFrameVehicleSoftVersion).to(equal("systemSoftwareVersion"));
+        expect(strcmp("systemSoftwareVersion", SDLControlFrameVehicleSoftVersion)).to(equal(0));
+        expect(SDLControlFrameVehicleTrim).to(equal("trim"));
+        expect(strcmp("trim", SDLControlFrameVehicleTrim)).to(equal(0));
     });
 });
 

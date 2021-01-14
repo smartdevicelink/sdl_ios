@@ -4,10 +4,23 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLVehicleType.h"
+
+@interface SDLControlFramePayloadRPCStartServiceAck (discover_internals)
+
+@property (strong, nonatomic, readwrite, nullable) SDLVehicleType *vehicleType;
+- (void)sdl_parse:(NSData *)data;
+
+@end
+
+SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject);
 
 QuickSpecBegin(SDLControlFramePayloadRPCStartServiceAckSpec)
+
+SDLVehicleType *defaultVehicleType = [[SDLVehicleType alloc] init];
 
 describe(@"Test encoding data", ^{
     __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
@@ -97,6 +110,7 @@ describe(@"Test decoding data", ^{
             expect(testPayload.secondaryTransports).to(beNil());
             expect(testPayload.audioServiceTransports).to(beNil());
             expect(testPayload.videoServiceTransports).to(beNil());
+            expect(testPayload.vehicleType).to(beNil());
         });
     });
 
@@ -124,6 +138,7 @@ describe(@"Test decoding data", ^{
             expect(testPayload.secondaryTransports).to(equal(testSecondaryTransports));
             expect(testPayload.audioServiceTransports).to(equal(testAudioServiceTransports));
             expect(testPayload.videoServiceTransports).to(equal(testVideoServiceTransports));
+            expect(testPayload.vehicleType).to(beNil());
         });
     });
 });
@@ -138,6 +153,108 @@ describe(@"Test nil data", ^{
 
     it(@"should output the correct params", ^{
         expect(testPayload.data.length).to(equal(0));
+    });
+});
+
+
+describe(@"getter/setter test", ^{
+    __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
+
+    beforeEach(^{
+        testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] init];
+        testPayload.vehicleType = defaultVehicleType;
+    });
+
+    it(@"expect vehicleType to be set properly", ^{
+        expect(testPayload.vehicleType).to(equal(defaultVehicleType));
+    });
+});
+
+describe(@"sdl_parseVehicleType()", ^{
+    __block BsonObject *bsonObject = NULL;
+
+    char *const vhMake = "ZAZ";
+    char *const vhModel = "Tavria";
+    char *const vhModelYear = "1987";
+    char *const vhTrim = "GT3";
+
+    beforeEach(^{
+        bsonObject = malloc(sizeof(BsonObject));
+        bool ok = NULL != bsonObject;
+        if (ok) {
+            ok = bson_object_initialize_default(bsonObject);
+        }
+        if (ok) {
+            ok = bson_object_put_string(bsonObject, SDLControlFrameVehicleMake, vhMake);
+        }
+        if (ok) {
+            ok = bson_object_put_string(bsonObject, SDLControlFrameVehicleModel, vhModel);
+        }
+        if (ok) {
+            ok = bson_object_put_string(bsonObject, SDLControlFrameVehicleModelYear, vhModelYear);
+        }
+        if (ok) {
+            ok = bson_object_put_string(bsonObject, SDLControlFrameVehicleTrim, vhTrim);
+        }
+        if (!ok) {
+            NSLog(@"cannot create or init bson vehicle type");
+        }
+    });
+
+    afterEach(^{
+        if (bsonObject) {
+            bson_object_deinitialize(bsonObject);
+            free(bsonObject);
+            bsonObject = NULL;
+        }
+    });
+
+    it(@"expect vehicleType to be decoded from bson properly", ^{
+        SDLVehicleType *vehicleType = sdl_parseVehicleType(bsonObject);
+        expect(vehicleType).notTo(beNil());
+        expect(vehicleType.make).to(equal([NSString stringWithUTF8String:vhMake]));
+        expect(vehicleType.model).to(equal([NSString stringWithUTF8String:vhModel]));
+        expect(vehicleType.modelYear).to(equal([NSString stringWithUTF8String:vhModelYear]));
+        expect(vehicleType.trim).to(equal([NSString stringWithUTF8String:vhTrim]));
+    });
+});
+
+describe(@"sdl_parseVehicleType()", ^{
+    __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
+    __block SDLVehicleType *vehicleType = nil;
+
+    NSString * strMake = @"ZAZ";
+    NSString * strModel = @"Tavria";
+    NSString * strModelYear = @"1987";
+    NSString * strTrim = @"GT3";
+
+    beforeEach(^{
+        vehicleType = [[SDLVehicleType alloc] init];
+        vehicleType.make = strMake;
+        vehicleType.model = strModel;
+        vehicleType.modelYear = strModelYear;
+        vehicleType.trim = strTrim;
+
+        // serialize the vehicleType
+        SDLControlFramePayloadRPCStartServiceAck *helperStruct = [[SDLControlFramePayloadRPCStartServiceAck alloc] init];
+        helperStruct.vehicleType = vehicleType;
+        NSData *data = helperStruct.data;
+        helperStruct = nil;
+
+        // parse the data to restore the vehicleType object
+        testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] init];
+        [testPayload sdl_parse:data];
+    });
+
+    afterEach(^{
+        testPayload = nil;
+        vehicleType = nil;
+    });
+    
+    it(@"expect vehicleType to be decoded from data properly", ^{
+        SDLVehicleType *vehicleType = testPayload.vehicleType;
+        expect(vehicleType).notTo(beNil());
+        expect(vehicleType).to(equal(vehicleType));
     });
 });
 
