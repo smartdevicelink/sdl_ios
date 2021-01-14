@@ -120,6 +120,8 @@ static const int SDLAlertSoftButtonCount = 4;
 
     dispatch_group_leave(uploadFilesTask);
 
+    if (self.isCancelled) { return; }
+     
     // This will always run after all `leave`s
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlConcurrentQueue, ^{

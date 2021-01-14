@@ -97,6 +97,7 @@ UInt16 const AlertCancelIdMax = 10;
         }
     };
 
+    [self.transactionQueue cancelAllOperations];
     [self.transactionQueue addOperation:op];
 }
 
@@ -105,7 +106,7 @@ UInt16 const AlertCancelIdMax = 10;
 - (NSOperationQueue *)sdl_newTransactionQueue {
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"com.sdl.screenManager.alertManager.transactionQueue";
-    queue.maxConcurrentOperationCount = 1;
+    queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
     queue.qualityOfService = NSQualityOfServiceUserInteractive;
     queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
