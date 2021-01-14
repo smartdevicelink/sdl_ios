@@ -41,11 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithLocation:(SDLGrid *)location status:(SDLDoorStatusType)status {
     self = [self init];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.location = location;
+        self.status = status;
     }
-    self.location = location;
-    self.status = status;
     return self;
 }
 

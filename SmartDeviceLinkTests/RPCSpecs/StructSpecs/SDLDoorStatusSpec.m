@@ -1,5 +1,5 @@
 //
-//  SDLBodyInformationSpec.m
+//  SDLDoorStatusSpec.m
 //  SmartDeviceLink
 
 
@@ -17,17 +17,23 @@ QuickSpecBegin(SDLDoorStatusSpec)
 
 SDLGrid *location = [[SDLGrid alloc] init];
 SDLDoorStatusType status = SDLDoorStatusTypeAjar;
+__block SDLDoorStatus* testStruct = nil;
 
 describe(@"getter/setter tests", ^{
+    afterEach(^{
+        testStruct = nil;
+    });
+
     context(@"init and assign", ^{
-        SDLDoorStatus* testStruct = [[SDLDoorStatus alloc] init];
+        beforeEach(^{
+            testStruct = [[SDLDoorStatus alloc] init];
+            testStruct.location = location;
+            testStruct.status = status;
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
         });
-
-        testStruct.location = location;
-        testStruct.status = status;
 
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.location).to(equal(location));
@@ -36,11 +42,13 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithDictionary:", ^{
-        NSDictionary* dict = @{
-            SDLRPCParameterNameLocation:location,
-            SDLRPCParameterNameStatus:status,
-        };
-        SDLDoorStatus *testStruct = [[SDLDoorStatus alloc] initWithDictionary:dict];
+        beforeEach(^{
+            NSDictionary* dict = @{
+                SDLRPCParameterNameLocation:location,
+                SDLRPCParameterNameStatus:status,
+            };
+            testStruct = [[SDLDoorStatus alloc] initWithDictionary:dict];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -53,7 +61,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"init", ^{
-        SDLDoorStatus *testStruct = [[SDLDoorStatus alloc] init];
+        beforeEach(^{
+            testStruct = [[SDLDoorStatus alloc] init];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -66,7 +76,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithLocation:status:", ^{
-        SDLDoorStatus *testStruct = [[SDLDoorStatus alloc] initWithLocation:location status:status];
+        beforeEach(^{
+            testStruct = [[SDLDoorStatus alloc] initWithLocation:location status:status];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());

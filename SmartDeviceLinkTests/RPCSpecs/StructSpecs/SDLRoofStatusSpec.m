@@ -1,5 +1,5 @@
 //
-//  SDLBodyInformationSpec.m
+//  SDLRoofStatusSpec.m
 //  SmartDeviceLink
 
 
@@ -19,13 +19,20 @@ QuickSpecBegin(SDLRoofStatusSpec)
 SDLGrid *location = [[SDLGrid alloc] init];
 SDLDoorStatusType status = SDLDoorStatusTypeAjar;
 SDLWindowState *state = [[SDLWindowState alloc] init];
+__block SDLRoofStatus* testStruct = nil;
 
 describe(@"getter/setter tests", ^{
+    afterEach(^{
+        testStruct = nil;
+    });
+
     context(@"init and assign", ^{
-        SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] init];
-        testStruct.location = location;
-        testStruct.status = status;
-        testStruct.state = state;
+        beforeEach(^{
+            testStruct = [[SDLRoofStatus alloc] init];
+            testStruct.location = location;
+            testStruct.status = status;
+            testStruct.state = state;
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -39,12 +46,14 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithDictionary:", ^{
-        NSDictionary* dict = @{
-            SDLRPCParameterNameLocation:location,
-            SDLRPCParameterNameStatus:status,
-            SDLRPCParameterNameState:state,
-        };
-        SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] initWithDictionary:dict];
+        beforeEach(^{
+            NSDictionary* dict = @{
+                SDLRPCParameterNameLocation:location,
+                SDLRPCParameterNameStatus:status,
+                SDLRPCParameterNameState:state,
+            };
+            testStruct = [[SDLRoofStatus alloc] initWithDictionary:dict];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -58,7 +67,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"init", ^{
-        SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] init];
+        beforeEach(^{
+            testStruct = [[SDLRoofStatus alloc] init];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -72,7 +83,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithLocation:status:", ^{
-        SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] initWithLocation:location status:status];
+        beforeEach(^{
+            testStruct = [[SDLRoofStatus alloc] initWithLocation:location status:status];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -86,7 +99,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithLocation:status:state:", ^{
-        SDLRoofStatus* testStruct = [[SDLRoofStatus alloc] initWithLocation:location status:status state:state];
+        beforeEach(^{
+            testStruct = [[SDLRoofStatus alloc] initWithLocation:location status:status state:state];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());

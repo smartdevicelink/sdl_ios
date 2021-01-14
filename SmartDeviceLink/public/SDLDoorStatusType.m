@@ -36,3 +36,4 @@ SDLDoorStatusType const SDLDoorStatusTypeClosed = @"CLOSED";
 SDLDoorStatusType const SDLDoorStatusTypeLocked = @"LOCKED";
 SDLDoorStatusType const SDLDoorStatusTypeAjar = @"AJAR";
 SDLDoorStatusType const SDLDoorStatusTypeRemoved = @"REMOVED";
+

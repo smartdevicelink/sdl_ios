@@ -23,28 +23,34 @@ NSArray<SDLGateStatus *> *gateStatuses = @[[[SDLGateStatus alloc] init]];
 NSArray<SDLRoofStatus *> *roofStatuses = @[[[SDLRoofStatus alloc] init]];
 SDLIgnitionStableStatus ignitionStableStatus = SDLIgnitionStableStatusStable;
 SDLIgnitionStatus ignitionStatus = SDLIgnitionStatusStart;
+__block SDLBodyInformation* testStruct = nil;
 
 describe(@"getter/setter tests", ^{
+    afterEach(^{
+        testStruct = nil;
+    });
+    
     context(@"init and assign", ^{
-        SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] init];
+        beforeEach(^{
+            testStruct = [[SDLBodyInformation alloc] init];
+            testStruct.parkBrakeActive = @YES;
+            testStruct.ignitionStableStatus = SDLIgnitionStableStatusStable;
+            testStruct.ignitionStatus = SDLIgnitionStatusStart;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            testStruct.driverDoorAjar = @NO;
+            testStruct.passengerDoorAjar = @NO;
+            testStruct.rearLeftDoorAjar = @NO;
+            testStruct.rearRightDoorAjar = @YES;
+#pragma clang diagnostic pop
+            testStruct.doorStatuses = doorStatuses;
+            testStruct.gateStatuses = gateStatuses;
+            testStruct.roofStatuses = roofStatuses;
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
         });
-
-        testStruct.parkBrakeActive = @YES;
-        testStruct.ignitionStableStatus = SDLIgnitionStableStatusStable;
-        testStruct.ignitionStatus = SDLIgnitionStatusStart;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testStruct.driverDoorAjar = @NO;
-        testStruct.passengerDoorAjar = @NO;
-        testStruct.rearLeftDoorAjar = @NO;
-        testStruct.rearRightDoorAjar = @YES;
-#pragma clang diagnostic pop
-        testStruct.doorStatuses = doorStatuses;
-        testStruct.gateStatuses = gateStatuses;
-        testStruct.roofStatuses = roofStatuses;
 
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.parkBrakeActive).to(equal(@YES));
@@ -64,22 +70,24 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithDictionary:", ^{
-        NSDictionary* dict = @{
-            SDLRPCParameterNameParkBrakeActive:@YES,
-            SDLRPCParameterNameIgnitionStableStatus:SDLIgnitionStableStatusNotStable,
-            SDLRPCParameterNameIgnitionStatus:SDLIgnitionStatusStart,
+        beforeEach(^{
+            NSDictionary* dict = @{
+                SDLRPCParameterNameParkBrakeActive:@YES,
+                SDLRPCParameterNameIgnitionStableStatus:SDLIgnitionStableStatusNotStable,
+                SDLRPCParameterNameIgnitionStatus:SDLIgnitionStatusStart,
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            SDLRPCParameterNameDriverDoorAjar:@NO,
-            SDLRPCParameterNamePassengerDoorAjar:@NO,
-            SDLRPCParameterNameRearLeftDoorAjar:@NO,
-            SDLRPCParameterNameRearRightDoorAjar:@YES,
+                SDLRPCParameterNameDriverDoorAjar:@NO,
+                SDLRPCParameterNamePassengerDoorAjar:@NO,
+                SDLRPCParameterNameRearLeftDoorAjar:@NO,
+                SDLRPCParameterNameRearRightDoorAjar:@YES,
 #pragma clang diagnostic pop
-            SDLRPCParameterNameDoorStatuses:doorStatuses,
-            SDLRPCParameterNameGateStatuses:gateStatuses,
-            SDLRPCParameterNameRoofStatuses:roofStatuses,
-        };
-        SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithDictionary:dict];
+                SDLRPCParameterNameDoorStatuses:doorStatuses,
+                SDLRPCParameterNameGateStatuses:gateStatuses,
+                SDLRPCParameterNameRoofStatuses:roofStatuses,
+            };
+            testStruct = [[SDLBodyInformation alloc] initWithDictionary:dict];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -103,7 +111,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"init", ^{
-        SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] init];
+        beforeEach(^{
+            testStruct = [[SDLBodyInformation alloc] init];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -127,7 +137,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:", ^{
-        SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithParkBrakeActive:YES ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus];
+        beforeEach(^{
+            testStruct = [[SDLBodyInformation alloc] initWithParkBrakeActive:YES ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
@@ -151,7 +163,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:", ^{
-        SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithParkBrakeActive:YES ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus doorStatuses:doorStatuses gateStatuses:gateStatuses roofStatuses:roofStatuses];
+        beforeEach(^{
+            testStruct = [[SDLBodyInformation alloc] initWithParkBrakeActive:YES ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus doorStatuses:doorStatuses gateStatuses:gateStatuses roofStatuses:roofStatuses];
+        });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());

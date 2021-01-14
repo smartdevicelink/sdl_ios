@@ -1,5 +1,5 @@
 //
-//  SDLAppHMITypeSpec.m
+//  SDLDoorStatusTypeSpec.m
 //  SmartDeviceLink
 
 
