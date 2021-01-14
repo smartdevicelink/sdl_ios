@@ -380,22 +380,43 @@ describe(@"SDLPresentAlertOperation", ^{
     });
 
     describe(@"uploading", ^{
+        __block id strictMockFileManager = nil;
+        __block id strictMockSystemCapabilityManager = nil;
+        __block id strictMockCurrentWindowCapability = nil;
+
+        beforeEach(^{
+            strictMockFileManager = OCMStrictClassMock([SDLFileManager class]);
+            strictMockSystemCapabilityManager = OCMStrictClassMock([SDLSystemCapabilityManager class]);
+            strictMockCurrentWindowCapability = OCMStrictClassMock([SDLWindowCapability class]);
+        });
+
         describe(@"audio files", ^{
             beforeEach(^{
                 testAlertView.audio = testAlertAudioFileData;
+                testAlertView.softButtons = @[];
+                testAlertView.icon = nil;
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:strictMockFileManager systemCapabilityManager:strictMockSystemCapabilityManager currentWindowCapability:strictMockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                OCMStub([strictMockFileManager fileNeedsUpload:nil]).andReturn(NO);
+                OCMStub([strictMockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
+                OCMStub([strictMockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
             });
 
             context(@"the negotiated RPC spec version does not support the audio file feature", ^{
                 beforeEach(^{
                     [SDLGlobals sharedGlobals].rpcVersion = alertAudioFileNotSupportedSpecVersion;
+                    OCMStub([strictMockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesFile, SDLSpeechCapabilitiesText]));
                 });
 
                 it(@"should not attempt to upload audio files", ^{
-                    OCMReject([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                    OCMReject([strictMockFileManager fileNeedsUpload:testAudioFile]);
+                    OCMReject([strictMockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
                     [testPresentAlertOperation start];
+
+                    OCMVerifyAll(strictMockFileManager);
+                    OCMVerifyAll(strictMockSystemCapabilityManager);
+                    OCMVerifyAll(strictMockCurrentWindowCapability);
                 });
             });
 
@@ -406,33 +427,40 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 context(@"the module does not support the speech capability of type `file`", ^{
                     beforeEach(^{
-                        OCMStub([mockSystemCapabilityManager speechCapabilities]).andReturn(@[SDLSpeechCapabilitiesText]);
+                        OCMStub([strictMockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesText]));
                     });
 
                     it(@"should not attempt to upload audio files", ^{
-                        OCMReject([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                        OCMReject([strictMockFileManager fileNeedsUpload:testAudioFile]);
+                        OCMReject([strictMockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
                         [testPresentAlertOperation start];
+
+                        OCMVerifyAll(strictMockFileManager);
+                        OCMVerifyAll(strictMockSystemCapabilityManager);
+                        OCMVerifyAll(strictMockCurrentWindowCapability);
                     });
                 });
 
                 context(@"the module supports the speech capability of type `file`", ^{
                     beforeEach(^{
-                        OCMStub([mockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]));
+                        OCMStub([strictMockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesText, SDLSpeechCapabilitiesFile]));
                     });
 
                     it(@"should not upload the audio file if it has already been uploaded", ^{
-                        OCMStub([mockFileManager hasUploadedFile:testAudioFile]).andReturn(YES);
-
-                        OCMReject([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                        OCMExpect([strictMockFileManager fileNeedsUpload:testAudioFile]).andReturn(NO);
+                        OCMReject([strictMockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
                         [testPresentAlertOperation start];
+
+                        OCMVerifyAll(strictMockFileManager);
+                        OCMVerifyAll(strictMockSystemCapabilityManager);
+                        OCMVerifyAll(strictMockCurrentWindowCapability);
                     });
 
                     it(@"should upload the audio file if it has not yet been uploaded", ^{
-                        OCMStub([mockFileManager fileNeedsUpload:testAudioFile]).andReturn(YES);
-
-                        OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
+                        OCMExpect([strictMockFileManager fileNeedsUpload:testAudioFile]).andReturn(YES);
+                        OCMExpect([strictMockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
                             NSArray<SDLPutFile *> *files = (NSArray<SDLPutFile *> *)value;
                             expect(files.count).to(equal(1));
                             expect(files.firstObject.name).to(equal(testAlertAudioFileData.audioData.firstObject.text));
@@ -441,14 +469,15 @@ describe(@"SDLPresentAlertOperation", ^{
 
                         [testPresentAlertOperation start];
 
-                        OCMVerifyAllWithDelay(mockFileManager, 0.5);
+                        OCMVerifyAll(strictMockFileManager);
+                        OCMVerifyAll(strictMockSystemCapabilityManager);
+                        OCMVerifyAll(strictMockCurrentWindowCapability);
                     });
 
                     it(@"should re-upload an audio file if `overwrite` has been set to true", ^{
                         testAudioFile.overwrite = YES;
-                        OCMStub([mockFileManager fileNeedsUpload:testAudioFile]).andReturn(YES);;
-
-                        OCMExpect([mockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
+                        OCMStub([strictMockFileManager fileNeedsUpload:testAudioFile]).andReturn(YES);;
+                        OCMExpect([strictMockFileManager uploadFiles:[OCMArg checkWithBlock:^BOOL(id value) {
                             NSArray<SDLPutFile *> *files = (NSArray<SDLPutFile *> *)value;
                             expect(files.count).to(equal(1));
                             expect(files.firstObject.name).to(equal(testAlertAudioFileData.audioData.firstObject.text));
@@ -457,7 +486,9 @@ describe(@"SDLPresentAlertOperation", ^{
 
                         [testPresentAlertOperation start];
 
-                        OCMVerifyAllWithDelay(mockFileManager, 0.5);
+                        OCMVerifyAll(strictMockFileManager);
+                        OCMVerifyAll(strictMockSystemCapabilityManager);
+                        OCMVerifyAll(strictMockCurrentWindowCapability);
                     });
                 });
             });
@@ -465,17 +496,20 @@ describe(@"SDLPresentAlertOperation", ^{
 
         describe(@"image files", ^{
             beforeEach(^{
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:strictMockFileManager systemCapabilityManager:strictMockSystemCapabilityManager currentWindowCapability:strictMockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+
+                OCMStub([strictMockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
+                OCMStub([strictMockSystemCapabilityManager speechCapabilities]).andReturn((@[SDLSpeechCapabilitiesFile, SDLSpeechCapabilitiesText]));
             });
 
             it(@"should upload the alert icons and soft button images if they are supported on the module", ^{
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
+                OCMStub([strictMockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
-                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+                OCMStub([strictMockCurrentWindowCapability softButtonCapabilities]).andReturn((@[testSoftButtonCapabilities]));
+                OCMStub([strictMockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
 
-                OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
+                OCMExpect([strictMockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
                     expect(files.count).to(equal(3));
                     expect(files[0].name).to(equal(testAlertView.icon.name));
@@ -486,17 +520,19 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 [testPresentAlertOperation start];
 
-                OCMVerifyAllWithDelay(mockFileManager, 0.5);
+                OCMVerifyAll(strictMockFileManager);
+                OCMVerifyAll(strictMockSystemCapabilityManager);
+                OCMVerifyAll(strictMockCurrentWindowCapability);
             });
 
             it(@"should not upload the soft button images if soft button images are not supported on the module", ^{
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
+                OCMStub([strictMockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @(NO);
-                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+                OCMStub([strictMockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
+                OCMStub([strictMockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
 
-                OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
+                OCMExpect([strictMockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
                     expect(files.count).to(equal(1));
                     expect(files[0].name).to(equal(testAlertView.icon.name));
@@ -505,17 +541,19 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 [testPresentAlertOperation start];
 
-                OCMVerifyAllWithDelay(mockFileManager, 0.5);
+                OCMVerifyAll(strictMockFileManager);
+                OCMVerifyAll(strictMockSystemCapabilityManager);
+                OCMVerifyAll(strictMockCurrentWindowCapability);
             });
 
             it(@"should upload the alert icon if the alert icon is not supported on the module", ^{
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
+                OCMStub([strictMockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
-                testSoftButtonCapabilities.imageSupported = @YES;
-                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+                testSoftButtonCapabilities.imageSupported = @(YES);
+                OCMStub([strictMockCurrentWindowCapability softButtonCapabilities]).andReturn((@[testSoftButtonCapabilities]));
+                OCMStub([strictMockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
 
-                OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
+                OCMExpect([strictMockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
                     expect(files.count).to(equal(2));
                     expect(files[0].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
@@ -525,92 +563,25 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 [testPresentAlertOperation start];
 
-                OCMVerifyAllWithDelay(mockFileManager, 0.5);
+                OCMVerifyAll(strictMockFileManager);
+                OCMVerifyAll(strictMockSystemCapabilityManager);
+                OCMVerifyAll(strictMockCurrentWindowCapability);
             });
 
             it(@"should not upload any images if the alert icon and soft button graphics are not supported on the module", ^{
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
+                OCMStub([strictMockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @NO;
-                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
+                OCMStub([strictMockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
+                OCMStub([strictMockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
 
-                OCMReject([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
-
-                [testPresentAlertOperation start];
-            });
-
-            it(@"should not upload a static image", ^{
-                testAlertView.icon = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
-
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
-
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
-                SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
-                testSoftButtonCapabilities.imageSupported = @YES;
-                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
-
-                OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
-                    NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
-                    expect(files.count).to(equal(2));
-                    expect(files[0].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
-                    expect(files[1].name).to(equal(testAlertView.softButtons[1].currentState.artwork.name));
-                    return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+                OCMReject([strictMockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
 
                 [testPresentAlertOperation start];
-            });
 
-            it(@"should not upload a dynamic image that has already been uploaded", ^{
-                testAlertIcon.overwrite = NO;
-                testAlertView.icon = testAlertIcon;
-
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
-
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
-                SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
-                testSoftButtonCapabilities.imageSupported = @YES;
-                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager hasUploadedFile:testAlertIcon]).andReturn(YES);
-                OCMStub([mockFileManager hasUploadedFile:testButton1Icon]).andReturn(NO);
-                OCMStub([mockFileManager hasUploadedFile:testButton2Icon]).andReturn(NO);
-
-                OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
-                    NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
-                    expect(files.count).to(equal(2));
-                    expect(files[0].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
-                    expect(files[1].name).to(equal(testAlertView.softButtons[1].currentState.artwork.name));
-                    return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
-
-                [testPresentAlertOperation start];
-            });
-
-            it(@"should upload a dynamic image that has already been uploaded but has overwrite set to true", ^{
-                testAlertIcon.overwrite = YES;
-                testAlertView.icon = testAlertIcon;
-
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
-
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
-                SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
-                testSoftButtonCapabilities.imageSupported = @YES;
-                OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager hasUploadedFile:testAlertIcon]).andReturn(YES);
-                OCMStub([mockFileManager hasUploadedFile:testButton1Icon]).andReturn(NO);
-                OCMStub([mockFileManager hasUploadedFile:testButton2Icon]).andReturn(NO);
-
-                OCMExpect([mockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
-                    NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
-                    expect(files.count).to(equal(3));
-                    expect(files[0].name).to(equal(testAlertView.icon.name));
-                    expect(files[1].name).to(equal(testAlertView.softButtons[0].currentState.artwork.name));
-                    expect(files[2].name).to(equal(testAlertView.softButtons[1].currentState.artwork.name));
-                    return [value isKindOfClass:[NSArray class]];
-                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
-
-                [testPresentAlertOperation start];
+                OCMVerifyAll(strictMockFileManager);
+                OCMVerifyAll(strictMockSystemCapabilityManager);
+                OCMVerifyAll(strictMockCurrentWindowCapability);
             });
         });
     });
@@ -796,7 +767,11 @@ describe(@"SDLPresentAlertOperation", ^{
         });
 
         context(@"with valid data", ^{
+            __block id strictMockConnectionManager = nil;
+
             beforeEach(^{
+                strictMockConnectionManager = OCMStrictProtocolMock(@protocol(SDLConnectionManagerType));
+
                 OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
                 OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
@@ -812,7 +787,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
                 OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
 
-                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:strictMockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
                 testPresentAlertOperation.completionBlock = ^{
                     hasCalledOperationCompletionHandler = YES;
@@ -820,8 +795,7 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should send the alert if the operation has not been cancelled", ^{
-                [testPresentAlertOperation start];
-                OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
+                OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
                     SDLAlert *alertRequest = (SDLAlert *)value;
                     expect(alertRequest.alertText1).to(equal(testAlertView.text));
                     expect(alertRequest.alertText2).to(equal(testAlertView.secondaryText));
@@ -841,26 +815,26 @@ describe(@"SDLPresentAlertOperation", ^{
                     return [value isKindOfClass:[SDLAlert class]];
                 }] withResponseHandler:[OCMArg any]]);
 
-                OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
+                [testPresentAlertOperation start];
+
+                OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
             });
 
             it(@"should not send the alert if the operation has been cancelled", ^{
                 [testPresentAlertOperation cancel];
-                OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
+                OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
 
                 [testPresentAlertOperation start];
 
                 expect(testPresentAlertOperation.internalError).to(beNil());
                 expect(hasCalledOperationCompletionHandler).to(beTrue());
                 expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+
+                OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
             });
 
             describe(@"Getting a response from the module", ^{
                 __block SDLAlertResponse *response = nil;
-
-                beforeEach(^{
-                    [testPresentAlertOperation start];
-                });
 
                 it(@"should call the completion handler and finish the operation after a successful alert response", ^{
                     response = [[SDLAlertResponse alloc] init];
@@ -868,11 +842,15 @@ describe(@"SDLPresentAlertOperation", ^{
                     response.success = @YES;
                     response.resultCode = SDLResultSuccess;
 
-                    OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, [NSNull null], nil])]);
+                    OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, [NSNull null], nil])]);
+
+                    [testPresentAlertOperation start];
 
                     expect(testPresentAlertOperation.internalError).toEventually(beNil());
                     expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
 
                 it(@"should save the error, call the completion handler and finish the operation after an unsuccessful alert response", ^{
@@ -883,11 +861,15 @@ describe(@"SDLPresentAlertOperation", ^{
                     NSError *defaultError = [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
                     NSError *expectedAlertResponseError = [NSError sdl_alertManager_presentationFailed:@{@"tryAgainTime": response.tryAgainTime, @"error": defaultError}];
 
-                    OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, defaultError, nil])]);
+                    OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, defaultError, nil])]);
+
+                    [testPresentAlertOperation start];
 
                     expect(testPresentAlertOperation.internalError).toEventually(equal(expectedAlertResponseError));
                     expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
             });
         });
@@ -897,6 +879,7 @@ describe(@"SDLPresentAlertOperation", ^{
         __block SDLAlertView *testCancelAlertView = nil;
         __block SDLVersion *cancelInteractionSupportedSpecVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
         __block SDLVersion *cancelInteractionNotSupportedSpecVersion = [SDLVersion versionWithMajor:5 minor:10 patch:0];
+        __block id strictMockConnectionManager = nil;
 
         beforeEach(^{
             testCancelAlertView = [[SDLAlertView alloc] init];
@@ -904,7 +887,8 @@ describe(@"SDLPresentAlertOperation", ^{
 
             OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
 
-            testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testCancelAlertView cancelID:testCancelID];
+            strictMockConnectionManager = OCMStrictProtocolMock(@protocol(SDLConnectionManagerType));
+            testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:strictMockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testCancelAlertView cancelID:testCancelID];
             testPresentAlertOperation.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
             };
@@ -917,18 +901,17 @@ describe(@"SDLPresentAlertOperation", ^{
 
             describe(@"If the operation is executing", ^{
                 it(@"should attempt to send a cancel interaction", ^{
-                    OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
+                    OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
                         return [value isKindOfClass:[SDLAlert class]];
                     }] withResponseHandler:[OCMArg any]]);
-
                     [testPresentAlertOperation start];
 
-                    OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                     expect(testPresentAlertOperation.isExecuting).to(beTrue());
                     expect(testPresentAlertOperation.isFinished).to(beFalse());
                     expect(testPresentAlertOperation.isCancelled).to(beFalse());
 
-                    OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
+                    OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
                         SDLCancelInteraction *cancelRequest = (SDLCancelInteraction *)value;
                         expect(cancelRequest).to(beAnInstanceOf([SDLCancelInteraction class]));
                         expect(cancelRequest.cancelID).to(equal(testCancelID));
@@ -938,42 +921,41 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testCancelAlertView cancel];
 
-                    OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
 
                 context(@"If the cancel interaction was successful", ^{
-                    beforeEach(^{
-                        [testPresentAlertOperation start];
-                    });
-
                     it(@"should not save an error", ^{
+                        OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
+                        [testPresentAlertOperation start];
+
                         SDLCancelInteractionResponse *testResponse = [[SDLCancelInteractionResponse alloc] init];
                         testResponse.success = @YES;
                         testResponse.resultCode = SDLResultSuccess;
-
-                        OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], testResponse, [NSNull null], nil])]);
+                        OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], testResponse, [NSNull null], nil])]);
 
                         [testCancelAlertView cancel];
 
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                         expect(testPresentAlertOperation.error).to(beNil());
                     });
                 });
 
                 context(@"If the cancel interaction was not successful", ^{
-                    beforeEach(^{
-                        [testPresentAlertOperation start];
-                    });
-
                     it(@"should save an error", ^{
+                        OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
+                        [testPresentAlertOperation start];
+
                         SDLCancelInteractionResponse *testResponse = [[SDLCancelInteractionResponse alloc] init];
                         testResponse.success = @NO;
                         testResponse.resultCode = SDLResultAborted;
                         NSError *defaultError = [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
 
-                        OCMStub([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], testResponse, defaultError, nil])]);
+                        OCMStub([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], testResponse, defaultError, nil])]);
 
                         [testCancelAlertView cancel];
 
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                         expect(testPresentAlertOperation.error).to(equal(defaultError));
                     });
                 });
@@ -985,42 +967,51 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should not attempt to send a cancel interaction", ^{
-                    OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+                    OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
 
                     [testCancelAlertView cancel];
+
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
             });
 
             describe(@"If the started operation has been canceled", ^{
-                beforeEach(^{
+                it(@"should not attempt to send a cancel interaction", ^{
+                    OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                     [testPresentAlertOperation start];
                     [testPresentAlertOperation cancel];
-                });
 
-                it(@"should not attempt to send a cancel interaction", ^{
-                    OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+                    OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
 
                     [testCancelAlertView cancel];
+
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
             });
 
             context(@"If the operation has not started", ^{
                 it(@"should not attempt to send a cancel interaction", ^{
-                    OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+                    OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
 
                     [testCancelAlertView cancel];
+
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
 
                 context(@"Once the operation has started after being canceled", ^{
                     it(@"should not attempt to send a cancel interaction", ^{
-                        OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+                        OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
+                        [testPresentAlertOperation start];
+                        [testPresentAlertOperation cancel];
 
+                        OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
                         [testCancelAlertView cancel];
 
                         OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
-
                         [testPresentAlertOperation start];
                         [testCancelAlertView cancel];
+
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                     });
                 });
             });
@@ -1032,19 +1023,24 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should not attempt to send a cancel interaction if the operation is executing", ^{
+                OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                 [testPresentAlertOperation start];
 
-                OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+                OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
 
                 [testCancelAlertView cancel];
+
+                OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
             });
 
             it(@"should cancel the operation if it has not yet been run", ^{
-                OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
+                OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
 
                 [testCancelAlertView cancel];
 
                 expect(testPresentAlertOperation.isCancelled).to(beTrue());
+
+                OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
             });
         });
     });
