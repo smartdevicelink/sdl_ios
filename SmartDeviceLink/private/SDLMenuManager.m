@@ -49,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
 @property (strong, nonatomic, readwrite) NSString *uniqueTitle;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
 
 @end
 
@@ -525,13 +526,13 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
-- (NSArray<SDLMenuCell *> *)sdl_addUniqueNamesToCells:(NSArray<SDLMenuCell *> *)choices {
+- (NSArray<SDLMenuCell *> *)sdl_addUniqueNamesToCells:(nullable NSArray<SDLMenuCell *> *)choices {
     NSMutableArray<SDLMenuCell *> *choicess = [choices mutableCopy];
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
     SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
-        for (NSUInteger i = 0; i < choicess.count; i++) {
-            NSString *cellName = choicess[i].title;
+        for (SDLMenuCell *cell in choicess) {
+            NSString *cellName = cell.title;
             NSNumber *counter = dictCounter[cellName];
             if (counter) {
                 dictCounter[cellName] = @(counter.intValue + 1);
@@ -540,8 +541,12 @@ UInt32 const MenuCellIdMin = 1;
             }
             counter = dictCounter[cellName];
             if (counter.intValue > 1) {
-                NSString *testName = choicess[i].uniqueTitle;
-                choicess[i].uniqueTitle = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter.intValue, @")"];
+                NSString *testName = cell.uniqueTitle;
+                cell.uniqueTitle = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter.intValue, @")"];
+            }
+
+            if (cell.subCells.count > 0) {
+                cell.subCells = [self sdl_addUniqueNamesToCells:cell.subCells];
             }
         }
     }
