@@ -162,7 +162,17 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(resume(playPauseIndicator:));
++ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(resume(playPauseIndicator:)) __deprecated_msg("Use resumeWithPlayPauseIndicator:forwardSeekIndicator:backSeekIndicator: instead");
+
+/**
+ Resume a paused media clock timer. It resumes at the same time at which it was paused.
+
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @param forwardSeekIndicator - forwardSeekIndicator
+ @param backSeekIndicator - backSeekIndicator
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator NS_SWIFT_NAME(resume(playPauseIndicator:forwardSeekIndicator:backSeekIndicator:));
 
 /**
  Remove a media clock timer from the screen
