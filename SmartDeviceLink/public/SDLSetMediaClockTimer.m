@@ -23,15 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
-    self = [self init];
-    if (!self) { return nil; }
-
-    self.updateMode = updateMode;
-    self.startTime = startTime;
-    self.endTime = endTime;
-    self.audioStreamingIndicator = playPauseIndicator;
-
-    return self;
+    return [self initWithUpdateMode:updateMode startTime:startTime endTime:endTime audioStreamingIndicator:playPauseIndicator forwardSeekIndicator:nil backSeekIndicator:nil];
 }
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode {
