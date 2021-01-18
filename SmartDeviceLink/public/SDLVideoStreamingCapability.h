@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define DEFAULT_FRAME_RATE 15
 /**
  Contains information about this system's video streaming capabilities
  */
@@ -28,7 +29,21 @@ NS_ASSUME_NONNULL_BEGIN
  @param diagonalScreenSize The diagonal screen size in inches
  @param pixelPerInch The diagonal resolution in pixels divided by the diagonal screen size in inches
  @param scale The scaling factor the app should use to change the size of the projecting view
- @param preferredFPS The preferred frame rate specified by head unit
+ @return A SDLVideoStreamingCapability object
+ */
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale __deprecated_msg("Use initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale:preferredFPS instead");
+
+/**
+ Convenience init for creating a video streaming capability with all parameters.
+
+ @param preferredResolution The preferred resolution of a video stream for decoding and rendering on HMI
+ @param maxBitrate The maximum bitrate of video stream that is supported, in kbps
+ @param supportedFormats Detailed information on each format supported by this system, in its preferred order
+ @param hapticDataSupported True if the system can utilize the haptic spatial data from the source being streamed
+ @param diagonalScreenSize The diagonal screen size in inches
+ @param pixelPerInch The diagonal resolution in pixels divided by the diagonal screen size in inches
+ @param scale The scaling factor the app should use to change the size of the projecting view
+ @param preferredFPS The preferred frame rate per second of the head unit
  @return A SDLVideoStreamingCapability object
  */
 - (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale preferredFPS:(uint32_t)preferredFPS;
@@ -86,8 +101,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *scale;
 
 /**
- *  Preferred frame rate (assuming the case where resolution is the same as preferredResolution)
- *  Optional
+ The preferred frame rate per second of the head unit. The mobile application / app library may take other factors into account that constrain the frame rate lower than this value, but it should not perform streaming at a higher frame rate than this value.
+ @since SDL 7.1
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *preferredFPS;
 

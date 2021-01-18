@@ -48,7 +48,6 @@
 #import "SDLVideoStreamingCapability.h"
 
 static NSUInteger const FramesToSendOnBackground = 30;
-static NSUInteger const DefaultFrameRate = 15;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -388,10 +387,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             if (capability.maxBitrate != nil) {
                 weakSelf.videoEncoderSettings[(__bridge NSString *) kVTCompressionPropertyKey_AverageBitRate] = [[NSNumber alloc] initWithUnsignedLongLong:(capability.maxBitrate.unsignedLongLongValue * 1000)];
             }
-            NSUInteger  preferredFPS = (capability.preferredFPS.unsignedIntValue == 0) ? DefaultFrameRate : capability.preferredFPS.unsignedIntValue;
-            SDLLogD(@"videoEncoderSettings = %@", weakSelf.videoEncoderSettings);
+            NSUInteger preferredFPS = (capability.preferredFPS.unsignedIntValue == 0) ? DEFAULT_FRAME_RATE : capability.preferredFPS.unsignedIntValue;
             weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(preferredFPS);
-            SDLLogD(@"SDLCarWindow#didEnterStateVideoStreamStarting preferredFPS=%lu", (unsigned long)preferredFPS);
 
             if (weakSelf.dataSource != nil) {
                 SDLLogV(@"Calling data source for modified preferred formats");
@@ -402,14 +399,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
                 weakSelf.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
             }
 
-            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, haptics enabled %@", weakSelf.preferredFormats, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"));
+            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, haptics enabled %@, videoEncoderSettings: %@", weakSelf.preferredFormats, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"), weakSelf.videoEncoderSettings);
         } else {
             // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
             SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
             SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)weakSelf.videoScaleManager.displayViewportResolution.width height:(uint16_t)weakSelf.videoScaleManager.displayViewportResolution.height];
             weakSelf.preferredFormats = @[format];
             weakSelf.preferredResolutions = @[resolution];
-            weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(DefaultFrameRate);
+            weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = @(DEFAULT_FRAME_RATE);
 
             if (weakSelf.focusableItemManager != nil) {
                 weakSelf.focusableItemManager.enableHapticDataRequests = NO;

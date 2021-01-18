@@ -28,7 +28,7 @@ describe(@"Initialization tests", ^{
      __block float testDiagonalScreenSize = 22.45;
      __block float testPixelPerInch = 96.122;
      __block float testScale = 2.1;
-     __block uint testPreferredFPS = 15;
+     __block uint testPreferredFPS = @(DEFAULT_FRAME_RATE);
 
     beforeEach(^{
         testPreferredResolution = [[SDLImageResolution alloc] initWithWidth:600 height:500];
@@ -80,6 +80,19 @@ describe(@"Initialization tests", ^{
     });
 
     it(@"Should initialize correctly with initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale", ^ {
+        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution maxBitrate:testMaxBitrate supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported diagonalScreenSize:testDiagonalScreenSize pixelPerInch:testPixelPerInch scale:testScale];
+
+        expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
+        expect(testStruct.maxBitrate).to(equal(testMaxBitrate));
+        expect(testStruct.supportedFormats).to(equal(testVideoStreamingFormats));
+        expect(testStruct.hapticSpatialDataSupported).to(equal(testHapticDataSupported));
+        expect(testStruct.diagonalScreenSize).to(equal(testDiagonalScreenSize));
+        expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
+        expect(testStruct.scale).to(equal(testScale));
+        expect(testStruct.preferredFPS).to(equal(DEFAULT_FRAME_RATE));
+    });
+
+    it(@"Should initialize correctly with initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale:preferredFPS", ^ {
         SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution maxBitrate:testMaxBitrate supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported diagonalScreenSize:testDiagonalScreenSize pixelPerInch:testPixelPerInch scale:testScale preferredFPS:testPreferredFPS];
 
         expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
