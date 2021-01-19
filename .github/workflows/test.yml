@@ -1,7 +1,8 @@
 name: SmartDeviceLink Tests
 
 # This workflow is triggered on a push or pull request.
-on: [push, pull_request]
+on: [push]
+# on: [push, pull_request]
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
