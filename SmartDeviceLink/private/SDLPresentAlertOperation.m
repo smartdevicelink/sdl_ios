@@ -297,7 +297,7 @@ static const int SDLAlertSoftButtonCount = 4;
             SDLLogD(@"The presented alert was canceled successfully");
         }];
     } else {
-        SDLLogD(@"Canceling an alert that has not yet been sent to Core");
+        SDLLogD(@"Canceling an alert that has not yet been sent to Core: %@", self);
         [self cancel];
     }
 }
