@@ -342,7 +342,7 @@ static const int SDLAlertSoftButtonCount = 4;
         [ttsChunks addObject:audioData];
     }
 
-    return ttsChunks;
+    return [ttsChunks copy];
 }
 
 /// Checks if the connected module or current template supports soft button images.
