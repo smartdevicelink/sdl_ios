@@ -55,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+#pragma mark - Adding additional audio data
 - (void)addAudioFiles:(NSArray<SDLFile *> *)audioFiles {
     NSMutableArray *newAudioFiles = [NSMutableArray arrayWithCapacity:audioFiles.count];
     NSMutableDictionary *newAudioFileData = [NSMutableDictionary dictionaryWithCapacity:audioFiles.count];
