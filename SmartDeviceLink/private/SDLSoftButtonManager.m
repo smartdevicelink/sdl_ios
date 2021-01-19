@@ -133,6 +133,7 @@ static const int SDLShowSoftButtonIDCount = 8;
     for (NSUInteger i = 0; i < softButtonCount; i++) {
         NSString *buttonName = softButtonObjects[i].name;
         // HAX: Due to a SYNC 3.0 bug (https://github.com/smartdevicelink/sdl_ios/issues/1793#issue-708356008), a `buttonId` can not be zero. As a workaround we will start the `buttonId`s from 1.
+        // Offset the soft buttons based on the minimum ID number to prevent clashes with other managers.
         softButtonObjects[i].buttonId = i + SDLShowSoftButtonIDMin;
         for (NSUInteger j = (i + 1); j < softButtonCount; j++) {
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
