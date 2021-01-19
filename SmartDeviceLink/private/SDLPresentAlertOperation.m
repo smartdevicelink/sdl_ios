@@ -99,7 +99,7 @@ static const int SDLAlertSoftButtonCount = 4;
     if (self.isCancelled) { return; }
 
     NSError *alertViewValidatedError = [self sdl_isValidAlertViewData:self.alertView];
-    if (alertViewValidatedError) {
+    if (alertViewValidatedError != nil) {
         [self finishOperation];
         self.internalError = alertViewValidatedError;
         return;
