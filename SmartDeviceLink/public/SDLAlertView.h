@@ -35,7 +35,7 @@ typedef void (^SDLAlertCanceledHandler)(void);
 @property (nullable, strong, nonatomic) NSString *tertiaryText;
 
 /// Timeout in seconds. Defaults to `defaultTimeout`. If set to 0, it will use `defaultTimeout`. If this is set below the minimum, it will be capped at 3 seconds. Minimum 3 seconds, maximum 10 seconds. If this is set above the maximum, it will be capped at 10 seconds. Defaults to 0.
-/// @discussion Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.
+/// Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.
 @property (assign, nonatomic) NSTimeInterval timeout;
 
 /// Text spoken, file(s) played, and/or tone played when the alert appears
