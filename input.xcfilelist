@@ -1,0 +1,4 @@
+$(SRCROOT)/Carthage/Build/iOS/OCMock.framework
+$(SRCROOT)/Carthage/Build/iOS/Quick.framework
+$(SRCROOT)/Carthage/Build/iOS/FBSnapshotTestCase.framework
+$(SRCROOT)/Carthage/Build/iOS/Nimble.framework
