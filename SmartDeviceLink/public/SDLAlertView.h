@@ -34,7 +34,7 @@ typedef void (^SDLAlertCanceledHandler)(void);
 /// The tertiary line of text for display on the alert. If fewer than three alert lines are available on the head unit, the screen manager will automatically concatenate some of the lines together.
 @property (nullable, strong, nonatomic) NSString *tertiaryText;
 
-/// Timeout in seconds. Defaults to `defaultTimeout`. If set to 0, it will use `defaultTimeout`. If this is set below the minimum, it will be capped at 3 seconds. Minimum 3 seconds, maximum 10 seconds. If this is set above the maximum, it will be capped at 10 seconds. Defaults to 0.
+/// Timeout in seconds. Defaults to 0, which will use `defaultTimeout`. If this is set below the minimum, it will be capped at 3 seconds. Minimum 3 seconds, maximum 10 seconds. If this is set above the maximum, it will be capped at 10 seconds. Defaults to 0.
 /// Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.
 @property (assign, nonatomic) NSTimeInterval timeout;
 
