@@ -129,13 +129,13 @@ static NSTimeInterval _defaultTimeout = 5.0;
 
     NSString *alertType;
     if (alertHasText && alertHasAudio) {
-        alertType = @"Text-and-audio alert";
+        alertType = @"Text-and-audio";
     } else if (alertHasText) {
-        alertType = @"Text-only alert";
+        alertType = @"Text-only";
     } else if (alertHasAudio) {
-        alertType = @"Audio-only alert";
+        alertType = @"Audio-only";
     } else {
-        alertType = @"Invalid alert";
+        alertType = @"Invalid";
     }
 
     return alertType;
