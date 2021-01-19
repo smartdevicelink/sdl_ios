@@ -98,6 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
     _audioData = (_audioData == nil) ? [newPrompts copy] : [_audioData arrayByAddingObjectsFromArray:newPrompts];
 }
 
+#pragma mark - Private Utilities
 /// Checks if the phonetic type can be used to create a text-to-speech string.
 /// @param phoneticType The phonetic type of the text-to-speech string
 /// @return True if the phoneticType is of type `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED`; false if not.
