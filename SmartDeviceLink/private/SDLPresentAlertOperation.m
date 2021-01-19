@@ -338,6 +338,7 @@ static const int SDLAlertSoftButtonCount = 4;
 
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
     for (SDLTTSChunk *audioData in alertAudio.audioData) {
+        // If the audio data is a file and the connected system doesn't support files, skip that audio data
         if (audioData.type == SDLSpeechCapabilitiesFile && ![self sdl_supportsAlertAudioFile]) { continue; }
         [ttsChunks addObject:audioData];
     }
