@@ -127,7 +127,7 @@ static const int SDLShowSoftButtonIDCount = 8;
         return;
     }
 
-    // Set the soft button ids. The number of alert soft buttons sent must be capped so there are no clashes with soft button ids assigned by other managers (And thus leading to clashes saving/retreiving the button handlers in the  `SDLResponseDispatcher` class)
+    // Set the soft button ids. The number of soft buttons is maxed at 8 according to the RPC spec. We will only send the first 8 soft buttons if more are set into the array.
     // Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
     NSUInteger softButtonCount = MIN(softButtonObjects.count, SDLShowSoftButtonIDCount);
     for (NSUInteger i = 0; i < softButtonCount; i++) {
