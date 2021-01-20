@@ -214,14 +214,14 @@ static const int SDLAlertSoftButtonCount = 4;
         }
     }
 
-    if (images.count == 0) {
+    if (artworksToBeUploaded.count == 0) {
         SDLLogV(@"No images to upload for alert");
-        return completionHandler();
+        return handler();
     }
 
     SDLLogD(@"Uploading images for alert");
     __weak typeof(self) weakself = self;
-    [self.fileManager uploadArtworks:[images copy] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+    [self.fileManager uploadArtworks:[artworksToBeUploaded copy] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
         __strong typeof(weakself) strongself = weakself;
         SDLLogD(@"Uploaded alert images: %@, error: %@, percent complete: %f.2%%", artworkName, error, uploadPercentage * 100);
         if (strongself.isCancelled) {
@@ -236,13 +236,16 @@ static const int SDLAlertSoftButtonCount = 4;
             SDLLogD(@"All alert images uploaded");
         }
 
-        completionHandler();
+        return handler();
     }];
 }
 
+
 /// Sends the alert RPC to the module. The operation is finished once a response has been received from the module.
 - (void)sdl_presentAlert {
+    __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:self.alertRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
             SDLAlertResponse *alertResponse = (SDLAlertResponse *)response;
             NSMutableDictionary *alertResponseUserInfo = [NSMutableDictionary dictionary];
@@ -255,10 +258,10 @@ static const int SDLAlertSoftButtonCount = 4;
             alertResponseUserInfo[@"tryAgainTime"] = tryAgainTime;
 
             NSError *alertResponseError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
-            self.internalError = alertResponseError;
+            strongSelf.internalError = alertResponseError;
         }
 
-        [self finishOperation];
+        [strongSelf finishOperation];
     }];
 }
 
