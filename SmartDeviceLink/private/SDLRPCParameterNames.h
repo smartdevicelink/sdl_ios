@@ -149,6 +149,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameCommandIcon;
 extern SDLRPCParameterName const SDLRPCParameterNameCommandId;
 extern SDLRPCParameterName const SDLRPCParameterNameCompassDirection;
 extern SDLRPCParameterName const SDLRPCParameterNameCorrelationId;
+extern SDLRPCParameterName const SDLRPCParameterNameCountRate;
 extern SDLRPCParameterName const SDLRPCParameterNameCountryCode;
 extern SDLRPCParameterName const SDLRPCParameterNameCountryName;
 extern SDLRPCParameterName const SDLRPCParameterNameCRC;
