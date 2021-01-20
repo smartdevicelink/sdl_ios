@@ -421,7 +421,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 
 #pragma mark - Alert
 
-/// Present the alert on the screen.
+/// Present the alert on the screen. To replace a currently presenting alert with a new alert, you must first call `cancel` on the currently presenting alert before sending the new alert. Otherwise the newest alert will only be presented when the module dismisses the currently presented alert (either due to the timeout or the user selecting a button on the alert). Please note that cancelling a currently presented alert will only work on modules supporting RPC Spec v.5.0+.
 ///
 /// If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.
 ///

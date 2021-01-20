@@ -105,7 +105,8 @@ UInt16 const AlertCancelIdMax = 10;
     [self.transactionQueue addOperation:op];
 }
 
-/// Creates a new concurrent queue that can send multiple `Alert` RPCs without having to wait for the module to respond to the previous `Alert` request. The queue is initially suspended until the manager knows it can send the `Alert` RPCS without getting a disallowed response.
+/// Creates a new serial queue. If an alert is already being presented when a new alert is added to the queue, the newest alert will not be sent until module dismisses the previous alert.
+/// The queue is initially suspended until the manager knows it can send the `Alert` RPCS without getting a disallowed response.
 /// @return A concurrent operation queue
 - (NSOperationQueue *)sdl_newTransactionQueue {
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
