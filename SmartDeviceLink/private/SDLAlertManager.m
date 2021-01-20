@@ -68,7 +68,12 @@ UInt16 const AlertCancelIdMax = 10;
 - (void)start {
     SDLLogD(@"Starting manager");
 
-    [self sdl_subscribeToPermissions];
+    __weak typeof(self) weakself = self;
+    [self.permissionManager subscribeToRPCPermissions:@[[[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil]] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
+        weakself.isAlertRPCAllowed = (status == SDLPermissionGroupStatusAllowed);
+
+        [weakself sdl_updateTransactionQueueSuspended];
+    }];
     [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
@@ -140,17 +145,6 @@ UInt16 const AlertCancelIdMax = 10;
     self.currentWindowCapability = [self.systemCapabilityManager defaultMainWindowCapability];
     [self sdl_updateTransactionQueueSuspended];
     [self sdl_updatePendingOperationsWithNewWindowCapability];
-}
-
-/// Subscribes to permission updates for the `Alert` RPC. If the alert is not allowed at the current HMI level, the queue is suspended. Any `Alert` RPCs added while the queue is suspended will be sent when the `Alert` RPC is allowed at the current HMI level and the queue is unsuspended.
-- (void)sdl_subscribeToPermissions {
-    SDLPermissionElement *alertPermissionElement = [[SDLPermissionElement alloc] initWithRPCName:SDLRPCFunctionNameAlert parameterPermissions:nil];
-    __weak typeof(self) weakself = self;
-    [self.permissionManager subscribeToRPCPermissions:@[alertPermissionElement] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLRPCFunctionName,SDLRPCPermissionStatus *> * _Nonnull updatedPermissionStatuses, SDLPermissionGroupStatus status) {
-        weakself.isAlertRPCAllowed = (status == SDLPermissionGroupStatusAllowed);
-
-        [weakself sdl_updateTransactionQueueSuspended];
-    }];
 }
 
 #pragma mark - Getters
