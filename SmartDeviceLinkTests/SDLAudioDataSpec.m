@@ -86,7 +86,7 @@ describe(@"SDLAudioData", ^{
         __block NSString *testEmptySpeechSynthesizerString = @"";
         
         context(@"If adding audio files", ^{
-            it(@"Should append the audio file data to the current existing lists", ^{
+            it(@"Should append the audio file data to the current existing lists if the first added item was an audio file", ^{
                 testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile1];
                 [testAudioData addAudioFiles:@[testAudioFile2, testAudioFile3]];
                 
@@ -99,6 +99,18 @@ describe(@"SDLAudioData", ^{
                 expect(testAudioData.audioFileData[testAudioFile1.name]).to(equal(testAudioFile1));
                 expect(testAudioData.audioFileData[testAudioFile2.name]).to(equal(testAudioFile2));
                 expect(testAudioData.audioFileData[testAudioFile3.name]).to(equal(testAudioFile3));
+            });
+
+            it(@"Should append the audio file data to the current existing lists if the first added item was a prompt", ^{
+                testAudioData = [[SDLAudioData alloc] initWithSpeechSynthesizerString:testSpeechSynthesizerString];
+                [testAudioData addAudioFiles:@[testAudioFile1]];
+
+                expect(testAudioData.audioData).to(haveCount(2));
+                expect(testAudioData.audioData[0].text).to(equal(testSpeechSynthesizerString));
+                expect(testAudioData.audioData[1].text).to(equal(testAudioFile1.name));
+
+                expect(testAudioData.audioFileData).to(haveCount(1));
+                expect(testAudioData.audioFileData[testAudioFile1.name]).to(equal(testAudioFile1));
             });
             
             it(@"Should replace audio file data with duplicate file names", ^{

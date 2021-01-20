@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAudioData()
 
 /// The audio file data that will be uploaded.
-@property (nullable, copy, nonatomic, readonly) NSDictionary<NSString *, SDLFile *> *audioFileData;
+@property (nullable, copy, nonatomic, readonly) NSMutableDictionary<NSString *, SDLFile *> *audioFileData;
 
 @end
 
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     _audioData = [SDLTTSChunk fileChunksWithName:audioFile.name];
-    _audioFileData = @{audioFile.name: audioFile};
+    _audioFileData = [NSMutableDictionary dictionaryWithObject:audioFile forKey:audioFile.name];
 
     return self;
 }
@@ -57,17 +57,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Adding additional audio data
 - (void)addAudioFiles:(NSArray<SDLFile *> *)audioFiles {
+    if (audioFiles.count == 0) { return; }
+
     NSMutableArray *newAudioFiles = [NSMutableArray arrayWithCapacity:audioFiles.count];
-    NSMutableDictionary *newAudioFileData = [NSMutableDictionary dictionaryWithCapacity:audioFiles.count];
     for (SDLFile *audioFile in audioFiles) {
         [newAudioFiles addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
-        newAudioFileData[audioFile.name] = audioFile;
+
+        if (_audioFileData == nil) {
+            _audioFileData = [NSMutableDictionary dictionaryWithObject:audioFile forKey:audioFile.name];
+        } else {
+            self.audioFileData[audioFile.name] = audioFile;
+        }
     }
 
     _audioData = (_audioData == nil) ? newAudioFiles : [_audioData arrayByAddingObjectsFromArray:newAudioFiles];
-
-    [newAudioFileData addEntriesFromDictionary:_audioFileData];
-    _audioFileData = newAudioFileData;
 }
 
 - (void)addSpeechSynthesizerStrings:(NSArray<NSString *> *)spokenStrings {
