@@ -214,17 +214,9 @@ static const int SDLAlertSoftButtonCount = 4;
         }
     }
 
-    [self sdl_sendImages:artworksToBeUploaded completionHandler:handler];
-}
-
-/// Helper method for uploading images
-/// @param images The images to upload
-/// @param completionHandler Called when all images have been uploaded
-- (void)sdl_sendImages:(NSArray<SDLArtwork *> *)images completionHandler:(void (^)(void))completionHandler {
     if (images.count == 0) {
         SDLLogV(@"No images to upload for alert");
-        completionHandler();
-        return;
+        return completionHandler();
     }
 
     SDLLogD(@"Uploading images for alert");
