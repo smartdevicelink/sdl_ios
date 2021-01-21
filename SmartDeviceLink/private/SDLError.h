@@ -11,6 +11,9 @@
 #import "SDLErrorConstants.h"
 #import "SDLResult.h"
 
+@class SDLMenuCell;
+@class SDLMenuConfiguration;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -54,6 +57,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Menu Manager
 
++ (NSError *)sdl_menuManager_configurationOperationCancelled;
++ (NSError *)sdl_menuManager_configurationOperationFailed:(SDLMenuConfiguration *)failedConfiguration;
++ (NSError *)sdl_menuManager_openMenuOperationCancelled;
++ (NSError *)sdl_menuManager_openMenuOperationFailed:(nullable SDLMenuCell *)menuCell;
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo;
 + (NSError *)sdl_voiceCommandManager_pendingUpdateSuperseded;
 

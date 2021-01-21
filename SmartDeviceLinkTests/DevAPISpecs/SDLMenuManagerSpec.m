@@ -33,7 +33,7 @@
 @property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
-@property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *currentMenuCells;
 
 - (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells;
 
@@ -98,7 +98,7 @@ describe(@"menu manager", ^{
         expect(testManager.hasQueuedUpdate).to(beFalse());
         expect(testManager.waitingOnHMIUpdate).to(beFalse());
         expect(testManager.lastMenuId).to(equal(1));
-        expect(testManager.oldMenuCells).to(beEmpty());
+        expect(testManager.currentMenuCells).to(beEmpty());
         expect(testManager.waitingUpdateMenuCells).to(beNil());
         expect(testManager.menuConfiguration).toNot(beNil());
     });
@@ -639,7 +639,7 @@ describe(@"menu manager", ^{
             expect(testManager.hasQueuedUpdate).to(beFalse());
             expect(testManager.waitingOnHMIUpdate).to(beFalse());
             expect(testManager.lastMenuId).to(equal(1));
-            expect(testManager.oldMenuCells).to(beEmpty());
+            expect(testManager.currentMenuCells).to(beEmpty());
             expect(testManager.waitingUpdateMenuCells).to(beEmpty());
             expect(testManager.menuConfiguration).toNot(beNil());
         });

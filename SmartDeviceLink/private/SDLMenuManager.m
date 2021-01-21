@@ -16,6 +16,8 @@
 #import "SDLDeleteSubMenu.h"
 #import "SDLDisplayCapability.h"
 #import "SDLDisplayType.h"
+#import "SDLDynamicMenuUpdateRunScore.h"
+#import "SDLDynamicMenuUpdateAlgorithm.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
@@ -23,9 +25,9 @@
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuConfiguration.h"
+#import "SDLMenuConfigurationUpdateOperation.h"
 #import "SDLMenuParams.h"
-#import "SDLDynamicMenuUpdateRunScore.h"
-#import "SDLDynamicMenuUpdateAlgorithm.h"
+#import "SDLMenuShowOperation.h"
 #import "SDLOnCommand.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPredefinedWindows.h"
@@ -58,17 +60,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
-@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
-
-@property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
-@property (assign, nonatomic) BOOL hasQueuedUpdate;
-@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
 @property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
+
 @property (assign, nonatomic) UInt32 lastMenuId;
-@property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *currentMenuCells;
+
+@property (strong, nonatomic) SDLMenuConfiguration *oldMenuConfiguration;
 
 @end
 
@@ -84,8 +86,9 @@ UInt32 const MenuCellIdMin = 1;
     _lastMenuId = MenuCellIdMin;
     _menuConfiguration = [[SDLMenuConfiguration alloc] init];
     _menuCells = @[];
-    _oldMenuCells = @[];
+    _currentMenuCells = @[];
     _dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeOnWithCompatibility;
+    _transactionQueue = [self sdl_newTransactionQueue];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_commandNotification:) name:SDLDidReceiveCommandNotification object:nil];
@@ -111,52 +114,71 @@ UInt32 const MenuCellIdMin = 1;
 - (void)stop {
     _lastMenuId = MenuCellIdMin;
     _menuCells = @[];
-    _oldMenuCells = @[];
+    _currentMenuCells = @[];
+    _transactionQueue = [self sdl_newTransactionQueue];
 
     _currentHMILevel = nil;
     _currentSystemContext = SDLSystemContextMain;
-    _inProgressUpdate = nil;
-    _hasQueuedUpdate = NO;
-    _waitingOnHMIUpdate = NO;
-    _waitingUpdateMenuCells = @[];
+}
+
+#pragma mark Transaction Queue
+
+- (NSOperationQueue *)sdl_newTransactionQueue {
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    queue.name = @"SDLMenuManager Transaction Queue";
+    queue.maxConcurrentOperationCount = 1;
+    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
+    queue.suspended = YES;
+
+    return queue;
+}
+
+/// Suspend the queue if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
+- (void)sdl_updateTransactionQueueSuspended {
+    if ([self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
+        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@", ([self.currentLevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"));
+        self.transactionQueue.suspended = YES;
+    } else {
+        SDLLogD(@"Starting the transaction queue");
+        self.transactionQueue.suspended = NO;
+    }
 }
 
 #pragma mark - Setters
 
 - (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
-    NSArray<SDLMenuLayout> *layoutsAvailable = self.windowCapability.menuLayoutsAvailable;
-
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
-        SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);
-        return;
-    } else if (layoutsAvailable == nil) {
-        SDLLogW(@"Could not set the main menu configuration. Which menu layouts can be used is not available");
-        return;
-    } else if (![layoutsAvailable containsObject:menuConfiguration.mainMenuLayout]
-              || ![layoutsAvailable containsObject:menuConfiguration.defaultSubmenuLayout]) {
-        SDLLogE(@"One or more of the set menu layouts are not available on this system. The menu configuration will not be set. Available menu layouts: %@, set menu layouts: %@", layoutsAvailable, menuConfiguration);
-        return;
-    } else if (self.currentHMILevel == nil
-        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        SDLLogE(@"Could not set main menu configuration, HMI level: %@, required: 'Not-NONE', system context: %@, required: 'Not MENU'", self.currentHMILevel, self.currentSystemContext);
+    if (menuConfiguration == self.menuConfiguration) {
+        SDLLogD(@"New menu configuration is equal to existing one, will not set new configuration");
         return;
     }
 
-    SDLMenuConfiguration *oldConfig = _menuConfiguration;
-    _menuConfiguration = menuConfiguration;
+    // Keep the old configuration so that we can reset it if necessary
+    self.oldMenuConfiguration = self.menuConfiguration;
 
-    SDLSetGlobalProperties *setGlobalsRPC = [[SDLSetGlobalProperties alloc] init];
-    setGlobalsRPC.menuLayout = menuConfiguration.mainMenuLayout;
+    // Create the operation
+    SDLMenuConfigurationUpdateOperation *configurationUpdateOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:self.connectionManager windowCapability:self.windowCapability newMenuConfiguration:menuConfiguration];
 
     __weak typeof(self) weakself = self;
-    [self.connectionManager sendConnectionRequest:setGlobalsRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    configurationUpdateOp.completionBlock = ^{
         __strong typeof(weakself) strongself = weakself;
-        if (error != nil) {
-            SDLLogE(@"Could not set main menu configuration: %@", error);
-            strongself.menuConfiguration = oldConfig;
-            return;
+        if (configurationUpdateOp.error != nil) {
+            SDLLogE(@"Error setting new menu configuration with error: %@, info: %@. Will revert to old menu configuration: %@", configurationUpdateOp.error, configurationUpdateOp.error.userInfo, weakself.oldMenuConfiguration);
+            strongself->_menuConfiguration = strongself.oldMenuConfiguration;
+        } else {
+            strongself.oldMenuConfiguration = nil;
         }
-    }];
+    };
+
+    // Cancel previous menu configuration operations
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:[SDLMenuConfigurationUpdateOperation class]]) {
+            [operation cancel];
+        }
+    }
+
+    // Add the new menu configuration operation to the queue
+    [self.transactionQueue addOperation:configurationUpdateOp];
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
@@ -193,7 +215,7 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
-    _oldMenuCells = _menuCells;
+    _currentMenuCells = _menuCells;
     _menuCells = menuCells;
 
     if ([self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) {
@@ -211,17 +233,26 @@ UInt32 const MenuCellIdMin = 1;
         return NO;
     }
 
-    SDLShowAppMenu *openMenu = [[SDLShowAppMenu alloc] init];
+    // Create the operation
+    SDLMenuShowOperation *showMenuOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:self.connectionManager toMenuCell:nil];
 
-    [self.connectionManager sendConnectionRequest:openMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if ([response.resultCode isEqualToEnum:SDLResultWarnings]) {
-            SDLLogW(@"Warning opening application menu: %@", error);
-        } else if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-            SDLLogE(@"Error opening application menu: %@", error);
-        } else {
-            SDLLogD(@"Successfully opened application main menu");
+    __weak typeof(self) weakself = self;
+    showMenuOp.completionBlock = ^{
+        __strong typeof(weakself) strongself = weakself;
+        if (showMenuOp.error != nil) {
+            SDLLogE(@"Opening menu with error: %@, info: %@", showMenuOp.error, showMenuOp.error.userInfo);
         }
-    }];
+    };
+
+    // Cancel previous open menu operations
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:[SDLMenuShowOperation class]]) {
+            [operation cancel];
+        }
+    }
+
+    // Add the new open menu operation to the queue
+    [self.transactionQueue addOperation:showMenuOp];
 
     return YES;
 }
@@ -238,17 +269,26 @@ UInt32 const MenuCellIdMin = 1;
         return NO;
     }
 
-    SDLShowAppMenu *subMenu = [[SDLShowAppMenu alloc] initWithMenuID:cell.cellId];
+    // Create the operation
+    SDLMenuShowOperation *showMenuOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:self.connectionManager toMenuCell:cell];
 
-    [self.connectionManager sendConnectionRequest:subMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if ([response.resultCode isEqualToEnum:SDLResultWarnings]) {
-            SDLLogW(@"Warning opening application menu to submenu cell %@, with error: %@", cell, error);
-        } else if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-            SDLLogE(@"Error opening application menu to submenu cell %@, with error: %@", cell, error);
-        } else {
-            SDLLogD(@"Successfully opened application menu to submenu cell: %@", cell);
+    __weak typeof(self) weakself = self;
+    showMenuOp.completionBlock = ^{
+        __strong typeof(weakself) strongself = weakself;
+        if (showMenuOp.error != nil) {
+            SDLLogE(@"Opening menu with error: %@, info: %@. Failed subcell: %@", showMenuOp.error, showMenuOp.error.userInfo, cell);
         }
-    }];
+    };
+
+    // Cancel previous open menu operations
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:[SDLMenuShowOperation class]]) {
+            [operation cancel];
+        }
+    }
+
+    // Add the new open menu operation to the queue
+    [self.transactionQueue addOperation:showMenuOp];
 
     return YES;
 }
@@ -343,15 +383,15 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Updating System
 
 - (void)sdl_startDynamicMenuUpdate {
-    SDLDynamicMenuUpdateRunScore *runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
+    SDLDynamicMenuUpdateRunScore *runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.currentMenuCells updatedMenuCells:self.menuCells];
 
     NSArray<NSNumber *> *deleteMenuStatus = runScore.oldStatus;
     NSArray<NSNumber *> *addMenuStatus = runScore.updatedStatus;
 
-    NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:self.oldMenuCells basedOnStatusList:deleteMenuStatus];
+    NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:self.currentMenuCells basedOnStatusList:deleteMenuStatus];
     NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:self.menuCells basedOnStatusList:addMenuStatus];
     // These arrays should ONLY contain KEEPS. These will be used for SubMenu compares
-    NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:self.oldMenuCells basedOnStatusList:deleteMenuStatus];
+    NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:self.currentMenuCells basedOnStatusList:deleteMenuStatus];
     NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.menuCells basedOnStatusList:addMenuStatus];
 
     // Cells that will be added need new ids
@@ -394,11 +434,11 @@ UInt32 const MenuCellIdMin = 1;
             }
 
             SDLLogD(@"Menu artworks uploaded");
-            [self sdl_updateMenuWithCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells completionHandler:nil];
+            [self sdl_updateMenuWithCellsToDelete:self.currentMenuCells cellsToAdd:self.menuCells completionHandler:nil];
         }];
     } else {
         // Cells have no artwork to load
-        [self sdl_updateMenuWithCellsToDelete:self.oldMenuCells cellsToAdd:self.menuCells completionHandler:nil];
+        [self sdl_updateMenuWithCellsToDelete:self.currentMenuCells cellsToAdd:self.menuCells completionHandler:nil];
     }
 }
 
