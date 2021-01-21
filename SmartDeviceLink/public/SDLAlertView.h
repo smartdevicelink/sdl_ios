@@ -22,7 +22,7 @@ typedef void (^SDLAlertCanceledHandler)(void);
 @interface SDLAlertView : NSObject <NSCopying>
 
 /// Set this to change the default timeout for all alerts. If a timeout is not set on an individual alert object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 5 seconds. The minimum is 3 seconds, the maximum is 10 seconds. If this is set below the minimum, it will be capped at 3 seconds. If this is set above the maximum, it will be capped at 10 seconds.
-/// @discussion Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.
+/// Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.
 @property (class, assign, nonatomic) NSTimeInterval defaultTimeout;
 
 /// The primary line of text for display on the alert. If fewer than three alert lines are available on the head unit, the screen manager will automatically concatenate some of the lines together.
