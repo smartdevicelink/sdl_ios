@@ -52,7 +52,7 @@ describe(@"SDLAudioData", ^{
         it(@"Should get correctly when initialized with initWithSpeechSynthesizerString:", ^{
             SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithSpeechSynthesizerString:testSpeechSynthesizerString];
             
-            expect(testAudioData.audioFileData).to(beNil());
+            expect(testAudioData.audioFileData).to(beEmpty());
             
             expect(testAudioData.audioData).to(haveCount(1));
             expect(testAudioData.audioData[0].text).to(equal(testSpeechSynthesizerString));
@@ -63,7 +63,7 @@ describe(@"SDLAudioData", ^{
             SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesLHPlusPhonemes;
             SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithPhoneticSpeechSynthesizerString:testSpeechSynthesizerString phoneticType:testSpeechCapabilities];
             
-            expect(testAudioData.audioFileData).to(beNil());
+            expect(testAudioData.audioFileData).to(beEmpty());
             
             expect(testAudioData.audioData).to(haveCount(1));
             expect(testAudioData.audioData[0].text).to(equal(testSpeechSynthesizerString));
@@ -134,7 +134,7 @@ describe(@"SDLAudioData", ^{
                 testAudioData = [[SDLAudioData alloc] initWithSpeechSynthesizerString:testSpeechSynthesizerString1];
                 [testAudioData addSpeechSynthesizerStrings:@[testSpeechSynthesizerString2, testSpeechSynthesizerString3]];
                 
-                expect(testAudioData.audioFileData).to(beNil());
+                expect(testAudioData.audioFileData).to(beEmpty());
                 
                 expect(testAudioData.audioData).to(haveCount(3));
                 expect(testAudioData.audioData[0].text).to(equal(testSpeechSynthesizerString1));
@@ -192,7 +192,7 @@ describe(@"SDLAudioData", ^{
                 testAudioData = [[SDLAudioData alloc] initWithPhoneticSpeechSynthesizerString:testSpeechSynthesizerString1 phoneticType:testSpeechCapabilities];
                 [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString2] phoneticType:testSpeechCapabilities];
                 
-                expect(testAudioData.audioFileData).to(beNil());
+                expect(testAudioData.audioFileData).to(beEmpty());
                 
                 expect(testAudioData.audioData).to(haveCount(2));
                 expect(testAudioData.audioData[0].text).to(equal(testSpeechSynthesizerString1));

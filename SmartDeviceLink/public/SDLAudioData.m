@@ -18,39 +18,50 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The audio file data that will be uploaded.
 @property (nullable, copy, nonatomic, readonly) NSMutableDictionary<NSString *, SDLFile *> *audioFileData;
+@property (nullable, copy, nonatomic, readonly) NSMutableArray<SDLTTSChunk *> *audioDataTTSChunks;
 
 @end
 
 @implementation SDLAudioData
 
-- (instancetype)initWithAudioFile:(SDLFile *)audioFile {
+- (instancetype)init {
     self = [super init];
     if (!self) { return nil; }
 
-    _audioData = [SDLTTSChunk fileChunksWithName:audioFile.name];
+    _audioDataTTSChunks = [NSMutableArray array];
+    _audioFileData = [NSMutableDictionary dictionary];
+
+    return self;
+}
+
+- (instancetype)initWithAudioFile:(SDLFile *)audioFile {
+    self = [self init];
+    if (!self) { return nil; }
+
+    _audioDataTTSChunks = [NSMutableArray arrayWithArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
     _audioFileData = [NSMutableDictionary dictionaryWithObject:audioFile forKey:audioFile.name];
 
     return self;
 }
 
 - (instancetype)initWithSpeechSynthesizerString:(NSString *)spokenString {
-    self = [super init];
+    self = [self init];
     if (!self) { return nil; }
 
-    _audioData = [SDLTTSChunk textChunksFromString:spokenString];
+    _audioDataTTSChunks = [NSMutableArray arrayWithArray:[SDLTTSChunk textChunksFromString:spokenString]];
 
     return self;
 }
 
 - (instancetype)initWithPhoneticSpeechSynthesizerString:(NSString *)phoneticString phoneticType:(SDLSpeechCapabilities)phoneticType {
-    self = [super init];
+    self = [self init];
     if (!self) { return nil; }
 
     if (![self.class sdl_isValidPhoneticType:phoneticType]) {
         return nil;
     }
 
-    _audioData = @[[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
+    _audioDataTTSChunks = [NSMutableArray arrayWithObject:[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
 
     return self;
 }
@@ -59,31 +70,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addAudioFiles:(NSArray<SDLFile *> *)audioFiles {
     if (audioFiles.count == 0) { return; }
 
-    NSMutableArray *newAudioFiles = [NSMutableArray arrayWithCapacity:audioFiles.count];
     for (SDLFile *audioFile in audioFiles) {
-        [newAudioFiles addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
-
-        if (_audioFileData == nil) {
-            _audioFileData = [NSMutableDictionary dictionaryWithObject:audioFile forKey:audioFile.name];
-        } else {
-            self.audioFileData[audioFile.name] = audioFile;
-        }
+        self.audioFileData[audioFile.name] = audioFile;
+        [self.audioDataTTSChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
     }
-
-    _audioData = (_audioData == nil) ? newAudioFiles : [_audioData arrayByAddingObjectsFromArray:newAudioFiles];
 }
 
 - (void)addSpeechSynthesizerStrings:(NSArray<NSString *> *)spokenStrings {
     if (spokenStrings.count == 0) { return; }
 
-    NSMutableArray *newPrompts = [NSMutableArray array];
     for (NSString *spokenString in spokenStrings) {
         if (spokenString.length == 0) { continue; }
-        [newPrompts addObjectsFromArray:[SDLTTSChunk textChunksFromString:spokenString]];
+        [self.audioDataTTSChunks addObjectsFromArray:[SDLTTSChunk textChunksFromString:spokenString]];
     }
-    if (newPrompts.count == 0) { return; }
-
-    _audioData = (_audioData == nil) ? [newPrompts copy] : [_audioData arrayByAddingObjectsFromArray:newPrompts];
 }
 
 - (void)addPhoneticSpeechSynthesizerStrings:(NSArray<NSString *> *)phoneticStrings phoneticType:(SDLSpeechCapabilities)phoneticType {
@@ -91,17 +90,14 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    NSMutableArray *newPrompts = [NSMutableArray array];
     for (NSString *phoneticString in phoneticStrings) {
         if (phoneticString.length == 0) { continue; }
-        [newPrompts addObject:[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
+        [self.audioDataTTSChunks addObject:[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
     }
-    if (newPrompts.count == 0) { return; }
-
-    _audioData = (_audioData == nil) ? [newPrompts copy] : [_audioData arrayByAddingObjectsFromArray:newPrompts];
 }
 
 #pragma mark - Private Utilities
+
 /// Checks if the phonetic type can be used to create a text-to-speech string.
 /// @param phoneticType The phonetic type of the text-to-speech string
 /// @return True if the phoneticType is of type `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED`; false if not.
@@ -113,11 +109,17 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
+#pragma mark - Getters
+
+- (nullable NSArray<SDLTTSChunk *> *)audioData {
+    return [_audioDataTTSChunks copy];
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLAudioData *newAudioData = [[self class] allocWithZone:zone];
-    newAudioData->_audioData = [_audioData copyWithZone:zone];
+    newAudioData->_audioDataTTSChunks = [_audioDataTTSChunks copyWithZone:zone];
     newAudioData->_audioFileData = [_audioFileData copyWithZone:zone];
     return newAudioData;
 }
