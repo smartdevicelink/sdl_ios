@@ -224,7 +224,7 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 /**
  Initialize a screen manager
 
- @warning For internal use
+ @warning For internal use. An exception will be thrown if used.
 
  @param connectionManager The connection manager used to send RPCs
  @param fileManager The file manager used to upload files
