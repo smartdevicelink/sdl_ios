@@ -20,57 +20,81 @@
 
 QuickSpecBegin(SDLShowSpec)
 
-SDLImage* image1 = [[SDLImage alloc] init];
-SDLImage* image2 = [[SDLImage alloc] init];
-SDLSoftButton* button = [[SDLSoftButton alloc] init];
-
-NSArray<SDLMetadataType> *formatArray = @[SDLMetadataTypeMediaArtist,SDLMetadataTypeMediaTitle];
-SDLMetadataTags* testMetadata = [[SDLMetadataTags alloc] initWithTextFieldTypes:formatArray mainField2:formatArray mainField3:formatArray mainField4:formatArray];
-
 describe(@"Getter/Setter Tests", ^ {
-    __block SDLTemplateConfiguration *testTemplateConfig = nil;
+    __block NSString *testString1 = @"Test 1";
+    __block NSString *testString2 = @"Test 2";
+    __block NSString *testString3 = @"Test 3";
+    __block NSString *testString4 = @"Test 4";
+    __block NSString *testStatusBarString = @"Test Status";
+    __block NSString *testMediaClockString = @"Test Clock";
+    __block NSString *testMediaTrackString = @"Test Track";
+    __block NSString *testTemplateTitleString = @"Hello World";
+    __block SDLImage *testGraphic = nil;
+    __block SDLImage *testSecondaryGraphic = nil;
+    __block NSArray<NSString *> *testCustomPresets = nil;
+    __block SDLSoftButton *testButton = nil;
+    __block NSArray<SDLSoftButton *> *testSoftButtons = nil;
+    __block SDLMetadataType testType1 = SDLMetadataTypeHumidity;
+    __block SDLMetadataType testType2 = SDLMetadataTypeRating;
+    __block SDLMetadataType testType3 = SDLMetadataTypeMediaYear;
+    __block SDLMetadataType testType4 = SDLMetadataTypeWeatherTerm;
+    __block SDLTextAlignment testAlignment = SDLTextAlignmentCenter;
+    __block SDLMetadataTags *testMetadata = nil;
+    __block SDLTemplateConfiguration *testTemplateConfiguration = nil;
     __block int testWindowID = 4;
 
     beforeEach(^{
-        testTemplateConfig = [[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutMedia];
+        testGraphic = [[SDLImage alloc] initWithName:@"test name" isTemplate:false];
+        testSecondaryGraphic = [[SDLImage alloc] initWithName:@"test name 2" isTemplate:false];
+        testCustomPresets = @[testString1];
+        testButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Test Button" image:nil highlighted:NO buttonId:0 systemAction:nil handler:nil];
+        testSoftButtons = @[testButton];
+        testMetadata = [[SDLMetadataTags alloc] initWithTextFieldTypes:@[testType1] mainField2:@[testType2] mainField3:@[testType3] mainField4:@[testType4]];
+        testTemplateConfiguration = [[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutMedia];
     });
 
     it(@"Should set and get correctly", ^ {
         SDLShow* testRequest = [[SDLShow alloc] init];
 
-        testRequest.mainField1 = @"field1";
-        testRequest.mainField2 = @"field2";
-        testRequest.mainField3 = @"field3";
-        testRequest.mainField4 = @"field4";
+        testRequest.mainField1 = testString1;
+        testRequest.mainField2 = testString2;
+        testRequest.mainField3 = testString3;
+        testRequest.mainField4 = testString4;
         testRequest.alignment = SDLTextAlignmentLeft;
-        testRequest.statusBar = @"status";
-        testRequest.mediaClock = @"TheTime";
-        testRequest.mediaTrack = @"In The Clear";
-        testRequest.templateTitle = @"Hello World";
-        testRequest.graphic = image1;
-        testRequest.secondaryGraphic = image2;
-        testRequest.softButtons = [@[button] mutableCopy];
-        testRequest.customPresets = [@[@"preset1", @"preset2"] mutableCopy];
+        testRequest.statusBar = testStatusBarString;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        testRequest.mediaClock = testMediaClockString;
+#pragma clang diagnostic pop
+        testRequest.mediaTrack = testMediaTrackString;
+        testRequest.templateTitle = testTemplateTitleString;
+        testRequest.graphic = testGraphic;
+        testRequest.secondaryGraphic = testSecondaryGraphic;
+        testRequest.softButtons = testSoftButtons;
+        testRequest.customPresets = testCustomPresets;
         testRequest.metadataTags = testMetadata;
         testRequest.windowID = @(testWindowID);
-        testRequest.templateConfiguration = testTemplateConfig;
+        testRequest.templateConfiguration = testTemplateConfiguration;
 
-        expect(testRequest.mainField1).to(equal(@"field1"));
-        expect(testRequest.mainField2).to(equal(@"field2"));
-        expect(testRequest.mainField3).to(equal(@"field3"));
-        expect(testRequest.mainField4).to(equal(@"field4"));
+        expect(testRequest.mainField1).to(equal(testString1));
+        expect(testRequest.mainField2).to(equal(testString2));
+        expect(testRequest.mainField3).to(equal(testString3));
+        expect(testRequest.mainField4).to(equal(testString4));
         expect(testRequest.alignment).to(equal(SDLTextAlignmentLeft));
-        expect(testRequest.statusBar).to(equal(@"status"));
-        expect(testRequest.mediaClock).to(equal(@"TheTime"));
-        expect(testRequest.mediaTrack).to(equal(@"In The Clear"));
-        expect(testRequest.templateTitle).to(equal(@"Hello World"));
-        expect(testRequest.graphic).to(equal(image1));
-        expect(testRequest.secondaryGraphic).to(equal(image2));
-        expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
-        expect(testRequest.customPresets).to(equal([@[@"preset1", @"preset2"] mutableCopy]));
+        expect(testRequest.statusBar).to(equal(testStatusBarString));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        expect(testRequest.mediaClock).to(equal(testMediaClockString));
+#pragma clang diagnostic pop
+        expect(testRequest.mediaTrack).to(equal(testMediaTrackString));
+        expect(testRequest.templateTitle).to(equal(testTemplateTitleString));
+        expect(testRequest.graphic).to(equal(testGraphic));
+        expect(testRequest.secondaryGraphic).to(equal(testSecondaryGraphic));
+        expect(testRequest.softButtons).to(equal(testSoftButtons));
+        expect(testRequest.customPresets).to(equal(testCustomPresets));
         expect(testRequest.metadataTags).to(equal(testMetadata));
         expect(testRequest.windowID).to(equal(testWindowID));
-        expect(testRequest.templateConfiguration).to(equal(testTemplateConfig));
+        expect(testRequest.templateConfiguration).to(equal(testTemplateConfiguration));
     });
 
     it(@"Should return nil if not set", ^{
@@ -82,7 +106,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.mainField4).to(beNil());
         expect(testRequest.alignment).to(beNil());
         expect(testRequest.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(testRequest.mediaClock).to(beNil());
+#pragma clang diagnostic pop
         expect(testRequest.mediaTrack).to(beNil());
         expect(testRequest.templateTitle).to(beNil());
         expect(testRequest.graphic).to(beNil());
@@ -95,33 +122,6 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     describe(@"initializing", ^{
-        __block NSString *testString1 = @"Test 1";
-        __block NSString *testString2 = @"Test 2";
-        __block NSString *testString3 = @"Test 3";
-        __block NSString *testString4 = @"Test 4";
-        __block NSString *testStatusBarString = @"Test Status";
-        __block NSString *testMediaClockString = @"Test Clock";
-        __block NSString *testMediaTrackString = @"Test Track";
-        __block NSString *testTemplateTitleString = @"Hello World";
-        __block SDLImage *testGraphic = nil;
-        __block NSArray<NSString *> *testCustomPresets = nil;
-        __block SDLSoftButton *testButton = nil;
-        __block NSArray<SDLSoftButton *> *testSoftButtons = nil;
-        __block SDLMetadataType testType1 = SDLMetadataTypeHumidity;
-        __block SDLMetadataType testType2 = SDLMetadataTypeRating;
-        __block SDLMetadataType testType3 = SDLMetadataTypeMediaYear;
-        __block SDLMetadataType testType4 = SDLMetadataTypeWeatherTerm;
-        __block SDLTextAlignment testAlignment = SDLTextAlignmentCenter;
-        __block SDLMetadataTags *testTags = nil;
-
-        beforeEach(^{
-            testGraphic = [[SDLImage alloc] initWithName:@"test name" isTemplate:false];
-            testCustomPresets = @[testString1];
-            testButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Test Button" image:nil highlighted:NO buttonId:0 systemAction:nil handler:nil];
-            testSoftButtons = @[testButton];
-            testTags = [[SDLMetadataTags alloc] initWithTextFieldTypes:@[testType1] mainField2:@[testType2] mainField3:@[testType3] mainField4:@[testType4]];
-        });
-
         it(@"should initialize with initWithMainField1:mainField2:alignment:", ^{
             SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField2:testString2 alignment:testAlignment];
             expect(testShow.mainField1).to(equal(testString1));
@@ -130,7 +130,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(equal(testAlignment));
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -146,7 +149,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(beNil());
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -164,7 +170,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(equal(testAlignment));
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -183,7 +192,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(beNil());
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -201,7 +213,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(equal(testString4));
             expect(testShow.alignment).to(equal(testAlignment));
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -220,7 +235,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(beNil());
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -238,7 +256,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(equal(testString4));
             expect(testShow.alignment).to(equal(testAlignment));
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -257,7 +278,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(beNil());
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -275,7 +299,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(equal(testAlignment));
             expect(testShow.statusBar).to(equal(testStatusBarString));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(equal(testMediaClockString));
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(equal(testMediaTrackString));
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -294,7 +321,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(beNil());
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -305,14 +335,17 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should initialize correctly with initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets:textFieldMetadata:", ^{
-            SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField2:testString2 mainField3:testString3 mainField4:testString4 alignment:testAlignment statusBar:testStatusBarString mediaClock:testMediaClockString mediaTrack:testMediaTrackString graphic:testGraphic softButtons:testSoftButtons customPresets:testCustomPresets textFieldMetadata:testTags];
+            SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField2:testString2 mainField3:testString3 mainField4:testString4 alignment:testAlignment statusBar:testStatusBarString mediaClock:testMediaClockString mediaTrack:testMediaTrackString graphic:testGraphic softButtons:testSoftButtons customPresets:testCustomPresets textFieldMetadata:testMetadata];
             expect(testShow.mainField1).to(equal(testString1));
             expect(testShow.mainField2).to(equal(testString2));
             expect(testShow.mainField3).to(equal(testString3));
             expect(testShow.mainField4).to(equal(testString4));
             expect(testShow.alignment).to(equal(testAlignment));
             expect(testShow.statusBar).to(equal(testStatusBarString));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(equal(testMediaClockString));
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(equal(testMediaTrackString));
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(equal(testGraphic));
@@ -331,7 +364,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.mainField4).to(beNil());
             expect(testShow.alignment).to(beNil());
             expect(testShow.statusBar).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             expect(testShow.mediaClock).to(beNil());
+#pragma clang diagnostic pop
             expect(testShow.mediaTrack).to(beNil());
             expect(testShow.templateTitle).to(beNil());
             expect(testShow.graphic).to(beNil());
@@ -341,45 +377,70 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.metadataTags).to(beNil());
         });
 
+        it(@"should initialize correctly with initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration:", ^{
+            SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField2:testString2 mainField3:testString3 mainField4:testString4 alignment:testAlignment statusBar:testStatusBarString mediaTrack:testMediaTrackString graphic:testGraphic secondaryGraphic:testSecondaryGraphic softButtons:testSoftButtons customPresets:testCustomPresets metadataTags:testMetadata templateTitle:testTemplateTitleString windowID:@(testWindowID) templateConfiguration:testTemplateConfiguration];
+            expect(testShow.mainField1).to(equal(testString1));
+            expect(testShow.mainField2).to(equal(testString2));
+            expect(testShow.mainField3).to(equal(testString3));
+            expect(testShow.mainField4).to(equal(testString4));
+            expect(testShow.alignment).to(equal(testAlignment));
+            expect(testShow.statusBar).to(equal(testStatusBarString));
+            expect(testShow.mediaTrack).to(equal(testMediaTrackString));
+            expect(testShow.graphic).to(equal(testGraphic));
+            expect(testShow.secondaryGraphic).to(equal(testSecondaryGraphic));
+            expect(testShow.softButtons).to(contain(testButton));
+            expect(testShow.customPresets).to(contain(testString1));
+            expect(testShow.metadataTags.mainField1).to(contain(testType1));
+            expect(testShow.metadataTags.mainField2).to(contain(testType2));
+            expect(testShow.metadataTags.mainField3).to(contain(testType3));
+            expect(testShow.metadataTags.mainField4).to(contain(testType4));
+            expect(testShow.templateTitle).to(equal(testTemplateTitleString));
+            expect(testShow.windowID).to(equal(@(testWindowID)));
+            expect(testShow.templateConfiguration).to(equal(testTemplateConfiguration));
+        });
+
         it(@"Should get correctly when initialized with a dictionary", ^ {
             NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
                                                @{SDLRPCParameterNameParameters:
-                                                     @{SDLRPCParameterNameMainField1:@"field1",
-                                                       SDLRPCParameterNameMainField2:@"field2",
-                                                       SDLRPCParameterNameMainField3:@"field3",
-                                                       SDLRPCParameterNameMainField4:@"field4",
+                                                     @{SDLRPCParameterNameMainField1:testString1,
+                                                       SDLRPCParameterNameMainField2:testString2,
+                                                       SDLRPCParameterNameMainField3:testString3,
+                                                       SDLRPCParameterNameMainField4:testString4,
                                                        SDLRPCParameterNameAlignment:SDLTextAlignmentLeft,
-                                                       SDLRPCParameterNameStatusBar:@"status",
-                                                       SDLRPCParameterNameMediaClock:@"TheTime",
-                                                       SDLRPCParameterNameMediaTrack:@"In The Clear",
-                                                       SDLRPCParameterNameTemplateTitle: @"Hello World",
-                                                       SDLRPCParameterNameGraphic:image1,
-                                                       SDLRPCParameterNameSecondaryGraphic:image2,
-                                                       SDLRPCParameterNameSoftButtons:[@[button] mutableCopy],
-                                                       SDLRPCParameterNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy],
+                                                       SDLRPCParameterNameStatusBar:testStatusBarString,
+                                                       SDLRPCParameterNameMediaClock:testMediaClockString,
+                                                       SDLRPCParameterNameMediaTrack:testMediaTrackString,
+                                                       SDLRPCParameterNameTemplateTitle: testTemplateTitleString,
+                                                       SDLRPCParameterNameGraphic:testGraphic,
+                                                       SDLRPCParameterNameSecondaryGraphic:testSecondaryGraphic,
+                                                       SDLRPCParameterNameSoftButtons:testSoftButtons,
+                                                       SDLRPCParameterNameCustomPresets:testCustomPresets,
                                                        SDLRPCParameterNameMetadataTags:testMetadata,
                                                        SDLRPCParameterNameWindowId:@(testWindowID),
-                                                       SDLRPCParameterNameTemplateConfiguration:testTemplateConfig
+                                                       SDLRPCParameterNameTemplateConfiguration:testTemplateConfiguration
                                                      },
                                                  SDLRPCParameterNameOperationName:SDLRPCFunctionNameShow}} mutableCopy];
             SDLShow* testRequest = [[SDLShow alloc] initWithDictionary:dict];
 
-            expect(testRequest.mainField1).to(equal(@"field1"));
-            expect(testRequest.mainField2).to(equal(@"field2"));
-            expect(testRequest.mainField3).to(equal(@"field3"));
-            expect(testRequest.mainField4).to(equal(@"field4"));
+            expect(testRequest.mainField1).to(equal(testString1));
+            expect(testRequest.mainField2).to(equal(testString2));
+            expect(testRequest.mainField3).to(equal(testString3));
+            expect(testRequest.mainField4).to(equal(testString4));
             expect(testRequest.alignment).to(equal(SDLTextAlignmentLeft));
-            expect(testRequest.statusBar).to(equal(@"status"));
-            expect(testRequest.mediaClock).to(equal(@"TheTime"));
-            expect(testRequest.mediaTrack).to(equal(@"In The Clear"));
+            expect(testRequest.statusBar).to(equal(testStatusBarString));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testRequest.mediaClock).to(equal(testMediaClockString));
+#pragma clang diagnostic pop
+            expect(testRequest.mediaTrack).to(equal(testMediaTrackString));
             expect(testRequest.templateTitle).to(equal(testTemplateTitleString));
-            expect(testRequest.graphic).to(equal(image1));
-            expect(testRequest.secondaryGraphic).to(equal(image2));
-            expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
-            expect(testRequest.customPresets).to(equal([@[@"preset1", @"preset2"] mutableCopy]));
+            expect(testRequest.graphic).to(equal(testGraphic));
+            expect(testRequest.secondaryGraphic).to(equal(testSecondaryGraphic));
+            expect(testRequest.softButtons).to(equal(testSoftButtons));
+            expect(testRequest.customPresets).to(equal(testCustomPresets));
             expect(testRequest.metadataTags).to(equal(testMetadata));
             expect(testRequest.windowID).to(equal(testWindowID));
-            expect(testRequest.templateConfiguration).to(equal(testTemplateConfig));
+            expect(testRequest.templateConfiguration).to(equal(testTemplateConfiguration));
         });
     });
 });
