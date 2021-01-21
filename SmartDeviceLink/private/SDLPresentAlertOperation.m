@@ -109,7 +109,9 @@ static const int SDLAlertSoftButtonCount = 4;
     dispatch_group_enter(uploadFilesTask);
 
     dispatch_group_enter(uploadFilesTask);
-    [self sdl_uploadImagesWithCompletionHandler:^{
+    __block NSSet<NSString *> *uploadedArtworks = nil;
+    [self sdl_uploadImagesWithCompletionHandler:^(NSSet<NSString *> *__nullable artworkNames) {
+        uploadedArtworks = artworkNames;
         dispatch_group_leave(uploadFilesTask);
     }];
 
@@ -129,7 +131,7 @@ static const int SDLAlertSoftButtonCount = 4;
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlConcurrentQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf sdl_presentAlert];
+        [strongSelf sdl_presentAlertWithArtworks:uploadedArtworks];
     });
 }
 
@@ -201,14 +203,16 @@ static const int SDLAlertSoftButtonCount = 4;
 }
 
 /// Upload the alert icon and soft button images.
-/// @param handler Called when all images have been uploaded
-- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(void))handler {
+/// @param handler Called when all images have been uploaded. If any image failed to upload, it will not be returned in the list of `uploadedArtworks`.
+- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSSet<NSString *> *__nullable artworkNames))handler {
     NSMutableArray<SDLArtwork *> *artworksToBeUploaded = [NSMutableArray array];
     if ([self sdl_supportsAlertIcon] && [self.fileManager fileNeedsUpload:self.alertView.icon]) {
         [artworksToBeUploaded addObject:self.alertView.icon];
     }
 
-    for (SDLSoftButtonObject *object in self.alertView.softButtons) {
+    // Don't upload artworks for buttons that will not be shown.
+    for (NSUInteger i = 0; i < [self sdl_allowedSoftButtonCount]; i += 1) {
+        SDLSoftButtonObject *object = self.alertView.softButtons[i];
         if ([self sdl_supportsSoftButtonImages] && [self.fileManager fileNeedsUpload:object.currentState.artwork]) {
             [artworksToBeUploaded addObject:object.currentState.artwork];
         }
@@ -216,7 +220,7 @@ static const int SDLAlertSoftButtonCount = 4;
 
     if (artworksToBeUploaded.count == 0) {
         SDLLogV(@"No images to upload for alert");
-        return handler();
+        return handler(nil);
     }
 
     SDLLogD(@"Uploading images for alert");
@@ -236,15 +240,21 @@ static const int SDLAlertSoftButtonCount = 4;
             SDLLogD(@"All alert images uploaded");
         }
 
-        return handler();
+        // Make a list of all the artworks that were uploaded successfully
+        NSMutableSet<NSString *> *artworksUploaded = [NSMutableSet set];
+        for (SDLArtwork *artwork in artworksToBeUploaded) {
+            [artworksUploaded addObject:artwork.name];
+        }
+        [artworksUploaded minusSet:[NSSet setWithArray:artworkNames]];
+
+        return handler(artworksUploaded);
     }];
 }
 
-
 /// Sends the alert RPC to the module. The operation is finished once a response has been received from the module.
-- (void)sdl_presentAlert {
+- (void)sdl_presentAlertWithArtworks:(nullable NSSet<NSString *> *)artworks {
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionRequest:self.alertRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:[self alertRPCWithArtworks:artworks] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
             SDLAlertResponse *alertResponse = (SDLAlertResponse *)response;
@@ -303,19 +313,19 @@ static const int SDLAlertSoftButtonCount = 4;
 #pragma mark - Private Getters / Setters
 
 /// Assembles an `Alert` RPC from the `SDLAlertView` information.
+/// @param artworks The artworks that were uploaded successfully to the module.
 /// @return The `Alert` RPC to be sent to the module.
-- (SDLAlert *)alertRPC {
+- (SDLAlert *)alertRPCWithArtworks:(nullable NSSet<NSString *> *)artworks {
     SDLAlert *alert = [[SDLAlert alloc] init];
     [self sdl_assembleAlertText:alert];
     alert.duration = @((NSUInteger)(self.alertView.timeout * 1000));
-    alert.alertIcon = [self sdl_supportsAlertIcon] ? self.alertView.icon.imageRPC : nil;
+    alert.alertIcon = ([self sdl_supportsAlertIcon] && [artworks containsObject:self.alertView.icon.name]) ? self.alertView.icon.imageRPC : nil;
     alert.progressIndicator = @(self.alertView.showWaitIndicator);
     alert.cancelID = @(self.cancelId);
 
     // The number of alert soft buttons sent must be capped so there are no clashes with soft button ids assigned by other managers (And thus leading to clashes saving/retreiving the button handlers in the  `SDLResponseDispatcher` class)
-    NSUInteger softButtonCount = MIN(self.alertView.softButtons.count, SDLAlertSoftButtonCount);
-    NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:softButtonCount];
-    for (NSUInteger i = 0; i < softButtonCount; i += 1) {
+    NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:[self sdl_allowedSoftButtonCount]];
+    for (NSUInteger i = 0; i < [self sdl_allowedSoftButtonCount]; i += 1) {
         SDLSoftButtonObject *button = self.alertView.softButtons[i];
         button.buttonId = i + SDLAlertSoftButtonIDMin;
         [softButtons addObject:button.currentStateSoftButton.copy];
@@ -327,6 +337,12 @@ static const int SDLAlertSoftButtonCount = 4;
     alert.ttsChunks = (ttsChunks.count > 0) ? ttsChunks : nil;
 
     return alert;
+}
+
+/// Checks the number of soft buttons added to the alert view against the max number of soft buttons allowed by the RPC Spec and returns the smaller of the two values.
+/// @return The maximum number of soft buttons that can be sent to the module
+- (unsigned long)sdl_allowedSoftButtonCount {
+     return MIN(self.alertView.softButtons.count, SDLAlertSoftButtonCount);
 }
 
 /// Creates an array of text-to-speech chunks for the `Alert` RPC from the text strings and the audio data files.
