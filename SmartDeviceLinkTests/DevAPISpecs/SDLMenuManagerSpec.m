@@ -171,7 +171,7 @@ describe(@"menu manager", ^{
         it(@"should save the new window capability", ^{
             SDLWindowCapability *testWindowCapability = [[SDLWindowCapability alloc] init];
             testWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1]];
-            OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            OCMStub([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
             [testManager sdl_displayCapabilityDidUpdate];
 
             expect(testManager.windowCapability).to(equal(testWindowCapability));
