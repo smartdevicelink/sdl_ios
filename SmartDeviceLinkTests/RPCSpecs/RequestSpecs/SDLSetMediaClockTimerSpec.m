@@ -27,12 +27,12 @@ describe(@"SetMediaClocktimer Spec", ^ {
     __block SDLSeekStreamingIndicator *forwardSeekTest;
     __block SDLSeekStreamingIndicator *backSeekTest;
 
-    describe(@"when initialized", ^{
-        beforeEach(^{
-            forwardSeekTest = [[SDLSeekStreamingIndicator alloc] initWithType:SDLSeekIndicatorTypeTrack];
-            backSeekTest = [[SDLSeekStreamingIndicator alloc] initWithType:SDLSeekIndicatorTypeTrack];
-        });
+    beforeEach(^{
+        forwardSeekTest = [[SDLSeekStreamingIndicator alloc] initWithType:SDLSeekIndicatorTypeTrack];
+        backSeekTest = [[SDLSeekStreamingIndicator alloc] initWithType:SDLSeekIndicatorTypeTrack];
+    });
 
+    describe(@"when initialized", ^{
         it(@"should properly initialize with initWithDictionary:", ^{
             NSDictionary *dict = @{SDLRPCParameterNameRequest:
                                        @{SDLRPCParameterNameParameters:
@@ -242,9 +242,6 @@ describe(@"SetMediaClocktimer Spec", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        forwardSeekTest = [[SDLSeekStreamingIndicator alloc] initWithType:SDLSeekIndicatorTypeTrack];
-        backSeekTest = [[SDLSeekStreamingIndicator alloc] initWithType:SDLSeekIndicatorTypeTrack];
-
         SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] init];
         
         testRequest.startTime = time1;

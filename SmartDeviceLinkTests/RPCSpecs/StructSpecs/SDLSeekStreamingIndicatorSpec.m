@@ -27,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLSeekStreamingIndicator* testStruct = [[SDLSeekStreamingIndicator alloc] init];
+        SDLSeekStreamingIndicator *testStruct = [[SDLSeekStreamingIndicator alloc] init];
 
         testStruct.seekTime = testSeekTime;
         testStruct.type = testSeekIndicatorType;
@@ -37,7 +37,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary* dict = @{
+        NSDictionary *dict = @{
                                SDLRPCParameterNameSeekTime: testSeekTime,
                                SDLRPCParameterNameType: testSeekIndicatorType
                                };
@@ -47,8 +47,22 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.type).to(equal(SDLSeekIndicatorTypeTime));
     });
 
+    it(@"Should set with initWithType: correctly", ^ {
+        SDLSeekStreamingIndicator *testStruct = [[SDLSeekStreamingIndicator alloc] initWithType:testSeekIndicatorType];
+
+        expect(testStruct.seekTime).to(beNil());
+        expect(testStruct.type).to(equal(SDLSeekIndicatorTypeTime));
+    });
+
+    it(@"Should set with initWithType:seekTime: correctly", ^ {
+        SDLSeekStreamingIndicator *testStruct = [[SDLSeekStreamingIndicator alloc] initWithType:testSeekIndicatorType seekTime:testSeekTime];
+
+        expect(testStruct.seekTime).to(equal([[NSNumber alloc] initWithInt:10.0]));
+        expect(testStruct.type).to(equal(SDLSeekIndicatorTypeTime));
+    });
+
     it(@"Should return nil if not set", ^ {
-        SDLSeekStreamingIndicator* testStruct = [[SDLSeekStreamingIndicator alloc] init];
+        SDLSeekStreamingIndicator *testStruct = [[SDLSeekStreamingIndicator alloc] init];
 
         expect(testStruct.seekTime).to(beNil());
         expect(testStruct.type).to(beNil());

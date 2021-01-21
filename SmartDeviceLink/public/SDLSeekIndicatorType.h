@@ -36,6 +36,6 @@
  * @added in SmartDeviceLink 7.1.0
  */
 typedef SDLEnum SDLSeekIndicatorType NS_TYPED_ENUM;
-extern SDLSeekIndicatorType const SDLSeekIndicatorTypeTrack;
 
+extern SDLSeekIndicatorType const SDLSeekIndicatorTypeTrack;
 extern SDLSeekIndicatorType const SDLSeekIndicatorTypeTime;

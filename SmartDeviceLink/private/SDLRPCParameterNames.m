@@ -596,7 +596,6 @@ SDLRPCParameterName const SDLRPCParameterNameSecondaryImage = @"secondaryImage";
 SDLRPCParameterName const SDLRPCParameterNameSecondaryText = @"secondaryText";
 SDLRPCParameterName const SDLRPCParameterNameSecond = @"second";
 SDLRPCParameterName const SDLRPCParameterNameSeconds = @"seconds";
-SDLRPCParameterName const SDLRPCParameterNameSeekStreamingIndicator = @"SeekStreamingIndicator";
 SDLRPCParameterName const SDLRPCParameterNameSeekTime = @"seekTime";
 SDLRPCParameterName const SDLRPCParameterNameSendLocationEnabled = @"sendLocationEnabled";
 SDLRPCParameterName const SDLRPCParameterNameServiceActive = @"serviceActive";

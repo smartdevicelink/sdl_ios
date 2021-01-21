@@ -600,7 +600,6 @@ extern SDLRPCParameterName const SDLRPCParameterNameSecondaryImage;
 extern SDLRPCParameterName const SDLRPCParameterNameSecondaryText;
 extern SDLRPCParameterName const SDLRPCParameterNameSecond;
 extern SDLRPCParameterName const SDLRPCParameterNameSeconds;
-extern SDLRPCParameterName const SDLRPCParameterNameSeekStreamingIndicator;
 extern SDLRPCParameterName const SDLRPCParameterNameSeekTime;
 extern SDLRPCParameterName const SDLRPCParameterNameSendLocationEnabled;
 extern SDLRPCParameterName const SDLRPCParameterNameServiceActive;
