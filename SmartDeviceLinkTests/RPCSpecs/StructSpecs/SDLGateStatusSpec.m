@@ -1,5 +1,5 @@
 //
-//  SDLGateStatus.m
+//  SDLGateStatusSpec.m
 //  SmartDeviceLink
 
 
@@ -21,10 +21,6 @@ SDLDoorStatusType status = SDLDoorStatusTypeAjar;
 __block SDLGateStatus *testStruct = nil;
 
 describe(@"getter/setter tests", ^{
-    afterEach(^{
-        testStruct = nil;
-    });
-
     context(@"init and assign", ^{
         beforeEach(^{
             testStruct = [[SDLGateStatus alloc] init];
@@ -44,7 +40,7 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithDictionary:", ^{
         beforeEach(^{
-            NSDictionary* dict = @{
+            NSDictionary *dict = @{
                 SDLRPCParameterNameLocation:location,
                 SDLRPCParameterNameStatus:status,
             };

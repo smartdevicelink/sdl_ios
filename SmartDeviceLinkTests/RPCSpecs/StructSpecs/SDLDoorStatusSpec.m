@@ -17,13 +17,9 @@ QuickSpecBegin(SDLDoorStatusSpec)
 
 SDLGrid *location = [[SDLGrid alloc] init];
 SDLDoorStatusType status = SDLDoorStatusTypeAjar;
-__block SDLDoorStatus* testStruct = nil;
+__block SDLDoorStatus *testStruct = nil;
 
 describe(@"getter/setter tests", ^{
-    afterEach(^{
-        testStruct = nil;
-    });
-
     context(@"init and assign", ^{
         beforeEach(^{
             testStruct = [[SDLDoorStatus alloc] init];
@@ -43,7 +39,7 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithDictionary:", ^{
         beforeEach(^{
-            NSDictionary* dict = @{
+            NSDictionary *dict = @{
                 SDLRPCParameterNameLocation:location,
                 SDLRPCParameterNameStatus:status,
             };
@@ -78,14 +74,13 @@ describe(@"getter/setter tests", ^{
     context(@"initWithLocation:status:", ^{
         beforeEach(^{
             testStruct = [[SDLDoorStatus alloc] initWithLocation:location status:status];
+            testStruct.location = location;
+            testStruct.status = status;
         });
 
         it(@"expect struct is not nil", ^{
             expect(testStruct).notTo(beNil());
         });
-
-        testStruct.location = location;
-        testStruct.status = status;
 
         it(@"expect all properties to be set correctly", ^{
             expect(testStruct.location).to(equal(location));

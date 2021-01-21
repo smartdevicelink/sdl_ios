@@ -17,21 +17,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithParkBrakeActive:(BOOL)parkBrakeActive ignitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus ignitionStatus:(SDLIgnitionStatus)ignitionStatus {
     self = [self init];
-    if (self) {
-        self.parkBrakeActive = @(parkBrakeActive);
-        self.ignitionStableStatus = ignitionStableStatus;
-        self.ignitionStatus = ignitionStatus;
+    if (!self) {
+        return nil;
     }
+    self.parkBrakeActive = @(parkBrakeActive);
+    self.ignitionStableStatus = ignitionStableStatus;
+    self.ignitionStatus = ignitionStatus;
     return self;
 }
 
 - (instancetype)initWithParkBrakeActive:(BOOL)parkBrakeActive ignitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus ignitionStatus:(SDLIgnitionStatus)ignitionStatus doorStatuses:(nullable NSArray<SDLDoorStatus *> *)doorStatuses gateStatuses:(nullable NSArray<SDLGateStatus *> *)gateStatuses roofStatuses:(nullable NSArray<SDLRoofStatus *> *)roofStatuses {
     self = [self initWithParkBrakeActive:parkBrakeActive ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus];
-    if (self) {
-        self.doorStatuses = doorStatuses;
-        self.gateStatuses = gateStatuses;
-        self.roofStatuses = roofStatuses;
+    if (!self) {
+        return nil;
     }
+    self.doorStatuses = doorStatuses;
+    self.gateStatuses = gateStatuses;
+    self.roofStatuses = roofStatuses;
     return self;
 }
 

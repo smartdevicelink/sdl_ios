@@ -23,13 +23,9 @@ NSArray<SDLGateStatus *> *gateStatuses = @[[[SDLGateStatus alloc] init]];
 NSArray<SDLRoofStatus *> *roofStatuses = @[[[SDLRoofStatus alloc] init]];
 SDLIgnitionStableStatus ignitionStableStatus = SDLIgnitionStableStatusStable;
 SDLIgnitionStatus ignitionStatus = SDLIgnitionStatusStart;
-__block SDLBodyInformation* testStruct = nil;
+__block SDLBodyInformation *testStruct = nil;
 
 describe(@"getter/setter tests", ^{
-    afterEach(^{
-        testStruct = nil;
-    });
-    
     context(@"init and assign", ^{
         beforeEach(^{
             testStruct = [[SDLBodyInformation alloc] init];
@@ -71,7 +67,7 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithDictionary:", ^{
         beforeEach(^{
-            NSDictionary* dict = @{
+            NSDictionary *dict = @{
                 SDLRPCParameterNameParkBrakeActive:@YES,
                 SDLRPCParameterNameIgnitionStableStatus:SDLIgnitionStableStatusNotStable,
                 SDLRPCParameterNameIgnitionStatus:SDLIgnitionStatusStart,

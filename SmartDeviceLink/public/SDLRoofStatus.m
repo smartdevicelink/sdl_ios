@@ -43,18 +43,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithLocation:(SDLGrid *)location status:(SDLDoorStatusType)status {
     self = [self init];
-    if (self) {
-        self.location = location;
-        self.status = status;
+    if (!self) {
+        return nil;
     }
+    self.location = location;
+    self.status = status;
     return self;
 }
 
 - (instancetype)initWithLocation:(SDLGrid *)location status:(SDLDoorStatusType)status state:(nullable SDLWindowState *)state {
     self = [self initWithLocation:location status:status];
-    if (self) {
-        self.state = state;
+    if (!self) {
+        return nil;
     }
+    self.state = state;
     return self;
 }
 

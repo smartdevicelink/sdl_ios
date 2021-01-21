@@ -19,13 +19,9 @@ QuickSpecBegin(SDLRoofStatusSpec)
 SDLGrid *location = [[SDLGrid alloc] init];
 SDLDoorStatusType status = SDLDoorStatusTypeAjar;
 SDLWindowState *state = [[SDLWindowState alloc] init];
-__block SDLRoofStatus* testStruct = nil;
+__block SDLRoofStatus *testStruct = nil;
 
 describe(@"getter/setter tests", ^{
-    afterEach(^{
-        testStruct = nil;
-    });
-
     context(@"init and assign", ^{
         beforeEach(^{
             testStruct = [[SDLRoofStatus alloc] init];
@@ -47,7 +43,7 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithDictionary:", ^{
         beforeEach(^{
-            NSDictionary* dict = @{
+            NSDictionary *dict = @{
                 SDLRPCParameterNameLocation:location,
                 SDLRPCParameterNameStatus:status,
                 SDLRPCParameterNameState:state,
