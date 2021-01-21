@@ -101,6 +101,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 }
 
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic secondaryGraphic:(nullable SDLImage *)secondaryGraphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets metadataTags:(nullable SDLMetadataTags *)metadataTags templateTitle:(nullable NSString *)templateTitle windowID:(nullable NSNumber<SDLInt> *)windowID templateConfiguration:(nullable SDLTemplateConfiguration *)templateConfiguration {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.mainField1 = mainField1;
+    self.mainField2 = mainField2;
+    self.mainField3 = mainField3;
+    self.mainField4 = mainField4;
+    self.alignment = alignment;
+    self.statusBar = statusBar;
+    self.mediaTrack = mediaTrack;
+    self.graphic = graphic;
+    self.secondaryGraphic = secondaryGraphic;
+    self.softButtons = softButtons;
+    self.customPresets = customPresets;
+    self.metadataTags = metadataTags;
+    self.templateTitle = templateTitle;
+    self.windowID = windowID;
+    self.templateConfiguration = templateConfiguration;
+    return self;
+}
+
 - (void)setMainField1:(nullable NSString *)mainField1 {
     [self.parameters sdl_setObject:mainField1 forName:SDLRPCParameterNameMainField1];
 }

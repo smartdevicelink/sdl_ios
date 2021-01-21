@@ -110,6 +110,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata;
 
 /**
+ * @param mainField1 - mainField1
+ * @param mainField2 - mainField2
+ * @param mainField3 - mainField3
+ * @param mainField4 - mainField4
+ * @param alignment - alignment
+ * @param statusBar - statusBar
+ * @param mediaTrack - mediaTrack
+ * @param graphic - graphic
+ * @param secondaryGraphic - secondaryGraphic
+ * @param softButtons - softButtons
+ * @param customPresets - customPresets
+ * @param metadataTags - metadataTags
+ * @param templateTitle - templateTitle
+ * @param windowID - windowID
+ * @param templateConfiguration - templateConfiguration
+ * @return A SDLShow object
+ */
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic secondaryGraphic:(nullable SDLImage *)secondaryGraphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets metadataTags:(nullable SDLMetadataTags *)metadataTags templateTitle:(nullable NSString *)templateTitle windowID:(nullable NSNumber<SDLInt> *)windowID templateConfiguration:(nullable SDLTemplateConfiguration *)templateConfiguration;
+
+/**
  * The text displayed in a single-line display, or in the upper display
  * line in a two-line display
  * @discussion The String value representing the text displayed in a
@@ -231,7 +251,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            will not display anything)</li>
  *            </ul>
  */
-@property (strong, nonatomic, nullable) NSString *mediaClock;
+@property (strong, nonatomic, nullable) NSString *mediaClock __deprecated;
 /**
  * The text in the track field
  *
