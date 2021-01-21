@@ -29,6 +29,6 @@ char *const SDLControlFrameTCPPortKey = "tcpPort";
 char *const SDLControlFrameVehicleHardVersion = "systemHardwareVersion";
 char *const SDLControlFrameVehicleMake = "make";
 char *const SDLControlFrameVehicleModel = "model";
-char *const SDLControlFrameVehicleModelYear = "model year";
+char *const SDLControlFrameVehicleModelYear = "modelYear";
 char *const SDLControlFrameVehicleSoftVersion = "systemSoftwareVersion";
 char *const SDLControlFrameVehicleTrim = "trim";

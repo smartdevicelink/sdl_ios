@@ -26,10 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSNumber *> *videoServiceTransports;
 @property (strong, nonatomic, readwrite, nullable) SDLVehicleType *vehicleType;
 
-@end
-
 SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject);
 BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSString *value);
+
+@end
 
 @implementation SDLControlFramePayloadRPCStartServiceAck
 
@@ -177,7 +177,7 @@ BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSStri
     BOOL success = NO;
     if (payloadObject && key && value) {
         // rationale: bson_object_put_string does not respect const so we have to make a tmp copy
-        const NSUInteger leng = 1 + [value lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        const NSUInteger leng = [value lengthOfBytesUsingEncoding:NSUTF8StringEncoding] + 1;
         char *buf = malloc(leng);
         if (buf) {
             strncpy(buf, value.UTF8String, leng);
@@ -191,7 +191,7 @@ BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSStri
 SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject) {
     SDLVehicleType *vehicleType = nil;
     NSString *make = payloadObject ? sdl_getStringValue(payloadObject, SDLControlFrameVehicleMake) : nil;
-    if (0 < make.length) {
+    if (make.length > 0) {
         vehicleType = [[SDLVehicleType alloc] init];
         vehicleType.make = make;
         vehicleType.model = sdl_getStringValue(payloadObject, SDLControlFrameVehicleModel);

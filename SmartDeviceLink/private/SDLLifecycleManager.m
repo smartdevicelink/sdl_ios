@@ -402,7 +402,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         }
 
         SDLRegisterAppInterfaceResponse *raiResponse = (SDLRegisterAppInterfaceResponse *)response;
-        const BOOL shouldProceed = (nil == raiResponse) || [weakSelf shouldProceedWithVehicleType:raiResponse.vehicleType];
+        const BOOL shouldProceed = (raiResponse == nil) || [weakSelf shouldProceedWithVehicleType:raiResponse.vehicleType];
         if (!shouldProceed) {
             [weakSelf doDisconnectWithVehicleType:raiResponse.vehicleType];
             return;
@@ -988,10 +988,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 - (BOOL)shouldProceedWithVehicleType:(SDLVehicleType *)vehicleType {
     if ([self.enabledVehicleType isEqual:vehicleType]) {
-        // no need to check it twice (it has already been enabled previously)
         return YES;
     }
-    // if the delegate present (not nil) and responds to the optional selector then ask it or answer YES instead.
     const BOOL shouldProceed = [self.delegate respondsToSelector:@selector(didReceiveVehicleType:)] ? [self.delegate didReceiveVehicleType:vehicleType] : YES;
     if (shouldProceed) {
         self.enabledVehicleType = vehicleType;

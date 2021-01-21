@@ -38,8 +38,8 @@ describe(@"individual enum value tests", ^ {
         expect(strcmp("make", SDLControlFrameVehicleMake)).to(equal(0));
         expect(SDLControlFrameVehicleModel).to(equal("model"));
         expect(strcmp("model", SDLControlFrameVehicleModel)).to(equal(0));
-        expect(SDLControlFrameVehicleModelYear).to(equal("model year"));
-        expect(strcmp("model year", SDLControlFrameVehicleModelYear)).to(equal(0));
+        expect(SDLControlFrameVehicleModelYear).to(equal("modelYear"));
+        expect(strcmp("modelYear", SDLControlFrameVehicleModelYear)).to(equal(0));
         expect(SDLControlFrameVehicleSoftVersion).to(equal("systemSoftwareVersion"));
         expect(strcmp("systemSoftwareVersion", SDLControlFrameVehicleSoftVersion)).to(equal(0));
         expect(SDLControlFrameVehicleTrim).to(equal("trim"));
@@ -48,5 +48,3 @@ describe(@"individual enum value tests", ^ {
 });
 
 QuickSpecEnd
-
-
