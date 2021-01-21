@@ -134,7 +134,7 @@ describe(@"choice set manager tests", ^{
 
             it(@"should enable the queue when receiving a good window capability", ^{
                 testManager.currentWindowCapability = disabledWindowCapability;
-                OCMExpect([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(enabledWindowCapability);
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(enabledWindowCapability);
                 [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beFalse());
@@ -157,14 +157,14 @@ describe(@"choice set manager tests", ^{
             });
 
             it(@"should suspend the queue when receiving a bad display capability", ^{
-                OCMExpect([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(disabledWindowCapability);
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(disabledWindowCapability);
                 [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
             });
 
             it(@"should not suspend the queue when receiving an empty display capability", ^{
-                OCMExpect([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(blankWindowCapability);
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(blankWindowCapability);
                 [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
