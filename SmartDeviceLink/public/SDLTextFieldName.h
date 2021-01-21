@@ -82,7 +82,7 @@ extern SDLTextFieldName const SDLTextFieldNameStatusBar;
  *
  * @discussion This field is commonly used to show elapsed or remaining time in an audio track or audio capture.
  */
-extern SDLTextFieldName const SDLTextFieldNameMediaClock;
+extern SDLTextFieldName const SDLTextFieldNameMediaClock __deprecated;
 
 /**
  * The track field of NGN type ACMs. This field is only available for media applications on a NGN display. Applies to SDLShow.
