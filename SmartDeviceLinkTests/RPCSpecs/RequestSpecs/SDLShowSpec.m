@@ -123,7 +123,10 @@ describe(@"Getter/Setter Tests", ^ {
 
     describe(@"initializing", ^{
         it(@"should initialize with initWithMainField1:mainField2:alignment:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField2:testString2 alignment:testAlignment];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(equal(testString1));
             expect(testShow.mainField2).to(equal(testString2));
             expect(testShow.mainField3).to(beNil());
@@ -142,7 +145,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.customPresets).to(beNil());
             expect(testShow.metadataTags).to(beNil());
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testShow = [[SDLShow alloc] initWithMainField1:nil mainField2:nil alignment:nil];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(beNil());
             expect(testShow.mainField2).to(beNil());
             expect(testShow.mainField3).to(beNil());
@@ -163,7 +169,10 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should initialize correctly with initWithMainField1:mainField1Type:mainField2:mainField2Type:alignment:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField1Type:testType1 mainField2:testString2 mainField2Type:testType2 alignment:testAlignment];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(equal(testString1));
             expect(testShow.mainField2).to(equal(testString2));
             expect(testShow.mainField3).to(beNil());
@@ -185,7 +194,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.metadataTags.mainField3).to(beNil());
             expect(testShow.metadataTags.mainField4).to(beNil());
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testShow = [[SDLShow alloc] initWithMainField1:nil mainField1Type:nil mainField2:nil mainField2Type:nil alignment:nil];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(beNil());
             expect(testShow.mainField2).to(beNil());
             expect(testShow.mainField3).to(beNil());
@@ -206,7 +218,10 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should initialize correctly with initWithMainField1:mainField2:mainField3:mainField4:alignment:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField2:testString2 mainField3:testString3 mainField4:testString4 alignment:testAlignment];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(equal(testString1));
             expect(testShow.mainField2).to(equal(testString2));
             expect(testShow.mainField3).to(equal(testString3));
@@ -228,7 +243,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.metadataTags.mainField3).to(beNil());
             expect(testShow.metadataTags.mainField4).to(beNil());
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testShow = [[SDLShow alloc] initWithMainField1:nil mainField2:nil mainField3:nil mainField4:nil alignment:nil];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(beNil());
             expect(testShow.mainField2).to(beNil());
             expect(testShow.mainField3).to(beNil());
@@ -249,7 +267,10 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should initialize correctly with initWithMainField1:mainField1Type:mainField2:mainField2Type:mainField3:mainField3Type:mainField4:mainField4Type:alignment:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField1Type:testType1 mainField2:testString2 mainField2Type:testType2 mainField3:testString3 mainField3Type:testType3 mainField4:testString4 mainField4Type:testType4 alignment:testAlignment];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(equal(testString1));
             expect(testShow.mainField2).to(equal(testString2));
             expect(testShow.mainField3).to(equal(testString3));
@@ -271,7 +292,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.metadataTags.mainField3).to(contain(testType3));
             expect(testShow.metadataTags.mainField4).to(contain(testType4));
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testShow = [[SDLShow alloc] initWithMainField1:nil mainField1Type:nil mainField2:nil mainField2Type:nil mainField3:nil mainField3Type:nil mainField4:nil mainField4Type:nil alignment:nil];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(beNil());
             expect(testShow.mainField2).to(beNil());
             expect(testShow.mainField3).to(beNil());
@@ -292,7 +316,10 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should initialize correctly with initWithMainField1:mainField2:alignment:statusBar:mediaClock:mediaTrack:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField2:testString2 alignment:testAlignment statusBar:testStatusBarString mediaClock:testMediaClockString mediaTrack:testMediaTrackString];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(equal(testString1));
             expect(testShow.mainField2).to(equal(testString2));
             expect(testShow.mainField3).to(beNil());
@@ -314,7 +341,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.metadataTags.mainField3).to(beNil());
             expect(testShow.metadataTags.mainField4).to(beNil());
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testShow = [[SDLShow alloc] initWithMainField1:nil mainField2:nil alignment:nil statusBar:nil mediaClock:nil mediaTrack:nil];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(beNil());
             expect(testShow.mainField2).to(beNil());
             expect(testShow.mainField3).to(beNil());
@@ -335,7 +365,10 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"should initialize correctly with initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets:textFieldMetadata:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLShow *testShow = [[SDLShow alloc] initWithMainField1:testString1 mainField2:testString2 mainField3:testString3 mainField4:testString4 alignment:testAlignment statusBar:testStatusBarString mediaClock:testMediaClockString mediaTrack:testMediaTrackString graphic:testGraphic softButtons:testSoftButtons customPresets:testCustomPresets textFieldMetadata:testMetadata];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(equal(testString1));
             expect(testShow.mainField2).to(equal(testString2));
             expect(testShow.mainField3).to(equal(testString3));
@@ -357,7 +390,10 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.metadataTags.mainField3).to(contain(testType3));
             expect(testShow.metadataTags.mainField4).to(contain(testType4));
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testShow = [[SDLShow alloc] initWithMainField1:nil mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaClock:nil mediaTrack:nil graphic:nil softButtons:nil customPresets:nil textFieldMetadata:nil];
+#pragma clang diagnostic pop
             expect(testShow.mainField1).to(beNil());
             expect(testShow.mainField2).to(beNil());
             expect(testShow.mainField3).to(beNil());

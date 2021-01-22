@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mainField2 The text displayed on the second display line
 /// @param alignment The alignment that specifies how the text should be aligned on display
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment __deprecated_msg("Use initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration: instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mainField2Type Text field metadata types
 /// @param alignment The alignment that specifies how the text should be aligned on display
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type alignment:(nullable SDLTextAlignment)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type alignment:(nullable SDLTextAlignment)alignment __deprecated_msg("Use initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration: instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mainField4 The text displayed on the fourth display line
 /// @param alignment The alignment that specifies how the text should be aligned on display
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment __deprecated_msg("Use initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration: instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mainField4Type Text field metadata types
 /// @param alignment The alignment that specifies how the text should be aligned on display
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment __deprecated_msg("Use initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration: instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param mediaClock The value for the mediaClock field
 /// @param mediaTrack The text in the track field
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack __deprecated_msg("Use initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration: instead");
 
 /// Convenience init to set template elements with the following parameters
 ///
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param customPresets The custom presets defined by the App
 /// @param metadata Text field metadata
 /// @return An SDLShow object
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata __deprecated_msg("Use initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration: instead");
 
 /**
  * @param mainField1 - mainField1

@@ -125,7 +125,10 @@ describe(@"a response dispatcher", ^{
         __block NSUInteger numTimesHandlerCalled = 0;
         
         beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testShow = [[SDLShow alloc] initWithMainField1:@"Test Show" mainField2:nil alignment:SDLTextAlignmentCenter];
+#pragma clang diagnostic pop
             testShow.correlationID = @1;
         });
         
