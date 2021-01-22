@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import "SDLIAPSession.h"
 
 @protocol SDLIAPDataSessionDelegate;
@@ -15,10 +14,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLIAPDataSession : SDLIAPSession
+@interface SDLIAPDataSession: NSObject <SDLIAPSessionDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 
+
+/**
+ *  Returns whether the session has open I/O streams.
+ */
+@property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
+
+/**
+ *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
+ */
+@property (assign, nonatomic, readonly) NSUInteger connectionID;
+
+/**
+ *  The accessory with which to open a session.
+ */
+@property (nullable, strong, nonatomic, readonly) EAAccessory *accessory;
 /**
  *  Creates a new data session.
  *
@@ -35,6 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sendData:(NSData *)data;
 
+// document
+- (void) closeSession;
+
 @end
 
 NS_ASSUME_NONNULL_END
+
+
