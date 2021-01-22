@@ -25,7 +25,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 UInt16 const AlertCancelIdMin = 1;
-UInt16 const AlertCancelIdMax = 10;
+UInt16 const AlertCancelIdMax = 100;
 
 @interface SDLAlertManager()
 
