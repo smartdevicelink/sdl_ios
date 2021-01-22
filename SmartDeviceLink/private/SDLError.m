@@ -287,7 +287,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_menuManager_openMenuOperationFailed:(nullable SDLMenuCell *)menuCell {
     NSString *failureReason = nil;
     if (menuCell != nil) {
-        failureReason = @"Something went wrong attempting to open the menu."
+        failureReason = @"Something went wrong attempting to open the menu.";
     } else {
         failureReason = [NSString stringWithFormat:@"Something went wrong attempting to open the menu to the given subcell: %@", menuCell];
     }

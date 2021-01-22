@@ -7,14 +7,24 @@
 //
 
 #import "SDLAsynchronousOperation.h"
-#import "SDLConnectionManagerType.h"
-#import "SDLFileManager.h"
+
+#import "SDLAsynchronousOperation.h"
+
+@protocol SDLConnectionManagerType;
+
+@class SDLFileManager;
+@class SDLMenuCell;
+@class SDLMenuConfiguration;
+@class SDLWindowCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuReplaceDynamicOperation : SDLAsynchronousOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+@property (strong, nonatomic) SDLWindowCapability *windowCapability;
+@property (strong, nonatomic) SDLMenuConfiguration *menuConfiguration;
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu;
 
 @end
 

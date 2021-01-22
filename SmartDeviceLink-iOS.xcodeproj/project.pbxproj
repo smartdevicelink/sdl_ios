@@ -519,6 +519,8 @@
 		4A93895425B9DACA0069F438 /* SDLMenuShowOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93895225B9DACA0069F438 /* SDLMenuShowOperation.m */; };
 		4A93895925B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A93895725B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.h */; };
 		4A93895A25B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93895825B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m */; };
+		4A93896625BB361C0069F438 /* SDLMenuReplaceUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A93896425BB361C0069F438 /* SDLMenuReplaceUtilities.h */; };
+		4A93896725BB361C0069F438 /* SDLMenuReplaceUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93896525BB361C0069F438 /* SDLMenuReplaceUtilities.m */; };
 		4ABB24BA24F592620061BF55 /* NSMutableArray+Safe.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */; };
 		4ABB24BB24F592620061BF55 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */; };
 		4ABB24BC24F592620061BF55 /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */; };
@@ -2313,6 +2315,8 @@
 		4A93895225B9DACA0069F438 /* SDLMenuShowOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuShowOperation.m; path = private/SDLMenuShowOperation.m; sourceTree = "<group>"; };
 		4A93895725B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuConfigurationUpdateOperation.h; path = private/SDLMenuConfigurationUpdateOperation.h; sourceTree = "<group>"; };
 		4A93895825B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuConfigurationUpdateOperation.m; path = private/SDLMenuConfigurationUpdateOperation.m; sourceTree = "<group>"; };
+		4A93896425BB361C0069F438 /* SDLMenuReplaceUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuReplaceUtilities.h; path = private/SDLMenuReplaceUtilities.h; sourceTree = "<group>"; };
+		4A93896525BB361C0069F438 /* SDLMenuReplaceUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceUtilities.m; path = private/SDLMenuReplaceUtilities.m; sourceTree = "<group>"; };
 		4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Safe.h"; path = "private/NSMutableArray+Safe.h"; sourceTree = "<group>"; };
 		4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Safe.m"; path = "private/NSMutableArray+Safe.m"; sourceTree = "<group>"; };
 		4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+SDLBundle.m"; path = "private/NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
@@ -4270,8 +4274,18 @@
 				4A93894425B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.m */,
 				4A93895125B9DACA0069F438 /* SDLMenuShowOperation.h */,
 				4A93895225B9DACA0069F438 /* SDLMenuShowOperation.m */,
+				4A93896325BB35FA0069F438 /* Menu Replace Utilities */,
 			);
 			name = Operations;
+			sourceTree = "<group>";
+		};
+		4A93896325BB35FA0069F438 /* Menu Replace Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				4A93896425BB361C0069F438 /* SDLMenuReplaceUtilities.h */,
+				4A93896525BB361C0069F438 /* SDLMenuReplaceUtilities.m */,
+			);
+			name = "Menu Replace Utilities";
 			sourceTree = "<group>";
 		};
 		4A9D02BB2497EEB400FBE99B /* Custom RPC Adapters */ = {
@@ -7146,6 +7160,7 @@
 				4ABB2AF424F849CF0061BF55 /* SDLGenericResponse.h in Headers */,
 				4ABB280A24F824600061BF55 /* SDLServiceUpdateReason.h in Headers */,
 				4ABB2B5124F84EF50061BF55 /* SDLDisplayCapability.h in Headers */,
+				4A93896625BB361C0069F438 /* SDLMenuReplaceUtilities.h in Headers */,
 				4ABB2ABD24F847FC0061BF55 /* SDLSliderResponse.h in Headers */,
 				4ABB28D924F82A6A0061BF55 /* SDLOnSyncPData.h in Headers */,
 				4A8BD2B924F935BC000945E3 /* SDLSoftButton.h in Headers */,
@@ -7909,6 +7924,7 @@
 				4ABB274F24F7FD9C0061BF55 /* SDLECallConfirmationStatus.m in Sources */,
 				4ABB27AF24F7FFDA0061BF55 /* SDLMaintenanceModeStatus.m in Sources */,
 				4ABB292D24F842A00061BF55 /* SDLDeleteWindow.m in Sources */,
+				4A93896725BB361C0069F438 /* SDLMenuReplaceUtilities.m in Sources */,
 				4ABB299A24F845440061BF55 /* SDLSendHapticData.m in Sources */,
 				4ABB29DB24F846880061BF55 /* SDLUnregisterAppInterface.m in Sources */,
 				4A93895425B9DACA0069F438 /* SDLMenuShowOperation.m in Sources */,
