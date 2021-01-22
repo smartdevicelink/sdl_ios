@@ -61,6 +61,13 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.type).to(equal(SDLSeekIndicatorTypeTime));
     });
 
+    it(@"Should set with initWithType:seekTime: correctly", ^ {
+        SDLSeekStreamingIndicator *testStruct = [SDLSeekStreamingIndicator seekIndicatorWithSeekTime:testSeekTime];
+
+        expect(testStruct.seekTime).to(equal([[NSNumber alloc] initWithInt:10.0]));
+        expect(testStruct.type).to(equal(SDLSeekIndicatorTypeTime));
+    });
+
     it(@"Should return nil if not set", ^ {
         SDLSeekStreamingIndicator *testStruct = [[SDLSeekStreamingIndicator alloc] init];
 
