@@ -227,45 +227,15 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark - Open Menu
 
-- (BOOL)openMenu {
-    if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"The openMenu method is not supported on this head unit.");
-        return NO;
-    }
-
-    // Create the operation
-    SDLMenuShowOperation *showMenuOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:self.connectionManager toMenuCell:nil];
-
-    __weak typeof(self) weakself = self;
-    showMenuOp.completionBlock = ^{
-        __strong typeof(weakself) strongself = weakself;
-        if (showMenuOp.error != nil) {
-            SDLLogE(@"Opening menu with error: %@, info: %@", showMenuOp.error, showMenuOp.error.userInfo);
-        }
-    };
-
-    // Cancel previous open menu operations
-    for (NSOperation *operation in self.transactionQueue.operations) {
-        if ([operation isMemberOfClass:[SDLMenuShowOperation class]]) {
-            [operation cancel];
-        }
-    }
-
-    // Add the new open menu operation to the queue
-    [self.transactionQueue addOperation:showMenuOp];
-
-    return YES;
-}
-
-- (BOOL)openSubmenu:(SDLMenuCell *)cell {
-    if (cell.subCells.count == 0) {
+- (BOOL)openMenu:(SDLMenuCell *)cell {
+    if (cell != nil && cell.subCells.count == 0) {
         SDLLogE(@"The cell %@ does not contain any sub cells, so no submenu can be opened", cell);
+        return NO;
+    } else if (cell != nil && ![self.menuCells containsObject:cell]) {
+        SDLLogE(@"This cell has not been sent to the head unit, so no submenu can be opened. Make sure that the cell exists in the SDLManager.menu array");
         return NO;
     } else if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
         SDLLogE(@"The openSubmenu method is not supported on this head unit.");
-        return NO;
-    } else if (![self.menuCells containsObject:cell]) {
-        SDLLogE(@"This cell has not been sent to the head unit, so no submenu can be opened. Make sure that the cell exists in the SDLManager.menu array");
         return NO;
     }
 
@@ -276,7 +246,7 @@ UInt32 const MenuCellIdMin = 1;
     showMenuOp.completionBlock = ^{
         __strong typeof(weakself) strongself = weakself;
         if (showMenuOp.error != nil) {
-            SDLLogE(@"Opening menu with error: %@, info: %@. Failed subcell: %@", showMenuOp.error, showMenuOp.error.userInfo, cell);
+            SDLLogE(@"Opening menu with error: %@, info: %@. Failed subcell (if nil, attempted to open to main menu): %@", showMenuOp.error, showMenuOp.error.userInfo, cell);
         }
     };
 
