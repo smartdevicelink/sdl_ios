@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *currentMenuCells;
 
-@property (strong, nonatomic) SDLMenuConfiguration *oldMenuConfiguration;
+@property (strong, nonatomic, nullable) SDLMenuConfiguration *oldMenuConfiguration;
 
 @end
 
@@ -136,8 +136,8 @@ UInt32 const MenuCellIdMin = 1;
 
 /// Suspend the queue if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
 - (void)sdl_updateTransactionQueueSuspended {
-    if ([self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
-        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@", ([self.currentLevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"));
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@", ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"));
         self.transactionQueue.suspended = YES;
     } else {
         SDLLogD(@"Starting the transaction queue");
@@ -160,10 +160,11 @@ UInt32 const MenuCellIdMin = 1;
     SDLMenuConfigurationUpdateOperation *configurationUpdateOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:self.connectionManager windowCapability:self.windowCapability newMenuConfiguration:menuConfiguration];
 
     __weak typeof(self) weakself = self;
+    __weak typeof(configurationUpdateOp) weakOp = configurationUpdateOp;
     configurationUpdateOp.completionBlock = ^{
         __strong typeof(weakself) strongself = weakself;
-        if (configurationUpdateOp.error != nil) {
-            SDLLogE(@"Error setting new menu configuration with error: %@, info: %@. Will revert to old menu configuration: %@", configurationUpdateOp.error, configurationUpdateOp.error.userInfo, weakself.oldMenuConfiguration);
+        if (weakOp.error != nil) {
+            SDLLogE(@"Error setting new menu configuration with error: %@, info: %@. Will revert to old menu configuration: %@", weakOp.error, weakOp.error.userInfo, weakself.oldMenuConfiguration);
             strongself->_menuConfiguration = strongself.oldMenuConfiguration;
         } else {
             strongself.oldMenuConfiguration = nil;
@@ -182,17 +183,6 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
-    if (self.currentHMILevel == nil
-        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
-        || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
-        SDLLogD(@"Waiting for HMI update to send menu cells");
-        self.waitingOnHMIUpdate = YES;
-        self.waitingUpdateMenuCells = menuCells;
-        return;
-    }
-
-    self.waitingOnHMIUpdate = NO;
-
     NSMutableSet *titleCheckSet = [NSMutableSet set];
     NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
     NSUInteger voiceCommandCount = 0;
@@ -227,7 +217,7 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark - Open Menu
 
-- (BOOL)openMenu:(SDLMenuCell *)cell {
+- (BOOL)openMenu:(nullable SDLMenuCell *)cell {
     if (cell != nil && cell.subCells.count == 0) {
         SDLLogE(@"The cell %@ does not contain any sub cells, so no submenu can be opened", cell);
         return NO;
@@ -241,12 +231,10 @@ UInt32 const MenuCellIdMin = 1;
 
     // Create the operation
     SDLMenuShowOperation *showMenuOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:self.connectionManager toMenuCell:cell];
-
-    __weak typeof(self) weakself = self;
+    __weak typeof(showMenuOp) weakMenuOp = showMenuOp;
     showMenuOp.completionBlock = ^{
-        __strong typeof(weakself) strongself = weakself;
-        if (showMenuOp.error != nil) {
-            SDLLogE(@"Opening menu with error: %@, info: %@. Failed subcell (if nil, attempted to open to main menu): %@", showMenuOp.error, showMenuOp.error.userInfo, cell);
+        if (weakMenuOp.error != nil) {
+            SDLLogE(@"Opening menu with error: %@, info: %@. Failed subcell (if nil, attempted to open to main menu): %@", weakMenuOp.error, weakMenuOp.error.userInfo, cell);
         }
     };
 
@@ -413,33 +401,10 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentHMILevel == nil
-        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
-        || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
-        self.waitingOnHMIUpdate = YES;
-        self.waitingUpdateMenuCells = self.menuCells;
-        return;
-    }
-
-    if (self.inProgressUpdate != nil) {
-        // There's an in progress update, we need to put this on hold
-        self.hasQueuedUpdate = YES;
-        return;
-    }
     __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
-        [weakself sdl_sendUpdatedMenu:addCells usingMenu:weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) {
-            weakself.inProgressUpdate = nil;
+        [weakself sdl_sendUpdatedMenu:addCells usingMenu:weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) { }];
 
-            if (completionHandler != nil) {
-                completionHandler(error);
-            }
-
-            if (weakself.hasQueuedUpdate) {
-                [weakself sdl_updateMenuWithCellsToDelete:deleteCells cellsToAdd:addCells completionHandler:nil];
-                weakself.hasQueuedUpdate = NO;
-            }
-        }];
     }];
 }
 
