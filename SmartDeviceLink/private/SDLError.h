@@ -61,7 +61,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_menuManager_configurationOperationFailed:(SDLMenuConfiguration *)failedConfiguration;
 + (NSError *)sdl_menuManager_openMenuOperationCancelled;
 + (NSError *)sdl_menuManager_openMenuOperationFailed:(nullable SDLMenuCell *)menuCell;
++ (NSError *)sdl_menuManager_replaceOperationCancelled;
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo;
+
 + (NSError *)sdl_voiceCommandManager_pendingUpdateSuperseded;
 
 #pragma mark Choice Set Manager

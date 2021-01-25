@@ -188,10 +188,9 @@ typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     /// Sending menu-related RPCs returned an error from the remote system
     SDLMenuManagerErrorRPCsFailed = -1,
     SDLMenuManagerErrorPendingUpdateSuperseded = -2,
-    SDLMenuManagerErrorConfigurationUpdateCancelled = -3,
+    SDLMenuManagerErrorOperationCancelled = -3,
     SDLMenuManagerErrorConfigurationUpdateFailed = -4,
-    SDLMenuManagerErrorOpenMenuCancelled = -5,
-    SDLMenuManagerErrorOpenMenuFailed = -6
+    SDLMenuManagerErrorOpenMenuFailed = -5
 };
 
 /// Errors associated with Choice Set class

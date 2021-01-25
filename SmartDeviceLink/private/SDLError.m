@@ -260,7 +260,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Menu Manager
 
 + (NSError *)sdl_menuManager_configurationOperationCancelled {
-    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateCancelled userInfo:@{
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOperationCancelled userInfo:@{
         NSLocalizedDescriptionKey: @"Menu Manager - Configuration Update Cancelled",
         NSLocalizedFailureReasonErrorKey: @"The menu manager was probably stopped or another configuration update was requested.",
         NSLocalizedRecoverySuggestionErrorKey: @"This error probably does not need recovery."
@@ -277,7 +277,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (NSError *)sdl_menuManager_openMenuOperationCancelled {
-    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateCancelled userInfo:@{
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOperationCancelled userInfo:@{
         NSLocalizedDescriptionKey: @"Menu Manager - Open Menu Cancelled",
         NSLocalizedFailureReasonErrorKey: @"The menu manager was probably stopped or opening another menu item was requested.",
         NSLocalizedRecoverySuggestionErrorKey: @"This error probably does not need recovery."
@@ -296,6 +296,14 @@ NS_ASSUME_NONNULL_BEGIN
         NSLocalizedDescriptionKey: @"Menu Manager - Open Menu Failed",
         NSLocalizedFailureReasonErrorKey: failureReason,
         NSLocalizedRecoverySuggestionErrorKey: @"Check the error logs for more information on the RPC failure."
+    }];
+}
+
++ (NSError *)sdl_menuManager_replaceOperationCancelled {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOperationCancelled userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Menu Replace Cancelled",
+        NSLocalizedFailureReasonErrorKey: @"The menu manager was probably stopped or another menu update was requested.",
+        NSLocalizedRecoverySuggestionErrorKey: @"This error probably does not need recovery."
     }];
 }
 
