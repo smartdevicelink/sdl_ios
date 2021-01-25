@@ -58,11 +58,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         return;
     }
 
-    // TODO: We don't check cancellation or finish
-
-    NSArray<SDLArtwork *> *artworksToBeUploaded = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:self.updatedMenu fileManager:self.fileManager windowCapability:self.windowCapability];
-
     __weak typeof(self) weakself = self;
+    NSArray<SDLArtwork *> *artworksToBeUploaded = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:self.updatedMenu fileManager:self.fileManager windowCapability:self.windowCapability];
     if (artworksToBeUploaded.count > 0) {
         [self.fileManager uploadArtworks:artworksToBeUploaded progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
             if (weakself.isCancelled) {
@@ -102,12 +99,6 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     }];
 }
 
-/**
- Creates add commands
-
- @param newMenuCells The cells you will be adding
- @param completionHandler handler
- */
 - (void)sdl_sendNewMenuCells:(NSArray<SDLMenuCell *> *)newMenuCells withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.updatedMenu.count == 0 || newMenuCells.count == 0) {
         SDLLogD(@"There are no cells to update.");
