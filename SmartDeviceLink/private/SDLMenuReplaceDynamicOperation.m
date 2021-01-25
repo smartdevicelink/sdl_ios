@@ -97,6 +97,36 @@
 
 #pragma mark Dynamic Menu Helpers
 
+- (void)sdl_startSubMenuUpdatesWithOldKeptCells:(NSArray<SDLMenuCell *> *)oldKeptCells newKeptCells:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex {
+    if (oldKeptCells.count == 0 || startIndex >= oldKeptCells.count) { return; }
+
+    if (oldKeptCells[startIndex].subCells.count > 0) {
+        SDLDynamicMenuUpdateRunScore *tempScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldKeptCells[startIndex].subCells updatedMenuCells:newKeptCells[startIndex].subCells];
+        NSArray<NSNumber *> *deleteMenuStatus = tempScore.oldStatus;
+        NSArray<NSNumber *> *addMenuStatus = tempScore.updatedStatus;
+
+        NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
+        NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
+
+        NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
+        NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
+
+        [self sdl_updateIdsOnMenuCells:cellsToAdd parentId:newKeptCells[startIndex].cellId];
+        [self transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
+
+        __weak typeof(self) weakself = self;
+        [self sdl_sendDeleteCurrentMenu:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
+            [weakself sdl_sendUpdatedMenu:cellsToAdd usingMenu:weakself.menuCells[startIndex].subCells withCompletionHandler:^(NSError * _Nullable error) {
+                // After the first set of submenu cells were added and deleted we must find the next set of subcells untll we loop through all the elemetns
+                [weakself sdl_startSubMenuUpdatesWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1)];
+            }];
+        }];
+    } else {
+        // After the first set of submenu cells were added and deleted we must find the next set of subcells untll we loop through all the elemetns
+        [self sdl_startSubMenuUpdatesWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1)];
+    }
+}
+
 - (NSArray<SDLMenuCell *> *)sdl_filterDeleteMenuItemsWithOldMenuItems:(NSArray<SDLMenuCell *> *)oldMenuCells basedOnStatusList:(NSArray<NSNumber *> *)oldStatusList {
     NSMutableArray<SDLMenuCell *> *deleteCells = [[NSMutableArray alloc] init];
     // The index of the status should corrleate 1-1 with the number of items in the menu

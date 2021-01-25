@@ -48,14 +48,14 @@ NS_ASSUME_NONNULL_BEGIN
 
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
         SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);
-        return;
+        return [self finishOperation];
     } else if (self.availableMenuLayouts == nil) {
         SDLLogW(@"Could not set the main menu configuration. Which menu layouts can be used is not available");
-        return;
+        return [self finishOperation];
     } else if (![self.availableMenuLayouts containsObject:self.updatedMenuConfiguration.mainMenuLayout]
                || ![self.availableMenuLayouts containsObject:self.updatedMenuConfiguration.defaultSubmenuLayout]) {
         SDLLogE(@"One or more of the set menu layouts are not available on this system. The menu configuration will not be set. Available menu layouts: %@, set menu layouts: %@", self.availableMenuLayouts, self.updatedMenuConfiguration);
-        return;
+        return [self finishOperation];
     }
 
     SDLSetGlobalProperties *setGlobalsRPC = [[SDLSetGlobalProperties alloc] init];
