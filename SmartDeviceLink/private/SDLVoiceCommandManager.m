@@ -163,9 +163,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
-        return;
-    }
+    if ((hmiStatus.windowID != nil) && (hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow)) { return; }
 
     self.currentLevel = hmiStatus.hmiLevel;
     [self sdl_updateTransactionQueueSuspended];

@@ -136,8 +136,8 @@ UInt32 const MenuCellIdMin = 1;
 
 /// Suspend the queue if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
 - (void)sdl_updateTransactionQueueSuspended {
-    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@", ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"));
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@, current system context is MENU: %@", ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"), ([self.currentSystemContext isEqualToEnum:SDLSystemContextMenu] ? @"YES" : @"NO"));
         self.transactionQueue.suspended = YES;
     } else {
         SDLLogD(@"Starting the transaction queue");
@@ -207,7 +207,8 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
-    _currentMenuCells = _menuCells;
+    [self sdl_updateIdsOnMenuCells:menuCells parentId:ParentIdNotFound];
+
     _menuCells = menuCells;
 
     if ([self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) {
@@ -263,13 +264,6 @@ UInt32 const MenuCellIdMin = 1;
 
 }
 
-- (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    __weak typeof(self) weakself = self;
-    [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
-        [weakself sdl_sendUpdatedMenu:addCells usingMenu:weakself.menuCells withCompletionHandler:^(NSError * _Nullable error) { }];
-    }];
-}
-
 #pragma mark - Helpers
 
 - (BOOL)sdl_isDynamicMenuUpdateActive:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
@@ -291,7 +285,9 @@ UInt32 const MenuCellIdMin = 1;
 - (void)sdl_updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
     for (SDLMenuCell *cell in menuCells) {
         cell.cellId = self.lastMenuId++;
-        cell.parentCellId = parentId;
+        if (parentId != ParentIdNotFound) {
+            cell.parentCellId = parentId;
+        }
         if (cell.subCells.count > 0) {
             [self sdl_updateIdsOnMenuCells:cell.subCells parentId:cell.cellId];
         }
@@ -331,36 +327,12 @@ UInt32 const MenuCellIdMin = 1;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+    if ((hmiStatus.windowID != nil) && (hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow)) { return; }
 
-    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
-        return;
-    }
-    
-    SDLHMILevel oldHMILevel = self.currentHMILevel;
     self.currentHMILevel = hmiStatus.hmiLevel;
-
-    // Auto-send an updated menu if we were in NONE and now we are not, and we need an update
-    if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentHMILevel isEqualToString:SDLHMILevelNone] &&
-        ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
-        if (self.waitingOnHMIUpdate) {
-            [self setMenuCells:self.waitingUpdateMenuCells];
-            self.waitingUpdateMenuCells = @[];
-            return;
-        }
-    }
-
-    // If we don't check for this and only update when not in the menu, there can be IN_USE errors, especially with submenus. We also don't want to encourage changing out the menu while the user is using it for usability reasons.
-    SDLSystemContext oldSystemContext = self.currentSystemContext;
     self.currentSystemContext = hmiStatus.systemContext;
 
-    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu]
-        && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]
-        && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        if (self.waitingOnHMIUpdate) {
-            [self setMenuCells:self.waitingUpdateMenuCells];
-            self.waitingUpdateMenuCells = @[];
-        }
-    }
+    [self sdl_updateTransactionQueueSuspended];
 }
 
 @end
