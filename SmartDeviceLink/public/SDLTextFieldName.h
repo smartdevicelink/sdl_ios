@@ -81,6 +81,9 @@ extern SDLTextFieldName const SDLTextFieldNameStatusBar;
  * Text value for MediaClock field. Must be properly formatted according to MediaClockFormat. Applies to SDLShow.
  *
  * @discussion This field is commonly used to show elapsed or remaining time in an audio track or audio capture.
+ *
+ * @deprecated in SmartDeviceLink 7.1.0
+ * @added in SmartDeviceLink 1.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameMediaClock __deprecated;
 

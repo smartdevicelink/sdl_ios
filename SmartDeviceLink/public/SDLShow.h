@@ -235,21 +235,13 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  */
 @property (strong, nonatomic, nullable) NSString *statusBar;
+
 /**
- * This property is deprecated use SetMediaClockTimer instead.
- * <p> The value for the MediaClock field using a format described in the
- * MediaClockFormat enumeration
+ * Text value for MediaClock field. Has to be properly formatted by Mobile App according to the module's capabilities. If this text is set, any automatic media clock updates previously set with SetMediaClockTimer will be stopped.
+ * {"string_min_length": 0, "string_max_length": 500}
  *
- * @discussion A String value for the MediaClock
- *            <p>
- *            <b>Notes: </b><br/>
- *            <ul>
- *            <li>Must be properly formatted as described in the
- *            MediaClockFormat enumeration</li>
- *            <li>If a value of five spaces is provided, this will clear
- *            that field on the display (i.e. the media clock timer field
- *            will not display anything)</li>
- *            </ul>
+ * @deprecated in SmartDeviceLink 7.1.0
+ * @added in SmartDeviceLink 1.0.0
  */
 @property (strong, nonatomic, nullable) NSString *mediaClock __deprecated;
 /**

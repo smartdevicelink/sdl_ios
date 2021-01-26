@@ -202,10 +202,7 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
 
         context(@"of a protocol message", ^{
             beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                SDLShow *showRPC = [[SDLShow alloc] initWithMainField1:@"Test1" mainField2:@"Test2" alignment:SDLTextAlignmentLeft];
-#pragma clang diagnostic pop
+                SDLShow *showRPC = [[SDLShow alloc] initWithMainField1:@"Test1" mainField2:@"Test2" mainField3:nil mainField4:nil alignment:SDLTextAlignmentLeft statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
 
                 SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:4];
                 header.serviceType = SDLServiceTypeRPC;
