@@ -22,11 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<SDLRPCRequest *> *)deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells;
 
-+ (NSArray<SDLRPCRequest *> *)mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu availableMenuLayouts:(NSArray<SDLMenuLayout> *)availableMenuLayouts defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout;
-+ (NSArray<SDLRPCRequest *> *)subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager availableMenuLayouts:(NSArray<SDLMenuLayout> *)availableMenuLayouts defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout;
++ (NSArray<SDLRPCRequest *> *)mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout;
++ (NSArray<SDLRPCRequest *> *)subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout;
 
 + (NSArray<SDLArtwork *> *)findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability;
-//+ (BOOL)shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager;
 
 @end
 

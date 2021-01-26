@@ -67,21 +67,22 @@
     return [mutableArtworks allObjects];
 }
 
-+ (BOOL)sdl_shouldCellIncludeImage:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager {
++ (BOOL)sdl_shouldCellIncludeImage:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
     // If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
-    return ((cell.icon != nil && [fileManager hasUploadedFile:cell.icon]) || cell.icon.isStaticIcon);
+    BOOL supportsImage = (cell.subCells.count > 0) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon] : [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuIcon];
+    return cell.icon != nil && supportsImage && [fileManager fileNeedsUpload:cell.icon];
 }
 
-+ (NSArray<SDLRPCRequest *> *)mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu availableMenuLayouts:(NSArray<SDLMenuLayout> *)availableMenuLayouts defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
++ (NSArray<SDLRPCRequest *> *)mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
     for (NSUInteger menuInteger = 0; menuInteger < menu.count; menuInteger++) {
         for (NSUInteger updateCellsIndex = 0; updateCellsIndex < cells.count; updateCellsIndex++) {
             if ([menu[menuInteger] isEqual:cells[updateCellsIndex]]) {
                 if (cells[updateCellsIndex].subCells.count > 0) {
-                    [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cells[updateCellsIndex] fileManager:fileManager position:(UInt16)menuInteger availableMenuLayouts:availableMenuLayouts defaultSubmenuLayout:defaultSubmenuLayout]];
+                    [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cells[updateCellsIndex] fileManager:fileManager position:(UInt16)menuInteger windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
                 } else {
-                    [mutableCommands addObject:[self sdl_commandForMenuCell:cells[updateCellsIndex] fileManager:fileManager position:(UInt16)menuInteger]];
+                    [mutableCommands addObject:[self sdl_commandForMenuCell:cells[updateCellsIndex] fileManager:fileManager windowCapability:windowCapability position:(UInt16)menuInteger]];
                 }
             }
         }
@@ -90,33 +91,33 @@
     return [mutableCommands copy];
 }
 
-+ (NSArray<SDLRPCRequest *> *)subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager availableMenuLayouts:(NSArray<SDLMenuLayout> *)availableMenuLayouts defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
++ (NSArray<SDLRPCRequest *> *)subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells fileManager:fileManager availableMenuLayouts:availableMenuLayouts defaultSubmenuLayout:defaultSubmenuLayout]];
+            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells fileManager:fileManager windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
         }
     }
 
     return [mutableCommands copy];
 }
 
-+ (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager availableMenuLayouts:(NSArray<SDLMenuLayout> *)availableMenuLayouts defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
++ (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
     for (NSUInteger cellIndex = 0; cellIndex < cells.count; cellIndex++) {
         if (cells[cellIndex].subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cells[cellIndex] fileManager:fileManager position:(UInt16)cellIndex availableMenuLayouts:availableMenuLayouts defaultSubmenuLayout:defaultSubmenuLayout]];
-            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cells[cellIndex].subCells fileManager:fileManager availableMenuLayouts:availableMenuLayouts defaultSubmenuLayout:defaultSubmenuLayout]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cells[cellIndex] fileManager:fileManager position:(UInt16)cellIndex windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
+            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cells[cellIndex].subCells fileManager:fileManager windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
         } else {
-            [mutableCommands addObject:[self sdl_commandForMenuCell:cells[cellIndex] fileManager:fileManager position:(UInt16)cellIndex]];
+            [mutableCommands addObject:[self sdl_commandForMenuCell:cells[cellIndex] fileManager:fileManager windowCapability:windowCapability position:(UInt16)cellIndex]];
         }
     }
 
     return [mutableCommands copy];
 }
 
-+ (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager position:(UInt16)position {
++ (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability position:(UInt16)position {
     SDLAddCommand *command = [[SDLAddCommand alloc] init];
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
@@ -126,17 +127,17 @@
 
     command.menuParams = params;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
-    command.cmdIcon = [self sdl_shouldCellIncludeImage:cell fileManager:fileManager] ? cell.icon.imageRPC : nil;
+    command.cmdIcon = [self sdl_shouldCellIncludeImage:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
 
     return command;
 }
 
-+ (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager position:(UInt16)position availableMenuLayouts:(NSArray<SDLMenuLayout> *)availableMenuLayouts defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
-    SDLImage *icon = [self sdl_shouldCellIncludeImage:cell fileManager:fileManager] ? cell.icon.imageRPC : nil;
++ (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager position:(UInt16)position windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
+    SDLImage *icon = [self sdl_shouldCellIncludeImage:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
-    if (cell.submenuLayout && [availableMenuLayouts containsObject:cell.submenuLayout]) {
+    if (cell.submenuLayout && [windowCapability.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
         submenuLayout = cell.submenuLayout;
     } else {
         submenuLayout = defaultSubmenuLayout;
