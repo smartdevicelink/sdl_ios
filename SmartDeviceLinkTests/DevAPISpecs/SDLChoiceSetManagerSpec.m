@@ -35,6 +35,7 @@
 @interface SDLPresentChoiceSetOperation()
 
 @property (copy, nonatomic, nullable) NSError *internalError;
+@property (assign, nonatomic) UInt16 cancelId;
 
 @end
 
@@ -48,6 +49,7 @@
 
 @property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (assign, nonatomic) UInt16 nextCancelId;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
@@ -522,6 +524,45 @@ describe(@"choice set manager tests", ^{
                 OCMReject([pendingPresentOp cancel]);
                 expect(testManager.transactionQueue.operations).to(haveCount(0));
                 expect(testManager.pendingPresentOperation).toNot(beAnInstanceOf([SDLPresentKeyboardOperation class]));
+            });
+        });
+
+        describe(@"generating a cancel id", ^{
+            __block SDLChoiceSet *testChoiceSet = nil;
+            __block id<SDLChoiceSetDelegate> testChoiceDelegate = nil;
+
+            beforeEach(^{
+                testChoiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
+                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"tests" delegate:testChoiceDelegate choices:@[testCell1]];
+                testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
+                [testManager.stateMachine setToState:SDLChoiceManagerStateReady fromOldState:SDLChoiceManagerStateCheckingVoiceOptional callEnterTransition:NO];
+            });
+
+            it(@"should set the first cancelID correctly", ^{
+                [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
+
+                expect(testManager.transactionQueue.operations.count).to(equal(2));
+                expect(testManager.transactionQueue.operations[0]).to(beAKindOf([SDLPreloadChoicesOperation class]));
+                SDLPresentChoiceSetOperation *testPresentOp = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[1];
+                expect(@(testPresentOp.cancelId)).to(equal(101));
+            });
+
+            it(@"should reset the cancelID correctly once the max has been reached", ^{
+                testManager.nextCancelId = 200;
+                [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
+
+                expect(testManager.transactionQueue.operations.count).to(equal(2));
+
+                expect(testManager.transactionQueue.operations[0]).to(beAKindOf([SDLPreloadChoicesOperation class]));
+                SDLPresentChoiceSetOperation *testPresentOp = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[1];
+                expect(@(testPresentOp.cancelId)).to(equal(200));
+
+                [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
+
+                expect(testManager.transactionQueue.operations.count).to(equal(3));
+
+                SDLPresentChoiceSetOperation *testPresentOp2 = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[2];
+                expect(@(testPresentOp2.cancelId)).to(equal(101));
             });
         });
 

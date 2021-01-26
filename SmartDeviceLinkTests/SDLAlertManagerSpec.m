@@ -151,12 +151,13 @@ describe(@"alert manager tests", ^{
 
             expect(testAlertManager.transactionQueue.suspended).to(beTrue());
             expect(testAlertManager.transactionQueue.operationCount).to(equal(2));
+
             SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
             expect(presentAlertOp1.isExecuting).to(beTrue());
-            expect(presentAlertOp1.currentWindowCapability).toEventually(equal(testWindowCapability));
+            expect(presentAlertOp1.currentWindowCapability).to(equal(testWindowCapability));
             expect(presentAlertOp2.isExecuting).to(beFalse());
-            expect(presentAlertOp2.currentWindowCapability).toEventually(beNil());
+            expect(presentAlertOp2.currentWindowCapability).to(beNil());
         });
 
         it(@"should start the queue if the new capability is not nil and update the pending operations with the new capability", ^{
@@ -203,13 +204,13 @@ describe(@"alert manager tests", ^{
         });
 
         it(@"should reset the cancelID correctly once the max has been reached", ^{
-            testAlertManager.nextCancelId = 1000;
+            testAlertManager.nextCancelId = 100;
             [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
 
             expect(testAlertManager.transactionQueue.operations.count).to(equal(1));
 
             SDLPresentAlertOperation *testPresentOp = (SDLPresentAlertOperation *)testAlertManager.transactionQueue.operations[0];
-            expect(@(testPresentOp.cancelId)).to(equal(1000));
+            expect(@(testPresentOp.cancelId)).to(equal(100));
 
             [testAlertManager presentAlert:testAlertView withCompletionHandler:nil];
 
