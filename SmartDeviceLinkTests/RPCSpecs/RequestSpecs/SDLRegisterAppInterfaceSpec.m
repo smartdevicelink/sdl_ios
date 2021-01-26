@@ -91,14 +91,10 @@ describe(@"RegisterAppInterface Tests", ^{
     });
 
  describe(@"Setting With Dictionary", ^{
-     beforeEach( ^{
+     it(@"initWithDictionary", ^{
          NSDictionary *dict = @{SDLRPCParameterNameRequest:
                       @{SDLRPCParameterNameParameters:
-                            @{SDLRPCParameterNameSyncMessageVersion:@{
-                                      SDLRPCParameterNameMajorVersion: @7,
-                                      SDLRPCParameterNameMinorVersion: @0,
-                                      SDLRPCParameterNamePatchVersion: @0
-                                      },
+                            @{SDLRPCParameterNameSyncMessageVersion:currentSDLMsgVersion,
                               SDLRPCParameterNameAppName:appName,
                               SDLRPCParameterNameTTSName:[@[chunk] mutableCopy],
                               SDLRPCParameterNameNGNMediaScreenAppName:shortAppName,
