@@ -407,8 +407,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSException (SDLExceptions)
 
-+ (NSException *)sdl_duplicateSoftButtonsTitleException {
-    return [NSException exceptionWithName:@"InvalidSoftButtonsInitialization" reason:@"Attempting to create soft buttons with the same title" userInfo:nil];
++ (NSException *)sdl_duplicateSoftButtonsNameException {
+    return [NSException exceptionWithName:@"InvalidSoftButtonsInitialization" reason:@"Attempting to create soft buttons with the same name" userInfo:nil];
 }
 
 + (NSException *)sdl_missingHandlerException {

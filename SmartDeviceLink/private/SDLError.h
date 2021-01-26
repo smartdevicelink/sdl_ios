@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSException (SDLExceptions)
 
-+ (NSException *)sdl_duplicateSoftButtonsTitleException;
++ (NSException *)sdl_duplicateSoftButtonsNameException;
 + (NSException *)sdl_missingHandlerException;
 + (NSException *)sdl_missingIdException;
 + (NSException *)sdl_missingFilesException;

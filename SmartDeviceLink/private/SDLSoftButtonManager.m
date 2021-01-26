@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
                 SDLLogE(@"Attempted to set soft button objects, but two buttons had the same name: %@", softButtonObjects);
-                @throw [NSException sdl_duplicateSoftButtonsTitleException];
+                @throw [NSException sdl_duplicateSoftButtonsNameException];
             }
         }
     }
