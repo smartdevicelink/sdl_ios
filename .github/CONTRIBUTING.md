@@ -24,5 +24,5 @@ We use [Gitflow](http://nvie.com/posts/a-successful-git-branching-model/) as our
 In order to accept Pull Requests from contributors, you must first sign [the Contributor's License Agreement](https://docs.google.com/forms/d/1VNR8EUd5b46cQ7uNbCq1fJmnu0askNpUp5dudLKRGpU/viewform). If you need to make a change to information that you entered, [please contact us](mailto:admin@smartdevicelink.com).
 
 ### Repository Specific Guidelines
-  * [iOS Style Guide]("https://github.com/smartdevicelink/sdl_ios/wiki/Objective-C-Style-Guide")
+  * [iOS Style Guide](https://github.com/smartdevicelink/sdl_ios/wiki/Objective-C-Style-Guide)
   * Please document all public and internally public APIs using Xcode's standard documentation (have the cursor on the API declaration and press `cmd+alt+/`).
