@@ -82,7 +82,10 @@ typedef NSNumber * SDLChoiceId;
 @end
 
 UInt16 const ChoiceCellIdMin = 1;
-UInt16 const ChoiceCellCancelIdMin = 1;
+
+// Assigns a set range of unique cancel ids in order to prevent overlap with other sub-screen managers that use cancel ids. If the max cancel id is reached, generation starts over from the cancel id min value.
+UInt16 const ChoiceCellCancelIdMin = 101;
+UInt16 const ChoiceCellCancelIdMax = 200;
 
 @implementation SDLChoiceSetManager
 
@@ -552,7 +555,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     __block UInt16 cancelId = 0;
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         cancelId = self->_nextCancelId;
-        self->_nextCancelId = cancelId + 1;
+        if (cancelId >= ChoiceCellCancelIdMax) {
+            self->_nextCancelId = ChoiceCellCancelIdMin;
+        } else {
+            self->_nextCancelId = cancelId + 1;
+        }
     }];
 
     return cancelId;

@@ -24,6 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Assigns a set range of unique cancel ids in order to prevent overlap with other sub-screen managers that use cancel ids. If the max cancel id is reached, generation starts over from the cancel id min value.
 UInt16 const AlertCancelIdMin = 1;
 UInt16 const AlertCancelIdMax = 100;
 
