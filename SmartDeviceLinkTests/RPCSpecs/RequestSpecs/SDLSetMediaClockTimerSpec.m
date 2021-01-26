@@ -20,6 +20,7 @@ QuickSpecBegin(SDLSetMediaClockTimerSpec)
 describe(@"SetMediaClocktimer Spec", ^ {
     __block NSTimeInterval testTime1Interval = 32887;
     __block NSTimeInterval testTime2Interval = 3723;
+    __block float testCountRate = 1423.0;
     __block SDLStartTime *time1 = [[SDLStartTime alloc] initWithHours:9 minutes:8 seconds:7];
     __block SDLStartTime *time2 = [[SDLStartTime alloc] initWithHours:1 minutes:2 seconds:3];
     __block SDLUpdateMode testUpdateMode = SDLUpdateModeCountUp;
@@ -51,45 +52,112 @@ describe(@"SetMediaClocktimer Spec", ^ {
             expect(testRequest.endTime).to(beNil());
             expect(testRequest.updateMode).to(beNil());
             expect(testRequest.audioStreamingIndicator).to(beNil());
+            expect(testRequest.countRate).to(beNil());
         });
 
-        it(@"should properly initialize with countUpWithStartTimeInterval:endTimeInterval:playPauseIndicator:", ^{
+        it(@"should properly initialize with initWithUpdateMode:startTime:endTime:audioStreamingIndicator:countRate:", ^{
+            SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] initWithUpdateMode:testUpdateMode startTime:time1 endTime:time2 audioStreamingIndicator:testIndicator countRate:@(testCountRate)];
+
+            expect(testRequest.startTime).to(equal(time1));
+            expect(testRequest.endTime).to(equal(time2));
+            expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
+            expect(testRequest.audioStreamingIndicator).to(equal(SDLAudioStreamingIndicatorPlayPause));
+            expect(testRequest.countRate).to(equal(testCountRate));
+        });
+
+        it(@"should properly initialize with countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator];
+#pragma clang diagnostic pop
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
             expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(beNil());
         });
 
-        it(@"should properly initialize with countUpWithStartTime:endTime:playPauseIndicator:", ^{
+        it(@"should properly initialize with countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:countRate:", ^{
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator countRate:@(testCountRate)];
+
+            expect(testRequest.startTime).to(equal(time1));
+            expect(testRequest.endTime).to(equal(time2));
+            expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
+            expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
+        });
+
+        it(@"should properly initialize with countUpFromStartTime:toEndTime:playPauseIndicator:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator];
+#pragma clang diagnostic pop
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
             expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(beNil());
         });
 
-        it(@"should properly initialize with countUpWithStartTimeInterval:endTimeInterval:playPauseIndicator:", ^{
+        it(@"should properly initialize with countUpFromStartTime:toEndTime:playPauseIndicator:countRate:", ^{
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countUpFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator countRate:@(testCountRate)];
+
+            expect(testRequest.startTime).to(equal(time1));
+            expect(testRequest.endTime).to(equal(time2));
+            expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
+            expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
+        });
+
+        it(@"should properly initialize with countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator];
+#pragma clang diagnostic pop
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
             expect(testRequest.updateMode).to(equal(SDLUpdateModeCountDown));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(beNil());
         });
 
-        it(@"should properly initialize with countDownWithStartTime:endTime:playPauseIndicator:", ^{
+        it(@"should properly initialize with countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:countRate:", ^{
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTimeInterval:testTime1Interval toEndTimeInterval:testTime2Interval playPauseIndicator:testIndicator countRate:@(testCountRate)];
+
+            expect(testRequest.startTime).to(equal(time1));
+            expect(testRequest.endTime).to(equal(time2));
+            expect(testRequest.updateMode).to(equal(SDLUpdateModeCountDown));
+            expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
+        });
+
+        it(@"should properly initialize with countDownFromStartTime:toEndTime:playPauseIndicator:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator];
+#pragma clang diagnostic pop
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
             expect(testRequest.updateMode).to(equal(SDLUpdateModeCountDown));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(beNil());
         });
 
-        it(@"should properly initialize with pauseWithPlayPauseIndicator", ^{
+        it(@"should properly initialize with countDownFromStartTime:toEndTime:playPauseIndicator:countRate:", ^{
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer countDownFromStartTime:time1 toEndTime:time2 playPauseIndicator:testIndicator countRate:@(testCountRate)];
+
+            expect(testRequest.startTime).to(equal(time1));
+            expect(testRequest.endTime).to(equal(time2));
+            expect(testRequest.updateMode).to(equal(SDLUpdateModeCountDown));
+            expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
+        });
+
+        it(@"should properly initialize with pauseWithPlayPauseIndicator:", ^{
             SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer pauseWithPlayPauseIndicator:testIndicator];
 
             expect(testRequest.startTime).to(beNil());
@@ -117,12 +185,26 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with resumeWithPlayPauseIndicator:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer resumeWithPlayPauseIndicator:testIndicator];
+#pragma clang diagnostic pop
 
             expect(testRequest.startTime).to(beNil());
             expect(testRequest.endTime).to(beNil());
             expect(testRequest.updateMode).to(equal(SDLUpdateModeResume));
             expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(beNil());
+        });
+
+        it(@"should properly initialize with resumeWithPlayPauseIndicator:countRate:", ^{
+            SDLSetMediaClockTimer *testRequest = [SDLSetMediaClockTimer resumeWithPlayPauseIndicator:testIndicator countRate:@(testCountRate)];
+
+            expect(testRequest.startTime).to(beNil());
+            expect(testRequest.endTime).to(beNil());
+            expect(testRequest.updateMode).to(equal(SDLUpdateModeResume));
+            expect(testRequest.audioStreamingIndicator).to(equal(testIndicator));
+            expect(testRequest.countRate).to(equal(testCountRate));
         });
 
         it(@"should properly initialize with clearWithPlayPauseIndicator:", ^{
@@ -135,7 +217,10 @@ describe(@"SetMediaClocktimer Spec", ^ {
         });
 
         it(@"should properly initialize with initWithUpdateMode:startTime:endTime:playPauseIndicator:", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLSetMediaClockTimer *testRequest = [[SDLSetMediaClockTimer alloc] initWithUpdateMode:testUpdateMode startTime:time1 endTime:time2 playPauseIndicator:testIndicator];
+#pragma clang diagnostic pop
 
             expect(testRequest.startTime).to(equal(time1));
             expect(testRequest.endTime).to(equal(time2));
@@ -151,11 +236,13 @@ describe(@"SetMediaClocktimer Spec", ^ {
         testRequest.endTime = time2;
         testRequest.updateMode = SDLUpdateModeCountUp;
         testRequest.audioStreamingIndicator = SDLAudioStreamingIndicatorPlayPause;
+        testRequest.countRate = @(testCountRate);
         
         expect(testRequest.startTime).to(equal(time1));
         expect(testRequest.endTime).to(equal(time2));
         expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
         expect(testRequest.audioStreamingIndicator).to(equal(SDLAudioStreamingIndicatorPlayPause));
+        expect(testRequest.countRate).to(equal(testCountRate));
     });
 });
 
