@@ -18,6 +18,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCells);
+
 @interface SDLMenuReplaceUtilities : NSObject
 
 + (NSArray<SDLRPCRequest *> *)deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells;

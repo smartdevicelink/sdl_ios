@@ -49,10 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
-    if (self.isCancelled) {
-        [self finishOperation];
-        return;
-    }
+    if (self.isCancelled) { return; }
 
     SDLShowAppMenu *openMenu = nil;
     if (self.submenuCell != nil) {

@@ -27,6 +27,8 @@
 #import "SDLMenuConfiguration.h"
 #import "SDLMenuConfigurationUpdateOperation.h"
 #import "SDLMenuParams.h"
+#import "SDLMenuReplaceDynamicOperation.h"
+#import "SDLMenuReplaceStaticOperation.h"
 #import "SDLMenuShowOperation.h"
 #import "SDLOnCommand.h"
 #import "SDLOnHMIStatus.h"
@@ -257,11 +259,67 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Updating System
 
 - (void)sdl_startDynamicMenuUpdate {
+    __weak typeof(self) weakself = self;
+    SDLMenuReplaceDynamicOperation *menuReplaceOperation = [[SDLMenuReplaceDynamicOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells currentMenuUpdatedBlock:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells) {
+        weakself.currentMenuCells = currentMenuCells;
+        [weakself sdl_updateMenuReplaceOperationsWithNewCurrentMenu];
+    }];
 
+    __weak typeof(menuReplaceOperation) weakOp = menuReplaceOperation;
+    menuReplaceOperation.completionBlock = ^{
+        if (weakOp.error != nil) {
+            SDLLogE(@"Updating menu dynamically failed with error: %@", weakOp.error);
+        }
+    };
+
+    // Cancel previous replace menu operations
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:[SDLMenuReplaceStaticOperation class]]
+             || [operation isMemberOfClass:[SDLMenuReplaceDynamicOperation class]]) {
+            [operation cancel];
+        }
+    }
+
+    [self.transactionQueue addOperation:menuReplaceOperation];
 }
 
 - (void)sdl_startStaticMenuUpdate {
+    __weak typeof(self) weakself = self;
+    SDLMenuReplaceStaticOperation *menuReplaceOperation = [[SDLMenuReplaceStaticOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells currentMenuUpdatedBlock:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells) {
+        weakself.currentMenuCells = currentMenuCells;
+        [weakself sdl_updateMenuReplaceOperationsWithNewCurrentMenu];
+    }];
 
+    __weak typeof(menuReplaceOperation) weakOp = menuReplaceOperation;
+    menuReplaceOperation.completionBlock = ^{
+        if (weakOp.error != nil) {
+            SDLLogE(@"Updating menu statically failed with error: %@", weakOp.error);
+        }
+    };
+
+    // TODO: Update menu config, and window capability
+
+    // Cancel previous replace menu operations
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:[SDLMenuReplaceStaticOperation class]]
+             || [operation isMemberOfClass:[SDLMenuReplaceDynamicOperation class]]) {
+            [operation cancel];
+        }
+    }
+
+    [self.transactionQueue addOperation:menuReplaceOperation];
+}
+
+- (void)sdl_updateMenuReplaceOperationsWithNewCurrentMenu {
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:[SDLMenuReplaceStaticOperation class]]) {
+            SDLMenuReplaceStaticOperation *op = (SDLMenuReplaceStaticOperation *)operation;
+            op.currentMenu = self.currentMenuCells;
+        } else if ([operation isMemberOfClass:[SDLMenuReplaceDynamicOperation class]]) {
+            SDLMenuReplaceDynamicOperation *op = (SDLMenuReplaceDynamicOperation *)operation;
+            op.currentMenu = self.currentMenuCells;
+        }
+    }
 }
 
 #pragma mark - Helpers

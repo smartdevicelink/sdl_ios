@@ -41,10 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
-    if (self.isCancelled) {
-        [self finishOperation];
-        return;
-    }
+    if (self.isCancelled) { return; }
 
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
         SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);

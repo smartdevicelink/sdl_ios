@@ -1,4 +1,3 @@
 github "Quick/Quick" ~> 3.0
-github "Quick/Nimble" == 9.0.0-rc.3
+github "Quick/Nimble" ~> 9.0
 github "erikdoe/ocmock" ~> 3.7
-github "uber/ios-snapshot-test-case" ~> 6.2

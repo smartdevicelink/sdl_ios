@@ -17,7 +17,6 @@
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuConfiguration.h"
-#import "SDLMenuReplaceUtilities.h"
 #import "SDLTextFieldName.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
@@ -37,7 +36,6 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
-@property (strong, nonatomic) NSArray<SDLMenuCell *> *currentMenu;
 @property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedMenu;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -62,10 +60,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 - (void)start {
     [super start];
-    if (self.isCancelled) {
-        [self finishOperation];
-        return;
-    }
+    if (self.isCancelled) { return; }
 
     SDLDynamicMenuUpdateRunScore *runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
     NSArray<NSNumber *> *deleteMenuStatus = runScore.oldStatus;
