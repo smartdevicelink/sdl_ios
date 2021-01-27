@@ -109,9 +109,7 @@ static const int SDLAlertSoftButtonCount = 4;
     dispatch_group_enter(uploadFilesTask);
 
     dispatch_group_enter(uploadFilesTask);
-    __block NSSet<NSString *> *uploadedArtworks = nil;
-    [self sdl_uploadImagesWithCompletionHandler:^(NSSet<NSString *> *__nullable artworkNames) {
-        uploadedArtworks = artworkNames;
+    [self sdl_uploadImagesWithCompletionHandler:^{
         dispatch_group_leave(uploadFilesTask);
     }];
 
@@ -130,7 +128,7 @@ static const int SDLAlertSoftButtonCount = 4;
             return;
         }
 
-        [strongSelf sdl_presentAlertWithArtworks:uploadedArtworks];
+        [strongSelf sdl_presentAlert];
     });
 }
 
@@ -202,8 +200,8 @@ static const int SDLAlertSoftButtonCount = 4;
 }
 
 /// Upload the alert icon and soft button images.
-/// @param handler Called when all images have been uploaded. If any image failed to upload, it will not be returned in the list of `uploadedArtworks`.
-- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSSet<NSString *> *__nullable artworkNames))handler {
+/// @param handler Called when all images have been uploaded.
+- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(void))handler {
     NSMutableArray<SDLArtwork *> *artworksToBeUploaded = [NSMutableArray array];
     if ([self sdl_supportsAlertIcon] && [self.fileManager fileNeedsUpload:self.alertView.icon]) {
         [artworksToBeUploaded addObject:self.alertView.icon];
@@ -219,7 +217,7 @@ static const int SDLAlertSoftButtonCount = 4;
 
     if (artworksToBeUploaded.count == 0) {
         SDLLogV(@"No images to upload for alert");
-        return handler(nil);
+        return handler();
     }
 
     SDLLogD(@"Uploading images for alert");
@@ -239,21 +237,14 @@ static const int SDLAlertSoftButtonCount = 4;
             SDLLogD(@"All alert images uploaded");
         }
 
-        // Make a list of all the artworks that were uploaded successfully
-        NSMutableSet<NSString *> *artworksUploaded = [NSMutableSet set];
-        for (SDLArtwork *artwork in artworksToBeUploaded) {
-            [artworksUploaded addObject:artwork.name];
-        }
-        [artworksUploaded minusSet:[NSSet setWithArray:artworkNames]];
-
-        return handler(artworksUploaded);
+        return handler();
     }];
 }
 
 /// Sends the alert RPC to the module. The operation is finished once a response has been received from the module.
-- (void)sdl_presentAlertWithArtworks:(nullable NSSet<NSString *> *)artworks {
+- (void)sdl_presentAlert {
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionRequest:[self alertRPCWithArtworks:artworks] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:self.alertRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
             SDLAlertResponse *alertResponse = (SDLAlertResponse *)response;
@@ -312,13 +303,12 @@ static const int SDLAlertSoftButtonCount = 4;
 #pragma mark - Private Getters / Setters
 
 /// Assembles an `Alert` RPC from the `SDLAlertView` information.
-/// @param artworks The artworks that were uploaded successfully to the module.
 /// @return The `Alert` RPC to be sent to the module.
-- (SDLAlert *)alertRPCWithArtworks:(nullable NSSet<NSString *> *)artworks {
+- (SDLAlert *)alertRPC {
     SDLAlert *alert = [[SDLAlert alloc] init];
     [self sdl_assembleAlertText:alert];
     alert.duration = @((NSUInteger)(self.alertView.timeout * 1000));
-    alert.alertIcon = ([self sdl_supportsAlertIcon] && [artworks containsObject:self.alertView.icon.name]) ? self.alertView.icon.imageRPC : nil;
+    alert.alertIcon = ([self sdl_supportsAlertIcon] && ![self.fileManager fileNeedsUpload:self.alertView.icon]) ? self.alertView.icon.imageRPC : nil;
     alert.progressIndicator = @(self.alertView.showWaitIndicator);
     alert.cancelID = @(self.cancelId);
 

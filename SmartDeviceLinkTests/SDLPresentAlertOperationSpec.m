@@ -44,7 +44,7 @@
 @property (copy, nonatomic, nullable) NSError *internalError;
 
 - (nullable NSError *)sdl_isValidAlertViewData:(SDLAlertView *)alertView;
-- (SDLAlert *)alertRPCWithArtworks:(nullable NSSet<NSString *> *)artworks;
+- (SDLAlert *)alertRPC;
 
 @end
 
@@ -134,7 +134,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set all textfields if all textfields are supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
                     expect(testAlert.alertText3).to(equal(testAlertView.tertiaryText));
@@ -142,7 +142,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.secondaryText, testAlertView.tertiaryText]));
                     expect(testAlert.alertText3).to(beNil());
@@ -150,7 +150,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(1);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", testAlertView.text, testAlertView.secondaryText, testAlertView.tertiaryText]));
                     expect(testAlert.alertText2).to(beNil());
                     expect(testAlert.alertText3).to(beNil());
@@ -165,7 +165,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set all textfields if all textfields are supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
                     expect(testAlert.alertText3).to(beNil());
@@ -173,7 +173,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
                     expect(testAlert.alertText3).to(beNil());
@@ -181,7 +181,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(1);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal([NSString stringWithFormat:@"%@ - %@", testAlertView.text, testAlertView.secondaryText]));
                     expect(testAlert.alertText2).to(beNil());
                     expect(testAlert.alertText3).to(beNil());
@@ -196,7 +196,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set all textfields if all textfields are supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
                     expect(testAlert.alertText3).to(beNil());
@@ -204,7 +204,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
                     expect(testAlert.alertText3).to(beNil());
@@ -212,7 +212,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(1);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(beNil());
                     expect(testAlert.alertText3).to(beNil());
@@ -227,7 +227,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set all textfields if all textfields are supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(3);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
                     expect(testAlert.alertText3).to(beNil());
@@ -235,7 +235,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set textfields correctly if only two textfields are supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(2);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
                     expect(testAlert.alertText3).to(beNil());
@@ -243,7 +243,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 it(@"should set textfields correctly if only one textfield is supported", ^{
                     OCMStub([mockCurrentWindowCapability maxNumberOfAlertFieldLines]).andReturn(1);
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(beNil());
                     expect(testAlert.alertText2).to(beNil());
                     expect(testAlert.alertText3).to(beNil());
@@ -257,7 +257,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should assume all textfields are supported", ^{
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.alertText1).to(equal(testAlertView.text));
                     expect(testAlert.alertText2).to(equal(testAlertView.secondaryText));
                     expect(testAlert.alertText3).to(equal(testAlertView.tertiaryText));
@@ -276,7 +276,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set the tts chunks correctly", ^{
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.ttsChunks.count).to(equal(1));
                     expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioData.firstObject.text));
                 });
@@ -294,7 +294,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     });
 
                     it(@"should set the `ttsChunks` to nil (and not an empty array) if only an audio file was set", ^{
-                        SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                        SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                         expect(testAlert.ttsChunks).to(beNil());
                     });
                 });
@@ -310,7 +310,7 @@ describe(@"SDLPresentAlertOperation", ^{
                         });
 
                         it(@"should set the `ttsChunks` to nil (and not an empty array) if only an audio file was set", ^{
-                            SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                            SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                             expect(testAlert.ttsChunks).to(beNil());
                         });
                     });
@@ -321,7 +321,7 @@ describe(@"SDLPresentAlertOperation", ^{
                         });
 
                         it(@"should set the tts chunks correctly", ^{
-                            SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                            SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                             expect(testAlert.ttsChunks.count).to(equal(1));
                             expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioData.firstObject.text));
                         });
@@ -339,7 +339,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set the tts chunks correctly", ^{
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.ttsChunks.count).to(equal(2));
                     expect(testAlert.ttsChunks[0].text).to(equal(testAlertView.audio.audioData[0].text));
                     expect(testAlert.ttsChunks[1].text).to(equal(testAlertView.audio.audioData[1].text));
@@ -353,7 +353,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 });
 
                 it(@"should set the `ttsChunks` to nil (and not an empty array)", ^{
-                    SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                    SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                     expect(testAlert.ttsChunks).to(beNil());
                 });
             });
@@ -367,13 +367,13 @@ describe(@"SDLPresentAlertOperation", ^{
 
             it(@"should set the image if icons are supported on the module", ^{
                 OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
-                SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[NSSet setWithObject:testAlertView.icon.name]];
+                SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                 expect(testAlert.alertIcon.value).to(equal(testAlertView.icon.name));
             });
 
             it(@"should not set the image if icons are not supported on the module", ^{
                 OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
-                SDLAlert *testAlert = [testPresentAlertOperation alertRPCWithArtworks:[OCMArg any]];
+                SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                 expect(testAlert.alertIcon).to(beNil());
             });
         });
@@ -753,7 +753,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
                 OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
                 OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
@@ -863,7 +863,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
                 OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
                 OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
