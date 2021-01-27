@@ -73,6 +73,8 @@
     return cell.icon != nil && supportsImage && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
 }
 
+#pragma mark - RPC Commands
+
 + (NSArray<SDLRPCRequest *> *)mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
@@ -144,6 +146,24 @@
     }
 
     return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil];
+}
+
+#pragma mark - Updating Menu Cells
+
++ (nullable NSMutableArray<SDLMenuCell *> *)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId {
+    for (SDLMenuCell *menuCell in menuCellList) {
+        if (menuCell.cellId == commandId) {
+            [menuCellList removeObject:menuCell];
+            return menuCellList;
+        } else if (menuCell.subCells.count > 0) {
+            NSMutableArray<SDLMenuCell *> *newList = [self sdl_removeMenuCellFromList:[menuCell.subCells mutableCopy] withCmdId:commandId];
+            if (newList != nil) {
+                menuCell.subCells = [newList copy];
+            }
+        }
+    }
+
+    return nil;
 }
 
 @end

@@ -8,8 +8,12 @@
 
 #import "SDLMenuReplaceStaticOperation.h"
 
+#import "SDLAddCommand.h"
+#import "SDLAddSubmenu.h"
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLDeleteCommand.h"
+#import "SDLDeleteSubMenu.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLLogMacros.h"
@@ -23,6 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
+@interface SDLMenuCell()
+
+@property (assign, nonatomic) UInt32 parentCellId;
+@property (assign, nonatomic) UInt32 cellId;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+
+@end
+
 @interface SDLMenuReplaceStaticOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -30,6 +42,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 @property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedMenu;
 @property (assign, nonatomic) SDLCurrentMenuUpdatedBlock currentMenuUpdatedBlock;
 
+@property (strong, nonatomic) NSMutableArray<SDLMenuCell *> *mutableCurrentMenu;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
@@ -44,7 +57,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     _fileManager = fileManager;
     _windowCapability = windowCapability;
     _menuConfiguration = menuConfiguration;
-    _currentMenu = currentMenu;
+    _mutableCurrentMenu = [currentMenu mutableCopy];
     _updatedMenu = updatedMenu;
     _currentMenuUpdatedBlock = currentMenuUpdatedBlock;
 
@@ -101,11 +114,21 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         return completionHandler(nil);
     }
 
+    __weak typeof(self) weakself = self;
     NSArray<SDLRPCRequest *> *deleteMenuCommands = [SDLMenuReplaceUtilities deleteCommandsForCells:deleteMenuCells];
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     [self.connectionManager sendRequests:deleteMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
         if (error != nil) {
             errors[request] = error;
+        } else {
+            // Find the id of the successful request and remove it from the current menu list whereever it may have been
+            UInt32 commandId = 0;
+            if ([request isMemberOfClass:[SDLDeleteCommand class]]) {
+                commandId = ((SDLDeleteCommand *)request).cmdID.unsignedLongValue;
+            } else if ([request isMemberOfClass:[SDLDeleteSubMenu class]]) {
+                commandId = ((SDLDeleteSubMenu *)request).menuID.unsignedLongValue;
+            }
+            [SDLMenuReplaceUtilities removeMenuCellFromList:self.mutableCurrentMenu withCmdId:commandId];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -121,8 +144,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 - (void)sdl_sendNewMenuCells:(NSArray<SDLMenuCell *> *)newMenuCells withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.updatedMenu.count == 0 || newMenuCells.count == 0) {
         SDLLogD(@"There are no cells to update.");
-        completionHandler(nil);
-        return;
+        return completionHandler(nil);
     }
 
     NSArray<SDLRPCRequest *> *mainMenuCommands = [SDLMenuReplaceUtilities mainMenuCommandsForCells:newMenuCells fileManager:self.fileManager usingIndexesFrom:self.updatedMenu windowCapability:self.windowCapability defaultSubmenuLayout:self.menuConfiguration.defaultSubmenuLayout];
@@ -134,7 +156,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         if (error != nil) {
             errors[request] = error;
         } else {
-//            [weakSelf.currentMenu ]
+
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -162,6 +184,16 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
             completionHandler(nil);
         }];
     }];
+}
+
+#pragma mark - Getter / Setters
+
+- (void)setCurrentMenu:(NSArray<SDLMenuCell *> *)currentMenu {
+    _mutableCurrentMenu = [currentMenu mutableCopy];
+}
+
+- (NSArray<SDLMenuCell *> *)currentMenu {
+    return [_mutableCurrentMenu copy];
 }
 
 #pragma mark - Operation Overrides

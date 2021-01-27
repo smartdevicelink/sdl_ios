@@ -59,10 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     [self sdl_sendDeleteCurrentVoiceCommands:^{
         // If the operation has been canceled, then don't send the new commands and finish the operation
-        if (self.isCancelled) {
-            [weakSelf finishOperation];
-            return;
-        }
+        if (self.isCancelled) { return [weakSelf finishOperation]; }
 
         // Send the new commands
         [weakSelf sdl_sendCurrentVoiceCommands:^{
