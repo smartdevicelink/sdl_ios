@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    _audioDataTTSChunks = [NSMutableArray array];
+    _mutableAudioData = [NSMutableArray array];
     _audioFileData = [NSMutableDictionary dictionary];
 
     return self;
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [self init];
     if (!self) { return nil; }
 
-    [_audioDataTTSChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name];
+    [_mutableAudioData addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
     _audioFileData[audioFile.name] = audioFile;
 
     return self;
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [self init];
     if (!self) { return nil; }
 
-    [_audioDataTTSChunks addObjectsFromArray:[SDLTTSChunk textChunksFromString:spokenString]];
+    [_mutableAudioData addObjectsFromArray:[SDLTTSChunk textChunksFromString:spokenString]];
 
     return self;
 }
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    [_audioDataTTSChunks addObjectsFromArray:[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
+    [_mutableAudioData addObjectsFromArray:@[[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]]];
 
     return self;
 }
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     for (SDLFile *audioFile in audioFiles) {
         self.audioFileData[audioFile.name] = audioFile;
-        [self.audioDataTTSChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
+        [self.mutableAudioData addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
     }
 }
 
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     for (NSString *spokenString in spokenStrings) {
         if (spokenString.length == 0) { continue; }
-        [self.audioDataTTSChunks addObjectsFromArray:[SDLTTSChunk textChunksFromString:spokenString]];
+        [self.mutableAudioData addObjectsFromArray:[SDLTTSChunk textChunksFromString:spokenString]];
     }
 }
 
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     for (NSString *phoneticString in phoneticStrings) {
         if (phoneticString.length == 0) { continue; }
-        [self.audioDataTTSChunks addObject:[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
+        [self.mutableAudioData addObject:[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
     }
 }
 
@@ -112,14 +112,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters
 
 - (nullable NSArray<SDLTTSChunk *> *)audioData {
-    return [_audioDataTTSChunks copy];
+    return [_mutableAudioData copy];
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLAudioData *newAudioData = [[self class] allocWithZone:zone];
-    newAudioData->_audioDataTTSChunks = [_audioDataTTSChunks copyWithZone:zone];
+    newAudioData->_mutableAudioData = [_mutableAudioData copyWithZone:zone];
     newAudioData->_audioFileData = [_audioFileData copyWithZone:zone];
     return newAudioData;
 }
