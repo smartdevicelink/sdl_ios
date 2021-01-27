@@ -69,9 +69,12 @@ jobs:
 
             - name: Installing dependencies
               if: steps.carthage-cache.outputs.cache-hit != 'true'
-              run:
-                  carthage update --new-resolver --no-build \
-                  bash carthage-build.sh --cache-builds --platform iOS
+              # run:
+              job:
+                  script:
+                      ->
+                       carthage update --new-resolver --no-build \
+                       bash carthage-build.sh --cache-builds --platform iOS
               # run: carthage bootstrap --no-use-binaries --platform iOS --cache-builds
 
             # Split build into build-only and test-only as it is faster than building and running in one step
