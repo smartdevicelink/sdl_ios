@@ -1446,9 +1446,6 @@
 		5D43466F1E6F55BD00B639C6 /* SDLLogManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466E1E6F55BD00B639C6 /* SDLLogManagerSpec.m */; };
 		5D4346731E6F617D00B639C6 /* TestLogTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346721E6F617D00B639C6 /* TestLogTarget.m */; };
 		5D59DD471B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */; };
-		5D5DBF081D48E39C00D4F914 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */; };
-		5D5DBF091D48E3AC00D4F914 /* FBSnapshotTestCase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5D5DBF0B1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5DBF0A1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m */; };
 		5D6035D2202CD46200A429C9 /* SDLSpecUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6035D1202CD46200A429C9 /* SDLSpecUtilities.m */; };
 		5D6035D5202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6035D4202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.m */; };
 		5D6035D8202CF5C900A429C9 /* TestRequestProgressResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6035D7202CF5C900A429C9 /* TestRequestProgressResponse.m */; };
@@ -1778,7 +1775,6 @@
 				5DA22CBB1D075DE800245F5F /* Nimble.framework in CopyFiles */,
 				5DA22CBC1D075DE800245F5F /* OCMock.framework in CopyFiles */,
 				5DA22CBE1D075DE800245F5F /* Quick.framework in CopyFiles */,
-				5D5DBF091D48E3AC00D4F914 /* FBSnapshotTestCase.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3277,8 +3273,6 @@
 		5D4346721E6F617D00B639C6 /* TestLogTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestLogTarget.m; path = LoggingSpecs/TestLogTarget.m; sourceTree = "<group>"; };
 		5D4346851E771B5700B639C6 /* SDLLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDLLog.swift; sourceTree = "<group>"; };
 		5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenStatusManagerSpec.m; path = ProxySpecs/SDLLockScreenStatusManagerSpec.m; sourceTree = "<group>"; };
-		5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = sdl_ios/Carthage/Build/iOS/FBSnapshotTestCase.framework; sourceTree = "<group>"; };
-		5D5DBF0A1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenViewControllerSnapshotTests.m; path = DevAPISpecs/SDLLockScreenViewControllerSnapshotTests.m; sourceTree = "<group>"; };
 		5D6035D0202CD46200A429C9 /* SDLSpecUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSpecUtilities.h; path = TestUtilities/SDLSpecUtilities.h; sourceTree = "<group>"; };
 		5D6035D1202CD46200A429C9 /* SDLSpecUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSpecUtilities.m; path = TestUtilities/SDLSpecUtilities.m; sourceTree = "<group>"; };
 		5D6035D3202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TestMultipleRequestsConnectionManager.h; path = TestUtilities/TestMultipleRequestsConnectionManager.h; sourceTree = "<group>"; };
@@ -3576,7 +3570,6 @@
 				167ED93C1A9BCB8A00797BE5 /* SmartDeviceLink.framework in Frameworks */,
 				5DA22CB81D075CF200245F5F /* OCMock.framework in Frameworks */,
 				5DA22CBA1D075CF200245F5F /* Quick.framework in Frameworks */,
-				5D5DBF081D48E39C00D4F914 /* FBSnapshotTestCase.framework in Frameworks */,
 				5DA22CB71D075CF200245F5F /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4110,7 +4103,6 @@
 		167ED9231A9BB86300797BE5 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */,
 				5DA22CB31D075CF200245F5F /* Nimble.framework */,
 				5DA22CB41D075CF200245F5F /* OCMock.framework */,
 				5DA22CB61D075CF200245F5F /* Quick.framework */,
@@ -6361,7 +6353,6 @@
 				5DAD5F8120507DE40025624C /* Screen */,
 				DA8966ED1E5693D100413EAB /* Streaming */,
 				880E35B62088F77C00181259 /* System Capabilities */,
-				5D5DBF0A1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -8606,7 +8597,6 @@
 				162E83161A9BDE8B00906325 /* SDLOnHashChangeSpec.m in Sources */,
 				8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */,
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
-				5D5DBF0B1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m in Sources */,
 				5DB1BCD41D243A8E002FFC37 /* SDLListFilesOperationSpec.m in Sources */,
 				8863747E22D650DE00D2671F /* SDLCloseApplicationSpec.m in Sources */,
 				162E834B1A9BDE8B00906325 /* SDLAlertManeuverResponseSpec.m in Sources */,
@@ -9215,6 +9205,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				VALIDATE_WORKSPACE = NO;
 			};
 			name = Debug;
 		};
@@ -9247,6 +9238,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.smartdevicelink.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				VALIDATE_WORKSPACE = NO;
 			};
 			name = Release;
 		};
