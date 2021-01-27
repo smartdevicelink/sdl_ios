@@ -26,6 +26,7 @@
 #import "SDLMenuCell.h"
 #import "SDLMenuConfiguration.h"
 #import "SDLMenuConfigurationUpdateOperation.h"
+#import "SDLMenuManagerPrivateConstants.h"
 #import "SDLMenuParams.h"
 #import "SDLMenuReplaceDynamicOperation.h"
 #import "SDLMenuReplaceStaticOperation.h"
@@ -76,7 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-UInt32 const ParentIdNotFound = UINT32_MAX;
 UInt32 const MenuCellIdMin = 1;
 
 @implementation SDLMenuManager

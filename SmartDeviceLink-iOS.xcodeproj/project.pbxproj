@@ -521,6 +521,8 @@
 		4A93895A25B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93895825B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m */; };
 		4A93896625BB361C0069F438 /* SDLMenuReplaceUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A93896425BB361C0069F438 /* SDLMenuReplaceUtilities.h */; };
 		4A93896725BB361C0069F438 /* SDLMenuReplaceUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93896525BB361C0069F438 /* SDLMenuReplaceUtilities.m */; };
+		4AAC0DBA25C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AAC0DB825C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h */; };
+		4AAC0DBB25C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC0DB925C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m */; };
 		4ABB24BA24F592620061BF55 /* NSMutableArray+Safe.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */; };
 		4ABB24BB24F592620061BF55 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */; };
 		4ABB24BC24F592620061BF55 /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */; };
@@ -2317,6 +2319,8 @@
 		4A93895825B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuConfigurationUpdateOperation.m; path = private/SDLMenuConfigurationUpdateOperation.m; sourceTree = "<group>"; };
 		4A93896425BB361C0069F438 /* SDLMenuReplaceUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuReplaceUtilities.h; path = private/SDLMenuReplaceUtilities.h; sourceTree = "<group>"; };
 		4A93896525BB361C0069F438 /* SDLMenuReplaceUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceUtilities.m; path = private/SDLMenuReplaceUtilities.m; sourceTree = "<group>"; };
+		4AAC0DB825C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuManagerPrivateConstants.h; path = private/SDLMenuManagerPrivateConstants.h; sourceTree = "<group>"; };
+		4AAC0DB925C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuManagerPrivateConstants.m; path = private/SDLMenuManagerPrivateConstants.m; sourceTree = "<group>"; };
 		4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Safe.h"; path = "private/NSMutableArray+Safe.h"; sourceTree = "<group>"; };
 		4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Safe.m"; path = "private/NSMutableArray+Safe.m"; sourceTree = "<group>"; };
 		4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+SDLBundle.m"; path = "private/NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
@@ -4176,19 +4180,6 @@
 			name = Operations;
 			sourceTree = "<group>";
 		};
-		4A32B3F325559F37001FFA26 /* Menu */ = {
-			isa = PBXGroup;
-			children = (
-				4A93893A25B8CB480069F438 /* Operations */,
-				5D76751022D907F500E8D71A /* Configuration */,
-				755F175E229F14F70041B9CB /* Dynamic Menu Update Utilities */,
-				5D339CEC207C08AB000CC364 /* Cells */,
-				4ABB25A924F7E6E10061BF55 /* SDLMenuManager.h */,
-				4ABB25A624F7E6E10061BF55 /* SDLMenuManager.m */,
-			);
-			name = Menu;
-			sourceTree = "<group>";
-		};
 		4A3BA4D9248E8EBB003E56B8 /* SystemRequest Handler */ = {
 			isa = PBXGroup;
 			children = (
@@ -4266,6 +4257,8 @@
 		4A93893A25B8CB480069F438 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				755F175E229F14F70041B9CB /* Dynamic Menu Update Utilities */,
+				4A93896325BB35FA0069F438 /* Menu Replace Utilities */,
 				4A93895725B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.h */,
 				4A93895825B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m */,
 				4A93893B25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.h */,
@@ -4274,7 +4267,6 @@
 				4A93894425B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.m */,
 				4A93895125B9DACA0069F438 /* SDLMenuShowOperation.h */,
 				4A93895225B9DACA0069F438 /* SDLMenuShowOperation.m */,
-				4A93896325BB35FA0069F438 /* Menu Replace Utilities */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -4305,6 +4297,16 @@
 				4ABB254624F7E49D0061BF55 /* SDLLockScreenStatusManager.m */,
 			);
 			name = "Status Manager";
+			sourceTree = "<group>";
+		};
+		4AAC0DB725C1FE9700746D33 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				4ABB259824F7E6A60061BF55 /* SDLMenuManagerConstants.h */,
+				4AAC0DB825C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h */,
+				4AAC0DB925C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 		4AD1F16A2559952D00637FE1 /* Voice Command */ = {
@@ -4362,6 +4364,7 @@
 				5D0A737F203F23D10001595D /* Soft Button */,
 				88A098AB2476F08F00A50005 /* Subscribe Button */,
 				5D0A737D203F23B30001595D /* Text and Graphic */,
+				4A32B3E425559D93001FFA26 /* Voice Commands */,
 				5D1BF6AA2047429C00D36881 /* Utilities */,
 				4ABB25DA24F7E77C0061BF55 /* SDLScreenManager.h */,
 				4ABB25DB24F7E77C0061BF55 /* SDLScreenManager.m */,
@@ -4488,8 +4491,12 @@
 		5D339CE5207C0651000CC364 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				4A32B3F325559F37001FFA26 /* Menu */,
-				4A32B3E425559D93001FFA26 /* Voice Commands */,
+				4AAC0DB725C1FE9700746D33 /* Constants */,
+				5D339CEC207C08AB000CC364 /* Cells */,
+				5D76751022D907F500E8D71A /* Configuration */,
+				4A93893A25B8CB480069F438 /* Operations */,
+				4ABB25A924F7E6E10061BF55 /* SDLMenuManager.h */,
+				4ABB25A624F7E6E10061BF55 /* SDLMenuManager.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -5812,7 +5819,6 @@
 			children = (
 				4ABB259B24F7E6B90061BF55 /* SDLMenuConfiguration.h */,
 				4ABB259A24F7E6B90061BF55 /* SDLMenuConfiguration.m */,
-				4ABB259824F7E6A60061BF55 /* SDLMenuManagerConstants.h */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -7416,6 +7422,7 @@
 				4ABB250524F596450061BF55 /* SDLListFilesOperation.h in Headers */,
 				4ABB268F24F7F8FC0061BF55 /* SDLHexUtility.h in Headers */,
 				4A8BD28124F9343F000945E3 /* SDLRemoteControlCapabilities.h in Headers */,
+				4AAC0DBA25C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h in Headers */,
 				4ABB26DD24F7FAFD0061BF55 /* SDLRPCResponse.h in Headers */,
 				4ABB2AAE24F847F40061BF55 /* SDLSendLocationResponse.h in Headers */,
 				4A8BD36B24F94636000945E3 /* SDLProtocolMessageDisassembler.h in Headers */,
@@ -7815,6 +7822,7 @@
 				4ABB250924F596920061BF55 /* SDLFileWrapper.m in Sources */,
 				4ABB24E324F5948D0061BF55 /* SDLEncryptionConfiguration.m in Sources */,
 				4ABB273D24F7FD1D0061BF55 /* SDLDimension.m in Sources */,
+				4AAC0DBB25C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m in Sources */,
 				4ABB267B24F7F6840061BF55 /* SDLIconArchiveFile.m in Sources */,
 				4ABB2A2224F847980061BF55 /* SDLChangeRegistrationResponse.m in Sources */,
 				4A8BD3A524F9485B000945E3 /* SDLVideoStreamingState.m in Sources */,

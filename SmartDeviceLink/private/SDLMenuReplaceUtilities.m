@@ -18,6 +18,7 @@
 #import "SDLImageFieldName.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuParams.h"
+#import "SDLMenuManagerPrivateConstants.h"
 #import "SDLRPCRequest.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
@@ -26,6 +27,7 @@
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
 
 @end
 
@@ -124,7 +126,7 @@
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
     params.menuName = cell.title;
-    params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
+    params.parentID = (cell.parentCellId != ParentIdNotFound) ? @(cell.parentCellId) : nil;
     params.position = @(position);
 
     command.menuParams = params;
@@ -156,7 +158,7 @@
             [menuCellList removeObject:menuCell];
             return menuCellList;
         } else if (menuCell.subCells.count > 0) {
-            NSMutableArray<SDLMenuCell *> *newList = [self sdl_removeMenuCellFromList:[menuCell.subCells mutableCopy] withCmdId:commandId];
+            NSMutableArray<SDLMenuCell *> *newList = [self removeMenuCellFromList:[menuCell.subCells mutableCopy] withCmdId:commandId];
             if (newList != nil) {
                 menuCell.subCells = [newList copy];
             }

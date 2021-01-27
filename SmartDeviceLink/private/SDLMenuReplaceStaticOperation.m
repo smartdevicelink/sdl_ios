@@ -31,7 +31,6 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
-@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
 
 @end
 
@@ -114,7 +113,6 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         return completionHandler(nil);
     }
 
-    __weak typeof(self) weakself = self;
     NSArray<SDLRPCRequest *> *deleteMenuCommands = [SDLMenuReplaceUtilities deleteCommandsForCells:deleteMenuCells];
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     [self.connectionManager sendRequests:deleteMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -124,9 +122,9 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
             // Find the id of the successful request and remove it from the current menu list whereever it may have been
             UInt32 commandId = 0;
             if ([request isMemberOfClass:[SDLDeleteCommand class]]) {
-                commandId = ((SDLDeleteCommand *)request).cmdID.unsignedLongValue;
+                commandId = ((SDLDeleteCommand *)request).cmdID.unsignedIntValue;
             } else if ([request isMemberOfClass:[SDLDeleteSubMenu class]]) {
-                commandId = ((SDLDeleteSubMenu *)request).menuID.unsignedLongValue;
+                commandId = ((SDLDeleteSubMenu *)request).menuID.unsignedIntValue;
             }
             [SDLMenuReplaceUtilities removeMenuCellFromList:self.mutableCurrentMenu withCmdId:commandId];
         }
@@ -156,7 +154,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         if (error != nil) {
             errors[request] = error;
         } else {
-
+            // TODO: Add to the current menu list
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
