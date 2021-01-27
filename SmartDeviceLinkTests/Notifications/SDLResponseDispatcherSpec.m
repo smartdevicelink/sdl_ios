@@ -125,7 +125,7 @@ describe(@"a response dispatcher", ^{
         __block NSUInteger numTimesHandlerCalled = 0;
         
         beforeEach(^{
-            testShow = [[SDLShow alloc] initWithMainField1:@"Test Show" mainField2:nil alignment:SDLTextAlignmentCenter];
+            testShow = [[SDLShow alloc] initWithMainField1:@"Test Show" mainField2:nil mainField3:nil mainField4:nil alignment:SDLTextAlignmentCenter statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
             testShow.correlationID = @1;
         });
         
