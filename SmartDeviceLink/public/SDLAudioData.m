@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The audio file data that will be uploaded.
 @property (nullable, copy, nonatomic, readonly) NSMutableDictionary<NSString *, SDLFile *> *audioFileData;
-@property (nullable, copy, nonatomic, readonly) NSMutableArray<SDLTTSChunk *> *audioDataTTSChunks;
+@property (nullable, copy, nonatomic, readonly) NSMutableArray<SDLTTSChunk *> *mutableAudioData;
 
 @end
 
@@ -38,8 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
     self = [self init];
     if (!self) { return nil; }
 
-    _audioDataTTSChunks = [NSMutableArray arrayWithArray:[SDLTTSChunk fileChunksWithName:audioFile.name]];
-    _audioFileData = [NSMutableDictionary dictionaryWithObject:audioFile forKey:audioFile.name];
+    [_audioDataTTSChunks addObjectsFromArray:[SDLTTSChunk fileChunksWithName:audioFile.name];
+    _audioFileData[audioFile.name] = audioFile;
 
     return self;
 }
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [self init];
     if (!self) { return nil; }
 
-    _audioDataTTSChunks = [NSMutableArray arrayWithArray:[SDLTTSChunk textChunksFromString:spokenString]];
+    [_audioDataTTSChunks addObjectsFromArray:[SDLTTSChunk textChunksFromString:spokenString]];
 
     return self;
 }
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _audioDataTTSChunks = [NSMutableArray arrayWithObject:[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
+    [_audioDataTTSChunks addObjectsFromArray:[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]];
 
     return self;
 }
