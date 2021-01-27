@@ -121,16 +121,15 @@ static const int SDLAlertSoftButtonCount = 4;
     }];
 
     dispatch_group_leave(uploadFilesTask);
-
-    if (self.isCancelled) {
-        [self finishOperation];
-        return;
-    }
-
     // This will always run after all `leave`s
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlConcurrentQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.isCancelled) {
+            [strongSelf finishOperation];
+            return;
+        }
+
         [strongSelf sdl_presentAlertWithArtworks:uploadedArtworks];
     });
 }

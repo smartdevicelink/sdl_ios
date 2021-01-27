@@ -1063,6 +1063,9 @@ describe(@"SDLPresentAlertOperation", ^{
                 it(@"should not attempt to send a cancel interaction", ^{
                     OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                     [testPresentAlertOperation start];
+
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+
                     [testPresentAlertOperation cancel];
 
                     OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
@@ -1086,6 +1089,9 @@ describe(@"SDLPresentAlertOperation", ^{
                     it(@"should not attempt to send a cancel interaction", ^{
                         OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                         [testPresentAlertOperation start];
+
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                        
                         [testPresentAlertOperation cancel];
 
                         OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
