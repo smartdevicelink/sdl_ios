@@ -5,7 +5,7 @@ on: [push, pull_request]
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
-    DESTINATION: 'platform=iOS Simulator,name=iPhone 11,OS=14.4'
+    DESTINATION: 'platform=iOS Simulator,name=iPhone 12,OS=14.4'
 
 jobs:
     build:
