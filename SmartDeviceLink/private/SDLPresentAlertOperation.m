@@ -211,7 +211,7 @@ static const int SDLAlertSoftButtonCount = 4;
     }
 
     // Don't upload artworks for buttons that will not be shown.
-    for (NSUInteger i = 0; i < [self sdl_allowedSoftButtonCount]; i += 1) {
+    for (NSUInteger i = 0; i < [self sdl_allowedSoftButtonCount]; i++) {
         SDLSoftButtonObject *object = self.alertView.softButtons[i];
         if ([self sdl_supportsSoftButtonImages] && [self.fileManager fileNeedsUpload:object.currentState.artwork]) {
             [artworksToBeUploaded addObject:object.currentState.artwork];
