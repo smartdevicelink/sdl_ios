@@ -120,13 +120,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
             errors[request] = error;
         } else {
             // Find the id of the successful request and remove it from the current menu list whereever it may have been
-            UInt32 commandId = 0;
-            if ([request isMemberOfClass:[SDLDeleteCommand class]]) {
-                commandId = ((SDLDeleteCommand *)request).cmdID.unsignedIntValue;
-            } else if ([request isMemberOfClass:[SDLDeleteSubMenu class]]) {
-                commandId = ((SDLDeleteSubMenu *)request).menuID.unsignedIntValue;
-            }
-            [SDLMenuReplaceUtilities removeMenuCellFromList:self.mutableCurrentMenu withCmdId:commandId];
+            UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
+            [SDLMenuReplaceUtilities removeMenuCellFromCurrentMainMenuList:self.mutableCurrentMenu withCmdId:commandId];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -151,25 +146,27 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequests:mainMenuCommands progressHandler:^void(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        SDLLogV(@"Updating main menu commands, percent complete: %.01f", percentComplete);
         if (error != nil) {
             errors[request] = error;
         } else {
             // TODO: Add to the current menu list
+            // Find the id of the successful request and add it from the current menu list whereever it needs to be
+            UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogE(@"Failed to send main menu commands: %@", errors);
-            completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-            return;
+            return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
         }
 
-        if (self.isCancelled) {
-            return [weakSelf finishOperation];
-        }
+        if (self.isCancelled) { return [weakSelf finishOperation]; }
 
         [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
             if (error != nil) {
                 errors[request] = error;
+            } else {
+                // TODO: Add to the current menu list
             }
         } completionHandler:^(BOOL success) {
             if (!success) {

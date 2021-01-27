@@ -33,23 +33,6 @@
 
 @implementation SDLMenuReplaceUtilities
 
-#pragma mark Delete Commands
-
-+ (NSArray<SDLRPCRequest *> *)deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
-    NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
-    for (SDLMenuCell *cell in cells) {
-        if (cell.subCells == nil) {
-            SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:cell.cellId];
-            [mutableDeletes addObject:delete];
-        } else {
-            SDLDeleteSubMenu *delete = [[SDLDeleteSubMenu alloc] initWithId:cell.cellId];
-            [mutableDeletes addObject:delete];
-        }
-    }
-
-    return [mutableDeletes copy];
-}
-
 #pragma mark Artworks
 
 + (NSArray<SDLArtwork *> *)findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
@@ -77,9 +60,38 @@
 
 #pragma mark - RPC Commands
 
++ (UInt32)commandIdForRPCRequest:(SDLRPCRequest *)request {
+    UInt32 commandId = 0;
+    if ([request isMemberOfClass:[SDLAddCommand class]]) {
+        commandId = ((SDLAddSubMenu *)request).cmdID.unsignedIntValue;
+    } else if ([request isMemberOfClass:[SDLAddCommand class]]) {
+        commandId = ((SDLAddSubMenu *)request).menuID.unsignedIntValue;
+    } else if ([request isMemberOfClass:[SDLDeleteCommand class]]) {
+        commandId = ((SDLDeleteCommand *)request).cmdID.unsignedIntValue;
+    } else if ([request isMemberOfClass:[SDLDeleteSubMenu class]]) {
+        commandId = ((SDLDeleteSubMenu *)request).menuID.unsignedIntValue;
+    }
+
+    return commandId;
+}
+
++ (NSArray<SDLRPCRequest *> *)deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
+    NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
+    for (SDLMenuCell *cell in cells) {
+        if (cell.subCells.count == 0) {
+            SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:cell.cellId];
+            [mutableDeletes addObject:delete];
+        } else {
+            SDLDeleteSubMenu *delete = [[SDLDeleteSubMenu alloc] initWithId:cell.cellId];
+            [mutableDeletes addObject:delete];
+        }
+    }
+
+    return [mutableDeletes copy];
+}
+
 + (NSArray<SDLRPCRequest *> *)mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
-
     for (NSUInteger menuInteger = 0; menuInteger < menu.count; menuInteger++) {
         for (NSUInteger updateCellsIndex = 0; updateCellsIndex < cells.count; updateCellsIndex++) {
             if ([menu[menuInteger] isEqual:cells[updateCellsIndex]]) {
@@ -105,6 +117,8 @@
 
     return [mutableCommands copy];
 }
+
+#pragma mark Private Helpers
 
 + (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
@@ -152,13 +166,14 @@
 
 #pragma mark - Updating Menu Cells
 
-+ (nullable NSMutableArray<SDLMenuCell *> *)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId {
+#pragma mark Remove Cell
++ (nullable NSMutableArray<SDLMenuCell *> *)removeMenuCellFromCurrentMainMenuList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId {
     for (SDLMenuCell *menuCell in menuCellList) {
         if (menuCell.cellId == commandId) {
             [menuCellList removeObject:menuCell];
             return menuCellList;
         } else if (menuCell.subCells.count > 0) {
-            NSMutableArray<SDLMenuCell *> *newList = [self removeMenuCellFromList:[menuCell.subCells mutableCopy] withCmdId:commandId];
+            NSMutableArray<SDLMenuCell *> *newList = [self removeMenuCellFromCurrentMainMenuList:[menuCell.subCells mutableCopy] withCmdId:commandId];
             if (newList != nil) {
                 menuCell.subCells = [newList copy];
             }
@@ -166,6 +181,21 @@
     }
 
     return nil;
+}
+
+#pragma mark Inserting Cell
++ (NSMutableArray<SDLMenuCell *> *)addMenuCell:(SDLMenuCell *)cell toCurrentMainMenuList:(NSMutableArray<SDLMenuCell *> *)menuCellList atPosition:(UInt16)position {
+    // If the cell has a parent id, it needs to go into a submenu
+
+    // Otherwise it's in the main menu and goes at the given position
+}
+
++ (void)sdl_insertMenuCell:(SDLMenuCell *)cell intoList:(NSMutableArray<SDLMenuCell *> *)cellList atPosition:(UInt16)position {
+    if (position > cellList.count) {
+        [cellList addObject:cell];
+    } else {
+        [cellList insertObject:cell atIndex:position];
+    }
 }
 
 @end
