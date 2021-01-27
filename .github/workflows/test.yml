@@ -33,7 +33,7 @@ jobs:
 
             # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
             - name: Select Xcode version
-              run: sudo xcode-select -switch /Applications/Xcode_12.2.0.app
+              run: sudo xcode-select -switch /Applications/Xcode_12.3.0.app
 
             - name: Build
               run: set -o pipefail && xcodebuild -scheme "${{ matrix.scheme }}" -destination "$DESTINATION" build | xcpretty --color --simple
@@ -52,7 +52,7 @@ jobs:
 
             # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
             - name: Select Xcode version
-              run: sudo xcode-select -switch /Applications/Xcode_12.2.0.app
+              run: sudo xcode-select -switch /Applications/Xcode_12.3.0.app
 
             - name: Checkout repository
               uses: actions/checkout@v2.3.1
