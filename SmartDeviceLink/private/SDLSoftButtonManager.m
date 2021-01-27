@@ -139,7 +139,7 @@ static const int SDLShowSoftButtonIDCount = 8;
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
                 SDLLogE(@"Attempted to set soft button objects, but two buttons had the same name: %@", softButtonObjects);
-                return;
+                @throw [NSException sdl_duplicateSoftButtonsNameException];
             }
         }
     }

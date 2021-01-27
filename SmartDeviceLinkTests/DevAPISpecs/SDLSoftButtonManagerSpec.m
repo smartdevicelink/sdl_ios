@@ -186,7 +186,8 @@ describe(@"a soft button manager", ^{
             testObject1 = [[SDLSoftButtonObject alloc] initWithName:sameName states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
             testObject2 = [[SDLSoftButtonObject alloc] initWithName:sameName state:object2State1 handler:nil];
 
-            testManager.softButtonObjects = @[testObject1, testObject2];
+            expectAction((^{ testManager.softButtonObjects = @[testObject1, testObject2];
+            })).to(raiseException().named(@"InvalidSoftButtonsInitialization"));
         });
 
         it(@"should fail to set the buttons", ^{
