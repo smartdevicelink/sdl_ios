@@ -12,7 +12,7 @@
 
 #import "SDLIAPDataSession.h"
 
-#import "EAAccessory+OCMock.h"
+#import "EAAccessory+OCMock.m"
 #import "SDLIAPConstants.h"
 #import "SDLIAPSession.h"
 #import "SDLIAPDataSessionDelegate.h"
@@ -44,33 +44,16 @@ describe(@"SDLIAPDataSession", ^{
         });
 
         it(@"Should init correctly", ^{
-            expect(dataSession.delegate).to(equal(mockDelegate));
-            expect(dataSession.sendDataQueue).toNot(beNil());
-        });
-
-        it(@"Should get correctly", ^{
             expect(dataSession.accessory).to(equal(mockAccessory));
-            expect(dataSession.protocolString).to(equal(MultiSessionProtocolString));
-            expect(dataSession.isStopped).to(beTrue());
-            expect(dataSession.connectionID).to(equal(0));
-            expect(dataSession.sessionInProgress).to(beFalse());
+            expect(dataSession.delegate).to(equal(mockDelegate));
+            expect(dataSession.isSessionInProgress).to(beFalse());
+
         });
     });
 
-    describe(@"starting a session", ^{
-        context(@"it should attempt to retry the session", ^{
-            beforeEach(^{
-                dataSession = [[SDLIAPDataSession alloc] initWithAccessory:nil delegate:mockDelegate forProtocol:MultiSessionProtocolString];
-            });
-
-            it(@"Should start correctly", ^{
-                [dataSession startSession];
-                OCMExpect([mockDelegate dataSessionShouldRetry]);
-            });
-        });
-    });
 });
 
 QuickSpecEnd
+
 
 
