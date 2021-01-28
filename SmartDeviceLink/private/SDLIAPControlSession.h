@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "SDLIAPSession.h"
 
 @class EAAccessory;
@@ -27,13 +28,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Creates a new control session.
  *
- *  @param accessory    The accessory to connect to.
+ *  @param accessory      The accessory to connect to.
  *  @param delegate     The control session delegate
  *  @return             A SDLIAPControlSession object
  */
 - (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate forProtocol:(NSString *)protocol;
 
-// document
+/**
+ *  Closes the SDLIAPSession used by the SDLIAPControlSession
+ */
 - (void) closeSession;
 
 /**
@@ -42,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
 
 /**
- *  The accessory with which to open a session.
+ *  The accessory used to create and the EASession.
  */
 @property (nullable, strong, nonatomic, readonly) EAAccessory *accessory;
 
@@ -54,5 +57,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-

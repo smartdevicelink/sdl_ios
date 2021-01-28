@@ -43,17 +43,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol;
 
 /**
+ *  Closes the SDLIAPSession used by the SDLIAPControlSession
+ */
+- (void) closeSession;
+
+/**
  *  Sends data to Core via the data session.
  *
  *  @param data The data to send to Core
  */
 - (void)sendData:(NSData *)data;
 
-// document
-- (void) closeSession;
-
 @end
 
 NS_ASSUME_NONNULL_END
-
 
