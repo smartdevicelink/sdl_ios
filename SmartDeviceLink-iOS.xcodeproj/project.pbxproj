@@ -1384,6 +1384,9 @@
 		4ABB2BA724F850AE0061BF55 /* SDLImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB2B9924F850AD0061BF55 /* SDLImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ABB2BA824F850AE0061BF55 /* SDLLightState.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB2B9A24F850AD0061BF55 /* SDLLightState.m */; };
 		4ABB2BA924F850AE0061BF55 /* SDLImageResolution.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB2B9B24F850AD0061BF55 /* SDLImageResolution.h */; settings = {ATTRIBUTES = (Public, ); }; };
+        4ABED25B257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABED259257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.m */; };
+        4ABED25C257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABED25A257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.h */; };
+        4AD1F1742559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD1F1732559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m */; };
 		4AE8A7022537796E000666C0 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE8A7012537796E000666C0 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D0A9F911F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */; };
 		5D0A9F931F15560B00CC80DD /* SDLNavigationCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */; };
