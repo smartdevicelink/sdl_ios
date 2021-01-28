@@ -73,7 +73,6 @@ static const int SDLAlertSoftButtonCount = 4;
 #pragma mark - Lifecycle
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager currentWindowCapability:(nullable SDLWindowCapability *)currentWindowCapability alertView:(SDLAlertView *)alertView cancelID:(UInt16)cancelID {
-
     self = [super init];
     if (!self) { return nil; }
 
@@ -123,10 +122,7 @@ static const int SDLAlertSoftButtonCount = 4;
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlConcurrentQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.isCancelled) {
-            [strongSelf finishOperation];
-            return;
-        }
+        if (strongSelf.isCancelled) { return [strongSelf finishOperation]; }
 
         [strongSelf sdl_presentAlert];
     });
@@ -138,17 +134,15 @@ static const int SDLAlertSoftButtonCount = 4;
     BOOL isValidData = NO;
     if (alertView.text.length > 0) {
         isValidData = YES;
-    }
-    if (alertView.secondaryText.length > 0) {
+    } else if (alertView.secondaryText.length > 0) {
         isValidData = YES;
-    }
-    if ([self sdl_getTTSChunksForAlertView:alertView].count > 0) {
+    } else if ([self sdl_getTTSChunksForAlertView:alertView].count > 0) {
         isValidData = YES;
     }
 
     if (isValidData) {
         return nil;
-    } else if (!isValidData && alertView.audio.audioData.count > 0) {
+    } else if (alertView.audio.audioData.count > 0) {
         return [NSError sdl_alertManager_alertAudioFileNotSupported];
     } else {
         return [NSError sdl_alertManager_alertDataInvalid];
@@ -183,9 +177,7 @@ static const int SDLAlertSoftButtonCount = 4;
     [self.fileManager uploadFiles:filesToBeUploaded progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
         __strong typeof(weakself) strongself = weakself;
         SDLLogD(@"Uploaded alert audio file: %@, error: %@, percent complete: %f.2%%", fileName, error, uploadPercentage * 100);
-        if (strongself.isCancelled) {
-            return NO;
-        }
+        if (strongself.isCancelled) { return NO; }
 
         return YES;
     } completionHandler:^(NSError * _Nullable error) {
@@ -225,9 +217,7 @@ static const int SDLAlertSoftButtonCount = 4;
     [self.fileManager uploadArtworks:[artworksToBeUploaded copy] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
         __strong typeof(weakself) strongself = weakself;
         SDLLogD(@"Uploaded alert images: %@, error: %@, percent complete: %f.2%%", artworkName, error, uploadPercentage * 100);
-        if (strongself.isCancelled) {
-            return NO;
-        }
+        if (strongself.isCancelled) { return NO; }
 
         return YES;
     } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
@@ -251,11 +241,7 @@ static const int SDLAlertSoftButtonCount = 4;
             NSMutableDictionary *alertResponseUserInfo = [NSMutableDictionary dictionary];
             alertResponseUserInfo[@"error"] = error;
 
-            NSNumber *tryAgainTime = nil;
-            if (alertResponse != nil && alertResponse.tryAgainTime != nil) {
-                tryAgainTime = alertResponse.tryAgainTime;
-            }
-            alertResponseUserInfo[@"tryAgainTime"] = tryAgainTime;
+            alertResponseUserInfo[@"tryAgainTime"] = alertResponse.tryAgainTime;
 
             NSError *alertResponseError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
             strongSelf.internalError = alertResponseError;
@@ -277,7 +263,7 @@ static const int SDLAlertSoftButtonCount = 4;
         return;
     } else if (self.isExecuting) {
         if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-            SDLLogE(@"Canceling an alert is not supported on this module");
+            SDLLogD(@"Attempting to cancel this operation in-progress; if the alert is already presented on the module, it cannot be dismissed.");
             [self cancel];
             return;
         }
@@ -295,7 +281,7 @@ static const int SDLAlertSoftButtonCount = 4;
             SDLLogD(@"The presented alert was canceled successfully");
         }];
     } else {
-        SDLLogD(@"Canceling an alert that has not yet been sent to Core: %@", self);
+        SDLLogD(@"Canceling an alert that has not started: %@", self);
         [self cancel];
     }
 }
@@ -316,21 +302,20 @@ static const int SDLAlertSoftButtonCount = 4;
     NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:[self sdl_allowedSoftButtonCount]];
     for (NSUInteger i = 0; i < [self sdl_allowedSoftButtonCount]; i += 1) {
         SDLSoftButtonObject *button = self.alertView.softButtons[i];
-        button.buttonId = i + SDLAlertSoftButtonIDMin;
+        button.buttonId = SDLAlertSoftButtonIDMin + i;
         [softButtons addObject:button.currentStateSoftButton.copy];
     }
     alert.softButtons = softButtons;
 
     alert.playTone = @(self.alertView.audio.playTone);
-    NSArray<SDLTTSChunk *> *ttsChunks = [self sdl_getTTSChunksForAlertView:self.alertView];
-    alert.ttsChunks = (ttsChunks.count > 0) ? ttsChunks : nil;
+    alert.ttsChunks = [self sdl_getTTSChunksForAlertView:self.alertView];
 
     return alert;
 }
 
 /// Checks the number of soft buttons added to the alert view against the max number of soft buttons allowed by the RPC Spec and returns the smaller of the two values.
 /// @return The maximum number of soft buttons that can be sent to the module
-- (unsigned long)sdl_allowedSoftButtonCount {
+- (unsigned long)sdl_softButtonCount {
      return MIN(self.alertView.softButtons.count, SDLAlertSoftButtonCount);
 }
 
@@ -338,8 +323,8 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @return An array of TTS chunks
 - (NSArray<SDLTTSChunk *> *)sdl_getTTSChunksForAlertView:(SDLAlertView *)alertView {
     SDLAlertAudioData *alertAudio = alertView.audio;
-
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
+
     for (SDLTTSChunk *audioData in alertAudio.audioData) {
         // If the audio data is a file and the connected system doesn't support files, skip that audio data
         if (audioData.type == SDLSpeechCapabilitiesFile && ![self sdl_supportsAlertAudioFile]) { continue; }
@@ -359,7 +344,7 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @return True if the module supports playing audio files in an alert; false if not.
 - (BOOL)sdl_supportsAlertAudioFile {
     NSUInteger majorVersion = [SDLGlobals sharedGlobals].rpcVersion.major;
-    BOOL supportSpeechCapabilities = self.systemCapabilityManager.speechCapabilities == nil ? YES : [self.systemCapabilityManager.speechCapabilities containsObject:SDLSpeechCapabilitiesFile];
+    BOOL supportSpeechCapabilities = (self.systemCapabilityManager.speechCapabilities != nil) ? [self.systemCapabilityManager.speechCapabilities containsObject:SDLSpeechCapabilitiesFile] : YES;
     return (majorVersion >= 5 && supportSpeechCapabilities);
 }
 
