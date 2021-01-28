@@ -243,13 +243,6 @@ extern SDLTextFieldName const SDLTextFieldNameTimeToDestination;
 extern SDLTextFieldName const SDLTextFieldNameTurnText;
 
 /**
- * Navigation text for turnList parameter of UpdateTurnList
- *
- * @added in SmartDeviceLink 7.1.0
- */
-extern SDLTextFieldName const SDLTextFieldNameNavigationText;
-
-/**
  * The first line of the subtle alert text field; applies to `SubtleAlert` `alertText1`
  *
  * @since SDL 7.0.0

@@ -63,7 +63,6 @@ SDLTextFieldName const SDLTextFieldNameAddressLines = @"addressLines";
 SDLTextFieldName const SDLTextFieldNamePhoneNumber = @"phoneNumber";
 SDLTextFieldName const SDLTextFieldNameTimeToDestination = @"timeToDestination";
 SDLTextFieldName const SDLTextFieldNameTurnText = @"turnText";
-SDLTextFieldName const SDLTextFieldNameNavigationText = @"navigationText";
 SDLTextFieldName const SDLTextFieldNameSubtleAlertText1 = @"subtleAlertText1";
 SDLTextFieldName const SDLTextFieldNameSubtleAlertText2 = @"subtleAlertText2";
 SDLTextFieldName const SDLTextFieldNameSubtleAlertSoftButtonText = @"subtleAlertSoftButtonText";
