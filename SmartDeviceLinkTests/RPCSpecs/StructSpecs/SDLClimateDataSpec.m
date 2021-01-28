@@ -56,10 +56,7 @@ describe(@"Getter/Setter Tests", ^{
 
     context(@"allocate and init new struct with a dictionary", ^{
         NSDictionary *dict = @{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRPCParameterNameExternalTemperature: externalTemperature,
-#pragma clang diagnostic pop
             SDLRPCParameterNameCabinTemperature: cabinTemperature,
             SDLRPCParameterNameAtmosphericPressure: atmosphericPressure,
         };

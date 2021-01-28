@@ -163,17 +163,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setExternalTemperature:(nullable NSNumber<SDLFloat> *)externalTemperature {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.parameters sdl_setObject:externalTemperature forName:SDLRPCParameterNameExternalTemperature];
-#pragma clang diagnostic pop
 }
 
 - (nullable NSNumber<SDLFloat> *)externalTemperature {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [self.parameters sdl_objectForName:SDLRPCParameterNameExternalTemperature ofClass:NSNumber.class error:nil];
-#pragma clang diagnostic pop
 }
 
 - (void)setVin:(nullable NSString *)vin {

@@ -147,17 +147,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setExternalTemperature:(nullable SDLVehicleDataResult *)externalTemperature {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.parameters sdl_setObject:externalTemperature forName:SDLRPCParameterNameExternalTemperature];
-#pragma clang diagnostic pop
 }
 
 - (nullable SDLVehicleDataResult *)externalTemperature {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [self.parameters sdl_objectForName:SDLRPCParameterNameExternalTemperature ofClass:SDLVehicleDataResult.class error:nil];
-#pragma clang diagnostic pop
 }
 
 - (void)setPrndl:(nullable SDLVehicleDataResult *)prndl {

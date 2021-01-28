@@ -244,7 +244,7 @@ extern SDLRPCParameterName const SDLRPCParameterNameEscSystem;
 extern SDLRPCParameterName const SDLRPCParameterNameETA;
 extern SDLRPCParameterName const SDLRPCParameterNameEvent;
 extern SDLRPCParameterName const SDLRPCParameterNameExpires;
-extern SDLRPCParameterName const SDLRPCParameterNameExternalTemperature __deprecated;
+extern SDLRPCParameterName const SDLRPCParameterNameExternalTemperature;
 extern SDLRPCParameterName const SDLRPCParameterNameFanSpeed;
 extern SDLRPCParameterName const SDLRPCParameterNameFanSpeedAvailable;
 extern SDLRPCParameterName const SDLRPCParameterNameFCCFacilityId;

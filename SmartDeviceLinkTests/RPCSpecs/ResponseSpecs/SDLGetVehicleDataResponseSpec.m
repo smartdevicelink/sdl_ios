@@ -158,9 +158,9 @@ describe(@"getter/setter tests", ^{
                                             SDLRPCParameterNameEmergencyEvent:emergencyEvent,
                                             SDLRPCParameterNameEngineOilLife:@(engineOilLife),
                                             SDLRPCParameterNameEngineTorque:@(engineTorque),
+                                            SDLRPCParameterNameExternalTemperature:@(externalTemperature),
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                                            SDLRPCParameterNameExternalTemperature:@(externalTemperature),
                                             SDLRPCParameterNameFuelLevel:@(fuelLevel),
                                             SDLRPCParameterNameFuelLevelState:fuelLevel_State,
 #pragma clang diagnostic pop

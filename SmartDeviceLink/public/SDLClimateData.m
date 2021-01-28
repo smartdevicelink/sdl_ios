@@ -49,17 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setExternalTemperature:(nullable SDLTemperature *)externalTemperature {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.store sdl_setObject:externalTemperature forName:SDLRPCParameterNameExternalTemperature];
-#pragma clang diagnostic pop
 }
 
 - (nullable SDLTemperature *)externalTemperature {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [self.store sdl_objectForName:SDLRPCParameterNameExternalTemperature ofClass:SDLTemperature.class error:nil];
-#pragma clang diagnostic pop
 }
 
 - (void)setCabinTemperature:(nullable SDLTemperature *)cabinTemperature {
