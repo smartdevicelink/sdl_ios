@@ -320,7 +320,8 @@ static const int SDLAlertSoftButtonCount = 4;
 }
 
 /// Creates an array of text-to-speech chunks for the `Alert` RPC from the text strings and the audio data files.
-/// @return An array of TTS chunks
+/// @param alertView The alert view
+/// @return An array of TTS chunks or nil if there are no TTS chunks
 - (nullable NSArray<SDLTTSChunk *> *)sdl_getTTSChunksForAlertView:(SDLAlertView *)alertView {
     SDLAlertAudioData *alertAudio = alertView.audio;
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
