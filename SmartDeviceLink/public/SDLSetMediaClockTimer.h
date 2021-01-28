@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:)) __deprecated_msg("Use countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator: instead");
++ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:)) __deprecated_msg("Use countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate: instead");
 
 /**
  Create a media clock timer that counts up, e.g from 0:00 to 4:18.
@@ -44,11 +44,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param startTime The start time interval, e.g. (0) 0:00
  @param endTime The end time interval, e.g. (258) 4:18
  @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @param countRate set the media playback timer, if `nil`, will default to 1.0
  @param forwardSeekIndicator - forwardSeekIndicator
  @param backSeekIndicator - backSeekIndicator
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:));
++ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:));
 
 /**
  Create a media clock timer that counts up, e.g from 0:00 to 4:18.
@@ -60,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:)) __deprecated_msg("Use countUpFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator: instead");
++ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:)) __deprecated_msg("Use countUpFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate: instead");
 
 /**
  Create a media clock timer that counts up, e.g from 0:00 to 4:18.
@@ -72,9 +73,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @param forwardSeekIndicator - forwardSeekIndicator
  @param backSeekIndicator - backSeekIndicator
+ @param countRate set the media playback timer, if `nil`, will default to 1.0
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:));
++ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:));
 
 /**
  Create a media clock timer that counts down, e.g. from 4:18 to 0:00
@@ -86,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:)) __deprecated_msg("Use countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator: instead");
++ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:)) __deprecated_msg("Use countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate: instead");
 
 /**
  Create a media clock timer that counts down, e.g. from 4:18 to 0:00
@@ -98,9 +100,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @param forwardSeekIndicator - forwardSeekIndicator
  @param backSeekIndicator - backSeekIndicator
+ @param countRate set the media playback timer, if `nil`, will default to 1.0
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:));
++ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:));
 
 /**
  Create a media clock timer that counts down, e.g. from 4:18 to 0:00
@@ -112,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:)) __deprecated_msg("Use countDownFromStartTime:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator: instead");;
++ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:)) __deprecated_msg("Use countDownFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate: instead");
 
 /**
  Create a media clock timer that counts down, e.g. from 4:18 to 0:00
@@ -124,9 +127,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @param forwardSeekIndicator - forwardSeekIndicator
  @param backSeekIndicator - backSeekIndicator
+ @param countRate set the media playback timer, if `nil`, will default to 1.0
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:));
++ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:));
 
 /**
  Pause an existing (counting up / down) media clock timer
@@ -162,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @return An object of SetMediaClockTimer
  */
-+ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(resume(playPauseIndicator:)) __deprecated_msg("Use resumeWithPlayPauseIndicator:forwardSeekIndicator:backSeekIndicator: instead");
++ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator  NS_SWIFT_NAME(resume(playPauseIndicator:)) __deprecated_msg("Use resumeWithPlayPauseIndicator:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:");
 
 /**
  Resume a paused media clock timer. It resumes at the same time at which it was paused.
@@ -170,9 +174,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator An optional audio indicator to change the play/pause button
  @param forwardSeekIndicator - forwardSeekIndicator
  @param backSeekIndicator - backSeekIndicator
- @return An object of SetMediaClockTimer
+ @param countRate set the media playback timer
+ @return An object of SetMediaClockTimer, if `nil`, will default to 1.0
  */
-+ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator NS_SWIFT_NAME(resume(playPauseIndicator:forwardSeekIndicator:backSeekIndicator:));
++ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate NS_SWIFT_NAME(resume(playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:));
 
 /**
  Remove a media clock timer from the screen
@@ -183,6 +188,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)clearWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(clear(playPauseIndicator:));
 
 /**
+ * @param updateMode - updateMode
+ * @return A SDLSetMediaClockTimer object
+ */
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode;
+
+/**
  Create a SetMediaClockTimer RPC with all available parameters. It's recommended to use the specific initializers above.
 
  @param updateMode The type of SetMediaClockTimer RPC
@@ -191,13 +202,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param playPauseIndicator The display of the play/pause button
  @return An object of SetMediaClockTimer
  */
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(init(updateMode:startTime:endTime:playPauseIndicator:)) __deprecated_msg("Use initWithUpdateMode:startTime:endTime:audioStreamingIndicator:forwardSeekIndicator:backSeekIndicator: instead");
-
-/**
- * @param updateMode - updateMode
- * @return A SDLSetMediaClockTimer object
- */
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode;
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(init(updateMode:startTime:endTime:playPauseIndicator:)) __deprecated_msg("Use initWithUpdateMode:startTime:endTime:audioStreamingIndicator:forwardSeekIndicator:backSeekIndicator:countRate: instead");
 
 /**
  * @param updateMode - updateMode
@@ -206,9 +211,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param audioStreamingIndicator - audioStreamingIndicator
  * @param forwardSeekIndicator - forwardSeekIndicator
  * @param backSeekIndicator - backSeekIndicator
+ * @param countRate - countRate
  * @return A SDLSetMediaClockTimer object
  */
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime audioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator;
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime audioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator forwardSeekIndicator:(nullable SDLSeekStreamingIndicator *)forwardSeekIndicator backSeekIndicator:(nullable SDLSeekStreamingIndicator *)backSeekIndicator countRate:(nullable NSNumber<SDLFloat> *)countRate;
 
 /**
  * A Start Time with specifying hour, minute, second values
@@ -266,6 +272,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @added in SmartDeviceLink 7.1.0
  */
 @property (nullable, strong, nonatomic) SDLSeekStreamingIndicator *backSeekIndicator;
+
+/**
+ * The value of this parameter is the amount that the media clock timer will advance per 1.0 seconds of real time. Values less than 1.0 will therefore advance the timer slower than real-time, while values greater than 1.0 will advance the timer faster than real-time. e.g. If this parameter is set to `0.5`, the timer will advance one second per two seconds real-time, or at 50% speed. If this parameter is set to `2.0`, the timer will advance two seconds per one second real-time, or at 200% speed.
+ * {"num_min_value": 0.1, "num_max_value": 100.0, "default_value": 1.0}
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLFloat> *countRate;
 
 @end
 

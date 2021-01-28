@@ -25,8 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param totalDistance The distance to the final destination
 /// @param turnIcon An icon to show with the turn description
 /// @param nextTurnIcon An icon to show with the next turn description
-/// @param distanceToManeuver Fraction of distance till next maneuver
-/// @param distanceToManeuverScale Distance till next maneuver
+/// @param distanceToManeuver Distance (in meters) until next maneuver.
+/// @param distanceToManeuverScale Distance (in meters) from previous maneuver to next maneuver.
 /// @param maneuverComplete If and when a maneuver has completed while an AlertManeuver is active, the app must send this value set to TRUE in order to clear the AlertManeuver overlay. If omitted the value will be assumed as FALSE
 /// @param softButtons Three dynamic SoftButtons available (first SoftButton is fixed to "Turns")
 /// @return An SDLShowConstantTBT object
@@ -86,14 +86,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLImage *nextTurnIcon;
 
 /**
- *  Fraction of distance till next maneuver (starting from when AlertManeuver is triggered). Used to calculate progress bar.
+ *  Distance (in meters) until next maneuver. May be used to calculate progress bar.
  *
  *  Optional, Float, 0 - 1,000,000,000
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuver;
 
 /**
- *  Distance till next maneuver (starting from) from previous maneuver. Used to calculate progress bar.
+ *  Distance (in meters) from previous maneuver to next maneuver. May be used to calculate progress bar.
  *
  *  Optional, Float, 0 - 1,000,000,000
  */

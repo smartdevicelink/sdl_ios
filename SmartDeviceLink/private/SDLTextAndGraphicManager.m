@@ -13,6 +13,7 @@
 #import "SDLDisplayCapability.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLMetadataTags.h"
@@ -127,7 +128,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"SDLTextAndGraphicManager Transaction Queue";
     queue.maxConcurrentOperationCount = 1;
-    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.qualityOfService = NSQualityOfServiceUserInteractive;
+    queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
     return queue;
@@ -366,7 +368,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIImage *blankImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-    _blankArtwork = [SDLArtwork artworkWithImage:blankImage name:@"sdl_BlankArt" asImageFormat:SDLArtworkImageFormatPNG];
+    _blankArtwork = [SDLArtwork persistentArtworkWithImage:blankImage name:@"sdl_BlankArt" asImageFormat:SDLArtworkImageFormatPNG];
 
     return _blankArtwork;
 }

@@ -78,19 +78,3 @@ carthage bootstrap --platform ios
 ```
 
 At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, see the [YAML document](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/workflows/test.yml) describing those tests. You can also check the [previously run CI tests](https://github.com/smartdevicelink/sdl_ios/actions?query=workflow%3A%22SmartDeviceLink+Tests%22) to see how they're currently being run.
-
-##### Lock Screen Screenshot Tests
-We run some additional tests using [iOSSnapshotTestCase](https://github.com/uber/ios-snapshot-test-case). These tests generate the lock screen view controller and compare it to generated screenshots. By default, the generated screenshots use the iPhone 11 simulator and if you run the unit tests on that simulator, the tests should pass by default.
-
-###### Re-Generating Lock Screen Screenshots
-If you need to change which simulator is used to generate the screenshots, or if you need to re-generate the screenshots for another reason, you can. Go to `SDLLockScreenViewControllerSnapshotTests.m` and take the following steps:
-
-1. Uncomment the following line:
-
-```objc
-// self.recordMode = YES;
-```
-
-2. Run unit tests on the simulator that you want to use to generate the screenshots. Tests should fail because record mode is on.
-3. Re-comment out the line.
-4. Run unit tests again; they should pass this time.
