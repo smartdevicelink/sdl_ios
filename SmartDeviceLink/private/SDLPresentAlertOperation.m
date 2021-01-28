@@ -243,7 +243,7 @@ static const int SDLAlertSoftButtonCount = 4;
 
             alertResponseUserInfo[@"tryAgainTime"] = alertResponse.tryAgainTime;
 
-            NSError *alertResponseError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
+            strongSelf.internalError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
             strongSelf.internalError = alertResponseError;
         }
 
