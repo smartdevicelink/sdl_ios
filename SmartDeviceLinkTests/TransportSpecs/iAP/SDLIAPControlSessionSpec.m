@@ -12,7 +12,7 @@
 
 #import "SDLIAPControlSession.h"
 
-#import "EAAccessory+OCMock.h"
+#import "EAAccessory+OCMock.m"
 #import "SDLIAPConstants.h"
 #import "SDLIAPControlSessionDelegate.h"
 #import "SDLIAPSession.h"
@@ -38,29 +38,16 @@ describe(@"SDLIAPControlSession", ^{
 
     describe(@"init", ^{
         beforeEach(^{
-            controlSession = [[SDLIAPControlSession alloc] initWithAccessory:mockAccessory delegate:mockDelegate];
+            controlSession = [[SDLIAPControlSession alloc]          initWithAccessory:mockAccessory delegate:mockDelegate forProtocol:ControlProtocolString];
         });
-
-        it(@"Should get/set correctly", ^{
+        
+        it(@"Should init correctly", ^{
             expect(controlSession.accessory).to(equal(mockAccessory));
-            expect(controlSession.protocolString).to(equal(ControlProtocolString));
-            expect(controlSession.protocolIndexTimer).to(beNil());
             expect(controlSession.delegate).to(equal(mockDelegate));
+            expect(controlSession.isSessionInProgress).to(beFalse());
         });
     });
 
-    describe(@"starting a session", ^{
-        context(@"it should attempt to retry the session", ^{
-            beforeEach(^{
-                controlSession = [[SDLIAPControlSession alloc] initWithAccessory:nil delegate:mockDelegate];
-            });
-
-            it(@"Should start correctly", ^{
-                [controlSession startSession];
-                OCMExpect([mockDelegate controlSessionShouldRetry]);
-            });
-        });
-    });
 });
 
 QuickSpecEnd
