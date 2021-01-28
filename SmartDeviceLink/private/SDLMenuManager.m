@@ -472,7 +472,7 @@ UInt32 const MenuCellIdMin = 1;
     NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
     NSArray<SDLRPCRequest *> *subMenuCommands = nil;
 
-    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if (![self sdl_shouldRPCsIncludeImages:self.menuCells] || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         // Send artwork-less menu
         mainMenuCommands = [self sdl_mainMenuCommandsForCells:updatedMenu withArtwork:NO usingIndexesFrom:menu];
         subMenuCommands =  [self sdl_subMenuCommandsForCells:updatedMenu withArtwork:NO];
@@ -539,7 +539,7 @@ UInt32 const MenuCellIdMin = 1;
 
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
-        if ([self sdl_artworkNeedsUpload:cell.icon]) {
+        if ([self.fileManager fileNeedsUpload:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
         }
 
@@ -551,8 +551,17 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableArtworks allObjects];
 }
 
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
+- (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells {
+    for (SDLMenuCell *cell in cells) {
+        SDLArtwork *artwork = cell.icon;
+        if (artwork != nil && !artwork.isStaticIcon && ![self.fileManager hasUploadedFile:artwork]) {
+            return NO;
+        } else if (cell.subCells.count > 0) {
+            return [self sdl_shouldRPCsIncludeImages:cell.subCells];
+        }
+    }
+
+    return YES;
 }
 
 #pragma mark IDs

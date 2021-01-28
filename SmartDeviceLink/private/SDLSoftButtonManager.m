@@ -11,6 +11,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPredefinedWindows.h"
@@ -94,7 +95,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"SDLSoftButtonManager Transaction Queue";
     queue.maxConcurrentOperationCount = 1;
-    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.qualityOfService = NSQualityOfServiceUserInteractive;
+    queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
     return queue;
@@ -125,12 +127,13 @@ NS_ASSUME_NONNULL_BEGIN
     // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
     for (NSUInteger i = 0; i < softButtonObjects.count; i++) {
         NSString *buttonName = softButtonObjects[i].name;
-        softButtonObjects[i].buttonId = i * 100;
+        // HAX: Due to a SYNC 3.0 bug (https://github.com/smartdevicelink/sdl_ios/issues/1793#issue-708356008), a `buttonId` can not be zero. As a workaround we will start the `buttonId`s from 1.
+        softButtonObjects[i].buttonId = i + 1;
         for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
                 SDLLogE(@"Attempted to set soft button objects, but two buttons had the same name: %@", softButtonObjects);
-                return;
+                @throw [NSException sdl_duplicateSoftButtonsNameException];
             }
         }
     }

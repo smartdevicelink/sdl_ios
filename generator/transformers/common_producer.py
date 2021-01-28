@@ -69,11 +69,11 @@ class InterfaceProducerCommon(ABC):
             render['params'][param.name] = self.extract_param(param, item.name)
             if isinstance(item, (Struct, Function)):
                 self.extract_imports(param, render['imports'])
-        
+
         # Add additional known imports to the import list
         if isinstance(item, (Struct, Function)):
             name = 'SDL' + item.name
-            render[importsKey]['.m'].add( "NSMutableDictionary+Store" )
+            render[importsKey]['.m'].add("NSMutableDictionary+Store")
             render[importsKey]['.m'].add(name)
             render[importsKey]['.h'][enumKey] = list(render[importsKey]['.h'][enumKey])
             (render[importsKey]['.h'][enumKey]).sort()
@@ -82,11 +82,11 @@ class InterfaceProducerCommon(ABC):
 
         if isinstance(item, Struct):
             name = 'SDL' + item.name
-            render[importsKey]['.m'].add( "SDLRPCParameterNames" )
+            render[importsKey]['.m'].add("SDLRPCParameterNames")
 
         if isinstance(item, Function):
-            render[importsKey]['.m'].add( "SDLRPCFunctionNames" )
-            render[importsKey]['.m'].add( "SDLRPCParameterNames" )
+            render[importsKey]['.m'].add("SDLRPCFunctionNames")
+            render[importsKey]['.m'].add("SDLRPCParameterNames")
 
         # Sort the import list to ensure they appear in alphabetical order in the template
         render[importsKey]['.m'] = list(render[importsKey]['.m'])
@@ -364,20 +364,28 @@ class InterfaceProducerCommon(ABC):
                 'mandatory': param.is_mandatory,
                 'deprecated': json.loads(param.deprecated.lower()) if param.deprecated else False,
                 'modifier': 'strong',
-                'history' : param.history }
+                'history': param.history}
+
+        parameterItems = OrderedDict()
         if isinstance(param.param_type, (Integer, Float, String, Array)):
-            data['description'].append(self.create_param_descriptor(param.param_type, OrderedDict()))
+            self.create_param_type_descriptor(param.param_type, parameterItems)
+
+        if isinstance(param.param_type, (Boolean, Enum)):
+            self.create_param_default_value_descriptor(param, parameterItems)
+
+        if len(parameterItems) > 0:
+            data['description'].append(json.dumps(parameterItems, sort_keys=False))
 
         data.update(self.extract_type(param))
         data.update(self.param_origin_change(param.name))
         return self.param_named(**data)
 
-    def create_param_descriptor(self, param_type, parameterItems):
+    def create_param_type_descriptor(self, param_type, parameterItems):
         """
-        Recursively creates a documentation string of all the descriptors for a parameter (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
+        Gets all the descriptors for a parameter to be used in parameter's documentation (e.g. {"string_min_length": 1, string_max_length": 500}). The parameters should be returned in the same order they were added to the parameterItems dictionary
         :param param_type: param_type from the initial Model
         :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
-        :return: All the descriptor params from param_type concatenated into one string
+        :return: All the descriptor params
         """
         # The key is a descriptor (i.e. max_value) and value is the associated value (i.e. 100). Some values will be dictionaries that have to be parsed to get additional descriptors (e.g. the value for an array of strings' data type will be sub-dictionary describing the min_length, max_length, and default value for the strings used in the array)
         for key, value in param_type.__dict__.items():
@@ -387,7 +395,7 @@ class InterfaceProducerCommon(ABC):
                     # Skip adding documentation for the data type if it is a struct or enum. This is unnecessary as each enum or struct has its own documentation
                     continue
                 else:
-                    self.create_param_descriptor(value, parameterItems)
+                    self.create_param_type_descriptor(value, parameterItems)
             else:
                 if key == 'default_value' and value is None:
                     # Do not add the default_value key/value pair unless it has been explicitly set in the RPC Spec
@@ -396,7 +404,24 @@ class InterfaceProducerCommon(ABC):
                     parameterDescriptor = self.update_param_descriptor(key)
                     parameterItems[parameterDescriptor] = value
 
-        return json.dumps(parameterItems, sort_keys=False)
+        return parameterItems
+
+    def create_param_default_value_descriptor(self, param, parameterItems):
+        """
+        Extracts the default value for a parameter to be used in parameter's documentation (HAX: The default_value for Ints and Floats is save to both the param and param_type but is only saved to the param_type for Enums and Bools for some reason)
+        :param param: param from the initial Model
+        :param parameterItems: Ordered dictionary that stores each of the parameter's descriptors
+        :return: All the descriptor params
+        """
+        if param.default_value is None:
+            return parameterItems
+
+        if isinstance(param.param_type, Enum):
+            parameterItems['default_value'] = param.default_value.name
+        else:
+            parameterItems['default_value'] = param.default_value
+
+        return parameterItems
 
     def update_param_descriptor(self, parameterName):
         """
@@ -418,4 +443,3 @@ class InterfaceProducerCommon(ABC):
             return 'num_min_value'
         else:
             return parameterName
-

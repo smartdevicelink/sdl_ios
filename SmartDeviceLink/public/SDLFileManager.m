@@ -22,6 +22,7 @@
 #import "SDLPutFile.h"
 #import "SDLStateMachine.h"
 #import "SDLUploadFileOperation.h"
+#import "SDLVersion.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -284,13 +285,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly.
     if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
         // If it's a persistant file, the bug won't present itself; just check if it's on the remote system
-        return true;
+        return YES;
     } else if (!file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
         // If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
-        return true;
+        return YES;
     }
 
-    return false;
+    return NO;
 }
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
@@ -377,9 +378,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return;
     }
 
-    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not.
-    if (!file.persistent && ![self hasUploadedFile:file]) {
-        file.overwrite = true;
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not. This is only needed if connecting to Core v4.3.1 or less which corresponds to RPC v4.3.1 or less
+    if (!file.persistent && ![self hasUploadedFile:file] && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
+        file.overwrite = YES;
     }
 
     // Check our overwrite settings and error out if it would overwrite
@@ -425,6 +426,12 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 #pragma mark Artworks
+
+- (BOOL)fileNeedsUpload:(SDLFile *)file {
+    if (file == nil || file.isStaticIcon) { return NO; }
+
+    return (file.overwrite || ![self hasUploadedFile:file]);
+}
 
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
     __weak typeof(self) weakself = self;
