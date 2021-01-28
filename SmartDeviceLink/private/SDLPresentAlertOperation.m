@@ -200,7 +200,7 @@ static const int SDLAlertSoftButtonCount = 4;
     }
 
     // Don't upload artworks for buttons that will not be shown.
-    for (NSUInteger i = 0; i < [self sdl_allowedSoftButtonCount]; i++) {
+    for (NSUInteger i = 0; i < [self sdl_softButtonCount]; i++) {
         SDLSoftButtonObject *object = self.alertView.softButtons[i];
         if ([self sdl_supportsSoftButtonImages] && [self.fileManager fileNeedsUpload:object.currentState.artwork]) {
             [artworksToBeUploaded addObject:object.currentState.artwork];
@@ -299,8 +299,8 @@ static const int SDLAlertSoftButtonCount = 4;
     alert.cancelID = @(self.cancelId);
 
     // The number of alert soft buttons sent must be capped so there are no clashes with soft button ids assigned by other managers (And thus leading to clashes saving/retreiving the button handlers in the  `SDLResponseDispatcher` class)
-    NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:[self sdl_allowedSoftButtonCount]];
-    for (NSUInteger i = 0; i < [self sdl_allowedSoftButtonCount]; i += 1) {
+    NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:[self sdl_softButtonCount]];
+    for (NSUInteger i = 0; i < [self sdl_softButtonCount]; i += 1) {
         SDLSoftButtonObject *button = self.alertView.softButtons[i];
         button.buttonId = SDLAlertSoftButtonIDMin + i;
         [softButtons addObject:button.currentStateSoftButton.copy];
@@ -321,7 +321,7 @@ static const int SDLAlertSoftButtonCount = 4;
 
 /// Creates an array of text-to-speech chunks for the `Alert` RPC from the text strings and the audio data files.
 /// @return An array of TTS chunks
-- (NSArray<SDLTTSChunk *> *)sdl_getTTSChunksForAlertView:(SDLAlertView *)alertView {
+- (nullable NSArray<SDLTTSChunk *> *)sdl_getTTSChunksForAlertView:(SDLAlertView *)alertView {
     SDLAlertAudioData *alertAudio = alertView.audio;
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
 
@@ -331,7 +331,7 @@ static const int SDLAlertSoftButtonCount = 4;
         [ttsChunks addObject:audioData];
     }
 
-    return [ttsChunks copy];
+    return ttsChunks.count > 0 ? [ttsChunks copy] : nil;
 }
 
 /// Checks if the connected module or current template supports soft button images.
