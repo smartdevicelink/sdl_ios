@@ -1116,6 +1116,8 @@ describe(@"SDLPresentAlertOperation", ^{
                 OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                 [testPresentAlertOperation start];
 
+                OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+
                 OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
 
                 [testCancelAlertView cancel];

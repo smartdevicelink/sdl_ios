@@ -240,13 +240,10 @@ static const int SDLAlertSoftButtonCount = 4;
             SDLAlertResponse *alertResponse = (SDLAlertResponse *)response;
             NSMutableDictionary *alertResponseUserInfo = [NSMutableDictionary dictionary];
             alertResponseUserInfo[@"error"] = error;
-
             alertResponseUserInfo[@"tryAgainTime"] = alertResponse.tryAgainTime;
-
             strongSelf.internalError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
-            strongSelf.internalError = alertResponseError;
         }
-
+        
         [strongSelf finishOperation];
     }];
 }
