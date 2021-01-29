@@ -14,7 +14,6 @@
 #import "SDLLifecycleRPCAdapter.h"
 #import "SDLAsynchronousRPCOperation.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
-#import "SDLBackgroundTaskManager.h"
 #import "SDLChangeRegistration.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
@@ -107,7 +106,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
-@property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
 
 // RPC Handlers
@@ -189,8 +187,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
-
-    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskTransportName];
 
     return self;
 }
@@ -354,9 +350,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
         if (shouldRestart) {
             [strongSelf sdl_transitionToState:SDLLifecycleStateStarted];
-        } else {
-            // End the background task because a session will not be established
-            [strongSelf.backgroundTaskManager endBackgroundTask];
         }
     });
 }
@@ -583,9 +576,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if ([self.delegate respondsToSelector:@selector(videoStreamingState:didChangetoState:)]) {
         [self.delegate videoStreamingState:SDLVideoStreamingStateNotStreamable didChangetoState:self.videoStreamingState];
     }
-
-    // Stop the background task now that setup has completed
-    [self.backgroundTaskManager endBackgroundTask];
 }
 
 - (void)didEnterStateUnregistering {
