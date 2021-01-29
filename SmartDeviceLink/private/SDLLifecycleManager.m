@@ -254,9 +254,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)didEnterStateStarted {
-    // Start a background task so a session can be established even when the app is backgrounded.
-    [self.backgroundTaskManager startBackgroundTask];
-
     // Start up the internal protocol, transport, and other internal managers
     self.secondaryTransportManager = nil;
     SDLLifecycleConfiguration *lifecycleConfig = self.configuration.lifecycleConfig;
