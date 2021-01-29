@@ -66,6 +66,9 @@ static const int SDLAlertSoftButtonCount = 4;
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
+@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
+@property (assign, nonatomic) BOOL isAlertPresented;
+
 @end
 
 @implementation SDLPresentAlertOperation
@@ -89,6 +92,8 @@ static const int SDLAlertSoftButtonCount = 4;
     _cancelId = cancelID;
     _operationId = [NSUUID UUID];
     _currentWindowCapability = currentWindowCapability;
+
+    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.presentAlertOperation.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
 
     return self;
 }
@@ -122,8 +127,6 @@ static const int SDLAlertSoftButtonCount = 4;
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlConcurrentQueue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.isCancelled) { return [strongSelf finishOperation]; }
-
         [strongSelf sdl_presentAlert];
     });
 }
@@ -233,6 +236,13 @@ static const int SDLAlertSoftButtonCount = 4;
 
 /// Sends the alert RPC to the module. The operation is finished once a response has been received from the module.
 - (void)sdl_presentAlert {
+    self.isAlertPresented = YES;
+
+    if (self.isCancelled) {
+        self.isAlertPresented = NO;
+        return [self finishOperation];
+    }
+
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:self.alertRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -243,6 +253,8 @@ static const int SDLAlertSoftButtonCount = 4;
             alertResponseUserInfo[@"tryAgainTime"] = alertResponse.tryAgainTime;
             strongSelf.internalError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
         }
+
+        strongSelf.isAlertPresented = NO;
         
         [strongSelf finishOperation];
     }];
@@ -261,6 +273,10 @@ static const int SDLAlertSoftButtonCount = 4;
     } else if (self.isExecuting) {
         if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
             SDLLogD(@"Attempting to cancel this operation in-progress; if the alert is already presented on the module, it cannot be dismissed.");
+            [self cancel];
+            return;
+        } else if (self.isAlertPresented == NO) {
+            SDLLogD(@"Alert has not yet been sent to the module. Alert will not be shown.");
             [self cancel];
             return;
         }
@@ -350,6 +366,15 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @return True if alert icons are currently supported; false if not.
 - (BOOL)sdl_supportsAlertIcon {
     return [self.currentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon];
+}
+
+- (BOOL)isAlertPresented {
+    __block BOOL alertPresented = NO;
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
+        alertPresented = self->_isAlertPresented;
+    }];
+
+    return alertPresented;
 }
 
 #pragma mark - Text Helpers
