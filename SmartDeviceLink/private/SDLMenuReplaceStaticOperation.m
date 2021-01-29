@@ -151,8 +151,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
             errors[request] = error;
         } else {
             // Find the id of the successful request and add it from the current menu list whereever it needs to be
-            UInt32 commandId = [self commandIdForRPCRequest:request];
-            UInt16 position = [self positionForRPCRequest:request];
+            UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
+            UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
             [SDLMenuReplaceUtilities addMenuRequestWithCommandId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
         }
     } completionHandler:^(BOOL success) {
@@ -168,8 +168,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
                 errors[request] = error;
             } else {
                 // Find the id of the successful request and add it from the current menu list whereever it needs to be
-                UInt32 commandId = [self commandIdForRPCRequest:request];
-                UInt16 position = [self positionForRPCRequest:request];
+                UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
+                UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
                 [SDLMenuReplaceUtilities addMenuRequestWithCommandId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
             }
         } completionHandler:^(BOOL success) {
