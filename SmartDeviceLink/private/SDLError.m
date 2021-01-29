@@ -457,8 +457,12 @@ NS_ASSUME_NONNULL_BEGIN
             userInfo:nil];
 }
 
++ (NSException *)sdl_invalidTTSSpeechCapabilitiesException {
+    return [NSException exceptionWithName:@"InvalidTTSSpeechCapabilities" reason:@"Attempting to create a text-to-speech string with an invalid phonetic type. The phoneticType must be of type `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED`." userInfo:nil];
+}
+
 + (NSException *)sdl_invalidAlertSoftButtonStatesException {
-    return [NSException exceptionWithName:@"InvalidSoftButtonStates" reason:@"Attempting create a soft button for an Alert with more than one state. Alerts only support soft buttons with one state" userInfo:nil];
+    return [NSException exceptionWithName:@"InvalidSoftButtonStates" reason:@"Attempting to create a soft button for an Alert with more than one state. Alerts only support soft buttons with one state" userInfo:nil];
 }
 
 + (NSException *)sdl_invalidSoftButtonStateException {

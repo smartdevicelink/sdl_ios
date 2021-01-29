@@ -1013,6 +1013,8 @@ describe(@"SDLPresentAlertOperation", ^{
                         OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                         [testPresentAlertOperation start];
 
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                        
                         SDLCancelInteractionResponse *testResponse = [[SDLCancelInteractionResponse alloc] init];
                         testResponse.success = @YES;
                         testResponse.resultCode = SDLResultSuccess;

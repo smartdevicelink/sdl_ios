@@ -8,6 +8,7 @@
 
 #import "SDLAudioData.h"
 
+#import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLSpeak.h"
 #import "SDLTTSChunk.h"
@@ -58,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     if (![self.class sdl_isValidPhoneticType:phoneticType]) {
-        return nil;
+        @throw [NSException sdl_invalidTTSSpeechCapabilitiesException];
     }
 
     [_mutableAudioData addObjectsFromArray:@[[[SDLTTSChunk alloc] initWithText:phoneticString type:phoneticType]]];
@@ -86,7 +87,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)addPhoneticSpeechSynthesizerStrings:(NSArray<NSString *> *)phoneticStrings phoneticType:(SDLSpeechCapabilities)phoneticType {
-    if (![self.class sdl_isValidPhoneticType:phoneticType] || phoneticStrings.count == 0) {
+    if (![self.class sdl_isValidPhoneticType:phoneticType]) {
+        @throw [NSException sdl_invalidTTSSpeechCapabilitiesException];
+    }
+
+    if (phoneticStrings.count == 0) {
         return;
     }
 

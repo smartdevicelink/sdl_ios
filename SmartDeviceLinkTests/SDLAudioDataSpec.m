@@ -72,9 +72,11 @@ describe(@"SDLAudioData", ^{
         
         it(@"Should fail if initialized with an invalid phoneticType in initWithPhoneticSpeechSynthesizerString:phoneticType:", ^{
             SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesSilence;
-            SDLAudioData *testAudioData = [[SDLAudioData alloc] initWithPhoneticSpeechSynthesizerString:testSpeechSynthesizerString phoneticType:testSpeechCapabilities];
-            
-            expect(testAudioData).to(beNil());
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+            expectAction(^{ [[SDLAudioData alloc] initWithPhoneticSpeechSynthesizerString:testSpeechSynthesizerString phoneticType:testSpeechCapabilities]; }).to(raiseException().named(@"InvalidTTSSpeechCapabilities"));
+#pragma clang diagnostic pop
         });
     });
     
@@ -248,16 +250,9 @@ describe(@"SDLAudioData", ^{
             
             it(@"Should not append additional phonetic speech synthesizer strings with an invalid phonetic type", ^{
                 testAudioData = [[SDLAudioData alloc] initWithAudioFile:testAudioFile1];
-                
                 SDLSpeechCapabilities testSpeechCapabilities = SDLSpeechCapabilitiesFile;
-                [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString1, testSpeechSynthesizerString2] phoneticType:testSpeechCapabilities];
-                
-                expect(testAudioData.audioFileData).to(haveCount(1));
-                expect(testAudioData.audioFileData[testAudioFile1.name]).to(equal(testAudioFile1));
-                
-                expect(testAudioData.audioData).to(haveCount(1));
-                expect(testAudioData.audioData[0].text).to(equal(testAudioFile1.name));
-                expect(testAudioData.audioData[0].type).to(equal(SDLSpeechCapabilitiesFile));
+
+                 expectAction(^{ [testAudioData addPhoneticSpeechSynthesizerStrings:@[testSpeechSynthesizerString1] phoneticType:testSpeechCapabilities]; }).to(raiseException().named(@"InvalidTTSSpeechCapabilities"));
             });
         });
     });
