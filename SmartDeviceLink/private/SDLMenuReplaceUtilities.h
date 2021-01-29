@@ -61,11 +61,7 @@ typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCel
 /// @param commandId The id of the cell to find and remove
 + (BOOL)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId;
 
-/// Add this menu cell to the current cells menu at the given location
-/// @param cell The cell to add
-/// @param menuCellList The mutable list of main menu cells. The cell to be added may be in a submenu of this list
-/// @param position The position to put the item in in whichever list it needs to be
-+ (BOOL)addMenuCell:(SDLMenuCell *)cell toList:(NSMutableArray<SDLMenuCell *> *)menuCellList atPosition:(UInt16)position;
++ (BOOL)addMenuRequestWithCommandId:(UInt32)commandId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList;
 
 @end
 

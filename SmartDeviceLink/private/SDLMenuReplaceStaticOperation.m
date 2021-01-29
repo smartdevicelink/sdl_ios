@@ -151,19 +151,9 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
             errors[request] = error;
         } else {
             // Find the id of the successful request and add it from the current menu list whereever it needs to be
-            UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
-            UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
-            SDLMenuCell *addedCell = nil;
-            for (SDLMenuCell *cell in newMenuCells) {
-                if (cell.cellId == commandId) {
-                    addedCell = cell;
-                    break;
-                }
-            }
-
-            if (addedCell != nil) {
-                [SDLMenuReplaceUtilities addMenuCell:addedCell toList:weakSelf.mutableCurrentMenu atPosition:position];
-            }
+            UInt32 commandId = [self commandIdForRPCRequest:request];
+            UInt16 position = [self positionForRPCRequest:request];
+            [SDLMenuReplaceUtilities addMenuRequestWithCommandId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -178,19 +168,9 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
                 errors[request] = error;
             } else {
                 // Find the id of the successful request and add it from the current menu list whereever it needs to be
-                UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
-                UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
-                SDLMenuCell *addedCell = nil;
-                for (SDLMenuCell *cell in newMenuCells) {
-                    if (cell.cellId == commandId) {
-                        addedCell = cell;
-                        break;
-                    }
-                }
-
-                if (addedCell != nil) {
-                    [SDLMenuReplaceUtilities addMenuCell:addedCell toList:weakSelf.mutableCurrentMenu atPosition:position];
-                }
+                UInt32 commandId = [self commandIdForRPCRequest:request];
+                UInt16 position = [self positionForRPCRequest:request];
+                [SDLMenuReplaceUtilities addMenuRequestWithCommandId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
             }
         } completionHandler:^(BOOL success) {
             if (!success) {

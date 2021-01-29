@@ -199,7 +199,27 @@
 }
 
 #pragma mark Inserting Cell
-+ (BOOL)addMenuCell:(SDLMenuCell *)cell toList:(NSMutableArray<SDLMenuCell *> *)menuCellList atPosition:(UInt16)position {
++ (BOOL)addMenuRequestWithCommandId:(UInt32)commandId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList {
+    SDLMenuCell *addedCell = nil;
+    for (SDLMenuCell *cell in newMenuList) {
+        if (cell.cellId == commandId) {
+            addedCell = cell;
+            break;
+        } else if (cell.subCells.count > 0) {
+            BOOL didAddCell = [self addMenuRequestWithCommandId:commandId position:position fromNewMenuList:cell.subCells toMainMenuList:mainMenuList];
+            if (didAddCell) { return YES; }
+        }
+    }
+
+    if (addedCell != nil) {
+        [self addMenuCell:addedCell toList:mainMenuList atPosition:position];
+        return YES;
+    }
+
+    return NO;
+}
+
++ (BOOL)sdl_addMenuCell:(SDLMenuCell *)cell toList:(NSMutableArray<SDLMenuCell *> *)menuCellList atPosition:(UInt16)position {
     if (cell.parentCellId != ParentIdNotFound) {
         // If the cell has a parent id, we need to find the cell with a matching cell id and insert it into its submenu
         for (SDLMenuCell *menuCell in menuCellList) {
