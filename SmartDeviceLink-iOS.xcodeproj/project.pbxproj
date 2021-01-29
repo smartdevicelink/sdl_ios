@@ -524,6 +524,7 @@
 		4AAC0DBA25C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AAC0DB825C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h */; };
 		4AAC0DBB25C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC0DB925C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m */; };
 		4AAC0DE025C468EC00746D33 /* SDLMenuReplaceUtilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC0DDF25C468EC00746D33 /* SDLMenuReplaceUtilitiesSpec.m */; };
+		4AAC0DE825C493EE00746D33 /* SDLMenuReplaceUtilitiesSpecHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC0DE725C493EE00746D33 /* SDLMenuReplaceUtilitiesSpecHelpers.m */; };
 		4ABB24BA24F592620061BF55 /* NSMutableArray+Safe.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */; };
 		4ABB24BB24F592620061BF55 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */; };
 		4ABB24BC24F592620061BF55 /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */; };
@@ -2331,6 +2332,8 @@
 		4AAC0DB825C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuManagerPrivateConstants.h; path = private/SDLMenuManagerPrivateConstants.h; sourceTree = "<group>"; };
 		4AAC0DB925C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuManagerPrivateConstants.m; path = private/SDLMenuManagerPrivateConstants.m; sourceTree = "<group>"; };
 		4AAC0DDF25C468EC00746D33 /* SDLMenuReplaceUtilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceUtilitiesSpec.m; path = DevAPISpecs/SDLMenuReplaceUtilitiesSpec.m; sourceTree = "<group>"; };
+		4AAC0DE625C493EE00746D33 /* SDLMenuReplaceUtilitiesSpecHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuReplaceUtilitiesSpecHelpers.h; path = DevAPISpecs/SDLMenuReplaceUtilitiesSpecHelpers.h; sourceTree = "<group>"; };
+		4AAC0DE725C493EE00746D33 /* SDLMenuReplaceUtilitiesSpecHelpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceUtilitiesSpecHelpers.m; path = DevAPISpecs/SDLMenuReplaceUtilitiesSpecHelpers.m; sourceTree = "<group>"; };
 		4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Safe.h"; path = "private/NSMutableArray+Safe.h"; sourceTree = "<group>"; };
 		4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Safe.m"; path = "private/NSMutableArray+Safe.m"; sourceTree = "<group>"; };
 		4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+SDLBundle.m"; path = "private/NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
@@ -4329,6 +4332,15 @@
 				4AAC0DB925C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m */,
 			);
 			name = Constants;
+			sourceTree = "<group>";
+		};
+		4AAC0DE525C493D800746D33 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4AAC0DE625C493EE00746D33 /* SDLMenuReplaceUtilitiesSpecHelpers.h */,
+				4AAC0DE725C493EE00746D33 /* SDLMenuReplaceUtilitiesSpecHelpers.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		4AD1F16A2559952D00637FE1 /* Voice Command */ = {
@@ -6579,6 +6591,7 @@
 		5DF40B24208FA7C500DD6FDA /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				4AAC0DE525C493D800746D33 /* Helpers */,
 				5DAB5F502098994C00A020C8 /* SDLMenuCellSpec.m */,
 				5D76751522D920FD00E8D71A /* SDLMenuConfigurationSpec.m */,
 				5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */,
@@ -8540,6 +8553,7 @@
 				162E83811A9BDE8B00906325 /* SDLImageFieldSpec.m in Sources */,
 				5D60DF24202B7A80001EDA01 /* SDLAsynchronousRPCRequestOperationSpec.m in Sources */,
 				883C22CB222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m in Sources */,
+				4AAC0DE825C493EE00746D33 /* SDLMenuReplaceUtilitiesSpecHelpers.m in Sources */,
 				162E834F1A9BDE8B00906325 /* SDLDeleteCommandResponseSpec.m in Sources */,
 				88B848C91F462E3600DED768 /* TestFileProgressResponse.m in Sources */,
 				162E83231A9BDE8B00906325 /* SDLAddSubMenuSpec.m in Sources */,

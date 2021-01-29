@@ -78,9 +78,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
             return YES;
         } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-            if (error != nil) {
-                SDLLogE(@"Error uploading menu artworks: %@", error);
-            }
+            if (weakself.isCancelled) { return; }
+            if (error != nil) { SDLLogE(@"Error uploading menu artworks: %@", error); }
 
             SDLLogD(@"All menu artworks uploaded");
             [self sdl_updateMenuWithCellsToDelete:self.currentMenu cellsToAdd:self.updatedMenu];
@@ -98,9 +97,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 - (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells {
     __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
-        if (self.isCancelled) {
-            return [weakself finishOperation];
-        }
+        if (self.isCancelled) { return [weakself finishOperation]; }
 
         [weakself sdl_sendNewMenuCells:addCells withCompletionHandler:^(NSError * _Nullable error) {
             [weakself finishOperation];
