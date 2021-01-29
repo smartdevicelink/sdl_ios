@@ -196,7 +196,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 - (NSArray<SDLMenuCell *> *)sdl_filterDeleteMenuItemsWithOldMenuItems:(NSArray<SDLMenuCell *> *)oldMenuCells basedOnStatusList:(NSArray<NSNumber *> *)oldStatusList {
     NSMutableArray<SDLMenuCell *> *deleteCells = [[NSMutableArray alloc] init];
-    // The index of the status should corrleate 1-1 with the number of items in the menu
+    // The index of the status should correlate 1-1 with the number of items in the menu
     // [2,0,2,0] => [A,B,C,D] = [B,D]
     for (NSUInteger index = 0; index < oldStatusList.count; index++) {
         if (oldStatusList[index].integerValue == MenuCellStateDelete) {

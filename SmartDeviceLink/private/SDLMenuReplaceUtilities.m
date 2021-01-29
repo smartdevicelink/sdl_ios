@@ -212,7 +212,7 @@
     }
 
     if (addedCell != nil) {
-        [self addMenuCell:addedCell toList:mainMenuList atPosition:position];
+        [self sdl_addMenuCell:addedCell toList:mainMenuList atPosition:position];
         return YES;
     }
 
@@ -231,7 +231,7 @@
             } else if (menuCell.subCells.count > 0) {
                 // Check the subcells of this cell to see if any of those have cell ids that match the parent cell id
                 NSMutableArray<SDLMenuCell *> *newList = [menuCell.subCells mutableCopy];
-                BOOL foundAndAddedItem = [self addMenuCell:cell toList:newList atPosition:position];
+                BOOL foundAndAddedItem = [self sdl_addMenuCell:cell toList:newList atPosition:position];
                 if (foundAndAddedItem) {
                     menuCell.subCells = [newList copy];
                     return YES;
