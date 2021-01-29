@@ -73,7 +73,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:addMenuStatus];
 
     // Since we are creating a new Menu but keeping old cells we must firt transfer the old cellIDs to the new menus kept cells.
-    [self transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
+    [self sdl_transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
 
     // TODO: We don't check cancellation or finish
     NSArray<SDLArtwork *> *artworksToBeUploaded = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:self.updatedMenu fileManager:self.fileManager windowCapability:self.windowCapability];
@@ -179,17 +179,17 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
         NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
 
-        [self transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
+        [self sdl_transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
 
         __weak typeof(self) weakself = self;
         [self sdl_sendDeleteCurrentMenu:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
             [weakself sdl_sendNewMenuCells:cellsToAdd oldMenu:weakself.currentMenu[startIndex].subCells withCompletionHandler:^(NSError * _Nullable error) {
-                // After the first set of submenu cells were added and deleted we must find the next set of subcells untll we loop through all the elemetns
+                // After the first set of submenu cells were added and deleted we must find the next set of subcells until we loop through all the elements
                 [weakself sdl_startSubMenuUpdatesWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1)];
             }];
         }];
     } else {
-        // After the first set of submenu cells were added and deleted we must find the next set of subcells untll we loop through all the elemetns
+        // After the first set of submenu cells were added and deleted we must find the next set of subcells until we loop through all the elements
         [self sdl_startSubMenuUpdatesWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1)];
     }
 }
@@ -239,7 +239,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     return [keepMenuCells copy];
 }
 
-- (void)transferCellIDFromOldCells:(NSArray<SDLMenuCell *> *)oldCells toKeptCells:(NSArray<SDLMenuCell *> *)newCells {
+- (void)sdl_transferCellIDFromOldCells:(NSArray<SDLMenuCell *> *)oldCells toKeptCells:(NSArray<SDLMenuCell *> *)newCells {
     if (oldCells.count == 0) { return; }
     for (NSUInteger i = 0; i < newCells.count; i++) {
         newCells[i].cellId = oldCells[i].cellId;

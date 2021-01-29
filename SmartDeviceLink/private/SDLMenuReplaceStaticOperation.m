@@ -157,7 +157,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
-            SDLLogE(@"Failed to send main menu commands: %@", errors);
+            SDLLogE(@"Failed to send one or more main menu commands: %@", errors);
             return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
         }
 
@@ -174,7 +174,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
             }
         } completionHandler:^(BOOL success) {
             if (!success) {
-                SDLLogE(@"Failed to send sub menu commands: %@", errors);
+                SDLLogE(@"Failed to send one or more sub menu commands: %@", errors);
                 completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
                 return;
             }

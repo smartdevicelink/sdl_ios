@@ -32,7 +32,12 @@ typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCel
 
 #pragma mark - RPC Commands
 
+/// Finds and returns the command id for a given RPC request, assuming that request is an SDLDeleteSubMenu, SDLDeleteCommand, SDLAddSubMenu, or SDLAddCommand
+/// @param request The request
 + (UInt32)commandIdForRPCRequest:(SDLRPCRequest *)request;
+
+/// Finds and returns the position for a given RPC request, assuming that request is an SDLAddSubMenu, or SDLAddCommand
+/// @param request The request
 + (UInt16)positionForRPCRequest:(SDLRPCRequest *)request;
 
 /// Generate SDLDeleteCommand and SDLDeleteSubMenu RPCs for the given cells
@@ -56,11 +61,18 @@ typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCel
 
 #pragma mark - Updating Menu Cells
 
-/// Find the menu cell given a command id and remove it from the list, then return the new list
+/// Find the menu cell given a command id and remove it from the list (or a cell in the list's subcell list, etc.)
 /// @param menuCellList The list to mutate and remove the item from
 /// @param commandId The id of the cell to find and remove
+/// @return YES if the cell was found and removed successfully, NO if it was not
 + (BOOL)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId;
 
+/// Finds a menu cell from newMenuList with the given commandId and inserts it into the main menu list (or a subcell list) at the given position
+/// @param commandId The command id for the cell to be found
+/// @param position The position to insert the cell into the appropriate list for it to be in
+/// @param newMenuList The complete requested new menu list. We will find the cell to insert from this list.
+/// @param mainMenuList The mutable main menu list. The place to insert the cell will be in this list or one of its cell's subcell list (or one of it's cell's subcell's subcell's list, etc.)
+/// @return YES if the cell was added successfully, NO if the cell was not
 + (BOOL)addMenuRequestWithCommandId:(UInt32)commandId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList;
 
 @end
