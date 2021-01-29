@@ -33,6 +33,7 @@ typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCel
 #pragma mark - RPC Commands
 
 + (UInt32)commandIdForRPCRequest:(SDLRPCRequest *)request;
++ (UInt16)positionForRPCRequest:(SDLRPCRequest *)request;
 
 /// Generate SDLDeleteCommand and SDLDeleteSubMenu RPCs for the given cells
 /// @param cells The cells for which to generate delete RPCs
@@ -58,13 +59,13 @@ typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCel
 /// Find the menu cell given a command id and remove it from the list, then return the new list
 /// @param menuCellList The list to mutate and remove the item from
 /// @param commandId The id of the cell to find and remove
-+ (nullable NSMutableArray<SDLMenuCell *> *)removeMenuCellFromCurrentMainMenuList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId;
++ (BOOL)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId;
 
 /// Add this menu cell to the current cells menu at the given location
 /// @param cell The cell to add
 /// @param menuCellList The mutable list of main menu cells. The cell to be added may be in a submenu of this list
 /// @param position The position to put the item in in whichever list it needs to be
-+ (NSMutableArray<SDLMenuCell *> *)addMenuCell:(SDLMenuCell *)cell toCurrentMainMenuList:(NSMutableArray<SDLMenuCell *> *)menuCellList atPosition:(UInt16)position;
++ (BOOL)addMenuCell:(SDLMenuCell *)cell toList:(NSMutableArray<SDLMenuCell *> *)menuCellList atPosition:(UInt16)position;
 
 @end
 

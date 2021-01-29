@@ -63,8 +63,8 @@
 + (UInt32)commandIdForRPCRequest:(SDLRPCRequest *)request {
     UInt32 commandId = 0;
     if ([request isMemberOfClass:[SDLAddCommand class]]) {
-        commandId = ((SDLAddSubMenu *)request).cmdID.unsignedIntValue;
-    } else if ([request isMemberOfClass:[SDLAddCommand class]]) {
+        commandId = ((SDLAddCommand *)request).cmdID.unsignedIntValue;
+    } else if ([request isMemberOfClass:[SDLAddSubMenu class]]) {
         commandId = ((SDLAddSubMenu *)request).menuID.unsignedIntValue;
     } else if ([request isMemberOfClass:[SDLDeleteCommand class]]) {
         commandId = ((SDLDeleteCommand *)request).cmdID.unsignedIntValue;
@@ -73,6 +73,17 @@
     }
 
     return commandId;
+}
+
++ (UInt16)positionForRPCRequest:(SDLRPCRequest *)request {
+    UInt16 position = 0;
+    if ([request isMemberOfClass:[SDLAddCommand class]]) {
+        position = ((SDLAddCommand *)request).menuParams.position.unsignedShortValue;
+    } else if ([request isMemberOfClass:[SDLAddSubMenu class]]) {
+        position = ((SDLAddSubMenu *)request).position.unsignedShortValue;
+    }
+
+    return position;
 }
 
 + (NSArray<SDLRPCRequest *> *)deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
@@ -167,27 +178,53 @@
 #pragma mark - Updating Menu Cells
 
 #pragma mark Remove Cell
-+ (nullable NSMutableArray<SDLMenuCell *> *)removeMenuCellFromCurrentMainMenuList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId {
++ (BOOL)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId {
     for (SDLMenuCell *menuCell in menuCellList) {
         if (menuCell.cellId == commandId) {
+            // If the cell id matches the command id, remove it from the list and return
             [menuCellList removeObject:menuCell];
-            return menuCellList;
+            return YES;
         } else if (menuCell.subCells.count > 0) {
-            NSMutableArray<SDLMenuCell *> *newList = [self removeMenuCellFromCurrentMainMenuList:[menuCell.subCells mutableCopy] withCmdId:commandId];
-            if (newList != nil) {
+            // If the menu cell has subcells, we need to recurse and check the subcells
+            NSMutableArray<SDLMenuCell *> *newList = [menuCell.subCells mutableCopy];
+            BOOL foundAndRemovedItem = [self removeMenuCellFromList:newList withCmdId:commandId];
+            if (foundAndRemovedItem) {
                 menuCell.subCells = [newList copy];
+                return YES;
             }
         }
     }
 
-    return nil;
+    return NO;
 }
 
 #pragma mark Inserting Cell
-+ (NSMutableArray<SDLMenuCell *> *)addMenuCell:(SDLMenuCell *)cell toCurrentMainMenuList:(NSMutableArray<SDLMenuCell *> *)menuCellList atPosition:(UInt16)position {
-    // If the cell has a parent id, it needs to go into a submenu
++ (BOOL)addMenuCell:(SDLMenuCell *)cell toList:(NSMutableArray<SDLMenuCell *> *)menuCellList atPosition:(UInt16)position {
+    if (cell.parentCellId != ParentIdNotFound) {
+        // If the cell has a parent id, we need to find the cell with a matching cell id and insert it into its submenu
+        for (SDLMenuCell *menuCell in menuCellList) {
+            if (menuCell.cellId == cell.parentCellId) {
+                // If we found the correct submenu, insert it into that submenu
+                NSMutableArray<SDLMenuCell *> *newList = [menuCell.subCells mutableCopy];
+                [self sdl_insertMenuCell:cell intoList:newList atPosition:position];
+                return YES;
+            } else if (menuCell.subCells.count > 0) {
+                // Check the subcells of this cell to see if any of those have cell ids that match the parent cell id
+                NSMutableArray<SDLMenuCell *> *newList = [menuCell.subCells mutableCopy];
+                BOOL foundAndAddedItem = [self addMenuCell:cell toList:newList atPosition:position];
+                if (foundAndAddedItem) {
+                    menuCell.subCells = [newList copy];
+                    return YES;
+                }
+            }
+        }
+    } else {
+        // The cell does not have a parent id, just insert it into the main menu
+        [self sdl_insertMenuCell:cell intoList:menuCellList atPosition:position];
+        return YES;
+    }
 
-    // Otherwise it's in the main menu and goes at the given position
+    return NO;
 }
 
 + (void)sdl_insertMenuCell:(SDLMenuCell *)cell intoList:(NSMutableArray<SDLMenuCell *> *)cellList atPosition:(UInt16)position {
