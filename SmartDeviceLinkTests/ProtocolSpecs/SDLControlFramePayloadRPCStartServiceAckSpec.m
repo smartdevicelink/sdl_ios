@@ -7,20 +7,22 @@
 #import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLSystemInfo.h"
 #import "SDLVehicleType.h"
 
 @interface SDLControlFramePayloadRPCStartServiceAck (discover_internals)
 
-@property (strong, nonatomic, readwrite, nullable) SDLVehicleType *vehicleType;
+@property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
+
 - (void)sdl_parse:(NSData *)data;
+SDLSystemInfo *__nullable sdl_parseSystemInfo(BsonObject *const payloadObject);
 
 @end
 
-SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject);
 
 QuickSpecBegin(SDLControlFramePayloadRPCStartServiceAckSpec)
 
-SDLVehicleType *defaultVehicleType = [[SDLVehicleType alloc] init];
+SDLSystemInfo *defaultSystemInfo = [[SDLSystemInfo alloc] init];
 
 describe(@"Test encoding data", ^{
     __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
@@ -110,7 +112,7 @@ describe(@"Test decoding data", ^{
             expect(testPayload.secondaryTransports).to(beNil());
             expect(testPayload.audioServiceTransports).to(beNil());
             expect(testPayload.videoServiceTransports).to(beNil());
-            expect(testPayload.vehicleType).to(beNil());
+            expect(testPayload.systemInfo).to(beNil());
         });
     });
 
@@ -138,7 +140,7 @@ describe(@"Test decoding data", ^{
             expect(testPayload.secondaryTransports).to(equal(testSecondaryTransports));
             expect(testPayload.audioServiceTransports).to(equal(testAudioServiceTransports));
             expect(testPayload.videoServiceTransports).to(equal(testVideoServiceTransports));
-            expect(testPayload.vehicleType).to(beNil());
+            expect(testPayload.systemInfo).to(beNil());
         });
     });
 });
@@ -162,11 +164,11 @@ describe(@"getter/setter test", ^{
 
     beforeEach(^{
         testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] init];
-        testPayload.vehicleType = defaultVehicleType;
+        testPayload.systemInfo = defaultSystemInfo;
     });
 
-    it(@"expect vehicleType to be set properly", ^{
-        expect(testPayload.vehicleType).to(equal(defaultVehicleType));
+    it(@"expect systemInfo to be set properly", ^{
+        expect(testPayload.systemInfo).to(equal(defaultSystemInfo));
     });
 });
 
@@ -177,6 +179,8 @@ describe(@"sdl_parseVehicleType()", ^{
     char *const vhModel = "Tavria";
     char *const vhModelYear = "1987";
     char *const vhTrim = "GT3";
+    char *const vhHardVersion = "1.2.3";
+    char *const vhSoftVersion = "9.8.7";
 
     beforeEach(^{
         bsonObject = malloc(sizeof(BsonObject));
@@ -196,6 +200,13 @@ describe(@"sdl_parseVehicleType()", ^{
         if (ok) {
             ok = bson_object_put_string(bsonObject, SDLControlFrameVehicleTrim, vhTrim);
         }
+        if (ok) {
+            ok = bson_object_put_string(bsonObject, SDLControlFrameVehicleHardVersion, vhHardVersion);
+        }
+        if (ok) {
+            ok = bson_object_put_string(bsonObject, SDLControlFrameVehicleSoftVersion, vhSoftVersion);
+        }
+
         if (!ok) {
             NSLog(@"cannot create or init bson vehicle type");
         }
@@ -209,31 +220,38 @@ describe(@"sdl_parseVehicleType()", ^{
         }
     });
 
-    it(@"expect vehicleType to be decoded from bson properly", ^{
-        SDLVehicleType *vehicleType = sdl_parseVehicleType(bsonObject);
-        expect(vehicleType).notTo(beNil());
-        expect(vehicleType.make).to(equal([NSString stringWithUTF8String:vhMake]));
-        expect(vehicleType.model).to(equal([NSString stringWithUTF8String:vhModel]));
-        expect(vehicleType.modelYear).to(equal([NSString stringWithUTF8String:vhModelYear]));
-        expect(vehicleType.trim).to(equal([NSString stringWithUTF8String:vhTrim]));
+    it(@"expect systemInfo to be decoded from bson properly", ^{
+        SDLSystemInfo *systemInfo = sdl_parseVehicleType(bsonObject);
+        expect(systemInfo).notTo(beNil());
+        expect(systemInfo.vehicleType.make).to(equal([NSString stringWithUTF8String:vhMake]));
+        expect(systemInfo.vehicleType.model).to(equal([NSString stringWithUTF8String:vhModel]));
+        expect(systemInfo.vehicleType.modelYear).to(equal([NSString stringWithUTF8String:vhModelYear]));
+        expect(systemInfo.vehicleType.trim).to(equal([NSString stringWithUTF8String:vhTrim]));
+        expect(systemInfo.systemSoftwareVersion).to(equal([NSString stringWithUTF8String:vhSoftVersion]));
+        expect(systemInfo.systemHardwareVersion).to(equal([NSString stringWithUTF8String:vhHardVersion]));
     });
 });
 
 describe(@"sdl_parseVehicleType()", ^{
     __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
-    __block SDLVehicleType *vehicleType = nil;
+    __block SDLSystemInfo *systemInfo = nil;
 
-    NSString * strMake = @"ZAZ";
-    NSString * strModel = @"Tavria";
-    NSString * strModelYear = @"1987";
-    NSString * strTrim = @"GT3";
+    NSString *strMake = @"ZAZ";
+    NSString *strModel = @"Tavria";
+    NSString *strModelYear = @"1987";
+    NSString *strTrim = @"GT3";
+    NSString *systemSoftwareVersion = @"1.2.3";
+    NSString *systemHardwareVersion = @"9.8.7";
 
     beforeEach(^{
-        vehicleType = [[SDLVehicleType alloc] init];
+        SDLVehicleType *vehicleType = [[SDLSystemInfo alloc] init];
         vehicleType.make = strMake;
         vehicleType.model = strModel;
         vehicleType.modelYear = strModelYear;
         vehicleType.trim = strTrim;
+
+        systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType systemSoftwareVersion:systemSoftwareVersion systemHardwareVersion:systemHardwareVersion];
+
 
         // serialize the vehicleType
         SDLControlFramePayloadRPCStartServiceAck *helperStruct = [[SDLControlFramePayloadRPCStartServiceAck alloc] init];
@@ -252,9 +270,9 @@ describe(@"sdl_parseVehicleType()", ^{
     });
     
     it(@"expect vehicleType to be decoded from data properly", ^{
-        SDLVehicleType *vehicleType = testPayload.vehicleType;
-        expect(vehicleType).notTo(beNil());
-        expect(vehicleType).to(equal(vehicleType));
+        SDLSystemInfo *systemInfoDecoded = testPayload.systemInfo;
+        expect(systemInfoDecoded).notTo(beNil());
+        expect(systemInfoDecoded).to(equal(systemInfo));
     });
 });
 
