@@ -13,6 +13,7 @@
 #import "SDLSystemContext.h"
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLanguage.h"
+#import "SDLSystemInfo.h"
 #import "SDLVehicleType.h"
 #import "SDLVideoStreamingState.h"
 
@@ -71,10 +72,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A way to determine if this SDL session should continue to be active while
  * connected to the determined vehicle type.
- * @param vehicleType - the type of vehicle that this session is currently active on.
+ * @param systemInfo - the system info that this session is currently active on.
  * @returns true if this session should continue, false if the session should end
  */
-- (BOOL)didReceiveVehicleType:(SDLVehicleType *)vehicleType;
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo;
 
 @end
 

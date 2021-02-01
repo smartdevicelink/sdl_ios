@@ -11,7 +11,7 @@
 #import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLVehicleType.h"
-
+#import "SDLSystemInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *secondaryTransports;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSNumber *> *audioServiceTransports;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSNumber *> *videoServiceTransports;
-@property (strong, nonatomic, readwrite, nullable) SDLVehicleType *vehicleType;
+@property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
 
-SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject);
+SDLSystemInfo *__nullable sdl_parseSystemInfo(BsonObject *const payloadObject);
 BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSString *value);
 
 @end
@@ -109,11 +109,13 @@ BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSStri
     [self sdl_addServiceTransports:&payloadObject fromArray:self.audioServiceTransports forKey:SDLControlFrameAudioServiceTransportsKey];
     [self sdl_addServiceTransports:&payloadObject fromArray:self.videoServiceTransports forKey:SDLControlFrameVideoServiceTransportsKey];
 
-    if (self.vehicleType) {
-        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleMake, self.vehicleType.make);
-        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleModel, self.vehicleType.model);
-        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleModelYear, self.vehicleType.modelYear);
-        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleTrim, self.vehicleType.trim);
+    if (self.systemInfo) {
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleMake, self.systemInfo.vehicleType.make);
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleModel, self.systemInfo.vehicleType.model);
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleModelYear, self.systemInfo.vehicleType.modelYear);
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleTrim, self.systemInfo.vehicleType.trim);
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleHardVersion, self.systemInfo.systemHardwareVersion);
+        sdl_putStringValue(&payloadObject, SDLControlFrameVehicleSoftVersion, self.systemInfo.systemSoftwareVersion);
     }
 
     const BytePtr bsonData = bson_object_to_bytes(&payloadObject);
@@ -160,7 +162,7 @@ BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSStri
         self.secondaryTransports = [secondaryTransports copy];
     }
 
-    self.vehicleType = sdl_parseVehicleType(&payloadObject);
+    self.systemInfo = sdl_parseSystemInfo(&payloadObject);
 
     self.audioServiceTransports = [self sdl_getServiceTransports:&payloadObject forKey:SDLControlFrameAudioServiceTransportsKey];
     self.videoServiceTransports = [self sdl_getServiceTransports:&payloadObject forKey:SDLControlFrameVideoServiceTransportsKey];
@@ -188,18 +190,21 @@ BOOL sdl_putStringValue(BsonObject *const payloadObject, const char *key, NSStri
     return success;
 }
 
-SDLVehicleType *sdl_parseVehicleType(BsonObject *const payloadObject) {
-    SDLVehicleType *vehicleType = nil;
+SDLSystemInfo *sdl_parseSystemInfo(BsonObject *const payloadObject) {
+    SDLSystemInfo *systemInfo = nil;
     NSString *make = payloadObject ? sdl_getStringValue(payloadObject, SDLControlFrameVehicleMake) : nil;
     if (make.length > 0) {
-        vehicleType = [[SDLVehicleType alloc] init];
+        SDLVehicleType *vehicleType = [[SDLVehicleType alloc] init];
         vehicleType.make = make;
         vehicleType.model = sdl_getStringValue(payloadObject, SDLControlFrameVehicleModel);
         vehicleType.modelYear = sdl_getStringValue(payloadObject, SDLControlFrameVehicleModelYear);
         vehicleType.trim = sdl_getStringValue(payloadObject, SDLControlFrameVehicleTrim);
+        NSString *hardVersion = sdl_getStringValue(payloadObject, SDLControlFrameVehicleHardVersion);
+        NSString *softVersion = sdl_getStringValue(payloadObject, SDLControlFrameVehicleSoftVersion);
+        systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType systemSoftwareVersion:softVersion systemHardwareVersion:hardVersion];
     }
 
-    return vehicleType;
+    return systemInfo;
 }
 
 - (nullable NSArray<NSNumber *> *)sdl_getServiceTransports:(BsonObject *)payloadObject forKey:(const char * const)key {

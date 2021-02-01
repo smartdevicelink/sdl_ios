@@ -171,13 +171,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (BOOL)protocol:(SDLProtocol *)protocol shouldProceedWithVehicleType:(SDLVehicleType *)vehicleType {
-    return [self.vehicleTypeHandler shouldProceedWithVehicleType:vehicleType];
+- (BOOL)protocol:(SDLProtocol *)protocol shouldProceedWithSystemInfo:(SDLSystemInfo *)systemInfo {
+    return [self.systemInfoHandler shouldProceedWithSystemInfo:systemInfo];
 }
 
-- (void)protocol:(SDLProtocol *)protocol doDisconnectWithVehicleType:(SDLVehicleType *)vehicleType {
+- (void)protocol:(SDLProtocol *)protocol doDisconnectWithSystemInfo:(SDLSystemInfo *)systemInfo {
     [self.rpcStartServiceTimeoutTimer cancel];
-    [self.vehicleTypeHandler doDisconnectWithVehicleType:vehicleType];
+    [self.systemInfoHandler doDisconnectWithSystemInfo:systemInfo];
 }
 
 #pragma mark - Utilities

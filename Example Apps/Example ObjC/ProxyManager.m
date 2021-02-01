@@ -318,8 +318,8 @@ NS_ASSUME_NONNULL_BEGIN
     return update;
 }
 
-- (BOOL)didReceiveVehicleType:(SDLVehicleType *)type {
-    SDLLogD(@"The vehicle type is: %@", type);
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo {
+    SDLLogD(@"The system is: %@", systemInfo);
     return YES;
 }
 

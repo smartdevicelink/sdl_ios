@@ -562,10 +562,10 @@ NS_ASSUME_NONNULL_BEGIN
     // Pass along to all the listeners
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     BOOL shouldProceed = YES;
-    if (startServiceACKPayload.vehicleType) {
+    if (startServiceACKPayload.systemInfo) {
         for (id<SDLProtocolDelegate> listener in listeners) {
-            if ([listener respondsToSelector:@selector(protocol:shouldProceedWithVehicleType:)]) {
-                shouldProceed = [listener protocol:protocol shouldProceedWithVehicleType:startServiceACKPayload.vehicleType];
+            if ([listener respondsToSelector:@selector(protocol:shouldProceedWithSystemInfo:)]) {
+                shouldProceed = [listener protocol:protocol shouldProceedWithSystemInfo:startServiceACKPayload.systemInfo];
                 if (!shouldProceed) {
                     break;
                 }
@@ -576,8 +576,8 @@ NS_ASSUME_NONNULL_BEGIN
     if (!shouldProceed) {
         // ask listeners to stop, the main listener must call then [this_protocol stopWithCompletionHandler:]
         for (id<SDLProtocolDelegate> listener in listeners) {
-            if ([listener respondsToSelector:@selector(protocol:doDisconnectWithVehicleType:)]) {
-                [listener protocol:protocol doDisconnectWithVehicleType:startServiceACKPayload.vehicleType];
+            if ([listener respondsToSelector:@selector(protocol:doDisconnectWithSystemInfo:)]) {
+                [listener protocol:protocol doDisconnectWithSystemInfo:startServiceACKPayload.systemInfo];
             }
         }
     } else {
