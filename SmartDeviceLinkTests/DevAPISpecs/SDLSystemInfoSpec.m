@@ -15,7 +15,7 @@ describe(@"system info", ^{
 
     context(@"init", ^{
         beforeEach(^{
-            systemInfo = [[SDLVersion alloc] init];
+            systemInfo = [[SDLSystemInfo alloc] init];
         });
 
         it(@"expect all properties to be nil", ^{
@@ -28,14 +28,14 @@ describe(@"system info", ^{
 
     context(@"initWithVehicleType:systemSoftwareVersion:systemHardwareVersion:", ^{
         beforeEach(^{
-            systemInfo = [[SDLVersion alloc] initWithVehicleType:vehicleType systemSoftwareVersion:softVersion systemHardwareVersion:hardVersion];
+            systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType systemSoftwareVersion:softVersion systemHardwareVersion:hardVersion];
         });
 
         it(@"expect all properties to be set properly", ^{
             expect(systemInfo).notTo(beNil());
             expect(systemInfo.vehicleType).to(equal(vehicleType));
-            expect(systemInfo.systemSoftwareVersion).to(equal(systemSoftwareVersion));
-            expect(systemInfo.systemHardwareVersion).to(equal(systemHardwareVersion));
+            expect(systemInfo.systemSoftwareVersion).to(equal(softVersion));
+            expect(systemInfo.systemHardwareVersion).to(equal(hardVersion));
         });
     });
 });

@@ -7,6 +7,7 @@
 //
 
 #import "SDLSystemInfo.h"
+#import "SDLVehicleType.h"
 
 @interface SDLSystemInfo ()
 
@@ -27,6 +28,23 @@
     self.systemSoftwareVersion = systemSoftwareVersion;
     self.systemHardwareVersion = systemHardwareVersion;
     return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (!object) {
+        return NO;
+    }
+    if (self == object) {
+        return YES;
+    }
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+    typeof(self) other = object;
+    // handle cases where both properties are nil
+    return ((self.vehicleType == other.vehicleType) || [self.vehicleType isEqual:other.vehicleType]) &&
+            ((self.systemSoftwareVersion == other.systemSoftwareVersion) || [self.systemSoftwareVersion isEqualToString:other.systemSoftwareVersion]) &&
+            ((self.systemHardwareVersion == other.systemHardwareVersion) || [self.systemHardwareVersion isEqualToString:other.systemHardwareVersion]);
 }
 
 @end

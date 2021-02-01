@@ -221,7 +221,7 @@ describe(@"sdl_parseVehicleType()", ^{
     });
 
     it(@"expect systemInfo to be decoded from bson properly", ^{
-        SDLSystemInfo *systemInfo = sdl_parseVehicleType(bsonObject);
+        SDLSystemInfo *systemInfo = sdl_parseSystemInfo(bsonObject);
         expect(systemInfo).notTo(beNil());
         expect(systemInfo.vehicleType.make).to(equal([NSString stringWithUTF8String:vhMake]));
         expect(systemInfo.vehicleType.model).to(equal([NSString stringWithUTF8String:vhModel]));
@@ -244,7 +244,7 @@ describe(@"sdl_parseVehicleType()", ^{
     NSString *systemHardwareVersion = @"9.8.7";
 
     beforeEach(^{
-        SDLVehicleType *vehicleType = [[SDLSystemInfo alloc] init];
+        SDLVehicleType *vehicleType = [[SDLVehicleType alloc] init];
         vehicleType.make = strMake;
         vehicleType.model = strModel;
         vehicleType.modelYear = strModelYear;
@@ -255,7 +255,7 @@ describe(@"sdl_parseVehicleType()", ^{
 
         // serialize the vehicleType
         SDLControlFramePayloadRPCStartServiceAck *helperStruct = [[SDLControlFramePayloadRPCStartServiceAck alloc] init];
-        helperStruct.vehicleType = vehicleType;
+        helperStruct.systemInfo = systemInfo;
         NSData *data = helperStruct.data;
         helperStruct = nil;
 
@@ -266,7 +266,7 @@ describe(@"sdl_parseVehicleType()", ^{
 
     afterEach(^{
         testPayload = nil;
-        vehicleType = nil;
+        systemInfo = nil;
     });
     
     it(@"expect vehicleType to be decoded from data properly", ^{
