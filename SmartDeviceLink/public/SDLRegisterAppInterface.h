@@ -209,7 +209,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * SDLAppInfo, Optional
  *
- * @since SDL 2.0
+ * @since SDL 4.2
  */
 @property (nullable, strong, nonatomic) SDLAppInfo *appInfo;
 
