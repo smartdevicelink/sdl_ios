@@ -13,7 +13,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define DEFAULT_FRAME_RATE 15
 /**
  Contains information about this system's video streaming capabilities
  */
@@ -34,19 +33,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale __deprecated_msg("Use initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale:preferredFPS instead");
 
 /**
- Convenience init for creating a video streaming capability with all parameters.
-
- @param preferredResolution The preferred resolution of a video stream for decoding and rendering on HMI
- @param maxBitrate The maximum bitrate of video stream that is supported, in kbps
- @param supportedFormats Detailed information on each format supported by this system, in its preferred order
- @param hapticDataSupported True if the system can utilize the haptic spatial data from the source being streamed
- @param diagonalScreenSize The diagonal screen size in inches
- @param pixelPerInch The diagonal resolution in pixels divided by the diagonal screen size in inches
- @param scale The scaling factor the app should use to change the size of the projecting view
- @param preferredFPS The preferred frame rate per second of the head unit
- @return A SDLVideoStreamingCapability object
+ * Convenience init for creating a video streaming capability with all parameters.
+ * @param preferredResolution - preferredResolution
+ * @param maxBitrate - maxBitrate
+ * @param supportedFormats - supportedFormats
+ * @param hapticSpatialDataSupported - hapticSpatialDataSupported
+ * @param diagonalScreenSize - diagonalScreenSize
+ * @param pixelPerInch - pixelPerInch
+ * @param scale - scale
+ * @param preferredFPS - preferredFPS
+ * @return A SDLVideoStreamingCapability object
  */
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale preferredFPS:(uint32_t)preferredFPS;
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLUInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported diagonalScreenSize:(nullable NSNumber<SDLFloat> *)diagonalScreenSize pixelPerInch:(nullable NSNumber<SDLFloat> *)pixelPerInch scale:(nullable NSNumber<SDLFloat> *)scale preferredFPS:(nullable NSNumber<SDLUInt> *)preferredFPS;
 
 /**
  The preferred resolution of a video stream for decoding and rendering on HMI
@@ -78,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The diagonal screen size in inches.
- 
+
  Float, Optional, minvalue="0"
  @since SDL 6.0
  */
@@ -94,17 +92,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The scaling factor the app should use to change the size of the projecting view.
- 
+
  Float, Optional, minvalue="1" maxvalue="10"
  @since SDL 6.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *scale;
 
 /**
- The preferred frame rate per second of the head unit. The mobile application / app library may take other factors into account that constrain the frame rate lower than this value, but it should not perform streaming at a higher frame rate than this value.
- @since SDL 7.1
+ * The preferred frame rate per second of the head unit. The mobile application / app library may take other factors into account that constrain the frame rate lower than this value, but it should not perform streaming at a higher frame rate than this value.
+ * {"num_min_value": 0, "num_max_value": 2147483647}
+ *
+ * @added in SmartDeviceLink 7.1.0
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLInt> *preferredFPS;
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *preferredFPS;
 
 @end
 
