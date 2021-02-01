@@ -51,28 +51,40 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithMake:(nullable NSString *)make model:(nullable NSString *)model modelYear:(nullable NSString *)modelYear trim:(nullable NSString *)trim;
 
 /**
- * Make of the vehicle, e.g. Ford
- * {"string_min_length": 1, "string_max_length": 500}
+ * The make of the vehicle
+ *
+ * For example, "Ford", "Lincoln", etc.
+ *
+ * Optional, Max String length 500 chars
  */
-@property (nullable, strong, nonatomic) NSString *make;
+@property (strong, nonatomic, nullable) NSString *make;
 
 /**
- * Model of the vehicle, e.g. Fiesta
- * {"string_min_length": 1, "string_max_length": 500}
+ * The model of the vehicle
+ *
+ * For example, "Fiesta", "Focus", etc.
+ *
+ * Optional, Max String length 500 chars
  */
-@property (nullable, strong, nonatomic) NSString *model;
+@property (strong, nonatomic, nullable) NSString *model;
 
 /**
- * Model Year of the vehicle, e.g. 2013
- * {"string_min_length": 1, "string_max_length": 500}
+ * The model year of the vehicle
+ *
+ * For example, "2013"
+ *
+ * Optional, Max String length 500 chars
  */
-@property (nullable, strong, nonatomic) NSString *modelYear;
+@property (strong, nonatomic, nullable) NSString *modelYear;
 
 /**
- * Trim of the vehicle, e.g. SE
- * {"string_min_length": 1, "string_max_length": 500}
+ * The trim of the vehicle
+ *
+ * For example, "SE", "SEL"
+ *
+ * Optional, Max String length 500 chars
  */
-@property (nullable, strong, nonatomic) NSString *trim;
+@property (strong, nonatomic, nullable) NSString *trim;
 
 @end
 
