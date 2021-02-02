@@ -645,11 +645,14 @@ UInt32 const MenuCellIdMin = 1;
     params.menuName = cell.title;
     params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
     params.position = @(position);
+    params.tertiaryText = cell.tertiaryText;
+    params.secondaryText = cell.secondaryText;
 
     command.menuParams = params;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
     command.cmdIcon = (cell.icon && shouldHaveArtwork) ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
+    command.secondaryImage = cell.secondaryArtwork.imageRPC;
 
     return command;
 }
@@ -663,10 +666,7 @@ UInt32 const MenuCellIdMin = 1;
     } else {
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil];
-#pragma clang diagnostic pop
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:cell.secondaryArtwork.imageRPC];
 }
 
 #pragma mark - Calling handlers
