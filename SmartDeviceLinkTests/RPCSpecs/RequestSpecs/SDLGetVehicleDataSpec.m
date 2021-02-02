@@ -30,9 +30,9 @@ describe(@"getter/setter tests", ^{
         testRequest.emergencyEvent = @YES;
         testRequest.engineOilLife = @YES;
         testRequest.engineTorque = @YES;
+        testRequest.externalTemperature = @YES;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testRequest.externalTemperature = @YES;
         testRequest.fuelLevel = @YES;
         testRequest.fuelLevel_State = @YES;
 #pragma clang diagnostic pop
@@ -72,9 +72,9 @@ describe(@"getter/setter tests", ^{
             expect(testRequest.emergencyEvent).to(equal(@YES));
             expect(testRequest.engineOilLife).to(equal(@YES));
             expect(testRequest.engineTorque).to(equal(@YES));
+            expect(testRequest.externalTemperature).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testRequest.externalTemperature).to(equal(@YES));
             expect(testRequest.fuelLevel).to(equal(@YES));
             expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic pop
@@ -163,9 +163,9 @@ describe(@"getter/setter tests", ^{
             expect(testRequest.emergencyEvent).to(equal(@YES));
             expect(testRequest.engineOilLife).to(equal(@YES));
             expect(testRequest.engineTorque).to(equal(@YES));
+            expect(testRequest.externalTemperature).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testRequest.externalTemperature).to(equal(@YES));
             expect(testRequest.fuelLevel).to(equal(@YES));
             expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic pop
@@ -211,9 +211,9 @@ describe(@"initializers", ^{
             expect(testRequest.emergencyEvent).to(beNil());
             expect(testRequest.engineOilLife).to(beNil());
             expect(testRequest.engineTorque).to(beNil());
+            expect(testRequest.externalTemperature).to(beNil());
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testRequest.externalTemperature).to(beNil());
             expect(testRequest.fuelLevel).to(beNil());
             expect(testRequest.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
@@ -261,9 +261,9 @@ describe(@"initializers", ^{
             expect(testRequest.emergencyEvent).to(equal(@YES));
             expect(testRequest.engineOilLife).to(equal(@YES));
             expect(testRequest.engineTorque).to(equal(@YES));
+            expect(testRequest.externalTemperature).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testRequest.externalTemperature).to(equal(@YES));
             expect(testRequest.fuelLevel).to(equal(@YES));
             expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic pop
@@ -311,9 +311,9 @@ describe(@"initializers", ^{
             expect(testRequest.emergencyEvent).to(equal(@YES));
             expect(testRequest.engineOilLife).to(equal(@YES));
             expect(testRequest.engineTorque).to(equal(@YES));
+            expect(testRequest.externalTemperature).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testRequest.externalTemperature).to(equal(@YES));
             expect(testRequest.fuelLevel).to(beNil());
             expect(testRequest.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
@@ -358,9 +358,9 @@ describe(@"initializers", ^{
             expect(testRequest.emergencyEvent).to(equal(@YES));
             expect(testRequest.engineOilLife).to(equal(@YES));
             expect(testRequest.engineTorque).to(equal(@YES));
+            expect(testRequest.externalTemperature).to(beNil());
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testRequest.externalTemperature).to(beNil());
             expect(testRequest.fuelLevel).to(beNil());
             expect(testRequest.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop

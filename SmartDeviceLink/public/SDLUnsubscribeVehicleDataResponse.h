@@ -151,12 +151,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *climateData;
 
 /**
- * The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec 7.1, please see climateData.
+ * The external temperature in degrees celsius.
  *
- * @deprecated in SmartDeviceLink 7.1.0
  * @added in SmartDeviceLink 2.0.0
  */
-@property (strong, nonatomic, nullable) SDLVehicleDataResult *externalTemperature __deprecated_msg("use climateData instead on 7.1+ RPC version connections");
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *externalTemperature;
 
 /**
  * See PRNDL. This parameter is deprecated and it is now covered in `gearStatus`

@@ -67,9 +67,9 @@ describe(@"getter/setter tests", ^{
         testResponse.emergencyEvent = emergencyEvent;
         testResponse.engineOilLife = @(engineOilLife);
         testResponse.engineTorque = @(engineTorque);
+        testResponse.externalTemperature = @(externalTemperature);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        testResponse.externalTemperature = @(externalTemperature);
         testResponse.fuelLevel = @(fuelLevel);
         testResponse.fuelLevel_State = fuelLevel_State;
 #pragma clang diagnostic pop
@@ -110,9 +110,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(emergencyEvent));
             expect(testResponse.engineOilLife).to(equal(@(engineOilLife)));
             expect(testResponse.engineTorque).to(equal(@(engineTorque)));
+            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
             expect(testResponse.fuelLevel).to(equal(@(fuelLevel)));
             expect(testResponse.fuelLevel_State).to(equal(fuelLevel_State));
 #pragma clang diagnostic pop
@@ -203,9 +203,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(emergencyEvent));
             expect(testResponse.engineOilLife).to(equal(@(engineOilLife)));
             expect(testResponse.engineTorque).to(equal(@(engineTorque)));
+            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
             expect(testResponse.fuelLevel).to(equal(@(fuelLevel)));
             expect(testResponse.fuelLevel_State).to(equal(fuelLevel_State));
 #pragma clang diagnostic pop
@@ -250,9 +250,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(beNil());
             expect(testResponse.engineOilLife).to(beNil());
             expect(testResponse.engineTorque).to(beNil());
+            expect(testResponse.externalTemperature).to(beNil());
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testResponse.externalTemperature).to(beNil());
             expect(testResponse.fuelLevel).to(beNil());
             expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
@@ -301,9 +301,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(emergencyEvent));
             expect(testResponse.engineOilLife).to(equal(@(engineOilLife)));
             expect(testResponse.engineTorque).to(equal(@(engineTorque)));
+            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testResponse.externalTemperature).to(equal(@(externalTemperature)));
             expect(testResponse.fuelLevel).to(beNil());
             expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
@@ -349,9 +349,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(emergencyEvent));
             expect(testResponse.engineOilLife).to(equal(@(engineOilLife)));
             expect(testResponse.engineTorque).to(equal(@(engineTorque)));
+            expect(testResponse.externalTemperature).to(beNil());
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testResponse.externalTemperature).to(beNil());
             expect(testResponse.fuelLevel).to(beNil());
             expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
