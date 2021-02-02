@@ -262,6 +262,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorRPCsFailed userInfo:userInfo];
 }
 
++ (NSError *)sdl_voiceCommandManager_pendingUpdateSuperseded {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorPendingUpdateSuperseded userInfo:@{
+        NSLocalizedDescriptionKey: @"Voice Command Manager error",
+        NSLocalizedFailureReasonErrorKey: @"Voice command operation was cancelled because it was superseded by another update"
+    }];
+}
+
 #pragma mark Choice Set Manager
 
 + (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo {
@@ -399,6 +406,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @implementation NSException (SDLExceptions)
+
++ (NSException *)sdl_duplicateSoftButtonsNameException {
+    return [NSException exceptionWithName:@"InvalidSoftButtonsInitialization" reason:@"Attempting to create soft buttons with the same name" userInfo:nil];
+}
 
 + (NSException *)sdl_missingHandlerException {
     return [NSException

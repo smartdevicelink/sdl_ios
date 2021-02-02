@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_uploadInitialStateImagesWithCompletionHandler:(void (^)(void))handler {
     NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
-        if ([self sdl_artworkNeedsUpload:object.currentState.artwork]) {
+        if ([self.fileManager fileNeedsUpload:object.currentState.artwork]) {
             [initialStatesToBeUploaded addObject:object.currentState.artwork];
         }
     }
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
         for (SDLSoftButtonState *state in object.states) {
             if ([state.name isEqualToString:object.currentState.name]) { continue; }
-            if ([self sdl_artworkNeedsUpload:state.artwork]) {
+            if ([self.fileManager fileNeedsUpload:state.artwork]) {
                 [otherStatesToBeUploaded addObject:state.artwork];
             }
         }
@@ -174,8 +174,9 @@ NS_ASSUME_NONNULL_BEGIN
         [softButtons addObject:buttonObject.currentStateSoftButton];
     }
 
+    // HAX: Work around a bug in Sync where not sending a main field when sending soft buttons will lock up the head unit for 10-15 seconds.
     SDLShow *show = [[SDLShow alloc] init];
-    show.mainField1 = self.mainField1;
+    show.mainField1 = self.mainField1 ?: @"";
     show.softButtons = [softButtons copy];
 
     [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -227,17 +228,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Images
 
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && self.softButtonCapabilities.imageSupported.boolValue && !artwork.isStaticIcon);
-}
-
 /// Checks all the button states for images that need to be uploaded.
 /// @return True if all images have been uploaded; false at least one image needs to be uploaded
 - (BOOL)sdl_allStateImagesAreUploaded {
     for (SDLSoftButtonObject *button in self.softButtonObjects) {
         for (SDLSoftButtonState *state in button.states) {
             SDLArtwork *artwork = state.artwork;
-            if (![self sdl_artworkNeedsUpload:artwork]) { continue; }
+            if (![self.fileManager fileNeedsUpload:artwork]) { continue; }
             return NO;
         }
     }

@@ -17,21 +17,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale preferredFPS:(uint32_t)preferredFPS {
+// deprecated method, and will be removed in the future
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLUInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported diagonalScreenSize:(nullable NSNumber<SDLFloat> *)diagonalScreenSize pixelPerInch:(nullable NSNumber<SDLFloat> *)pixelPerInch scale:(nullable NSNumber<SDLFloat> *)scale {
+    self = [self initWithPreferredResolution:preferredResolution maxBitrate:maxBitrate supportedFormats:supportedFormats hapticSpatialDataSupported:hapticSpatialDataSupported diagonalScreenSize:diagonalScreenSize pixelPerInch:pixelPerInch scale:scale preferredFPS:nil];
+
+    return self;
+}
+
+
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLUInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported diagonalScreenSize:(nullable NSNumber<SDLFloat> *)diagonalScreenSize pixelPerInch:(nullable NSNumber<SDLFloat> *)pixelPerInch scale:(nullable NSNumber<SDLFloat> *)scale preferredFPS:(nullable NSNumber<SDLUInt> *)preferredFPS {
     self = [self init];
     if (!self) {
-        return self;
+        return nil;
     }
-
-    self.maxBitrate = @(maxBitrate);
     self.preferredResolution = preferredResolution;
+    self.maxBitrate = maxBitrate;
     self.supportedFormats = supportedFormats;
-    self.hapticSpatialDataSupported = @(hapticDataSupported);
-    self.diagonalScreenSize = @(diagonalScreenSize);
-    self.pixelPerInch = @(pixelPerInch);
-    self.scale = @(scale);
-    self.preferredFPS = @(preferredFPS);
-
+    self.hapticSpatialDataSupported = hapticSpatialDataSupported;
+    self.diagonalScreenSize = diagonalScreenSize;
+    self.pixelPerInch = pixelPerInch;
+    self.scale = scale;
+    self.preferredFPS = preferredFPS;
     return self;
 }
 

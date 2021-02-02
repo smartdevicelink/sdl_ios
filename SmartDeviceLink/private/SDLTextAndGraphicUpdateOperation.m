@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
             [strongSelf finishOperation];
         }];
-    } else if (![self sdl_artworkNeedsUpload:self.updatedState.primaryGraphic] && ![self sdl_artworkNeedsUpload:self.updatedState.secondaryGraphic]) {
+    } else if (![self.fileManager fileNeedsUpload:self.updatedState.primaryGraphic] && ![self.fileManager fileNeedsUpload:self.updatedState.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         [self sdl_sendShow:show withHandler:^(NSError * _Nullable error) {
@@ -263,8 +263,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = ![self sdl_artworkNeedsUpload:primaryArtwork] ? primaryArtwork.imageRPC : nil;
-    newShow.secondaryGraphic = ![self sdl_artworkNeedsUpload:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
+    newShow.graphic = [self sdl_shouldRPCIncludeImage:primaryArtwork] ? primaryArtwork.imageRPC : nil;
+    newShow.secondaryGraphic = [self sdl_shouldRPCIncludeImage:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
 
     if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
         SDLLogV(@"No graphics to upload");
@@ -515,30 +515,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Should Update
 
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
+- (BOOL)sdl_shouldRPCIncludeImage:(nullable SDLArtwork *)artwork {
+    if (artwork == nil) { return NO; }
+
+    return (artwork.isStaticIcon || [self.fileManager hasUploadedFile:artwork]);
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
     // If the template is updating, we don't yet know it's capabilities. Just assume the template supports the primary image. 
     BOOL templateSupportsPrimaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] || [self sdl_shouldUpdateTemplateConfig];
-    BOOL graphicMatchesExisting = [self.currentScreenData.primaryGraphic.name isEqualToString:self.updatedState.primaryGraphic.name];
+    BOOL graphicNameMatchesExisting = [self.currentScreenData.primaryGraphic.name isEqualToString:self.updatedState.primaryGraphic.name];
+    BOOL shouldOverwriteGraphic = self.updatedState.primaryGraphic.overwrite;
     BOOL graphicExists = (self.updatedState.primaryGraphic != nil);
 
-    return (templateSupportsPrimaryArtwork && !graphicMatchesExisting && graphicExists);
+    return (templateSupportsPrimaryArtwork && (shouldOverwriteGraphic || !graphicNameMatchesExisting) && graphicExists);
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
     // If the template is updating, we don't yet know it's capabilities. Just assume the template supports the secondary image. 
     BOOL templateSupportsSecondaryArtwork = [self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic] || [self sdl_shouldUpdateTemplateConfig];
-    BOOL graphicMatchesExisting = [self.currentScreenData.secondaryGraphic.name isEqualToString:self.updatedState.secondaryGraphic.name];
+    BOOL graphicNameMatchesExisting = [self.currentScreenData.secondaryGraphic.name isEqualToString:self.updatedState.secondaryGraphic.name];
+    BOOL shouldOverwriteGraphic = self.updatedState.secondaryGraphic != nil && self.updatedState.secondaryGraphic.overwrite;
     BOOL graphicExists = (self.updatedState.secondaryGraphic != nil);
 
     // Cannot detect if there is a secondary image below v5.0, so we'll just try to detect if the primary image is allowed and allow the secondary image if it is.
     if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]) {
-        return (templateSupportsSecondaryArtwork && !graphicMatchesExisting && graphicExists);
+        return (templateSupportsSecondaryArtwork && (shouldOverwriteGraphic || !graphicNameMatchesExisting) && graphicExists);
     } else {
-        return ([self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] && !graphicMatchesExisting && graphicExists);
+        return ([self.currentCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] && (shouldOverwriteGraphic || !graphicNameMatchesExisting) && graphicExists);
     }
 }
 
