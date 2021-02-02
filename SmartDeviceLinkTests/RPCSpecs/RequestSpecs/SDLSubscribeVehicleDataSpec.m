@@ -265,8 +265,8 @@ describe(@"test initializers", ^{
             expect(testRequest.externalTemperature).to(equal(@YES));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testRequest.fuelLevel).to(beNil());
-            expect(testRequest.fuelLevel_State).to(beNil());
+            expect(testRequest.fuelLevel).to(equal(@YES));
+            expect(testRequest.fuelLevel_State).to(equal(@YES));
 #pragma clang diagnostic pop
             expect(testRequest.fuelRange).to(equal(@YES));
             expect(testRequest.gearStatus).to(beNil());
