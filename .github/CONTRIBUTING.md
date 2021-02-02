@@ -3,12 +3,12 @@
 Third party contributions are essential for making SDL great. However, we do have a few guidelines we need contributors to follow.
 
 ### Issues
-If writing a bug report, please make sure <a href="https://your.bugreportneedsmore.info" target="_blank">it has enough info</a>. Include all relevant information.
+If writing a bug report, please make sure [it has enough info](https://your.bugreportneedsmore.info). Include all relevant information.
 
 If requesting a feature, understand that we appreciate the input! However, it may not immediately fit our roadmap, and it may take a while for us to get to your request.
 
 ### Gitflow
-We use <a href="http://nvie.com/posts/a-successful-git-branching-model/">Gitflow</a> as our branch management system. Please follow gitflow's guidelines while contributing to any SDL project.
+We use [Gitflow](http://nvie.com/posts/a-successful-git-branching-model/) as our branch management system. Please follow gitflow's guidelines while contributing to any SDL project.
 
 ### Pull Requests
 * Please follow the repository's for all code and documentation.
@@ -18,11 +18,11 @@ We use <a href="http://nvie.com/posts/a-successful-git-branching-model/">Gitflow
 * All commits should separated into logical units, i.e. unrelated changes should be in different commits within a pull request.
 * Work in progress pull requests should have "[WIP]" in front of the Pull Request title. When you believe the pull request is ready to merge, remove this tag and @mention the appropriate SDL team to schedule a review.
 * All new code *must* include unit tests. Bug fixes should have a test that fails previously and now passes. All new features should be covered. If your code does not have tests, or regresses old tests, it will be rejected.
-* A great example of a <a href="https://github.com/smartdevicelink/SmartDeviceLink-iOS/pull/45" target="_blank">pull request can be found here</a>.
+* Make sure you fill out all sections of the PR template. A great example of a [pull request can be found here](https://github.com/smartdevicelink/sdl_ios/pull/1688).
 
 ### Contributor's License Agreement (CLA)
-In order to accept Pull Requests from contributors, you must first sign [the Contributor's License Agreement](https://docs.google.com/forms/d/1VNR8EUd5b46cQ7uNbCq1fJmnu0askNpUp5dudLKRGpU/viewform). If you need to make a change to information that you entered, [please contact us](mailto:justin@livio.io).
+In order to accept Pull Requests from contributors, you must first sign [the Contributor's License Agreement](https://docs.google.com/forms/d/1VNR8EUd5b46cQ7uNbCq1fJmnu0askNpUp5dudLKRGpU/viewform). If you need to make a change to information that you entered, [please contact us](mailto:admin@smartdevicelink.com).
 
 ### Repository Specific Guidelines
-  * <a href="https://github.com/smartdevicelink/sdl_ios/wiki/Objective-C-Style-Guide" target="blank">iOS Style Guide</a>
-  * Please document all code written using [Objective-C style documentation](http://nshipster.com/documentation/) for methods (we use [VVDocumenter](https://github.com/onevcat/VVDocumenter-Xcode) for methods and use inline code comments where it makes sense, i.e. for non-obvious code chunks.
+  * [iOS Style Guide](https://github.com/smartdevicelink/sdl_ios/wiki/Objective-C-Style-Guide)
+  * Please document all public and internally public APIs using Xcode's standard documentation (have the cursor on the API declaration and press `cmd+alt+/`).
