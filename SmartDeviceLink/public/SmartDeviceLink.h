@@ -372,6 +372,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLResult.h"
 #import "SDLSamplingRate.h"
 #import "SDLSeatMemoryActionType.h"
+#import "SDLSeekIndicatorType.h"
 #import "SDLServiceUpdateReason.h"
 #import "SDLSupportedSeat.h"
 #import "SDLSoftButtonType.h"
@@ -430,6 +431,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchManager.h"
 #import "SDLTouchManagerDelegate.h"
 #import "SDLSecurityType.h"
+#import "SDLSeekStreamingIndicator.h"
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingVideoScaleManager.h"
 
