@@ -511,8 +511,8 @@
 		4A8BD3CD24F999BE000945E3 /* TestSubscribeButtonObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3CC24F999BE000945E3 /* TestSubscribeButtonObserver.m */; };
 		4A8BD3D024FE7CF1000945E3 /* SDLPermissionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD3CE24FE7CF1000945E3 /* SDLPermissionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD3D124FE7CF1000945E3 /* SDLPermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3CF24FE7CF1000945E3 /* SDLPermissionManager.m */; };
-		4A93893D25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A93893B25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.h */; };
-		4A93893E25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93893C25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.m */; };
+		4A93893D25B8CBD40069F438 /* SDLMenuReplaceOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A93893B25B8CBD40069F438 /* SDLMenuReplaceOperation.h */; };
+		4A93893E25B8CBD40069F438 /* SDLMenuReplaceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93893C25B8CBD40069F438 /* SDLMenuReplaceOperation.m */; };
 		4A93894525B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A93894325B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.h */; };
 		4A93894625B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93894425B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.m */; };
 		4A93895325B9DACA0069F438 /* SDLMenuShowOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A93895125B9DACA0069F438 /* SDLMenuShowOperation.h */; };
@@ -2319,8 +2319,8 @@
 		4A8BD3CC24F999BE000945E3 /* TestSubscribeButtonObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSubscribeButtonObserver.m; sourceTree = "<group>"; };
 		4A8BD3CE24FE7CF1000945E3 /* SDLPermissionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPermissionManager.h; path = public/SDLPermissionManager.h; sourceTree = "<group>"; };
 		4A8BD3CF24FE7CF1000945E3 /* SDLPermissionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionManager.m; path = public/SDLPermissionManager.m; sourceTree = "<group>"; };
-		4A93893B25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuReplaceDynamicOperation.h; path = private/SDLMenuReplaceDynamicOperation.h; sourceTree = "<group>"; };
-		4A93893C25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceDynamicOperation.m; path = private/SDLMenuReplaceDynamicOperation.m; sourceTree = "<group>"; };
+		4A93893B25B8CBD40069F438 /* SDLMenuReplaceOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuReplaceOperation.h; path = private/SDLMenuReplaceOperation.h; sourceTree = "<group>"; };
+		4A93893C25B8CBD40069F438 /* SDLMenuReplaceOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceOperation.m; path = private/SDLMenuReplaceOperation.m; sourceTree = "<group>"; };
 		4A93894325B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuReplaceStaticOperation.h; path = private/SDLMenuReplaceStaticOperation.h; sourceTree = "<group>"; };
 		4A93894425B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceStaticOperation.m; path = private/SDLMenuReplaceStaticOperation.m; sourceTree = "<group>"; };
 		4A93895125B9DACA0069F438 /* SDLMenuShowOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuShowOperation.h; path = private/SDLMenuShowOperation.h; sourceTree = "<group>"; };
@@ -4286,8 +4286,8 @@
 				4A93896325BB35FA0069F438 /* Menu Replace Utilities */,
 				4A93895725B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.h */,
 				4A93895825B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m */,
-				4A93893B25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.h */,
-				4A93893C25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.m */,
+				4A93893B25B8CBD40069F438 /* SDLMenuReplaceOperation.h */,
+				4A93893C25B8CBD40069F438 /* SDLMenuReplaceOperation.m */,
 				4A93894325B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.h */,
 				4A93894425B8CC5F0069F438 /* SDLMenuReplaceStaticOperation.m */,
 				4A93895125B9DACA0069F438 /* SDLMenuShowOperation.h */,
@@ -7116,7 +7116,7 @@
 				4ABB2AA724F847F40061BF55 /* SDLShowConstantTBTResponse.h in Headers */,
 				4ABB28ED24F82A6A0061BF55 /* SDLOnKeyboardInput.h in Headers */,
 				5D9FDA991F2A7D3F00A495C8 /* emhashmap.h in Headers */,
-				4A93893D25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.h in Headers */,
+				4A93893D25B8CBD40069F438 /* SDLMenuReplaceOperation.h in Headers */,
 				4ABB255F24F7E59E0061BF55 /* SDLPermissionConstants.h in Headers */,
 				4ABB270324F7FB8F0061BF55 /* SDLButtonName.h in Headers */,
 				4ABB25B324F7E6F60061BF55 /* SDLSoftButtonTransitionOperation.h in Headers */,
@@ -8175,7 +8175,7 @@
 				4ABB28C924F82A6A0061BF55 /* SDLOnRCStatus.m in Sources */,
 				4ABB253124F7E43A0061BF55 /* SDLAsynchronousRPCOperation.m in Sources */,
 				4ABB2A7524F847D40061BF55 /* SDLPublishAppServiceResponse.m in Sources */,
-				4A93893E25B8CBD40069F438 /* SDLMenuReplaceDynamicOperation.m in Sources */,
+				4A93893E25B8CBD40069F438 /* SDLMenuReplaceOperation.m in Sources */,
 				4A8BD3AA24F948CF000945E3 /* SDLDeleteFileOperation.m in Sources */,
 				4ABB2B4524F84EF50061BF55 /* SDLBodyInformation.m in Sources */,
 				4ABB25BB24F7E70E0061BF55 /* SDLSoftButtonObject.m in Sources */,

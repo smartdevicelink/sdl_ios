@@ -6,7 +6,7 @@
 //  Copyright © 2021 smartdevicelink. All rights reserved.
 //
 
-#import "SDLMenuReplaceDynamicOperation.h"
+#import "SDLMenuReplaceOperation.h"
 
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
@@ -32,19 +32,22 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @end
 
-@interface SDLMenuReplaceDynamicOperation ()
+@interface SDLMenuReplaceOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedMenu;
+@property (assign, nonatomic) BOOL compatbilityModeEnabled;
+@property (assign, nonatomic) SDLCurrentMenuUpdatedBlock currentMenuUpdatedBlock;
 
+@property (strong, nonatomic) NSMutableArray<SDLMenuCell *> *mutableCurrentMenu;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
 
-@implementation SDLMenuReplaceDynamicOperation
+@implementation SDLMenuReplaceOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu compatibilityModeEnabled:(BOOL)compatbilityModeEnabled currentMenuUpdatedBlock:(SDLCurrentMenuUpdatedBlock)currentMenuUpdatedBlock {
     self = [super init];
     if (!self) { return nil; }
 
@@ -54,6 +57,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     _menuConfiguration = menuConfiguration;
     _currentMenu = currentMenu;
     _updatedMenu = updatedMenu;
+    _compatbilityModeEnabled = compatbilityModeEnabled;
+    _currentMenuUpdatedBlock = currentMenuUpdatedBlock;
 
     return self;
 }
@@ -62,7 +67,14 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     [super start];
     if (self.isCancelled) { return; }
 
-    SDLDynamicMenuUpdateRunScore *runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
+    SDLDynamicMenuUpdateRunScore *runScore = nil;
+    if (self.compatbilityModeEnabled) {
+        // TODO
+//        runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells: updatedMenuCells:]
+    } else {
+        runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
+    }
+
     NSArray<NSNumber *> *deleteMenuStatus = runScore.oldStatus;
     NSArray<NSNumber *> *addMenuStatus = runScore.updatedStatus;
 
@@ -75,15 +87,19 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     // Since we are creating a new Menu but keeping old cells we must firt transfer the old cellIDs to the new menus kept cells.
     [self sdl_transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
 
-    // TODO: We don't check cancellation or finish
-    NSArray<SDLArtwork *> *artworksToBeUploaded = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:self.updatedMenu fileManager:self.fileManager windowCapability:self.windowCapability];
-
     __weak typeof(self) weakself = self;
+    NSArray<SDLArtwork *> *artworksToBeUploaded = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:self.updatedMenu fileManager:self.fileManager windowCapability:self.windowCapability];
     if (artworksToBeUploaded.count > 0) {
-        [self.fileManager uploadArtworks:artworksToBeUploaded completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-            if (error != nil) {
-                SDLLogE(@"Error uploading menu artworks: %@", error);
+        [self.fileManager uploadArtworks:artworksToBeUploaded progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+            if (weakself.isCancelled) {
+                [weakself finishOperation];
+                return NO;
             }
+
+            return YES;
+        } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+            if (weakself.isCancelled) { return; }
+            if (error != nil) { SDLLogE(@"Error uploading menu artworks: %@", error); }
 
             SDLLogD(@"Menu artworks uploaded");
             [self sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
@@ -92,16 +108,20 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         }];
     } else {
         // Cells have no artwork to load
-        [self sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
+        [self sdl_updateMainMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
+            if (weakself.isCancelled) { return [weakself finishOperation]; }
             [weakself sdl_startSubMenuUpdatesWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
         }];
     }
 }
 
-- (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
+- (void)sdl_updateMainMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(SDLMenuUpdateCompletionHandler)handler {
     __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
-        [weakself sdl_sendNewMenuCells:addCells oldMenu:weakself.currentMenu withCompletionHandler:^(NSError * _Nullable error) { }];
+        if (weakself.isCancelled) { return handler(error); }
+        [weakself sdl_sendNewMenuCells:addCells oldMenu:weakself.currentMenu withCompletionHandler:^(NSError * _Nullable error) {
+            handler(error);
+        }];
     }];
 }
 
@@ -183,13 +203,17 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
         __weak typeof(self) weakself = self;
         [self sdl_sendDeleteCurrentMenu:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
+            if (weakself.isCancelled) { return [weakself finishOperation]; }
+
             [weakself sdl_sendNewMenuCells:cellsToAdd oldMenu:weakself.currentMenu[startIndex].subCells withCompletionHandler:^(NSError * _Nullable error) {
+                if (weakself.isCancelled) { return [weakself finishOperation]; }
+
                 // After the first set of submenu cells were added and deleted we must find the next set of subcells until we loop through all the elements
                 [weakself sdl_startSubMenuUpdatesWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1)];
             }];
         }];
     } else {
-        // After the first set of submenu cells were added and deleted we must find the next set of subcells until we loop through all the elements
+        // There are no subcells, we can skip to the next index.
         [self sdl_startSubMenuUpdatesWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1)];
     }
 }
@@ -244,6 +268,16 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     for (NSUInteger i = 0; i < newCells.count; i++) {
         newCells[i].cellId = oldCells[i].cellId;
     }
+}
+
+#pragma mark - Getter / Setters
+
+- (void)setCurrentMenu:(NSArray<SDLMenuCell *> *)currentMenu {
+    _mutableCurrentMenu = [currentMenu mutableCopy];
+}
+
+- (NSArray<SDLMenuCell *> *)currentMenu {
+    return [_mutableCurrentMenu copy];
 }
 
 #pragma mark - Operation Overrides

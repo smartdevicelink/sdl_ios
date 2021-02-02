@@ -260,7 +260,7 @@ UInt32 const MenuCellIdMin = 1;
 
 - (void)sdl_startDynamicMenuUpdate {
     __weak typeof(self) weakself = self;
-    SDLMenuReplaceDynamicOperation *menuReplaceOperation = [[SDLMenuReplaceDynamicOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells currentMenuUpdatedBlock:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells) {
+    SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells currentMenuUpdatedBlock:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells) {
         weakself.currentMenuCells = currentMenuCells;
         [weakself sdl_updateMenuReplaceOperationsWithNewCurrentMenu];
     }];
@@ -275,7 +275,7 @@ UInt32 const MenuCellIdMin = 1;
     // Cancel previous replace menu operations
     for (NSOperation *operation in self.transactionQueue.operations) {
         if ([operation isMemberOfClass:[SDLMenuReplaceStaticOperation class]]
-             || [operation isMemberOfClass:[SDLMenuReplaceDynamicOperation class]]) {
+             || [operation isMemberOfClass:[SDLMenuReplaceOperation class]]) {
             [operation cancel];
         }
     }
@@ -302,7 +302,7 @@ UInt32 const MenuCellIdMin = 1;
     // Cancel previous replace menu operations
     for (NSOperation *operation in self.transactionQueue.operations) {
         if ([operation isMemberOfClass:[SDLMenuReplaceStaticOperation class]]
-             || [operation isMemberOfClass:[SDLMenuReplaceDynamicOperation class]]) {
+             || [operation isMemberOfClass:[SDLMenuReplaceOperation class]]) {
             [operation cancel];
         }
     }
@@ -315,8 +315,8 @@ UInt32 const MenuCellIdMin = 1;
         if ([operation isMemberOfClass:[SDLMenuReplaceStaticOperation class]]) {
             SDLMenuReplaceStaticOperation *op = (SDLMenuReplaceStaticOperation *)operation;
             op.currentMenu = self.currentMenuCells;
-        } else if ([operation isMemberOfClass:[SDLMenuReplaceDynamicOperation class]]) {
-            SDLMenuReplaceDynamicOperation *op = (SDLMenuReplaceDynamicOperation *)operation;
+        } else if ([operation isMemberOfClass:[SDLMenuReplaceOperation class]]) {
+            SDLMenuReplaceOperation *op = (SDLMenuReplaceOperation *)operation;
             op.currentMenu = self.currentMenuCells;
         }
     }
