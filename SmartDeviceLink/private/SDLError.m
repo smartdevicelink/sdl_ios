@@ -304,14 +304,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Alert Manager
 
-+ (NSError *)sdl_alertManager_presentationFailed:(NSDictionary *)userInfo {
-    NSMutableDictionary<NSString *, NSString *> *userInfoDescription = [[NSMutableDictionary alloc] initWithDictionary: @{
++ (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime {
+    NSMutableDictionary<NSString *, NSString *> *userInfo = [[NSMutableDictionary alloc] initWithDictionary: @{
                                                        NSLocalizedDescriptionKey: @"The alert presentation failed",
                                                        NSLocalizedFailureReasonErrorKey: @"The alert failed to present on the module",
-                                                       NSLocalizedRecoverySuggestionErrorKey: @"Please check the \"error\" key and the \"tryAgainTime\" keys for more information"
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"Please check the \"error\" key and the \"tryAgainTime\" keys for more information",
+                                                       @"tryAgainTime": @(tryAgainTime),
+                                                       @"error": error
                                                        }];
-                                                       [userInfoDescription addEntriesFromDictionary:userInfo];
-    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerPresentationError userInfo:userInfoDescription];
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerPresentationError userInfo:userInfo];
 }
 
 + (NSError *)sdl_alertManager_alertDataInvalid {

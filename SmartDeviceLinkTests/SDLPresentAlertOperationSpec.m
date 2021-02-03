@@ -943,13 +943,13 @@ describe(@"SDLPresentAlertOperation", ^{
                     response.success = @NO;
                     response.resultCode = SDLResultAborted;
                     NSError *defaultError = [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
-                    NSError *expectedAlertResponseError = [NSError sdl_alertManager_presentationFailed:@{@"tryAgainTime": response.tryAgainTime, @"error": defaultError}];
-
+                    
                     OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:([OCMArg invokeBlockWithArgs:[OCMArg any], response, defaultError, nil])]);
 
                     [testPresentAlertOperation start];
 
-                    expect(testPresentAlertOperation.internalError).toEventually(equal(expectedAlertResponseError));
+                    expect(testPresentAlertOperation.internalError.userInfo[@"tryAgainTime"]).toEventually(equal(response.tryAgainTime));
+                    expect(testPresentAlertOperation.internalError.userInfo[@"error"]).toEventually(equal(defaultError));
                     expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
 

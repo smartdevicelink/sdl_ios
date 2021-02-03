@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Alert Manager
 
-+ (NSError *)sdl_alertManager_presentationFailed:(NSDictionary *)userInfo;
++ (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime;
 + (NSError *)sdl_alertManager_alertDataInvalid;
 + (NSError *)sdl_alertManager_alertAudioFileNotSupported;
 

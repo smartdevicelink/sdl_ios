@@ -248,10 +248,7 @@ static const int SDLAlertSoftButtonCount = 4;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
             SDLAlertResponse *alertResponse = (SDLAlertResponse *)response;
-            NSMutableDictionary *alertResponseUserInfo = [NSMutableDictionary dictionary];
-            alertResponseUserInfo[@"error"] = error;
-            alertResponseUserInfo[@"tryAgainTime"] = alertResponse.tryAgainTime;
-            strongSelf.internalError = [NSError sdl_alertManager_presentationFailed:alertResponseUserInfo];
+            strongSelf.internalError = [NSError sdl_alertManager_presentationFailedWithError:error tryAgainTime:alertResponse.tryAgainTime.intValue];
         }
 
         strongSelf.isAlertPresented = NO;
