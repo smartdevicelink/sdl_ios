@@ -89,7 +89,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.diagonalScreenSize).to(equal(testDiagonalScreenSize));
         expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
         expect(testStruct.scale).to(equal(testScale));
-        expect(testStruct.preferredFPS).to(equal(testPreferredFPS));
+        expect(testStruct.preferredFPS).to(equal(beNil()));
     });
 
     it(@"Should initialize correctly with initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale:preferredFPS", ^ {
