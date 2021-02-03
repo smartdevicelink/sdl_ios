@@ -307,7 +307,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime {
     NSMutableDictionary<NSString *, NSString *> *userInfo = [[NSMutableDictionary alloc] initWithDictionary: @{
                                                        NSLocalizedDescriptionKey: @"The alert presentation failed",
-                                                       NSLocalizedFailureReasonErrorKey: @"The alert failed to present on the module",
+                                                       NSLocalizedFailureReasonErrorKey: @"The alert failed to present on the module or was dismissed by the module",
                                                        NSLocalizedRecoverySuggestionErrorKey: @"Please check the \"error\" key and the \"tryAgainTime\" keys for more information",
                                                        @"tryAgainTime": @(tryAgainTime),
                                                        @"error": error
