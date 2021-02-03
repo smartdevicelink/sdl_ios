@@ -33,6 +33,7 @@ describe(@"a menu cell", ^{
             expect(testCell.icon).to(equal(someArtwork));
             expect(testCell.voiceCommands).to(equal(someVoiceCommands));
             expect(testCell.subCells).to(beNil());
+            expect(testCell.uniqueTitle).to(equal(someTitle));
         });
 
         it(@"should initialize properly as a submenu item with icon and layout", ^{
@@ -43,6 +44,7 @@ describe(@"a menu cell", ^{
             expect(testCell.voiceCommands).to(beNil());
             expect(testCell.subCells).to(equal(someSubcells));
             expect(testCell.submenuLayout).to(equal(testLayout));
+            expect(testCell.uniqueTitle).to(equal(someTitle));
         });
     });
     describe(@"check cell eqality", ^{

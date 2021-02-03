@@ -162,7 +162,11 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
-    NSArray<SDLMenuCell *> *cells = [self sdl_addUniqueNamesToCells:menuCells];
+    NSArray<SDLMenuCell *> *cells = menuCells;
+    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
+        [self sdl_addUniqueNamesToCells:[NSMutableSet setWithArray:cells]];
+    }
 
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
@@ -526,31 +530,30 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
-- (NSArray<SDLMenuCell *> *)sdl_addUniqueNamesToCells:(nullable NSArray<SDLMenuCell *> *)choices {
-    NSMutableArray<SDLMenuCell *> *choicess = [choices mutableCopy];
+/// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
+/// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
+/// @param choices The choices to be uploaded.
+- (void)sdl_addUniqueNamesToCells:(nullable NSMutableSet<SDLMenuCell *> *)choices {
+    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
-    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
-        for (SDLMenuCell *cell in choicess) {
-            NSString *cellName = cell.title;
-            NSNumber *counter = dictCounter[cellName];
-            if (counter) {
-                dictCounter[cellName] = @(counter.intValue + 1);
-            } else {
-                dictCounter[cellName] = @1;
-            }
-            counter = dictCounter[cellName];
-            if (counter.intValue > 1) {
-                NSString *testName = cell.uniqueTitle;
-                cell.uniqueTitle = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter.intValue, @")"];
-            }
+    for (SDLMenuCell *cell in choices) {
+        NSString *cellName = cell.title;
+        NSNumber *counter = dictCounter[cellName];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[cellName] = counter;
+        } else {
+            dictCounter[cellName] = @1;
+        }
+        counter = dictCounter[cellName];
+        if (counter.intValue > 1) {
+            cell.uniqueTitle = [NSString stringWithFormat: @"%@ (%d)", cell.title, counter.intValue];
+        }
 
-            if (cell.subCells.count > 0) {
-                cell.subCells = [self sdl_addUniqueNamesToCells:cell.subCells];
-            }
+        if (cell.subCells.count > 0) {
+            [self sdl_addUniqueNamesToCells:[NSMutableSet setWithArray:cell.subCells]];
         }
     }
-    return [choices copy];
 }
 
 #pragma mark Artworks

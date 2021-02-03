@@ -86,7 +86,7 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
 #pragma mark - Etc.
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu", _choiceId, _text, _secondaryText, _tertiaryText, _uniqueText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count];
+    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu, uniqueText: %@", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, ([_text isEqualToString:_uniqueText] ? @"NO" : _uniqueText)];
 }
 
 @end

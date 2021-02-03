@@ -53,10 +53,14 @@ describe(@"menu manager", ^{
     __block SDLMenuCell *textOnlyCell = nil;
     __block SDLMenuCell *textOnlyCell2 = nil;
     __block SDLMenuCell *textAndImageCell = nil;
+    __block SDLMenuCell *textAndImageCell2 = nil;
     __block SDLMenuCell *submenuCell = nil;
+    __block SDLMenuCell *submenuCell2 = nil;
     __block SDLMenuCell *submenuImageCell = nil;
 
     __block SDLMenuConfiguration *testMenuConfiguration = nil;
+
+    __block SDLVersion *version = nil;
 
     beforeEach(^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
@@ -66,7 +70,9 @@ describe(@"menu manager", ^{
 
         textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        textAndImageCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork2 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell]];
+        submenuCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textAndImageCell, textAndImageCell2]];
         submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell]];
         textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
@@ -86,6 +92,7 @@ describe(@"menu manager", ^{
         windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
         windowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
         testManager.windowCapability = windowCapability;
+        version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     });
 
     it(@"should instantiate correctly", ^{
@@ -170,8 +177,27 @@ describe(@"menu manager", ^{
 
         context(@"duplicate titles", ^{
             it(@"should not fail with a duplicate title", ^{
-                testManager.menuCells = @[textOnlyCell, textOnlyCell];
+                testManager.menuCells = @[textAndImageCell, textAndImageCell2];
                 expect(testManager.menuCells).toNot(beEmpty());
+                if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
+                    expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                    expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
+                } else {
+                    expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                    expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2"));
+                }
+            });
+
+            it(@"should not fail with a duplicate title for subCells", ^{
+                testManager.menuCells = @[submenuCell2];
+                expect(testManager.menuCells).toNot(beEmpty());
+                if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
+                    expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                    expect(testManager.menuCells.firstObject.subCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
+                } else {
+                    expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                    expect(testManager.menuCells.firstObject.subCells.lastObject.uniqueTitle).to(equal("Test 2"));
+                }
             });
         });
 

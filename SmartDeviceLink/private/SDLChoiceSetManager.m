@@ -447,33 +447,35 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
 - (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [self sdl_addUniqueNamesToCells:choices];
+    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
+    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
+        [self sdl_addUniqueNamesToCells:choicesSet];
+    }
     [choicesSet minusSet:self.preloadedChoices];
 
     return [choicesSet copy];
 }
 
-- (NSMutableSet<SDLChoiceCell *> *)sdl_addUniqueNamesToCells:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicess = [NSMutableSet setWithArray:choices];
+/// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
+/// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
+/// @param choices The choices to be uploaded.
+- (void)sdl_addUniqueNamesToCells:(NSMutableSet<SDLChoiceCell *> *)choices {
+    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
-    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
-        for (SDLChoiceCell *cell in choicess) {
-            NSString *cellName = cell.text;
-            NSNumber *counter = dictCounter[cellName];
-            if (counter) {
-                dictCounter[cellName] = @(counter.intValue + 1);
-            } else {
-                dictCounter[cellName] = @1;
-            }
-            counter = dictCounter[cellName];
-            if (counter.intValue > 1) {
-                NSString *testName = cell.uniqueText;
-                cell.uniqueText = [NSString stringWithFormat: @"%@%@%d%@", testName, @"(", counter.intValue, @")"];
-            }
+    for (SDLChoiceCell *cell in choices) {
+        NSString *cellName = cell.text;
+        NSNumber *counter = dictCounter[cellName];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[cellName] = counter;
+        } else {
+            dictCounter[cellName] = @1;
+        }
+        if (counter.intValue > 1) {
+            cell.uniqueText = [NSString stringWithFormat: @"%@ (%d)", cell.text, counter.intValue];
         }
     }
-    return choicess;
 }
 
 /// Checks the passed list of choices to be deleted and returns the items that have been uploaded to the module.
