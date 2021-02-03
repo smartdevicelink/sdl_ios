@@ -306,30 +306,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime {
     NSDictionary *userInfo = @{
-                                                       NSLocalizedDescriptionKey: @"The alert presentation failed",
-                                                       NSLocalizedFailureReasonErrorKey: @"Either the alert failed to present on the module or it was dismissed early after being shown",
-                                                       NSLocalizedRecoverySuggestionErrorKey: @"Please check the \"error\" key and the \"tryAgainTime\" keys for more information",
-                                                       @"tryAgainTime": @(tryAgainTime),
-                                                       @"error": error
-                                                       };
+        NSLocalizedDescriptionKey: @"The alert presentation failed",
+        NSLocalizedFailureReasonErrorKey: @"Either the alert failed to present on the module or it was dismissed early after being shown",
+        NSLocalizedRecoverySuggestionErrorKey: @"Please check the \"error\" key and the \"tryAgainTime\" keys for more information",
+        @"tryAgainTime": @(tryAgainTime),
+        @"error": error
+    };
     return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerPresentationError userInfo:userInfo];
 }
 
 + (NSError *)sdl_alertManager_alertDataInvalid {
     NSDictionary *userInfo = @{
-                                                       NSLocalizedDescriptionKey: @"The alert data is invalid",
-                                                       NSLocalizedFailureReasonErrorKey: @"At least either text, secondaryText or audio needs to be provided",
-                                                       NSLocalizedRecoverySuggestionErrorKey: @"Make sure to set at least the text, secondaryText or audio properties on the SDLAlertView"
-                                                       };
+        NSLocalizedDescriptionKey: @"The alert data is invalid",
+        NSLocalizedFailureReasonErrorKey: @"At least either text, secondaryText or audio needs to be provided",
+        NSLocalizedRecoverySuggestionErrorKey: @"Make sure to set at least the text, secondaryText or audio properties on the SDLAlertView"
+    };
     return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
 }
 
 + (NSError *)sdl_alertManager_alertAudioFileNotSupported {
     NSDictionary *userInfo = @{
-                                                       NSLocalizedDescriptionKey: @"The module does not support the use of only audio file data in an alert",
-                                                       NSLocalizedFailureReasonErrorKey: @"The alert has no data and can not be sent to the module",
-                                                       NSLocalizedRecoverySuggestionErrorKey: @"The use of audio file data in an alert is only supported on modules supporting RPC Spec v5.0 or newer"
-                                                       };
+        NSLocalizedDescriptionKey: @"The module does not support the use of only audio file data in an alert",
+        NSLocalizedFailureReasonErrorKey: @"The alert has no data and can not be sent to the module",
+        NSLocalizedRecoverySuggestionErrorKey: @"The use of audio file data in an alert is only supported on modules supporting RPC Spec v5.0 or newer"
+    };
     return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
 }
 
