@@ -28,7 +28,7 @@
 #import "SDLMenuConfigurationUpdateOperation.h"
 #import "SDLMenuManagerPrivateConstants.h"
 #import "SDLMenuParams.h"
-#import "SDLMenuReplaceDynamicOperation.h"
+#import "SDLMenuReplaceOperation.h"
 #import "SDLMenuReplaceStaticOperation.h"
 #import "SDLMenuShowOperation.h"
 #import "SDLOnCommand.h"
