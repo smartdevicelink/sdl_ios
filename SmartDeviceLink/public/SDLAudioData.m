@@ -89,9 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addPhoneticSpeechSynthesizerStrings:(NSArray<NSString *> *)phoneticStrings phoneticType:(SDLSpeechCapabilities)phoneticType {
     if (![self.class sdl_isValidPhoneticType:phoneticType]) {
         @throw [NSException sdl_invalidTTSSpeechCapabilitiesException];
-    }
-
-    if (phoneticStrings.count == 0) {
+    } else  if (phoneticStrings.count == 0) {
         return;
     }
 
@@ -107,7 +105,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param phoneticType The phonetic type of the text-to-speech string
 /// @return True if the phoneticType is of type `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED`; false if not.
 + (BOOL)sdl_isValidPhoneticType:(SDLSpeechCapabilities)phoneticType {
-    if (!([phoneticType isEqualToEnum:SDLSpeechCapabilitiesSAPIPhonemes] || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesLHPlusPhonemes] || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesText] || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesPrerecorded])) {
+    if (!([phoneticType isEqualToEnum:SDLSpeechCapabilitiesSAPIPhonemes] 
+        || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesLHPlusPhonemes] 
+        || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesText] 
+        || [phoneticType isEqualToEnum:SDLSpeechCapabilitiesPrerecorded])) {
         return NO;
     }
 
