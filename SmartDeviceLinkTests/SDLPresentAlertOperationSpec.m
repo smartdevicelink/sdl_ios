@@ -1005,7 +1005,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testCancelAlertView cancel];
 
-                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 1.0);
                 });
 
                 context(@"If the cancel interaction was successful", ^{
@@ -1022,7 +1022,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                         [testCancelAlertView cancel];
 
-                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 1.0);
                         expect(testPresentAlertOperation.error).to(beNil());
                     });
                 });
@@ -1041,7 +1041,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                         [testCancelAlertView cancel];
 
-                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 1.0);
                         expect(testPresentAlertOperation.error).to(equal(defaultError));
                     });
                 });
