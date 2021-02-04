@@ -137,7 +137,7 @@ static const int SDLAlertSoftButtonCount = 4;
     BOOL isValidData = NO;
     if ((alertView.text.length > 0) 
         || (alertView.secondaryText.length > 0) 
-        || ([self sdl_getTTSChunksForAlertView:alertView].count > 0)) {
+        || ([self sdl_ttsChunksForAlertView:alertView].count > 0)) {
         isValidData = YES;
     }
 
@@ -311,7 +311,7 @@ static const int SDLAlertSoftButtonCount = 4;
     alert.softButtons = softButtons;
 
     alert.playTone = @(self.alertView.audio.playTone);
-    alert.ttsChunks = [self sdl_getTTSChunksForAlertView:self.alertView];
+    alert.ttsChunks = [self sdl_ttsChunksForAlertView:self.alertView];
 
     return alert;
 }
