@@ -60,7 +60,7 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 @property (assign, nonatomic) SDLChoiceSetLayout layout;
 
 /**
- Maps to PerformInteraction.timeout. Timeout in seconds. Defaults to 0, which will use `defaultTimeout`.
+ Maps to PerformInteraction.timeout. Timeout in seconds. Defaults to 0, which will use `defaultTimeout`. If not set to 0, the timeout value must be between 5 and 100 seconds.
 
  @note This applies only to a manual selection (not a voice selection, which has its timeout handled by the system).
  */
