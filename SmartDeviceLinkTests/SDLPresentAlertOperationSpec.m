@@ -846,7 +846,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     return [value isKindOfClass:[SDLAlert class]];
                 }] withResponseHandler:[OCMArg any]]);
 
-                OCMVerifyAllWithDelay(mockConnectionManager, 1.0);
+                OCMVerifyAllWithDelay(mockConnectionManager, 1.5);
             });
         });
 
