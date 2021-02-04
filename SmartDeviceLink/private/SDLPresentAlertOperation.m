@@ -67,7 +67,7 @@ static const int SDLAlertSoftButtonCount = 4;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
 @property (copy, nonatomic) dispatch_queue_t readWriteQueue;
-@property (assign, nonatomic) BOOL isAlertPresented;
+@property (assign, atomic) BOOL isAlertPresented;
 
 @end
 
@@ -135,11 +135,9 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @return The error if the alert view does not have valid data; nil if the alert view data is valid
 - (nullable NSError *)sdl_isValidAlertViewData:(SDLAlertView *)alertView {
     BOOL isValidData = NO;
-    if (alertView.text.length > 0) {
-        isValidData = YES;
-    } else if (alertView.secondaryText.length > 0) {
-        isValidData = YES;
-    } else if ([self sdl_getTTSChunksForAlertView:alertView].count > 0) {
+    if ((alertView.text.length > 0) 
+        || (alertView.secondaryText.length > 0) 
+        || ([self sdl_getTTSChunksForAlertView:alertView].count > 0)) {
         isValidData = YES;
     }
 
@@ -165,6 +163,7 @@ static const int SDLAlertSoftButtonCount = 4;
     NSMutableArray<SDLFile *> *filesToBeUploaded = [NSMutableArray array];
     for (SDLTTSChunk *ttsChunk in self.alertView.audio.audioData) {
         if (ttsChunk.type != SDLSpeechCapabilitiesFile) { continue; }
+
         SDLFile *audioFile = self.alertView.audio.audioFileData[ttsChunk.text];
         if (![self.fileManager fileNeedsUpload:audioFile]) { continue; }
         [filesToBeUploaded addObject:audioFile];
@@ -236,12 +235,9 @@ static const int SDLAlertSoftButtonCount = 4;
 
 /// Sends the alert RPC to the module. The operation is finished once a response has been received from the module.
 - (void)sdl_presentAlert {
-    self.isAlertPresented = YES;
+    if (self.isCancelled) { return [self finishOperation]; }
 
-    if (self.isCancelled) {
-        self.isAlertPresented = NO;
-        return [self finishOperation];
-    }
+    self.isAlertPresented = YES;
 
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:self.alertRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -251,8 +247,6 @@ static const int SDLAlertSoftButtonCount = 4;
             strongSelf.internalError = [NSError sdl_alertManager_presentationFailedWithError:error tryAgainTime:alertResponse.tryAgainTime.intValue];
         }
 
-        strongSelf.isAlertPresented = NO;
-        
         [strongSelf finishOperation];
     }];
 }
@@ -279,9 +273,8 @@ static const int SDLAlertSoftButtonCount = 4;
         }
 
         SDLLogD(@"Canceling the presented alert");
-        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithAlertCancelID:self.cancelId];
-
         __weak typeof(self) weakSelf = self;
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithAlertCancelID:self.cancelId];
         [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (error != nil) {
                 weakSelf.internalError = error;
@@ -332,7 +325,7 @@ static const int SDLAlertSoftButtonCount = 4;
 /// Creates an array of text-to-speech chunks for the `Alert` RPC from the text strings and the audio data files.
 /// @param alertView The alert view
 /// @return An array of TTS chunks or nil if there are no TTS chunks
-- (nullable NSArray<SDLTTSChunk *> *)sdl_getTTSChunksForAlertView:(SDLAlertView *)alertView {
+- (nullable NSArray<SDLTTSChunk *> *)sdl_ttsChunksForAlertView:(SDLAlertView *)alertView {
     SDLAlertAudioData *alertAudio = alertView.audio;
     NSMutableArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray array];
 
