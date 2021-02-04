@@ -770,7 +770,6 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should send the alert but only allow 4 soft buttons to be sent", ^{
-                [testPresentAlertOperation start];
                 OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
                     SDLAlert *alertRequest = (SDLAlert *)value;
                     expect(alertRequest.alertText1).to(equal(testAlertView.text));
@@ -795,6 +794,8 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(alertRequest.alertIcon.value).to(equal(testAlertView.icon.name));
                     return [value isKindOfClass:[SDLAlert class]];
                 }] withResponseHandler:[OCMArg any]]);
+
+                [testPresentAlertOperation start];
 
                 OCMVerifyAllWithDelay(mockConnectionManager, 1.0);
             });
@@ -825,7 +826,6 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should send the alert but not set the SDLImage for icon", ^{
-                [testPresentAlertOperation start];
                 OCMExpect([mockConnectionManager sendConnectionRequest:[OCMArg checkWithBlock:^BOOL(id value) {
                     SDLAlert *alertRequest = (SDLAlert *)value;
                     expect(alertRequest.alertText1).to(equal(testAlertView.text));
@@ -845,6 +845,8 @@ describe(@"SDLPresentAlertOperation", ^{
                     expect(alertRequest.alertIcon).to(beNil());
                     return [value isKindOfClass:[SDLAlert class]];
                 }] withResponseHandler:[OCMArg any]]);
+
+                [testPresentAlertOperation start];
 
                 OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
             });
@@ -1032,6 +1034,8 @@ describe(@"SDLPresentAlertOperation", ^{
                         OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                         [testPresentAlertOperation start];
 
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 1.0);
+                        
                         SDLCancelInteractionResponse *testResponse = [[SDLCancelInteractionResponse alloc] init];
                         testResponse.success = @NO;
                         testResponse.resultCode = SDLResultAborted;

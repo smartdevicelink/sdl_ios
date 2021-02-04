@@ -149,6 +149,8 @@ describe(@"alert manager tests", ^{
             OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(nil);
             [testAlertManager sdl_displayCapabilityDidUpdate];
 
+            OCMVerifyAllWithDelay(mockSystemCapabilityManager, 0.5);
+
             expect(testAlertManager.transactionQueue.suspended).to(beTrue());
             expect(testAlertManager.transactionQueue.operationCount).to(equal(2));
 
@@ -156,10 +158,8 @@ describe(@"alert manager tests", ^{
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
             expect(presentAlertOp1.isExecuting).to(beTrue());
             expect(presentAlertOp2.isExecuting).to(beFalse());
-
-            // Due to timing issues we can't be sure if the operation is executing when the capability is updated
-            // expect(presentAlertOp1.currentWindowCapability).to(equal(testWindowCapability));
-            // expect(presentAlertOp2.currentWindowCapability).to(beNil());
+            expect(presentAlertOp1.currentWindowCapability).to(equal(testWindowCapability));
+            expect(presentAlertOp2.currentWindowCapability).to(beNil());
         });
 
         it(@"should start the queue if the new capability is not nil and update the pending operations with the new capability", ^{
@@ -177,6 +177,8 @@ describe(@"alert manager tests", ^{
             OCMExpect([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
             [testAlertManager sdl_displayCapabilityDidUpdate];
 
+            OCMVerifyAllWithDelay(mockSystemCapabilityManager, 0.5);
+
             expect(testAlertManager.transactionQueue.suspended).toEventually(beFalse());
             expect(testAlertManager.transactionQueue.operationCount).to(equal(2));
 
@@ -184,10 +186,8 @@ describe(@"alert manager tests", ^{
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
             expect(presentAlertOp1.isExecuting).to(beTrue());
             expect(presentAlertOp2.isExecuting).to(beFalse());
-
-            // Due to timing issues while running the tests we can't be sure if the operation is executing when the capability is updated
-            // expect(presentAlertOp2.currentWindowCapability).to(equal(testWindowCapability));
-            // expect(presentAlertOp1.currentWindowCapability).to(equal(testWindowCapability));
+            expect(presentAlertOp2.currentWindowCapability).to(equal(testWindowCapability));
+            expect(presentAlertOp1.currentWindowCapability).to(equal(testWindowCapability));
         });
     });
 
