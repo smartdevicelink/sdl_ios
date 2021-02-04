@@ -56,21 +56,17 @@ typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
 @property (strong, nonatomic, readonly, nullable) SDLMenuLayout submenuLayout;
 
 /**
- * {"string_min_length": 1, "string_max_length": 500}
- *
- * @added in SmartDeviceLink 7.1.0
+ The cell's secondary text to be displayed
  */
 @property (copy, nonatomic, readonly, nullable) NSString *secondaryText;
 
 /**
- * {"string_min_length": 1, "string_max_length": 500}
- *
- * @added in SmartDeviceLink 7.1.0
+ The cell's tertiary text to be displayed
  */
 @property (copy, nonatomic, readonly, nullable) NSString *tertiaryText;
 
 /**
- * @added in SmartDeviceLink 7.1.0
+ The cell's secondary icon to be displayed
  */
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryArtwork;
 

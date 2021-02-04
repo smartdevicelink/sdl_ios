@@ -543,6 +543,12 @@ UInt32 const MenuCellIdMin = 1;
             [mutableArtworks addObject:cell.icon];
         }
 
+        if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage] || [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+            if ([self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
+                [mutableArtworks addObject:cell.secondaryArtwork];
+            }
+        }
+
         if (cell.subCells.count > 0) {
             [mutableArtworks addObjectsFromArray:[self sdl_findAllArtworksToBeUploadedFromCells:cell.subCells]];
         }
@@ -653,12 +659,14 @@ UInt32 const MenuCellIdMin = 1;
     command.cmdIcon = (cell.icon && shouldHaveArtwork) ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
     command.secondaryImage = cell.secondaryArtwork.imageRPC;
+    command.secondaryImage = (cell.secondaryArtwork && shouldHaveArtwork) ? cell.secondaryArtwork.imageRPC : nil;
 
     return command;
 }
 
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
+    SDLImage *secondaryImage = (shouldHaveArtwork && (cell.secondaryArtwork.name != nil)) ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
     if (cell.submenuLayout && [self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
@@ -666,7 +674,7 @@ UInt32 const MenuCellIdMin = 1;
     } else {
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:cell.secondaryArtwork.imageRPC];
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:secondaryImage];
 }
 
 #pragma mark - Calling handlers

@@ -61,15 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID {
-    self = [self initWithMenuID:menuID menuName:menuName];
-    if (!self) {
-        return nil;
-    }
-    self.position = position;
-    self.menuIcon = menuIcon;
-    self.menuLayout = menuLayout;
-    self.parentID = parentID;
-    return self;
+    return [self initWithMenuID:menuID menuName:menuName position:position menuIcon:menuIcon menuLayout:menuLayout parentID:parentID secondaryText:nil tertiaryText:nil secondaryImage:nil];
 }
 
 - (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryImage:(nullable SDLImage *)secondaryImage {

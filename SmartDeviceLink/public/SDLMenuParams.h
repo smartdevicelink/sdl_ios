@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *parentID;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *parentID;
 
 /**
  * The position within the items of the parent Command Menu
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Integer, 0 - 1000
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *position;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *position;
 
 /**
  * The menu name which appears in menu, representing this command

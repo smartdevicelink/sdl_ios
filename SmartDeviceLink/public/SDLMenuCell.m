@@ -22,33 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLMenuCell
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands handler:(SDLMenuCellSelectionHandler)handler {
-    self = [super init];
-    if (!self) { return nil; }
-
-    _title = title;
-    _icon = icon;
-    _voiceCommands = voiceCommands;
-    _handler = handler;
-
-    _cellId = UINT32_MAX;
-    _parentCellId = UINT32_MAX;
-
-    return self;
+    return [self initWithTitle:title icon:icon voiceCommands:voiceCommands secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:handler];
 }
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells {
-    self = [super init];
-    if (!self) { return nil; }
-
-    _title = title;
-    _submenuLayout = layout;
-    _icon = icon;
-    _subCells = subCells;
-
-    _cellId = UINT32_MAX;
-    _parentCellId = UINT32_MAX;
-
-    return self;
+    return [self initWithTitle:title icon:icon submenuLayout:layout subCells:subCells secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
 }
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork handler:(SDLMenuCellSelectionHandler)handler {

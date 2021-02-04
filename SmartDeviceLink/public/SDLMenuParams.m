@@ -12,14 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLMenuParams
 
 - (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position {
-    self = [self initWithMenuName:menuName];
-    if (!self) {
-        return nil;
-    }
-
-    self.parentID = @(parentId);
-    self.position = @(position);
-    return self;
+    return [self initWithMenuName:menuName parentID:@(parentId) position:@(position) secondaryText:nil tertiaryText:nil];
 }
 
 - (instancetype)initWithMenuName:(NSString *)menuName parentID:(nullable NSNumber<SDLUInt> *)parentID position:(nullable NSNumber<SDLUInt> *)position secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText {
@@ -45,19 +38,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setParentID:(nullable NSNumber<SDLUInt> *)parentID {
+- (void)setParentID:(nullable NSNumber<SDLInt> *)parentID {
     [self.store sdl_setObject:parentID forName:SDLRPCParameterNameParentID];
 }
 
-- (nullable NSNumber<SDLUInt> *)parentID {
+- (nullable NSNumber<SDLInt> *)parentID {
     return [self.store sdl_objectForName:SDLRPCParameterNameParentID ofClass:NSNumber.class error:nil];
 }
 
-- (void)setPosition:(nullable NSNumber<SDLUInt> *)position {
+- (void)setPosition:(nullable NSNumber<SDLInt> *)position {
     [self.store sdl_setObject:position forName:SDLRPCParameterNamePosition];
 }
 
-- (nullable NSNumber<SDLUInt> *)position {
+- (nullable NSNumber<SDLInt> *)position {
     return [self.store sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:nil];
 }
 
