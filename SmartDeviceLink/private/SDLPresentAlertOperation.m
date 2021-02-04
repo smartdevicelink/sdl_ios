@@ -65,8 +65,6 @@ static const int SDLAlertSoftButtonCount = 4;
 @property (strong, nonatomic, readwrite) SDLAlertView *alertView;
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
-
-@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
 @property (assign, atomic) BOOL isAlertPresented;
 
 @end
@@ -92,8 +90,6 @@ static const int SDLAlertSoftButtonCount = 4;
     _cancelId = cancelID;
     _operationId = [NSUUID UUID];
     _currentWindowCapability = currentWindowCapability;
-
-    _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.presentAlertOperation.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
 
     return self;
 }
@@ -356,15 +352,6 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @return True if alert icons are currently supported; false if not.
 - (BOOL)sdl_supportsAlertIcon {
     return [self.currentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon];
-}
-
-- (BOOL)isAlertPresented {
-    __block BOOL alertPresented = NO;
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        alertPresented = self->_isAlertPresented;
-    }];
-
-    return alertPresented;
 }
 
 #pragma mark - Text Helpers
