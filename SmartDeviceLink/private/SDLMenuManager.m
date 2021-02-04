@@ -49,7 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
 @property (strong, nonatomic, readwrite) NSString *uniqueTitle;
-@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
 
 @end
 
@@ -163,9 +162,9 @@ UInt32 const MenuCellIdMin = 1;
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
     NSArray<SDLMenuCell *> *cells = menuCells;
-    SDLVersion *version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
-        [self sdl_addUniqueNamesToCells:[NSMutableSet setWithArray:cells]];
+    SDLVersion *menuUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:menuUniquenessSupportedVersion]) {
+        [self sdl_addUniqueNamesToCells:menuCells];
     }
 
     if (self.currentHMILevel == nil
@@ -533,7 +532,7 @@ UInt32 const MenuCellIdMin = 1;
 /// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
 /// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
 /// @param choices The choices to be uploaded.
-- (void)sdl_addUniqueNamesToCells:(nullable NSMutableSet<SDLMenuCell *> *)choices {
+- (void)sdl_addUniqueNamesToCells:(nullable NSArray<SDLMenuCell *> *)choices {
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
     for (SDLMenuCell *cell in choices) {
@@ -545,13 +544,14 @@ UInt32 const MenuCellIdMin = 1;
         } else {
             dictCounter[cellName] = @1;
         }
+
         counter = dictCounter[cellName];
         if (counter.intValue > 1) {
             cell.uniqueTitle = [NSString stringWithFormat: @"%@ (%d)", cell.title, counter.intValue];
         }
 
         if (cell.subCells.count > 0) {
-            [self sdl_addUniqueNamesToCells:[NSMutableSet setWithArray:cell.subCells]];
+            [self sdl_addUniqueNamesToCells:cell.subCells];
         }
     }
 }

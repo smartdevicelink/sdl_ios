@@ -60,7 +60,7 @@ describe(@"menu manager", ^{
 
     __block SDLMenuConfiguration *testMenuConfiguration = nil;
 
-    __block SDLVersion *version = nil;
+    __block SDLVersion *menuUniquenessActiveVersion = nil;
 
     beforeEach(^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
@@ -92,7 +92,7 @@ describe(@"menu manager", ^{
         windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
         windowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
         testManager.windowCapability = windowCapability;
-        version = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+        menuUniquenessActiveVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     });
 
     it(@"should instantiate correctly", ^{
@@ -175,29 +175,43 @@ describe(@"menu manager", ^{
             testManager.currentSystemContext = SDLSystemContextMain;
         });
 
-        context(@"duplicate titles", ^{
+        context(@"duplicate titles version >= 7.1.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = menuUniquenessActiveVersion;
+            });
+
             it(@"should not fail with a duplicate title", ^{
                 testManager.menuCells = @[textAndImageCell, textAndImageCell2];
                 expect(testManager.menuCells).toNot(beEmpty());
-                if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
-                    expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
-                    expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
-                } else {
-                    expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
-                    expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2"));
-                }
+                expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2"));
             });
 
             it(@"should not fail with a duplicate title for subCells", ^{
                 testManager.menuCells = @[submenuCell2];
                 expect(testManager.menuCells).toNot(beEmpty());
-                if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:version]) {
-                    expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
-                    expect(testManager.menuCells.firstObject.subCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
-                } else {
-                    expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
-                    expect(testManager.menuCells.firstObject.subCells.lastObject.uniqueTitle).to(equal("Test 2"));
-                }
+                expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                expect(testManager.menuCells.firstObject.subCells.lastObject.uniqueTitle).to(equal("Test 2"));
+            });
+        });
+
+        context(@"duplicate titles version >= 7.1.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
+            });
+
+            it(@"should not fail with a duplicate title. version < 7.1.0", ^{
+                testManager.menuCells = @[textAndImageCell, textAndImageCell2];
+                expect(testManager.menuCells).toNot(beEmpty());
+                expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
+            });
+
+            it(@"should not fail with a duplicate title for subCells. version < 7.1.0", ^{
+                testManager.menuCells = @[submenuCell2];
+                expect(testManager.menuCells).toNot(beEmpty());
+                expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                expect(testManager.menuCells.firstObject.subCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
             });
         });
 
