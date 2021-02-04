@@ -235,11 +235,6 @@ static const int SDLAlertSoftButtonCount = 4;
 
     self.isAlertPresented = YES;
 
-     if (self.isCancelled) {
-        self.isAlertPresented = NO;
-        return [self finishOperation];
-    }
-
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:self.alertRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
