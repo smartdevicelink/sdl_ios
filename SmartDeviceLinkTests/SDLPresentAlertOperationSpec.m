@@ -846,7 +846,7 @@ describe(@"SDLPresentAlertOperation", ^{
                     return [value isKindOfClass:[SDLAlert class]];
                 }] withResponseHandler:[OCMArg any]]);
 
-                OCMVerifyAllWithDelay(mockConnectionManager, 1.5);
+                OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
             });
         });
 
@@ -1005,7 +1005,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testCancelAlertView cancel];
 
-                    OCMVerifyAllWithDelay(strictMockConnectionManager, 1.0);
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
 
                 context(@"If the cancel interaction was successful", ^{
