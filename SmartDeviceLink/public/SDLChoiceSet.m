@@ -59,7 +59,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     }
 
     if (timeout == 0) {
-        SDLLogV(@"Creating a choice set with a 0 second timeout; The default timeout will be used: %f seconds", SDLChoiceSet.defaultTimeout);
+        SDLLogV(@"Creating a choice set with a 0 second timeout; the default timeout will be used: %f seconds", SDLChoiceSet.defaultTimeout);
     } else if (timeout < 5 || timeout > 100) {
         SDLLogW(@"Attempted to create a choice set with a %f second timeout; Only 5 - 100 seconds is valid", timeout);
         return nil;
