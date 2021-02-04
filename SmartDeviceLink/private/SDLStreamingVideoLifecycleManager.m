@@ -422,8 +422,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             // See SDL 0323 (https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0323-align-VideoStreamingParameter-with-capability.md) for details.
             if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] ||
                 [(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]) {
-                if ([self.customEncoderSettings valueForKey:key] < self.videoEncoderSettings[key]) {
-                    self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+                NSNumber *customEncoderSettings = (NSNumber *)[self.customEncoderSettings valueForKey:key];
+                NSNumber *videoEncoderSettings = (NSNumber *)[self.videoEncoderSettings valueForKey:key];
+                if (customEncoderSettings < videoEncoderSettings) {
+                    self.videoEncoderSettings[key] = customEncoderSettings;
                 }
             } else {
                 self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
