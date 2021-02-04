@@ -71,7 +71,7 @@ describe(@"SDLLifecycleMobileHMIStateHandler tests", ^{
 
             describe(@"after the manager is stopped", ^{
                 beforeEach(^{
-                    [mockConnectionManager.receivedRequests removeAllObjects];
+                    [mockConnectionManager reset];
                     [testManager stop];
                 });
 

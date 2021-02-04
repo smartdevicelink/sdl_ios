@@ -11,6 +11,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPredefinedWindows.h"
@@ -94,7 +95,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"SDLSoftButtonManager Transaction Queue";
     queue.maxConcurrentOperationCount = 1;
-    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.qualityOfService = NSQualityOfServiceUserInteractive;
+    queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
     return queue;
@@ -131,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
                 SDLLogE(@"Attempted to set soft button objects, but two buttons had the same name: %@", softButtonObjects);
-                return;
+                @throw [NSException sdl_duplicateSoftButtonsNameException];
             }
         }
     }
