@@ -186,7 +186,7 @@ describe(@"menu manager", ^{
         });
 
         it(@"should check if all artworks are uploaded and return NO", ^{
-            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
             testManager.menuCells = @[textAndImageCell, textOnlyCell];
             OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
             expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beFalse());
@@ -226,7 +226,7 @@ describe(@"menu manager", ^{
                 });
 
                 it(@"should check if all artworks are uploaded", ^{
-                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                     testManager.menuCells = @[textAndImageCell, textOnlyCell];
                     OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
                     expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beTrue());
@@ -252,7 +252,7 @@ describe(@"menu manager", ^{
 
                 it(@"should properly overwrite an image cell", ^{
                     OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
-                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                     testManager.menuCells = @[textAndImageCell, submenuImageCell];
                     OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
                 });

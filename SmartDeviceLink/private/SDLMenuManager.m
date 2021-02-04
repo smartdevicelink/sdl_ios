@@ -544,7 +544,7 @@ UInt32 const MenuCellIdMin = 1;
         }
 
         if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage] || [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
-            if ([self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
+            if ([self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
                 [mutableArtworks addObject:cell.secondaryArtwork];
             }
         }
