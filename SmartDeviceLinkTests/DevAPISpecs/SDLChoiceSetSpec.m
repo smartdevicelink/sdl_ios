@@ -184,6 +184,57 @@ describe(@"an SDLChoiceSet", ^{
         });
     });
 
+    describe(@"setting the default timeout", ^{
+        __block SDLChoiceSet *testChoiceSet = nil;
+
+        beforeEach(^{
+            testChoiceSet = [[SDLChoiceSet alloc] init];
+        });
+
+        it(@"should return the default timeout if the timeout value was not set", ^{
+            int testDefaultTimeout = 6.0;
+            SDLChoiceSet.defaultTimeout = testDefaultTimeout;
+
+            expect(SDLChoiceSet.defaultTimeout).to(equal(testDefaultTimeout));
+            expect(testChoiceSet.timeout).to(equal(testDefaultTimeout));
+        });
+
+        it(@"should return the timeout value even if the default timeout was set", ^{
+            int testTimeout = 7.0;
+            int testDefaultTimeout = 9.0;
+            SDLChoiceSet.defaultTimeout = testDefaultTimeout;
+            testChoiceSet.timeout = testTimeout;
+
+            expect(SDLChoiceSet.defaultTimeout).to(equal(testDefaultTimeout));
+            expect(testChoiceSet.timeout).to(equal(testTimeout));
+        });
+    });
+
+    describe(@"setting the timeout", ^{
+        __block SDLChoiceSet *testChoiceSet = nil;
+        __block NSTimeInterval testDefaultTimeout = 7.0;
+
+        beforeEach(^{
+            testChoiceSet = [[SDLChoiceSet alloc] init];
+            SDLChoiceSet.defaultTimeout = testDefaultTimeout;
+        });
+
+        it(@"should return the default timeout if the timeout was not set", ^{
+            expect(testChoiceSet.timeout).to(equal(testDefaultTimeout));
+        });
+
+        it(@"should return the default timeout if the timeout was set to 0", ^{
+            testChoiceSet.timeout = 0.0;
+            expect(testChoiceSet.timeout).to(equal(testDefaultTimeout));
+        });
+
+        it(@"should return the timeout value if it was set", ^{
+            int testTimeout = 9.0;
+            testChoiceSet.timeout = testTimeout;
+            expect(testChoiceSet.timeout).to(equal(testTimeout));
+        });
+    });
+
     describe(@"canceling the choice set", ^{
         __block BOOL canceledHandlerCalled = NO;
 

@@ -24,13 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLChoiceSet
 
 static NSTimeInterval _defaultTimeout = 10.0;
+static const float TimeoutDefault = 0.0;
 static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
 - (instancetype)init {
     self = [super init];
     if (!self) { return nil; }
 
-    _timeout = self.class.defaultTimeout;
+    _timeout = TimeoutDefault;
     _layout = self.class.defaultLayout;
 
     return self;
@@ -142,6 +143,14 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     for (NSUInteger i = 0; i < _helpList.count; i++) {
         _helpList[i].position = @(i + 1);
     }
+}
+
+- (NSTimeInterval)timeout {
+    if (_timeout == TimeoutDefault) {
+        return SDLChoiceSet.defaultTimeout;
+    }
+
+    return _timeout;
 }
 
 #pragma mark - Etc.
