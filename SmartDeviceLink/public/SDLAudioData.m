@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addPhoneticSpeechSynthesizerStrings:(NSArray<NSString *> *)phoneticStrings phoneticType:(SDLSpeechCapabilities)phoneticType {
     if (![self.class sdl_isValidPhoneticType:phoneticType]) {
         @throw [NSException sdl_invalidTTSSpeechCapabilitiesException];
-    } else  if (phoneticStrings.count == 0) {
+    } else if (phoneticStrings.count == 0) {
         return;
     }
 
