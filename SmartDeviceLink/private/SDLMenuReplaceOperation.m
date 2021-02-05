@@ -313,7 +313,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 - (NSArray<NSNumber *> *)sdl_buildAllDeleteStatusesForMenu:(NSArray<SDLMenuCell *> *)menuCells {
     NSMutableArray<NSNumber *> *mutableNumbers = [NSMutableArray arrayWithCapacity:menuCells.count];
-    for (SDLMenuCell *cell in menuCells) {
+    for (int i = 0; i < menuCells.count; i++) {
         [mutableNumbers addObject:@(MenuCellStateDelete)];
     }
 
@@ -322,8 +322,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 - (NSArray<NSNumber *> *)sdl_buildAllAddStatusesForMenu:(NSArray<SDLMenuCell *> *)menuCells {
     NSMutableArray<NSNumber *> *mutableNumbers = [NSMutableArray arrayWithCapacity:menuCells.count];
-    for (SDLMenuCell *cell in menuCells) {
-        [mutableNumbers addObject:@(MenuCellStateAdd)];
+    for (int i = 0; i < menuCells.count; i++) {
+        [mutableNumbers addObject:@(MenuCellStateDelete)];
     }
 
     return [mutableNumbers copy];
