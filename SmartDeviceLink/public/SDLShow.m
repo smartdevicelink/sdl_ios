@@ -27,51 +27,29 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment {
-    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment];
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];;
 }
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type alignment:(nullable SDLTextAlignment)alignment {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
     NSArray<SDLMetadataType> *field1Array = mainField1Type ? @[mainField1Type] : nil;
     NSArray<SDLMetadataType> *field2Array = mainField2Type ? @[mainField2Type] : nil;
     SDLMetadataTags* metadataTags = (field1Array != nil || field2Array != nil) ? [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array] : nil;
 
-    self.mainField1 = mainField1;
-    self.mainField2 = mainField2;
-    self.alignment = alignment;
-    self.metadataTags = metadataTags;
-
-    return self;
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:metadataTags templateTitle:nil windowID:nil templateConfiguration:nil];
 }
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment {
-    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:nil mediaClock:nil mediaTrack:nil graphic:nil softButtons:nil customPresets:nil textFieldMetadata:nil];
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];;
 }
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
     NSArray<SDLMetadataType> *field1Array = mainField1Type ? @[mainField1Type] : nil;
     NSArray<SDLMetadataType> *field2Array = mainField2Type ? @[mainField2Type] : nil;
     NSArray<SDLMetadataType> *field3Array = mainField3Type ? @[mainField3Type] : nil;
     NSArray<SDLMetadataType> *field4Array = mainField4Type ? @[mainField4Type] : nil;
     SDLMetadataTags* metadataTags = (field1Array != nil || field2Array != nil || field3Array != nil || field4Array != nil) ? [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array mainField3:field3Array mainField4:field4Array] : nil;
 
-    self.mainField1 = mainField1;
-    self.mainField2 = mainField2;
-    self.mainField3 = mainField3;
-    self.mainField4 = mainField4;
-    self.alignment = alignment;
-    self.metadataTags = metadataTags;
-
-    return self;
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:metadataTags templateTitle:nil windowID:nil templateConfiguration:nil];
 }
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack {
@@ -79,6 +57,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata {
+    self = [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:statusBar mediaTrack:mediaTrack graphic:graphic secondaryGraphic:nil softButtons:softButtons customPresets:customPresets metadataTags:metadata templateTitle:nil windowID:nil templateConfiguration:nil];
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    self.mediaClock = mediaClock;
+#pragma clang diagnostic pop
+
+    return self;
+}
+
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic secondaryGraphic:(nullable SDLImage *)secondaryGraphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets metadataTags:(nullable SDLMetadataTags *)metadataTags templateTitle:(nullable NSString *)templateTitle windowID:(nullable NSNumber<SDLInt> *)windowID templateConfiguration:(nullable SDLTemplateConfiguration *)templateConfiguration {
     self = [self init];
     if (!self) {
         return nil;
@@ -88,17 +77,19 @@ NS_ASSUME_NONNULL_BEGIN
     self.mainField2 = mainField2;
     self.mainField3 = mainField3;
     self.mainField4 = mainField4;
-    self.statusBar = statusBar;
-    self.mediaClock = mediaClock;
-    self.mediaTrack = mediaTrack;
     self.alignment = alignment;
+    self.statusBar = statusBar;
+    self.mediaTrack = mediaTrack;
     self.graphic = graphic;
-    self.softButtons = [softButtons mutableCopy];
-    self.customPresets = [customPresets mutableCopy];
-    self.metadataTags = metadata;
+    self.secondaryGraphic = secondaryGraphic;
+    self.softButtons = softButtons;
+    self.customPresets = customPresets;
+    self.metadataTags = metadataTags;
+    self.templateTitle = templateTitle;
+    self.windowID = windowID;
+    self.templateConfiguration = templateConfiguration;
 
     return self;
-
 }
 
 - (void)setMainField1:(nullable NSString *)mainField1 {
