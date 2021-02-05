@@ -201,3 +201,8 @@ extern SDLVehicleDataType const SDLVehicleDataTypeOEMVehicleDataType;
  * @since SDL 7.0
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeWindowStatus;
+
+/**
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeSeatOccupancy;
