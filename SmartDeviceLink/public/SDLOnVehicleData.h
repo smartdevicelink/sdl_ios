@@ -164,12 +164,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLClimateData *climateData;
 
 /**
- * The external temperature in degrees celsius.
+ * The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec 7.1, please see climateData.
  * {"num_min_value": -40.0, "num_max_value": 100.0}
  *
+ * @deprecated in SmartDeviceLink 7.1.0
  * @added in SmartDeviceLink 2.0.0
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLFloat> *externalTemperature;
+@property (nullable, strong, nonatomic) NSNumber<SDLFloat> *externalTemperature __deprecated_msg("Use climateData instead on 7.1+ RPC version connections");
 
 /**
  The Vehicle Identification Number

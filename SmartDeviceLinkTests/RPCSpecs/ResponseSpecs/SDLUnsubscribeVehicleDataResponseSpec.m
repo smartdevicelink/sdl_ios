@@ -35,9 +35,9 @@ describe(@"getter/setter tests", ^{
         testResponse.emergencyEvent = vehicleDataResult;
         testResponse.engineOilLife = vehicleDataResult;
         testResponse.engineTorque = vehicleDataResult;
-        testResponse.externalTemperature = vehicleDataResult;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        testResponse.externalTemperature = vehicleDataResult;
         testResponse.fuelLevel = vehicleDataResult;
         testResponse.fuelLevel_State = vehicleDataResult;
 #pragma clang diagnostic pop
@@ -77,9 +77,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
-            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
             expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
             expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
 #pragma clang diagnostic pop
@@ -265,9 +265,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
-            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
             expect(testResponse.fuelLevel).to(beNil());
             expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
@@ -294,7 +294,7 @@ describe(@"getter/setter tests", ^{
         });
     });
 
-    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:climateData:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:windowStatus:handsOffSteering:", ^{
+    context(@"QQQ", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult climateData:vehicleDataResult turnSignal:vehicleDataResult gearStatus:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult stabilityControlsStatus:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult windowStatus:vehicleDataResult handsOffSteering:vehicleDataResult];
@@ -314,9 +314,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
-            expect(testResponse.externalTemperature).to(beNil());
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.externalTemperature).to(beNil());
             expect(testResponse.fuelLevel).to(beNil());
             expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
