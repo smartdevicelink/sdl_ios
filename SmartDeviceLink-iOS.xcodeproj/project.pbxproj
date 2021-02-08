@@ -519,6 +519,8 @@
 		4A93895A25B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93895825B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m */; };
 		4A93896625BB361C0069F438 /* SDLMenuReplaceUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A93896425BB361C0069F438 /* SDLMenuReplaceUtilities.h */; };
 		4A93896725BB361C0069F438 /* SDLMenuReplaceUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93896525BB361C0069F438 /* SDLMenuReplaceUtilities.m */; };
+		4A96113B25D1A0C600D787DA /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A96113925D1A0C600D787DA /* SDLMacros.h */; };
+		4A96114825D1B5DA00D787DA /* SDLMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A96114725D1B5DA00D787DA /* SDLMacros.m */; };
 		4AAC0DBA25C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AAC0DB825C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h */; };
 		4AAC0DBB25C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC0DB925C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m */; };
 		4AAC0DE025C468EC00746D33 /* SDLMenuReplaceUtilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC0DDF25C468EC00746D33 /* SDLMenuReplaceUtilitiesSpec.m */; };
@@ -2337,6 +2339,8 @@
 		4A93895825B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuConfigurationUpdateOperation.m; path = private/SDLMenuConfigurationUpdateOperation.m; sourceTree = "<group>"; };
 		4A93896425BB361C0069F438 /* SDLMenuReplaceUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuReplaceUtilities.h; path = private/SDLMenuReplaceUtilities.h; sourceTree = "<group>"; };
 		4A93896525BB361C0069F438 /* SDLMenuReplaceUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceUtilities.m; path = private/SDLMenuReplaceUtilities.m; sourceTree = "<group>"; };
+		4A96113925D1A0C600D787DA /* SDLMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMacros.h; path = private/SDLMacros.h; sourceTree = "<group>"; };
+		4A96114725D1B5DA00D787DA /* SDLMacros.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMacros.m; path = private/SDLMacros.m; sourceTree = "<group>"; };
 		4AAC0DB825C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMenuManagerPrivateConstants.h; path = private/SDLMenuManagerPrivateConstants.h; sourceTree = "<group>"; };
 		4AAC0DB925C1FEBA00746D33 /* SDLMenuManagerPrivateConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuManagerPrivateConstants.m; path = private/SDLMenuManagerPrivateConstants.m; sourceTree = "<group>"; };
 		4AAC0DDF25C468EC00746D33 /* SDLMenuReplaceUtilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceUtilitiesSpec.m; path = DevAPISpecs/SDLMenuReplaceUtilitiesSpec.m; sourceTree = "<group>"; };
@@ -6150,6 +6154,8 @@
 				5DA3F35C1BC4484B0026F2D0 /* Notifications */,
 				5D6008871BE3ED470094A505 /* State Machine */,
 				4ABB24D824F594190061BF55 /* SDLConnectionManagerType.h */,
+				4A96113925D1A0C600D787DA /* SDLMacros.h */,
+				4A96114725D1B5DA00D787DA /* SDLMacros.m */,
 				4ABB24C824F593090061BF55 /* SDLStreamingProtocolDelegate.h */,
 				4ABB24D524F593ED0061BF55 /* SDLVersion.h */,
 				4ABB24D424F593EC0061BF55 /* SDLVersion.m */,
@@ -7100,6 +7106,7 @@
 				4ABB2B5024F84EF50061BF55 /* SDLClusterModeStatus.h in Headers */,
 				4ABB26CA24F7FAAF0061BF55 /* SDLEnum.h in Headers */,
 				4ABB251E24F7E3EC0061BF55 /* SDLLifecycleMobileHMIStateHandler.h in Headers */,
+				4A96113B25D1A0C600D787DA /* SDLMacros.h in Headers */,
 				4ABB260724F7E9650061BF55 /* SDLStreamingMediaManagerDataSource.h in Headers */,
 				4ABB265224F7F58D0061BF55 /* SDLRPCRequestNotification.h in Headers */,
 				4ABB2A6424F847BB0061BF55 /* SDLListFilesResponse.h in Headers */,
@@ -8234,6 +8241,7 @@
 				4A8BD31124F938D6000945E3 /* SDLWeatherServiceManifest.m in Sources */,
 				4ABB271524F7FC4E0061BF55 /* SDLCompassDirection.m in Sources */,
 				4ABB254424F7E48D0061BF55 /* SDLLockScreenRootViewController.m in Sources */,
+				4A96114825D1B5DA00D787DA /* SDLMacros.m in Sources */,
 				4A93895A25B9E5E40069F438 /* SDLMenuConfigurationUpdateOperation.m in Sources */,
 				4ABB265F24F7F5F20061BF55 /* SDLNotificationDispatcher.m in Sources */,
 				4A8BD31624F938D6000945E3 /* SDLWindowTypeCapabilities.m in Sources */,

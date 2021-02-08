@@ -111,6 +111,7 @@
                 } else {
                     [mutableCommands addObject:[self sdl_commandForMenuCell:cells[updateCellsIndex] fileManager:fileManager windowCapability:windowCapability position:(UInt16)menuInteger]];
                 }
+                break;
             }
         }
     }
@@ -206,8 +207,7 @@
             addedCell = cell;
             break;
         } else if (cell.subCells.count > 0) {
-            BOOL didAddCell = [self addMenuRequestWithCommandId:commandId position:position fromNewMenuList:cell.subCells toMainMenuList:mainMenuList];
-            if (didAddCell) { return YES; }
+            return [self addMenuRequestWithCommandId:commandId position:position fromNewMenuList:cell.subCells toMainMenuList:mainMenuList];
         }
     }
 
@@ -243,11 +243,15 @@
         [self sdl_insertMenuCell:cell intoList:menuCellList atPosition:position];
         return YES;
     }
-
-    return NO;
 }
 
 + (void)sdl_insertMenuCell:(SDLMenuCell *)cell intoList:(NSMutableArray<SDLMenuCell *> *)cellList atPosition:(UInt16)position {
+    SDLMenuCell *cellToInsert = cell;
+    if (cellToInsert.subCells.count > 0) {
+        cellToInsert = [cell copy];
+        cellToInsert.subCells = @[];
+    }
+
     if (position > cellList.count) {
         [cellList addObject:cell];
     } else {

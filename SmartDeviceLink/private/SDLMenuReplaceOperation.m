@@ -69,19 +69,23 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
     SDLDynamicMenuUpdateRunScore *runScore = nil;
     if (self.compatbilityModeEnabled) {
+        SDLLogV(@"Dynamic menu update inactive. Forcing the deletion of all old cells and adding all new ones, even if they're the same.");
         runScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:[self sdl_buildAllDeleteStatusesForMenu:self.mutableCurrentMenu] updatedStatus:[self sdl_buildAllAddStatusesForMenu:self.updatedMenu] score:self.updatedMenu.count];
     } else {
+        SDLLogV(@"Dynamic menu update active. Running the algorithm to find the best way to delete / add cells.");
         runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
     }
 
-    NSArray<NSNumber *> *deleteMenuStatus = runScore.oldStatus;
-    NSArray<NSNumber *> *addMenuStatus = runScore.updatedStatus;
+    // If both old and new cells are empty, nothing needs to happen
+    if ((runScore.oldStatus.count == 0) && (runScore.updatedStatus.count == 0)) {
+        return [self finishOperation];
+    }
 
-    NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:deleteMenuStatus];
-    NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:addMenuStatus];
+    NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
+    NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
     // These arrays should ONLY contain KEEPS. These will be used for SubMenu compares
-    NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:deleteMenuStatus];
-    NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:addMenuStatus];
+    NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
+    NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
 
     // Since we are creating a new Menu but keeping old cells we must firt transfer the old cellIDs to the new menus kept cells.
     [self sdl_transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
@@ -177,17 +181,14 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 /// @param deleteMenuCells The menu cells to be deleted
 /// @param completionHandler A handler called when the RPCs are finished with an error if any failed
 - (void)sdl_sendDeleteCurrentMenu:(nullable NSArray<SDLMenuCell *> *)deleteMenuCells withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (deleteMenuCells.count == 0) {
-        completionHandler(nil);
-        return;
-    }
+    if (deleteMenuCells.count == 0) { return completionHandler(nil); }
 
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     NSArray<SDLRPCRequest *> *deleteMenuCommands = [SDLMenuReplaceUtilities deleteCommandsForCells:deleteMenuCells];
     [self.connectionManager sendRequests:deleteMenuCommands progressHandler:^void(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
         if (error != nil) {
             errors[request] = error;
-        } else {
+        } else if (response.success.boolValue) {
             // Find the id of the successful request and remove it from the current menu list whereever it may have been
             UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
             [SDLMenuReplaceUtilities removeMenuCellFromList:self.mutableCurrentMenu withCmdId:commandId];
@@ -209,9 +210,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 /// @param completionHandler A handler called when the RPCs are finished with an error if any failed
 - (void)sdl_sendNewMenuCells:(NSArray<SDLMenuCell *> *)newMenuCells oldMenu:(NSArray<SDLMenuCell *> *)oldMenu withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.updatedMenu.count == 0 || newMenuCells.count == 0) {
-        SDLLogD(@"There are no cells to update.");
-        completionHandler(nil);
-        return;
+        SDLLogV(@"There are no cells to update.");
+        return completionHandler(nil);
     }
 
     NSArray<SDLRPCRequest *> *mainMenuCommands = [SDLMenuReplaceUtilities mainMenuCommandsForCells:newMenuCells fileManager:self.fileManager usingIndexesFrom:self.updatedMenu windowCapability:self.windowCapability defaultSubmenuLayout:self.menuConfiguration.defaultSubmenuLayout];;
@@ -231,8 +231,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     } completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogE(@"Failed to send main menu commands: %@", errors);
-            completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-            return;
+            return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
         }
 
         [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -247,8 +246,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         } completionHandler:^(BOOL success) {
             if (!success) {
                 SDLLogE(@"Failed to send sub menu commands: %@", errors);
-                completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-                return;
+                return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
             }
 
             SDLLogD(@"Finished updating menu");

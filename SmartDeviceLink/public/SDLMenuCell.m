@@ -9,6 +9,7 @@
 #import "SDLMenuCell.h"
 
 #import "SDLArtwork.h"
+#import "SDLMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -57,16 +58,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Object Equality
 
-NSUInteger const NSUIntBitCell = (CHAR_BIT * sizeof(NSUInteger));
-NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
-    return ((((NSUInteger)val) << howMuch) | (((NSUInteger)val) >> (NSUIntBitCell - howMuch)));
-}
-
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
     ^ NSUIntRotateCell(self.voiceCommands.hash, NSUIntBitCell / 4)
-    ^ NSUIntRotateCell(self.subCells.count !=0, NSUIntBitCell  / 5)
+    ^ NSUIntRotateCell((self.subCells.count != 0), NSUIntBitCell  / 5)
     ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 6);
 }
 
@@ -74,13 +70,13 @@ NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
     if (self == object) { return YES; }
     if (![object isMemberOfClass:[self class]]) { return NO; }
 
-    return [self isEqualToChoice:(SDLMenuCell *)object];
+    return [self isEqualToCell:(SDLMenuCell *)object];
 }
 
-- (BOOL)isEqualToChoice:(SDLMenuCell *)choice {
-    if (choice == nil) { return NO; }
+- (BOOL)isEqualToCell:(SDLMenuCell *)cell {
+    if (cell == nil) { return NO; }
 
-    return (self.hash == choice.hash);
+    return (self.hash == cell.hash);
 }
 
 @end

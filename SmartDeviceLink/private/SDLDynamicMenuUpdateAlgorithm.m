@@ -60,8 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // As soon as we a run that requires 0 Adds we will use it since we cant do better then 0
         if (numberOfAdds == 0) {
-            bestScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
-            return bestScore;
+            return [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
         }
         // if we havent create the bestScore object or if the current score beats the old score then we will create a new bestScore
         if (bestScore == nil || numberOfAdds < bestScore.score) {
@@ -78,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param oldMenu The old menu array
  */
 + (NSMutableArray<NSNumber *> *)sdl_buildAllDeleteStatusesforMenu:(NSArray<SDLMenuCell *> *)oldMenu {
-    NSMutableArray<NSNumber *> *oldMenuStatus = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *oldMenuStatus = [[NSMutableArray alloc] initWithCapacity:oldMenu.count];
     for (NSUInteger index = 0; index < oldMenu.count; index++) {
         [oldMenuStatus addObject:@(MenuCellStateDelete)];
     }
@@ -91,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param newMenu The new menu array
  */
 + (NSMutableArray<NSNumber *> *)sdl_buildAllAddStatusesForMenu:(NSArray<SDLMenuCell *> *)newMenu {
-    NSMutableArray<NSNumber *> *newMenuStatus = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *newMenuStatus = [[NSMutableArray alloc] initWithCapacity:newMenu.count];
     for (NSUInteger index = 0; index < newMenu.count; index++) {
         [newMenuStatus addObject:@(MenuCellStateAdd)];
     }

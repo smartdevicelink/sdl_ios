@@ -160,14 +160,6 @@ UInt32 const MenuCellIdMin = 1;
         [weakself sdl_updateMenuReplaceOperationsWithNewMenuConfiguration];
     }];
 
-    __weak typeof(configurationUpdateOp) weakOp = configurationUpdateOp;
-    configurationUpdateOp.completionBlock = ^{
-        __strong typeof(weakself) strongself = weakself;
-        if (weakOp.error != nil) {
-            SDLLogE(@"Error setting new menu configuration with error: %@, info: %@. Will revert to old menu configuration: %@", weakOp.error, weakOp.error.userInfo, weakself.oldMenuConfiguration);
-        }
-    };
-
     // Cancel previous menu configuration operations
     for (NSOperation *operation in self.transactionQueue.operations) {
         if ([operation isMemberOfClass:[SDLMenuConfigurationUpdateOperation class]]) {
