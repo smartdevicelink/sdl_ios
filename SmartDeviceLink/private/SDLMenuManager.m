@@ -281,6 +281,15 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
+- (void)sdl_updateMenuReplaceOperationsWithNewWindowCapability {
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:[SDLMenuReplaceOperation class]]) {
+            SDLMenuReplaceOperation *op = (SDLMenuReplaceOperation *)operation;
+            op.windowCapability = self.windowCapability;
+        }
+    }
+}
+
 #pragma mark - Helpers
 
 - (BOOL)sdl_isDynamicMenuUpdateActive:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
@@ -333,13 +342,13 @@ UInt32 const MenuCellIdMin = 1;
 
 - (void)sdl_commandNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnCommand *onCommand = (SDLOnCommand *)notification.notification;
-
     [self sdl_callHandlerForCells:self.menuCells command:onCommand];
 }
 
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     // We won't use the object in the parameter but the convenience method of the system capability manager
     self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
+    [self sdl_updateMenuReplaceOperationsWithNewWindowCapability];
 }
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
