@@ -47,7 +47,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @implementation SDLMenuReplaceOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu compatibilityModeEnabled:(BOOL)compatbilityModeEnabled currentMenuUpdatedBlock:(SDLCurrentMenuUpdatedBlock)currentMenuUpdatedBlock {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu compatibilityModeEnabled:(BOOL)compatbilityModeEnabled currentMenuUpdatedHandler:(SDLCurrentMenuUpdatedBlock)currentMenuUpdatedBlock {
     self = [super init];
     if (!self) { return nil; }
 

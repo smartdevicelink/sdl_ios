@@ -13,6 +13,7 @@
 @class SDLArtwork;
 @class SDLFileManager;
 @class SDLMenuCell;
+@class SDLMenuConfiguration;
 @class SDLRPCRequest;
 @class SDLWindowCapability;
 

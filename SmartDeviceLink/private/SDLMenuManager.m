@@ -68,11 +68,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *currentMenuCells;
+@property (strong, nonatomic, nullable) SDLMenuConfiguration *currentMenuConfiguration;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
-@property (copy, nonatomic) NSArray<SDLMenuCell *> *currentMenuCells;
-
-@property (strong, nonatomic, nullable) SDLMenuConfiguration *oldMenuConfiguration;
 
 @end
 
@@ -154,24 +153,19 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
-    // Keep the old configuration so that we can reset it if necessary
-    self.oldMenuConfiguration = self.menuConfiguration;
-
     // Create the operation
-    SDLMenuConfigurationUpdateOperation *configurationUpdateOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:self.connectionManager windowCapability:self.windowCapability newMenuConfiguration:menuConfiguration];
-
     __weak typeof(self) weakself = self;
+    SDLMenuConfigurationUpdateOperation *configurationUpdateOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:self.connectionManager windowCapability:self.windowCapability newMenuConfiguration:menuConfiguration configurationUpdatedHandler:^(SDLMenuConfiguration * _Nonnull newMenuConfiguration) {
+        weakself.currentMenuConfiguration = newMenuConfiguration;
+        [weakself sdl_updateMenuReplaceOperationsWithNewMenuConfiguration];
+    }];
+
     __weak typeof(configurationUpdateOp) weakOp = configurationUpdateOp;
     configurationUpdateOp.completionBlock = ^{
         __strong typeof(weakself) strongself = weakself;
         if (weakOp.error != nil) {
             SDLLogE(@"Error setting new menu configuration with error: %@, info: %@. Will revert to old menu configuration: %@", weakOp.error, weakOp.error.userInfo, weakself.oldMenuConfiguration);
-            strongself->_menuConfiguration = strongself.oldMenuConfiguration;
-        } else {
-            strongself.oldMenuConfiguration = nil;
         }
-
-        // TODO: Use custom completion block and update the replace operations with new menu configuration
     };
 
     // Cancel previous menu configuration operations
@@ -212,7 +206,7 @@ UInt32 const MenuCellIdMin = 1;
     _menuCells = menuCells;
 
     __weak typeof(self) weakself = self;
-    SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells compatibilityModeEnabled:(![self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) currentMenuUpdatedBlock:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells) {
+    SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells compatibilityModeEnabled:(![self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) currentMenuUpdatedHandler:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells) {
         weakself.currentMenuCells = currentMenuCells;
         [weakself sdl_updateMenuReplaceOperationsWithNewCurrentMenu];
     }];
@@ -286,6 +280,15 @@ UInt32 const MenuCellIdMin = 1;
         if ([operation isMemberOfClass:[SDLMenuReplaceOperation class]]) {
             SDLMenuReplaceOperation *op = (SDLMenuReplaceOperation *)operation;
             op.windowCapability = self.windowCapability;
+        }
+    }
+}
+
+- (void)sdl_updateMenuReplaceOperationsWithNewMenuConfiguration {
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:[SDLMenuReplaceOperation class]]) {
+            SDLMenuReplaceOperation *op = (SDLMenuReplaceOperation *)operation;
+            op.menuConfiguration = self.currentMenuConfiguration;
         }
     }
 }

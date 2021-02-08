@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic) NSArray<SDLMenuLayout> *availableMenuLayouts;
 @property (strong, nonatomic) SDLMenuConfiguration *updatedMenuConfiguration;
+@property (assign, nonatomic) SDLMenuConfigurationUpdatedBlock menuConfigurationUpdatedBlock;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
 
@@ -28,13 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMenuConfigurationUpdateOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager windowCapability:(SDLWindowCapability *)windowCapability newMenuConfiguration:(SDLMenuConfiguration *)newConfiguration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager windowCapability:(SDLWindowCapability *)windowCapability newMenuConfiguration:(SDLMenuConfiguration *)newConfiguration configurationUpdatedHandler:(SDLMenuConfigurationUpdatedBlock)configurationUpdatedBlock {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _availableMenuLayouts = windowCapability.menuLayoutsAvailable;
     _updatedMenuConfiguration = newConfiguration;
+    _menuConfigurationUpdatedBlock = configurationUpdatedBlock;
 
     return self;
 }
@@ -75,6 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogV(@"Finishing menu manager configuration update operation");
     if (self.isCancelled) {
         self.internalError = [NSError sdl_menuManager_configurationOperationCancelled];
+    }
+
+    if (self.internalError == nil) {
+        self.menuConfigurationUpdatedBlock(self.updatedMenuConfiguration);
     }
 
     [super finishOperation];

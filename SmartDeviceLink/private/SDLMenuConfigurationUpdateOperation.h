@@ -10,13 +10,16 @@
 
 #import "SDLConnectionManagerType.h"
 #import "SDLMenuConfiguration.h"
+#import "SDLMenuReplaceUtilities.h"
 #import "SDLWindowCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^SDLMenuConfigurationUpdatedBlock)(SDLMenuConfiguration *newMenuConfiguration);
+
 @interface SDLMenuConfigurationUpdateOperation : SDLAsynchronousOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager windowCapability:(SDLWindowCapability *)windowCapability newMenuConfiguration:(SDLMenuConfiguration *)newConfiguration;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager windowCapability:(SDLWindowCapability *)windowCapability newMenuConfiguration:(SDLMenuConfiguration *)newConfiguration configurationUpdatedHandler:(SDLMenuConfigurationUpdatedBlock)configurationUpdatedBlock;
 
 @end
 
