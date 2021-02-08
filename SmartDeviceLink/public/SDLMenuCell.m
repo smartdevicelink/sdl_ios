@@ -84,7 +84,10 @@ NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
     ^ NSUIntRotateCell(self.voiceCommands.hash, NSUIntBitCell / 4)
     ^ NSUIntRotateCell(self.subCells.count !=0, NSUIntBitCell  / 5)
-    ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 6);
+    ^ NSUIntRotateCell(self.secondaryText.hash, NSUIntBitCell  / 6)
+    ^ NSUIntRotateCell(self.tertiaryText.hash, NSUIntBitCell  / 7)
+    ^ NSUIntRotateCell(self.secondaryArtwork.name.hash, NSUIntBitCell  / 8)
+    ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 9);
 }
 
 - (BOOL)isEqual:(id)object {

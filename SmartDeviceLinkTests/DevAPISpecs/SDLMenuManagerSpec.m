@@ -186,6 +186,13 @@ describe(@"menu manager", ^{
         });
 
         it(@"should check if all artworks are uploaded and return NO", ^{
+            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:testArtwork handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            testManager.menuCells = @[textAndImageCell, textOnlyCell];
+            OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
+            expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beFalse());
+        });
+
+        it(@"should check if all artworks are uploaded and return NO", ^{
             textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
             testManager.menuCells = @[textAndImageCell, textOnlyCell];
             OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
