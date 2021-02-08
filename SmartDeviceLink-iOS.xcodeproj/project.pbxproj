@@ -1669,6 +1669,8 @@
 		B30509012511E60E008C5401 /* SDLSupportedStreamingRange.h in Headers */ = {isa = PBXBuildFile; fileRef = B30508FF2511E60D008C5401 /* SDLSupportedStreamingRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B30509022511E60E008C5401 /* SDLSupportedStreamingRange.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509002511E60D008C5401 /* SDLSupportedStreamingRange.m */; };
 		B30509052511E79B008C5401 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B30509042511E79B008C5401 /* ProxyManager.m */; };
+		B360F9D0255EFEFD0027CA17 /* SDLClimateData.m in Sources */ = {isa = PBXBuildFile; fileRef = B360F9CE255EFEFD0027CA17 /* SDLClimateData.m */; };
+		B360F9D1255EFEFD0027CA17 /* SDLClimateData.h in Headers */ = {isa = PBXBuildFile; fileRef = B360F9CF255EFEFD0027CA17 /* SDLClimateData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B360F9DE255F52A50027CA17 /* SDLSeatStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B360F9DC255F52A40027CA17 /* SDLSeatStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B360F9DF255F52A50027CA17 /* SDLSeatStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B360F9DD255F52A40027CA17 /* SDLSeatStatus.m */; };
 		B360F9E4255F52BA0027CA17 /* SDLSeatOccupancy.m in Sources */ = {isa = PBXBuildFile; fileRef = B360F9E2255F52B90027CA17 /* SDLSeatOccupancy.m */; };
@@ -1697,6 +1699,7 @@
 		B3DF19ED251225300090D7BA /* TestSmartConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19EB251225300090D7BA /* TestSmartConnectionManager.m */; };
 		B3DF19F0251225770090D7BA /* TestStreamingMediaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19EE251225760090D7BA /* TestStreamingMediaDelegate.m */; };
 		B3DF19F3251225AA0090D7BA /* TestSmartConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19F1251225A90090D7BA /* TestSmartConnection.m */; };
+		B3EC9E6E2579AA010039F3AA /* SDLClimateDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		C975877F257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */; };
 		C9758785257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */; };
@@ -3532,6 +3535,8 @@
 		B30509002511E60D008C5401 /* SDLSupportedStreamingRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSupportedStreamingRange.m; path = public/SDLSupportedStreamingRange.m; sourceTree = "<group>"; };
 		B30509032511E79A008C5401 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = "Example Apps/Example ObjC/ProxyManager.h"; sourceTree = SOURCE_ROOT; };
 		B30509042511E79B008C5401 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProxyManager.m; path = "Example Apps/Example ObjC/ProxyManager.m"; sourceTree = SOURCE_ROOT; };
+		B360F9CE255EFEFD0027CA17 /* SDLClimateData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLClimateData.m; path = public/SDLClimateData.m; sourceTree = "<group>"; };
+		B360F9CF255EFEFD0027CA17 /* SDLClimateData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLClimateData.h; path = public/SDLClimateData.h; sourceTree = "<group>"; };
 		B360F9DC255F52A40027CA17 /* SDLSeatStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLSeatStatus.h; path = public/SDLSeatStatus.h; sourceTree = "<group>"; };
 		B360F9DD255F52A40027CA17 /* SDLSeatStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSeatStatus.m; path = public/SDLSeatStatus.m; sourceTree = "<group>"; };
 		B360F9E2255F52B90027CA17 /* SDLSeatOccupancy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSeatOccupancy.m; path = public/SDLSeatOccupancy.m; sourceTree = "<group>"; };
@@ -3563,6 +3568,7 @@
 		B3DF19EF251225760090D7BA /* TestStreamingMediaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestStreamingMediaDelegate.h; sourceTree = "<group>"; };
 		B3DF19F1251225A90090D7BA /* TestSmartConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSmartConnection.m; sourceTree = "<group>"; };
 		B3DF19F2251225A90090D7BA /* TestSmartConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSmartConnection.h; sourceTree = "<group>"; };
+		B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLClimateDataSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekIndicatorTypeSpec.m; sourceTree = "<group>"; };
 		C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekStreamingIndicatorSpec.m; sourceTree = "<group>"; };
@@ -4049,6 +4055,7 @@
 				162E82941A9BDE8A00906325 /* SDLChoiceSpec.m */,
 				1EE8C43F1F348D3200FDC2CF /* SDLClimateControlCapabilitiesSpec.m */,
 				1EE8C4431F34A1B900FDC2CF /* SDLClimateControlDataSpec.m */,
+				B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */,
 				885468372225CBA400994D8D /* SDLCloudAppPropertiesSpec.m */,
 				162E82951A9BDE8A00906325 /* SDLClusterModeStatusSpec.m */,
 				DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */,
@@ -5096,6 +5103,8 @@
 				4ABB2B3524F84EF40061BF55 /* SDLClimateControlCapabilities.m */,
 				4ABB2B3624F84EF40061BF55 /* SDLClimateControlData.h */,
 				4ABB2B3124F84EF30061BF55 /* SDLClimateControlData.m */,
+				B360F9CF255EFEFD0027CA17 /* SDLClimateData.h */,
+				B360F9CE255EFEFD0027CA17 /* SDLClimateData.m */,
 				4ABB2B2224F84EF00061BF55 /* SDLCloudAppProperties.h */,
 				4ABB2B2124F84EF00061BF55 /* SDLCloudAppProperties.m */,
 				4ABB2B3224F84EF30061BF55 /* SDLClusterModeStatus.h */,
@@ -7017,6 +7026,7 @@
 			files = (
 				4ABB255124F7E52B0061BF55 /* SDLLockScreenConfiguration.h in Headers */,
 				4ABB26B124F7F9DF0061BF55 /* SDLLogTargetOSLog.h in Headers */,
+				B360F9D1255EFEFD0027CA17 /* SDLClimateData.h in Headers */,
 				4ABB259624F7E6880061BF55 /* SDLMenuCell.h in Headers */,
 				4ABB292E24F842A00061BF55 /* SDLDiagnosticMessage.h in Headers */,
 				4ABB272424F7FCAE0061BF55 /* SDLComponentVolumeStatus.h in Headers */,
@@ -8329,6 +8339,7 @@
 				4A8BD39424F94731000945E3 /* SDLIAPSession.m in Sources */,
 				4ABB2A3924F847980061BF55 /* SDLDiagnosticMessageResponse.m in Sources */,
 				4A8BD29924F93534000945E3 /* SDLScreenParams.m in Sources */,
+				B360F9D0255EFEFD0027CA17 /* SDLClimateData.m in Sources */,
 				4ABB28C324F82A6A0061BF55 /* SDLOnAppInterfaceUnregistered.m in Sources */,
 				4ABB2A3224F847980061BF55 /* SDLCancelInteractionResponse.m in Sources */,
 				4ABB259C24F7E6B90061BF55 /* SDLMenuConfiguration.m in Sources */,
@@ -8557,6 +8568,7 @@
 				162E83911A9BDE8B00906325 /* SDLTouchCoordSpec.m in Sources */,
 				162E832B1A9BDE8B00906325 /* SDLDeleteSubMenuSpec.m in Sources */,
 				162E83411A9BDE8B00906325 /* SDLSubscribeButtonSpec.m in Sources */,
+				B3EC9E6E2579AA010039F3AA /* SDLClimateDataSpec.m in Sources */,
 				5D59DD471B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m in Sources */,
 				5D0A9F9A1F15636800CC80DD /* SDLGetSystemCapabilitiesSpec.m in Sources */,
 				162E82F31A9BDE8B00906325 /* SDLPrerecordedSpeechSpec.m in Sources */,

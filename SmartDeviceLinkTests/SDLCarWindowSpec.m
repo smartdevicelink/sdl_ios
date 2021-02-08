@@ -125,7 +125,7 @@ describe(@"test car window", ^{
         streamingLifecycleManager.videoScaleManager.displayViewportResolution = CGSizeMake(100, 200);
         SDLImageResolution *imgResolution = [[SDLImageResolution alloc] initWithWidth:200 height:300];
         const float scale = 2.0;
-        SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:imgResolution maxBitrate:0 supportedFormats:nil hapticDataSupported:NO diagonalScreenSize:2.5 pixelPerInch:300 scale:scale];
+        SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:imgResolution maxBitrate:nil supportedFormats:nil hapticSpatialDataSupported:nil diagonalScreenSize:@(2.5) pixelPerInch:@(300) scale:@(scale) preferredFPS:nil];
         [streamingLifecycleManager sdl_applyVideoCapability:videoStreamingCapability];
 
 
@@ -145,7 +145,7 @@ describe(@"test car window", ^{
                 expect(CGSizeEqualToSize(scaledSize, rootViewController.view.frame.size)).to(beTrue());
 
                 SDLImageResolution *resolution = nil;
-                SDLVideoStreamingCapability *videoStreamingCapability2 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:999 supportedFormats:nil hapticDataSupported:YES diagonalScreenSize:2.2 pixelPerInch:100 scale:1];
+                SDLVideoStreamingCapability *videoStreamingCapability2 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:@(999) supportedFormats:nil hapticSpatialDataSupported:@YES diagonalScreenSize:@(2.2) pixelPerInch:@(100) scale:@(1) preferredFPS:nil];
                 [carWindow updateVideoStreamingCapability:videoStreamingCapability2];
                 // the size should not change
                 expect(CGSizeEqualToSize(scaledSize, rootViewController.view.frame.size)).to(beTrue());
