@@ -35,6 +35,7 @@ const BOOL testHapticDataSupported3 = YES;
 const float testDiagonalScreenSize3 = 3.5f;
 const float testPixelPerInch3 = 350.5f;
 const float testScale3 = 3.3f;
+const uint testPreferredFPS = 15;
 // setup test objects
 SDLImageResolution *testPreferredResolution = [[SDLImageResolution alloc] initWithWidth:600 height:500];
 
@@ -49,28 +50,34 @@ format2.protocol = SDLVideoStreamingProtocolRTSP;
 NSArray<SDLVideoStreamingFormat *> *testVideoStreamingFormats = @[format1, format2];
 
 SDLImageResolution *testPreferredResolution2 = [[SDLImageResolution alloc] initWithWidth:100 height:200];
-SDLVideoStreamingCapability *capability2 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution2 maxBitrate:testMaxBitrate2 supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported2 diagonalScreenSize:testDiagonalScreenSize2 pixelPerInch:testPixelPerInch2 scale:testScale2];
+SDLVideoStreamingCapability *capability2 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution2 maxBitrate:@(testMaxBitrate2) supportedFormats:testVideoStreamingFormats hapticSpatialDataSupported:@(testHapticDataSupported2) diagonalScreenSize:@(testDiagonalScreenSize2) pixelPerInch:@(testPixelPerInch2) scale:@(testScale2) preferredFPS:@(testPreferredFPS)];
+                                            //initWithPreferredResolution:testPreferredResolution2 maxBitrate:testMaxBitrate2 supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported2 diagonalScreenSize:testDiagonalScreenSize2 pixelPerInch:testPixelPerInch2 scale:testScale2];
 
 SDLImageResolution *testPreferredResolution3 = [[SDLImageResolution alloc] initWithWidth:300 height:150];
-SDLVideoStreamingCapability *capability3 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution3 maxBitrate:testMaxBitrate3 supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported3 diagonalScreenSize:testDiagonalScreenSize3 pixelPerInch:testPixelPerInch3 scale:testScale3];
+SDLVideoStreamingCapability *capability3 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution3 maxBitrate:@(testMaxBitrate3) supportedFormats:testVideoStreamingFormats hapticSpatialDataSupported:@(testHapticDataSupported3) diagonalScreenSize:@(testDiagonalScreenSize3) pixelPerInch:@(testPixelPerInch3) scale:@(testScale3) preferredFPS:@(testPreferredFPS)];
+                                            //initWithPreferredResolution:testPreferredResolution3 maxBitrate:testMaxBitrate3 supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported3 diagonalScreenSize:testDiagonalScreenSize3 pixelPerInch:testPixelPerInch3 scale:testScale3];
 
 NSArray *additionalVideoStreamingCapabilities = @[capability2, capability3];
 
 describe(@"initialization tests", ^{
     context(@"initWithDictionary:", ^{
-        NSDictionary* dict = @{
-                                SDLRPCParameterNamePreferredResolution: testPreferredResolution,
-                                SDLRPCParameterNameMaxBitrate: @(testMaxBitrate),
-                                SDLRPCParameterNameSupportedFormats: testVideoStreamingFormats,
-                                SDLRPCParameterNameHapticSpatialDataSupported: @(testHapticDataSupported),
-                                SDLRPCParameterNameDiagonalScreenSize: @(testDiagonalScreenSize),
-                                SDLRPCParameterNamePixelPerInch: @(testPixelPerInch),
-                                SDLRPCParameterNameScale: @(testScale)
-        };
+        __block SDLVideoStreamingCapability* testStruct = nil;
+        beforeEach(^{
+            NSDictionary* dict = @{
+                SDLRPCParameterNamePreferredResolution: testPreferredResolution,
+                SDLRPCParameterNameMaxBitrate: @(testMaxBitrate),
+                SDLRPCParameterNameSupportedFormats: testVideoStreamingFormats,
+                SDLRPCParameterNameHapticSpatialDataSupported: @(testHapticDataSupported),
+                SDLRPCParameterNameDiagonalScreenSize: @(testDiagonalScreenSize),
+                SDLRPCParameterNamePixelPerInch: @(testPixelPerInch),
+                SDLRPCParameterNameScale: @(testScale),
+                SDLRPCParameterNamePreferredFPS: @(testPreferredFPS),
+            };
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithDictionary:dict];
+            testStruct = [[SDLVideoStreamingCapability alloc] initWithDictionary:dict];
 #pragma clang diagnostic pop
+        });
 
         it(@"expect all properties to be set properly", ^{
             expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
@@ -80,11 +87,15 @@ describe(@"initialization tests", ^{
             expect(testStruct.diagonalScreenSize).to(equal(testDiagonalScreenSize));
             expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
             expect(testStruct.scale).to(equal(testScale));
+            expect(testStruct.preferredFPS).to(equal(testPreferredFPS));
         });
     });
 
     context(@"init", ^{
-        SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] init];
+        __block SDLVideoStreamingCapability* testStruct = nil;
+        beforeEach(^{
+            testStruct = [[SDLVideoStreamingCapability alloc] init];
+        });
 
         it(@"expect all properties to be nil", ^{
             expect(testStruct.preferredResolution).to(beNil());
@@ -94,36 +105,19 @@ describe(@"initialization tests", ^{
             expect(testStruct.diagonalScreenSize).to(beNil());
             expect(testStruct.pixelPerInch).to(beNil());
             expect(testStruct.scale).to(beNil());
-        });
-    });
-
-    context(@"init & assign", ^{
-        SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] init];
-        testStruct.additionalVideoStreamingCapabilities = additionalVideoStreamingCapabilities;
-        testStruct.preferredResolution = testPreferredResolution;
-        testStruct.maxBitrate = @(testMaxBitrate);
-        testStruct.supportedFormats = testVideoStreamingFormats;
-        testStruct.hapticSpatialDataSupported = @(testHapticDataSupported);
-        testStruct.diagonalScreenSize = @(testDiagonalScreenSize);
-        testStruct.pixelPerInch = @(testPixelPerInch);
-        testStruct.scale = @(testScale);
-
-        it(@"expect all properties to be set properly", ^{
-            expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
-            expect(testStruct.maxBitrate).to(equal(testMaxBitrate));
-            expect(testStruct.supportedFormats).to(equal(testVideoStreamingFormats));
-            expect(testStruct.hapticSpatialDataSupported).to(equal(testHapticDataSupported));
-            expect(testStruct.diagonalScreenSize).to(equal(testDiagonalScreenSize));
-            expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
-            expect(testStruct.scale).to(equal(testScale));
-            expect(testStruct.additionalVideoStreamingCapabilities).to(haveCount(2));
-            expect(testStruct.additionalVideoStreamingCapabilities).to(equal(additionalVideoStreamingCapabilities));
+            expect(testStruct.preferredFPS).to(beNil());
         });
     });
 
     context(@"initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale", ^{
-        SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution maxBitrate:testMaxBitrate supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported diagonalScreenSize:testDiagonalScreenSize pixelPerInch:testPixelPerInch scale:testScale];
-        testStruct.additionalVideoStreamingCapabilities = additionalVideoStreamingCapabilities;
+        __block SDLVideoStreamingCapability* testStruct = nil;
+        beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution maxBitrate:testMaxBitrate supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported diagonalScreenSize:testDiagonalScreenSize pixelPerInch:testPixelPerInch scale:testScale];
+#pragma clang diagnostic pop
+            testStruct.additionalVideoStreamingCapabilities = additionalVideoStreamingCapabilities;
+        });
 
         it(@"expect all properties to be set properly", ^{
             expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
@@ -133,6 +127,7 @@ describe(@"initialization tests", ^{
             expect(testStruct.diagonalScreenSize).to(equal(testDiagonalScreenSize));
             expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
             expect(testStruct.scale).to(equal(testScale));
+            expect(testStruct.preferredFPS).to(beNil());
             expect(testStruct.additionalVideoStreamingCapabilities).to(haveCount(2));
             expect(testStruct.additionalVideoStreamingCapabilities).to(equal(additionalVideoStreamingCapabilities));
         });
@@ -140,10 +135,14 @@ describe(@"initialization tests", ^{
 });
 
 describe(@"additional tests", ^{
-    SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution maxBitrate:testMaxBitrate supportedFormats:testVideoStreamingFormats hapticDataSupported:testHapticDataSupported diagonalScreenSize:testDiagonalScreenSize pixelPerInch:testPixelPerInch scale:testScale];
-    testStruct.additionalVideoStreamingCapabilities = additionalVideoStreamingCapabilities;
-    SDLVideoStreamingCapability* testStruct2 = [testStruct copy];
+    __block SDLVideoStreamingCapability* testStruct = nil;
+    __block SDLVideoStreamingCapability* testStruct2 = nil;
     SDLVideoStreamingCapability* testObject = (SDLVideoStreamingCapability*)[[NSObject alloc] init];
+    beforeEach(^{
+        testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution maxBitrate:@(testMaxBitrate) supportedFormats:testVideoStreamingFormats hapticSpatialDataSupported:@(testHapticDataSupported) diagonalScreenSize:@(testDiagonalScreenSize) pixelPerInch:@(testPixelPerInch) scale:@(testScale) preferredFPS:@(testPreferredFPS)];
+        testStruct.additionalVideoStreamingCapabilities = additionalVideoStreamingCapabilities;
+        testStruct2 = [testStruct copy];
+    });
 
     context(@"isEqual:", ^{
         it(@"expect to be equal", ^{
@@ -189,22 +188,33 @@ describe(@"additional tests", ^{
     });
 
     context(@"allImageResolutions", ^{
-        SDLImageResolution *imgResolution2 = [[SDLImageResolution alloc] initWithWidth:200 height:500];
-        SDLVideoStreamingCapability* capability2 = [testStruct copy];
-        capability2.preferredResolution = imgResolution2;
+        __block SDLImageResolution *imgResolution2 = nil;
+        __block SDLVideoStreamingCapability* capability2 = nil;
+        __block SDLImageResolution *imgResolution3 = nil;
+        __block SDLVideoStreamingCapability* capability3 = nil;
+        __block SDLImageResolution *imgResolution4 = nil;
+        __block SDLVideoStreamingCapability* capability4 = nil;
+        __block SDLVideoStreamingCapability* testStructX = nil;
+        __block SDLImageResolution *imgResolution1 = nil;
 
-        SDLImageResolution *imgResolution3 = [[SDLImageResolution alloc] initWithWidth:300 height:500];
-        SDLVideoStreamingCapability* capability3 = [testStruct copy];
-        capability3.preferredResolution = imgResolution3;
+        beforeEach(^{
+            imgResolution2 = [[SDLImageResolution alloc] initWithWidth:200 height:500];
+            capability2 = [testStruct copy];
+            capability2.preferredResolution = imgResolution2;
 
-        SDLImageResolution *imgResolution4 = [[SDLImageResolution alloc] initWithWidth:400 height:500];
-        SDLVideoStreamingCapability* capability4 = [testStruct copy];
-        capability4.preferredResolution = imgResolution4;
+            imgResolution3 = [[SDLImageResolution alloc] initWithWidth:300 height:500];
+            capability3 = [testStruct copy];
+            capability3.preferredResolution = imgResolution3;
+
+            imgResolution4 = [[SDLImageResolution alloc] initWithWidth:400 height:500];
+            capability4 = [testStruct copy];
+            capability4.preferredResolution = imgResolution4;
 
 
-        SDLVideoStreamingCapability* testStructX = [testStruct copy];
-        SDLImageResolution *imgResolution1 = [[SDLImageResolution alloc] initWithWidth:100 height:500];
-        testStructX.preferredResolution = imgResolution1;
+            testStructX = [testStruct copy];
+            imgResolution1 = [[SDLImageResolution alloc] initWithWidth:100 height:500];
+            testStructX.preferredResolution = imgResolution1;
+        });
 
         it(@"expect result array to contain proper objects where order matters", ^{
             testStructX.additionalVideoStreamingCapabilities = @[capability2, capability3, capability4];
@@ -215,7 +225,28 @@ describe(@"additional tests", ^{
             testStructX.additionalVideoStreamingCapabilities = @[capability4, capability3, capability2];
             allImageResolutions1 = [testStructX allImageResolutions];
             expect(allImageResolutions1).toNot(equal(allImageResolutions2));
+            expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
+            expect(testStruct.maxBitrate).to(equal(testMaxBitrate));
+            expect(testStruct.supportedFormats).to(equal(testVideoStreamingFormats));
+            expect(testStruct.hapticSpatialDataSupported).to(equal(testHapticDataSupported));
+            expect(testStruct.diagonalScreenSize).to(equal(testDiagonalScreenSize));
+            expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
+            expect(testStruct.scale).to(equal(testScale));
+            expect(testStruct.preferredFPS).to(equal(testPreferredFPS));
         });
+    });
+
+    it(@"Should initialize correctly with initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale:preferredFPS", ^ {
+        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:testPreferredResolution maxBitrate:@(testMaxBitrate) supportedFormats:testVideoStreamingFormats hapticSpatialDataSupported:@(testHapticDataSupported) diagonalScreenSize:@(testDiagonalScreenSize) pixelPerInch:@(testPixelPerInch) scale:@(testScale) preferredFPS:@(testPreferredFPS)];
+
+        expect(testStruct.preferredResolution).to(equal(testPreferredResolution));
+        expect(testStruct.maxBitrate).to(equal(testMaxBitrate));
+        expect(testStruct.supportedFormats).to(equal(testVideoStreamingFormats));
+        expect(testStruct.hapticSpatialDataSupported).to(equal(testHapticDataSupported));
+        expect(testStruct.diagonalScreenSize).to(equal(testDiagonalScreenSize));
+        expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
+        expect(testStruct.scale).to(equal(testScale));
+        expect(testStruct.preferredFPS).to(equal(testPreferredFPS));
     });
 });
 

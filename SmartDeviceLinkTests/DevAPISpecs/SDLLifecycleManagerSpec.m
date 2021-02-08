@@ -88,8 +88,8 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
     sharedExamples(@"unable to send an RPC", ^(QCKDSLSharedExampleContext exampleContext) {
         it(@"cannot publicly send RPCs", ^{
             SDLLifecycleManager *testManager = exampleContext()[@"manager"];
-            SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
-            
+            SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
+
             [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
                 expect(error).to(equal([NSError sdl_lifecycle_notReadyError]));
             }];
@@ -567,7 +567,7 @@ describe(@"a lifecycle manager", ^{
             });
 
             it(@"can send an RPC of type Request", ^{
-                SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
+                SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
                 OCMExpect([protocolMock sendRPC:testShow]);
                 [testManager sendRPC:testShow];
 

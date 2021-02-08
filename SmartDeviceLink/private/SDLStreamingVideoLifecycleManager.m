@@ -422,6 +422,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamStarting {
     SDLLogD(@"Video stream starting");
 
+//<<<<<<< HEAD
     if (self.shouldAutoResume && (self.videoStreamingCapabilityUpdated != nil)) {
         //apply previously received video capabilities
         [self sdl_applyVideoCapabilityWhileStarting:self.videoStreamingCapabilityUpdated];
@@ -430,6 +431,73 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
     self.shouldAutoResume = NO;
     self.videoStreamingCapabilityUpdated = nil;
+//=======
+//    __weak typeof(self) weakSelf = self;
+//    [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
+//        SDLLogD(@"Received video capability response");
+//        SDLLogV(@"Capability: %@", capability);
+//
+//        if (capability != nil) {
+//            // If we got a response, get the head unit's preferred formats and resolutions
+//            weakSelf.preferredFormats = capability.supportedFormats;
+//            weakSelf.preferredResolutions = @[capability.preferredResolution];
+//            if (capability.maxBitrate != nil) {
+//                weakSelf.videoEncoderSettings[(__bridge NSString *) kVTCompressionPropertyKey_AverageBitRate] = [[NSNumber alloc] initWithUnsignedLongLong:(capability.maxBitrate.unsignedLongLongValue * 1000)];
+//            }
+//            if (capability.preferredFPS != nil) {
+//                weakSelf.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] = capability.preferredFPS;
+//            }
+//
+//            if (weakSelf.dataSource != nil) {
+//                SDLLogV(@"Calling data source for modified preferred formats");
+//                weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
+//            }
+//
+//            if (weakSelf.focusableItemManager != nil) {
+//                weakSelf.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
+//            }
+//
+//            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, haptics enabled %@, videoEncoderSettings: %@", weakSelf.preferredFormats, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"), weakSelf.videoEncoderSettings);
+//        } else {
+//            // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
+//            SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+//            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)weakSelf.videoScaleManager.displayViewportResolution.width height:(uint16_t)weakSelf.videoScaleManager.displayViewportResolution.height];
+//            weakSelf.preferredFormats = @[format];
+//            weakSelf.preferredResolutions = @[resolution];
+//
+//            if (weakSelf.focusableItemManager != nil) {
+//                weakSelf.focusableItemManager.enableHapticDataRequests = NO;
+//            }
+//
+//            SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", weakSelf.preferredFormats, weakSelf.preferredResolutions);
+//        }
+//
+//        // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings
+//        // (Exception: ExpectedFrameRate, AverageBitRate)
+//        for (id key in self.customEncoderSettings.keyEnumerator) {
+//            // do NOT override framerate or average bitreate if custom setting is higher than current setting.
+//            // See SDL 0323 (https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0323-align-VideoStreamingParameter-with-capability.md) for details.
+//            if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] ||
+//                [(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]) {
+//                NSNumber *customEncoderSettings = (NSNumber *)[self.customEncoderSettings valueForKey:key];
+//                NSNumber *videoEncoderSettings = (NSNumber *)[self.videoEncoderSettings valueForKey:key];
+//                if (customEncoderSettings < videoEncoderSettings) {
+//                    self.videoEncoderSettings[key] = customEncoderSettings;
+//                }
+//            } else {
+//                self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+//            }
+//        }
+//
+//        if (weakSelf.dataSource != nil) {
+//            SDLLogV(@"Calling data source for modified preferred resolutions");
+//            weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
+//            SDLLogD(@"Got specialized video resolutions: %@", weakSelf.preferredResolutions);
+//        }
+//
+//        [self sdl_sendVideoStartService];
+//    }];
+//>>>>>>> develop
 }
 
 - (void)didEnterStateVideoStreamReady {
@@ -790,6 +858,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (!videoCapability.hapticSpatialDataSupported) {
         videoCapability.hapticSpatialDataSupported = self.videoStreamingCapability.hapticSpatialDataSupported;
     }
+    if (!videoCapability.preferredFPS) {
+        videoCapability.preferredFPS = self.videoStreamingCapability.preferredFPS;
+    }
     if (videoCapability.supportedFormats.count == 0) {
         if (self.videoFormat) {
             // video format may not come, use the previous one instead
@@ -1037,10 +1108,25 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         const uint64_t bitrate = capability.maxBitrate.unsignedLongLongValue * 1000;
         self.videoEncoderSettings[(id)kVTCompressionPropertyKey_AverageBitRate] = @(bitrate);
     }
+    if (capability.preferredFPS != nil) {
+        self.videoEncoderSettings[(id)kVTCompressionPropertyKey_ExpectedFrameRate] = capability.preferredFPS;
+    }
 
-    // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings.
+    // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings
+    // (Exception: ExpectedFrameRate, AverageBitRate)
     for (id key in self.customEncoderSettings.keyEnumerator) {
-        self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+        // do NOT override framerate or average bitreate if custom setting is higher than current setting.
+        // See SDL 0323 (https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0323-align-VideoStreamingParameter-with-capability.md) for details.
+        if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] ||
+            [(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]) {
+            NSNumber *customEncoderSettings = (NSNumber *)[self.customEncoderSettings valueForKey:key];
+            NSNumber *videoEncoderSettings = (NSNumber *)[self.videoEncoderSettings valueForKey:key];
+            if (customEncoderSettings.doubleValue < videoEncoderSettings.doubleValue) {
+                self.videoEncoderSettings[key] = customEncoderSettings;
+            }
+        } else {
+            self.videoEncoderSettings[key] = [self.customEncoderSettings valueForKey:key];
+        }
     }
 
     // If we got a response, get the head unit's preferred formats and resolutions
@@ -1064,8 +1150,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (SDLVideoStreamingCapability *)sdl_defaultVideoCapability {
     SDLVideoStreamingFormat *format = self.supportedFormats.firstObject;
     SDLImageResolution *resolution = self.videoScaleManager.makeScaledResolution;
-    SDLVideoStreamingCapability *defaultCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:0 supportedFormats:@[format] hapticDataSupported:NO diagonalScreenSize:0 pixelPerInch:0 scale:self.videoScaleManager.scale];
-
+    SDLVideoStreamingCapability *defaultCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:nil supportedFormats:@[format] hapticSpatialDataSupported:nil diagonalScreenSize:nil pixelPerInch:nil scale:@(self.videoScaleManager.scale) preferredFPS:nil];
     return defaultCapability;
 }
 

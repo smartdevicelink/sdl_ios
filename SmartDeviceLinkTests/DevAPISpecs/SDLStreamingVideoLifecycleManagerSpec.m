@@ -237,7 +237,7 @@ QuickSpecEnd
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_Runtime)
 
 describe(@"test internals", ^{
-    // note: this test suite created to satisfy Cocodev
+    // note: this test suite created to satisfy Codecov
     context(@"init extended manager", ^{
         id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
         SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
@@ -440,13 +440,6 @@ describe(@"runtime tests", ^{
             [streamingLifecycleManager shutDown];
             streamingLifecycleManager = nil;
         }
-    });
-
-    describe(@"QQQQQ", ^{
-        context(@"", ^{
-            ;
-            [streamingLifecycleManager suspendVideo];
-        });
     });
 
     describe(@"when started", ^{
@@ -795,7 +788,7 @@ describe(@"runtime tests", ^{
                 }
             });
 
-        describe(@"after receiving a Video Start ACK", ^{
+            describe(@"after receiving a Video Start ACK", ^{
                 __block SDLProtocolHeader *testVideoHeader = nil;
                 __block SDLProtocolMessage *testVideoMessage = nil;
                 __block SDLControlFramePayloadVideoStartServiceAck *testVideoStartServicePayload = nil;
@@ -1336,7 +1329,7 @@ QuickSpecEnd
 #pragma mark - test Capabilities Filtering Logic
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_CapabilitiesFiltering)
-
+// declare and init constants that do not change during test lifecycle
 SDLImageResolution *resolution1 = [[SDLImageResolution alloc] initWithWidth:800 height:380];
 SDLImageResolution *resolution2 = [[SDLImageResolution alloc] initWithWidth:320 height:200];
 SDLImageResolution *resolution3 = [[SDLImageResolution alloc] initWithWidth:480 height:320];
@@ -1406,15 +1399,7 @@ SDLVideoStreamingFormat *vsFormat3 = [[SDLVideoStreamingFormat alloc] initWithCo
 SDLVideoStreamingFormat *vsFormat4 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecVP8 protocol:SDLVideoStreamingProtocolRTMP];
 SDLVideoStreamingFormat *vsFormat5 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecVP9 protocol:SDLVideoStreamingProtocolWebM];
 
-//SDLVideoStreamingCapability *capability00 = [[SDLVideoStreamingCapability alloc] init];
-//capability00.preferredResolution = resolution1;
-//capability00.maxBitrate = @400000;
-//capability00.hapticSpatialDataSupported = @YES;
-//capability00.diagonalScreenSize = @8;
-//capability00.pixelPerInch = @96;
-//capability00.scale = @1;
-
-SDLVideoStreamingCapability *capability0 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution1 maxBitrate:400000 supportedFormats:@[vsFormat1, vsFormat2, vsFormat3, vsFormat4, vsFormat5] hapticDataSupported:YES diagonalScreenSize:8 pixelPerInch:96 scale:1];
+SDLVideoStreamingCapability *capability0 = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution1 maxBitrate:@(400000) supportedFormats:@[vsFormat1, vsFormat2, vsFormat3, vsFormat4, vsFormat5] hapticSpatialDataSupported:@YES diagonalScreenSize:@(8) pixelPerInch:@(96) scale:@(1) preferredFPS:nil];
 capability0.additionalVideoStreamingCapabilities = @[capability1, capability2, capability3, capability4, capability5, capability6, capability7, capability8, capability9, capability10];
 
 describe(@"supported video capabilities and formats", ^{
@@ -1567,7 +1552,7 @@ static SDLGetSystemCapabilityResponse* createSystemCapabilityResponse() {
     SDLVideoStreamingFormat *format2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
     NSArray<SDLVideoStreamingFormat *> *testFormats = @[format1, format2];
 
-    SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:testVSCMaxBitrate supportedFormats:testFormats hapticDataSupported:YES diagonalScreenSize:8.5 pixelPerInch:117 scale:testVSCScale];
+    SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:@(testVSCMaxBitrate) supportedFormats:testFormats hapticSpatialDataSupported:@YES diagonalScreenSize:@(8.5) pixelPerInch:@(117) scale:@(testVSCScale) preferredFPS:nil];
     SDLGetSystemCapabilityResponse *response = [[SDLGetSystemCapabilityResponse alloc] init];
     response.success = @YES;
     response.systemCapability = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:videoStreamingCapability];

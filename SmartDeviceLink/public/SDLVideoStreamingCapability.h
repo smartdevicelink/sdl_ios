@@ -30,7 +30,21 @@ NS_ASSUME_NONNULL_BEGIN
  @param scale The scaling factor the app should use to change the size of the projecting view
  @return A SDLVideoStreamingCapability object
  */
-- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale;
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale __deprecated_msg("Use initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:diagonalScreenSize:pixelPerInch:scale:preferredFPS instead");
+
+/**
+ * Convenience init for creating a video streaming capability with all parameters.
+ * @param preferredResolution - preferredResolution
+ * @param maxBitrate - maxBitrate
+ * @param supportedFormats - supportedFormats
+ * @param hapticSpatialDataSupported - hapticSpatialDataSupported
+ * @param diagonalScreenSize - diagonalScreenSize
+ * @param pixelPerInch - pixelPerInch
+ * @param scale - scale
+ * @param preferredFPS - preferredFPS
+ * @return A SDLVideoStreamingCapability object
+ */
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLUInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported diagonalScreenSize:(nullable NSNumber<SDLFloat> *)diagonalScreenSize pixelPerInch:(nullable NSNumber<SDLFloat> *)pixelPerInch scale:(nullable NSNumber<SDLFloat> *)scale preferredFPS:(nullable NSNumber<SDLUInt> *)preferredFPS;
 
 /**
  The preferred resolution of a video stream for decoding and rendering on HMI
@@ -62,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The diagonal screen size in inches.
- 
+
  Float, Optional, minvalue="0"
  @since SDL 6.0
  */
@@ -78,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The scaling factor the app should use to change the size of the projecting view.
- 
+
  Float, Optional, minvalue="1" maxvalue="10"
  @since SDL 6.0
  */
@@ -96,6 +110,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<SDLImageResolution *> *)allImageResolutionsScaled;
 
 - (NSArray<SDLImageResolution *> *)allImageResolutions;
+/**
+ * The preferred frame rate per second of the head unit. The mobile application / app library may take other factors into account that constrain the frame rate lower than this value, but it should not perform streaming at a higher frame rate than this value.
+ * {"num_min_value": 0, "num_max_value": 2147483647}
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *preferredFPS;
 
 @end
 
