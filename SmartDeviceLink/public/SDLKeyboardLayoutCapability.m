@@ -36,6 +36,7 @@
 #import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLKeyboardLayoutCapability
 
 - (instancetype)initWithKeyboardLayout:(SDLKeyboardLayout)keyboardLayout numConfigurableKeys:(UInt8)numConfigurableKeys {

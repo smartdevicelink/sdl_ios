@@ -1693,6 +1693,9 @@
 		B3A9D9E825D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9D9E625D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3A9D9ED25D2586C00CDFD21 /* SDLKeyboardInputMask.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9D9EB25D2586C00CDFD21 /* SDLKeyboardInputMask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3A9D9EE25D2586C00CDFD21 /* SDLKeyboardInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9D9EC25D2586C00CDFD21 /* SDLKeyboardInputMask.m */; };
+		B3A9DA0425D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA0325D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m */; };
+		B3A9DA0A25D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA0925D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m */; };
+		B3A9DA1225D270EA00CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA1125D270E900CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m */; };
 		B3EC9E6E2579AA010039F3AA /* SDLClimateDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		C975877F257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */; };
@@ -3551,6 +3554,9 @@
 		B3A9D9E625D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLKeyboardLayoutCapability.h; path = public/SDLKeyboardLayoutCapability.h; sourceTree = "<group>"; };
 		B3A9D9EB25D2586C00CDFD21 /* SDLKeyboardInputMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLKeyboardInputMask.h; path = public/SDLKeyboardInputMask.h; sourceTree = "<group>"; };
 		B3A9D9EC25D2586C00CDFD21 /* SDLKeyboardInputMask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLKeyboardInputMask.m; path = public/SDLKeyboardInputMask.m; sourceTree = "<group>"; };
+		B3A9DA0325D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardInputMaskSpec.m; sourceTree = "<group>"; };
+		B3A9DA0925D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardCapabilitiesSpec.m; sourceTree = "<group>"; };
+		B3A9DA1125D270E900CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardLayoutCapabilitySpec.m; sourceTree = "<group>"; };
 		B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLClimateDataSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekIndicatorTypeSpec.m; sourceTree = "<group>"; };
@@ -3767,6 +3773,7 @@
 				162E81FD1A9BDE8A00906325 /* SDLImageTypeSpec.m */,
 				162E81FE1A9BDE8A00906325 /* SDLInteractionModeSpec.m */,
 				162E81FF1A9BDE8A00906325 /* SDLKeyboardEventSpec.m */,
+				B3A9DA0325D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m */,
 				162E82001A9BDE8A00906325 /* SDLKeyboardLayoutSpec.m */,
 				162E82011A9BDE8A00906325 /* SDLKeypressModeSpec.m */,
 				162E82021A9BDE8A00906325 /* SDLLanguageSpec.m */,
@@ -4063,6 +4070,8 @@
 				162E829F1A9BDE8A00906325 /* SDLImageFieldSpec.m */,
 				5DB202261F5F2D030061D189 /* SDLImageResolutionSpec.m */,
 				162E82A01A9BDE8A00906325 /* SDLImageSpec.m */,
+				B3A9DA0925D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m */,
+				B3A9DA1125D270E900CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m */,
 				162E82A11A9BDE8A00906325 /* SDLKeyboardPropertiesSpec.m */,
 				1EAA476B2036A52F000FE74B /* SDLLightCapabilitiesSpec.m */,
 				1EAA476920369ECC000FE74B /* SDLLightControlCapabilitiesSpec.m */,
@@ -8434,6 +8443,7 @@
 				162E837D1A9BDE8B00906325 /* SDLEmergencyEventSpec.m in Sources */,
 				162E82D31A9BDE8A00906325 /* SDLCarModeStatusSpec.m in Sources */,
 				8B7B31A91F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m in Sources */,
+				B3A9DA0A25D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m in Sources */,
 				88EED83B1F33BECB00E6C42E /* SDLHapticRectSpec.m in Sources */,
 				162E82EA1A9BDE8B00906325 /* SDLLanguageSpec.m in Sources */,
 				5D76E3291D3D0A8800647CFA /* SDLFakeViewControllerPresenter.m in Sources */,
@@ -8509,6 +8519,7 @@
 				162E835B1A9BDE8B00906325 /* SDLPerformInteractionResponseSpec.m in Sources */,
 				880E35B82088F78E00181259 /* SDLSystemCapabilityManagerSpec.m in Sources */,
 				162E832D1A9BDE8B00906325 /* SDLEncodedSyncPDataSpec.m in Sources */,
+				B3A9DA0425D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m in Sources */,
 				1EE8C44C1F385C7100FDC2CF /* SDLRDSDataSpec.m in Sources */,
 				5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */,
 				8815D0F022330765000F24E6 /* SDLRPCRequestNotificationSpec.m in Sources */,
@@ -8812,6 +8823,7 @@
 				162E830F1A9BDE8B00906325 /* SDLOnAppInterfaceUnregisteredSpec.m in Sources */,
 				162E83971A9BDE8B00906325 /* SDLVehicleTypeSpec.m in Sources */,
 				887BE4D422272B2200B397C2 /* SDLControlFramePayloadConstantsSpec.m in Sources */,
+				B3A9DA1225D270EA00CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m in Sources */,
 				885468382225CBA400994D8D /* SDLCloudAppPropertiesSpec.m in Sources */,
 				88A795D5210678E000056542 /* SDLStaticIconNameSpec.m in Sources */,
 				1680B1131A9CD7AD00DBD79E /* SDLProtocolHeaderSpec.m in Sources */,
