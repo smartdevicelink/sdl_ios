@@ -38,9 +38,9 @@
 @class SDLButtonCapabilities;
 @class SDLDynamicUpdateCapabilities;
 @class SDLImageField;
+@class SDLKeyboardCapabilities;
 @class SDLSoftButtonCapabilities;
 @class SDLTextField;
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -135,6 +135,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 7.0.0
  */
 @property (nullable, strong, nonatomic) SDLDynamicUpdateCapabilities *dynamicUpdateCapabilities;
+
+/**
+ * See KeyboardCapabilities
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) SDLKeyboardCapabilities *keyboardCapabilities;
 
 @end
 

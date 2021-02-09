@@ -36,6 +36,7 @@
 #import "SDLButtonCapabilities.h"
 #import "SDLDynamicUpdateCapabilities.h"
 #import "SDLImageField.h"
+#import "SDLKeyboardCapabilities.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLTextField.h"
@@ -139,6 +140,14 @@
 
 - (nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
     return [self.store sdl_objectForName:SDLRPCParameterNameDynamicUpdateCapabilities ofClass:SDLDynamicUpdateCapabilities.class error:nil];
+}
+
+- (void)setKeyboardCapabilities:(nullable SDLKeyboardCapabilities *)keyboardCapabilities {
+    [self.store sdl_setObject:keyboardCapabilities forName:SDLRPCParameterNameKeyboardCapabilities];
+}
+
+- (nullable SDLKeyboardCapabilities *)keyboardCapabilities {
+    return [self.store sdl_objectForName:SDLRPCParameterNameKeyboardCapabilities ofClass:SDLKeyboardCapabilities.class error:nil];
 }
 
 @end
