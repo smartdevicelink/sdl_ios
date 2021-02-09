@@ -42,7 +42,6 @@
 @class SDLSoftButtonCapabilities;
 @class SDLTextField;
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 /**

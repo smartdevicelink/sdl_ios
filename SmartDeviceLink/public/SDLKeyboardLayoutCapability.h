@@ -30,40 +30,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSMutableDictionary+Store.h"
-#import "SDLKeyboardCapabilities.h"
-#import "SDLKeyboardLayoutCapability.h"
-#import "SDLRPCParameterNames.h"
+#import "SDLKeyboardLayout.h"
+#import "SDLRPCStruct.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLKeyboardCapabilities
+/**
+ * Describes the capabilities of a single keyboard layout.
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@interface SDLKeyboardLayoutCapability : SDLRPCStruct
 
-- (instancetype)initWithMaskInputCharactersSupported:(nullable NSNumber<SDLBool> *)maskInputCharactersSupported supportedKeyboards:(nullable NSArray<SDLKeyboardLayoutCapability *> *)supportedKeyboards {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    self.maskInputCharactersSupported = maskInputCharactersSupported;
-    self.supportedKeyboards = supportedKeyboards;
-    return self;
-}
+/**
+ * @param keyboardLayout - keyboardLayout
+ * @param numConfigurableKeys - @(numConfigurableKeys)
+ * @return A SDLKeyboardLayoutCapability object
+ */
+- (instancetype)initWithKeyboardLayout:(SDLKeyboardLayout)keyboardLayout numConfigurableKeys:(UInt8)numConfigurableKeys;
 
-- (void)setMaskInputCharactersSupported:(nullable NSNumber<SDLBool> *)maskInputCharactersSupported {
-    [self.store sdl_setObject:maskInputCharactersSupported forName:SDLRPCParameterNameMaskInputCharactersSupported];
-}
+@property (strong, nonatomic) SDLKeyboardLayout keyboardLayout;
 
-- (nullable NSNumber<SDLBool> *)maskInputCharactersSupported {
-    return [self.store sdl_objectForName:SDLRPCParameterNameMaskInputCharactersSupported ofClass:NSNumber.class error:nil];
-}
-
-- (void)setSupportedKeyboards:(nullable NSArray<SDLKeyboardLayoutCapability *> *)supportedKeyboards {
-    [self.store sdl_setObject:supportedKeyboards forName:SDLRPCParameterNameSupportedKeyboards];
-}
-
-- (nullable NSArray<SDLKeyboardLayoutCapability *> *)supportedKeyboards {
-    return [self.store sdl_objectsForName:SDLRPCParameterNameSupportedKeyboards ofClass:SDLKeyboardLayoutCapability.class error:nil];
-}
+/**
+ * Number of keys available for special characters, App can customize as per their needs.
+ * {"num_min_value": 0, "num_max_value": 10}
+ */
+@property (strong, nonatomic) NSNumber<SDLUInt> *numConfigurableKeys;
 
 @end
 

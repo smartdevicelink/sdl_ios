@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, SmartDeviceLink Consortium, Inc.
+ * Copyright (c) 2021, SmartDeviceLink Consortium, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@
  * @added in SmartDeviceLink 7.1.0
  */
 typedef SDLEnum SDLKeyboardInputMask NS_TYPED_ENUM;
+
 extern SDLKeyboardInputMask const SDLKeyboardInputMaskEnableInputKeyMask;
 
 extern SDLKeyboardInputMask const SDLKeyboardInputMaskDisableInputKeyMask;

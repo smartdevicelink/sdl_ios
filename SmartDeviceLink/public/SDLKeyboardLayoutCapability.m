@@ -31,38 +31,40 @@
  */
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLKeyboardCapabilities.h"
+#import "SDLKeyboardLayout.h"
 #import "SDLKeyboardLayoutCapability.h"
 #import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLKeyboardCapabilities
+@implementation SDLKeyboardLayoutCapability
 
-- (instancetype)initWithMaskInputCharactersSupported:(nullable NSNumber<SDLBool> *)maskInputCharactersSupported supportedKeyboards:(nullable NSArray<SDLKeyboardLayoutCapability *> *)supportedKeyboards {
+- (instancetype)initWithKeyboardLayout:(SDLKeyboardLayout)keyboardLayout numConfigurableKeys:(UInt8)numConfigurableKeys {
     self = [self init];
     if (!self) {
         return nil;
     }
-    self.maskInputCharactersSupported = maskInputCharactersSupported;
-    self.supportedKeyboards = supportedKeyboards;
+    self.keyboardLayout = keyboardLayout;
+    self.numConfigurableKeys = @(numConfigurableKeys);
     return self;
 }
 
-- (void)setMaskInputCharactersSupported:(nullable NSNumber<SDLBool> *)maskInputCharactersSupported {
-    [self.store sdl_setObject:maskInputCharactersSupported forName:SDLRPCParameterNameMaskInputCharactersSupported];
+- (void)setKeyboardLayout:(SDLKeyboardLayout)keyboardLayout {
+    [self.store sdl_setObject:keyboardLayout forName:SDLRPCParameterNameKeyboardLayout];
 }
 
-- (nullable NSNumber<SDLBool> *)maskInputCharactersSupported {
-    return [self.store sdl_objectForName:SDLRPCParameterNameMaskInputCharactersSupported ofClass:NSNumber.class error:nil];
+- (SDLKeyboardLayout)keyboardLayout {
+    NSError *error = nil;
+    return [self.store sdl_enumForName:SDLRPCParameterNameKeyboardLayout error:&error];
 }
 
-- (void)setSupportedKeyboards:(nullable NSArray<SDLKeyboardLayoutCapability *> *)supportedKeyboards {
-    [self.store sdl_setObject:supportedKeyboards forName:SDLRPCParameterNameSupportedKeyboards];
+- (void)setNumConfigurableKeys:(NSNumber<SDLUInt> *)numConfigurableKeys {
+    [self.store sdl_setObject:numConfigurableKeys forName:SDLRPCParameterNameNumConfigurableKeys];
 }
 
-- (nullable NSArray<SDLKeyboardLayoutCapability *> *)supportedKeyboards {
-    return [self.store sdl_objectsForName:SDLRPCParameterNameSupportedKeyboards ofClass:SDLKeyboardLayoutCapability.class error:nil];
+- (NSNumber<SDLUInt> *)numConfigurableKeys {
+    NSError *error = nil;
+    return [self.store sdl_objectForName:SDLRPCParameterNameNumConfigurableKeys ofClass:NSNumber.class error:&error];
 }
 
 @end

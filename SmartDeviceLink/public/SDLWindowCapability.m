@@ -43,6 +43,10 @@
 
 @implementation SDLWindowCapability
 
+- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
+    return [self initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:dynamicUpdateCapabilities keyboardCapabilities:nil];
+}
+
 - (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities keyboardCapabilities:(nullable SDLKeyboardCapabilities *)keyboardCapabilities {
     self = [super init];
     if (!self) {
@@ -59,11 +63,6 @@
     self.menuLayoutsAvailable = menuLayoutsAvailable;
     self.dynamicUpdateCapabilities = dynamicUpdateCapabilities;
     self.keyboardCapabilities = keyboardCapabilities;
-    return self;
-}
-
-- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities {
-    self = [self initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:dynamicUpdateCapabilities keyboardCapabilities:nil];
     return self;
 }
 

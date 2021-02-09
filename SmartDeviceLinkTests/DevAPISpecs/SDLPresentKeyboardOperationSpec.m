@@ -43,7 +43,7 @@ describe(@"present keyboard operation", ^{
         testDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
         OCMStub([testDelegate customKeyboardConfiguration]).andReturn(nil);
 
-        testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil];
+        testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
     });
 
     it(@"should have a priority of 'normal'", ^{

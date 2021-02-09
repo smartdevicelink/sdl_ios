@@ -45,21 +45,28 @@ NSArray<SDLImageType> *imageTypeSupported = @[testImageType];
 NSArray<NSString *> *templatesAvailable = @[testTemplateAvailable];
 NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities = @[testSoftButtonsCapabilities];
 NSArray<SDLMenuLayout> *menuLayoutsAvailable = @[testMenuLayout];
+__block SDLWindowCapability *testStruct = nil;
 
 describe(@"getter/setter tests", ^{
+    afterEach(^{
+        testStruct = nil;
+    });
+
     context(@"init and assign", ^{
-        SDLWindowCapability *testStruct = [[SDLWindowCapability alloc] init];
-        testStruct.windowID = windowID;
-        testStruct.numCustomPresetsAvailable = numCustomPresetsAvailable;
-        testStruct.textFields = @[testTextField];
-        testStruct.imageFields = @[testImageField];
-        testStruct.imageTypeSupported = @[testImageType];
-        testStruct.buttonCapabilities = @[testButtonCapabilities];
-        testStruct.softButtonCapabilities = @[testSoftButtonsCapabilities];
-        testStruct.menuLayoutsAvailable = @[testMenuLayout];
-        testStruct.templatesAvailable = @[testTemplateAvailable];
-        testStruct.dynamicUpdateCapabilities = testDynamicUpdates;
-        testStruct.keyboardCapabilities = keyboardCapabilities;
+        beforeEach(^{
+            testStruct = [[SDLWindowCapability alloc] init];
+            testStruct.windowID = windowID;
+            testStruct.numCustomPresetsAvailable = numCustomPresetsAvailable;
+            testStruct.textFields = @[testTextField];
+            testStruct.imageFields = @[testImageField];
+            testStruct.imageTypeSupported = @[testImageType];
+            testStruct.buttonCapabilities = @[testButtonCapabilities];
+            testStruct.softButtonCapabilities = @[testSoftButtonsCapabilities];
+            testStruct.menuLayoutsAvailable = @[testMenuLayout];
+            testStruct.templatesAvailable = @[testTemplateAvailable];
+            testStruct.dynamicUpdateCapabilities = testDynamicUpdates;
+            testStruct.keyboardCapabilities = keyboardCapabilities;
+        });
 
         it(@"expect to be set properly", ^{
             expect(testStruct.windowID).to(equal(windowID));
@@ -80,7 +87,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithWindowID:textFields:imageFields:imageTypeSupported:templatesAvailable:numCustomPresetsAvailable:buttonCapabilities:softButtonCapabilities:menuLayoutsAvailable:dynamicUpdateCapabilities:", ^{
-        SDLWindowCapability *testStruct = [[SDLWindowCapability alloc] initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:testDynamicUpdates];
+        beforeEach(^{
+            testStruct = [[SDLWindowCapability alloc] initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:testDynamicUpdates];
+        });
 
         it(@"expect to be set properly", ^{
             expect(testStruct.windowID).to(equal(windowID));
@@ -101,7 +110,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithWindowID:textFields:imageFields:imageTypeSupported:templatesAvailable:numCustomPresetsAvailable:buttonCapabilities:softButtonCapabilities:menuLayoutsAvailable:dynamicUpdateCapabilities:keyboardCapabilities:", ^{
-        SDLWindowCapability *testStruct = [[SDLWindowCapability alloc] initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:testDynamicUpdates keyboardCapabilities:keyboardCapabilities];
+        beforeEach(^{
+            testStruct = [[SDLWindowCapability alloc] initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:testDynamicUpdates keyboardCapabilities:keyboardCapabilities];
+        });
 
         it(@"expect to be set properly", ^{
             expect(testStruct.windowID).to(equal(windowID));
