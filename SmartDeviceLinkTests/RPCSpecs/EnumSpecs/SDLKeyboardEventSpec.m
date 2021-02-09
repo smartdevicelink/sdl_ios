@@ -19,6 +19,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLKeyboardEventCancelled).to(equal(@"ENTRY_CANCELLED"));
         expect(SDLKeyboardEventAborted).to(equal(@"ENTRY_ABORTED"));
         expect(SDLKeyboardEventVoice).to(equal(@"ENTRY_VOICE"));
+        expect(SDLKeyboardEventInputKeyMaskEnabled).to(equal(@"INPUT_KEY_MASK_ENABLED"));
+        expect(SDLKeyboardEventInputKeyMaskDisabled).to(equal(@"INPUT_KEY_MASK_DISABLED"));
     });
 });
 

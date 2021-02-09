@@ -12,11 +12,12 @@
 
 QuickSpecBegin(SDLKeyboardLayoutSpec)
 
-describe(@"Individual Enum Value Tests", ^ {
-    it(@"Should match internal values", ^ {
+describe(@"individual enum value tests", ^ {
+    it(@"should match internal values", ^ {
         expect(SDLKeyboardLayoutQWERTY).to(equal(@"QWERTY"));
         expect(SDLKeyboardLayoutQWERTZ).to(equal(@"QWERTZ"));
         expect(SDLKeyboardLayoutAZERTY).to(equal(@"AZERTY"));
+        expect(SDLKeyboardLayoutNumeric).to(equal(@"NUMERIC"));
     });
 });
 
