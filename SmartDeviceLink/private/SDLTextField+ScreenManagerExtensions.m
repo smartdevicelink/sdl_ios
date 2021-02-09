@@ -11,8 +11,11 @@
 @implementation SDLTextField (ScreenManagerExtensions)
 
 + (NSArray<SDLTextFieldName> *)sdl_allTextFieldNames {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return @[SDLTextFieldNameETA, SDLTextFieldNameMenuName, SDLTextFieldNameMenuTitle, SDLTextFieldNameStatusBar, SDLTextFieldNameAlertText1, SDLTextFieldNameAlertText2, SDLTextFieldNameAlertText3, SDLTextFieldNameMainField1, SDLTextFieldNameMainField2, SDLTextFieldNameMainField3, SDLTextFieldNameMainField4, SDLTextFieldNameMediaClock, SDLTextFieldNameMediaTrack, SDLTextFieldNamePhoneNumber, SDLTextFieldNameAddressLines, SDLTextFieldNameLocationName, SDLTextFieldNameSliderFooter, SDLTextFieldNameSliderHeader, SDLTextFieldNameTertiaryText, SDLTextFieldNameSecondaryText, SDLTextFieldNameTemplateTitle, SDLTextFieldNameTotalDistance, SDLTextFieldNameNavigationText1, SDLTextFieldNameNavigationText2, SDLTextFieldNameLocationDescription, SDLTextFieldNameScrollableMessageBody, SDLTextFieldNameInitialInteractionText, SDLTextFieldNameAudioPassThruDisplayText1, SDLTextFieldNameAudioPassThruDisplayText2, SDLTextFieldNameTimeToDestination, SDLTextFieldNameTurnText];
 }
+#pragma clang diagnostic pop
 
 + (NSArray<SDLTextField *> *)allTextFields {
     NSMutableArray<SDLTextField *> *tempTextFields = [NSMutableArray array];
