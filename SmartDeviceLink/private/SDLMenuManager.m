@@ -179,11 +179,32 @@ UInt32 const MenuCellIdMin = 1;
     self.waitingOnHMIUpdate = NO;
 
     NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
+    NSMutableSet *cellCheckSet = [NSMutableSet set];
     NSUInteger voiceCommandCount = 0;
     for (SDLMenuCell *cell in cells) {
+        [cellCheckSet addObject:cell];
+        if (cell.subCells.count > 0) {
+            NSMutableSet *subCellsCheckSet = [NSMutableSet set];
+            for (SDLMenuCell *subCell in cell.subCells) {
+                [subCellsCheckSet addObject:subCell];
+                if (subCell.voiceCommands == nil) { continue; }
+                [allMenuVoiceCommands addObjectsFromArray:subCell.voiceCommands];
+                voiceCommandCount += subCell.voiceCommands.count;
+            }
+
+            if (subCellsCheckSet.count != cell.subCells.count) {
+                SDLLogE(@"Not all subCells are unique. The menu will not be set.");
+                return;
+            }
+        }
         if (cell.voiceCommands == nil) { continue; }
         [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
         voiceCommandCount += cell.voiceCommands.count;
+    }
+
+    if (cellCheckSet.count != cells.count) {
+        SDLLogE(@"Not all cells are unique. The menu will not be set.");
+        return;
     }
 
     // Check for duplicate voice recognition commands

@@ -156,12 +156,12 @@ describe(@"an SDLChoiceSet", ^{
                 expect(testChoiceSet).to(beNil());
             });
 
-            it(@"should not return nil with equivalent cell text", ^{
+            it(@"should return nil when 2 or more cells are identical", ^{
                 // Cell `text` cannot be equal
                 SDLChoiceCell *equalCell = [[SDLChoiceCell alloc] initWithText:@"Text"];
                 SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text"];
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCell, equalCell2]];
-                expect(testChoiceSet).toNot(beNil());
+                expect(testChoiceSet).to(beNil());
             });
 
             context(@"With bad VR data", ^{
