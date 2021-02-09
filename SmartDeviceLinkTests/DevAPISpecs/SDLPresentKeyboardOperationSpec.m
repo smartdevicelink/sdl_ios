@@ -46,6 +46,13 @@ describe(@"present keyboard operation", ^{
         testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
     });
 
+    afterEach(^{
+        if (testOp) {
+            [[NSNotificationCenter defaultCenter] removeObserver:testOp];
+            testOp = nil;
+        }
+    });
+
     it(@"should have a priority of 'normal'", ^{
         testOp = [[SDLPresentKeyboardOperation alloc] init];
 
