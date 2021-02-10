@@ -17,17 +17,28 @@
 
 QuickSpecBegin(SDLKeyboardPropertiesSpec)
 
-SDLLanguage testLanguage = SDLLanguageDaDk;
-SDLKeyboardLayout testLayout = SDLKeyboardLayoutAZERTY;
-SDLKeypressMode testMode = SDLKeypressModeSingleKeypress;
-NSArray<NSString *> *testLimitedCharacterList = @[@"s", @"r", @"f"];
-NSString *testAutoCompleteText = @"Auto Carrot";
-NSArray<NSString *> *testAutoCompleteList = @[@"Hello World", @"How are you"];
-SDLKeyboardInputMask maskInputCharacters = SDLKeyboardInputMaskEnableInputKeyMask;
-NSArray<NSString *> *customKeys = @[@"abc", @"DEF"];
+__block SDLLanguage testLanguage = nil;
+__block SDLKeyboardLayout testLayout = nil;
+__block SDLKeypressMode testMode = nil;
+__block NSArray<NSString *> *testLimitedCharacterList = nil;
+__block NSString *testAutoCompleteText = nil;
+__block NSArray<NSString *> *testAutoCompleteList = nil;
+__block SDLKeyboardInputMask maskInputCharacters = nil;
+__block NSArray<NSString *> *customKeys = nil;
 __block SDLKeyboardProperties* testStruct = nil;
 
 describe(@"getter/setter tests", ^{
+    beforeEach(^{
+        testLanguage = SDLLanguageDaDk;
+        testLayout = SDLKeyboardLayoutAZERTY;
+        testMode = SDLKeypressModeSingleKeypress;
+        testLimitedCharacterList = @[@"s", @"r", @"f"];
+        testAutoCompleteText = @"Auto Carrot";
+        testAutoCompleteList = @[@"Hello World", @"How are you"];
+        maskInputCharacters = SDLKeyboardInputMaskEnableInputKeyMask;
+        customKeys = @[@"abc", @"DEF"];
+    });
+
     context(@"init", ^{
         beforeEach(^{
             testStruct = [[SDLKeyboardProperties alloc] init];
@@ -65,7 +76,7 @@ describe(@"getter/setter tests", ^{
             testStruct.maskInputCharacters = maskInputCharacters;
         });
 
-        it(@"expect all properties to be set properly", ^{
+        it(@"should be set properly", ^{
             expect(testStruct.language).to(equal(testLanguage));
             expect(testStruct.keyboardLayout).to(equal(testLayout));
             expect(testStruct.keypressMode).to(equal(testMode));
@@ -94,7 +105,7 @@ describe(@"getter/setter tests", ^{
             testStruct = [[SDLKeyboardProperties alloc] initWithDictionary:dict];
         });
 
-        it(@"expect all properties to be set properly", ^{
+        it(@"should be set properly", ^{
             expect(testStruct.language).to(equal(testLanguage));
             expect(testStruct.keyboardLayout).to(equal(testLayout));
             expect(testStruct.keypressMode).to(equal(testMode));
@@ -117,7 +128,7 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic pop
         });
 
-        it(@"expect all properties to be set properly", ^{
+        it(@"should be set properly", ^{
             expect(testStruct.language).to(equal(testLanguage));
             expect(testStruct.keyboardLayout).to(equal(testLayout));
             expect(testStruct.keypressMode).to(equal(testMode));
@@ -140,7 +151,7 @@ describe(@"getter/setter tests", ^{
 #pragma clang diagnostic pop
         });
 
-        it(@"expect all properties to be set properly", ^{
+        it(@"should be set properly", ^{
             expect(testStruct.language).to(equal(testLanguage));
             expect(testStruct.keyboardLayout).to(equal(testLayout));
             expect(testStruct.keypressMode).to(equal(testMode));
@@ -160,7 +171,7 @@ describe(@"getter/setter tests", ^{
             testStruct = [[SDLKeyboardProperties alloc] initWithLanguage:testLanguage keyboardLayout:testLayout keypressMode:testMode limitedCharacterList:testLimitedCharacterList autoCompleteList:testAutoCompleteList maskInputCharacters:maskInputCharacters customKeys:customKeys];
         });
 
-        it(@"all properties must be set properly", ^{
+        it(@"should be set properly", ^{
             expect(testStruct.language).to(equal(testLanguage));
             expect(testStruct.keyboardLayout).to(equal(testLayout));
             expect(testStruct.keypressMode).to(equal(testMode));
