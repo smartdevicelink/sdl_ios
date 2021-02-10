@@ -36,9 +36,9 @@ describe(@"getter/setter tests", ^{
         testResponse.emergencyEvent = vehicleDataResult;
         testResponse.engineOilLife = vehicleDataResult;
         testResponse.engineTorque = vehicleDataResult;
-        testResponse.externalTemperature = vehicleDataResult;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        testResponse.externalTemperature = vehicleDataResult;
         testResponse.fuelLevel = vehicleDataResult;
         testResponse.fuelLevel_State = vehicleDataResult;
 #pragma clang diagnostic pop
@@ -63,6 +63,7 @@ describe(@"getter/setter tests", ^{
         testResponse.turnSignal = vehicleDataResult;
         testResponse.windowStatus = vehicleDataResult;
         testResponse.wiperStatus = vehicleDataResult;
+        testResponse.climateData = vehicleDataResult;
 
         it(@"expect all properties to be set properly", ^{
             expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
@@ -78,9 +79,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
-            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
             expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
             expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
 #pragma clang diagnostic pop
@@ -105,6 +106,7 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.turnSignal).to(equal(vehicleDataResult));
             expect(testResponse.windowStatus).to(equal(vehicleDataResult));
             expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
+            expect(testResponse.climateData).to(equal(vehicleDataResult));
         });
     });
     
@@ -151,6 +153,7 @@ describe(@"getter/setter tests", ^{
                                                             SDLRPCParameterNameTurnSignal:vehicleDataResult,
                                                             SDLRPCParameterNameWindowStatus:vehicleDataResult,
                                                             SDLRPCParameterNameWiperStatus:vehicleDataResult,
+                                                            SDLRPCParameterNameClimateData:vehicleDataResult,
                                                             },
                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
 
@@ -170,9 +173,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
-            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
             expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
             expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
 #pragma clang diagnostic pop
@@ -197,6 +200,7 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.turnSignal).to(equal(vehicleDataResult));
             expect(testResponse.windowStatus).to(equal(vehicleDataResult));
             expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
+            expect(testResponse.climateData).to(equal(vehicleDataResult));
         });
     });
     
@@ -217,9 +221,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(beNil());
             expect(testResponse.engineOilLife).to(beNil());
             expect(testResponse.engineTorque).to(beNil());
-            expect(testResponse.externalTemperature).to(beNil());
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.externalTemperature).to(beNil());
             expect(testResponse.fuelLevel).to(beNil());
             expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
@@ -244,6 +248,7 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.turnSignal).to(beNil());
             expect(testResponse.windowStatus).to(beNil());
             expect(testResponse.wiperStatus).to(beNil());
+            expect(testResponse.climateData).to(beNil());
         });
     });
 
@@ -267,9 +272,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
-            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
             expect(testResponse.fuelLevel).to(beNil());
             expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
@@ -297,9 +302,10 @@ describe(@"getter/setter tests", ^{
         });
     });
 
-    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:handsOffSteering:windowStatus:seatOccupancy:", ^{
+    context(@"initWithGps:speed:rpm:instantFuelConsumption:fuelRange:climateData:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:windowStatus:handsOffSteering:seatOccupancy:", ^{
+        SDLSubscribeVehicleDataResponse *testResponse = [[SDLSubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult climateData:vehicleDataResult turnSignal:vehicleDataResult gearStatus:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult stabilityControlsStatus:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult windowStatus:vehicleDataResult handsOffSteering:vehicleDataResult seatOccupancy:vehicleDataResult];
+
         it(@"expect all properties to be set properly", ^{
-                SDLSubscribeVehicleDataResponse *testResponse = [[SDLSubscribeVehicleDataResponse alloc] initWithGps:vehicleDataResult speed:vehicleDataResult rpm:vehicleDataResult instantFuelConsumption:vehicleDataResult fuelRange:vehicleDataResult externalTemperature:vehicleDataResult turnSignal:vehicleDataResult gearStatus:vehicleDataResult tirePressure:vehicleDataResult odometer:vehicleDataResult beltStatus:vehicleDataResult bodyInformation:vehicleDataResult deviceStatus:vehicleDataResult driverBraking:vehicleDataResult wiperStatus:vehicleDataResult headLampStatus:vehicleDataResult engineTorque:vehicleDataResult accPedalPosition:vehicleDataResult steeringWheelAngle:vehicleDataResult engineOilLife:vehicleDataResult electronicParkBrakeStatus:vehicleDataResult cloudAppVehicleID:vehicleDataResult stabilityControlsStatus:vehicleDataResult eCallInfo:vehicleDataResult airbagStatus:vehicleDataResult emergencyEvent:vehicleDataResult clusterModes:vehicleDataResult myKey:vehicleDataResult handsOffSteering:vehicleDataResult windowStatus:vehicleDataResult seatOccupancy:vehicleDataResult];
             expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
             expect(testResponse.airbagStatus).to(equal(vehicleDataResult));
             expect(testResponse.beltStatus).to(equal(vehicleDataResult));
@@ -313,9 +319,9 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
             expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
             expect(testResponse.engineTorque).to(equal(vehicleDataResult));
-            expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testResponse.externalTemperature).to(beNil());
             expect(testResponse.fuelLevel).to(beNil());
             expect(testResponse.fuelLevel_State).to(beNil());
 #pragma clang diagnostic pop
@@ -340,6 +346,7 @@ describe(@"getter/setter tests", ^{
             expect(testResponse.turnSignal).to(equal(vehicleDataResult));
             expect(testResponse.windowStatus).to(equal(vehicleDataResult));
             expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
+            expect(testResponse.climateData).to(equal(vehicleDataResult));
         });
     });
 
