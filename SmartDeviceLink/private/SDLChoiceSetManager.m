@@ -450,7 +450,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
 
     // If we're running on a connection < RPC 7.1, we need to de-duplicate cells because presenting them will fail if we have the same cell primary text.
-    SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:choiceUniquenessSupportedVersion]) {
+    SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:choiceUniquenessSupportedVersion]) {
         [self sdl_addUniqueNamesToCells:choicesSet];
     }
     [choicesSet minusSet:self.preloadedChoices];

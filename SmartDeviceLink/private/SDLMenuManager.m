@@ -178,8 +178,9 @@ UInt32 const MenuCellIdMin = 1;
 
     self.waitingOnHMIUpdate = NO;
 
-    NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
-    NSMutableSet *cellCheckSet = [NSMutableSet set];
+    ///Check all voice commands for identical items and check each list of cells for identical cells
+    NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
+    NSMutableSet *identicalCellsCheckSet = [NSMutableSet set];
     NSUInteger voiceCommandCount = 0;
     for (SDLMenuCell *cell in cells) {
         [cellCheckSet addObject:cell];
