@@ -86,12 +86,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (strong, nonatomic) NSOperationQueue *rpcOperationQueue;
 
-/**
- * The version number of the SDL V4 interface, string representation
- * Optional
- */
-@property (copy, nonatomic, nullable) NSString *sdlMsgVersionString;
-
 #pragma mark Lifecycle
 /**
  *  Initialize the manager with a configuration. Call `startWithHandler` to begin waiting for a connection.

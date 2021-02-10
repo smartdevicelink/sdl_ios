@@ -16,10 +16,13 @@ QuickSpecBegin(SDLOnAppCapabilityUpdatedSpec)
 
 describe(@"getter/setter tests", ^{
     SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
-    SDLAppCapability *appCapability = [[SDLAppCapability alloc] initWithVideoStreamingCapability:videoStreamingCapability];
+    SDLAppCapability *appCapability = [[SDLAppCapability alloc] initWithAppCapabilityType:SDLAppCapabilityTypeVideoStreaming videoStreamingCapability:videoStreamingCapability];
+    __block SDLOnAppCapabilityUpdated *testStruct = nil;
 
     context(@"init", ^{
-        SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] init];
+        beforeEach(^{
+            testStruct = [[SDLOnAppCapabilityUpdated alloc] init];
+        });
         it(@"expect object to be created", ^{
             expect(testStruct).notTo(beNil());
         });
@@ -29,8 +32,10 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"init & assign", ^{
-        SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] init];
-        testStruct.appCapability = appCapability;
+        beforeEach(^{
+            testStruct = [[SDLOnAppCapabilityUpdated alloc] init];
+            testStruct.appCapability = appCapability;
+        });
         it(@"expect object to be created", ^{
             expect(testStruct).notTo(beNil());
         });
@@ -40,7 +45,9 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithVideoStreamingCapability:", ^{
-        SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] initWithAppCapability:appCapability];
+        beforeEach(^{
+            testStruct = [[SDLOnAppCapabilityUpdated alloc] initWithAppCapability:appCapability];
+        });
         it(@"expect object to be created", ^{
             expect(testStruct).notTo(beNil());
         });
@@ -50,14 +57,16 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithDictionary:", ^{
-        NSDictionary *params = @{
-            SDLRPCParameterNameAppCapability: appCapability,
-        };
-        NSDictionary* dict = @{SDLRPCParameterNameNotification: @{
-                                    SDLRPCParameterNameParameters: params,
-                                    SDLRPCParameterNameOperationName: SDLRPCFunctionNameOnAppCapabilityUpdated}
-        };
-        SDLOnAppCapabilityUpdated *testStruct = [[SDLOnAppCapabilityUpdated alloc] initWithDictionary:dict];
+        beforeEach(^{
+            NSDictionary *params = @{
+                SDLRPCParameterNameAppCapability: appCapability,
+            };
+            NSDictionary* dict = @{SDLRPCParameterNameNotification: @{
+                                           SDLRPCParameterNameParameters: params,
+                                           SDLRPCParameterNameOperationName: SDLRPCFunctionNameOnAppCapabilityUpdated}
+            };
+            testStruct = [[SDLOnAppCapabilityUpdated alloc] initWithDictionary:dict];
+        });
 
         it(@"expect object to be created", ^{
             expect(testStruct).notTo(beNil());

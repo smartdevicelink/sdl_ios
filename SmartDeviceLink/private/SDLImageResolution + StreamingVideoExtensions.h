@@ -1,0 +1,36 @@
+//  SDLImageResolution.h
+//
+
+#import <CoreGraphics/CGGeometry.h>
+#import "SDLImageResolution.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(NSInteger, SDLImageResolutionKind) {
+    SDLImageResolutionKindUndefined,
+    SDLImageResolutionKindLandscape,
+    SDLImageResolutionKindPortrait,
+    SDLImageResolutionKindSquare,
+};
+
+/**
+ The resolution of an image
+ */
+@interface SDLImageResolution (StreamingVideoExtensions)
+
+/**
+ * SDLImageResolutionKind
+*/
+@property (nonatomic, readonly) SDLImageResolutionKind kind;
+
+- (CGSize)makeSize;
+
+// the return value is always equals or above 1.0 if valid, or is 0.0 if size is invalid
+- (float)normalizedAspectRatio;
+
+// string representation, for debug only
+- (NSString *)stringValue;
+
+@end
+
+NS_ASSUME_NONNULL_END

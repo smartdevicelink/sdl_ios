@@ -6,13 +6,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, SDLImageResolutionKind) {
-    SDLImageResolutionKindUndefined,
-    SDLImageResolutionKindLandscape,
-    SDLImageResolutionKindPortrait,
-    SDLImageResolutionKindSquare,
-};
-
 /**
  The resolution of an image
  */
@@ -33,25 +26,12 @@ typedef NS_ENUM(NSInteger, SDLImageResolutionKind) {
 @property (strong, nonatomic) NSNumber<SDLInt> *resolutionHeight;
 
 /**
- * SDLImageResolutionKind
-*/
-@property (nonatomic, readonly) SDLImageResolutionKind kind;
-
-/**
  * Convenience init with all parameters
  * @param width Resolution width
  * @param height Resolution height
  * @return An SDLImageResolution object
  */
 - (instancetype)initWithWidth:(uint16_t)width height:(uint16_t)height;
-
-- (CGSize)makeSize;
-
-// the return value is always equals or above 1.0 if valid, or is 0.0 if size is invalid
-- (float)normalizedAspectRatio;
-
-// string representation, for debug only
-- (NSString *)stringValue;
 
 @end
 

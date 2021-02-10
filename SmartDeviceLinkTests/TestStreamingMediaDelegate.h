@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SDLStreamingMediaDelegate.h"
+#import "SDLStreamingVideoDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TestStreamingMediaDelegate : NSObject <SDLStreamingMediaDelegate>
+@interface TestStreamingMediaDelegate : NSObject <SDLStreamingVideoDelegate>
 @property (nonatomic, readonly) NSArray *recordedSizes;
 @property (nonatomic, assign) BOOL isStopped;
 - (void)reset;

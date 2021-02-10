@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLSupportedStreamingRange.h"
+#import "SDLVideoStreamingRange.h"
 #import "SDLImageResolution.h"
 
 QuickSpecBegin(SDLSupportedStreamingRangeSpec)
@@ -21,7 +21,7 @@ const float minimumDiagonal = 3.3;
 
 describe(@"initialization", ^{
     context(@"init", ^{
-        SDLSupportedStreamingRange *streamingRange = [[SDLSupportedStreamingRange alloc] init];
+        SDLVideoStreamingRange *streamingRange = [[SDLVideoStreamingRange alloc] init];
 
         it(@"expect object to be created with empty fields", ^{
             expect(streamingRange).toNot(beNil());
@@ -34,7 +34,7 @@ describe(@"initialization", ^{
     });
 
     context(@"init and assign", ^{
-        SDLSupportedStreamingRange *streamingRange = [[SDLSupportedStreamingRange alloc] init];
+        SDLVideoStreamingRange *streamingRange = [[SDLVideoStreamingRange alloc] init];
         streamingRange.minimumResolution = minResolution;
         streamingRange.maximumResolution = maxResolution;
         streamingRange.minimumDiagonal = minimumDiagonal;
@@ -51,8 +51,8 @@ describe(@"initialization", ^{
         });
     });
 
-    context(@"initWithResolutionsMinimum:maximun:", ^{
-        SDLSupportedStreamingRange *streamingRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:minResolution maximun:maxResolution];
+    context(@"initWithMinimumResolution:maximumResolution:", ^{
+        SDLVideoStreamingRange *streamingRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:minResolution maximumResolution:maxResolution];
         it(@"expect min and max resolution to be set and others are not", ^{
             expect(streamingRange).toNot(beNil());
             expect(streamingRange.minimumResolution).to(equal(minResolution));
@@ -66,7 +66,7 @@ describe(@"initialization", ^{
 
 describe(@"methods", ^{
     context(@"isImageResolutionRangeValid", ^{
-        SDLSupportedStreamingRange *streamingRange = [[SDLSupportedStreamingRange alloc] init];
+        SDLVideoStreamingRange *streamingRange = [[SDLVideoStreamingRange alloc] init];
 
         beforeEach(^{
             streamingRange.minimumResolution = nil;
@@ -85,7 +85,7 @@ describe(@"methods", ^{
     });
 
     context(@"isAspectRatioInRange:", ^{
-        SDLSupportedStreamingRange *streamingRange = [[SDLSupportedStreamingRange alloc] init];
+        SDLVideoStreamingRange *streamingRange = [[SDLVideoStreamingRange alloc] init];
 
         beforeEach(^{
             streamingRange.minimumAspectRatio = minimumAspectRatio;
@@ -108,7 +108,7 @@ describe(@"methods", ^{
     });
 
     context(@"isImageResolutionInRange:", ^{
-        SDLSupportedStreamingRange *streamingRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:minResolution maximun:maxResolution];
+        SDLVideoStreamingRange *streamingRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:minResolution maximumResolution:maxResolution];
         const int width = (minResolution.resolutionWidth.intValue + maxResolution.resolutionWidth.intValue) >> 1;
         const int height = (minResolution.resolutionHeight.intValue + maxResolution.resolutionHeight.intValue) >> 1;
         SDLImageResolution *midResolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)width height:(uint16_t)height];

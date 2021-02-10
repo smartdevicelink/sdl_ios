@@ -21,7 +21,6 @@
 #import "SDLLockScreenManager.h"
 #import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
-#import "SDLMsgVersion.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnAppInterfaceUnregistered.h"
 #import "SDLOnAppServiceData.h"
@@ -109,17 +108,10 @@ describe(@"test lifecycle manager internals", ^{
         it(@"expect object to be created", ^{
             expect(manager).notTo(beNil());
         });
-        const UInt8 majorVersion = 9;
-        const UInt8 minorVersion = 8;
-        const UInt8 patchVersion = 7;
-        SDLMsgVersion *expectedVersion = [[SDLMsgVersion alloc] initWithMajorVersion:majorVersion minorVersion:minorVersion patchVersion:patchVersion];
-        manager.sdlMsgVersionString = [NSString stringWithFormat:@"%d.%d.%d", (int)majorVersion, (int)minorVersion, (int)patchVersion];
         context(@"didEnterStateConnected", ^{
             [manager didEnterStateConnected];
-            it(@"expect request to be of proper kind and with a proper version", ^{
+            it(@"expect request to be of proper kind", ^{
                 expect([manager.testRequest isKindOfClass:SDLRegisterAppInterface.class]).to(equal(YES));
-                SDLRegisterAppInterface *regRequest = manager.testRequest;
-                expect([regRequest.sdlMsgVersion isEqual:expectedVersion]).to(equal(YES));
             });
         });
     });

@@ -8,6 +8,7 @@
 #import <Quick/Quick.h>
 
 #import "SDLAppCapability.h"
+#import "SDLAppCapabilityType.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLVideoStreamingCapability.h"
 
@@ -15,10 +16,13 @@ QuickSpecBegin(SDLAppCapabilitySpec)
 
 describe(@"getter/setter tests", ^{
     SDLVideoStreamingCapability *videoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
-    SDLSystemCapabilityType appCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+    SDLAppCapabilityType appCapabilityType = SDLAppCapabilityTypeVideoStreaming;
+    __block SDLAppCapability *testStruct = nil;
 
     context(@"init", ^{
-        SDLAppCapability *testStruct = [[SDLAppCapability alloc] init];
+        beforeEach(^{
+            testStruct = [[SDLAppCapability alloc] init];
+        });
         it(@"make sure object created", ^{
             expect(testStruct).notTo(beNil());
         });
@@ -29,9 +33,11 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"init & assign", ^{
-        SDLAppCapability *testStruct = [[SDLAppCapability alloc] init];
-        testStruct.appCapabilityType = appCapabilityType;
-        testStruct.videoStreamingCapability = videoStreamingCapability;
+        beforeEach(^{
+            testStruct = [[SDLAppCapability alloc] init];
+            testStruct.appCapabilityType = appCapabilityType;
+            testStruct.videoStreamingCapability = videoStreamingCapability;
+        });
         it(@"make sure object created", ^{
             expect(testStruct).notTo(beNil());
         });
@@ -41,8 +47,23 @@ describe(@"getter/setter tests", ^{
         });
     });
 
+    context(@"initWithAppCapabilityType:", ^{
+        beforeEach(^{
+            testStruct = [[SDLAppCapability alloc] initWithAppCapabilityType:appCapabilityType];
+        });
+        it(@"make sure object created", ^{
+            expect(testStruct).notTo(beNil());
+        });
+        it(@"expect all properties to be set properly", ^{
+            expect(testStruct.appCapabilityType).to(equal(appCapabilityType));
+            expect(testStruct.videoStreamingCapability).to(beNil());
+        });
+    });
+
     context(@"initWithVideoStreamingCapability:", ^{
-        SDLAppCapability *testStruct = [[SDLAppCapability alloc] initWithVideoStreamingCapability:videoStreamingCapability];
+        beforeEach(^{
+            testStruct = [[SDLAppCapability alloc] initWithAppCapabilityType:appCapabilityType videoStreamingCapability:videoStreamingCapability];
+        });
         it(@"make sure object created", ^{
             expect(testStruct).notTo(beNil());
         });
@@ -53,12 +74,13 @@ describe(@"getter/setter tests", ^{
     });
 
     context(@"initWithDictionary:", ^{
-        NSDictionary *dict = @{
-            SDLRPCParameterNameVideoStreamingCapability: videoStreamingCapability,
-            SDLRPCParameterNameAppCapabilityType: appCapabilityType,
-        };
-        SDLAppCapability *testStruct = [[SDLAppCapability alloc] initWithDictionary:dict];
-
+        beforeEach(^{
+            NSDictionary *dict = @{
+                SDLRPCParameterNameVideoStreamingCapability: videoStreamingCapability,
+                SDLRPCParameterNameAppCapabilityType: appCapabilityType,
+            };
+            testStruct = [[SDLAppCapability alloc] initWithDictionary:dict];
+        });
         it(@"make sure object created", ^{
             expect(testStruct).notTo(beNil());
         });

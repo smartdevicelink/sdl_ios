@@ -12,8 +12,8 @@
 
 @protocol SDLSecurityType;
 @protocol SDLStreamingMediaManagerDataSource;
-@protocol SDLStreamingMediaDelegate;
-@class SDLSupportedStreamingRange;
+@protocol SDLStreamingVideoDelegate;
+@class SDLVideoStreamingRange;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -83,9 +83,9 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  */
 @property (assign, nonatomic) BOOL allowMultipleViewControllerOrientations;
 
-@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedLandscapeStreamingRange;
-@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedPortraitStreamingRange;
-@property (weak, nonatomic, nullable) id<SDLStreamingMediaDelegate> delegate;
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
+@property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.

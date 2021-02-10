@@ -63,7 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.hmiDisplayLanguageDesired = languageDesired;
 
-    self.sdlMsgVersion = [SDLMsgVersion versionWithString:SDLMaxProxyRPCVersion];
     self.appInfo = [SDLAppInfo currentAppInfo];
     self.deviceInfo = [SDLDeviceInfo currentDevice];
     self.correlationID = @1;

@@ -823,35 +823,4 @@ describe(@"OnProtocolClosed Tests", ^{
     });
 });
 
-describe(@"delegate table test", ^{
-    id<SDLProtocolDelegate> mockDelegate = OCMProtocolMock(@protocol(SDLProtocolDelegate));
-    id mockTransport = OCMProtocolMock(@protocol(SDLTransportType));
-    __block SDLProtocol *testProtocol = nil;
-
-    beforeEach(^{
-        testProtocol = [[SDLProtocol alloc] initWithTransport:mockTransport encryptionManager:nil];
-        // add the delegate twice though it must be added once only
-        [testProtocol addDelegate:mockDelegate];
-        [testProtocol addDelegate:mockDelegate];
-    });
-
-    context(@"test created protocol", ^{
-        it(@"make sure object created", ^{
-            expect(testProtocol).notTo(beNil());
-        });
-
-        it(@"expect delegates table to contain one proper delegate alone", ^{
-            expect(testProtocol.protocolDelegateTable.allObjects.count).to(equal(1));
-            expect(testProtocol.protocolDelegateTable.allObjects.firstObject).to(equal(mockDelegate));
-        });
-    });
-
-    context(@"remove delegate", ^{
-        it(@"expect delegates table to be empty", ^{
-            [testProtocol removeDelegate:mockDelegate];
-            expect(testProtocol.protocolDelegateTable.allObjects.count).to(equal(0));
-        });
-    });
-});
-
 QuickSpecEnd

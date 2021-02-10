@@ -1,17 +1,17 @@
 //
-//  SDLSupportedStreamingRange.m
+//  SDLVideoStreamingRange.m
 //  SmartDeviceLink
 //
 //  Created on 6/11/20.
 //
 
-#import "SDLSupportedStreamingRange.h"
-#import "SDLImageResolution.h"
+#import "SDLVideoStreamingRange.h"
+#import "SDLImageResolution + StreamingVideoExtensions.h"
 #import "SDLLogMacros.h"
 
-@implementation SDLSupportedStreamingRange
+@implementation SDLVideoStreamingRange
 
-- (instancetype)initWithResolutionsMinimum:(SDLImageResolution *)minResolution maximun:(SDLImageResolution *)maxResolution {
+- (instancetype)initWithMinimumResolution:(SDLImageResolution *)minResolution maximumResolution:(SDLImageResolution *)maxResolution {
     if ((self = [super init])) {
         if (minResolution && maxResolution) {
             // if both min and max present then min must be below max

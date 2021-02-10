@@ -6,6 +6,7 @@
 //  Copyright © 2018 Luxoft. All rights reserved
 //
 
+#import <UIKit/UIKit.h>
 #import "TestStreamingMediaDelegate.h"
 #import "SDLLogMacros.h"
 
@@ -30,16 +31,11 @@
     [self.recordedSizesImp removeAllObjects];
 }
 
-#pragma mark - SDLStreamingMediaDelegate
+#pragma mark - SDLStreamingVideoDelegate
 
-- (void)videoManager:(id)manager didUpdateSize:(CGSize)displaySize {
-    SDLLogD(@"SDLStreamingMediaDelegate didUpdateSize: %@", NSStringFromCGSize(displaySize));
+- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize {
+    SDLLogD(@"SDLStreamingVideoDelegate videoStreamingSizeDidUpdate: %@", NSStringFromCGSize(displaySize));
     [self.recordedSizesImp addObject:[NSValue valueWithCGSize:displaySize]];
-}
-
-- (void)videoManagerDidStop:(id)manager {
-    SDLLogD(@"SDLStreamingMediaDelegate videoManagerDidStop");
-    self.isStopped = YES;
 }
 
 @end

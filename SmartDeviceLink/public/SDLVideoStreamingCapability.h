@@ -98,18 +98,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *scale;
 
-// note: it can be a recursion under certain circumstances
-@property (nullable, strong, nonatomic) NSArray <SDLVideoStreamingCapability*> *additionalVideoStreamingCapabilities;
+/**
+ * {"array_min_size": 1, "array_max_size": 100}
+ *
+ * @added in SmartDeviceLink 7.1.0
+ * @note can be recursive under certain circumstances
+ */
+@property (nullable, strong, nonatomic) NSArray<SDLVideoStreamingCapability *> *additionalVideoStreamingCapabilities;
 
-// this returns a copy array of all capabilities including itself but with no recursion
-// in the result objects the .additionalVideoStreamingCapabilities will be nil
-- (NSArray <SDLVideoStreamingCapability*> *)allVideoStreamingCapabilitiesPlain;
-
-- (SDLImageResolution *)makeImageResolution;
-
-- (NSArray<SDLImageResolution *> *)allImageResolutionsScaled;
-
-- (NSArray<SDLImageResolution *> *)allImageResolutions;
 /**
  * The preferred frame rate per second of the head unit. The mobile application / app library may take other factors into account that constrain the frame rate lower than this value, but it should not perform streaming at a higher frame rate than this value.
  * {"num_min_value": 0, "num_max_value": 2147483647}

@@ -35,7 +35,7 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
-#import "SDLSupportedStreamingRange.h"
+#import "SDLVideoStreamingRange.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLV2ProtocolHeader.h"
@@ -56,9 +56,9 @@
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 @property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
-@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedLandscapeStreamingRange;
-@property (strong, nonatomic, nullable) SDLSupportedStreamingRange *supportedPortraitStreamingRange;
-@property (weak, nonatomic, nullable) id<SDLStreamingMediaDelegate> delegate;
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
+@property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
 @property (assign, nonatomic) BOOL shouldAutoResume;
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapabilityUpdated;
@@ -148,10 +148,11 @@ describe(@"init tests", ^{
     SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
     NSString *testAppName = @"Test App";
     SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
+    SDLVersion *version600 = [SDLVersion versionWithMajor:6 minor:0 patch:0];
 
     // set proper version up
-    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion version:6:0:0];
-    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion version:6:0:0];
+    [SDLGlobals sharedGlobals].rpcVersion = version600;
+    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = version600;
 
     testConfiguration.customVideoEncoderSettings = @{(id)kVTCompressionPropertyKey_ExpectedFrameRate : @1};
     testConfiguration.dataSource = testDataSource;
@@ -404,10 +405,11 @@ describe(@"runtime tests", ^{
     SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
     NSString *testAppName = @"Test App";
     SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
+    SDLVersion *version600 = [SDLVersion versionWithMajor:6 minor:0 patch:0];
 
     // set proper version up
-    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion version:6:0:0];
-    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion version:6:0:0];
+    [SDLGlobals sharedGlobals].rpcVersion = version600;
+    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = version600;
 
     testConfiguration.customVideoEncoderSettings = @{(id)kVTCompressionPropertyKey_ExpectedFrameRate : @1};
     testConfiguration.dataSource = testDataSource;
@@ -1154,10 +1156,11 @@ describe(@"after sending GetSystemCapabilities", ^{
     SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
     SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
     SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
+    SDLVersion *version600 = [SDLVersion versionWithMajor:6 minor:0 patch:0];
 
     // set proper version up
-    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion version:6:0:0];
-    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion version:6:0:0];
+    [SDLGlobals sharedGlobals].rpcVersion = version600;
+    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = version600;
 
     testConfiguration.customVideoEncoderSettings = @{(id)kVTCompressionPropertyKey_ExpectedFrameRate : @1};
     testConfiguration.dataSource = testDataSource;
@@ -1421,7 +1424,7 @@ describe(@"supported video capabilities and formats", ^{
     context(@"landscape restricted and any portrait", ^{
         SDLImageResolution *resMin = [[SDLImageResolution alloc] initWithWidth:320 height:200];
         SDLImageResolution *resMax = [[SDLImageResolution alloc] initWithWidth:350 height:220];
-        SDLSupportedStreamingRange *landRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMin maximun:resMax];
+        SDLVideoStreamingRange *landRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMin maximumResolution:resMax];
 
         it(@"should filter 320x200 and small and large portrait", ^{
             streamingLifecycleManager.supportedLandscapeStreamingRange = landRange;
@@ -1439,12 +1442,12 @@ describe(@"supported video capabilities and formats", ^{
     context(@"portrait restricted and wrong landscape", ^{
         SDLImageResolution *resMinP = [[SDLImageResolution alloc] initWithWidth:200 height:320];
         SDLImageResolution *resMaxP = [[SDLImageResolution alloc] initWithWidth:300 height:420];
-        SDLSupportedStreamingRange *portRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMinP maximun:resMaxP];
+        SDLVideoStreamingRange *portRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMinP maximumResolution:resMaxP];
 
         // wrong range: max < min, nothing will pass in landscape
         SDLImageResolution *resMaxL = [[SDLImageResolution alloc] initWithWidth:320 height:200];
         SDLImageResolution *resMinL = [[SDLImageResolution alloc] initWithWidth:350 height:220];
-        SDLSupportedStreamingRange *landRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMinL maximun:resMaxL];
+        SDLVideoStreamingRange *landRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMinL maximumResolution:resMaxL];
 
         it(@"should filter portrait small", ^{
             streamingLifecycleManager.supportedLandscapeStreamingRange = landRange;
@@ -1461,11 +1464,11 @@ describe(@"supported video capabilities and formats", ^{
     context(@"both landscape and portrait restricted", ^{
         SDLImageResolution *resMinP = [[SDLImageResolution alloc] initWithWidth:200 height:320];
         SDLImageResolution *resMaxP = [[SDLImageResolution alloc] initWithWidth:300 height:420];
-        SDLSupportedStreamingRange *portRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMinP maximun:resMaxP];
+        SDLVideoStreamingRange *portRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMinP maximumResolution:resMaxP];
 
         SDLImageResolution *resMinL = [[SDLImageResolution alloc] initWithWidth:320 height:200];
         SDLImageResolution *resMaxL = [[SDLImageResolution alloc] initWithWidth:350 height:220];
-        SDLSupportedStreamingRange *landRange = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMinL maximun:resMaxL];
+        SDLVideoStreamingRange *landRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMinL maximumResolution:resMaxL];
 
         it(@"should filter 320x200 and portrait small", ^{
             streamingLifecycleManager.supportedLandscapeStreamingRange = landRange;
@@ -1482,7 +1485,7 @@ describe(@"supported video capabilities and formats", ^{
     context(@"square", ^{
         SDLImageResolution *resMin = [[SDLImageResolution alloc] initWithWidth:100 height:100];
         SDLImageResolution *resMax = [[SDLImageResolution alloc] initWithWidth:200 height:200];
-        SDLSupportedStreamingRange *range = [[SDLSupportedStreamingRange alloc] initWithResolutionsMinimum:resMin maximun:resMax];
+        SDLVideoStreamingRange *range = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMin maximumResolution:resMax];
         range.minimumAspectRatio = 1.0;
         range.maximumAspectRatio = 1.0;
         range.minimumDiagonal = 1;

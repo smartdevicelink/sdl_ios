@@ -377,11 +377,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
-    // override the default sdl rpc message version if set
-    SDLMsgVersion *sdlMsgVersion = [SDLMsgVersion versionWithString:self.sdlMsgVersionString];
-    if (sdlMsgVersion) {
-        regRequest.sdlMsgVersion = sdlMsgVersion;
-    }
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;

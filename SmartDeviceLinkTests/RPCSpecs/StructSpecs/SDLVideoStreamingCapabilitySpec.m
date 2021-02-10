@@ -13,7 +13,7 @@
 
 #import "SDLRPCParameterNames.h"
 #import "SDLImageResolution.h"
-#import "SDLVideoStreamingCapability.h"
+#import "SDLVideoStreamingCapability + StreamingVideoExtensions.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingProtocol.h"

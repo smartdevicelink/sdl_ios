@@ -22,7 +22,6 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAndGraphicManager.h"
-#import "SDLStreamingMediaManager.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -117,14 +116,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<__kindof NSOperation *> *)pendingRPCTransactions {
     return self.lifecycleManager.rpcOperationQueue.operations;
-}
-
-- (void)setSdlMsgVersionString:(nullable NSString *)versionString {
-    self.lifecycleManager.sdlMsgVersionString = versionString;
-}
-
-- (nullable NSString *)sdlMsgVersionString {
-    return self.lifecycleManager.sdlMsgVersionString;
 }
 
 #pragma mark SDLConnectionManager Protocol

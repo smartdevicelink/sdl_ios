@@ -273,24 +273,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendDataToTransport:message.data onService:SDLServiceTypeControl];
 }
 
-#pragma mark - Register/Unregister Delegates
-
-- (void)addDelegate:(id<SDLProtocolDelegate>)delegate {
-    @synchronized(self.protocolDelegateTable) {
-        if (![self.protocolDelegateTable containsObject:delegate]) {
-            [self.protocolDelegateTable addObject:delegate];
-        }
-    }
-}
-
-- (void)removeDelegate:(id<SDLProtocolDelegate>)delegate {
-    @synchronized(self.protocolDelegateTable) {
-        if ([self.protocolDelegateTable containsObject:delegate]) {
-            [self.protocolDelegateTable removeObject:delegate];
-        }
-    }
-}
-
 #pragma mark - Send Data
 
 - (void)sendRPC:(SDLRPCMessage *)message {

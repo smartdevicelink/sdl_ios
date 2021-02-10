@@ -151,11 +151,6 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  */
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType;
 
-#pragma mark - Delegate
-
-- (void)addDelegate:(id<SDLProtocolDelegate>)delegate;
-- (void)removeDelegate:(id<SDLProtocolDelegate>)delegate;
-
 @end
 
 NS_ASSUME_NONNULL_END

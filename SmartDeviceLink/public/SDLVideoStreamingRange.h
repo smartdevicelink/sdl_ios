@@ -1,5 +1,5 @@
 //
-//  SDLSupportedStreamingRange.h
+//  SDLVideoStreamingRange.h
 //  SmartDeviceLink
 //
 //  Created on 6/11/20.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLSupportedStreamingRange : NSObject <NSCopying>
+@interface SDLVideoStreamingRange : NSObject <NSCopying>
 
 // The minimum supported normalized aspect ratio, Min value is 1
 @property (nonatomic, assign) float minimumAspectRatio;
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range
 - (BOOL)isAspectRatioInRange:(float)aspectRatio;
 
-- (instancetype)initWithResolutionsMinimum:(SDLImageResolution *)minResolution maximun:(SDLImageResolution *)maxResolution;
+- (instancetype)initWithMinimumResolution:(SDLImageResolution *)minResolution maximumResolution:(SDLImageResolution *)maxResolution;
 
 @end
 

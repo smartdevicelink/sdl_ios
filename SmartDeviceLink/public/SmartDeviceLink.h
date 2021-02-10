@@ -305,6 +305,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 #pragma mark Enums
 #import "SDLAmbientLightStatus.h"
+#import "SDLAppCapabilityType.h"
 #import "SDLAppHMIType.h"
 #import "SDLAppInterfaceUnregisteredReason.h"
 #import "SDLAppServiceType.h"
@@ -436,11 +437,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchManager.h"
 #import "SDLTouchManagerDelegate.h"
 #import "SDLSecurityType.h"
-#import "SDLStreamingMediaDelegate.h"
+#import "SDLStreamingVideoDelegate.h"
 #import "SDLSeekStreamingIndicator.h"
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingVideoScaleManager.h"
-#import "SDLSupportedStreamingRange.h"
+#import "SDLVideoStreamingRange.h"
 
 #pragma mark Files
 #import "SDLArtwork.h"

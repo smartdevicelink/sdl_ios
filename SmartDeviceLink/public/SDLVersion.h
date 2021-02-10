@@ -34,7 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param patch Patch version
 /// @return An SDLVersion object
 - (instancetype)initWithMajor:(NSUInteger)major minor:(NSUInteger)minor patch:(NSUInteger)patch;
-- (instancetype)initWithVersion:(NSUInteger)major :(NSUInteger)minor :(NSUInteger)patch;
 
 /// Convenience init
 ///
@@ -43,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param patch Patch version
 /// @return An SDLVersion object
 + (instancetype)versionWithMajor:(NSUInteger)major minor:(NSUInteger)minor patch:(NSUInteger)patch;
-+ (instancetype)version:(NSUInteger)major :(NSUInteger)minor :(NSUInteger)patch;
 
 /// Convenience init
 ///

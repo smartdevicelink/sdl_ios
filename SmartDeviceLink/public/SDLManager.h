@@ -102,12 +102,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (copy, nonatomic, readonly) NSArray<__kindof NSOperation *> *pendingRPCTransactions;
 
-/**
- * The version number of the SDL V4 interface, string representation
- * Optional
- */
-@property (nonatomic, nullable) NSString *sdlMsgVersionString;
-
 #pragma mark Lifecycle
 
 /**
