@@ -107,7 +107,7 @@ describe(@"menu manager", ^{
             });
 
             it(@"should not update", ^{
-                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+                expect(testManager.transactionQueue.operationCount).to(equal(0));
             });
 
             describe(@"when entering the foreground", ^{
@@ -121,7 +121,7 @@ describe(@"menu manager", ^{
                 });
 
                 it(@"should update", ^{
-                    expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                    expect(testManager.transactionQueue.operationCount).to(equal(1));
                 });
             });
         });
@@ -626,18 +626,19 @@ describe(@"menu manager", ^{
         });
 
         it(@"should reset correctly", ^{
+            expect(testManager.menuCells).to(beEmpty());
+
+            expect(@(testManager.dynamicMenuUpdatesMode)).to(equal(@(SDLDynamicMenuUpdatesModeOnWithCompatibility)));
             expect(testManager.connectionManager).to(equal(mockConnectionManager));
             expect(testManager.fileManager).to(equal(mockFileManager));
-
-            expect(testManager.menuCells).to(beEmpty());
+            expect(testManager.systemCapabilityManager).to(equal(mockSystemCapabilityManager));
+            expect(testManager.transactionQueue).toNot(beNil());
+            expect(testManager.windowCapability).to(beNil());
             expect(testManager.currentHMILevel).to(beNil());
-            expect(testManager.inProgressUpdate).to(beNil());
-            expect(testManager.hasQueuedUpdate).to(beFalse());
-            expect(testManager.waitingOnHMIUpdate).to(beFalse());
-            expect(testManager.lastMenuId).to(equal(1));
+            expect(testManager.currentSystemContext).to(beNil());
             expect(testManager.currentMenuCells).to(beEmpty());
-            expect(testManager.waitingUpdateMenuCells).to(beEmpty());
-            expect(testManager.menuConfiguration).toNot(beNil());
+            expect(testManager.currentMenuConfiguration).to(beNil());
+            expect(testManager.lastMenuId).to(equal(1));
         });
     });
 
