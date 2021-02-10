@@ -178,39 +178,7 @@ UInt32 const MenuCellIdMin = 1;
 
     self.waitingOnHMIUpdate = NO;
 
-    ///Check all voice commands for identical items and check each list of cells for identical cells
-    NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
-    NSMutableSet *identicalCellsCheckSet = [NSMutableSet set];
-    NSUInteger voiceCommandCount = 0;
-    for (SDLMenuCell *cell in cells) {
-        [cellCheckSet addObject:cell];
-        if (cell.subCells.count > 0) {
-            NSMutableSet *subCellsCheckSet = [NSMutableSet set];
-            for (SDLMenuCell *subCell in cell.subCells) {
-                [subCellsCheckSet addObject:subCell];
-                if (subCell.voiceCommands == nil) { continue; }
-                [allMenuVoiceCommands addObjectsFromArray:subCell.voiceCommands];
-                voiceCommandCount += subCell.voiceCommands.count;
-            }
-
-            if (subCellsCheckSet.count != cell.subCells.count) {
-                SDLLogE(@"Not all subCells are unique. The menu will not be set.");
-                return;
-            }
-        }
-        if (cell.voiceCommands == nil) { continue; }
-        [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
-        voiceCommandCount += cell.voiceCommands.count;
-    }
-
-    if (cellCheckSet.count != cells.count) {
-        SDLLogE(@"Not all cells are unique. The menu will not be set.");
-        return;
-    }
-
-    // Check for duplicate voice recognition commands
-    if (allMenuVoiceCommands.count != voiceCommandCount) {
-        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
+    if (![self sdl_menuCellsAreUnique:cells]) {
         return;
     }
 
@@ -576,6 +544,55 @@ UInt32 const MenuCellIdMin = 1;
             [self sdl_addUniqueNamesToCells:cell.subCells];
         }
     }
+}
+
+/**
+ Check for duplicate cells, subCells and voiceCommands
+
+ @param cells The cells you will be adding
+ @return Boolean that indicates whether menuCells are unique or not
+ */
+-(BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells {
+    ///Check all voice commands for identical items and check each list of cells for identical cells
+    NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
+    NSMutableSet *identicalCellsCheckSet = [NSMutableSet set];
+    NSUInteger voiceCommandCount = 0;
+    for (SDLMenuCell *cell in cells) {
+        [identicalCellsCheckSet addObject:cell];
+        if (cell.subCells.count > 0) {
+            NSMutableSet *identicalSubCellsCheckSet = [NSMutableSet set];
+            for (SDLMenuCell *subCell in cell.subCells) {
+                [identicalSubCellsCheckSet addObject:subCell];
+
+                if (subCell.voiceCommands == nil) { continue; }
+                [identicalVoiceCommandsCheckSet addObjectsFromArray:subCell.voiceCommands];
+                voiceCommandCount += subCell.voiceCommands.count;
+            }
+
+            if (identicalSubCellsCheckSet.count != cell.subCells.count) {
+                SDLLogE(@"Not all subCells are unique. The menu will not be set.");
+                return NO;
+            }
+        }
+
+        if (cell.voiceCommands == nil) { continue; }
+        [identicalVoiceCommandsCheckSet addObjectsFromArray:cell.voiceCommands];
+        voiceCommandCount += cell.voiceCommands.count;
+    }
+
+    // Check for duplicate cells
+    if (identicalCellsCheckSet.count != cells.count) {
+        SDLLogE(@"Not all cells are unique. The menu will not be set.");
+        return NO;
+    }
+
+    // Check for duplicate voice recognition commands
+    if (identicalVoiceCommandsCheckSet.count != voiceCommandCount) {
+        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
+        return NO;
+    }
+
+    return YES;
 }
 
 #pragma mark Artworks

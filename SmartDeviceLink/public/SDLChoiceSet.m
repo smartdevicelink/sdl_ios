@@ -69,31 +69,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         return nil;
     }
 
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithCapacity:choices.count];
-    NSMutableSet<NSString *> *uniqueVoiceCommands = [NSMutableSet set];
-    NSUInteger allVoiceCommandsCount = 0;
-    NSUInteger choiceCellWithVoiceCommandCount = 0;
-    for (SDLChoiceCell *cell in choices) {
-        [choicesSet addObject:cell];
-        if (cell.voiceCommands == nil) { continue; }
-        [uniqueVoiceCommands addObjectsFromArray:cell.voiceCommands];
-        choiceCellWithVoiceCommandCount += 1;
-        allVoiceCommandsCount += cell.voiceCommands.count;
-    }
-
-    if (choicesSet.count < choices.count) {
-        SDLLogE(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
-        return nil;
-    }
-
-    // All or none of the choices must have VR commands
-    if ((choiceCellWithVoiceCommandCount > 0 && choiceCellWithVoiceCommandCount < choices.count)) {
-        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu cells with unique voice commands and %lu total cells. The choice set will not be set.", (unsigned long)choiceCellWithVoiceCommandCount, (unsigned long)choices.count);
-        return nil;
-    }
-    // All the VR commands must be unique
-    if (uniqueVoiceCommands.count < allVoiceCommandsCount) {
-        SDLLogE(@"If using voice recognition commands, all VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)uniqueVoiceCommands.count, (unsigned long)allVoiceCommandsCount);
+    if (![self sdl_menuChoiceCellsAreUnique:choices]) {
         return nil;
     }
 
@@ -145,6 +121,47 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     for (NSUInteger i = 0; i < _helpList.count; i++) {
         _helpList[i].position = @(i + 1);
     }
+}
+
+#pragma mark - Helpers
+
+/**
+ Check for duplicate choices and voiceCommands
+
+ @param choices The choices you will be adding
+ @return Boolean that indicates whether choices are unique or not
+ */
+-(BOOL)sdl_menuChoiceCellsAreUnique:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableSet<SDLChoiceCell *> *identicalCellsCheckSet = [NSMutableSet setWithCapacity:choices.count];
+    NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
+    NSUInteger allVoiceCommandsCount = 0;
+    NSUInteger choiceCellWithVoiceCommandCount = 0;
+    for (SDLChoiceCell *cell in choices) {
+        [identicalCellsCheckSet addObject:cell];
+
+        if (cell.voiceCommands == nil) { continue; }
+        [identicalVoiceCommandsCheckSet addObjectsFromArray:cell.voiceCommands];
+        choiceCellWithVoiceCommandCount += 1;
+        allVoiceCommandsCount += cell.voiceCommands.count;
+    }
+
+    if (identicalCellsCheckSet.count < choices.count) {
+        SDLLogE(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
+        return NO;
+    }
+
+    // All or none of the choices must have VR commands
+    if ((choiceCellWithVoiceCommandCount > 0 && choiceCellWithVoiceCommandCount < choices.count)) {
+        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu cells with unique voice commands and %lu total cells. The choice set will not be set.", (unsigned long)choiceCellWithVoiceCommandCount, (unsigned long)choices.count);
+        return NO;
+    }
+    // All the VR commands must be unique
+    if (identicalVoiceCommandsCheckSet.count < allVoiceCommandsCount) {
+        SDLLogE(@"If using voice recognition commands, all VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)identicalVoiceCommandsCheckSet.count, (unsigned long)allVoiceCommandsCount);
+        return NO;
+    }
+
+    return YES;
 }
 
 #pragma mark - Etc.

@@ -195,7 +195,7 @@ describe(@"menu manager", ^{
             });
         });
 
-        context(@"duplicate titles version >= 7.1.0", ^{
+        context(@"duplicate titles version <= 7.1.0", ^{
             beforeEach(^{
                 [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
             });
@@ -215,9 +215,42 @@ describe(@"menu manager", ^{
             });
         });
 
+        context(@"duplicate cells", ^{
+            __block SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+            it(@"should fail with duplicate cells", ^{
+                testManager.menuCells = @[textCell, textCell2];
+                expect(testManager.menuCells).to(beEmpty());
+            });
+        });
+
+        context(@"duplicate subCells", ^{
+            __block SDLMenuCell *subCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *subCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil submenuLayout:nil subCells:@[subCell1, subCell2]];
+
+            it(@"should fail with duplicate cells", ^{
+                testManager.menuCells = @[textCell];
+                expect(testManager.menuCells).to(beEmpty());
+            });
+        });
+
         context(@"duplicate VR commands", ^{
             __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
             __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+            it(@"should fail when menu items have duplicate vr commands", ^{
+                testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
+                expect(testManager.menuCells).to(beEmpty());
+            });
+        });
+
+        context(@"duplicate VR commands in subCells", ^{
+            __block SDLMenuCell *textAndVRSubCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:@[@"Cat"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRSubCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 2" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil submenuLayout:nil subCells:@[textAndVRSubCell1, textAndVRSubCell2]];
 
             it(@"should fail when menu items have duplicate vr commands", ^{
                 testManager.menuCells = @[textAndVRCell1, textAndVRCell2];

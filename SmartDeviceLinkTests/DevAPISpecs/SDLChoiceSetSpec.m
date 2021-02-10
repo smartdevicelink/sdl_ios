@@ -164,6 +164,14 @@ describe(@"an SDLChoiceSet", ^{
                 expect(testChoiceSet).to(beNil());
             });
 
+            it(@"should return nil when 2 or more cells voice commands are identical", ^{
+                // Cell `text` cannot be equal
+                SDLChoiceCell *equalCell = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Kit", @"Kat"]];
+                SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Kat"]];
+                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCell, equalCell2]];
+                expect(testChoiceSet).to(beNil());
+            });
+
             context(@"With bad VR data", ^{
                 it(@"should return nil if not all choice set items have voice commands", ^{
                     // Cell `voiceCommands` cannot be equal

@@ -63,6 +63,7 @@
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification;
 - (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_addUniqueNamesToCells:(NSMutableSet<SDLChoiceCell *> *)choices;
 
 @end
 
@@ -82,6 +83,7 @@ describe(@"choice set manager tests", ^{
     __block SDLChoiceCell *testCell1 = nil;
     __block SDLChoiceCell *testCell2 = nil;
     __block SDLChoiceCell *testCell3 = nil;
+    __block SDLChoiceCell *testCellDuplicate = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -93,6 +95,7 @@ describe(@"choice set manager tests", ^{
         testCell1 = [[SDLChoiceCell alloc] initWithText:@"test1"];
         testCell2 = [[SDLChoiceCell alloc] initWithText:@"test2"];
         testCell3 = [[SDLChoiceCell alloc] initWithText:@"test3"];
+        testCellDuplicate = [[SDLChoiceCell alloc] initWithText:@"test1"];
 
         enabledWindowCapability = [[SDLWindowCapability alloc] init];
         enabledWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1]];
@@ -252,6 +255,22 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.preloadedChoices).to(contain(testCell2));
                     expect(testManager.preloadedChoices).to(contain(testCell3));
                     expect(testManager.pendingPreloadChoices).to(haveCount(0));
+                });
+            });
+
+            context(@"when some choices are already uploaded with duplicate titles", ^{
+                beforeEach(^{
+                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) {
+                    }];
+                });
+
+                it(@"should properly preload choice set with same title", ^{
+                    SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
+                    testOp.completionBlock();
+
+                    expect(testManager.preloadedChoices.anyObject.uniqueText).to(equal("test1"));
+                    expect(testManager.preloadedChoices).to(contain(testCell1));
+                    expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
                 });
             });
 
