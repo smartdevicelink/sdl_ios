@@ -232,7 +232,7 @@ extern SDLTextFieldName const SDLTextFieldNameAddressLines;
 extern SDLTextFieldName const SDLTextFieldNamePhoneNumber;
 
 /**
- * Optional time to destination field for navigationTexts parameter in ShowConstantTB
+ * Optional time to destination field for navigationTexts parameter in ShowConstantTBT
  *
  * @added in SmartDeviceLink 7.1.0
  */
