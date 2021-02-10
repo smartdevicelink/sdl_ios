@@ -208,6 +208,20 @@ describe(@"an SDLChoiceSet", ^{
             expect(SDLChoiceSet.defaultTimeout).to(equal(testDefaultTimeout));
             expect(testChoiceSet.timeout).to(equal(testTimeout));
         });
+
+        it(@"should return 100 if a value greater than 100 has been set", ^{
+            SDLChoiceSet.defaultTimeout = 155.0;
+
+            expect(SDLChoiceSet.defaultTimeout).to(equal(100.0));
+            expect(testChoiceSet.timeout).to(equal(100.0));
+        });
+
+        it(@"should return 5 if a value less than 5 has been set", ^{
+            SDLChoiceSet.defaultTimeout = -3.0;
+
+            expect(SDLChoiceSet.defaultTimeout).to(equal(5.0));
+            expect(testChoiceSet.timeout).to(equal(5.0));
+        });
     });
 
     describe(@"setting the timeout", ^{
@@ -232,6 +246,16 @@ describe(@"an SDLChoiceSet", ^{
             int testTimeout = 9.0;
             testChoiceSet.timeout = testTimeout;
             expect(testChoiceSet.timeout).to(equal(testTimeout));
+        });
+
+        it(@"should return 100 if a value greater than 100 has been set", ^{
+            testChoiceSet.timeout = 214.0;
+            expect(testChoiceSet.timeout).to(equal(100.0));
+        });
+
+        it(@"should return 5 if a value less than 5 has been set", ^{
+            testChoiceSet.timeout = 2.25;
+            expect(testChoiceSet.timeout).to(equal(5.0));
         });
     });
 

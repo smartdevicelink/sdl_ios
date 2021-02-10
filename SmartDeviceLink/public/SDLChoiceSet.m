@@ -23,8 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLChoiceSet
 
-static NSTimeInterval _defaultTimeout = 10.0;
 static const float TimeoutDefault = 0.0;
+static const float TimeoutMinCap = 5.0;
+static const float TimeoutMaxCap = 100.0;
+static NSTimeInterval _defaultTimeout = 10.0;
 static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
 - (instancetype)init {
@@ -55,13 +57,6 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
     if (choices.count == 0 || choices.count > 100) {
         SDLLogW(@"Attempted to create a choice set with %lu choices; Only 1 - 100 choices are valid", (unsigned long)choices.count);
-        return nil;
-    }
-
-    if (timeout == 0) {
-        SDLLogV(@"Creating a choice set with a 0 second timeout; the default timeout will be used: %f seconds", SDLChoiceSet.defaultTimeout);
-    } else if (timeout < 5 || timeout > 100) {
-        SDLLogW(@"Attempted to create a choice set with a %f second timeout; Only 5 - 100 seconds is valid", timeout);
         return nil;
     }
 
@@ -104,7 +99,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     _title = title;
     _delegate = delegate;
     _layout = layout;
-    _timeout = timeout;
+    self.timeout = timeout;
     _initialPrompt = initialPrompt;
     _timeoutPrompt = timeoutPrompt;
     _helpPrompt = helpPrompt;
@@ -123,12 +118,30 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
 #pragma mark - Getters / Setters
 
++ (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
+    _defaultTimeout = defaultTimeout;
+}
+
 + (NSTimeInterval)defaultTimeout {
+   if (_defaultTimeout < TimeoutMinCap) {
+        return TimeoutMinCap;
+    } else if (_defaultTimeout > TimeoutMaxCap) {
+        return TimeoutMaxCap;
+    }
+
     return _defaultTimeout;
 }
 
-+ (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
-    _defaultTimeout = defaultTimeout;
+- (NSTimeInterval)timeout {
+    if (_timeout == TimeoutDefault) {
+        return SDLChoiceSet.defaultTimeout;
+    } else if (_timeout < TimeoutMinCap) {
+        return TimeoutMinCap;
+    } else if (_timeout > TimeoutMaxCap) {
+        return TimeoutMaxCap;
+    }
+
+    return _timeout;
 }
 
 + (SDLChoiceSetLayout)defaultLayout {
@@ -145,14 +158,6 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     for (NSUInteger i = 0; i < _helpList.count; i++) {
         _helpList[i].position = @(i + 1);
     }
-}
-
-- (NSTimeInterval)timeout {
-    if (_timeout == TimeoutDefault) {
-        return SDLChoiceSet.defaultTimeout;
-    }
-
-    return _timeout;
 }
 
 #pragma mark - Etc.

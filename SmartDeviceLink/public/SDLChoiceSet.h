@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 @interface SDLChoiceSet: NSObject
 
 /**
- Set this to change the default timeout for all choice sets. If a timeout is not set on an individual choice set object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 10 seconds.
+ Set this to change the default timeout for all choice sets. If a timeout is not set on an individual choice set object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 10 seconds. The minimum is 5 seconds, the maximum is 100 seconds. If this is set below the minimum, it will be capped at 5 seconds. If this is set above the maximum, it will be capped at 100 seconds.
  */
 @property (class, assign, nonatomic) NSTimeInterval defaultTimeout;
 
@@ -60,7 +60,7 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 @property (assign, nonatomic) SDLChoiceSetLayout layout;
 
 /**
- Maps to PerformInteraction.timeout. Timeout in seconds. Defaults to 0, which will use `defaultTimeout`. If not set to 0, the timeout value must be between 5 and 100 seconds.
+ Maps to PerformInteraction.timeout. Timeout in seconds. Defaults to 0, which will use `defaultTimeout`. If this is set below the minimum, it will be capped at 5 seconds. Minimum 5 seconds, maximum 100 seconds. If this is set above the maximum, it will be capped at 100 seconds. Defaults to 0.
 
  @note This applies only to a manual selection (not a voice selection, which has its timeout handled by the system).
  */
@@ -111,7 +111,7 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  @param title The choice set's title
  @param delegate The choice set delegate called after the user has interacted with your choice set
  @param layout The layout of choice options (Manual/touch only)
- @param timeout The timeout of a touch interaction (Manual/touch only)
+ @param timeout The timeout of a touch interaction in seconds (Manual/touch only)
  @param initialPrompt A voice prompt spoken to the user when this set is displayed
  @param timeoutPrompt A voice prompt spoken to the user when the set times out (Voice only)
  @param helpPrompt A voice prompt spoken to the user when the user asks for "help"
@@ -127,7 +127,7 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  @param title The choice set's title
  @param delegate The choice set delegate called after the user has interacted with your choice set
  @param layout The layout of choice options (Manual/touch only)
- @param timeout The timeout of a touch interaction (Manual/touch only)
+ @param timeout The timeout of a touch interaction in seconds (Manual/touch only)
  @param initialPrompt A voice prompt spoken to the user when this set is displayed
  @param timeoutPrompt A voice prompt spoken to the user when the set times out (Voice only)
  @param helpPrompt A voice prompt spoken to the user when the user asks for "help"
@@ -136,7 +136,6 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  @return The choice set
  */
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout timeout:(NSTimeInterval)timeout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt vrHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList choices:(NSArray<SDLChoiceCell *> *)choices;
-
 
 /**
  Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be immediately dismissed. Canceling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the choice set will not be dismissed.
