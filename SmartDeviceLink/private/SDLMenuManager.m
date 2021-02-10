@@ -63,7 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
-@property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
 @property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;

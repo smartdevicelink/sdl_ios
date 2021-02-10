@@ -22,20 +22,15 @@
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
-@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-@property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
-
-
-@property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
-@property (assign, nonatomic) BOOL hasQueuedUpdate;
-@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
-@property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
-@property (assign, nonatomic) UInt32 lastMenuId;
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *currentMenuCells;
+@property (strong, nonatomic, nullable) SDLMenuConfiguration *currentMenuConfiguration;
 
-- (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells;
+@property (assign, nonatomic) UInt32 lastMenuId;
 
 @end
 
@@ -90,17 +85,18 @@ describe(@"menu manager", ^{
 
     it(@"should instantiate correctly", ^{
         expect(testManager.menuCells).to(beEmpty());
+
+        expect(@(testManager.dynamicMenuUpdatesMode)).to(equal(@(SDLDynamicMenuUpdatesModeOnWithCompatibility)));
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
         expect(testManager.fileManager).to(equal(mockFileManager));
         expect(testManager.systemCapabilityManager).to(equal(mockSystemCapabilityManager));
+        expect(testManager.transactionQueue).toNot(beNil());
+        expect(testManager.windowCapability).to(beNil());
         expect(testManager.currentHMILevel).to(beNil());
-        expect(testManager.inProgressUpdate).to(beNil());
-        expect(testManager.hasQueuedUpdate).to(beFalse());
-        expect(testManager.waitingOnHMIUpdate).to(beFalse());
-        expect(testManager.lastMenuId).to(equal(1));
+        expect(testManager.currentSystemContext).to(beNil());
         expect(testManager.currentMenuCells).to(beEmpty());
-        expect(testManager.waitingUpdateMenuCells).to(beNil());
-        expect(testManager.menuConfiguration).toNot(beNil());
+        expect(testManager.currentMenuConfiguration).to(beNil());
+        expect(testManager.lastMenuId).to(equal(1));
     });
 
     describe(@"updating menu cells before HMI is ready", ^{
@@ -659,7 +655,7 @@ describe(@"menu manager", ^{
             });
 
             it(@"should send showAppMenu RPC", ^{
-                BOOL canSendRPC = [testManager openMenu];
+                BOOL canSendRPC = [testManager openMenu:nil];
 
                 NSPredicate *showMenu = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
                 NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:showMenu];
@@ -674,7 +670,7 @@ describe(@"menu manager", ^{
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
-                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+                BOOL canSendRPC = [testManager openMenu:submenuCell];
 
                 NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
                 NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
@@ -687,7 +683,7 @@ describe(@"menu manager", ^{
 
         context(@"when open menu RPC can not be sent", ^{
             it(@"should not send a showAppMenu RPC when cell has no subcells", ^ {
-                BOOL canSendRPC = [testManager openSubmenu:textOnlyCell];
+                BOOL canSendRPC = [testManager openMenu:textOnlyCell];
 
                 NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
                 NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
@@ -702,7 +698,7 @@ describe(@"menu manager", ^{
                 id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
                 OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
 
-                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+                BOOL canSendRPC = [testManager openMenu:submenuCell];
 
                 NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
                 NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
@@ -717,7 +713,7 @@ describe(@"menu manager", ^{
                 id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
                 OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
 
-                BOOL canSendRPC = [testManager openSubmenu:submenuCell];
+                BOOL canSendRPC = [testManager openMenu:submenuCell];
 
                 NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLShowAppMenu class]];
                 NSArray *openMenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
