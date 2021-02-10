@@ -212,8 +212,7 @@
     }
 
     if (addedCell != nil) {
-        [self sdl_addMenuCell:addedCell toList:mainMenuList atPosition:position];
-        return YES;
+        return [self sdl_addMenuCell:addedCell toList:mainMenuList atPosition:position];
     }
 
     return NO;
@@ -238,6 +237,8 @@
                 }
             }
         }
+
+        return NO;
     } else {
         // The cell does not have a parent id, just insert it into the main menu
         [self sdl_insertMenuCell:cell intoList:menuCellList atPosition:position];

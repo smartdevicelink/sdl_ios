@@ -206,7 +206,7 @@ UInt32 const MenuCellIdMin = 1;
     __weak typeof(menuReplaceOperation) weakOp = menuReplaceOperation;
     menuReplaceOperation.completionBlock = ^{
         if (weakOp.error != nil) {
-            SDLLogE(@"Updating menu dynamically failed with error: %@", weakOp.error);
+            SDLLogE(@"Updating menu failed with error: %@", weakOp.error);
         }
     };
 
