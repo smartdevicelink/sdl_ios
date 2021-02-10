@@ -93,7 +93,6 @@ typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *_Nu
  */
 - (void)keyboardDidSendEvent:(SDLKeyboardEvent)event text:(NSString *)currentInputText;
 
-@optional
 /**
  Implement this to be notified of input key mask update
 

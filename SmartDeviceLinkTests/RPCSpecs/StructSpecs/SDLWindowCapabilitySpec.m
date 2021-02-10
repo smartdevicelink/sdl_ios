@@ -18,38 +18,85 @@
 
 QuickSpecBegin(SDLWindowCapabilitySpec)
 
-NSString *testTemplateAvailable = @"myTemplate";
-SDLTextField *testTextField = [[SDLTextField alloc] init];
-NSArray<SDLTextField *> *textFields = @[testTextField];
-NSString *textFieldName = @"t.f.name";
-testTextField.name = textFieldName;
-SDLImageField *testImageField = [[SDLImageField alloc] init];
-NSArray<SDLImageField *> *imageFields = @[testImageField];
-NSString *testImageName = @"test Image field";
-testImageField.name = testImageName;
-SDLButtonCapabilities *testButtonCapabilities = [[SDLButtonCapabilities alloc] init];
-NSArray<SDLButtonCapabilities *> *buttonCapabilities = @[testButtonCapabilities];
-testButtonCapabilities.name = SDLButtonNameOk;
-testButtonCapabilities.shortPressAvailable = @YES;
-testButtonCapabilities.longPressAvailable = @YES;
-testButtonCapabilities.upDownAvailable = @YES;
-SDLSoftButtonCapabilities *testSoftButtonsCapabilities = [[SDLSoftButtonCapabilities alloc] init];
-testSoftButtonsCapabilities.imageSupported = @YES;
-SDLImageType testImageType = SDLImageTypeDynamic;
-SDLMenuLayout testMenuLayout = SDLMenuLayoutTiles;
-SDLDynamicUpdateCapabilities *testDynamicUpdates = [[SDLDynamicUpdateCapabilities alloc] initWithSupportedDynamicImageFieldNames:@[SDLImageFieldNameSubMenuIcon] supportsDynamicSubMenus:@YES];
-SDLKeyboardCapabilities *keyboardCapabilities = [[SDLKeyboardCapabilities alloc] init];
-id windowID = @444;
-id numCustomPresetsAvailable = @10;
-NSArray<SDLImageType> *imageTypeSupported = @[testImageType];
-NSArray<NSString *> *templatesAvailable = @[testTemplateAvailable];
-NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities = @[testSoftButtonsCapabilities];
-NSArray<SDLMenuLayout> *menuLayoutsAvailable = @[testMenuLayout];
 __block SDLWindowCapability *testStruct = nil;
 
+__block SDLTextField* testTextField = nil;
+__block SDLImageField *testImageField = nil;
+__block SDLButtonCapabilities *testButtonCapabilities = nil;
+__block SDLSoftButtonCapabilities *testSoftButtonsCapabilities = nil;
+__block SDLImageType testImageType = nil;
+__block NSString *testTextName = nil;
+__block NSString *testImageName = nil;
+__block NSString *testTemplateAvailable = nil;
+__block SDLMenuLayout testMenuLayout = SDLMenuLayoutTiles;
+__block SDLDynamicUpdateCapabilities *testDynamicUpdates = nil;
+__block NSArray<SDLTextField *> *textFields = nil;
+__block NSArray<SDLImageField *> *imageFields = nil;
+__block NSArray<SDLButtonCapabilities *> *buttonCapabilities = nil;
+__block SDLKeyboardCapabilities *keyboardCapabilities = nil;
+__block id windowID = nil;
+__block id numCustomPresetsAvailable = nil;
+__block NSArray<SDLImageType> *imageTypeSupported = nil;
+__block NSArray<NSString *> *templatesAvailable = nil;
+__block NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities = nil;
+__block NSArray<SDLMenuLayout> *menuLayoutsAvailable = nil;
+
 describe(@"getter/setter tests", ^{
-    afterEach(^{
-        testStruct = nil;
+    beforeEach(^{
+        testImageType = SDLImageTypeDynamic;
+        testTextName = @"test Text field";
+        testImageName = @"test Image field";
+
+        testTextField = [[SDLTextField alloc] init];
+        testTextField.name = SDLTextFieldNameTertiaryText;
+        testImageField = [[SDLImageField alloc] init];
+        testImageField.name = testImageName;
+
+        testButtonCapabilities = [[SDLButtonCapabilities alloc] init];
+        testButtonCapabilities.name = SDLButtonNameOk;
+        testButtonCapabilities.shortPressAvailable = @YES;
+        testButtonCapabilities.longPressAvailable = @YES;
+        testButtonCapabilities.upDownAvailable = @YES;
+
+        testSoftButtonsCapabilities = [[SDLSoftButtonCapabilities alloc] init];
+        testSoftButtonsCapabilities.imageSupported = @YES;
+
+        testTemplateAvailable = @"myTemplate";
+        testDynamicUpdates = [[SDLDynamicUpdateCapabilities alloc] initWithSupportedDynamicImageFieldNames:@[SDLImageFieldNameSubMenuIcon] supportsDynamicSubMenus:@YES];
+
+        textFields = @[testTextField];
+        imageFields = @[testImageField];
+        buttonCapabilities = @[testButtonCapabilities];
+        keyboardCapabilities = [[SDLKeyboardCapabilities alloc] init];
+        windowID = @444;
+        numCustomPresetsAvailable = @10;
+        imageTypeSupported = @[testImageType];
+        templatesAvailable = @[testTemplateAvailable];
+        softButtonCapabilities = @[testSoftButtonsCapabilities];
+        menuLayoutsAvailable = @[testMenuLayout];
+    });
+
+    context(@"init", ^{
+        beforeEach(^{
+            testStruct = [[SDLWindowCapability alloc] init];
+        });
+
+        it(@"expect all properties to be nil", ^{
+            expect(testStruct.windowID).to(beNil());
+            expect(testStruct.textFields.firstObject.name).to(beNil());
+            expect(testStruct.imageFields.firstObject.name).to(beNil());
+            expect(testStruct.numCustomPresetsAvailable).to(beNil());
+            expect(testStruct.buttonCapabilities.firstObject.name).to(beNil());
+            expect(testStruct.buttonCapabilities.firstObject.shortPressAvailable).to(beNil());
+            expect(testStruct.buttonCapabilities.firstObject.longPressAvailable).to(beNil());
+            expect(testStruct.buttonCapabilities.firstObject.name).to(beNil());
+            expect(testStruct.softButtonCapabilities.firstObject.imageSupported).to(beNil());
+            expect(testStruct.menuLayoutsAvailable).to(beNil());
+            expect(testStruct.templatesAvailable).to(beNil());
+            expect(testStruct.dynamicUpdateCapabilities).to(beNil());
+            expect(testStruct.imageTypeSupported).to(beNil());
+            expect(testStruct.keyboardCapabilities).to(beNil());
+        });
     });
 
     context(@"init and assign", ^{
@@ -68,9 +115,9 @@ describe(@"getter/setter tests", ^{
             testStruct.keyboardCapabilities = keyboardCapabilities;
         });
 
-        it(@"expect to be set properly", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testStruct.windowID).to(equal(windowID));
-            expect(testStruct.textFields.firstObject.name).to(equal(textFieldName));
+            expect(testStruct.textFields.firstObject.name).to(equal(SDLTextFieldNameTertiaryText));
             expect(testStruct.imageFields.firstObject.name).to(equal(testImageName));
             expect(testStruct.numCustomPresetsAvailable).to(equal(numCustomPresetsAvailable));
             expect(testStruct.buttonCapabilities.firstObject.name).to(equal(SDLButtonNameOk));
@@ -88,12 +135,15 @@ describe(@"getter/setter tests", ^{
 
     context(@"initWithWindowID:textFields:imageFields:imageTypeSupported:templatesAvailable:numCustomPresetsAvailable:buttonCapabilities:softButtonCapabilities:menuLayoutsAvailable:dynamicUpdateCapabilities:", ^{
         beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testStruct = [[SDLWindowCapability alloc] initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:testDynamicUpdates];
+#pragma clang diagnostic pop
         });
 
-        it(@"expect to be set properly", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testStruct.windowID).to(equal(windowID));
-            expect(testStruct.textFields.firstObject.name).to(equal(textFieldName));
+            expect(testStruct.textFields.firstObject.name).to(equal(SDLTextFieldNameTertiaryText));
             expect(testStruct.imageFields.firstObject.name).to(equal(testImageName));
             expect(testStruct.numCustomPresetsAvailable).to(equal(numCustomPresetsAvailable));
             expect(testStruct.buttonCapabilities.firstObject.name).to(equal(SDLButtonNameOk));
@@ -114,9 +164,9 @@ describe(@"getter/setter tests", ^{
             testStruct = [[SDLWindowCapability alloc] initWithWindowID:windowID textFields:textFields imageFields:imageFields imageTypeSupported:imageTypeSupported templatesAvailable:templatesAvailable numCustomPresetsAvailable:numCustomPresetsAvailable buttonCapabilities:buttonCapabilities softButtonCapabilities:softButtonCapabilities menuLayoutsAvailable:menuLayoutsAvailable dynamicUpdateCapabilities:testDynamicUpdates keyboardCapabilities:keyboardCapabilities];
         });
 
-        it(@"expect to be set properly", ^{
+        it(@"expect all properties to be set properly", ^{
             expect(testStruct.windowID).to(equal(windowID));
-            expect(testStruct.textFields.firstObject.name).to(equal(textFieldName));
+            expect(testStruct.textFields.firstObject.name).to(equal(SDLTextFieldNameTertiaryText));
             expect(testStruct.imageFields.firstObject.name).to(equal(testImageName));
             expect(testStruct.numCustomPresetsAvailable).to(equal(numCustomPresetsAvailable));
             expect(testStruct.buttonCapabilities.firstObject.name).to(equal(SDLButtonNameOk));

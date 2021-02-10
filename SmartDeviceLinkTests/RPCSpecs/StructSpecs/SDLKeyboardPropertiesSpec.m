@@ -28,8 +28,24 @@ NSArray<NSString *> *customKeys = @[@"abc", @"DEF"];
 __block SDLKeyboardProperties* testStruct = nil;
 
 describe(@"getter/setter tests", ^{
-    afterEach(^{
-        testStruct = nil;
+    context(@"init", ^{
+        beforeEach(^{
+            testStruct = [[SDLKeyboardProperties alloc] init];
+        });
+
+        it(@"expect all properties to be nil", ^{
+            expect(testStruct.language).to(beNil());
+            expect(testStruct.keyboardLayout).to(beNil());
+            expect(testStruct.keypressMode).to(beNil());
+            expect(testStruct.limitedCharacterList).to(beNil());
+            expect(testStruct.autoCompleteList).to(beNil());
+            expect(testStruct.maskInputCharacters).to(beNil());
+            expect(testStruct.customKeys).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            expect(testStruct.autoCompleteText).to(beNil());
+#pragma clang diagnostic pop
+        });
     });
 
     context(@"init and assign", ^{
@@ -130,26 +146,6 @@ describe(@"getter/setter tests", ^{
             expect(testStruct.keypressMode).to(equal(testMode));
             expect(testStruct.limitedCharacterList).to(equal(testLimitedCharacterList));
             expect(testStruct.autoCompleteList).to(equal(testAutoCompleteList));
-            expect(testStruct.maskInputCharacters).to(beNil());
-            expect(testStruct.customKeys).to(beNil());
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(testStruct.autoCompleteText).to(beNil());
-#pragma clang diagnostic pop
-        });
-    });
-
-    context(@"init", ^{
-        beforeEach(^{
-            testStruct = [[SDLKeyboardProperties alloc] init];
-        });
-
-        it(@"expect all properties to be nil", ^{
-            expect(testStruct.language).to(beNil());
-            expect(testStruct.keyboardLayout).to(beNil());
-            expect(testStruct.keypressMode).to(beNil());
-            expect(testStruct.limitedCharacterList).to(beNil());
-            expect(testStruct.autoCompleteList).to(beNil());
             expect(testStruct.maskInputCharacters).to(beNil());
             expect(testStruct.customKeys).to(beNil());
 #pragma clang diagnostic push

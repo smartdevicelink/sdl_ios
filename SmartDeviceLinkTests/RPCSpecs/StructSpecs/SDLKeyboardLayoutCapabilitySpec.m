@@ -20,10 +20,6 @@ UInt8 numConfigurableKeys = 9;
 __block SDLKeyboardLayoutCapability* testStruct = nil;
 
 describe(@"getter/setter tests", ^{
-    afterEach(^{
-        testStruct = nil;
-    });
-    
     context(@"init", ^{
         beforeEach(^{
             testStruct = [[SDLKeyboardLayoutCapability alloc] init];

@@ -20,10 +20,6 @@ NSArray<SDLKeyboardLayoutCapability *> *supportedKeyboards = @[keyboardLayoutCap
 __block SDLKeyboardCapabilities* testStruct = nil;
 
 describe(@"getter/setter tests", ^{
-    afterEach(^{
-        testStruct = nil;
-    });
-    
     context(@"init", ^{
         beforeEach(^{
             testStruct = [[SDLKeyboardCapabilities alloc] init];
