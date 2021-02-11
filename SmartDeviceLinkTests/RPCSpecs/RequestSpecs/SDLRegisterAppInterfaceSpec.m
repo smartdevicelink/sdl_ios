@@ -170,7 +170,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
-            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
+            expect(testRegisterAppInterface.sdlMsgVersion).to(beNil());
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -194,7 +194,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(beNil());
             expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
+            expect(testRegisterAppInterface.sdlMsgVersion).to(beNil());
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(beNil());
@@ -215,7 +215,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
+            expect(testRegisterAppInterface.sdlMsgVersion).to(beNil());
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
