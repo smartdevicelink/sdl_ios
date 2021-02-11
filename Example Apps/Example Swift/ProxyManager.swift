@@ -234,6 +234,11 @@ extension ProxyManager: SDLManagerDelegate {
         
         return update
     }
+
+    func didReceive(_ systemInfo: SDLSystemInfo) -> Bool {
+        SDLLog.e("The system is: \(systemInfo)");
+        return true;
+    }
 }
 
 // MARK: - SDL UI
