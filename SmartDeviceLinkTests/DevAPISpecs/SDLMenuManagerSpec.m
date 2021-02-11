@@ -80,9 +80,13 @@ describe(@"menu manager", ^{
 
         SDLImageField *commandIconField = [[SDLImageField alloc] init];
         commandIconField.name = SDLImageFieldNameCommandIcon;
+        SDLImageField *subMenuSecondaryArtworkField = [[SDLImageField alloc] init];
+        subMenuSecondaryArtworkField.name = SDLImageFieldNameMenuSubMenuSecondaryImage;
+        SDLImageField *commandSecondaryArtworkField = [[SDLImageField alloc] init];
+        commandSecondaryArtworkField.name = SDLImageFieldNameMenuCommandSecondaryImage;
         SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
         windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
-        windowCapability.imageFields = @[commandIconField];
+        windowCapability.imageFields = @[commandIconField, subMenuSecondaryArtworkField, commandSecondaryArtworkField];
         windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
         windowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
         testManager.windowCapability = windowCapability;

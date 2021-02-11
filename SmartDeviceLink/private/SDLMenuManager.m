@@ -567,7 +567,11 @@ UInt32 const MenuCellIdMin = 1;
         SDLArtwork *secondaryArtwork = cell.secondaryArtwork;
         if (artwork != nil && !artwork.isStaticIcon && ![self.fileManager hasUploadedFile:artwork]) {
             return NO;
-        } else if ([self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage] || [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+        } else if (cell.subCells.count > 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+            if (secondaryArtwork != nil && !secondaryArtwork.isStaticIcon && ![self.fileManager hasUploadedFile:secondaryArtwork]) {
+                return NO;
+            }
+        } else if (cell.subCells.count == 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
             if (secondaryArtwork != nil && !secondaryArtwork.isStaticIcon && ![self.fileManager hasUploadedFile:secondaryArtwork]) {
                 return NO;
             }
