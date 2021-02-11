@@ -1252,7 +1252,7 @@ describe(@"after sending GetSystemCapabilities", ^{
             expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
             expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
             if (!streamingLifecycleManager.preferredFormats || !streamingLifecycleManager.preferredResolutions) {
-                return;
+                failWithMessage(@"absent preferredFormats or preferredResolutions");
             }
 
             const int expectedFormatCount = 3;
