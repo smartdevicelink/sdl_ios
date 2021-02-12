@@ -6,6 +6,7 @@
 #import "SDLLogMacros.h"
 #import "SDLMutableDataQueue.h"
 #import "SDLTimer.h"
+#import "SDLACVLLogging.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) dealloc {
     if (self.eaSession != nil) {
-        [self closeSession];
+        [self performSelector:@selector(peformCloseSession) onThread:self.sessionThread withObject:nil waitUntilDone:YES];
     }
 }
 
@@ -225,7 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
  */
-- (void)streamDidEnd:(NSStream *)stream {
+- (void)streamDidEnd:(NSStream *)stream { 
     [self closeSession];
     if (self.iAPSessionDelegate != nil) {
         [self.iAPSessionDelegate streamsDidEnd];
@@ -301,5 +302,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-
