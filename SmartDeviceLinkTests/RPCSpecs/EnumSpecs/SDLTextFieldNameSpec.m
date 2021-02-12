@@ -49,6 +49,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLTextFieldNameSubtleAlertText1).to(equal(@"subtleAlertText1"));
         expect(SDLTextFieldNameSubtleAlertText2).to(equal(@"subtleAlertText2"));
         expect(SDLTextFieldNameSubtleAlertSoftButtonText).to(equal("subtleAlertSoftButtonText"));
+        expect(SDLTextFieldNameTimeToDestination).to(equal(@"timeToDestination"));
+        expect(SDLTextFieldNameTurnText).to(equal(@"turnText"));
     });
 });
 
