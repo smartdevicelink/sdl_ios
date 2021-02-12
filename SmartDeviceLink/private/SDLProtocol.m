@@ -510,12 +510,13 @@ NS_ASSUME_NONNULL_BEGIN
     NSLog(@"Received start service ACK: %@", startServiceACK);
 
     SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = nil;
-    SDLVersion *version = startServiceACKPayload.protocolVersion == nil ? nil : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
+    SDLVersion *version = nil;
     // V5+ Packet
     if (startServiceACK.header.version >= 5) {
         switch (startServiceACK.header.serviceType) {
             case SDLServiceTypeRPC: {
                 startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+                version = startServiceACKPayload.protocolVersion == nil ? nil : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
@@ -532,14 +533,16 @@ NS_ASSUME_NONNULL_BEGIN
             } break;
             case SDLServiceTypeAudio: {
                 startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-                
+                version = startServiceACKPayload.protocolVersion == nil ? nil : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
+
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeAudio];
                 }
             } break;
             case SDLServiceTypeVideo: {
                 startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-                
+                version = startServiceACKPayload.protocolVersion == nil ? nil : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
+
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeVideo];
                 }
