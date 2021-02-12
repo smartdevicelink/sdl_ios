@@ -877,7 +877,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (BOOL)sdl_shouldProceedWithSystemInfo:(SDLSystemInfo *)systemInfo {
-    return [self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)] ? [self.delegate didReceiveSystemInfo:systemInfo] : YES;
+    return [self.delegate respondsToSelector:@selector(onSystemInfoReceived:)] ? [self.delegate onSystemInfoReceived:systemInfo] : YES;
 }
 
 #pragma mark SDL notification observers
