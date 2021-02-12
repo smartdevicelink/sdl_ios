@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL inputStreamOpen;
 @property (nonatomic) BOOL outputStreamOpen;
 @property (nonatomic) BOOL runTheLoop;
+@property (nonatomic, weak) NSThread *sessionThread;
 
 @end
 
@@ -64,6 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) startSession {
     dispatch_async(self.iapSessionQueue, ^{
         self.eaSession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocolString];
+        self.sessionThread = NSThread.currentThread;
         SDLLogD(@"Created EASession with %@ Protocol and EASession is %@", self.protocolString, self.eaSession);
         if (self.eaSession != nil) {
             [self openStreams];
@@ -113,12 +115,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void) closeSession {
-    [self stopStreamRunLoop];
+    bool waitUntilDone = NO;
+    if (NSThread.currentThread == self.sessionThread) {
+        waitUntilDone = YES;
+    }
+    [self performSelector:@selector(peformCloseSession) onThread:self.sessionThread withObject:nil waitUntilDone:waitUntilDone];
+}
+
+- (void) peformCloseSession {
     SDLLogD(@"Closing EASession streams");
     if (self.eaSession != nil) {
         [self close: self.eaSession.inputStream];
         [self close: self.eaSession.outputStream];
         self.eaSession = nil;
+        [self stopStreamRunLoop];
     } else {
         SDLLogD(@"Failed to close streams because EASession is already nil");
     }
