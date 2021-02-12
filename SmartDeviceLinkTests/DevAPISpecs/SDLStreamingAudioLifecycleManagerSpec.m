@@ -27,7 +27,7 @@
 @interface SDLStreamingAudioLifecycleManager()
 
 @property (weak, nonatomic) SDLProtocol *protocol;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
+@property (readonly, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioTranscodingManager;
 
 @end
@@ -40,6 +40,7 @@ describe(@"the streaming audio manager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLAudioStreamManager *mockAudioStreamManager = nil;
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
+    __block SDLVehicleType *testVehicleType = nil;
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -50,7 +51,10 @@ describe(@"the streaming audio manager", ^{
 
     beforeEach(^{
         testConfig = OCMClassMock([SDLConfiguration class]);
-        testConnectionManager = [[TestConnectionManager alloc] init];
+        testVehicleType = [[SDLVehicleType alloc] init];
+        testVehicleType.make = @"TestVehicleType";
+        SDLSystemInfo *systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:testVehicleType systemSoftwareVersion:@"1.2.3" systemHardwareVersion:@"9.8.7"];
+        testConnectionManager = [[TestConnectionManager alloc] initWithSystemInfo:systemInfo];
 
         testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
@@ -100,13 +104,13 @@ describe(@"the streaming audio manager", ^{
 
         describe(@"after receiving a register app interface response", ^{
             __block SDLRegisterAppInterfaceResponse *someRegisterAppInterfaceResponse = nil;
-            __block SDLVehicleType *testVehicleType = nil;
 
             beforeEach(^{
                 someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-                testVehicleType = [[SDLVehicleType alloc] init];
-                testVehicleType.make = @"TestVehicleType";
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
+#pragma clang diagnostic pop
 
                 SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
@@ -395,7 +399,7 @@ describe(@"the streaming audio manager", ^{
             [streamingLifecycleManager endAudioServiceWithCompletionHandler:^ {
                 handlerCalled = YES;
             }];
-            streamingLifecycleManager.connectedVehicleMake = @"OEM_make_2";
+            testVehicleType.make = @"OEM_make_2";
         });
 
         context(@"when the manager is READY", ^{

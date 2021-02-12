@@ -25,6 +25,7 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLServiceEncryptionDelegate.h"
 #import "SDLStateMachine.h"
+#import "SDLSystemInfo.h"
 #import "SDLVehicleType.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -241,8 +242,8 @@ typedef NSString SDLVehicleMake;
 - (void)sdl_registerAppInterfaceResponseReceived:(SDLRPCResponseNotification *)notification {
     if (![notification isResponseMemberOfClass:[SDLRegisterAppInterfaceResponse class]]) { return; }
 
-    SDLRegisterAppInterfaceResponse *registerResponse = notification.response;
-    self.protocol.securityManager = [self sdl_securityManagerForMake:registerResponse.vehicleType.make];
+    NSString *make = self.connectionManager.systemInfo.vehicleType.make;
+    self.protocol.securityManager = [self sdl_securityManagerForMake:make];
     if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
     }

@@ -42,6 +42,7 @@
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLSystemInfo.h"
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
@@ -71,7 +72,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (strong, nonatomic) NSMutableDictionary *videoEncoderSettings;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *customEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
+@property (readonly, nonatomic, nullable) NSString *connectedVehicleMake;
 
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
@@ -80,6 +81,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic) BOOL useDisplayLink;
 
 @property (assign, nonatomic, readwrite, getter=isVideoEncrypted) BOOL videoEncrypted;
+@property (assign, nonatomic) BOOL raiAccepted;
 
 /**
  * SSRC of RTP header field.
@@ -190,6 +192,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)stop {
     SDLLogD(@"Stopping manager");
 
+    self.raiAccepted = NO;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
@@ -199,7 +202,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _protocol = nil;
     [self.videoScaleManager stop];
     [self.focusableItemManager stop];
-    _connectedVehicleMake = nil;
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
@@ -273,6 +275,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (SDLVideoStreamManagerState *)currentVideoStreamState {
     return self.videoStreamStateMachine.currentState;
+}
+
+- (NSString *__nullable)connectedVehicleMake {
+    return self.raiAccepted || ![SDLVideoStreamingStateNotStreamable isEqualToEnum:self.videoStreamingState] ? self.connectionManager.systemInfo.vehicleType.make : nil;
 }
 
 #pragma mark - State Machines
@@ -598,6 +604,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLLogD(@"Received Register App Interface");
+    self.raiAccepted = YES;
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)notification.response;
 
 #pragma clang diagnostic push
@@ -608,14 +615,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         self.videoScaleManager.displayViewportResolution = CGSizeMake(resolution.resolutionWidth.floatValue,
                                  resolution.resolutionHeight.floatValue);
         // HAX: Workaround for Legacy Ford and Lincoln displays with > 800 resolution width or height. They don't support scaling and if we don't do this workaround, they will not correctly scale the view.
-        NSString *make = registerResponse.vehicleType.make;
+        NSString *make = self.connectionManager.systemInfo.vehicleType.make;
         CGSize resolution = self.videoScaleManager.displayViewportResolution;
         if (([make containsString:@"Ford"] || [make containsString:@"Lincoln"]) && (resolution.width > 800 || resolution.height > 800)) {
             self.videoScaleManager.scale = 1.0f / 0.75f; // Scale by 1.333333
         }
     }
-
-    self.connectedVehicleMake = registerResponse.vehicleType.make;
 
     SDLLogD(@"Determined base screen size on display capabilities: %@", NSStringFromCGSize(self.videoScaleManager.displayViewportResolution));
 }

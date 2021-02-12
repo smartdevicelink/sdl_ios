@@ -15,8 +15,8 @@
 
 @implementation TestMultipleRequestsConnectionManager
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithSystemInfo:(SDLSystemInfo *)sysInfo {
+    self = [super initWithSystemInfo:sysInfo];
     if (!self) { return nil; }
 
     _responses = [[NSMutableDictionary alloc] init];

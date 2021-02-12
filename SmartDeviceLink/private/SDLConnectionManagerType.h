@@ -12,11 +12,14 @@
 @class SDLRPCRequest;
 @class SDLRPCMessage;
 @class SDLRegisterAppInterfaceResponse;
+@class SDLSystemInfo;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLConnectionManagerType <NSObject>
+
+@property (nonatomic, readonly, nullable) SDLSystemInfo *systemInfo;
 
 /**
  *  A special method on the connection manager which is used by managers that must bypass the default block on RPC sends before managers complete setup.

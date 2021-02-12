@@ -35,6 +35,7 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaManager;
 @class SDLSystemCapabilityManager;
+@class SDLSystemInfo;
 
 @protocol SDLManagerDelegate;
 
@@ -85,6 +86,8 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 @property (strong, nonatomic) NSOperationQueue *rpcOperationQueue;
+// system info accepted by the delegate
+@property (strong, nonatomic, nullable) SDLSystemInfo *systemInfo;
 
 
 #pragma mark Lifecycle

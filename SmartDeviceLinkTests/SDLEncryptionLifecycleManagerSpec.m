@@ -171,8 +171,11 @@ describe(@"the encryption lifecycle manager", ^{
                 OCMExpect([protocolMock setSecurityManager:[OCMArg any]]);
 
                 SDLRegisterAppInterfaceResponse *rair = [[SDLRegisterAppInterfaceResponse alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 rair.vehicleType = [[SDLVehicleType alloc] init];
                 rair.vehicleType.make = @"SDL";
+#pragma clang diagnostic pop
                 SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:nil rpcResponse:rair];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
             });

@@ -510,6 +510,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSLog(@"Received start service ACK: %@", startServiceACK);
 
     SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = nil;
+    SDLVersion *version = startServiceACKPayload.protocolVersion == nil ? nil : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
     // V5+ Packet
     if (startServiceACK.header.version >= 5) {
         switch (startServiceACK.header.serviceType) {
@@ -523,7 +524,7 @@ NS_ASSUME_NONNULL_BEGIN
                     self.hashId = startServiceACKPayload.hashId;
                 }
 
-                [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = (startServiceACKPayload.protocolVersion != nil) ? [SDLVersion versionWithString:startServiceACKPayload.protocolVersion] : [SDLVersion versionWithMajor:startServiceACK.header.version minor:0 patch:0];
+                [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = (version != nil) ? version : [SDLVersion versionWithMajor:startServiceACK.header.version minor:0 patch:0];
 
                 self.authToken = [SDLGlobals.sharedGlobals.maxHeadUnitProtocolVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:5 minor:2 patch:0]] ? startServiceACKPayload.authToken : nil;
 
@@ -562,12 +563,16 @@ NS_ASSUME_NONNULL_BEGIN
     // Pass along to all the listeners
     NSArray<id<SDLProtocolDelegate>> *listeners = [self sdl_getProtocolListeners];
     BOOL shouldProceed = YES;
+
     if (startServiceACKPayload.systemInfo) {
-        for (id<SDLProtocolDelegate> listener in listeners) {
-            if ([listener respondsToSelector:@selector(protocol:shouldProceedWithSystemInfo:)]) {
-                shouldProceed = [listener protocol:protocol shouldProceedWithSystemInfo:startServiceACKPayload.systemInfo];
-                if (!shouldProceed) {
-                    break;
+        const BOOL shouldCallListener = (version && [version isGreaterThanVersion:[[SDLVersion alloc] initWithMajor:5 minor:4 patch:0]]);
+        if (shouldCallListener) {
+            for (id<SDLProtocolDelegate> listener in listeners) {
+                if ([listener respondsToSelector:@selector(onSystemInfoReceived:)]) {
+                    shouldProceed = [listener onSystemInfoReceived:startServiceACKPayload.systemInfo];
+                    if (!shouldProceed) {
+                        break;
+                    }
                 }
             }
         }

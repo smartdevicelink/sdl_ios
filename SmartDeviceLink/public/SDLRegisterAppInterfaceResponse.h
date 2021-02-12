@@ -147,13 +147,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLAudioPassThruCapabilities *pcmStreamCapabilities;
 
 /**
- * Specifies the connected vehicle's type.
+ * Specifies the vehicle's type. See VehicleType.
  *
- * SDLVehicleType, Optional
- *
- * @since SDL 2.0
+ * @deprecated in SmartDeviceLink 7.1.0
+ * @added in SmartDeviceLink 2.0.0
  */
-@property (nullable, strong, nonatomic) SDLVehicleType *vehicleType;
+@property (nullable, strong, nonatomic) SDLVehicleType *vehicleType __deprecated;
 
 /**
  * Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected.
@@ -184,12 +183,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * The software version of the system that implements the SmartDeviceLink core.
+ * {"string_min_length": 1, "string_max_length": 100}
  *
- * String, Optional, Max length: 100
- *
- * @since SDL 3.0
+ * @deprecated in SmartDeviceLink 7.1.0
+ * @added in SmartDeviceLink 3.0.0
  */
-@property (nullable, strong, nonatomic) NSString *systemSoftwareVersion;
+@property (nullable, strong, nonatomic) NSString *systemSoftwareVersion __deprecated;
 
 /**
  * Existence of apps icon at system. If true, apps icon was resumed at system. If false, apps icon is not resumed at system.

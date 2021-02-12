@@ -15,7 +15,7 @@
 @property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
 
 - (void)sdl_parse:(NSData *)data;
-SDLSystemInfo *__nullable sdl_parseSystemInfo(BsonObject *const payloadObject);
+SDLSystemInfo *__nullable sdl_extractSystemInfo(BsonObject *const payloadObject);
 
 @end
 
@@ -221,7 +221,7 @@ describe(@"sdl_parseVehicleType()", ^{
     });
 
     it(@"expect systemInfo to be decoded from bson properly", ^{
-        SDLSystemInfo *systemInfo = sdl_parseSystemInfo(bsonObject);
+        SDLSystemInfo *systemInfo = sdl_extractSystemInfo(bsonObject);
         expect(systemInfo).notTo(beNil());
         expect(systemInfo.vehicleType.make).to(equal([NSString stringWithUTF8String:vhMake]));
         expect(systemInfo.vehicleType.model).to(equal([NSString stringWithUTF8String:vhModel]));

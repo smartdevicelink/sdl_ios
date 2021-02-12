@@ -22,7 +22,7 @@ __block SDLDisplayCapabilities* info = [[SDLDisplayCapabilities alloc] init];
 #pragma clang diagnostic pop
 __block SDLButtonCapabilities* button = [[SDLButtonCapabilities alloc] init];
 __block SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init];
-__block SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];__block
+__block SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];
 __block SDLAudioPassThruCapabilities* audioPassThru = [[SDLAudioPassThruCapabilities alloc] init];
 __block SDLVehicleType* vehicle = [[SDLVehicleType alloc] init];
 __block SDLHMICapabilities *hmiCapabilities = [[SDLHMICapabilities alloc] init];
@@ -45,12 +45,18 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.vrCapabilities = @[SDLVRCapabilitiesText];
         testResponse.audioPassThruCapabilities = @[audioPassThru];
         testResponse.pcmStreamCapabilities = audioPassThru;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         testResponse.vehicleType = vehicle;
+#pragma clang diagnostic pop
         testResponse.prerecordedSpeech = @[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp];
         testResponse.supportedDiagModes = @[@67, @99, @111];
         testResponse.hmiCapabilities = hmiCapabilities;
         testResponse.sdlVersion = @"sdlVersion";
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
+#pragma clang diagnostic pop
         testResponse.iconResumed = @YES;
         testResponse.sdlMsgVersion = sdlVersion;
 
@@ -69,12 +75,18 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
         expect(testResponse.audioPassThruCapabilities).to(equal(@[audioPassThru]));
         expect(testResponse.pcmStreamCapabilities).to(equal(audioPassThru));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expect(testResponse.vehicleType).to(equal(vehicle));
+#pragma clang diagnostic pop
         expect(testResponse.prerecordedSpeech).to(equal(@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp]));
         expect(testResponse.supportedDiagModes).to(equal(@[@67, @99, @111]));
         expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
         expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
+#pragma clang diagnostic pop
         expect(testResponse.iconResumed).to(beTrue());
     });
 
@@ -98,12 +110,18 @@ describe(@"Getter/Setter Tests", ^ {
                                  SDLRPCParameterNameVRCapabilities:@[SDLVRCapabilitiesText],
                                  SDLRPCParameterNameAudioPassThruCapabilities:@[audioPassThru],
                                  SDLRPCParameterNamePCMStreamCapabilities: audioPassThru,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                                  SDLRPCParameterNameVehicleType:vehicle,
+#pragma clang diagnostic pop
                                  SDLRPCParameterNamePrerecordedSpeech:@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp],
                                  SDLRPCParameterNameSupportedDiagnosticModes:@[@67, @99, @111],
                                  SDLRPCParameterNameHMICapabilities: hmiCapabilities,
                                  SDLRPCParameterNameSDLVersion: @"sdlVersion",
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                                  SDLRPCParameterNameSystemSoftwareVersion: @"systemSoftwareVersion",
+#pragma clang diagnostic pop
                                  SDLRPCParameterNameIconResumed: @YES,
                                  },
                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
@@ -124,12 +142,18 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testResponse.vrCapabilities).to(equal(@[SDLVRCapabilitiesText]));
             expect(testResponse.audioPassThruCapabilities).to(equal(@[audioPassThru]));
             expect(testResponse.pcmStreamCapabilities).to(equal(audioPassThru));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
             expect(testResponse.vehicleType).to(equal(vehicle));
+#pragma clang diagnostic pop
             expect(testResponse.prerecordedSpeech).to(equal(@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp]));
             expect(testResponse.supportedDiagModes).to(equal(@[@67, @99, @111]));
             expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
             expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
             expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
+#pragma clang diagnostic pop
             expect(testResponse.iconResumed).to(beTrue());
 
         });
@@ -153,12 +177,18 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.vrCapabilities).to(beNil());
         expect(testResponse.audioPassThruCapabilities).to(beNil());
         expect(testResponse.pcmStreamCapabilities).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expect(testResponse.vehicleType).to(beNil());
+#pragma clang diagnostic pop
         expect(testResponse.prerecordedSpeech).to(beNil());
         expect(testResponse.supportedDiagModes).to(beNil());
         expect(testResponse.hmiCapabilities).to(beNil());
         expect(testResponse.sdlVersion).to(beNil());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expect(testResponse.systemSoftwareVersion).to(beNil());
+#pragma clang diagnostic pop
         expect(testResponse.iconResumed).to(beNil());
     });
 
@@ -177,12 +207,18 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLRPCParameterNameVRCapabilities:NSNull.null,
                                            SDLRPCParameterNameAudioPassThruCapabilities:NSNull.null,
                                            SDLRPCParameterNamePCMStreamCapabilities:NSNull.null,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                                            SDLRPCParameterNameVehicleType:NSNull.null,
+#pragma clang diagnostic pop
                                            SDLRPCParameterNamePrerecordedSpeech:NSNull.null,
                                            SDLRPCParameterNameSupportedDiagnosticModes:NSNull.null,
                                            SDLRPCParameterNameHMICapabilities: NSNull.null,
                                            SDLRPCParameterNameSDLVersion: NSNull.null,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                                            SDLRPCParameterNameSystemSoftwareVersion: NSNull.null,
+#pragma clang diagnostic pop
                                            SDLRPCParameterNameIconResumed: NSNull.null,
                                            },
                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
@@ -203,12 +239,18 @@ describe(@"Getter/Setter Tests", ^ {
         expectAction(^{ [testResponse vrCapabilities]; }).to(raiseException());
         expectAction(^{ [testResponse audioPassThruCapabilities]; }).to(raiseException());
         expectAction(^{ [testResponse pcmStreamCapabilities]; }).to(raiseException());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expectAction(^{ [testResponse vehicleType]; }).to(raiseException());
+#pragma clang diagnostic pop
         expectAction(^{ [testResponse prerecordedSpeech]; }).to(raiseException());
         expectAction(^{ [testResponse supportedDiagModes]; }).to(raiseException());
         expectAction(^{ [testResponse hmiCapabilities]; }).to(raiseException());
         expectAction(^{ [testResponse sdlVersion]; }).to(raiseException());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         expectAction(^{ [testResponse systemSoftwareVersion]; }).to(raiseException());
+#pragma clang diagnostic pop
         expectAction(^{ [testResponse iconResumed]; }).to(raiseException());
     });
 });

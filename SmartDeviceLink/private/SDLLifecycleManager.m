@@ -114,7 +114,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (assign, nonatomic) int32_t lastCorrelationId;
 @property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
-@property (strong, nonatomic, nullable) SDLVehicleType *enabledVehicleType;
 
 // RPC Handlers
 @property (strong, nonatomic) SDLLifecycleSyncPDataHandler *syncPDataHandler;
@@ -321,6 +320,10 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     dispatch_group_leave(stopManagersTask);
 
+    if (!shouldRestart) {
+        self.systemInfo = nil;
+    }
+
     // This will always run after all `leave`s
     __weak typeof(self) weakSelf = self;
     dispatch_group_notify(stopManagersTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
@@ -353,7 +356,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     self.audioStreamingState = nil;
     self.videoStreamingState = nil;
     self.systemContext = nil;
-    self.enabledVehicleType = nil;
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
     // Apple Bug ID #30059457
@@ -403,19 +405,26 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         }
 
         SDLRegisterAppInterfaceResponse *raiResponse = (SDLRegisterAppInterfaceResponse *)response;
-        SDLSystemInfo *systemInfo = nil;
-        if (raiResponse.vehicleType) {
-            systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:raiResponse.vehicleType systemSoftwareVersion:raiResponse.systemSoftwareVersion systemHardwareVersion:nil];
-        }
-        const BOOL shouldProceed = (systemInfo == nil) || [weakSelf shouldProceedWithSystemInfo:systemInfo];
-        if (!shouldProceed) {
-            [weakSelf doDisconnectWithSystemInfo:systemInfo];
-            return;
+
+        if (!self.systemInfo) {
+            // system info does not come from a RAI protocol message on old HU, collect systemInfo from RAIR
+            SDLSystemInfo *raiSystemInfo = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            if (raiResponse.vehicleType) {
+                raiSystemInfo = [[SDLSystemInfo alloc] initWithVehicleType:raiResponse.vehicleType systemSoftwareVersion:raiResponse.systemSoftwareVersion systemHardwareVersion:nil];
+            }
+#pragma clang diagnostic pop
+            const BOOL shouldProceed = (raiSystemInfo == nil) || [weakSelf sdl_onRAISystemInfoReceived:raiSystemInfo];
+            if (!shouldProceed) {
+                [weakSelf doDisconnectWithSystemInfo:raiSystemInfo];
+                return;
+            }
         }
 
         weakSelf.registerResponse = raiResponse;
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSDLMsgVersion:weakSelf.registerResponse.sdlMsgVersion];
-        SDLLogD(@"Did register app; RPC version: %@, SDL version: %@, starting languages: (VR) %@, (HMI) %@, vehicle type: %@", weakSelf.registerResponse.sdlMsgVersion, (weakSelf.registerResponse.sdlVersion ?: @"unavailable"), weakSelf.registerResponse.language, weakSelf.registerResponse.hmiDisplayLanguage, weakSelf.registerResponse.vehicleType);
+        SDLLogD(@"Did register app; RPC version: %@, SDL version: %@, starting languages: (VR) %@, (HMI) %@, system info: %@", weakSelf.registerResponse.sdlMsgVersion, (weakSelf.registerResponse.sdlVersion ?: @"unavailable"), weakSelf.registerResponse.language, weakSelf.registerResponse.hmiDisplayLanguage, weakSelf.systemInfo);
 
         [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
     }];
@@ -856,6 +865,21 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     return self.protocolHandler.protocol.authToken;
 }
 
+- (BOOL)sdl_onRAISystemInfoReceived:(SDLSystemInfo *)systemInfo {
+    const BOOL shouldProceed = [self sdl_shouldProceedWithSystemInfo:systemInfo];
+    if (shouldProceed) {
+        self.systemInfo = systemInfo;
+    }
+
+    SDLLogD(@"Should proceed with the system '%@' ? %@", systemInfo, shouldProceed ? @"YES" : @"NO");
+
+    return shouldProceed;
+}
+
+- (BOOL)sdl_shouldProceedWithSystemInfo:(SDLSystemInfo *)systemInfo {
+    return [self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)] ? [self.delegate didReceiveSystemInfo:systemInfo] : YES;
+}
+
 #pragma mark SDL notification observers
 
 - (void)sdl_rpcServiceDidConnect {
@@ -992,13 +1016,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 @implementation SDLLifecycleManager (SystemInfoHandler)
 
-- (BOOL)shouldProceedWithSystemInfo:(SDLSystemInfo *)systemInfo {
-    if ([self.enabledVehicleType isEqual:systemInfo.vehicleType]) {
-        return YES;
-    }
-    const BOOL shouldProceed = [self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)] ? [self.delegate didReceiveSystemInfo:systemInfo] : YES;
+// systemInfo comes from protocol message SDLControlFramePayloadRPCStartServiceAck
+- (BOOL)onSystemInfoReceived:(SDLSystemInfo *)systemInfo {
+    const BOOL shouldProceed = [self sdl_shouldProceedWithSystemInfo:systemInfo];
     if (shouldProceed) {
-        self.enabledVehicleType = systemInfo.vehicleType;
+        self.systemInfo = systemInfo;
     }
 
     SDLLogD(@"Should proceed with the system '%@' ? %@", systemInfo, shouldProceed ? @"YES" : @"NO");

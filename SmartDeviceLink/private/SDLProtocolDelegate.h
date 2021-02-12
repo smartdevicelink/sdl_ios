@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param protocol The transport's protocol
 - (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error;
 
-- (BOOL)protocol:(SDLProtocol *)protocol shouldProceedWithSystemInfo:(SDLSystemInfo *)systemInfo;
+- (BOOL)onSystemInfoReceived:(SDLSystemInfo *)systemInfo;
 
 - (void)protocol:(SDLProtocol *)protocol doDisconnectWithSystemInfo:(SDLSystemInfo *)systemInfo;
 

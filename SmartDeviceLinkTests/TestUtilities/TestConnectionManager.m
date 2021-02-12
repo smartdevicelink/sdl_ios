@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation TestConnectionManager
 
+@synthesize systemInfo;
+
 - (instancetype)init {
     self = [super init];
     if (!self) {
@@ -23,6 +25,19 @@ NS_ASSUME_NONNULL_BEGIN
 
     _receivedRequestObjects = [NSMutableArray<TestConnectionRequestObject *> array];
     _multipleCompletionBlocks = [NSMutableArray array];
+
+    return self;
+}
+
+- (instancetype)initWithSystemInfo:(SDLSystemInfo *)sysInfo {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _receivedRequestObjects = [NSMutableArray<TestConnectionRequestObject *> array];
+    _multipleCompletionBlocks = [NSMutableArray array];
+    systemInfo = sysInfo;
 
     return self;
 }

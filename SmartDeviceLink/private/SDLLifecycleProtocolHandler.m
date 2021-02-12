@@ -171,8 +171,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (BOOL)protocol:(SDLProtocol *)protocol shouldProceedWithSystemInfo:(SDLSystemInfo *)systemInfo {
-    return [self.systemInfoHandler shouldProceedWithSystemInfo:systemInfo];
+- (BOOL)onSystemInfoReceived:(SDLSystemInfo *)systemInfo {
+    return [self.systemInfoHandler onSystemInfoReceived:systemInfo];
 }
 
 - (void)protocol:(SDLProtocol *)protocol doDisconnectWithSystemInfo:(SDLSystemInfo *)systemInfo {

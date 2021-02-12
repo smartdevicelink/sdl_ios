@@ -29,10 +29,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameMake:@"Make",
-                                                       SDLRPCParameterNameModel:@"Model",
-                                                       SDLRPCParameterNameModelYear:@"3.141*10^36",
-                                                       SDLRPCParameterNameTrim:@"AE"} mutableCopy];
+        NSDictionary<NSString *, id> *dict = @{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            SDLRPCParameterNameMake:@"Make",
+            SDLRPCParameterNameModel:@"Model",
+            SDLRPCParameterNameModelYear:@"3.141*10^36",
+            SDLRPCParameterNameTrim:@"AE"
+#pragma clang diagnostic pop
+        };
         SDLVehicleType* testStruct = [[SDLVehicleType alloc] initWithDictionary:dict];
         
         expect(testStruct.make).to(equal(@"Make"));

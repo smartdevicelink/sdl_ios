@@ -11,10 +11,14 @@
 #import "SDLNotificationConstants.h"
 #import "TestConnectionRequestObject.h"
 
+@class SDLSystemInfo;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TestConnectionManager : NSObject <SDLConnectionManagerType>
+
+- (instancetype)initWithSystemInfo:(SDLSystemInfo *)sysInfo;
 
 @property (copy, nonatomic, readonly) NSError *defaultError;
 

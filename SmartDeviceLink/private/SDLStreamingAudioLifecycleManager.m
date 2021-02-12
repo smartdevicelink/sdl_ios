@@ -28,6 +28,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLSystemInfo.h"
 #import "SDLEncryptionConfiguration.h"
 #import "SDLVehicleType.h"
 
@@ -44,8 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
+@property (readonly, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (assign, nonatomic, readwrite, getter=isAudioEncrypted) BOOL audioEncrypted;
+@property (assign, nonatomic) BOOL raiAccepted;
 
 @property (nonatomic, copy, nullable) void (^audioServiceEndedCompletionHandler)(void);
 @end
@@ -94,9 +96,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"Stopping manager");
+    self.raiAccepted = NO;
     _protocol = nil;
     _hmiLevel = SDLHMILevelNone;
-    _connectedVehicleMake = nil;
     [self.audioTranscodingManager stop];
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
@@ -136,6 +138,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLAudioStreamManagerState *)currentAudioStreamState {
     return self.audioStreamStateMachine.currentState;
+}
+
+- (NSString *__nullable)connectedVehicleMake {
+    return self.raiAccepted || ![SDLAudioStreamManagerStateStopped isEqualToEnum:self.currentAudioStreamState] ? self.connectionManager.systemInfo.vehicleType.make : nil;
 }
 
 #pragma mark - State Machine
@@ -233,10 +239,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    self.raiAccepted = YES;
     SDLLogV(@"Received Register App Interface response");
-    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
-
-    self.connectedVehicleMake = registerResponse.vehicleType.make;
 }
 
 - (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
