@@ -65,6 +65,7 @@ describe(@"getter/setter tests", ^{
         });
 
         it(@"expect all properties to be set properly", ^{
+            expect(testStruct).notTo(beNil());
             expect(testStruct.numConfigurableKeys).to(equal(@(numConfigurableKeys)));
             expect(testStruct.keyboardLayout).to(equal(keyboardLayout));
         });

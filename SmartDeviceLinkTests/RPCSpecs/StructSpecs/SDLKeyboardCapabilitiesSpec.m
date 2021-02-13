@@ -65,6 +65,7 @@ describe(@"getter/setter tests", ^{
         });
 
         it(@"expect all properties to be set properly", ^{
+            expect(testStruct).notTo(beNil());
             expect(testStruct.maskInputCharactersSupported).to(equal(maskInputCharactersSupported));
             expect(testStruct.supportedKeyboards).to(equal(supportedKeyboards));
         });
