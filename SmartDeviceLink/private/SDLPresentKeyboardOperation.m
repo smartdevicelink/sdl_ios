@@ -211,9 +211,9 @@ NS_ASSUME_NONNULL_BEGIN
         [self.keyboardDelegate keyboardDidAbortWithReason:onKeyboard.event];
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskDisabled]) {
         // Notify of key mask change
-        if ([self.keyboardDelegate respondsToSelector:@selector(keyboardDidEnableInputKeyMask:)]) {
+        if ([self.keyboardDelegate respondsToSelector:@selector(keyboardDidUpdateInputMask:)]) {
             BOOL isEnabled = [onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
-            [self.keyboardDelegate keyboardDidEnableInputKeyMask:isEnabled];
+            [self.keyboardDelegate keyboardDidUpdateInputMask:isEnabled];
         }
     }
 }

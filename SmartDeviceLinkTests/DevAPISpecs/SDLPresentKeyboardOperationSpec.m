@@ -48,6 +48,8 @@ describe(@"present keyboard operation", ^{
 
     afterEach(^{
         if (testOp) {
+            // rationale: every test run creates a new operation to test, the old operation from a previous test
+            // stays 'undead' undefined time and can receive notifications causing a test fail at random
             [[NSNotificationCenter defaultCenter] removeObserver:testOp];
             testOp = nil;
         }
@@ -152,6 +154,25 @@ describe(@"present keyboard operation", ^{
 
                 OCMVerify([testDelegate keyboardDidAbortWithReason:[OCMArg checkWithBlock:^BOOL(id obj) {
                     return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventAborted];
+                }]]);
+            });
+
+            it(@"should respond to enabled keyboard event", ^{
+                SDLRPCNotificationNotification *notification = nil;
+
+                // Submit notification
+                SDLOnKeyboardInput *input = [[SDLOnKeyboardInput alloc] init];
+                input.event = SDLKeyboardEventInputKeyMaskEnabled;
+                notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveKeyboardInputNotification object:nil rpcNotification:input];
+
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+                OCMVerify([testDelegate keyboardDidSendEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+                }] text:[OCMArg isNil]]);
+
+                OCMVerify([testDelegate keyboardDidUpdateInputMask:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
                 }]]);
             });
 

@@ -94,12 +94,12 @@ typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *_Nu
 - (void)keyboardDidSendEvent:(SDLKeyboardEvent)event text:(NSString *)currentInputText;
 
 /**
- Implement this to be notified of input key mask update
-
- @param isEnabled - mask is enabled or disabled flag
+ Implement this to be notified of input key mask update (whether or not the user has changed the input to be hidden, like passwords)
+ 
+ @param isEnabled - YES if the mask is enabled, NO if the mask is disabled
  @added in SmartDeviceLink 7.1.0
  */
-- (void)keyboardDidEnableInputKeyMask:(BOOL)isEnabled;
+- (void)keyboardDidUpdateInputMask:(BOOL)isEnabled;
 
 @end
 
