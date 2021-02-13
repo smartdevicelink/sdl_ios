@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void) dealloc {
-    if (self.eaSession != nil) {
+    if (self.eaSession != nil && self.sessionThread != nil) {
         [self performSelector:@selector(peformCloseSession) onThread:self.sessionThread withObject:nil waitUntilDone:YES];
     }
 }
@@ -126,10 +126,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) peformCloseSession {
     SDLLogD(@"Closing EASession streams");
     if (self.eaSession != nil) {
+        [self stopStreamRunLoop];
         [self close: self.eaSession.inputStream];
         [self close: self.eaSession.outputStream];
         self.eaSession = nil;
-        [self stopStreamRunLoop];
     } else {
         SDLLogD(@"Failed to close streams because EASession is already nil");
     }
