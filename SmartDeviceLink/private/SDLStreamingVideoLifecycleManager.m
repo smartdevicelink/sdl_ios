@@ -174,7 +174,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _appStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:initialState states:[self.class sdl_appStateTransitionDictionary]];
     _videoStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLVideoStreamManagerStateStopped states:[self.class sdl_videoStreamStateTransitionDictionary]];
 
-    //NOTE: the notification center should not be default & dont forget to unsubscribe
     [self sdl_subscribeToNotifications];
 
     _ssrc = arc4random_uniform(UINT32_MAX);

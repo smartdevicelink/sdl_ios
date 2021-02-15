@@ -46,14 +46,6 @@ describe(@"the streaming video scale manager", ^{
              expect(@(CGRectEqualToRect(expectedRect, testRect))).to(beTrue());
          });
 
-        it(@"should scale the frame correctly with the scale 0.3", ^{
-            const float scale = 0.3f;
-            videoScaleManager.scale = scale;
-            const CGRect expectedRect = CGRectMake(0, 0, roundf(testScreenSize.width/scale), roundf(testScreenSize.height/scale));
-            const CGRect testRect = videoScaleManager.appViewportFrame;
-            expect(@(CGRectEqualToRect(expectedRect, testRect))).to(beTrue());
-        });
-
         it(@"should scale the frame correctly with the scale 1.0", ^{
             const float scale = 1.0f;
             videoScaleManager.scale = scale;
@@ -135,7 +127,9 @@ describe(@"the streaming video scale manager", ^{
     });
 
     context(@"makeScaledResolution", ^{
-        videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testScale displayViewportResolution:testScreenSize];
+        beforeEach(^{
+            videoScaleManager = [[SDLStreamingVideoScaleManager alloc] initWithScale:testScale displayViewportResolution:testScreenSize];
+        });
 
         it(@"expect scaled resolution to be of proper size", ^{
             videoScaleManager.scale = 2.0;

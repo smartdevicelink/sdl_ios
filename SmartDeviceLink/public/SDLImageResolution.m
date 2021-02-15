@@ -46,17 +46,21 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameResolutionHeight ofClass:NSNumber.class error:&error];
 }
 
-#define EQUAL_NUM(property) ((self.property == nil && res2.property == nil) ? YES : [self.property isEqualToNumber:res2.property])
+extern BOOL sdl_isNumberEqual(NSNumber *numberL, NSNumber *numberR);
 
 - (BOOL)isEqual:(id)object {
+    if (!object) {
+        return NO;
+    }
+    if (self == object) {
+        return YES;
+    }
     if (![object isKindOfClass:self.class]) {
         return NO;
     }
-    typeof(self) res2 = object;
-    return EQUAL_NUM(resolutionWidth) && EQUAL_NUM(resolutionHeight);
+    typeof(self) other = object;
+    return sdl_isNumberEqual(self.resolutionWidth, other.resolutionWidth) && sdl_isNumberEqual(self.resolutionHeight, other.resolutionHeight);
 }
-
-#undef EQUAL_NUM
 
 @end
 

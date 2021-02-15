@@ -2,8 +2,8 @@
 //  SDLVideoStreamingCapability + StreamingVideoExtensions.h
 //  SmartDeviceLink-iOS
 //
-//  Created by Brett McIsaac on 7/31/17.
-//  Copyright © 2017 smartdevicelink. All rights reserved.
+//  Created by yoooriii on 2/13/21.
+//  Copyright © 2021 smartdevicelink. All rights reserved.
 //
 
 #import "SDLVideoStreamingCapability.h"

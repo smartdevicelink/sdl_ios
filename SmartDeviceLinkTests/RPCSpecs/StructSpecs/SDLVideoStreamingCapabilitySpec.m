@@ -18,6 +18,8 @@
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingProtocol.h"
 
+extern BOOL sdl_isNumberEqual(NSNumber *numberL, NSNumber *numberR);
+
 QuickSpecBegin(SDLVideoStreamingCapabilitySpec)
 // setup main & additional capabilities
 const int testMaxBitrate = 100;
@@ -263,6 +265,39 @@ describe(@"additional tests", ^{
         expect(testStruct.pixelPerInch).to(equal(testPixelPerInch));
         expect(testStruct.scale).to(equal(testScale));
         expect(testStruct.preferredFPS).to(equal(testPreferredFPS));
+    });
+});
+
+describe(@"sdl_isNumberEqual", ^{
+    it(@"expect to be equal", ^{
+        NSNumber *numberL = @(1.5);
+        NSNumber *numberR = @(1.5);
+        const BOOL equal = sdl_isNumberEqual(numberL, numberR);
+        expect(equal).to(beTrue());
+    });
+    it(@"expect to be not equal", ^{
+        NSNumber *numberL = @(1.5);
+        NSNumber *numberR = @(2.5);
+        const BOOL equal = sdl_isNumberEqual(numberL, numberR);
+        expect(equal).to(beFalse());
+    });
+    it(@"expect to be equal", ^{
+        NSNumber *numberL = nil;
+        NSNumber *numberR = nil;
+        const BOOL equal = sdl_isNumberEqual(numberL, numberR);
+        expect(equal).to(beTrue());
+    });
+    it(@"expect to be not equal", ^{
+        NSNumber *numberL = nil;
+        NSNumber *numberR = @(1.5);
+        const BOOL equal = sdl_isNumberEqual(numberL, numberR);
+        expect(equal).to(beFalse());
+    });
+    it(@"expect to be not equal", ^{
+        NSNumber *numberL = @(1.5);
+        NSNumber *numberR = nil;
+        const BOOL equal = sdl_isNumberEqual(numberL, numberR);
+        expect(equal).to(beFalse());
     });
 });
 

@@ -112,10 +112,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_applyDisplayDimensionsToRootViewController:self.rootViewController];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark - SDLNavigationLockScreenManager Notifications
 - (void)sdl_willPresentLockScreenViewController:(NSNotification *)notification {
     self.lockScreenPresenting = YES;
@@ -175,7 +171,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Private Helpers
-// memory management 'create': release the result object when done (create* - follow the naming convention)
+
 + (nullable CVPixelBufferRef)sdl_createPixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
     size_t imageWidth = CGImageGetWidth(imageRef);
     size_t imageHeight = CGImageGetHeight(imageRef);
@@ -205,8 +201,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param rootViewController The view controller to resize
  */
 - (void)sdl_applyDisplayDimensionsToRootViewController:(UIViewController *)rootViewController {
-    const CGSize displSize = self.streamManager.videoScaleManager.displayViewportResolution;
-    if (displSize.width < 1) {
+    const CGSize displaySize = self.streamManager.videoScaleManager.displayViewportResolution;
+    if (displaySize.width < 1) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
         SDLLogW(@"The display screen dimensions are unknown. The CarWindow will not resize.");
         return;
@@ -216,7 +212,7 @@ NS_ASSUME_NONNULL_BEGIN
     rootViewController.view.frame = appFrame;
     rootViewController.view.bounds = appFrame;
 
-    SDLLogD(@"Setting CarWindow frame to: %@ (display size: %@)", NSStringFromCGSize(appFrame.size), NSStringFromCGSize(displSize));
+    SDLLogD(@"Setting CarWindow frame to: %@ (display size: %@)", NSStringFromCGSize(appFrame.size), NSStringFromCGSize(displaySize));
 }
 
 @end

@@ -2,8 +2,8 @@
 //  SDLVideoStreamingCapability + StreamingVideoExtensions.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Brett McIsaac on 7/31/17.
-//  Copyright © 2017 smartdevicelink. All rights reserved.
+//  Created by yoooriii on 2/13/21.
+//  Copyright © 2021 smartdevicelink. All rights reserved.
 //
 
 #import "SDLImageResolution + StreamingVideoExtensions.h"
@@ -82,7 +82,7 @@ BOOL sdl_isResolutionEqual(SDLImageResolution *imageResolutionL, SDLImageResolut
 }
 
 BOOL sdl_isNumberEqual(NSNumber *numberL, NSNumber *numberR) {
-    return ((numberL == nil && numberR == nil) ? YES : [numberL isEqualToNumber:numberR]);
+    return (numberL == nil && numberR == nil) ? YES : (numberL && numberR ? [numberL isEqualToNumber:numberR] : NO);
 }
 
 - (BOOL)isEqual:(id)object {

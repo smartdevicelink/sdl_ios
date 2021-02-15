@@ -39,7 +39,6 @@
 #import "SDLLogFileModuleMap.h"
 #import "SDLLogManager.h"
 #import "SDLManagerDelegate.h"
-#import "SDLMsgVersion.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnAppInterfaceUnregistered.h"
 #import "SDLOnHMIStatus.h"
