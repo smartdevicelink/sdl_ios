@@ -149,7 +149,7 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Setters
 
 - (void)setMenuConfiguration:(SDLMenuConfiguration *)menuConfiguration {
-    if (menuConfiguration == self.menuConfiguration) {
+    if ([menuConfiguration isEqual:self.menuConfiguration]) {
         SDLLogD(@"New menu configuration is equal to existing one, will not set new configuration");
         return;
     } else if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
@@ -178,6 +178,11 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
+    if ([self.menuCells isEqualToArray:menuCells]) {
+        SDLLogD(@"The set menu cells are identical to previously set menu cells. Skipping...");
+        return;
+    }
+
     NSMutableSet *titleCheckSet = [NSMutableSet set];
     NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
     NSUInteger voiceCommandCount = 0;
