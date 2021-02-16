@@ -20,6 +20,8 @@
 #import "SDLDisplayCapabilities.h"
 #import "SDLFocusableItemLocator.h"
 #import "SDLGenericResponse.h"
+#import "SDLGetSystemCapability.h"
+#import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
 #import "SDLH264VideoEncoder.h"
 #import "SDLHMILevel.h"
@@ -423,14 +425,16 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamStarting {
     SDLLogD(@"Video stream starting");
 
-    if (self.shouldAutoResume && (self.videoStreamingCapabilityUpdated != nil)) {
+    const BOOL applyCapabilities = self.shouldAutoResume && (self.videoStreamingCapabilityUpdated != nil);
+    if (applyCapabilities) {
         //apply previously received video capabilities
         [self sdl_applyVideoCapabilityWhileStarting:self.videoStreamingCapabilityUpdated];
-    } else {
-        [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self selector:@selector(sdl_videoStreamingCapabilityDidUpdate:)];
     }
     self.shouldAutoResume = NO;
     self.videoStreamingCapabilityUpdated = nil;
+    if (!applyCapabilities) {
+        [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self selector:@selector(sdl_videoStreamingCapabilityDidUpdate:)];
+    }
 }
 
 - (void)didEnterStateVideoStreamReady {
@@ -713,15 +717,29 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLLogD(@"Video capabilities notification received (%@): %@", self.videoStreamStateMachine.currentState, videoCapability);
     }
 
-    if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
-        [self sdl_applyVideoCapabilityWhileStarting:videoCapability];
-    }
-    else if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateReady]) {
-        [self sdl_applyVideoCapabilityWhenStreaming:videoCapability];
+    if (videoCapability) {
+        [self sdl_useVideoCapability:videoCapability];
+    } else {
+        typeof(self) weakSelf = self;
+        [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
+            SDLLogD(@"Received video capability response");
+            SDLLogV(@"Capability: %@", capability);
+            [weakSelf sdl_useVideoCapability:capability];
+        }];
     }
 }
 
 #pragma mark - Video capability logic
+
+- (void)sdl_useVideoCapability:(SDLVideoStreamingCapability *)videoCapability {
+    if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
+        [self sdl_applyVideoCapabilityWhileStarting:videoCapability];
+    } else if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateReady]) {
+        [self sdl_applyVideoCapabilityWhenStreaming:videoCapability];
+    } else {
+        SDLLogD(@"Received video capabilities in wrong state: %@; ignore it", self.videoStreamStateMachine.currentState);
+    }
+}
 
 - (void)sdl_applyVideoCapabilityWhileStarting:(nullable SDLVideoStreamingCapability *)videoCapabilityUpdated {
     SDLVideoStreamingCapability *videoCapability = (nil == videoCapabilityUpdated) ? [self sdl_defaultVideoCapability] : videoCapabilityUpdated;
@@ -985,6 +1003,27 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer];
         }
     }
+}
+
+- (void)sdl_requestVideoCapabilities:(SDLVideoCapabilityResponseHandler)responseHandler {
+    SDLLogD(@"Requesting video capabilities");
+    SDLGetSystemCapability *getVideoCapabilityRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
+
+    typeof(self) weakSelf = self;
+    [self.connectionManager sendConnectionManagerRequest:getVideoCapabilityRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (!response.success || [response isMemberOfClass:SDLGenericResponse.class]) {
+            SDLLogW(@"Video capabilities response failed: %@", error);
+            responseHandler(nil);
+            BLOCK_RETURN;
+        }
+
+        SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
+        SDLLogD(@"Video capabilities response received: %@", videoCapability);
+
+        weakSelf.videoScaleManager.scale = (videoCapability != nil && videoCapability.scale != nil) ? videoCapability.scale.floatValue : (float)0.0;
+
+        responseHandler(videoCapability);
+    }];
 }
 
 /**
