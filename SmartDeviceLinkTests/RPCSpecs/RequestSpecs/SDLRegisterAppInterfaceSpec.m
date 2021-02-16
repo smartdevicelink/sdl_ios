@@ -12,6 +12,7 @@
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
+#import "SDLGlobals.h"
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLRPCParameterNames.h"
@@ -42,7 +43,7 @@ describe(@"RegisterAppInterface Tests", ^{
     __block SDLDeviceInfo *info = nil;
     __block SDLAppInfo *appInfo = nil;
     __block SDLTemplateColorScheme *colorScheme = nil;
-    __block SDLMsgVersion * currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:7 minorVersion:1 patchVersion:0];
+    __block SDLMsgVersion * currentSDLMsgVersion = nil;
 
     beforeEach(^{
         testRegisterAppInterface = nil;
@@ -51,6 +52,10 @@ describe(@"RegisterAppInterface Tests", ^{
         info = [[SDLDeviceInfo alloc] init];
         appInfo = [[SDLAppInfo alloc] init];
         colorScheme = [[SDLTemplateColorScheme alloc] init];
+        UInt8 majorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(0, 1)].intValue;
+        UInt8 minorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(2, 1)].intValue;
+        UInt8 patchVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(4, 1)].intValue;
+        currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:majorVersion minorVersion:minorVersion patchVersion:patchVersion];
     });
 
     it(@"Should set and get correctly", ^ {
@@ -170,7 +175,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
-            expect(testRegisterAppInterface.sdlMsgVersion).to(beNil());
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -194,7 +199,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(beNil());
             expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.sdlMsgVersion).to(beNil());
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(beNil());
@@ -215,7 +220,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.sdlMsgVersion).to(beNil());
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
