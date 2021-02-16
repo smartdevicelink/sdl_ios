@@ -744,6 +744,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_applyVideoCapabilityWhileStarting:(nullable SDLVideoStreamingCapability *)videoCapabilityUpdated {
     SDLVideoStreamingCapability *videoCapability = (nil == videoCapabilityUpdated) ? [self sdl_defaultVideoCapability] : videoCapabilityUpdated;
     NSArray<SDLVideoStreamingCapability *> *capabilityMatches = [self matchVideoCapability:videoCapability];
+    [self sdl_sendOnAppCapabilityUpdated:capabilityMatches];
 
     if (capabilityMatches.count == 0) {
         // use default video capability if no match found
@@ -758,11 +759,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         // add any other possible capabilities here if needed
         matchedVideoCapability.additionalVideoStreamingCapabilities = @[];
     }
-
-    // create and send SDLOnAppCapabilityUpdated notification
-    SDLAppCapability *appCapability = [[SDLAppCapability alloc] initWithAppCapabilityType:SDLAppCapabilityTypeVideoStreaming videoStreamingCapability:matchedVideoCapability];
-    SDLOnAppCapabilityUpdated *notification = [[SDLOnAppCapabilityUpdated alloc] initWithAppCapability:appCapability];
-    [self.connectionManager sendConnectionRPC:notification];
 
     // take formats from 'parent' since onse may be absent in children
     if (!matchedVideoCapability.supportedFormats) {
@@ -779,6 +775,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
     // start service with new capabilities or without (use old from start service ACK)
     [self sdl_sendVideoStartService];
+}
+
+- (void)sdl_sendOnAppCapabilityUpdated:(nullable NSArray<SDLVideoStreamingCapability *> *)supportedVideoStreamingCapabilities {
+    // create and send SDLOnAppCapabilityUpdated notification
+    SDLVideoStreamingCapability *notifyCapability = [[SDLVideoStreamingCapability alloc] init];
+    notifyCapability.additionalVideoStreamingCapabilities = supportedVideoStreamingCapabilities ?: @[];
+    SDLAppCapability *appCapability = [[SDLAppCapability alloc] initWithAppCapabilityType:SDLAppCapabilityTypeVideoStreaming videoStreamingCapability:notifyCapability];
+    SDLOnAppCapabilityUpdated *notification = [[SDLOnAppCapabilityUpdated alloc] initWithAppCapability:appCapability];
+    [self.connectionManager sendConnectionRPC:notification];
 }
 
 - (void)sdl_applyVideoCapabilityWhenStreaming:(nullable SDLVideoStreamingCapability *)videoCapability {
