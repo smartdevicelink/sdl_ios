@@ -117,7 +117,9 @@ UInt32 const MenuCellIdMin = 1;
     _transactionQueue = [self sdl_newTransactionQueue];
 
     _currentHMILevel = nil;
-    _currentSystemContext = SDLSystemContextMain;
+    _currentSystemContext = nil;
+    _currentMenuConfiguration = nil;
+    _windowCapability = nil;
 }
 
 #pragma mark Transaction Queue
@@ -150,7 +152,12 @@ UInt32 const MenuCellIdMin = 1;
     if (menuConfiguration == self.menuConfiguration) {
         SDLLogD(@"New menu configuration is equal to existing one, will not set new configuration");
         return;
+    } else if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
+        SDLLogE(@"Setting a menu configuration is not supported on this head unit. Only supported on RPC 6.0+, this version: %@", [SDLGlobals sharedGlobals].rpcVersion);
+        return;
     }
+
+    _menuConfiguration = menuConfiguration;
 
     // Create the operation
     __weak typeof(self) weakself = self;
@@ -229,7 +236,7 @@ UInt32 const MenuCellIdMin = 1;
         SDLLogE(@"This cell has not been sent to the head unit, so no submenu can be opened. Make sure that the cell exists in the SDLManager.menu array");
         return NO;
     } else if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-        SDLLogE(@"The openSubmenu method is not supported on this head unit.");
+        SDLLogE(@"The openMenu / openSubmenu is not supported on this head unit.");
         return NO;
     }
 

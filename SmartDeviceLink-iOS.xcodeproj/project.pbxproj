@@ -1398,6 +1398,9 @@
 		4ABB2BA724F850AE0061BF55 /* SDLImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB2B9924F850AD0061BF55 /* SDLImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ABB2BA824F850AE0061BF55 /* SDLLightState.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB2B9A24F850AD0061BF55 /* SDLLightState.m */; };
 		4ABB2BA924F850AE0061BF55 /* SDLImageResolution.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB2B9B24F850AD0061BF55 /* SDLImageResolution.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4ABC1CA725DC4E1C00545AC6 /* SDLMenuReplaceOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABC1CA625DC4E1C00545AC6 /* SDLMenuReplaceOperationSpec.m */; };
+		4ABC1CAD25DC51A800545AC6 /* SDLMenuConfigurationUpdateOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABC1CAC25DC51A800545AC6 /* SDLMenuConfigurationUpdateOperationSpec.m */; };
+		4ABC1CB125DC520300545AC6 /* SDLMenuShowOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABC1CB025DC520300545AC6 /* SDLMenuShowOperationSpec.m */; };
 		4ABED25B257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABED259257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.m */; };
 		4ABED25C257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABED25A257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.h */; };
 		4AD1F1742559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD1F1732559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m */; };
@@ -3224,6 +3227,9 @@
 		4ABB2B9924F850AD0061BF55 /* SDLImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLImage.h; path = public/SDLImage.h; sourceTree = "<group>"; };
 		4ABB2B9A24F850AD0061BF55 /* SDLLightState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLightState.m; path = public/SDLLightState.m; sourceTree = "<group>"; };
 		4ABB2B9B24F850AD0061BF55 /* SDLImageResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLImageResolution.h; path = public/SDLImageResolution.h; sourceTree = "<group>"; };
+		4ABC1CA625DC4E1C00545AC6 /* SDLMenuReplaceOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuReplaceOperationSpec.m; path = DevAPISpecs/SDLMenuReplaceOperationSpec.m; sourceTree = "<group>"; };
+		4ABC1CAC25DC51A800545AC6 /* SDLMenuConfigurationUpdateOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuConfigurationUpdateOperationSpec.m; path = DevAPISpecs/SDLMenuConfigurationUpdateOperationSpec.m; sourceTree = "<group>"; };
+		4ABC1CB025DC520300545AC6 /* SDLMenuShowOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuShowOperationSpec.m; path = DevAPISpecs/SDLMenuShowOperationSpec.m; sourceTree = "<group>"; };
 		4ABED259257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandUpdateOperation.m; path = private/SDLVoiceCommandUpdateOperation.m; sourceTree = "<group>"; };
 		4ABED25A257681ED005BDF61 /* SDLVoiceCommandUpdateOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLVoiceCommandUpdateOperation.h; path = private/SDLVoiceCommandUpdateOperation.h; sourceTree = "<group>"; };
 		4AD1F1732559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandUpdateOperationSpec.m; path = DevAPISpecs/SDLVoiceCommandUpdateOperationSpec.m; sourceTree = "<group>"; };
@@ -4377,6 +4383,16 @@
 				4AAC0DE725C493EE00746D33 /* SDLMenuReplaceUtilitiesSpecHelpers.m */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		4ABC1CA525DC4DC200545AC6 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				4ABC1CAC25DC51A800545AC6 /* SDLMenuConfigurationUpdateOperationSpec.m */,
+				4ABC1CA625DC4E1C00545AC6 /* SDLMenuReplaceOperationSpec.m */,
+				4ABC1CB025DC520300545AC6 /* SDLMenuShowOperationSpec.m */,
+			);
+			name = Operations;
 			sourceTree = "<group>";
 		};
 		4AD1F16A2559952D00637FE1 /* Voice Command */ = {
@@ -6639,6 +6655,7 @@
 		5DF40B24208FA7C500DD6FDA /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				4ABC1CA525DC4DC200545AC6 /* Operations */,
 				4AAC0DE525C493D800746D33 /* Helpers */,
 				5DAB5F502098994C00A020C8 /* SDLMenuCellSpec.m */,
 				5D76751522D920FD00E8D71A /* SDLMenuConfigurationSpec.m */,
@@ -8503,6 +8520,7 @@
 				5DBEFA581F436132009EE295 /* SDLFakeSecurityManager.m in Sources */,
 				9FA0D00022DF06A0009CF344 /* SDLWindowCapabilitySpec.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,
+				4ABC1CB125DC520300545AC6 /* SDLMenuShowOperationSpec.m in Sources */,
 				00EADD3522DFE5670088B608 /* SDLEncryptionConfigurationSpec.m in Sources */,
 				162E83871A9BDE8B00906325 /* SDLPermissionItemSpec.m in Sources */,
 				5DAB5F5320989A8300A020C8 /* SDLVoiceCommandSpec.m in Sources */,
@@ -8848,6 +8866,7 @@
 				162E836B1A9BDE8B00906325 /* SDLSyncPDataResponseSpec.m in Sources */,
 				8B7B31AF1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m in Sources */,
 				88FBF7C2250132C1005EA0A4 /* SDLOnLockScreenStatusSpec.m in Sources */,
+				4ABC1CAD25DC51A800545AC6 /* SDLMenuConfigurationUpdateOperationSpec.m in Sources */,
 				8B05F88922DD011300666CD8 /* SDLUnpublishAppServiceSpec.m in Sources */,
 				162E839B1A9BDE8B00906325 /* SDLRPCNotificationSpec.m in Sources */,
 				162E83581A9BDE8B00906325 /* SDLGetVehicleDataResponseSpec.m in Sources */,
@@ -8933,6 +8952,7 @@
 				162E83731A9BDE8B00906325 /* SDLBeltStatusSpec.m in Sources */,
 				162E83551A9BDE8B00906325 /* SDLEndAudioPassThruResponseSpec.m in Sources */,
 				8881AFC12225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m in Sources */,
+				4ABC1CA725DC4E1C00545AC6 /* SDLMenuReplaceOperationSpec.m in Sources */,
 				000DD56E22EF01FC005AB7A7 /* SDLSeatLocationSpec.m in Sources */,
 				162E83251A9BDE8B00906325 /* SDLAlertSpec.m in Sources */,
 				2BF2F85220ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m in Sources */,
