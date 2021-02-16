@@ -123,7 +123,7 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
         });
 
         context(@"of type LOCK_SCREEN_URL", ^{
-            __block id lockScreenIconObserver = nil;
+            __block XCTNSNotificationExpectation *lockScreenIconExpectation;
 
             beforeEach(^{
                 receivedSystemRequest.requestType = SDLRequestTypeLockScreenIconURL;
@@ -131,20 +131,19 @@ describe(@"SDLLifecycleSystemRequestHandler tests", ^{
                 UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
                 OCMStub([mockCacheManager retrieveImageForRequest:[OCMArg any] withCompletionHandler:([OCMArg invokeBlockWithArgs:testImage, [NSNull null], nil])]);
 
-                lockScreenIconObserver = OCMObserverMock();
-                [[NSNotificationCenter defaultCenter] addMockObserver:lockScreenIconObserver name:SDLDidReceiveLockScreenIcon object:nil];
-                [[lockScreenIconObserver expect] notificationWithName:SDLDidReceiveLockScreenIcon object:[OCMArg any] userInfo:[OCMArg any]];
+                lockScreenIconExpectation = [[XCTNSNotificationExpectation alloc] initWithName:SDLDidReceiveLockScreenIcon object:nil];
 
                 SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemRequestNotification object:nil rpcNotification:receivedSystemRequest];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
 
             it(@"should pass the url to the cache manager and then send a notification", ^{
-                OCMVerifyAll(lockScreenIconObserver);
+                XCTWaiterResult waiter = [XCTWaiter waitForExpectations:@[lockScreenIconExpectation] timeout:4];
+                XCTAssertEqual(waiter, XCTWaiterResultCompleted);
             });
 
             afterEach(^{
-                lockScreenIconObserver = nil;
+                lockScreenIconExpectation = nil;
             });
         });
 
