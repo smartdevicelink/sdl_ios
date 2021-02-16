@@ -102,6 +102,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (copy, nonatomic, readonly) NSArray<__kindof NSOperation *> *pendingRPCTransactions;
 
+
 #pragma mark Lifecycle
 
 /**

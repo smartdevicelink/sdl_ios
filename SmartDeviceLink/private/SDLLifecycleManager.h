@@ -86,6 +86,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (strong, nonatomic) NSOperationQueue *rpcOperationQueue;
 
+
 #pragma mark Lifecycle
 /**
  *  Initialize the manager with a configuration. Call `startWithHandler` to begin waiting for a connection.

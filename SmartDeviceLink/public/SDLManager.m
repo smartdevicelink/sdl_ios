@@ -118,6 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.rpcOperationQueue.operations;
 }
 
+
 #pragma mark SDLConnectionManager Protocol
 
 - (void)sendRPC:(__kindof SDLRPCMessage *)rpc {
