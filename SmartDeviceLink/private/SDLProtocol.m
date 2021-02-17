@@ -532,7 +532,7 @@ NS_ASSUME_NONNULL_BEGIN
             } break;
             case SDLServiceTypeAudio: {
                 startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-                version = startServiceACKPayload.protocolVersion == nil ? nil : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
+                version = startServiceACKPayload.protocolVersion == nil ? [SDLVersion versionWithMajor:startServiceACK.header.version minor:0 patch:0] : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeAudio];
@@ -540,7 +540,7 @@ NS_ASSUME_NONNULL_BEGIN
             } break;
             case SDLServiceTypeVideo: {
                 startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-                version = startServiceACKPayload.protocolVersion == nil ? nil : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
+                version = startServiceACKPayload.protocolVersion == nil ? [SDLVersion versionWithMajor:startServiceACK.header.version minor:0 patch:0] : [SDLVersion versionWithString:startServiceACKPayload.protocolVersion];
 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeVideo];
