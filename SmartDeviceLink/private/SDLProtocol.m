@@ -567,7 +567,7 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL shouldProceed = YES;
 
     if (startServiceACKPayload.systemInfo) {
-        const BOOL shouldCallListener = (version && [version isGreaterThanVersion:[[SDLVersion alloc] initWithMajor:5 minor:4 patch:0]]);
+        const BOOL shouldCallListener = (version && [version isGreaterThanVersion:[[SDLVersion alloc] initWithMajor:5 minor:3 patch:0]]);
         if (shouldCallListener) {
             for (id<SDLProtocolDelegate> listener in listeners) {
                 if ([listener respondsToSelector:@selector(didReceiveSystemInfo:)]) {
