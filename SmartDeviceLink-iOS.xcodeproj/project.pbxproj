@@ -1664,6 +1664,7 @@
 		9FA0D00C22DF0B65009CF344 /* SDLCreateWindowResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D00B22DF0B65009CF344 /* SDLCreateWindowResponseSpec.m */; };
 		9FA0D00F22DF0B90009CF344 /* SDLDeleteWindowSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D00E22DF0B90009CF344 /* SDLDeleteWindowSpec.m */; };
 		9FA0D01222DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0D01122DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m */; };
+		B30F486E25DD13E800D63389 /* TestSystemInfoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B30F486D25DD13E800D63389 /* TestSystemInfoHandler.m */; };
 		B32278C225AE220000CAB039 /* SDLSystemInfoHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B32278C125AE220000CAB039 /* SDLSystemInfoHandler.h */; };
 		B360F9D0255EFEFD0027CA17 /* SDLClimateData.m in Sources */ = {isa = PBXBuildFile; fileRef = B360F9CE255EFEFD0027CA17 /* SDLClimateData.m */; };
 		B360F9D1255EFEFD0027CA17 /* SDLClimateData.h in Headers */ = {isa = PBXBuildFile; fileRef = B360F9CF255EFEFD0027CA17 /* SDLClimateData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3520,6 +3521,8 @@
 		9FA0D00B22DF0B65009CF344 /* SDLCreateWindowResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCreateWindowResponseSpec.m; sourceTree = "<group>"; };
 		9FA0D00E22DF0B90009CF344 /* SDLDeleteWindowSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDeleteWindowSpec.m; sourceTree = "<group>"; };
 		9FA0D01122DF0BAC009CF344 /* SDLDeleteWindowResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDeleteWindowResponseSpec.m; sourceTree = "<group>"; };
+		B30F486C25DD13E800D63389 /* TestSystemInfoHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestSystemInfoHandler.h; sourceTree = "<group>"; };
+		B30F486D25DD13E800D63389 /* TestSystemInfoHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestSystemInfoHandler.m; sourceTree = "<group>"; };
 		B32278C125AE220000CAB039 /* SDLSystemInfoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLSystemInfoHandler.h; path = private/SDLSystemInfoHandler.h; sourceTree = "<group>"; };
 		B360F9CE255EFEFD0027CA17 /* SDLClimateData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLClimateData.m; path = public/SDLClimateData.m; sourceTree = "<group>"; };
 		B360F9CF255EFEFD0027CA17 /* SDLClimateData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLClimateData.h; path = public/SDLClimateData.h; sourceTree = "<group>"; };
@@ -6778,6 +6781,8 @@
 				88B848C81F462E3600DED768 /* TestFileProgressResponse.m */,
 				5D6035D6202CF5C900A429C9 /* TestRequestProgressResponse.h */,
 				5D6035D7202CF5C900A429C9 /* TestRequestProgressResponse.m */,
+				B30F486C25DD13E800D63389 /* TestSystemInfoHandler.h */,
+				B30F486D25DD13E800D63389 /* TestSystemInfoHandler.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -8395,6 +8400,7 @@
 				000DD57622EF0971005AB7A7 /* SDLReleaseInteriorVehicleDataModuleResponseSpec.m in Sources */,
 				162E82E01A9BDE8B00906325 /* SDLHMILevelSpec.m in Sources */,
 				88F65133220C6DC300CAF321 /* SDLWeatherAlertSpec.m in Sources */,
+				B30F486E25DD13E800D63389 /* TestSystemInfoHandler.m in Sources */,
 				5DC09EDA1F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m in Sources */,
 				5D76751622D920FD00E8D71A /* SDLMenuConfigurationSpec.m in Sources */,
 				1EB59CCE202DC97900343A61 /* SDLMassageCushionSpec.m in Sources */,

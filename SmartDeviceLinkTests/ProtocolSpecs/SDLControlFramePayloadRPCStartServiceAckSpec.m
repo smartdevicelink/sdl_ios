@@ -231,6 +231,11 @@ describe(@"sdl_parseVehicleType()", ^{
         expect(systemInfo.systemSoftwareVersion).to(equal([NSString stringWithUTF8String:vhSoftVersion]));
         expect(systemInfo.systemHardwareVersion).to(equal([NSString stringWithUTF8String:vhHardVersion]));
     });
+
+    it(@"expect systemInfo is nil", ^{
+        SDLSystemInfo *systemInfo = sdl_extractSystemInfo(nil);
+        expect(systemInfo).to(beNil());
+    });
 });
 
 describe(@"sdl_parseVehicleType()", ^{

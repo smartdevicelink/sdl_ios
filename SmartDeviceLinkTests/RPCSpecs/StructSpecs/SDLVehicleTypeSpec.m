@@ -54,6 +54,19 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.modelYear).to(beNil());
         expect(testStruct.trim).to(beNil());
     });
+
+    context(@"alloc and init", ^{
+        __block SDLVehicleType* testStruct = nil;
+        beforeEach(^{
+            testStruct = [SDLVehicleType alloc];
+        });
+        it(@"should init properly", ^{
+            expect(testStruct).notTo(beNil());
+            SDLVehicleType* testStruct2 = [testStruct init];
+            expect(testStruct2).notTo(beNil());
+            expect(testStruct2).to(equal(testStruct));
+        });
+    });
 });
 
 QuickSpecEnd

@@ -38,6 +38,47 @@ describe(@"system info", ^{
             expect(systemInfo.systemHardwareVersion).to(equal(hardVersion));
         });
     });
+
+    context(@"alloc and init", ^{
+        beforeEach(^{
+            systemInfo = [SDLSystemInfo alloc];
+        });
+
+        it(@"expect test object to be inited", ^{
+            expect(systemInfo).notTo(beNil());
+            SDLSystemInfo *systemInfo2 = [systemInfo init];
+            expect(systemInfo2).notTo(beNil());
+            expect(systemInfo2).to(equal(systemInfo));
+        });
+    });
+
+    context(@"isEqual:", ^{
+        __block SDLSystemInfo *systemInfo2 = nil;
+        __block SDLSystemInfo *systemInfo3 = nil;
+        beforeEach(^{
+            systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType systemSoftwareVersion:softVersion systemHardwareVersion:hardVersion];
+            systemInfo2 = [[SDLSystemInfo alloc] init];
+            systemInfo3 = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType systemSoftwareVersion:softVersion systemHardwareVersion:hardVersion];
+        });
+
+        it(@"expect test objects to come into existance", ^{
+            expect(systemInfo).notTo(beNil());
+            expect(systemInfo2).notTo(beNil());
+        });
+
+        it(@"expect proper comparison result", ^{
+            BOOL equal = [systemInfo isEqual:nil];
+            expect(equal).to(beFalse());
+            equal = [systemInfo isEqual:@"wrong-type-object"];
+            expect(equal).to(beFalse());
+            equal = [systemInfo isEqual:systemInfo];
+            expect(equal).to(beTrue());
+            equal = [systemInfo isEqual:systemInfo2];
+            expect(equal).to(beFalse());
+            equal = [systemInfo isEqual:systemInfo3];
+            expect(equal).to(beTrue());
+        });
+    });
 });
 
 QuickSpecEnd

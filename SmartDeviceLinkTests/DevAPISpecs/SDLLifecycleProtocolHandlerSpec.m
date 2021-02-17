@@ -22,7 +22,9 @@
 #import "SDLProtocolMessage.h"
 #import "SDLRPCPayload.h"
 #import "SDLShow.h"
+#import "SDLSystemInfo.h"
 #import "SDLTimer.h"
+#import "TestSystemInfoHandler.h"
 
 @interface SDLLifecycleProtocolHandler ()
 
@@ -225,6 +227,47 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
 
             it(@"should send the notification", ^{
                 OCMVerifyAll(mockNotificationDispatcher);
+            });
+        });
+    });
+
+    describe(@"SDLSystemInfoHandler protocol", ^{
+        __block TestSystemInfoHandler *testSystemInfoHandler = nil;
+        __block SDLSystemInfo *systemInfo = nil;
+        beforeEach(^{
+            systemInfo = [[SDLSystemInfo alloc] init];
+            testSystemInfoHandler = [[TestSystemInfoHandler alloc] init];
+            testHandler.systemInfoHandler = testSystemInfoHandler;
+        });
+
+        it(@"expect test objects to be instantiated", ^{
+            expect(systemInfo).notTo(beNil());
+            expect(testSystemInfoHandler).notTo(beNil());
+        });
+
+        context(@"didReceiveSystemInfo:", ^{
+            it(@"expect callback to be called upon systemInfoHandler", ^{
+                testSystemInfoHandler.boolResponse = NO;
+                testSystemInfoHandler.lastSystemInfo = nil;
+                expect(testSystemInfoHandler.lastSystemInfo).to(beNil());
+                BOOL boolResult = [testHandler didReceiveSystemInfo:systemInfo];
+                expect(boolResult).to(equal(@NO));
+                expect(testSystemInfoHandler.lastSystemInfo).to(equal(systemInfo));
+
+                testSystemInfoHandler.boolResponse = YES;
+                testSystemInfoHandler.lastSystemInfo = nil;
+                expect(testSystemInfoHandler.lastSystemInfo).to(beNil());
+                boolResult = [testHandler didReceiveSystemInfo:systemInfo];
+                expect(boolResult).to(equal(@YES));
+                expect(testSystemInfoHandler.lastSystemInfo).to(equal(systemInfo));
+            });
+        });
+
+        context(@"protocol:doDisconnectWithSystemInfo:", ^{
+            it(@"expect callback to be called upon systemInfoHandler", ^{
+                expect(testSystemInfoHandler.lastSystemInfo).to(beNil());
+                [testHandler protocol:mockProtocol doDisconnectWithSystemInfo:systemInfo];
+                expect(testSystemInfoHandler.lastSystemInfo).to(equal(systemInfo));
             });
         });
     });
