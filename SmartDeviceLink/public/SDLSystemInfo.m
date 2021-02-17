@@ -47,4 +47,8 @@
             ((self.systemHardwareVersion == other.systemHardwareVersion) || [self.systemHardwareVersion isEqualToString:other.systemHardwareVersion]);
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@:%p> systemSoftwareVersion:%@; systemHardwareVersion:%@; vehicleType:%@", NSStringFromClass(self.class), self, self.systemSoftwareVersion, self.systemHardwareVersion, self.vehicleType];
+}
+
 @end

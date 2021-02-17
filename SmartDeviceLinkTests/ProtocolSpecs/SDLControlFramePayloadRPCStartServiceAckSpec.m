@@ -7,6 +7,7 @@
 #import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLLogMacros.h"
 #import "SDLSystemInfo.h"
 #import "SDLVehicleType.h"
 
@@ -208,7 +209,7 @@ describe(@"sdl_parseVehicleType()", ^{
         }
 
         if (!ok) {
-            NSLog(@"cannot create or init bson vehicle type");
+            SDLLogD(@"cannot create or init bson vehicle type");
         }
     });
 

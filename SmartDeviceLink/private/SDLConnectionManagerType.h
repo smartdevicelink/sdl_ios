@@ -19,6 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLConnectionManagerType <NSObject>
 
+/**
+ * @property systemInfo - SDLSystemInfo additional system information, vehicle type and system hard/soft version
+ * @since SDL 7.1
+ */
 @property (nonatomic, readonly, nullable) SDLSystemInfo *systemInfo;
 
 /**

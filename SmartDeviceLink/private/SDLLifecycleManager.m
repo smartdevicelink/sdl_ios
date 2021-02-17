@@ -877,7 +877,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (BOOL)sdl_shouldProceedWithSystemInfo:(SDLSystemInfo *)systemInfo {
-    return [self.delegate respondsToSelector:@selector(onSystemInfoReceived:)] ? [self.delegate onSystemInfoReceived:systemInfo] : YES;
+    return [self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)] ? [self.delegate didReceiveSystemInfo:systemInfo] : YES;
 }
 
 #pragma mark SDL notification observers
@@ -1017,7 +1017,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @implementation SDLLifecycleManager (SystemInfoHandler)
 
 // systemInfo comes from protocol message SDLControlFramePayloadRPCStartServiceAck
-- (BOOL)onSystemInfoReceived:(SDLSystemInfo *)systemInfo {
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo {
     const BOOL shouldProceed = [self sdl_shouldProceedWithSystemInfo:systemInfo];
     if (shouldProceed) {
         self.systemInfo = systemInfo;

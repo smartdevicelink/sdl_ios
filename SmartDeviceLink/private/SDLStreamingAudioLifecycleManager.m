@@ -45,9 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (readonly, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (assign, nonatomic, readwrite, getter=isAudioEncrypted) BOOL audioEncrypted;
-@property (assign, nonatomic) BOOL raiAccepted;
 
 @property (nonatomic, copy, nullable) void (^audioServiceEndedCompletionHandler)(void);
 @end
@@ -96,7 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"Stopping manager");
-    self.raiAccepted = NO;
     _protocol = nil;
     _hmiLevel = SDLHMILevelNone;
     [self.audioTranscodingManager stop];
@@ -140,10 +137,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self.audioStreamStateMachine.currentState;
 }
 
-- (NSString *__nullable)connectedVehicleMake {
-    return self.raiAccepted || ![SDLAudioStreamManagerStateStopped isEqualToEnum:self.currentAudioStreamState] ? self.connectionManager.systemInfo.vehicleType.make : nil;
-}
-
 #pragma mark - State Machine
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_audioStreamingStateTransitionDictionary {
     return @{
@@ -168,7 +161,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)didEnterStateAudioStreamStarting {
     SDLLogD(@"Audio stream starting");
-    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
+    NSString *connectedVehicleMake = self.connectionManager.systemInfo.vehicleType.make;
+    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:connectedVehicleMake])) {
         [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil tlsInitializationHandler:^(BOOL success, NSError * _Nonnull error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
@@ -239,7 +233,6 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    self.raiAccepted = YES;
     SDLLogV(@"Received Register App Interface response");
 }
 

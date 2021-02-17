@@ -318,7 +318,7 @@ NS_ASSUME_NONNULL_BEGIN
     return update;
 }
 
-- (BOOL)onSystemInfoReceived:(SDLSystemInfo *)systemInfo {
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo {
     SDLLogD(@"The system is: %@", systemInfo);
     return YES;
 }

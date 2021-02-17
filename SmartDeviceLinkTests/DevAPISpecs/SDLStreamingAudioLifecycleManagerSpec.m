@@ -27,7 +27,6 @@
 @interface SDLStreamingAudioLifecycleManager()
 
 @property (weak, nonatomic) SDLProtocol *protocol;
-@property (readonly, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioTranscodingManager;
 
 @end
@@ -115,10 +114,6 @@ describe(@"the streaming audio manager", ^{
                 SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
-            });
-
-            it(@"should should save the connected vehicle make", ^{
-                expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
             });
         });
 
@@ -413,7 +408,6 @@ describe(@"the streaming audio manager", ^{
 
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 OCMVerify([mockAudioStreamManager stop]);
                 expect(handlerCalled).to(beTrue());
             });
@@ -430,7 +424,6 @@ describe(@"the streaming audio manager", ^{
 
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 OCMReject([mockAudioStreamManager stop]);
                 expect(handlerCalled).to(beFalse());
             });

@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param systemInfo - the system info that this session is currently active on.
  * @returns true if this session should continue, false if the session should end
  */
-- (BOOL)onSystemInfoReceived:(SDLSystemInfo *)systemInfo;
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo;
 
 @end
 

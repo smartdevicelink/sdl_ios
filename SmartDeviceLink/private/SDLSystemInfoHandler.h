@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLSystemInfoHandler <NSObject>
 
-- (BOOL)onSystemInfoReceived:(SDLSystemInfo *)systemInfo;
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo;
 
 - (void)doDisconnectWithSystemInfo:(SDLSystemInfo *)systemInfo;
 

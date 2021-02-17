@@ -81,8 +81,20 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param protocol The transport's protocol
 - (void)protocol:(SDLProtocol *)protocol transportDidError:(NSError *)error;
 
-- (BOOL)onSystemInfoReceived:(SDLSystemInfo *)systemInfo;
+/**
+ * @param systemInfo - SDLSystemInfo additional system information, vehicle type and system hard/soft version
+ * @return - YES - if the system info matches the app requirements and NO - otherwice
+ * If not implemented then it is considered that the system info is accepted (YES case)
+ * @since SDL 7.1
+ */
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo;
 
+/**
+ * Called when connection must be closed due to not supported system info
+ * @param protocol The transport's protocol
+ * @param systemInfo - SDLSystemInfo additional system information, vehicle type and system hard/soft version
+ * @since SDL 7.1
+ */
 - (void)protocol:(SDLProtocol *)protocol doDisconnectWithSystemInfo:(SDLSystemInfo *)systemInfo;
 
 #pragma mark - Deprecated Protocol Messages

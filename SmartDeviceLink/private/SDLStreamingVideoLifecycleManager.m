@@ -72,7 +72,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (strong, nonatomic) NSMutableDictionary *videoEncoderSettings;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *customEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (readonly, nonatomic, nullable) NSString *connectedVehicleMake;
 
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
@@ -81,7 +80,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic) BOOL useDisplayLink;
 
 @property (assign, nonatomic, readwrite, getter=isVideoEncrypted) BOOL videoEncrypted;
-@property (assign, nonatomic) BOOL raiAccepted;
 
 /**
  * SSRC of RTP header field.
@@ -192,7 +190,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)stop {
     SDLLogD(@"Stopping manager");
 
-    self.raiAccepted = NO;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
@@ -275,10 +272,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (SDLVideoStreamManagerState *)currentVideoStreamState {
     return self.videoStreamStateMachine.currentState;
-}
-
-- (NSString *__nullable)connectedVehicleMake {
-    return self.raiAccepted || ![SDLVideoStreamingStateNotStreamable isEqualToEnum:self.videoStreamingState] ? self.connectionManager.systemInfo.vehicleType.make : nil;
 }
 
 #pragma mark - State Machines
@@ -604,7 +597,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLLogD(@"Received Register App Interface");
-    self.raiAccepted = YES;
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)notification.response;
 
 #pragma clang diagnostic push
@@ -803,7 +795,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLControlFramePayloadVideoStartService *startVideoPayload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:preferredResolution.resolutionHeight.intValue width:preferredResolution.resolutionWidth.intValue protocol:preferredFormat.protocol codec:preferredFormat.codec];
 
     // Decide if we need to start a secure service or not
-    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
+    NSString *connectedVehicleMake = self.connectionManager.systemInfo.vehicleType.make;
+    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:connectedVehicleMake])) {
         SDLLogD(@"Sending secure video start service with payload: %@", startVideoPayload);
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data tlsInitializationHandler:^(BOOL success, NSError *error) {
             if (error) {
