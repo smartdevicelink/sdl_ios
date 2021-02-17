@@ -12,6 +12,8 @@
 #import "SDLTextFieldName.h"
 #import "SDLWindowCapability.h"
 
+@class SDLKeyboardProperties;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLWindowCapability (ScreenManagerExtensions)
@@ -20,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)hasTextFieldOfName:(SDLTextFieldName)name;
 - (BOOL)hasImageFieldOfName:(SDLImageFieldName)name;
+
+- (SDLKeyboardProperties *__nullable)filterValidKeyboardProperties:(SDLKeyboardProperties *__nullable)keyboardProperties;
 
 @end
 
