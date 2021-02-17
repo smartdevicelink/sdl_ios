@@ -50,59 +50,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMake:(nullable NSString *)make {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.store sdl_setObject:make forName:SDLRPCParameterNameMake];
-#pragma clang diagnostic pop
 }
 
 - (nullable NSString *)make {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [self.store sdl_objectForName:SDLRPCParameterNameMake ofClass:NSString.class error:nil];
-#pragma clang diagnostic pop
 }
 
 - (void)setModel:(nullable NSString *)model {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.store sdl_setObject:model forName:SDLRPCParameterNameModel];
-#pragma clang diagnostic pop
 }
 
 - (nullable NSString *)model {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [self.store sdl_objectForName:SDLRPCParameterNameModel ofClass:NSString.class error:nil];
-#pragma clang diagnostic pop
 }
 
 - (void)setModelYear:(nullable NSString *)modelYear {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.store sdl_setObject:modelYear forName:SDLRPCParameterNameModelYear];
-#pragma clang diagnostic pop
 }
 
 - (nullable NSString *)modelYear {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [self.store sdl_objectForName:SDLRPCParameterNameModelYear ofClass:NSString.class error:nil];
-#pragma clang diagnostic pop
 }
 
 - (void)setTrim:(nullable NSString *)trim {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.store sdl_setObject:trim forName:SDLRPCParameterNameTrim];
-#pragma clang diagnostic pop
 }
 
 - (nullable NSString *)trim {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [self.store sdl_objectForName:SDLRPCParameterNameTrim ofClass:NSString.class error:nil];
-#pragma clang diagnostic pop
 }
 
 @end

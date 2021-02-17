@@ -30,13 +30,10 @@ describe(@"Getter/Setter Tests", ^ {
     
     it(@"Should get correctly when initialized", ^ {
         NSDictionary<NSString *, id> *dict = @{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRPCParameterNameMake:@"Make",
             SDLRPCParameterNameModel:@"Model",
             SDLRPCParameterNameModelYear:@"3.141*10^36",
             SDLRPCParameterNameTrim:@"AE"
-#pragma clang diagnostic pop
         };
         SDLVehicleType* testStruct = [[SDLVehicleType alloc] initWithDictionary:dict];
         
