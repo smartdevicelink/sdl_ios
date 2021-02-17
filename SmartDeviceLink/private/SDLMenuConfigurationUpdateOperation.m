@@ -56,10 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
         return [self finishOperation];
     }
 
+    __weak typeof(self) weakself = self;
     SDLSetGlobalProperties *setGlobalsRPC = [[SDLSetGlobalProperties alloc] init];
     setGlobalsRPC.menuLayout = self.updatedMenuConfiguration.mainMenuLayout;
-
-    __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:setGlobalsRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakself) strongself = weakself;
         if (error != nil) {

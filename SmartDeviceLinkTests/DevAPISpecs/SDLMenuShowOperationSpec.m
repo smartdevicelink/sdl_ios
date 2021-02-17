@@ -28,6 +28,7 @@ describe(@"the show menu operation", ^{
         testOp = nil;
     });
 
+    // opening to the main menu
     context(@"opening to the main menu", ^{
         beforeEach(^{
             testOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:testConnectionManager toMenuCell:nil];
@@ -38,6 +39,7 @@ describe(@"the show menu operation", ^{
             expect(testConnectionManager.receivedRequests).to(haveCount(1));
         });
 
+        // when the response is not SUCCESS or WARNINGS
         context(@"when the response is not SUCCESS or WARNINGS", ^{
             beforeEach(^{
                 SDLShowAppMenuResponse *response = [[SDLShowAppMenuResponse alloc] init];
@@ -53,6 +55,7 @@ describe(@"the show menu operation", ^{
             });
         });
 
+        // when the response is SUCCESS
         context(@"when the response is SUCCESS", ^{
             beforeEach(^{
                 SDLShowAppMenuResponse *response = [[SDLShowAppMenuResponse alloc] init];
@@ -68,6 +71,7 @@ describe(@"the show menu operation", ^{
             });
         });
 
+        // when the response is WARNINGS
         context(@"when the response is WARNINGS", ^{
             beforeEach(^{
                 SDLShowAppMenuResponse *response = [[SDLShowAppMenuResponse alloc] init];
@@ -84,6 +88,7 @@ describe(@"the show menu operation", ^{
         });
     });
 
+    // opening to an inner menu
     context(@"opening to an inner menu", ^{
         __block SDLMenuCell *openToCell = nil;
         __block SDLMenuCell *subcell = nil;
@@ -98,6 +103,7 @@ describe(@"the show menu operation", ^{
             expect(testConnectionManager.receivedRequests).to(haveCount(1));
         });
 
+        // when the response is not SUCCESS or WARNINGS
         context(@"when the response is not SUCCESS or WARNINGS", ^{
             beforeEach(^{
                 SDLShowAppMenuResponse *response = [[SDLShowAppMenuResponse alloc] init];
@@ -113,6 +119,7 @@ describe(@"the show menu operation", ^{
             });
         });
 
+        // when the response is SUCCESS
         context(@"when the response is SUCCESS", ^{
             beforeEach(^{
                 SDLShowAppMenuResponse *response = [[SDLShowAppMenuResponse alloc] init];
@@ -128,6 +135,7 @@ describe(@"the show menu operation", ^{
             });
         });
 
+        // when the response is WARNINGS
         context(@"when the response is WARNINGS", ^{
             beforeEach(^{
                 SDLShowAppMenuResponse *response = [[SDLShowAppMenuResponse alloc] init];
