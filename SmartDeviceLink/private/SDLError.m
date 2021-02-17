@@ -267,6 +267,14 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
++ (NSError *)sdl_menuManager_configurationOperationLayoutsNotSupported {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateLayoutNotSupported userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Configuration Update Failed",
+        NSLocalizedFailureReasonErrorKey: @"One or more of the configuration layouts is not supported by the module",
+        NSLocalizedRecoverySuggestionErrorKey: @"Compare SDLManager.systemCapabilityManager.defaultWindowCapability.menuLayoutsAvailable to what you attempted to set"
+    }];
+}
+
 + (NSError *)sdl_menuManager_configurationOperationFailed:(SDLMenuConfiguration *)failedConfiguration {
     return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateFailed userInfo:@{
         @"Failed Configuration": failedConfiguration,

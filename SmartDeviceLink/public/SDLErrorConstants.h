@@ -189,8 +189,9 @@ typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     SDLMenuManagerErrorRPCsFailed = -1,
     SDLMenuManagerErrorPendingUpdateSuperseded = -2,
     SDLMenuManagerErrorOperationCancelled = -3,
-    SDLMenuManagerErrorConfigurationUpdateFailed = -4,
-    SDLMenuManagerErrorOpenMenuFailed = -5
+    SDLMenuManagerErrorConfigurationUpdateLayoutNotSupported = -4,
+    SDLMenuManagerErrorConfigurationUpdateFailed = -5,
+    SDLMenuManagerErrorOpenMenuFailed = -6
 };
 
 /// Errors associated with Choice Set class
