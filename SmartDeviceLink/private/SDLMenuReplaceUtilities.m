@@ -207,7 +207,8 @@
             addedCell = cell;
             break;
         } else if (cell.subCells.count > 0) {
-            return [self addMenuRequestWithCommandId:commandId position:position fromNewMenuList:cell.subCells toMainMenuList:mainMenuList];
+            BOOL success = [self addMenuRequestWithCommandId:commandId position:position fromNewMenuList:cell.subCells toMainMenuList:mainMenuList];
+            if (success) { return YES; }
         }
     }
 
