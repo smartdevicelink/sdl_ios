@@ -45,15 +45,14 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:6 minor:0 patch:0]]) {
-        SDLLogW(@"Menu configurations is only supported on head units with RPC spec version 6.0.0 or later. Currently connected head unit RPC spec version is %@", [SDLGlobals sharedGlobals].rpcVersion);
-        return [self finishOperation];
-    } else if (self.availableMenuLayouts == nil) {
+    if (self.availableMenuLayouts.count == 0) {
         SDLLogW(@"Could not set the main menu configuration. Which menu layouts can be used is not available");
+        self.internalError = [NSError sdl_menuManager_configurationOperationLayoutsNotSupported];
         return [self finishOperation];
     } else if (![self.availableMenuLayouts containsObject:self.updatedMenuConfiguration.mainMenuLayout]
                || ![self.availableMenuLayouts containsObject:self.updatedMenuConfiguration.defaultSubmenuLayout]) {
         SDLLogE(@"One or more of the set menu layouts are not available on this system. The menu configuration will not be set. Available menu layouts: %@, set menu layouts: %@", self.availableMenuLayouts, self.updatedMenuConfiguration);
+        self.internalError = [NSError sdl_menuManager_configurationOperationLayoutsNotSupported];
         return [self finishOperation];
     }
 
