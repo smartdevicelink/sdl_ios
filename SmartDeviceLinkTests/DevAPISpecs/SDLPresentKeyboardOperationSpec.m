@@ -33,6 +33,7 @@ describe(@"present keyboard operation", ^{
 
     __block BOOL hasCalledOperationCompletionHandler = NO;
     __block NSError *resultError = nil;
+    __block SDLWindowCapability *windowCapability = nil;
 
     beforeEach(^{
         testOp = nil;
@@ -43,6 +44,7 @@ describe(@"present keyboard operation", ^{
         testDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
         OCMStub([testDelegate customKeyboardConfiguration]).andReturn(nil);
 
+        windowCapability = [[SDLWindowCapability alloc] init];
         testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
     });
 
@@ -63,7 +65,7 @@ describe(@"present keyboard operation", ^{
 
     describe(@"running the operation", ^{
         beforeEach(^{
-            testOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testInitialProperties initialText:testInitialText keyboardDelegate:testDelegate cancelID:testCancelID];
+            testOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testInitialProperties initialText:testInitialText keyboardDelegate:testDelegate cancelID:testCancelID windowCapability:windowCapability];
             testOp.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
             };
@@ -288,7 +290,7 @@ describe(@"present keyboard operation", ^{
 
     describe(@"Canceling the keyboard", ^{
         beforeEach(^{
-            testOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testInitialProperties initialText:testInitialText keyboardDelegate:testDelegate cancelID:testCancelID];
+            testOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testInitialProperties initialText:testInitialText keyboardDelegate:testDelegate cancelID:testCancelID windowCapability:windowCapability];
             testOp.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
             };
