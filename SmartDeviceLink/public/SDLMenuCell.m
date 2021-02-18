@@ -9,6 +9,7 @@
 #import "SDLMenuCell.h"
 
 #import "SDLArtwork.h"
+#import "NSArray+NSObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -68,7 +69,7 @@ NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
-    ^ NSUIntRotateCell(self.voiceCommands.hash, NSUIntBitCell / 4)
+    ^ NSUIntRotateCell([self.voiceCommands dynamicHash], NSUIntBitCell / 4)
     ^ NSUIntRotateCell(self.subCells.count !=0, NSUIntBitCell  / 5)
     ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 6);
 }

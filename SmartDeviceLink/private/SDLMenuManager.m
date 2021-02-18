@@ -75,6 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 UInt32 const ParentIdNotFound = UINT32_MAX;
 UInt32 const MenuCellIdMin = 1;
+NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet;
+NSUInteger voiceCommandCount;
 
 @implementation SDLMenuManager
 
@@ -90,6 +92,9 @@ UInt32 const MenuCellIdMin = 1;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_commandNotification:) name:SDLDidReceiveCommandNotification object:nil];
+
+    identicalVoiceCommandsCheckSet = [NSMutableSet set];
+    voiceCommandCount = 0;
 
     return self;
 }
@@ -161,6 +166,16 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
+///Check for cell lists with completely duplicate information, or any duplicate voiceCommands
+    if (![self sdl_menuCellsAreUnique:menuCells]) {
+        return;
+    } else if (identicalVoiceCommandsCheckSet.count != voiceCommandCount) {
+        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
+        identicalVoiceCommandsCheckSet = [NSMutableSet set];
+        voiceCommandCount = 0;
+        return;
+    }
+
     SDLVersion *menuUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:menuUniquenessSupportedVersion]) {
         [self sdl_addUniqueNamesToCells:menuCells];
@@ -176,10 +191,6 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     self.waitingOnHMIUpdate = NO;
-
-    if (![self sdl_menuCellsAreUnique:menuCells]) {
-        return;
-    }
 
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
@@ -553,25 +564,11 @@ UInt32 const MenuCellIdMin = 1;
  */
 -(BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells {
     ///Check all voice commands for identical items and check each list of cells for identical cells
-    NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
     NSMutableSet *identicalCellsCheckSet = [NSMutableSet set];
-    NSUInteger voiceCommandCount = 0;
     for (SDLMenuCell *cell in cells) {
         [identicalCellsCheckSet addObject:cell];
-        if (cell.subCells.count > 0) {
-            NSMutableSet *identicalSubCellsCheckSet = [NSMutableSet set];
-            for (SDLMenuCell *subCell in cell.subCells) {
-                [identicalSubCellsCheckSet addObject:subCell];
-
-                if (subCell.voiceCommands == nil) { continue; }
-                [identicalVoiceCommandsCheckSet addObjectsFromArray:subCell.voiceCommands];
-                voiceCommandCount += subCell.voiceCommands.count;
-            }
-
-            if (identicalSubCellsCheckSet.count != cell.subCells.count) {
-                SDLLogE(@"Not all subCells are unique. The menu will not be set.");
-                return NO;
-            }
+        if (cell.subCells.count > 0 && ![self sdl_menuCellsAreUnique:cell.subCells]) {
+            return NO;
         }
 
         if (cell.voiceCommands == nil) { continue; }
@@ -582,12 +579,6 @@ UInt32 const MenuCellIdMin = 1;
     // Check for duplicate cells
     if (identicalCellsCheckSet.count != cells.count) {
         SDLLogE(@"Not all cells are unique. The menu will not be set.");
-        return NO;
-    }
-
-    // Check for duplicate voice recognition commands
-    if (identicalVoiceCommandsCheckSet.count != voiceCommandCount) {
-        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
         return NO;
     }
 
@@ -786,6 +777,8 @@ UInt32 const MenuCellIdMin = 1;
         ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
+            identicalVoiceCommandsCheckSet = [NSMutableSet set];
+            voiceCommandCount = 0;
             self.waitingUpdateMenuCells = @[];
             return;
         }
@@ -800,6 +793,8 @@ UInt32 const MenuCellIdMin = 1;
         && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
+            identicalVoiceCommandsCheckSet = [NSMutableSet set];
+            voiceCommandCount = 0;
             self.waitingUpdateMenuCells = @[];
         }
     }
