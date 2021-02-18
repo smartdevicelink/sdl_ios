@@ -21,6 +21,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCells);
+
 @interface SDLMenuReplaceOperation : SDLAsynchronousOperation
 
 @property (strong, nonatomic) SDLWindowCapability *windowCapability;

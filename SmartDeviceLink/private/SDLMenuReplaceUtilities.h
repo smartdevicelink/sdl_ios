@@ -19,8 +19,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCells);
-
 @interface SDLMenuReplaceUtilities : NSObject
 
 #pragma mark - Artworks
