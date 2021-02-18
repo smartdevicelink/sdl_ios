@@ -10,11 +10,13 @@
 #import "SDLImageField.h"
 #import "SDLImageType.h"
 #import "SDLKeyboardCapabilities.h"
+#import "SDLKeyboardLayoutCapability.h"
+#import "SDLKeyboardProperties.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLTextField.h"
 #import "SDLTextFieldName.h"
-#import "SDLWindowCapability.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 QuickSpecBegin(SDLWindowCapabilitySpec)
 
@@ -182,5 +184,82 @@ describe(@"getter/setter tests", ^{
         });
     });
 });
+
+describe(@"method createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:", ^{
+    const UInt8 numConfigurableKeys = 7;
+
+    beforeEach(^{
+        testStruct = [[SDLWindowCapability alloc] init];
+        testStruct.keyboardCapabilities = nil;
+    });
+
+    context(@"when .keyboardCapabilities is nil or empty", ^{
+        it(@"result should be nil when the argument is nil", ^{
+            SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:nil];
+            expect(resultProperties).to(beNil());
+        });
+
+        it(@"result should be equal to the argument when .keyboardLayout is nil", ^{
+            SDLKeyboardProperties *testKeyboardProperties = [[SDLKeyboardProperties alloc] init];
+            testKeyboardProperties.maskInputCharacters = SDLKeyboardInputMaskUserChoiceInputKeyMask;
+            SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:testKeyboardProperties];
+            expect(resultProperties).notTo(beNil());
+            expect(resultProperties).to(equal(testKeyboardProperties));
+            expect(resultProperties.maskInputCharacters).to(equal(SDLKeyboardInputMaskUserChoiceInputKeyMask));
+        });
+
+        it(@"result should be nil when the argument is not nil and .keyboardCapabilities is empty", ^{
+            testStruct.keyboardCapabilities = [[SDLKeyboardCapabilities alloc] init];
+            SDLKeyboardProperties *testKeyboardProperties = [[SDLKeyboardProperties alloc] init];
+            testKeyboardProperties.keyboardLayout = SDLKeyboardLayoutNumeric;
+            testKeyboardProperties.maskInputCharacters = SDLKeyboardInputMaskUserChoiceInputKeyMask;
+            SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:testKeyboardProperties];
+            expect(resultProperties).to(beNil());
+        });
+
+        context(@"when .keyboardCapabilities is not empty", ^{
+            __block SDLKeyboardProperties *testKeyboardProperties = nil;
+            __block SDLKeyboardCapabilities *keyboardCapabilities = nil;
+
+            beforeEach(^{
+                NSArray *arrayLayouts = @[SDLKeyboardLayoutQWERTY, SDLKeyboardLayoutQWERTZ, SDLKeyboardLayoutAZERTY, SDLKeyboardLayoutNumeric];
+                NSMutableArray *arrayLayoutCapability = [[NSMutableArray alloc] initWithCapacity:arrayLayouts.count];
+                for (SDLKeyboardLayout layout in arrayLayouts) {
+                    SDLKeyboardLayoutCapability *layoutCapability = [[SDLKeyboardLayoutCapability alloc] initWithKeyboardLayout:layout numConfigurableKeys:numConfigurableKeys];
+                    [arrayLayoutCapability addObject:layoutCapability];
+                }
+                keyboardCapabilities = [[SDLKeyboardCapabilities alloc] init];
+                keyboardCapabilities.supportedKeyboards = arrayLayoutCapability;
+                testStruct.keyboardCapabilities = keyboardCapabilities;
+
+                testKeyboardProperties = [[SDLKeyboardProperties alloc] init];
+                testKeyboardProperties.keyboardLayout = SDLKeyboardLayoutNumeric;
+                // create custom keys array longer than <numConfigurableKeys>
+                testKeyboardProperties.customKeys = [@"a ä æ b c d e ê f j h i j k l m n o p q r s ß t u v w x y z" componentsSeparatedByString:@" "];
+                testKeyboardProperties.maskInputCharacters = SDLKeyboardInputMaskUserChoiceInputKeyMask;
+                testKeyboardProperties.keyboardLayout = SDLKeyboardLayoutAZERTY;
+            });
+
+            it(@"maskInputCharacters should not be nil when maskInputCharactersSupported = YES", ^{
+                keyboardCapabilities.maskInputCharactersSupported = @YES;
+                SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:testKeyboardProperties];
+                expect(resultProperties).notTo(beNil());
+                expect(resultProperties).notTo(equal(testKeyboardProperties));
+                expect(resultProperties.customKeys.count).to(equal(numConfigurableKeys));
+                expect(resultProperties.maskInputCharacters).to(equal(SDLKeyboardInputMaskUserChoiceInputKeyMask));
+            });
+
+            it(@"maskInputCharacters should be nil when maskInputCharactersSupported = NO", ^{
+                keyboardCapabilities.maskInputCharactersSupported = @NO;
+                SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:testKeyboardProperties];
+                expect(resultProperties).notTo(beNil());
+                expect(resultProperties).notTo(equal(testKeyboardProperties));
+                expect(resultProperties.customKeys.count).to(equal(numConfigurableKeys));
+                expect(resultProperties.maskInputCharacters).to(beNil());
+            });
+        });
+    });
+});
+
 
 QuickSpecEnd
