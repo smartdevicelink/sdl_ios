@@ -543,6 +543,16 @@ UInt32 const MenuCellIdMin = 1;
             [mutableArtworks addObject:cell.icon];
         }
 
+        if (cell.subCells.count > 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+            if ([self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
+                [mutableArtworks addObject:cell.secondaryArtwork];
+            }
+        } else if (cell.subCells.count == 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
+            if ([self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
+                [mutableArtworks addObject:cell.secondaryArtwork];
+            }
+        }
+
         if (cell.subCells.count > 0) {
             [mutableArtworks addObjectsFromArray:[self sdl_findAllArtworksToBeUploadedFromCells:cell.subCells]];
         }
@@ -554,8 +564,17 @@ UInt32 const MenuCellIdMin = 1;
 - (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells {
     for (SDLMenuCell *cell in cells) {
         SDLArtwork *artwork = cell.icon;
+        SDLArtwork *secondaryArtwork = cell.secondaryArtwork;
         if (artwork != nil && !artwork.isStaticIcon && ![self.fileManager hasUploadedFile:artwork]) {
             return NO;
+        } else if (cell.subCells.count > 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+            if (secondaryArtwork != nil && !secondaryArtwork.isStaticIcon && ![self.fileManager hasUploadedFile:secondaryArtwork]) {
+                return NO;
+            }
+        } else if (cell.subCells.count == 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
+            if (secondaryArtwork != nil && !secondaryArtwork.isStaticIcon && ![self.fileManager hasUploadedFile:secondaryArtwork]) {
+                return NO;
+            }
         } else if (cell.subCells.count > 0) {
             return [self sdl_shouldRPCsIncludeImages:cell.subCells];
         }
@@ -654,17 +673,21 @@ UInt32 const MenuCellIdMin = 1;
     params.menuName = cell.title;
     params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
     params.position = @(position);
+    params.tertiaryText = cell.tertiaryText;
+    params.secondaryText = cell.secondaryText;
 
     command.menuParams = params;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
     command.cmdIcon = (cell.icon && shouldHaveArtwork) ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
+    command.secondaryImage = (cell.secondaryArtwork && shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork]) ? cell.secondaryArtwork.imageRPC : nil;
 
     return command;
 }
 
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
+    SDLImage *secondaryImage = (shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork] && (cell.secondaryArtwork.name != nil)) ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
     if (cell.submenuLayout && [self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
@@ -672,8 +695,7 @@ UInt32 const MenuCellIdMin = 1;
     } else {
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
-
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil];
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:secondaryImage];
 }
 
 #pragma mark - Calling handlers

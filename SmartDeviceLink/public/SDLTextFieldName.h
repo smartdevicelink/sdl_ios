@@ -265,3 +265,31 @@ extern SDLTextFieldName const SDLTextFieldNameSubtleAlertText2;
  * @since SDL 7.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameSubtleAlertSoftButtonText;
+
+/**
+ * Secondary text for AddCommand
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameMenuCommandSecondaryText;
+
+/**
+ * Tertiary text for AddCommand
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameMenuCommandTertiaryText;
+
+/**
+ * Secondary text for AddSubMenu
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameMenuSubMenuSecondaryText;
+
+/**
+ * Tertiary text for AddSubMenu
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameMenuSubMenuTertiaryText;
