@@ -151,7 +151,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLUnsubscribeWayPointsResponse.h"
 #import "SDLUpdateTurnListResponse.h"
 
-// Notifications
 #pragma mark Notifications
 #import "SDLOnAppCapabilityUpdated.h"
 #import "SDLOnAppInterfaceUnregistered.h"

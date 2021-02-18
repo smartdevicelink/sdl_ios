@@ -71,7 +71,6 @@
 @end
 
 @implementation SDLLifecycleTestManager
-// override parent method
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     self.testRequest = request;
 }
@@ -102,7 +101,6 @@ QuickConfigurationEnd
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
 describe(@"test lifecycle manager internals", ^{
-    // note: this test was created to satisfy Cocodev
     context(@"init and assign version", ^{
         SDLLifecycleTestManager *manager = [[SDLLifecycleTestManager alloc] init];
         it(@"expect object to be created", ^{

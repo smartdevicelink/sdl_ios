@@ -32,10 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
     return aCopy;
 }
 
-- (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilitiesPlain {
+- (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilities {
     NSMutableArray *capabilitiesArray = [NSMutableArray arrayWithObject:[self shortCopy]];
     for (SDLVideoStreamingCapability *capability in self.additionalVideoStreamingCapabilities) {
-        NSArray *childCapabilities = [capability allVideoStreamingCapabilitiesPlain];
+        NSArray *childCapabilities = [capability allVideoStreamingCapabilities];
         if (childCapabilities.count) {
             [capabilitiesArray addObjectsFromArray:childCapabilities];
         }

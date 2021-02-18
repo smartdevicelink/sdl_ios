@@ -66,7 +66,7 @@
 
 - (void)shutDown;
 - (NSArray<SDLVideoStreamingCapability *>* __nullable)matchVideoCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
-- (void)suspendVideo;
+- (void)sdl_suspendVideo;
 - (void)didEnterStateVideoStreamStopped;
 - (void)didEnterStateVideoStreamStarting;
 - (void)didEnterStateVideoStreamReady;
@@ -120,7 +120,7 @@
 
 // expose private methods to the test suite
 @interface SDLVideoStreamingCapability (test)
-- (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilitiesPlain;
+- (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilities;
 - (instancetype)shortCopy;
 @end
 
@@ -246,10 +246,10 @@ describe(@"test internals", ^{
         SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
         it(@"suspendVideo with and without a protocol", ^{
             expect(streamingLifecycleManager.didStopVideoSession).to(equal(NO));
-            [streamingLifecycleManager suspendVideo];
+            [streamingLifecycleManager sdl_suspendVideo];
             expect(streamingLifecycleManager.didStopVideoSession).to(equal(NO));
             streamingLifecycleManager.protocol = protocolMock;
-            [streamingLifecycleManager suspendVideo];
+            [streamingLifecycleManager sdl_suspendVideo];
             expect(streamingLifecycleManager.didStopVideoSession).to(equal(YES));
         });
     });
@@ -1396,7 +1396,7 @@ describe(@"supported video capabilities and formats", ^{
     SDLStreamingVideoLifecycleManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
 
     context(@"neither landscape nor portrait constraint set", ^{
-        NSArray <SDLVideoStreamingCapability*>* allCapabilities = [capability0 allVideoStreamingCapabilitiesPlain];
+        NSArray <SDLVideoStreamingCapability*>* allCapabilities = [capability0 allVideoStreamingCapabilities];
 
         it(@"should let all capabilities in (nothing filtered out)", ^{
             streamingLifecycleManager.supportedLandscapeStreamingRange = nil;

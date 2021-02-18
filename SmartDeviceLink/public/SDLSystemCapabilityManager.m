@@ -383,15 +383,13 @@ typedef NSString * SDLServiceID;
     [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (![response isKindOfClass:[SDLGetSystemCapabilityResponse class]]) {
             SDLLogE(@"GetSystemCapability failed, type: %@, did not return a GetSystemCapability response", type);
-            if (handler == nil) { return; }
-            handler(nil, NO, [NSError sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities]);
+            [self sdl_notifyObserversOfCapabilityType:getSystemCapability.systemCapabilityType capability:nil error:[NSError sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities]];
             return;
         }
 
         if (response.success.boolValue == false) {
             SDLLogE(@"GetSystemCapability failed, type: %@, error: %@", type, error);
-            if (handler == nil) { return; }
-            handler(nil, NO, error);
+            [self sdl_notifyObserversOfCapabilityType:getSystemCapability.systemCapabilityType capability:nil error:error];
             return;
         }
 
@@ -406,6 +404,12 @@ typedef NSString * SDLServiceID;
 
         [weakself sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability error:error completionHandler:handler];
     }];
+}
+
+- (void)sdl_notifyObserversOfCapabilityType:(SDLSystemCapabilityType)type capability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
+    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
+        [self sdl_invokeObserver:observer withCapabilityType:type capability:capability error:error];
+    }
 }
 
 #pragma mark Saving Capability Responses
@@ -662,10 +666,7 @@ typedef NSString * SDLServiceID;
     SDLLogV(@"Calling observers for type: %@ with update: %@", type, capability);
 
     [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
-
-    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
-        [self sdl_invokeObserver:observer withCapabilityType:type capability:capability error:error];
-    }
+    [self sdl_notifyObserversOfCapabilityType:type capability:capability error:error];
 
     if (handler == nil) { return; }
     handler(capability, self.subscriptionStatus[type].boolValue, error);

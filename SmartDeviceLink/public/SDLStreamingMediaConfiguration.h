@@ -83,8 +83,19 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  */
 @property (assign, nonatomic) BOOL allowMultipleViewControllerOrientations;
 
+/**
+ A configuration object of type SDLVideoStreamingRange. If the application supports a specific video parameters in landscape orientation like screen size etc then please provide the parameters in this struct.
+ */
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
+
+/**
+ A configuration object of type SDLVideoStreamingRange. If the application supports a specific video parameters in portrait orientation like screen size etc then please provide the parameters in this struct.
+ */
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
+
+/**
+ The configuration delegate, this is an object conforming to the SDLStreamingVideoDelegate protocol. If video streaming parameters change then this object will be called on.
+ */
 @property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
 
 /**

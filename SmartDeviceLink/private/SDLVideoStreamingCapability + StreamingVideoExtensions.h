@@ -14,15 +14,32 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLVideoStreamingCapability (StreamingVideoExtensions)
 
-// this returns a copy array of all capabilities including itself but with no recursion
-// in the result objects the .additionalVideoStreamingCapabilities will be nil
-- (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilitiesPlain;
+// this returns a copy array of all capabilities including itself
+// in the result objects the .additionalVideoStreamingCapabilities will be ommited
+- (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilities;
 
+/**
+ Create a SDLImageResolution from  preferredResolution respecting the scale factor
+ @return SDLImageResolution - an initialized image resolution struct
+ */
 - (SDLImageResolution *)makeImageResolution;
 
+/**
+ It traverces through all capabilities and collects all image resolutions into an array respecting the scale factor
+ @return [SDLImageResolution] - an array of initialized image resolution structs
+ */
 - (NSArray<SDLImageResolution *> *)allImageResolutionsScaled;
 
+/**
+ It traverces through all capabilities and collects all image resolutions into an array ignoring the scale factor
+ @return [SDLImageResolution] - an array of initialized image resolution structs
+ */
 - (NSArray<SDLImageResolution *> *)allImageResolutions;
+
+/**
+ It produces a shallow copy of itself object, additionalVideoStreamingCapabilities will be nil
+ */
+- (instancetype)shortCopy;
 
 @end
 

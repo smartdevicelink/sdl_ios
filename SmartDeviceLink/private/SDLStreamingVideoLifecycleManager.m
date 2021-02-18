@@ -329,17 +329,17 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (_showVideoBackgroundDisplay) {
         [self sdl_sendBackgroundFrames];
     }
-    [self suspendVideo];
+    [self sdl_suspendVideo];
 }
 
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
 // We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateAppActive {
     SDLLogD(@"App became active");
-    [self resumeVideo];
+    [self sdl_resumeVideo];
 }
 
-- (void)resumeVideo {
+- (void)sdl_resumeVideo {
     self.shouldAutoResume = NO;
 
     if (self.protocol == nil) {
@@ -354,7 +354,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 }
 
-- (void)suspendVideo {
+- (void)sdl_suspendVideo {
     if (!self.protocol) {
         SDLLogV(@"No session established with head unit. Cannot suspend video.");
         return;
@@ -510,7 +510,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             if (capability) {
                 [self sdl_applyVideoCapability:capability];
             }
-            [self resumeVideo];
+            [self sdl_resumeVideo];
         });
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamSuspendedNotification object:nil];
@@ -720,12 +720,19 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (videoCapability) {
         [self sdl_useVideoCapability:videoCapability];
     } else {
-        typeof(self) weakSelf = self;
-        [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
-            SDLLogD(@"Received video capability response");
-            SDLLogV(@"Capability: %@", capability);
-            [weakSelf sdl_useVideoCapability:capability];
-        }];
+        // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
+        SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+        SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)self.videoScaleManager.displayViewportResolution.width height:(uint16_t)self.videoScaleManager.displayViewportResolution.height];
+        self.preferredFormats = @[format];
+        self.preferredResolutions = @[resolution];
+        if (self.focusableItemManager != nil) {
+            self.focusableItemManager.enableHapticDataRequests = NO;
+        }
+        SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", self.preferredFormats, self.preferredResolutions);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+        [self sdl_useVideoCapability:nil];
+#pragma clang diagnostic pop
     }
 }
 
@@ -742,13 +749,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)sdl_applyVideoCapabilityWhileStarting:(nullable SDLVideoStreamingCapability *)videoCapabilityUpdated {
-    SDLVideoStreamingCapability *videoCapability = (nil == videoCapabilityUpdated) ? [self sdl_defaultVideoCapability] : videoCapabilityUpdated;
+    SDLVideoStreamingCapability *videoCapability = (videoCapabilityUpdated == nil) ? [self sdl_defaultVideoCapability] : videoCapabilityUpdated;
     NSArray<SDLVideoStreamingCapability *> *capabilityMatches = [self matchVideoCapability:videoCapability];
     [self sdl_sendOnAppCapabilityUpdated:capabilityMatches];
 
     if (capabilityMatches.count == 0) {
         // use default video capability if no match found
-        capabilityMatches = @[[self sdl_defaultVideoCapability]];
+        capabilityMatches = (videoCapabilityUpdated == nil) ? @[[self sdl_defaultVideoCapability]] : @[[videoCapabilityUpdated shortCopy]];
     }
 
     SDLVideoStreamingCapability *matchedVideoCapability = capabilityMatches.firstObject;
@@ -845,7 +852,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return @[];
     }
 
-    NSArray <SDLVideoStreamingCapability*> *allCapabilities = [videoStreamingCapability allVideoStreamingCapabilitiesPlain];
+    NSArray <SDLVideoStreamingCapability*> *allCapabilities = [videoStreamingCapability allVideoStreamingCapabilities];
     NSMutableArray *matchCapabilities = [NSMutableArray arrayWithCapacity:allCapabilities.count];
     for (SDLVideoStreamingCapability *nextCapability in allCapabilities) {
         SDLImageResolution *imageResolution = [nextCapability makeImageResolution];
@@ -1165,18 +1172,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (BOOL)isStreamingSupported {
     return (self.systemCapabilityManager != nil) ? [self.systemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming] : YES;
-}
-
-- (void)setPreferredResolutions:(NSArray<SDLImageResolution *> *)resolutions {
-    _preferredResolutions = resolutions;
-    _preferredResolutionIndex = 0;
-    [self didChangeValueForKey:@"preferredResolutions"];
-}
-
-- (void)setPreferredFormats:(NSArray<SDLVideoStreamingFormat *> *)formats {
-    _preferredFormats = formats;
-    _preferredFormatIndex = 0;
-    [self didChangeValueForKey:@"preferredFormats"];
 }
 
 @end

@@ -1,7 +1,6 @@
 //  SDLImageResolution.h
 //
 
-#import <CoreGraphics/CGGeometry.h>
 #import "SDLRPCMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
