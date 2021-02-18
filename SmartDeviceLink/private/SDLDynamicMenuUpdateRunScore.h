@@ -13,12 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLDynamicMenuUpdateRunScore : NSObject
 
 /**
- Will contain all the Deletes and Keeps
+ Will contain all the Deletes and Keeps. Contains SDLMenuState.
  */
 @property (copy, nonatomic, readonly) NSArray<NSNumber *> *oldStatus;
 
 /**
- Will contain all the Adds and Keeps
+ Will contain all the Adds and Keeps. Contains SDLMenuState.
  */
 @property (copy, nonatomic, readonly) NSArray<NSNumber *> *updatedStatus;
 

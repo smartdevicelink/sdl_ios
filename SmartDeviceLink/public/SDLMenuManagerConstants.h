@@ -22,18 +22,3 @@ typedef NS_ENUM(NSUInteger, SDLDynamicMenuUpdatesMode) {
     /// This mode checks whether the phone is connected to a SYNC Gen 3 head unit, which has known menu ordering issues. If it is, it will always delete and re-add every menu item, if not, it will dynamically update the menus.
     SDLDynamicMenuUpdatesModeOnWithCompatibility
 };
-
-
-/// Menu cell state
-///
-/// Cell state that tells the menu manager what it should do with a given SDLMenuCell
-typedef NS_ENUM(NSUInteger, MenuCellState) {
-    /// Marks the cell to be deleted
-    MenuCellStateDelete = 0,
-
-    /// Marks the cell to be added
-    MenuCellStateAdd,
-
-    /// Marks the cell to be kept
-    MenuCellStateKeep
-};

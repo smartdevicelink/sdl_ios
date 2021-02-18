@@ -8,6 +8,8 @@
 
 #import "SDLMenuConfiguration.h"
 
+#import "SDLMacros.h"
+
 @implementation SDLMenuConfiguration
 
 - (instancetype)init {
@@ -22,6 +24,24 @@
     _defaultSubmenuLayout = defaultSubmenuLayout;
 
     return self;
+}
+
+- (NSUInteger)hash {
+    return NSUIntRotateCell(self.mainMenuLayout.hash, NSUIntBitCell / 2)
+    ^ NSUIntRotateCell(self.defaultSubmenuLayout.hash, NSUIntBitCell / 3);
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) { return YES; }
+    if (![object isMemberOfClass:[self class]]) { return NO; }
+
+    return [self isEqualToConfiguration:(SDLMenuConfiguration *)object];
+}
+
+- (BOOL)isEqualToConfiguration:(SDLMenuConfiguration *)configuration {
+    if (configuration == nil) { return NO; }
+
+    return (self.hash == configuration.hash);
 }
 
 - (NSString *)description {
