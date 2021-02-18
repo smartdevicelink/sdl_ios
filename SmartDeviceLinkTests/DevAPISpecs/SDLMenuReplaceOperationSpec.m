@@ -12,6 +12,7 @@
 
 #import <SmartDeviceLink/SmartDeviceLink.h>
 #import "SDLMenuReplaceOperation.h"
+#import "SDLMenuReplaceUtilities.h"
 #import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLMenuReplaceOperationSpec)
@@ -39,6 +40,8 @@ describe(@"a menu replace operation", ^{
     __block NSArray<SDLMenuCell *> *newCurrentMenuCells = nil;
     __block SDLCurrentMenuUpdatedBlock testCurrentMenuUpdatedBlock = nil;
 
+    __block SDLMenuReplaceUtilities *mockReplaceUtilities = nil;
+
     beforeEach(^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
         testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name 2" fileExtension:@"png" persistent:NO];
@@ -54,7 +57,9 @@ describe(@"a menu replace operation", ^{
         testOp = nil;
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMClassMock([SDLFileManager class]);
-        testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
+
+        SDLImageField *iconImageField = [[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+        testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:@[iconImageField] imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
         testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutList defaultSubmenuLayout:SDLMenuLayoutList];
         testCurrentMenu = @[];
         testNewMenu = nil;
@@ -63,112 +68,137 @@ describe(@"a menu replace operation", ^{
         testCurrentMenuUpdatedBlock = ^(NSArray<SDLMenuCell *> *currentMenuCells) {
             newCurrentMenuCells = currentMenuCells;
         };
+
+        mockReplaceUtilities = OCMClassMock([SDLMenuReplaceUtilities class]);
     });
 
+    // sending initial batch of cells
     describe(@"sending initial batch of cells", ^{
-        context(@"when uploading text and image cells", ^{
-            it(@"should check if all artworks are uploaded and return NO", ^{
-                textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-                testNewMenu = @[textAndImageCell];
+
+        // when setting no cells
+        context(@"when setting no cells", ^{
+            it(@"should finish without doing anything", ^{
                 testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
-//                testManager.menuCells = @[textAndImageCell, textOnlyCell];
-//                expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beFalse());
+                [testOp start];
+
+                expect(testConnectionManager.receivedRequests).to(beEmpty());
+                expect(testOp.isFinished).to(beTrue());
+            });
+        });
+
+        // when uploading text and image cell
+        context(@"when uploading text and image cell", ^{
+            beforeEach(^{
+                testNewMenu = @[textAndImageCell];
+
+                OCMStub([testFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+                OCMStub([testFileManager uploadArtworks:[OCMArg any] progressHandler:([OCMArg invokeBlockWithArgs:textAndImageCell.icon.name, @1.0, [NSNull null], nil]) completionHandler:([OCMArg invokeBlockWithArgs: @[textAndImageCell.icon.name], [NSNull null], nil])]);
+            });
+
+            // when the image is already on the head unit
+//            context(@"when the image is already on the head unit", ^{
+//                it(@"should check if all artworks are uploaded", ^{
+//                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+//                    testManager.menuCells = @[textAndImageCell, textOnlyCell];
+//                    OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
+//                    expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beTrue());
+//                });
+//
+//                it(@"should properly update an image cell", ^{
+//                    testManager.menuCells = @[textAndImageCell, submenuImageCell];
+//
+//                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+//                    NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+//                    SDLAddCommand *sentCommand = add.firstObject;
+//
+//                    NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
+//                    NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+//                    SDLAddSubMenu *sentSubmenu = submenu.firstObject;
+//
+//                    expect(add).to(haveCount(1));
+//                    expect(submenu).to(haveCount(1));
+//                    expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
+//                    expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
+//                    OCMReject([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+//                });
+//            });
+
+            // when the image is not on the head unit
+            context(@"when the image is not on the head unit", ^{
+                it(@"should attempt to upload artworks then send the add", ^{
+                    testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                    [testOp start];
+
+                    OCMVerify([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+
+                    NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteCommand class]];
+                    NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+                    expect(deletes).to(beEmpty());
+
+                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                    NSArray *add = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                    expect(add).toNot(beEmpty());
+                });
+            });
+
+            it(@"should properly overwrite an image cell", ^{
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
+                textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                testManager.menuCells = @[textAndImageCell, submenuImageCell];
+                OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+            });
+        });
+
+        // when uploading a text-only cell
+        context(@"when uploading a text-only cell", ^{
+            beforeEach(^{
+                testNewMenu = @[textOnlyCell];
+                OCMStub([testFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
+            });
+
+            it(@"should properly update a text cell", ^{
+                testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                [testOp start];
+
+                OCMReject([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+
+                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteCommand class]];
+                NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+                expect(deletes).to(beEmpty());
+
+                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                NSArray *add = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                expect(add).toNot(beEmpty());
+            });
+        });
+
+        // when uploading a cell with subcells
+        context(@"when uploading a cell with subcells", ^{
+            beforeEach(^{
+                testNewMenu = @[submenuCell];
+            });
+
+            it(@"should send an appropriate number of AddSubmenu and AddCommandRequests", ^{
+                testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                [testOp start];
+
+                SDLAddSubMenuResponse *response = [[SDLAddSubMenuResponse alloc] init];
+                response.success = @YES;
+                response.resultCode = SDLResultSuccess;
+                [testConnectionManager respondToLastRequestWithResponse:response];
+                [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                NSArray *adds = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+
+                NSPredicate *submenuCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
+                NSArray *submenus = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:submenuCommandPredicate];
+
+                expect(adds).to(haveCount(2));
+                expect(submenus).to(haveCount(1));
             });
         });
     });
-
-//        it(@"should properly update a text cell", ^{
-//            testManager.menuCells = @[textOnlyCell];
-//
-//            NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteCommand class]];
-//            NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
-//            expect(deletes).to(beEmpty());
-//
-//            NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-//            NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-//            expect(add).toNot(beEmpty());
-//        });
-//
-//        it(@"should properly update with subcells", ^{
-//            OCMStub([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
-//            testManager.menuCells = @[submenuCell];
-//            [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
-//
-//            NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-//            NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-//
-//            NSPredicate *submenuCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
-//            NSArray *submenus = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:submenuCommandPredicate];
-//
-//            expect(adds).to(haveCount(2));
-//            expect(submenus).to(haveCount(1));
-//        });
-//    });
-//
-//    describe(@"updating with an image", ^{
-//        context(@"when the image is already on the head unit", ^{
-//            beforeEach(^{
-//                OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
-//            });
-//
-//            it(@"should check if all artworks are uploaded", ^{
-//                textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//                testManager.menuCells = @[textAndImageCell, textOnlyCell];
-//                OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
-//                expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beTrue());
-//            });
-//
-//            it(@"should properly update an image cell", ^{
-//                testManager.menuCells = @[textAndImageCell, submenuImageCell];
-//
-//                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-//                NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-//                SDLAddCommand *sentCommand = add.firstObject;
-//
-//                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
-//                NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
-//                SDLAddSubMenu *sentSubmenu = submenu.firstObject;
-//
-//                expect(add).to(haveCount(1));
-//                expect(submenu).to(haveCount(1));
-//                expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
-//                expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
-//                OCMReject([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
-//            });
-//
-//            it(@"should properly overwrite an image cell", ^{
-//                OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
-//                textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//                testManager.menuCells = @[textAndImageCell, submenuImageCell];
-//                OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
-//            });
-//        });
-//
-//        // No longer a valid unit test
-//        context(@"when the image is not on the head unit", ^{
-//            beforeEach(^{
-//                testManager.dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeForceOff;
-//                OCMStub([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
-//            });
-//
-//            it(@"should wait till image is on head unit and attempt to update without the image", ^{
-//                testManager.menuCells = @[textAndImageCell, submenuImageCell];
-//
-//                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-//                NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-//                SDLAddCommand *sentCommand = add.firstObject;
-//
-//                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
-//                NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
-//                SDLAddSubMenu *sentSubmenu = submenu.firstObject;
-//
-//                expect(add).to(haveCount(1));
-//                expect(submenu).to(haveCount(1));
-//                expect(sentCommand.cmdIcon.value).to(beNil());
-//                expect(sentSubmenu.menuIcon.value).to(beNil());
-//            });
-//        });
-//    });
 //
 //    describe(@"updating when a menu already exists with dynamic updates on", ^{
 //        beforeEach(^{

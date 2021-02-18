@@ -16,15 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// Menu cell state
 ///
 /// Cell state that tells the menu manager what it should do with a given SDLMenuCell
-typedef NS_ENUM(NSUInteger, MenuCellState) {
+typedef NS_ENUM(NSUInteger, SDLMenuCellUpdateState) {
     /// Marks the cell to be deleted
-    MenuCellStateDelete = 0,
+    SDLMenuCellUpdateStateDelete = 0,
 
     /// Marks the cell to be added
-    MenuCellStateAdd,
+    SDLMenuCellUpdateStateAdd,
 
     /// Marks the cell to be kept
-    MenuCellStateKeep
+    SDLMenuCellUpdateStateKeep
 };
 
 @interface SDLDynamicMenuUpdateAlgorithm : NSObject

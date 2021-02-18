@@ -40,7 +40,7 @@
 
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
-        if ([fileManager fileNeedsUpload:cell.icon]) {
+        if ((cell.icon != nil) && [fileManager fileNeedsUpload:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
         }
 

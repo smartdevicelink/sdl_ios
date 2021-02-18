@@ -70,7 +70,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     SDLDynamicMenuUpdateRunScore *runScore = nil;
     if (self.compatbilityModeEnabled) {
         SDLLogV(@"Dynamic menu update inactive. Forcing the deletion of all old cells and adding all new ones, even if they're the same.");
-        runScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:[self sdl_buildAllDeleteStatusesForMenu:self.mutableCurrentMenu] updatedStatus:[self sdl_buildAllAddStatusesForMenu:self.updatedMenu] score:self.updatedMenu.count];
+        runScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:[self sdl_buildAllDeleteStatusesForMenu:self.currentMenu] updatedStatus:[self sdl_buildAllAddStatusesForMenu:self.updatedMenu] score:self.updatedMenu.count];
     } else {
         SDLLogV(@"Dynamic menu update active. Running the algorithm to find the best way to delete / add cells.");
         runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
@@ -262,7 +262,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     // The index of the status should correlate 1-1 with the number of items in the menu
     // [2,0,2,0] => [A,B,C,D] = [B,D]
     for (NSUInteger index = 0; index < oldStatusList.count; index++) {
-        if (oldStatusList[index].integerValue == MenuCellStateDelete) {
+        if (oldStatusList[index].integerValue == SDLMenuCellUpdateStateDelete) {
             [deleteCells addObject:oldMenuCells[index]];
         }
     }
@@ -274,7 +274,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     // The index of the status should corrleate 1-1 with the number of items in the menu
     // [2,1,2,1] => [A,B,C,D] = [B,D]
     for (NSUInteger index = 0; index < newStatusList.count; index++) {
-        if (newStatusList[index].integerValue == MenuCellStateAdd) {
+        if (newStatusList[index].integerValue == SDLMenuCellUpdateStateAdd) {
             [addCells addObject:newMenuCells[index]];
         }
     }
@@ -285,7 +285,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     NSMutableArray<SDLMenuCell *> *keepMenuCells = [[NSMutableArray alloc] init];
 
     for (NSUInteger index = 0; index < keepStatusList.count; index++) {
-        if (keepStatusList[index].integerValue == MenuCellStateKeep) {
+        if (keepStatusList[index].unsignedIntegerValue == SDLMenuCellUpdateStateKeep) {
             [keepMenuCells addObject:oldMenuCells[index]];
         }
     }
@@ -295,7 +295,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 - (NSArray<SDLMenuCell *> *)sdl_filterKeepMenuItemsWithNewMenuItems:(NSArray<SDLMenuCell *> *)newMenuCells basedOnStatusList:(NSArray<NSNumber *> *)keepStatusList {
     NSMutableArray<SDLMenuCell *> *keepMenuCells = [[NSMutableArray alloc] init];
     for (NSUInteger index = 0; index < keepStatusList.count; index++) {
-        if (keepStatusList[index].integerValue == MenuCellStateKeep) {
+        if (keepStatusList[index].unsignedIntegerValue == SDLMenuCellUpdateStateKeep) {
             [keepMenuCells addObject:newMenuCells[index]];
         }
     }
@@ -312,7 +312,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 - (NSArray<NSNumber *> *)sdl_buildAllDeleteStatusesForMenu:(NSArray<SDLMenuCell *> *)menuCells {
     NSMutableArray<NSNumber *> *mutableNumbers = [NSMutableArray arrayWithCapacity:menuCells.count];
     for (int i = 0; i < menuCells.count; i++) {
-        [mutableNumbers addObject:@(MenuCellStateDelete)];
+        [mutableNumbers addObject:@(SDLMenuCellUpdateStateDelete)];
     }
 
     return [mutableNumbers copy];
@@ -321,7 +321,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 - (NSArray<NSNumber *> *)sdl_buildAllAddStatusesForMenu:(NSArray<SDLMenuCell *> *)menuCells {
     NSMutableArray<NSNumber *> *mutableNumbers = [NSMutableArray arrayWithCapacity:menuCells.count];
     for (int i = 0; i < menuCells.count; i++) {
-        [mutableNumbers addObject:@(MenuCellStateDelete)];
+        [mutableNumbers addObject:@(SDLMenuCellUpdateStateAdd)];
     }
 
     return [mutableNumbers copy];

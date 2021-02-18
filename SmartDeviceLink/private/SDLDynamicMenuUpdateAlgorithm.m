@@ -41,8 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
             // Create inner loop to compare old cells to new cells to find a match, if a match if found we mark the index at match for both the old and the new status to keep since we do not want to send RPCs for those cases
             for (NSUInteger newCellIndex = startIndex; newCellIndex < updatedMenuCells.count; newCellIndex++) {
                 if ([oldMenuCells[oldCellIndex] isEqual:updatedMenuCells[newCellIndex]]) {
-                    oldMenuStatus[oldCellIndex] = @(MenuCellStateKeep);
-                    newMenuStatus[newCellIndex] = @(MenuCellStateKeep);
+                    oldMenuStatus[oldCellIndex] = @(SDLMenuCellUpdateStateKeep);
+                    newMenuStatus[newCellIndex] = @(SDLMenuCellUpdateStateKeep);
                     startIndex = newCellIndex + 1;
                     break;
                 }
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSUInteger numberOfAdds = 0;
         for (NSUInteger status = 0; status < newMenuStatus.count; status++) {
             // 0 = Delete   1 = Add    2 = Keep
-            if (newMenuStatus[status].integerValue == MenuCellStateAdd) {
+            if (newMenuStatus[status].integerValue == SDLMenuCellUpdateStateAdd) {
                 numberOfAdds++;
             }
         }
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSMutableArray<NSNumber *> *)sdl_buildAllDeleteStatusesforMenu:(NSArray<SDLMenuCell *> *)oldMenu {
     NSMutableArray<NSNumber *> *oldMenuStatus = [[NSMutableArray alloc] initWithCapacity:oldMenu.count];
     for (NSUInteger index = 0; index < oldMenu.count; index++) {
-        [oldMenuStatus addObject:@(MenuCellStateDelete)];
+        [oldMenuStatus addObject:@(SDLMenuCellUpdateStateDelete)];
     }
     return [oldMenuStatus mutableCopy];
 }
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSMutableArray<NSNumber *> *)sdl_buildAllAddStatusesForMenu:(NSArray<SDLMenuCell *> *)newMenu {
     NSMutableArray<NSNumber *> *newMenuStatus = [[NSMutableArray alloc] initWithCapacity:newMenu.count];
     for (NSUInteger index = 0; index < newMenu.count; index++) {
-        [newMenuStatus addObject:@(MenuCellStateAdd)];
+        [newMenuStatus addObject:@(SDLMenuCellUpdateStateAdd)];
     }
     return [newMenuStatus mutableCopy];
 }

@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
 
 @end
 
@@ -77,6 +78,18 @@ NS_ASSUME_NONNULL_BEGIN
     if (cell == nil) { return NO; }
 
     return (self.hash == cell.hash);
+}
+
+#pragma mark - Copying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLMenuCell *copy = [[SDLMenuCell allocWithZone:zone] initWithTitle:_title icon:[_icon copy] submenuLayout:_submenuLayout subCells:[_subCells copy]];
+    copy->_voiceCommands = [_voiceCommands copy];
+    copy->_cellId = _cellId;
+    copy->_parentCellId = _parentCellId;
+    copy->_handler = [_handler copy];
+
+    return copy;
 }
 
 @end
