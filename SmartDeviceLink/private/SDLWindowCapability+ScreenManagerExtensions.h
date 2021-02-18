@@ -23,7 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasTextFieldOfName:(SDLTextFieldName)name;
 - (BOOL)hasImageFieldOfName:(SDLImageFieldName)name;
 
-- (SDLKeyboardProperties *__nullable)filterValidKeyboardProperties:(SDLKeyboardProperties *__nullable)keyboardProperties;
+/// Takes a keyboard configuration (SDLKeyboardProperties) and creates a valid version of it, if possible, based on this object's internal keyboardCapabilities (SDLKeyboardCapabilities).
+/// If there is no internal keyboardCapabilities, it will just return the passed configuration as-is.
+/// If no valid configuration can be determined based on the internal keyboard capabilities, it will return nil.
+/// @param keyboardConfiguration The configuration to use to determine a valid configuration
+/// @return The passed keyboardConfiguration if there are no changes needed or possible, a modified keyboardConfiguration if a valid version of the configuration could be determined, or nil if a valid configuration could not be created
+- (nullable SDLKeyboardProperties *)createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:(nullable SDLKeyboardProperties *)keyboardConfiguration;
 
 @end
 

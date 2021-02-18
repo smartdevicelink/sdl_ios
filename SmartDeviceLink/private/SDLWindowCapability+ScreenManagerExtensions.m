@@ -56,41 +56,42 @@
     return NO;
 }
 
-- (SDLKeyboardProperties *__nullable)filterValidKeyboardProperties:(SDLKeyboardProperties *__nullable)inKeyboardProperties {
-    if (!self.keyboardCapabilities || !inKeyboardProperties || !inKeyboardProperties.keyboardLayout) {
+- (nullable SDLKeyboardProperties *)createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:(nullable SDLKeyboardProperties *)inKeyboardProperties {
+    // If there are no keyboard capabilities, if there is no passed keyboard configuration, or if there is no layout to the passed keyboard configuration, just pass back the passed in configuration
+    if ((self.keyboardCapabilities == nil) || (inKeyboardProperties == nil) || (inKeyboardProperties.keyboardLayout == nil)) {
         return inKeyboardProperties;
     }
+
     SDLKeyboardLayoutCapability *selectedLayoutCapability = nil;
-    if (inKeyboardProperties.keyboardLayout) {
-        for (SDLKeyboardLayoutCapability *layoutCapability in self.keyboardCapabilities.supportedKeyboards) {
-            if ([layoutCapability.keyboardLayout isEqualToEnum:inKeyboardProperties.keyboardLayout]) {
-                selectedLayoutCapability = layoutCapability;
-                break;
-            }
+    for (SDLKeyboardLayoutCapability *layoutCapability in self.keyboardCapabilities.supportedKeyboards) {
+        if ([layoutCapability.keyboardLayout isEqualToEnum:inKeyboardProperties.keyboardLayout]) {
+            selectedLayoutCapability = layoutCapability;
+            break;
         }
     }
-    if (!selectedLayoutCapability) {
-        SDLLogD(@"Keyboard layout is not supported: %@", inKeyboardProperties.keyboardLayout);
+    if (selectedLayoutCapability == nil) {
+        SDLLogE(@"Configured keyboard layout is not supported: %@", inKeyboardProperties.keyboardLayout);
         return nil;
     }
 
-    SDLKeyboardProperties *outKeyboardProperties = [inKeyboardProperties copy];
-
-    if (!inKeyboardProperties.customKeys.count) {
-        outKeyboardProperties.customKeys = nil;
+    SDLKeyboardProperties *modifiedKeyboardConfiguration = [inKeyboardProperties copy];
+    if (inKeyboardProperties.customKeys.count == 0) {
+        modifiedKeyboardConfiguration.customKeys = nil;
     } else {
-        const NSUInteger numConfigurableKeys = (NSUInteger)selectedLayoutCapability.numConfigurableKeys.integerValue;
-        if (inKeyboardProperties.customKeys.count > numConfigurableKeys) {
-            outKeyboardProperties.customKeys = [inKeyboardProperties.customKeys subarrayWithRange:NSMakeRange(0, numConfigurableKeys)];
-            SDLLogD(@"Too many custom keys %d, only the first %d will be used and the rest will get dropped.", (int)inKeyboardProperties.customKeys.count, (int)numConfigurableKeys);
+        // If there are more custom keys than are allowed for the selected keyboard layout, we need to trim the number of keys to only use the first n number of custom keys, where n is the number of allowed custom keys for that layout.
+        NSUInteger numConfigurableKeys = selectedLayoutCapability.numConfigurableKeys.unsignedIntegerValue;
+        if (modifiedKeyboardConfiguration.customKeys.count > numConfigurableKeys) {
+            modifiedKeyboardConfiguration.customKeys = [modifiedKeyboardConfiguration.customKeys subarrayWithRange:NSMakeRange(0, numConfigurableKeys)];
+            SDLLogW(@"%lu custom keys set, but the selected layout: %@ only supports %lu. Dropping the rest.", (unsigned long)modifiedKeyboardConfiguration.customKeys.count, modifiedKeyboardConfiguration.keyboardLayout, (unsigned long)numConfigurableKeys);
         }
     }
 
+    // If the keyboard does not support masking input characters, we will remove it from the keyboard configuration
     if (!self.keyboardCapabilities.maskInputCharactersSupported.boolValue) {
-        outKeyboardProperties.maskInputCharacters = nil;
+        modifiedKeyboardConfiguration.maskInputCharacters = nil;
     }
 
-    return outKeyboardProperties;
+    return modifiedKeyboardConfiguration;
 }
 
 @end

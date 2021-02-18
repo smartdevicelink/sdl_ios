@@ -90,15 +90,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Sending Requests
 
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
-    SDLKeyboardProperties *outProperties = [self.windowCapability filterValidKeyboardProperties:self.keyboardProperties];
-    if (!outProperties) {
-        if (completionHandler) {
+    // Create the keyboard configuration based on the window capability's keyboard capabilities
+    SDLKeyboardProperties *keyboardConfiguration = [self.windowCapability createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:self.keyboardProperties];
+    if (keyboardConfiguration == nil) {
+        if (completionHandler != nil) {
             completionHandler();
         }
         return;
     }
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
-    setProperties.keyboardProperties = outProperties;
+    setProperties.keyboardProperties = keyboardConfiguration;
 
     [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
