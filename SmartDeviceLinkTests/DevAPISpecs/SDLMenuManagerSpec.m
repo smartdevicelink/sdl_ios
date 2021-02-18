@@ -180,14 +180,14 @@ describe(@"menu manager", ^{
                 [SDLGlobals sharedGlobals].rpcVersion = menuUniquenessActiveVersion;
             });
 
-            it(@"should not fail with a duplicate title", ^{
+            it(@"should not update the cells' unique title", ^{
                 testManager.menuCells = @[textAndImageCell, textAndImageCell2];
                 expect(testManager.menuCells).toNot(beEmpty());
                 expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
                 expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2"));
             });
 
-            it(@"should not fail with a duplicate title for subCells", ^{
+            it(@"should not update subcells' unique title", ^{
                 testManager.menuCells = @[submenuCell2];
                 expect(testManager.menuCells).toNot(beEmpty());
                 expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
@@ -200,14 +200,14 @@ describe(@"menu manager", ^{
                 [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
             });
 
-            it(@"should not fail with a duplicate title. version < 7.1.0", ^{
+            it(@"append a number to the unique text for main menu cells", ^{
                 testManager.menuCells = @[textAndImageCell, textAndImageCell2];
                 expect(testManager.menuCells).toNot(beEmpty());
                 expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
                 expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
             });
 
-            it(@"should not fail with a duplicate title for subCells. version < 7.1.0", ^{
+            it(@"should append a number to the unique text for subcells", ^{
                 testManager.menuCells = @[submenuCell2];
                 expect(testManager.menuCells).toNot(beEmpty());
                 expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
@@ -215,9 +215,9 @@ describe(@"menu manager", ^{
             });
         });
 
-        context(@"duplicate cells", ^{
-            __block SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            __block SDLMenuCell *textCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        context(@"when the cells contain duplicates", ^{
+            SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"yes"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"maybe"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
             it(@"should fail with duplicate cells", ^{
                 testManager.menuCells = @[textCell, textCell2];
@@ -225,10 +225,10 @@ describe(@"menu manager", ^{
             });
         });
 
-        context(@"duplicate subCells", ^{
-            __block SDLMenuCell *subCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            __block SDLMenuCell *subCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            __block SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil submenuLayout:nil subCells:@[subCell1, subCell2]];
+        context(@"when cells contain duplicate subcells", ^{
+            SDLMenuCell *subCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *subCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil submenuLayout:nil subCells:@[subCell1, subCell2]];
 
             it(@"should fail with duplicate cells", ^{
                 testManager.menuCells = @[textCell];
@@ -246,11 +246,11 @@ describe(@"menu manager", ^{
             });
         });
 
-        context(@"duplicate VR commands in subCells", ^{
-            __block SDLMenuCell *textAndVRSubCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:@[@"Cat"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            __block SDLMenuCell *textAndVRSubCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 2" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil submenuLayout:nil subCells:@[textAndVRSubCell1, textAndVRSubCell2]];
+        context(@"when there are duplicate VR commands in subCells", ^{
+            SDLMenuCell *textAndVRSubCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:@[@"Cat"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRSubCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 2" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil submenuLayout:nil subCells:@[textAndVRSubCell1, textAndVRSubCell2]];
 
             it(@"should fail when menu items have duplicate vr commands", ^{
                 testManager.menuCells = @[textAndVRCell1, textAndVRCell2];

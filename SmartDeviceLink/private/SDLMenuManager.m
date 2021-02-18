@@ -161,7 +161,6 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
-    NSArray<SDLMenuCell *> *cells = menuCells;
     SDLVersion *menuUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:menuUniquenessSupportedVersion]) {
         [self sdl_addUniqueNamesToCells:menuCells];
@@ -172,18 +171,18 @@ UInt32 const MenuCellIdMin = 1;
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         SDLLogD(@"Waiting for HMI update to send menu cells");
         self.waitingOnHMIUpdate = YES;
-        self.waitingUpdateMenuCells = cells;
+        self.waitingUpdateMenuCells = menuCells;
         return;
     }
 
     self.waitingOnHMIUpdate = NO;
 
-    if (![self sdl_menuCellsAreUnique:cells]) {
+    if (![self sdl_menuCellsAreUnique:menuCells]) {
         return;
     }
 
     _oldMenuCells = _menuCells;
-    _menuCells = cells;
+    _menuCells = menuCells;
 
     if ([self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) {
         [self sdl_startDynamicMenuUpdate];
@@ -547,7 +546,7 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 /**
- Check for duplicate cells, subCells and voiceCommands
+ Check for cell lists with completely duplicate information, or any duplicate voiceCommands
 
  @param cells The cells you will be adding
  @return Boolean that indicates whether menuCells are unique or not

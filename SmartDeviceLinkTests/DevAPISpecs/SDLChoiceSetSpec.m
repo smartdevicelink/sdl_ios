@@ -8,6 +8,7 @@
 #import "SDLChoiceSetDelegate.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
+#import "SDLArtwork.h"
 
 @interface SDLChoiceSet()
 
@@ -157,9 +158,10 @@ describe(@"an SDLChoiceSet", ^{
             });
 
             it(@"should return nil when 2 or more cells are identical", ^{
-                // Cell `text` cannot be equal
-                SDLChoiceCell *equalCell = [[SDLChoiceCell alloc] initWithText:@"Text"];
-                SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text"];
+                // Cells cannot be identical
+                SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
+                SDLChoiceCell *equalCell = [[SDLChoiceCell alloc] initWithText:@"Text" secondaryText:@"Text 2" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:testArtwork];
+                SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text" secondaryText:@"Text 2" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:testArtwork];
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCell, equalCell2]];
                 expect(testChoiceSet).to(beNil());
             });
@@ -167,7 +169,7 @@ describe(@"an SDLChoiceSet", ^{
             it(@"should return nil when 2 or more cells voice commands are identical", ^{
                 // Cell `text` cannot be equal
                 SDLChoiceCell *equalCell = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Kit", @"Kat"]];
-                SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Kat"]];
+                SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text 2" artwork:nil voiceCommands:@[@"Kat"]];
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCell, equalCell2]];
                 expect(testChoiceSet).to(beNil());
             });

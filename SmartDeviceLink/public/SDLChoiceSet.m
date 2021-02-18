@@ -69,7 +69,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         return nil;
     }
 
-    if (![self sdl_menuChoiceCellsAreUnique:choices]) {
+    if (![self sdl_choiceCellsAreUnique:choices]) {
         return nil;
     }
 
@@ -131,7 +131,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
  @param choices The choices you will be adding
  @return Boolean that indicates whether choices are unique or not
  */
--(BOOL)sdl_menuChoiceCellsAreUnique:(NSArray<SDLChoiceCell *> *)choices {
+-(BOOL)sdl_choiceCellsAreUnique:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *identicalCellsCheckSet = [NSMutableSet setWithCapacity:choices.count];
     NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
     NSUInteger allVoiceCommandsCount = 0;
@@ -146,7 +146,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     }
 
     if (identicalCellsCheckSet.count < choices.count) {
-        SDLLogE(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
+        SDLLogE(@"Attempted to create a choice set with duplicate cells. At least one property must be different between any two cells. The choice set will not be set.");
         return NO;
     }
 
