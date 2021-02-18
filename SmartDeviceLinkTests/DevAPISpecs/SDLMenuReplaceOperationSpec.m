@@ -91,19 +91,12 @@ describe(@"a menu replace operation", ^{
             beforeEach(^{
                 testNewMenu = @[textAndImageCell];
 
-                OCMStub([testFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+                OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                 OCMStub([testFileManager uploadArtworks:[OCMArg any] progressHandler:([OCMArg invokeBlockWithArgs:textAndImageCell.icon.name, @1.0, [NSNull null], nil]) completionHandler:([OCMArg invokeBlockWithArgs: @[textAndImageCell.icon.name], [NSNull null], nil])]);
             });
 
             // when the image is already on the head unit
 //            context(@"when the image is already on the head unit", ^{
-//                it(@"should check if all artworks are uploaded", ^{
-//                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//                    testManager.menuCells = @[textAndImageCell, textOnlyCell];
-//                    OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
-//                    expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beTrue());
-//                });
-//
 //                it(@"should properly update an image cell", ^{
 //                    testManager.menuCells = @[textAndImageCell, submenuImageCell];
 //
@@ -139,13 +132,6 @@ describe(@"a menu replace operation", ^{
                     NSArray *add = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
                     expect(add).toNot(beEmpty());
                 });
-            });
-
-            it(@"should properly overwrite an image cell", ^{
-                OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
-                textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-                testManager.menuCells = @[textAndImageCell, submenuImageCell];
-                OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
             });
         });
 
