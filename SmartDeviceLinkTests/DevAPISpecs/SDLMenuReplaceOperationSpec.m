@@ -96,25 +96,24 @@ describe(@"a menu replace operation", ^{
             });
 
             // when the image is already on the head unit
-//            context(@"when the image is already on the head unit", ^{
-//                it(@"should properly update an image cell", ^{
-//                    testManager.menuCells = @[textAndImageCell, submenuImageCell];
-//
-//                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-//                    NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-//                    SDLAddCommand *sentCommand = add.firstObject;
-//
-//                    NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
-//                    NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
-//                    SDLAddSubMenu *sentSubmenu = submenu.firstObject;
-//
-//                    expect(add).to(haveCount(1));
-//                    expect(submenu).to(haveCount(1));
-//                    expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
-//                    expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
-//                    OCMReject([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
-//                });
-//            });
+            context(@"when the image is already on the head unit", ^{
+                beforeEach(^{
+                    OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
+                });
+
+                it(@"should properly update an image cell", ^{
+                    testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                    [testOp start];
+
+                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                    NSArray *add = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                    SDLAddCommand *sentCommand = add.firstObject;
+
+                    expect(add).to(haveCount(1));
+                    expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
+                    OCMReject([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                });
+            });
 
             // when the image is not on the head unit
             context(@"when the image is not on the head unit", ^{
