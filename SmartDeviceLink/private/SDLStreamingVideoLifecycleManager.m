@@ -89,6 +89,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapabilityUpdated;
 @property (assign, nonatomic) BOOL shouldAutoResume;
+@property (assign, nonatomic) BOOL shouldSendOnAppCapabilityUpdated;
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
 @property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
@@ -202,6 +203,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         }
     }
     [self.focusableItemManager start];
+    self.shouldSendOnAppCapabilityUpdated = YES;
 
     // attempt to start streaming since we may already have necessary conditions met
     [self sdl_startVideoSession];
@@ -729,16 +731,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             self.focusableItemManager.enableHapticDataRequests = NO;
         }
         SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", self.preferredFormats, self.preferredResolutions);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
         [self sdl_useVideoCapability:nil];
-#pragma clang diagnostic pop
     }
 }
 
 #pragma mark - Video capability logic
 
-- (void)sdl_useVideoCapability:(SDLVideoStreamingCapability *)videoCapability {
+- (void)sdl_useVideoCapability:(nullable SDLVideoStreamingCapability *)videoCapability {
     if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
         [self sdl_applyVideoCapabilityWhileStarting:videoCapability];
     } else if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateReady]) {
@@ -751,7 +750,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_applyVideoCapabilityWhileStarting:(nullable SDLVideoStreamingCapability *)videoCapabilityUpdated {
     SDLVideoStreamingCapability *videoCapability = (videoCapabilityUpdated == nil) ? [self sdl_defaultVideoCapability] : videoCapabilityUpdated;
     NSArray<SDLVideoStreamingCapability *> *capabilityMatches = [self matchVideoCapability:videoCapability];
-    [self sdl_sendOnAppCapabilityUpdated:capabilityMatches];
+    if (self.shouldSendOnAppCapabilityUpdated) {
+        self.shouldSendOnAppCapabilityUpdated = NO;
+        [self sdl_sendOnAppCapabilityUpdated:capabilityMatches];
+    }
 
     if (capabilityMatches.count == 0) {
         // use default video capability if no match found
@@ -767,7 +769,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         matchedVideoCapability.additionalVideoStreamingCapabilities = @[];
     }
 
-    // take formats from 'parent' since onse may be absent in children
+    // take formats from 'parent' if absent in children
     if (!matchedVideoCapability.supportedFormats) {
         matchedVideoCapability.supportedFormats = videoCapabilityUpdated.supportedFormats;
     }

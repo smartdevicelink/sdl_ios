@@ -25,13 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLImageResolution *)makeImageResolution;
 
 /**
- It traverces through all capabilities and collects all image resolutions into an array respecting the scale factor
+ It traverses through all capabilities and collects all image resolutions into an array respecting the scale factor
  @return [SDLImageResolution] - an array of initialized image resolution structs
  */
 - (NSArray<SDLImageResolution *> *)allImageResolutionsScaled;
 
 /**
- It traverces through all capabilities and collects all image resolutions into an array ignoring the scale factor
+ It traverses through all capabilities and collects all image resolutions into an array ignoring the scale factor
  @return [SDLImageResolution] - an array of initialized image resolution structs
  */
 - (NSArray<SDLImageResolution *> *)allImageResolutions;
