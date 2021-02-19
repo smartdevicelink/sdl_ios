@@ -220,8 +220,8 @@ describe(@"menu manager", ^{
         });
 
         context(@"when the cells contain duplicates", ^{
-            SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"yes"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            SDLMenuCell *textCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"maybe"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"yes"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"maybe"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
             it(@"should fail with duplicate cells", ^{
                 testManager.menuCells = @[textCell, textCell2];
@@ -230,9 +230,9 @@ describe(@"menu manager", ^{
         });
 
         context(@"when cells contain duplicate subcells", ^{
-            SDLMenuCell *subCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            SDLMenuCell *subCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil submenuLayout:nil subCells:@[subCell1, subCell2]];
+            SDLMenuCell *subCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *subCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil submenuLayout:nil subCells:@[subCell1, subCell2] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
 
             it(@"should fail with duplicate cells", ^{
                 testManager.menuCells = @[textCell];
@@ -251,10 +251,10 @@ describe(@"menu manager", ^{
         });
 
         context(@"when there are duplicate VR commands in subCells", ^{
-            SDLMenuCell *textAndVRSubCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:@[@"Cat"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            SDLMenuCell *textAndVRSubCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 2" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil submenuLayout:nil subCells:@[textAndVRSubCell1, textAndVRSubCell2]];
+            SDLMenuCell *textAndVRSubCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" icon:nil voiceCommands:@[@"Cat"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRSubCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 2" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil submenuLayout:nil subCells:@[textAndVRSubCell1, textAndVRSubCell2] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
 
             it(@"should fail when menu items have duplicate vr commands", ^{
                 testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
