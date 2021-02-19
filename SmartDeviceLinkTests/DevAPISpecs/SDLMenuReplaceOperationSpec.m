@@ -58,8 +58,9 @@ describe(@"a menu replace operation", ^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMClassMock([SDLFileManager class]);
 
-        SDLImageField *iconImageField = [[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
-        testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:@[iconImageField] imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
+        SDLImageField *commandImageField = [[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+        SDLImageField *submenuImageField = [[SDLImageField alloc] initWithName:SDLImageFieldNameSubMenuIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+        testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:@[commandImageField, submenuImageField] imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
         testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutList defaultSubmenuLayout:SDLMenuLayoutList];
         testCurrentMenu = @[];
         testNewMenu = nil;
@@ -97,6 +98,7 @@ describe(@"a menu replace operation", ^{
             // when the image is already on the head unit
             context(@"when the image is already on the head unit", ^{
                 beforeEach(^{
+                    OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
                     OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
                 });
 
@@ -117,6 +119,7 @@ describe(@"a menu replace operation", ^{
             // when the image is not on the head unit
             context(@"when the image is not on the head unit", ^{
                 beforeEach(^{
+                    OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
                     OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                 });
 

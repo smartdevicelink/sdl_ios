@@ -54,8 +54,8 @@
 
 + (BOOL)sdl_shouldCellIncludeImage:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
     // If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
-    BOOL supportsImage = (cell.subCells.count > 0) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon] : [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuIcon];
-    return cell.icon != nil && supportsImage && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
+    BOOL supportsImage = (cell.subCells.count > 0) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon] : [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon];
+    return (cell.icon != nil) && supportsImage && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
 }
 
 #pragma mark - RPC Commands

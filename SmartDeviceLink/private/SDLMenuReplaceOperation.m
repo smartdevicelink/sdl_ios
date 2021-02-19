@@ -37,7 +37,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedMenu;
-@property (assign, nonatomic) BOOL compatbilityModeEnabled;
+@property (assign, nonatomic) BOOL compatibilityModeEnabled;
 @property (assign, nonatomic) SDLCurrentMenuUpdatedBlock currentMenuUpdatedBlock;
 
 @property (strong, nonatomic) NSMutableArray<SDLMenuCell *> *mutableCurrentMenu;
@@ -47,7 +47,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @implementation SDLMenuReplaceOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu compatibilityModeEnabled:(BOOL)compatbilityModeEnabled currentMenuUpdatedHandler:(SDLCurrentMenuUpdatedBlock)currentMenuUpdatedBlock {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu compatibilityModeEnabled:(BOOL)compatibilityModeEnabled currentMenuUpdatedHandler:(SDLCurrentMenuUpdatedBlock)currentMenuUpdatedBlock {
     self = [super init];
     if (!self) { return nil; }
 
@@ -57,7 +57,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     _menuConfiguration = menuConfiguration;
     _mutableCurrentMenu = [currentMenu mutableCopy];
     _updatedMenu = updatedMenu;
-    _compatbilityModeEnabled = compatbilityModeEnabled;
+    _compatibilityModeEnabled = compatibilityModeEnabled;
     _currentMenuUpdatedBlock = currentMenuUpdatedBlock;
 
     return self;
@@ -68,7 +68,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     if (self.isCancelled) { return; }
 
     SDLDynamicMenuUpdateRunScore *runScore = nil;
-    if (self.compatbilityModeEnabled) {
+    if (self.compatibilityModeEnabled) {
         SDLLogV(@"Dynamic menu update inactive. Forcing the deletion of all old cells and adding all new ones, even if they're the same.");
         runScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:[self sdl_buildAllDeleteStatusesForMenu:self.currentMenu] updatedStatus:[self sdl_buildAllAddStatusesForMenu:self.updatedMenu] score:self.updatedMenu.count];
     } else {
@@ -87,7 +87,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
     NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
 
-    // Since we are creating a new Menu but keeping old cells we must firt transfer the old cellIDs to the new menus kept cells.
+    // Since we are creating a new Menu but keeping old cells we must first transfer the old cellIDs to the new menus kept cells.
     [self sdl_transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
 
     // Upload the artworks, then we will start updating the main menu
@@ -189,7 +189,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         if (error != nil) {
             errors[request] = error;
         } else if (response.success.boolValue) {
-            // Find the id of the successful request and remove it from the current menu list whereever it may have been
+            // Find the id of the successful request and remove it from the current menu list wherever it may have been
             UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
             [SDLMenuReplaceUtilities removeMenuCellFromList:self.mutableCurrentMenu withCmdId:commandId];
         }
@@ -271,7 +271,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 - (NSArray<SDLMenuCell *> *)sdl_filterAddMenuItemsWithNewMenuItems:(NSArray<SDLMenuCell *> *)newMenuCells basedOnStatusList:(NSArray<NSNumber *> *)newStatusList {
     NSMutableArray<SDLMenuCell *> *addCells = [[NSMutableArray alloc] init];
-    // The index of the status should corrleate 1-1 with the number of items in the menu
+    // The index of the status should correlate 1-1 with the number of items in the menu
     // [2,1,2,1] => [A,B,C,D] = [B,D]
     for (NSUInteger index = 0; index < newStatusList.count; index++) {
         if (newStatusList[index].integerValue == SDLMenuCellUpdateStateAdd) {
