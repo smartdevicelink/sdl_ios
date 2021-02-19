@@ -75,7 +75,6 @@ describe(@"a menu replace operation", ^{
 
     // sending initial batch of cells
     describe(@"sending initial batch of cells", ^{
-
         // when setting no cells
         context(@"when setting no cells", ^{
             it(@"should finish without doing anything", ^{
@@ -102,7 +101,7 @@ describe(@"a menu replace operation", ^{
                     OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
                 });
 
-                fit(@"should properly update an image cell", ^{
+                it(@"should properly update an image cell", ^{
                     testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
                     [testOp start];
 
@@ -190,32 +189,60 @@ describe(@"a menu replace operation", ^{
             });
         });
     });
-//
-//    describe(@"updating when a menu already exists with dynamic updates on", ^{
-//        beforeEach(^{
-//            testManager.dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeForceOn;
-//            OCMStub([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
-//        });
-//
-//        it(@"should send deletes first", ^{
-//            testManager.menuCells = @[textOnlyCell];
-//            [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
-//            [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
-//
-//            testManager.menuCells = @[textAndImageCell];
-//            [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
-//            [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
-//
-//            NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
-//            NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
-//
-//            NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
-//            NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-//
-//            expect(deletes).to(haveCount(1));
-//            expect(adds).to(haveCount(2));
-//        });
-//
+
+    // updating a menu without dynamic updates
+    describe(@"updating a menu without dynamic updates", ^{
+        context(@"adding a text cell", ^{
+            beforeEach(^{
+                testCurrentMenu = @[textOnlyCell];
+                testNewMenu = @[textOnlyCell, textOnlyCell2];
+            });
+
+            fit(@"should send a delete and two adds", ^{
+                testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                [testOp start];
+
+                SDLDeleteCommandResponse *deleteCommandResponse = [[SDLDeleteCommandResponse alloc] init];
+                deleteCommandResponse.success = @YES;
+                deleteCommandResponse.resultCode = SDLResultSuccess;
+                [testConnectionManager respondToLastRequestWithResponse:deleteCommandResponse];
+
+                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+
+                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                NSArray *adds = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+
+                expect(deletes).to(haveCount(1));
+                expect(adds).to(haveCount(2));
+            });
+        });
+    });
+
+    // updating a menu with dynamic updates
+    describe(@"updating a menu with dynamic updates", ^{
+        context(@"adding a text cell", ^{
+            beforeEach(^{
+                testCurrentMenu = @[textOnlyCell];
+                testNewMenu = @[textOnlyCell, textOnlyCell2];
+            });
+
+            it(@"should only send an add", ^{
+                testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:NO currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                [testOp start];
+
+                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+
+                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                NSArray *adds = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+
+                expect(deletes).to(haveCount(0));
+                expect(adds).to(haveCount(1));
+            });
+        });
+    });
+
 //        it(@"should send dynamic deletes first then dynamic adds case with 2 submenu cells", ^{
 //            testManager.menuCells = @[textOnlyCell, submenuCell, submenuImageCell];
 //            [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];

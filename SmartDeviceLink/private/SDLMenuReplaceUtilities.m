@@ -225,8 +225,15 @@
         for (SDLMenuCell *menuCell in menuCellList) {
             if (menuCell.cellId == cell.parentCellId) {
                 // If we found the correct submenu, insert it into that submenu
-                NSMutableArray<SDLMenuCell *> *newList = [menuCell.subCells mutableCopy];
+                NSMutableArray<SDLMenuCell *> *newList = nil;
+                if (menuCell.subCells != nil) {
+                    newList = [menuCell.subCells mutableCopy];
+                } else {
+                    newList = [NSMutableArray array];
+                }
+
                 [self sdl_insertMenuCell:cell intoList:newList atPosition:position];
+                menuCell.subCells = [newList copy];
                 return YES;
             } else if (menuCell.subCells.count > 0) {
                 // Check the subcells of this cell to see if any of those have cell ids that match the parent cell id
