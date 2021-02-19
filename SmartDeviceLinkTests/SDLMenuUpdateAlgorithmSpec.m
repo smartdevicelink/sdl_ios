@@ -42,19 +42,19 @@ describe(@"menuUpdateAlgorithm", ^{
     // 0 = Delete   1 = Add    2 = Keep
     describe(@"compare old and new menu cells", ^{
         beforeEach(^{
-            oldCell1 = [[SDLMenuCell alloc] initWithTitle:@"Cell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            oldCell2 = [[SDLMenuCell alloc] initWithTitle:@"Cell 2" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            oldCell3 = [[SDLMenuCell alloc] initWithTitle:@"Cell 3" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            oldCell4 = [[SDLMenuCell alloc] initWithTitle:@"Cell 4" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            oldCell5 = [[SDLMenuCell alloc] initWithTitle:@"Cell 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            oldCell6 = [[SDLMenuCell alloc] initWithTitle:@"Cell 6" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            oldCell1 = [[SDLMenuCell alloc] initWithTitle:@"Cell 1" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            oldCell2 = [[SDLMenuCell alloc] initWithTitle:@"Cell 2" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            oldCell3 = [[SDLMenuCell alloc] initWithTitle:@"Cell 3" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            oldCell4 = [[SDLMenuCell alloc] initWithTitle:@"Cell 4" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            oldCell5 = [[SDLMenuCell alloc] initWithTitle:@"Cell 5" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            oldCell6 = [[SDLMenuCell alloc] initWithTitle:@"Cell 6" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
-            newCell1 = [[SDLMenuCell alloc] initWithTitle:@"Cell 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            newCell2 = [[SDLMenuCell alloc] initWithTitle:@"Cell 2" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            newCell3 = [[SDLMenuCell alloc] initWithTitle:@"Cell 3" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            newCell4 = [[SDLMenuCell alloc] initWithTitle:@"Cell 4" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            newCell5 = [[SDLMenuCell alloc] initWithTitle:@"Cell 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            newCell6 = [[SDLMenuCell alloc] initWithTitle:@"Cell 6" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            newCell1 = [[SDLMenuCell alloc] initWithTitle:@"Cell 1" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            newCell2 = [[SDLMenuCell alloc] initWithTitle:@"Cell 2" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            newCell3 = [[SDLMenuCell alloc] initWithTitle:@"Cell 3" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            newCell4 = [[SDLMenuCell alloc] initWithTitle:@"Cell 4" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            newCell5 = [[SDLMenuCell alloc] initWithTitle:@"Cell 5" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            newCell6 = [[SDLMenuCell alloc] initWithTitle:@"Cell 6" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         });
 
         it(@"should have a new menu status of 22221 and an old menu status of 2222 on best run", ^{

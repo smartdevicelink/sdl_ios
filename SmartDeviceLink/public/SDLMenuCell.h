@@ -61,6 +61,21 @@ typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
 @property (strong, nonatomic, readonly) NSString *uniqueTitle;
 
 /**
+ The cell's secondary text to be displayed
+ */
+@property (copy, nonatomic, readonly, nullable) NSString *secondaryText;
+
+/**
+ The cell's tertiary text to be displayed
+ */
+@property (copy, nonatomic, readonly, nullable) NSString *tertiaryText;
+
+/**
+ The cell's secondary icon to be displayed
+ */
+@property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryArtwork;
+
+/**
  Create a menu cell that has no subcells.
 
  @param title The cell's primary text
@@ -69,7 +84,7 @@ typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
  @param handler The code that will be run when the menu cell is selected
  @return The menu cell
  */
-- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands handler:(SDLMenuCellSelectionHandler)handler;
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands handler:(SDLMenuCellSelectionHandler)handler __deprecated_msg("Use initWithTitle:icon:voiceCommands:secondaryText:tertiaryText:secondaryArtwork:handler: instead");
 
 /**
  Create a menu cell that has subcells and when selected will go into a deeper part of the menu
@@ -80,8 +95,35 @@ typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
  @param subCells The subcells that will appear when the cell is selected
  @return The menu cell
  */
-- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells;
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells __deprecated_msg("Use initWithTitle:icon:submenuLayout:subCells:secondaryText:tertiaryText:secondaryArtwork: instead");
 
+/**
+ Create a menu cell that has no subcells.
+
+ @param title The cell's primary text
+ @param icon The cell's image
+ @param voiceCommands Voice commands that will activate the menu cell
+ @param secondaryText - secondaryText
+ @param tertiaryText - tertiaryText
+ @param secondaryArtwork - secondaryArtwork
+ @param handler The code that will be run when the menu cell is selected
+ @return The menu cell
+ */
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork handler:(SDLMenuCellSelectionHandler)handler;
+
+/**
+ Create a menu cell that has subcells and when selected will go into a deeper part of the menu
+
+ @param title The cell's primary text
+ @param icon The cell's image
+ @param layout The layout that the subCells will be layed out in if that submenu is entered
+ @param subCells The subcells that will appear when the cell is selected
+ @param secondaryText - secondaryText
+ @param tertiaryText - tertiaryText
+ @param secondaryArtwork - secondaryArtwork
+ @return The menu cell
+ */
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork;
 
 @end
 
