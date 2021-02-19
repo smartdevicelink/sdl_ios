@@ -84,6 +84,7 @@
         NSUInteger numConfigurableKeys = selectedLayoutCapability.numConfigurableKeys.unsignedIntegerValue;
         if (modifiedKeyboardConfiguration.customKeys.count > numConfigurableKeys) {
             SDLLogW(@"%lu custom keys set, but the selected layout: %@ only supports %lu. Dropping the rest.", (unsigned long)modifiedKeyboardConfiguration.customKeys.count, modifiedKeyboardConfiguration.keyboardLayout, (unsigned long)numConfigurableKeys);
+            // If there are more custom keys than are allowed for the selected keyboard layout, we need to trim the number of keys to only use the first n number of custom keys, where n is the number of allowed custom keys for that layout.
             modifiedKeyboardConfiguration.customKeys = [modifiedKeyboardConfiguration.customKeys subarrayWithRange:NSMakeRange(0, numConfigurableKeys)];
         }
     }
