@@ -91,7 +91,6 @@ describe(@"a menu replace operation", ^{
             beforeEach(^{
                 testNewMenu = @[textAndImageCell];
 
-                OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                 OCMStub([testFileManager uploadArtworks:[OCMArg any] progressHandler:([OCMArg invokeBlockWithArgs:textAndImageCell.icon.name, @1.0, [NSNull null], nil]) completionHandler:([OCMArg invokeBlockWithArgs: @[textAndImageCell.icon.name], [NSNull null], nil])]);
             });
 
@@ -101,7 +100,7 @@ describe(@"a menu replace operation", ^{
                     OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
                 });
 
-                it(@"should properly update an image cell", ^{
+                fit(@"should properly update an image cell", ^{
                     testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
                     [testOp start];
 
@@ -117,6 +116,10 @@ describe(@"a menu replace operation", ^{
 
             // when the image is not on the head unit
             context(@"when the image is not on the head unit", ^{
+                beforeEach(^{
+                    OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
+                });
+
                 it(@"should attempt to upload artworks then send the add", ^{
                     testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
                     [testOp start];
