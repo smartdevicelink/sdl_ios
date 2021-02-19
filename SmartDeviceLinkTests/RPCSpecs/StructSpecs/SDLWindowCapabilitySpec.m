@@ -185,21 +185,21 @@ describe(@"getter/setter tests", ^{
     });
 });
 
-describe(@"method createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:", ^{
-    const UInt8 numConfigurableKeys = 7;
+describe(@"creating a valid keyboard configuration based on keyboard capabilities", ^{
+    UInt8 numConfigurableKeys = 7;
 
     beforeEach(^{
         testStruct = [[SDLWindowCapability alloc] init];
         testStruct.keyboardCapabilities = nil;
     });
 
-    context(@"when .keyboardCapabilities is nil or empty", ^{
+    context(@"when keyboardCapabilities is nil or empty", ^{
         it(@"result should be nil when the argument is nil", ^{
             SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:nil];
             expect(resultProperties).to(beNil());
         });
 
-        it(@"result should be equal to the argument when .keyboardLayout is nil", ^{
+        it(@"result should be equal to the argument when keyboardLayout is nil", ^{
             SDLKeyboardProperties *testKeyboardProperties = [[SDLKeyboardProperties alloc] init];
             testKeyboardProperties.maskInputCharacters = SDLKeyboardInputMaskUserChoiceInputKeyMask;
             SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:testKeyboardProperties];
@@ -208,7 +208,7 @@ describe(@"method createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFro
             expect(resultProperties.maskInputCharacters).to(equal(SDLKeyboardInputMaskUserChoiceInputKeyMask));
         });
 
-        it(@"result should be nil when the argument is not nil and .keyboardCapabilities is empty", ^{
+        it(@"result should be nil when the argument is not nil and keyboardCapabilities is empty", ^{
             testStruct.keyboardCapabilities = [[SDLKeyboardCapabilities alloc] init];
             SDLKeyboardProperties *testKeyboardProperties = [[SDLKeyboardProperties alloc] init];
             testKeyboardProperties.keyboardLayout = SDLKeyboardLayoutNumeric;
@@ -217,11 +217,14 @@ describe(@"method createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFro
             expect(resultProperties).to(beNil());
         });
 
-        context(@"when .keyboardCapabilities is not empty", ^{
+        context(@"when keyboardCapabilities is not empty", ^{
             __block SDLKeyboardProperties *testKeyboardProperties = nil;
             __block SDLKeyboardCapabilities *keyboardCapabilities = nil;
+            __block NSArray *testCustomKeysLong = nil;
 
             beforeEach(^{
+                // create a long array that contains more custom keys than <numConfigurableKeys>
+                testCustomKeysLong = [@"a ä æ b c d e ê f j h i j k l m n o p q r s ß t u v w x y z" componentsSeparatedByString:@" "];
                 NSArray *arrayLayouts = @[SDLKeyboardLayoutQWERTY, SDLKeyboardLayoutQWERTZ, SDLKeyboardLayoutAZERTY, SDLKeyboardLayoutNumeric];
                 NSMutableArray *arrayLayoutCapability = [[NSMutableArray alloc] initWithCapacity:arrayLayouts.count];
                 for (SDLKeyboardLayout layout in arrayLayouts) {
@@ -235,7 +238,7 @@ describe(@"method createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFro
                 testKeyboardProperties = [[SDLKeyboardProperties alloc] init];
                 testKeyboardProperties.keyboardLayout = SDLKeyboardLayoutNumeric;
                 // create custom keys array longer than <numConfigurableKeys>
-                testKeyboardProperties.customKeys = [@"a ä æ b c d e ê f j h i j k l m n o p q r s ß t u v w x y z" componentsSeparatedByString:@" "];
+                testKeyboardProperties.customKeys = testCustomKeysLong;
                 testKeyboardProperties.maskInputCharacters = SDLKeyboardInputMaskUserChoiceInputKeyMask;
                 testKeyboardProperties.keyboardLayout = SDLKeyboardLayoutAZERTY;
             });
@@ -257,9 +260,26 @@ describe(@"method createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFro
                 expect(resultProperties.customKeys.count).to(equal(numConfigurableKeys));
                 expect(resultProperties.maskInputCharacters).to(beNil());
             });
+
+            it(@"customKeys should be trimmed to contain <numConfigurableKeys> items", ^{
+                NSArray *expectedCustomKeys = [testCustomKeysLong subarrayWithRange:NSMakeRange(0, numConfigurableKeys)];
+                testKeyboardProperties.customKeys = testCustomKeysLong;
+                SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:testKeyboardProperties];
+                expect(resultProperties).notTo(beNil());
+                expect(resultProperties.customKeys.count).to(equal(numConfigurableKeys));
+                expect(resultProperties.customKeys).to(equal(expectedCustomKeys));
+            });
+
+            it(@"customKeys should not be trimmed and should be equal to the initial array", ^{
+                NSArray *testCustomKeys = [testCustomKeysLong subarrayWithRange:NSMakeRange(0, numConfigurableKeys)];
+                testKeyboardProperties.customKeys = testCustomKeys;
+                SDLKeyboardProperties *resultProperties = [testStruct createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:testKeyboardProperties];
+                expect(resultProperties).notTo(beNil());
+                expect(resultProperties.customKeys.count).to(equal(numConfigurableKeys));
+                expect(resultProperties.customKeys).to(equal(testCustomKeys));
+            });
         });
     });
 });
-
 
 QuickSpecEnd
