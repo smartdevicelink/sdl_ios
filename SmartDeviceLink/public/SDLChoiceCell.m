@@ -9,7 +9,7 @@
 #import "SDLChoiceCell.h"
 
 #import "SDLArtwork.h"
-#import "NSArray+NSObject.h"
+#import "NSArray+Extensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -1672,25 +1672,27 @@
 		B360F9E5255F52BA0027CA17 /* SDLSeatOccupancy.h in Headers */ = {isa = PBXBuildFile; fileRef = B360F9E3255F52B90027CA17 /* SDLSeatOccupancy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38389D6257C187500420C11 /* SDLSeatOccupancySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38389D4257C187400420C11 /* SDLSeatOccupancySpec.m */; };
 		B38389D7257C187500420C11 /* SDLSeatStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38389D5257C187500420C11 /* SDLSeatStatusSpec.m */; };
-        B3838A01257C47FD00420C11 /* SDLDoorStatusTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A00257C47FD00420C11 /* SDLDoorStatusTypeSpec.m */; };
-        B3838A09257C4EB400420C11 /* SDLDoorStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A08257C4EB300420C11 /* SDLDoorStatusSpec.m */; };
-        B3838A0F257C4EE100420C11 /* SDLGateStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A0E257C4EE100420C11 /* SDLGateStatusSpec.m */; };
-        B3838A15257C4EFD00420C11 /* SDLRoofStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A14257C4EFD00420C11 /* SDLRoofStatusSpec.m */; };
-        B3838A20257C5BB000420C11 /* SDLRoofStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B3838A1E257C5BAF00420C11 /* SDLRoofStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-        B3838A21257C5BB000420C11 /* SDLRoofStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A1F257C5BB000420C11 /* SDLRoofStatus.m */; };
-        B3838A28257C5CE600420C11 /* SDLDoorStatusType.h in Headers */ = {isa = PBXBuildFile; fileRef = B3838A26257C5CE600420C11 /* SDLDoorStatusType.h */; settings = {ATTRIBUTES = (Public, ); }; };
-        B3838A29257C5CE600420C11 /* SDLDoorStatusType.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A27257C5CE600420C11 /* SDLDoorStatusType.m */; };
-        B3838A30257C5D1B00420C11 /* SDLGateStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A2E257C5D1A00420C11 /* SDLGateStatus.m */; };
-        B3838A31257C5D1B00420C11 /* SDLGateStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B3838A2F257C5D1B00420C11 /* SDLGateStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-        B3838A3A257C6AB700420C11 /* SDLDoorStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A38257C6AB600420C11 /* SDLDoorStatus.m */; };
-        B3838A3B257C6AB700420C11 /* SDLDoorStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B3838A39257C6AB600420C11 /* SDLDoorStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3838A01257C47FD00420C11 /* SDLDoorStatusTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A00257C47FD00420C11 /* SDLDoorStatusTypeSpec.m */; };
+		B3838A09257C4EB400420C11 /* SDLDoorStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A08257C4EB300420C11 /* SDLDoorStatusSpec.m */; };
+		B3838A0F257C4EE100420C11 /* SDLGateStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A0E257C4EE100420C11 /* SDLGateStatusSpec.m */; };
+		B3838A15257C4EFD00420C11 /* SDLRoofStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A14257C4EFD00420C11 /* SDLRoofStatusSpec.m */; };
+		B3838A20257C5BB000420C11 /* SDLRoofStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B3838A1E257C5BAF00420C11 /* SDLRoofStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3838A21257C5BB000420C11 /* SDLRoofStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A1F257C5BB000420C11 /* SDLRoofStatus.m */; };
+		B3838A28257C5CE600420C11 /* SDLDoorStatusType.h in Headers */ = {isa = PBXBuildFile; fileRef = B3838A26257C5CE600420C11 /* SDLDoorStatusType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3838A29257C5CE600420C11 /* SDLDoorStatusType.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A27257C5CE600420C11 /* SDLDoorStatusType.m */; };
+		B3838A30257C5D1B00420C11 /* SDLGateStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A2E257C5D1A00420C11 /* SDLGateStatus.m */; };
+		B3838A31257C5D1B00420C11 /* SDLGateStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B3838A2F257C5D1B00420C11 /* SDLGateStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3838A3A257C6AB700420C11 /* SDLDoorStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = B3838A38257C6AB600420C11 /* SDLDoorStatus.m */; };
+		B3838A3B257C6AB700420C11 /* SDLDoorStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = B3838A39257C6AB600420C11 /* SDLDoorStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
 		B3EC9E6E2579AA010039F3AA /* SDLClimateDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
-		C9707D1825DEE786009D00F2 /* NSArray+NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C9707D1625DEE786009D00F2 /* NSArray+NSObject.h */; };
-		C9707D1925DEE786009D00F2 /* NSArray+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D1725DEE786009D00F2 /* NSArray+NSObject.m */; };
+		C9707D1825DEE786009D00F2 /* NSArray+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = C9707D1625DEE786009D00F2 /* NSArray+Extensions.h */; };
+		C9707D1925DEE786009D00F2 /* NSArray+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D1725DEE786009D00F2 /* NSArray+Extensions.m */; };
+		C9707D3025E0444D009D00F2 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = C9707D2E25E0444D009D00F2 /* SDLMacros.h */; };
+		C9707D3125E0444D009D00F2 /* SDLMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D2F25E0444D009D00F2 /* SDLMacros.m */; };
 		C975877F257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */; };
 		C9758785257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */; };
 		C9DFFE78257ACE0000F7D57A /* SDLSeekStreamingIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3526,25 +3528,27 @@
 		B360F9E3255F52B90027CA17 /* SDLSeatOccupancy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLSeatOccupancy.h; path = public/SDLSeatOccupancy.h; sourceTree = "<group>"; };
 		B38389D4257C187400420C11 /* SDLSeatOccupancySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSeatOccupancySpec.m; path = SmartDeviceLinkTests/RPCSpecs/ResponseSpecs/SDLSeatOccupancySpec.m; sourceTree = SOURCE_ROOT; };
 		B38389D5257C187500420C11 /* SDLSeatStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSeatStatusSpec.m; path = SmartDeviceLinkTests/RPCSpecs/ResponseSpecs/SDLSeatStatusSpec.m; sourceTree = SOURCE_ROOT; };
-        B3838A00257C47FD00420C11 /* SDLDoorStatusTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDoorStatusTypeSpec.m; sourceTree = "<group>"; };
-        B3838A08257C4EB300420C11 /* SDLDoorStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDoorStatusSpec.m; path = SmartDeviceLinkTests/RPCSpecs/StructSpecs/SDLDoorStatusSpec.m; sourceTree = SOURCE_ROOT; };
-        B3838A0E257C4EE100420C11 /* SDLGateStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGateStatusSpec.m; path = SmartDeviceLinkTests/RPCSpecs/StructSpecs/SDLGateStatusSpec.m; sourceTree = SOURCE_ROOT; };
-        B3838A14257C4EFD00420C11 /* SDLRoofStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRoofStatusSpec.m; path = SmartDeviceLinkTests/RPCSpecs/StructSpecs/SDLRoofStatusSpec.m; sourceTree = SOURCE_ROOT; };
-        B3838A1E257C5BAF00420C11 /* SDLRoofStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLRoofStatus.h; path = public/SDLRoofStatus.h; sourceTree = "<group>"; };
-        B3838A1F257C5BB000420C11 /* SDLRoofStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRoofStatus.m; path = public/SDLRoofStatus.m; sourceTree = "<group>"; };
-        B3838A26257C5CE600420C11 /* SDLDoorStatusType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLDoorStatusType.h; path = public/SDLDoorStatusType.h; sourceTree = "<group>"; };
-        B3838A27257C5CE600420C11 /* SDLDoorStatusType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDoorStatusType.m; path = public/SDLDoorStatusType.m; sourceTree = "<group>"; };
-        B3838A2E257C5D1A00420C11 /* SDLGateStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGateStatus.m; path = public/SDLGateStatus.m; sourceTree = "<group>"; };
-        B3838A2F257C5D1B00420C11 /* SDLGateStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLGateStatus.h; path = public/SDLGateStatus.h; sourceTree = "<group>"; };
-        B3838A38257C6AB600420C11 /* SDLDoorStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDoorStatus.m; path = public/SDLDoorStatus.m; sourceTree = "<group>"; };
-        B3838A39257C6AB600420C11 /* SDLDoorStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLDoorStatus.h; path = public/SDLDoorStatus.h; sourceTree = "<group>"; };
+		B3838A00257C47FD00420C11 /* SDLDoorStatusTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDoorStatusTypeSpec.m; sourceTree = "<group>"; };
+		B3838A08257C4EB300420C11 /* SDLDoorStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDoorStatusSpec.m; path = SmartDeviceLinkTests/RPCSpecs/StructSpecs/SDLDoorStatusSpec.m; sourceTree = SOURCE_ROOT; };
+		B3838A0E257C4EE100420C11 /* SDLGateStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGateStatusSpec.m; path = SmartDeviceLinkTests/RPCSpecs/StructSpecs/SDLGateStatusSpec.m; sourceTree = SOURCE_ROOT; };
+		B3838A14257C4EFD00420C11 /* SDLRoofStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRoofStatusSpec.m; path = SmartDeviceLinkTests/RPCSpecs/StructSpecs/SDLRoofStatusSpec.m; sourceTree = SOURCE_ROOT; };
+		B3838A1E257C5BAF00420C11 /* SDLRoofStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLRoofStatus.h; path = public/SDLRoofStatus.h; sourceTree = "<group>"; };
+		B3838A1F257C5BB000420C11 /* SDLRoofStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRoofStatus.m; path = public/SDLRoofStatus.m; sourceTree = "<group>"; };
+		B3838A26257C5CE600420C11 /* SDLDoorStatusType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLDoorStatusType.h; path = public/SDLDoorStatusType.h; sourceTree = "<group>"; };
+		B3838A27257C5CE600420C11 /* SDLDoorStatusType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDoorStatusType.m; path = public/SDLDoorStatusType.m; sourceTree = "<group>"; };
+		B3838A2E257C5D1A00420C11 /* SDLGateStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGateStatus.m; path = public/SDLGateStatus.m; sourceTree = "<group>"; };
+		B3838A2F257C5D1B00420C11 /* SDLGateStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLGateStatus.h; path = public/SDLGateStatus.h; sourceTree = "<group>"; };
+		B3838A38257C6AB600420C11 /* SDLDoorStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDoorStatus.m; path = public/SDLDoorStatus.m; sourceTree = "<group>"; };
+		B3838A39257C6AB600420C11 /* SDLDoorStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLDoorStatus.h; path = public/SDLDoorStatus.h; sourceTree = "<group>"; };
 		B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGearStatusSpec.m; sourceTree = "<group>"; };
 		B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTransmissionTypeSpec.m; sourceTree = "<group>"; };
 		B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCapacityUnitSpec.m; sourceTree = "<group>"; };
 		B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLClimateDataSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
-		C9707D1625DEE786009D00F2 /* NSArray+NSObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+NSObject.h"; path = "private/NSArray+NSObject.h"; sourceTree = "<group>"; };
-		C9707D1725DEE786009D00F2 /* NSArray+NSObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSArray+NSObject.m"; path = "private/NSArray+NSObject.m"; sourceTree = "<group>"; };
+		C9707D1625DEE786009D00F2 /* NSArray+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+Extensions.h"; path = "private/NSArray+Extensions.h"; sourceTree = "<group>"; };
+		C9707D1725DEE786009D00F2 /* NSArray+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Extensions.m"; path = "private/NSArray+Extensions.m"; sourceTree = "<group>"; };
+		C9707D2E25E0444D009D00F2 /* SDLMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMacros.h; path = private/SDLMacros.h; sourceTree = "<group>"; };
+		C9707D2F25E0444D009D00F2 /* SDLMacros.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMacros.m; path = private/SDLMacros.m; sourceTree = "<group>"; };
 		C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekIndicatorTypeSpec.m; sourceTree = "<group>"; };
 		C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekStreamingIndicatorSpec.m; sourceTree = "<group>"; };
 		C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSeekStreamingIndicator.h; path = public/SDLSeekStreamingIndicator.h; sourceTree = "<group>"; };
@@ -6119,8 +6123,10 @@
 				4ABB24B824F592620061BF55 /* NSMutableDictionary+SafeRemove.h */,
 				4ABB24B524F592620061BF55 /* NSMutableDictionary+SafeRemove.m */,
 				4A8BD3AB24F98602000945E3 /* NSNumber+NumberType.h */,
-				C9707D1625DEE786009D00F2 /* NSArray+NSObject.h */,
-				C9707D1725DEE786009D00F2 /* NSArray+NSObject.m */,
+				C9707D1625DEE786009D00F2 /* NSArray+Extensions.h */,
+				C9707D1725DEE786009D00F2 /* NSArray+Extensions.m */,
+				C9707D2E25E0444D009D00F2 /* SDLMacros.h */,
+				C9707D2F25E0444D009D00F2 /* SDLMacros.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -7230,7 +7236,7 @@
 				4ABB2AB824F847F40061BF55 /* SDLSendHapticDataResponse.h in Headers */,
 				4ABB268624F7F8E20061BF55 /* SDLMutableDataQueue.h in Headers */,
 				4ABB27CE24F8006D0061BF55 /* SDLMediaType.h in Headers */,
-				C9707D1825DEE786009D00F2 /* NSArray+NSObject.h in Headers */,
+				C9707D1825DEE786009D00F2 /* NSArray+Extensions.h in Headers */,
 				4ABB28E324F82A6A0061BF55 /* SDLOnTBTClientState.h in Headers */,
 				4ABB2A5C24F847B10061BF55 /* SDLGetWayPointsResponse.h in Headers */,
 				4ABB260024F7E9230061BF55 /* SDLStreamingMediaManagerConstants.h in Headers */,
@@ -7313,6 +7319,7 @@
 				4ABB25E024F7E7980061BF55 /* SDLStreamingMediaConfiguration.h in Headers */,
 				4A8BD2FE24F938A4000945E3 /* SDLVehicleType.h in Headers */,
 				4ABB282B24F824E70061BF55 /* SDLTBTState.h in Headers */,
+				C9707D3025E0444D009D00F2 /* SDLMacros.h in Headers */,
 				4ABB26D724F7FAFD0061BF55 /* SDLRPCMessage.h in Headers */,
 				4A8BD24A24F93135000945E3 /* SDLMyKey.h in Headers */,
 				4ABB24F924F5959E0061BF55 /* SDLAsynchronousOperation.h in Headers */,
@@ -7866,6 +7873,7 @@
 				4ABB255C24F7E5880061BF55 /* SDLPermissionFilter.m in Sources */,
 				4ABB27C624F8006D0061BF55 /* SDLModuleType.m in Sources */,
 				4ABB25FD24F7E8E10061BF55 /* SDLStreamingVideoScaleManager.m in Sources */,
+				C9707D3125E0444D009D00F2 /* SDLMacros.m in Sources */,
 				4ABB26F724F7FB8F0061BF55 /* SDLAudioStreamingState.m in Sources */,
 				4ABB265A24F7F5C10061BF55 /* SDLRPCResponseNotification.m in Sources */,
 				4ABB2AB724F847F40061BF55 /* SDLSetGlobalPropertiesResponse.m in Sources */,
@@ -7905,7 +7913,7 @@
 				4ABB265624F7F5B40061BF55 /* SDLRPCNotificationNotification.m in Sources */,
 				4ABB2B8424F8504A0061BF55 /* SDLHMISettingsControlData.m in Sources */,
 				4ABB287624F8294A0061BF55 /* SDLVentilationMode.m in Sources */,
-				C9707D1925DEE786009D00F2 /* NSArray+NSObject.m in Sources */,
+				C9707D1925DEE786009D00F2 /* NSArray+Extensions.m in Sources */,
 				4ABB25E724F7E7A90061BF55 /* SDLAudioStreamManager.m in Sources */,
 				4ABB277B24F7FEBA0061BF55 /* SDLLightStatus.m in Sources */,
 				4ABB2A7324F847D40061BF55 /* SDLPutFileResponse.m in Sources */,

@@ -69,9 +69,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         return nil;
     }
 
-    if (![self sdl_choiceCellsAreUnique:choices]) {
-        return nil;
-    }
+    if (![self sdl_choiceCellsAreUnique:choices]) { return nil; }
 
     for (NSUInteger i = 0; i < helpList.count; i++) {
         helpList[i].position = @(i + 1);
@@ -129,7 +127,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
  Check for duplicate choices and voiceCommands
 
  @param choices The choices you will be adding
- @return Boolean that indicates whether choices are unique or not
+ @return Boolean that indicates whether choices and voice commands are unique or not
  */
 -(BOOL)sdl_choiceCellsAreUnique:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *identicalCellsCheckSet = [NSMutableSet setWithCapacity:choices.count];

@@ -1,5 +1,5 @@
 //
-//  NSArray+NSObject.h
+//  NSArray+Extensions.h
 //  SmartDeviceLink
 //
 //  Created by Frank Elias on 2/18/21.
@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SDLMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSArray (NSObject)
+@interface NSArray (Extensions)
 
 -(NSUInteger)dynamicHash;
 

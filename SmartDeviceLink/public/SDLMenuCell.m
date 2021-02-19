@@ -9,7 +9,7 @@
 #import "SDLMenuCell.h"
 
 #import "SDLArtwork.h"
-#import "NSArray+NSObject.h"
+#import "NSArray+Extensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -77,11 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Object Equality
-
-NSUInteger const NSUIntBitCell = (CHAR_BIT * sizeof(NSUInteger));
-NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
-    return ((((NSUInteger)val) << howMuch) | (((NSUInteger)val) >> (NSUIntBitCell - howMuch)));
-}
 
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
