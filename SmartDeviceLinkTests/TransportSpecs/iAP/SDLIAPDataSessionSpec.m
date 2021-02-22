@@ -45,9 +45,7 @@ describe(@"SDLIAPDataSession", ^{
 
         it(@"Should init correctly", ^{
             expect(dataSession.accessory).to(equal(mockAccessory));
-            expect(dataSession.delegate).to(equal(mockDelegate));
             expect(dataSession.isSessionInProgress).to(beFalse());
-
         });
     });
 
