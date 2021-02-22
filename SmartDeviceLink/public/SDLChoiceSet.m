@@ -148,7 +148,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
     // All the VR commands must be unique
     if (identicalVoiceCommandsCheckSet.count < allVoiceCommandsCount) {
-        SDLLogE(@"If using voice recognition commands, all VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)identicalVoiceCommandsCheckSet.count, (unsigned long)allVoiceCommandsCount);
+        SDLLogE(@"Attempted to create a choice set where the cells contained duplicate voice commands. All VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)identicalVoiceCommandsCheckSet.count, (unsigned long)allVoiceCommandsCount);
         return NO;
     }
 
