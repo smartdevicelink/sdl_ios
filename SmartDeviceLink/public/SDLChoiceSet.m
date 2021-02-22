@@ -133,13 +133,11 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     NSMutableSet<SDLChoiceCell *> *identicalCellsCheckSet = [NSMutableSet setWithCapacity:choices.count];
     NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
     NSUInteger allVoiceCommandsCount = 0;
-    NSUInteger choiceCellWithVoiceCommandCount = 0;
     for (SDLChoiceCell *cell in choices) {
         [identicalCellsCheckSet addObject:cell];
 
         if (cell.voiceCommands == nil) { continue; }
         [identicalVoiceCommandsCheckSet addObjectsFromArray:cell.voiceCommands];
-        choiceCellWithVoiceCommandCount += 1;
         allVoiceCommandsCount += cell.voiceCommands.count;
     }
 

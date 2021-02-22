@@ -68,7 +68,7 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
     ^ NSUIntRotate(self.tertiaryText.hash, NSUIntBit / 4)
     ^ NSUIntRotate(self.artwork.name.hash, NSUIntBit / 5)
     ^ NSUIntRotate(self.secondaryArtwork.name.hash, NSUIntBit / 6)
-    ^ NSUIntRotate([self.voiceCommands dynamicHash], NSUIntBit / 7);
+    ^ NSUIntRotate(self.voiceCommands.dynamicHash, NSUIntBit / 7);
 }
 
 - (BOOL)isEqual:(id)object {
