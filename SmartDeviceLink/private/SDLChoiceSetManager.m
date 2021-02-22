@@ -38,8 +38,8 @@
 #import "SDLStateMachine.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
-#import "SDLWindowCapability.h"
 #import "SDLVersion.h"
+#import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -228,13 +228,14 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         return;
     }
 
-    NSMutableSet<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
 
+    NSMutableOrderedSet<SDLChoiceCell *> *mutableChoicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [choicesToUpload minusSet:self.preloadedMutableChoices];
-        [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
+        [mutableChoicesToUpload minusSet:self.preloadedMutableChoices];
+        [mutableChoicesToUpload minusSet:self.pendingMutablePreloadChoices];
     }];
 
+    NSOrderedSet<SDLChoiceCell *> *choicesToUpload = [mutableChoicesToUpload copy];
     if (choicesToUpload.count == 0) {
         SDLLogD(@"All choices already preloaded. No need to perform a preload");
         if (handler != nil) {
@@ -248,7 +249,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     // Add the preload cells to the pending preloads
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
+        [self.pendingMutablePreloadChoices unionSet:choicesToUpload.set];
     }];
 
     // Upload pending preloads
@@ -276,8 +277,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload];
-            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
+            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
+            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
         }];
     };
     [self.transactionQueue addOperation:preloadOp];
@@ -446,8 +447,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// Checks the passed list of choices to be uploaded and returns the items that have not yet been uploaded to the module.
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
-- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
+- (NSMutableOrderedSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableOrderedSet<SDLChoiceCell *> *choicesSet = [[NSMutableOrderedSet alloc] initWithArray:choices];
 
     // If we're running on a connection < RPC 7.1, we need to de-duplicate cells because presenting them will fail if we have the same cell primary text.
     SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
@@ -456,13 +457,13 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     }
     [choicesSet minusSet:self.preloadedChoices];
 
-    return [choicesSet copy];
+    return choicesSet;
 }
 
 /// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
 /// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
 /// @param choices The choices to be uploaded.
-- (void)sdl_addUniqueNamesToCells:(NSMutableSet<SDLChoiceCell *> *)choices {
+- (void)sdl_addUniqueNamesToCells:(NSOrderedSet<SDLChoiceCell *> *)choices {
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
     for (SDLChoiceCell *cell in choices) {
@@ -502,7 +503,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 /// Assigns a unique id to each choice item.
 /// @param choices An array of choices
-- (void)sdl_updateIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
+- (void)sdl_updateIdsOnChoices:(NSOrderedSet<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         cell.choiceId = self.nextChoiceId;
     }
