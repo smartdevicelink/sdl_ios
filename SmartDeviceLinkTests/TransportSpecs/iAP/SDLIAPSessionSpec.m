@@ -31,7 +31,6 @@ describe(@"SDLIAPSession", ^{
 
         it(@"should init correctly", ^{
             expect(testSession.accessory).to(equal(mockAccessory));
-            expect(testSession.protocolString).to(equal(ControlProtocolString));
             expect(testSession.bothStreamsOpen).to(beFalse());
             expect(testSession.hasSpaceAvailable).to(beFalse());
             expect(testSession.isSessionInProgress).to(beFalse());
