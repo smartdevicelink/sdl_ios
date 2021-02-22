@@ -12,7 +12,7 @@
 
 #import "SDLIAPDataSession.h"
 
-#import "EAAccessory+OCMock.m"
+#import "EAAccessory+OCMock.h"
 #import "SDLIAPConstants.h"
 #import "SDLIAPSession.h"
 #import "SDLIAPDataSessionDelegate.h"
@@ -41,6 +41,13 @@ describe(@"SDLIAPDataSession", ^{
     describe(@"init", ^{
         beforeEach(^{
             dataSession = [[SDLIAPDataSession alloc] initWithAccessory:mockAccessory delegate:mockDelegate forProtocol:MultiSessionProtocolString];
+        });
+        
+        it(@"Should init correctly", ^{
+            expect(dataSession.accessory).to(equal(mockAccessory));
+            expect(dataSession.delegate).to(equal(mockDelegate));
+            expect(dataSession.isSessionInProgress).to(beFalse());
+
         });
     });
 
