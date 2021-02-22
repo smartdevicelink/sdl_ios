@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Closes the SDLIAPSession used by the SDLIAPControlSession
  */
-- (void) closeSession;
+- (void)closeSession;
 
 /**
  *  Returns whether the session has open I/O streams.
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
 
 /**
- *  The accessory used to create and the EASession.
+ *  The accessory used to create the EASession.
  */
 @property (nullable, strong, nonatomic, readonly) EAAccessory *accessory;
 

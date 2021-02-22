@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Stops SDLIAPSesssion operation by removing streams from the run loop
  *  By design a SDLIAPSession instance cannot be reopened.
  */
-- (void) closeSession;
+- (void)closeSession;
 
 /**
  *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.

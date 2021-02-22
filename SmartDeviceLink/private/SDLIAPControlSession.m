@@ -23,7 +23,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @interface SDLIAPControlSession ()
 @property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
-@property (weak, nonatomic) id<SDLIAPControlSessionDelegate> delegate;
+@property (nullable, weak, nonatomic) id<SDLIAPControlSessionDelegate> delegate;
 @property (nullable, nonatomic, strong) SDLIAPSession *iapSession;
 @end
 
@@ -43,7 +43,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     return self;
 }
 
-- (void) closeSession {
+- (void)closeSession {
     [self.iapSession closeSession];
 }
 
@@ -61,14 +61,14 @@ int const ProtocolIndexTimeoutSeconds = 10;
 #pragma mark - NSStreamDelegate
 
 
-- (void) streamsDidOpen {
+- (void)streamsDidOpen {
     SDLLogD(@"SDLIAPControlSession streams opened for control session instance %@", self);
     if (self.delegate != nil) {
         [self sdl_startControlSessionProtocolIndexStringDataTimeoutTimer];
     }
 }
 
-- (void) streamsDidEnd {
+- (void)streamsDidEnd {
     SDLLogD(@"SDLIAPControlSession EASession stream ended");
     if (self.delegate != nil) {
         [self.delegate controlSessionDidEnd];
@@ -81,13 +81,13 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *  Called when the session gets a `NSStreamEventHasBytesAvailable` event code. A protocol string is created from the received data. Since a new session needs to be established with the protocol string, the current session is closed and a new session is created.
  */
 - (void)streamHasBytesAvailable:(NSInputStream *)inputStream {
-    SDLLogD(@"SDLIAPControlSession EASession stream received data");
+    SDLLogV(@"SDLIAPControlSession EASession stream received data");
     
     // Read in the stream a single byte at a time
     uint8_t buf[1];
     NSInteger len = [inputStream read:buf maxLength:1];
     if (len <= 0) {
-        SDLLogD(@"No data in the control stream");
+        SDLLogV(@"No data in the control stream");
         return;
     }
     

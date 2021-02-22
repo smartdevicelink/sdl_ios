@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void) closeSession {
+- (void)closeSession {
     [self.iapSession closeSession];
 }
 
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self writeDataToSessionStream];
 }
 
-- (void) writeDataToSessionStream {
+- (void)writeDataToSessionStream {
     NSMutableData *remainder = [self.sendDataQueue frontBuffer];
     if (remainder != nil) {
         NSUInteger bytesRemaining = remainder.length;
@@ -75,18 +75,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - NSStreamDelegate
 
-- (void) streamsDidOpen {
+- (void)streamsDidOpen {
     SDLLogD(@"SDLIAPDataSession streams opened for data session instance %@", self);
     if (self.delegate != nil) {
         [self.delegate dataSessionDidConnect];
     }
 }
 
-- (void) streamHasSpaceToWrite {
+- (void)streamHasSpaceToWrite {
     [self writeDataToSessionStream];
 }
 
-- (void) streamHasBytesAvailable:(NSInputStream *)inputStream {
+- (void)streamHasBytesAvailable:(NSInputStream *)inputStream {
     uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
     // It is necessary to check the stream status and whether there are bytes available
     // because the dataStreamHasBytesHandler is executed on the IO thread and
@@ -111,14 +111,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void) streamsDidEnd {
+- (void)streamsDidEnd {
     SDLLogD(@"SDLIAPDataSession EASession streamsDidEnd");
     if (self.delegate != nil) {
         [self.delegate  dataSessionDidEnd];
     }
 }
 
-- (void) streamDidError {
+- (void)streamDidError {
     SDLLogD(@"SDLIAPDataSession EASession streamDidError");
     if (![self.iapSession.protocolString isEqualToString:LegacyProtocolString]) {
         [self.sendDataQueue removeAllObjects];
