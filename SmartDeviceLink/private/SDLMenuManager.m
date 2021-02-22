@@ -165,12 +165,6 @@ UInt32 const MenuCellIdMin = 1;
     // Check for cell lists with completely duplicate information, or any duplicate voiceCommands and return if it fails (logs are in the called method).
     if (![self sdl_menuCellsAreUnique:menuCells voiceCommandsCheckSet:[NSMutableSet set] outNumVoiceCommands:nil]) { return; }
 
-    // If connected over RPC < 7.1, append unique identifiers to cell titles that are duplicates even if other properties are identical
-    SDLVersion *menuUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
-    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:menuUniquenessSupportedVersion]) {
-        [self sdl_addUniqueNamesToCells:menuCells];
-    }
-
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
@@ -181,6 +175,12 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     self.waitingOnHMIUpdate = NO;
+
+    // If connected over RPC < 7.1, append unique identifiers to cell titles that are duplicates even if other properties are identical
+    SDLVersion *menuUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:menuUniquenessSupportedVersion]) {
+        [self sdl_addUniqueNamesToCells:menuCells];
+    }
 
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
@@ -552,7 +552,7 @@ UInt32 const MenuCellIdMin = 1;
  @param cells The cells you will be adding
  @return Boolean that indicates whether menuCells are unique or not
  */
--(BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells voiceCommandsCheckSet:(NSMutableSet *)voiceCommandsCheckSet outNumVoiceCommands:(NSNumber **)outNumVoiceCommands {
+- (BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells voiceCommandsCheckSet:(NSMutableSet *)voiceCommandsCheckSet outNumVoiceCommands:(NSNumber **)outNumVoiceCommands {
     ///Check all voice commands for identical items and check each list of cells for identical cells
     NSUInteger numVoiceCommands = 0;
     NSMutableSet *identicalCellsCheckSet = [NSMutableSet set];

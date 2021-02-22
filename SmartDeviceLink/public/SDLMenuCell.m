@@ -81,8 +81,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
-    ^ NSUIntRotateCell([self.voiceCommands dynamicHash], NSUIntBitCell / 4)
-    ^ NSUIntRotateCell(self.subCells.count !=0, NSUIntBitCell  / 5)
+    ^ NSUIntRotateCell(self.voiceCommands.dynamicHash, NSUIntBitCell / 4)
+    ^ NSUIntRotateCell((self.subCells.count != 0), NSUIntBitCell  / 5)
     ^ NSUIntRotateCell(self.secondaryText.hash, NSUIntBitCell  / 6)
     ^ NSUIntRotateCell(self.tertiaryText.hash, NSUIntBitCell  / 7)
     ^ NSUIntRotateCell(self.secondaryArtwork.name.hash, NSUIntBitCell  / 8)
