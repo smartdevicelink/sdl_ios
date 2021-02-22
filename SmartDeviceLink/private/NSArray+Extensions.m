@@ -14,18 +14,12 @@
 /// Instead, this method calls hash on each of it's sub-objects, XOR and rotates them, then returns this as the hash. This is much slower than the default hash method, but sometimes necessary to properly compare arrays.
 /// @returns A hash based on the hashes of all of the contained objects
 - (NSUInteger)dynamicHash {
-    NSUInteger returnValue = 0;
-    NSUInteger index = 0;
-//    [self enumerateObjectsUsingBlock:^(NSObject *object, NSUInteger index, BOOL *stop) {
-//        returnValue ^= NSUIntRotateCell(object.hash, NSUIntBitCell/(index+2));
-//    }];
-
-    for (NSObject *object in self) {
-        returnValue ^= NSUIntRotateCell(object.hash, NSUIntBitCell/(index+2));
-        index += 1;
+    NSUInteger retVal = 0;
+    for (NSUInteger i = 0; i < self.count; i++) {
+        retVal ^= NSUIntRotateCell(((NSObject *)self[i]).hash, (NSUIntBitCell / (i + 2)));
     }
 
-    return returnValue;
+    return retVal;
 }
 
 

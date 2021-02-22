@@ -181,6 +181,12 @@ typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPres
 
 /**
  The current list of menu cells displayed in the app's menu.
+
+ WARNING: If two or more cells in this array are duplicates – they contain all of the same data – the menu will not be set. Each list of `subCells` and the main menu are compared separately, which means you can have duplicate cells between the main menu and a sub cell list without a conflict occurring.
+
+ WARNING: If two or more cells contain the same `title` but are otherwise distinctive, unique identifiers will be appended in the style (2), (3), (4), etc. to those cells' `title`. The same rules apply to duplicate titles as apply to complete duplicates above: the titles can be duplicates between different array lists without a conflict.
+
+ WARNING: If any two cells contain the same voice command string in their `voiceCommands` list, the menu will not be set. Note that unlike the two warnings above, these lists *are not* checked separately. If you have the same voice command in a cell of the main menu and a sub cell, it will not be set.
  */
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menu;
 
@@ -189,7 +195,7 @@ Change the mode of the dynamic menu updater to be enabled, disabled, or enabled 
 
 The current status for dynamic menu updates. A dynamic menu update allows for smarter building of menu changes. If this status is set to `SDLDynamicMenuUpdatesModeForceOn`, menu updates will only create add commands for new items and delete commands for items no longer appearing in the menu. This helps reduce possible RPCs failures as there will be significantly less commands sent to the HMI.
 
-If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regarldess if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.
+If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regardless if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.
 
  We recommend using either `SDLDynamicMenuUpdatesModeOnWithCompatibility` or `SDLDynamicMenuUpdatesModeForceOn`. `SDLDynamicMenuUpdatesModeOnWithCompatibility` turns dynamic updates off for head units that we know have poor compatibility with dynamic updates (e.g. they have bugs that cause menu items to not be placed correctly).
  */

@@ -38,13 +38,6 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @property (strong, nonatomic) SDLMenuConfiguration *menuConfiguration;
 
-/**
- The menuCells array do not support 2 or more duplicate cells.
-
- In a state where 2 or more cells contains the same Title but are otherwise distinctive, unique identifiers will be appended in the style (2), (3), (4), etc. to those cells Title.
-
- Each list of subCells and the main menuCells are compared separately, which means you can have duplicate cells between the main menu and a subcell list without a conflict occurring.
- */
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menuCells;
 
 @property (assign, nonatomic) SDLDynamicMenuUpdatesMode dynamicMenuUpdatesMode;

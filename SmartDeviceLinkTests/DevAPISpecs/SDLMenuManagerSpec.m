@@ -221,7 +221,7 @@ describe(@"menu manager", ^{
 
         context(@"when the cells contain duplicates", ^{
             SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"yes"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            SDLMenuCell *textCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"maybe"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"no", @"yes"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
             it(@"should fail with duplicate cells", ^{
                 testManager.menuCells = @[textCell, textCell2];

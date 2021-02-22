@@ -72,9 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
 
-@property (nonatomic, nullable) NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet;
-@property (assign, nonatomic) NSUInteger voiceCommandCount;
-
 @end
 
 UInt32 const ParentIdNotFound = UINT32_MAX;
@@ -94,9 +91,6 @@ UInt32 const MenuCellIdMin = 1;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_commandNotification:) name:SDLDidReceiveCommandNotification object:nil];
-
-    self.identicalVoiceCommandsCheckSet = [NSMutableSet set];
-    self.voiceCommandCount = 0;
 
     return self;
 }
@@ -168,14 +162,8 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
-    // Check for cell lists with completely duplicate information, or any duplicate voiceCommands
-    if (![self sdl_menuCellsAreUnique:menuCells]) {
-        // If any cells are complete duplicates of another, cancel setting the cells.
-        SDLLogE(@"Attempted to create a menu where two or more cells are complete duplicates. Menu cells must be unique. The menu will not be set.");
-        return;
-    }
-    self.identicalVoiceCommandsCheckSet = [NSMutableSet set];
-    self.voiceCommandCount = 0;
+    // Check for cell lists with completely duplicate information, or any duplicate voiceCommands and return if it fails (logs are in the called method).
+    if (![self sdl_menuCellsAreUnique:menuCells voiceCommandsCheckSet:[NSMutableSet set] numVoiceCommands:@0]) { return; }
 
     // If connected over RPC < 7.1, append unique identifiers to cell titles that are duplicates even if other properties are identical
     SDLVersion *menuUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
@@ -564,29 +552,32 @@ UInt32 const MenuCellIdMin = 1;
  @param cells The cells you will be adding
  @return Boolean that indicates whether menuCells are unique or not
  */
--(BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells {
+-(BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells voiceCommandsCheckSet:(NSMutableSet *)voiceCommandsCheckSet numVoiceCommands:(NSNumber *)numVoiceCommands {
     ///Check all voice commands for identical items and check each list of cells for identical cells
+    voiceCommandsCheckSet = voiceCommandsCheckSet ?: [NSMutableSet set];
+    numVoiceCommands = numVoiceCommands ?: @0;
     NSMutableSet *identicalCellsCheckSet = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
         [identicalCellsCheckSet addObject:cell];
-        if (cell.subCells.count > 0 && ![self sdl_menuCellsAreUnique:cell.subCells]) {
-            return NO;
-        }
 
+        // Recursively check the subcell lists to see if they are all unique as well. If anything is not, this will chain back up the list to return false.
+        if (cell.subCells.count > 0 && ![self sdl_menuCellsAreUnique:cell.subCells voiceCommandsCheckSet:voiceCommandsCheckSet numVoiceCommands:numVoiceCommands]) { return NO; }
+
+        // Voice commands have to be identical across all lists
         if (cell.voiceCommands == nil) { continue; }
-        [self.identicalVoiceCommandsCheckSet addObjectsFromArray:cell.voiceCommands];
-        self.voiceCommandCount += cell.voiceCommands.count;
+        [voiceCommandsCheckSet addObjectsFromArray:cell.voiceCommands];
+        numVoiceCommands = @(numVoiceCommands.unsignedIntegerValue + cell.voiceCommands.count);
     }
 
     // Check for duplicate cells
     if (identicalCellsCheckSet.count != cells.count) {
-        SDLLogE(@"Not all cells are unique. The menu will not be set.");
+        SDLLogE(@"Not all cells are unique. Cells in each list (such as main menu or subcell list) must have some differentiating property other than the subcells within a cell. The menu will not be set.");
         return NO;
     }
 
     // All the VR commands must be unique
-    if (self.identicalVoiceCommandsCheckSet.count < self.voiceCommandCount) {
-        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
+    if (voiceCommandsCheckSet.count != numVoiceCommands.unsignedIntegerValue) {
+        SDLLogE(@"Attempted to create a menu with duplicate voice commands, but voice commands must be unique across all menu items including main menu and subcell lists. The menu will not be set.");
         return NO;
     }
 
@@ -807,8 +798,6 @@ UInt32 const MenuCellIdMin = 1;
         ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
-            self.identicalVoiceCommandsCheckSet = [NSMutableSet set];
-            self.voiceCommandCount = 0;
             self.waitingUpdateMenuCells = @[];
             return;
         }
@@ -823,8 +812,6 @@ UInt32 const MenuCellIdMin = 1;
         && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
-            self.identicalVoiceCommandsCheckSet = [NSMutableSet set];
-            self.voiceCommandCount = 0;
             self.waitingUpdateMenuCells = @[];
         }
     }
