@@ -150,7 +150,6 @@ describe(@"SDLIAPTransport", ^{
             });
 
             it(@"It should cleanup on disconnect, close and destroy data session, and notify the lifecycle manager that the transport disconnected", ^{
-                OCMExpect([mockDataSession destroySessionWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
 
@@ -174,7 +173,6 @@ describe(@"SDLIAPTransport", ^{
             });
 
             it(@"It should cleanup on disconnect, close and destroy data session, and should not tell the delegate that the transport closed", ^{
-                OCMExpect([mockControlSession destroySessionWithCompletionHandler:[OCMArg invokeBlock]]);
 
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
 
