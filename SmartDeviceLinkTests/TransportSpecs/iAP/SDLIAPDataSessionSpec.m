@@ -42,11 +42,6 @@ describe(@"SDLIAPDataSession", ^{
         beforeEach(^{
             dataSession = [[SDLIAPDataSession alloc] initWithAccessory:mockAccessory delegate:mockDelegate forProtocol:MultiSessionProtocolString];
         });
-
-        it(@"Should init correctly", ^{
-            expect(dataSession.accessory).to(equal(mockAccessory));
-            expect(dataSession.isSessionInProgress).to(beFalse());
-        });
     });
 
 });
