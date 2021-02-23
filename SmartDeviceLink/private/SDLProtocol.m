@@ -9,8 +9,10 @@
 #import "SDLControlFramePayloadEndService.h"
 #import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
+#import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadRPCStartService.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLEncryptionLifecycleManager.h"
 #import "SDLLogMacros.h"
 #import "SDLGlobals.h"
@@ -515,7 +517,6 @@ NS_ASSUME_NONNULL_BEGIN
         switch (startServiceACK.header.serviceType) {
             case SDLServiceTypeRPC: {
                 SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
                 }
@@ -532,15 +533,13 @@ NS_ASSUME_NONNULL_BEGIN
                 }
             } break;
             case SDLServiceTypeAudio: {
-                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-                
+                SDLControlFramePayloadAudioStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:startServiceACK.payload];
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeAudio];
                 }
             } break;
             case SDLServiceTypeVideo: {
-                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-                
+                SDLControlFramePayloadVideoStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:startServiceACK.payload];
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:SDLServiceTypeVideo];
                 }
