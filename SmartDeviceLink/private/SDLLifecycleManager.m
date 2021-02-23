@@ -432,14 +432,14 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         if ((vehicleType != nil) || (softwareVersion != nil)) {
             self.systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:nil];
             SDLLogD(@"System info not received by protocol layer, using RAIR system info: %@", self.systemInfo);
-        }
 
-        if ([self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)]) {
-            BOOL shouldConnect = [self.delegate didReceiveSystemInfo:self.systemInfo];
-            if (!shouldConnect) {
-                SDLLogW(@"Developer chose to disconnect from the head unit; disconnecting now");
-                [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
-                [self sdl_transitionToState:SDLLifecycleStateStopped];
+            if ([self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)]) {
+                BOOL shouldConnect = [self.delegate didReceiveSystemInfo:self.systemInfo];
+                if (!shouldConnect) {
+                    SDLLogW(@"Developer chose to disconnect from the head unit; disconnecting now");
+                    [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
+                    [self sdl_transitionToState:SDLLifecycleStateStopped];
+                }
             }
         }
     }
