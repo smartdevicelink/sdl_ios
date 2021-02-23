@@ -47,7 +47,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     [self.iapSession closeSession];
 }
 
-- (nullable EAAccessory *) accessory {
+- (nullable EAAccessory *)accessory {
     return self.iapSession.accessory;
 }
 - (NSUInteger)connectionID {
