@@ -416,6 +416,25 @@ describe(@"present choice operation", ^{
                 }]]);
             });
 
+            it(@"should respond to enabled keyboard event", ^{
+                SDLRPCNotificationNotification *notification = nil;
+
+                // Submit notification
+                SDLOnKeyboardInput *input = [[SDLOnKeyboardInput alloc] init];
+                input.event = SDLKeyboardEventInputKeyMaskEnabled;
+                notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveKeyboardInputNotification object:nil rpcNotification:input];
+
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+                OCMVerify([testKeyboardDelegate keyboardDidSendEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+                }] text:[OCMArg isNil]]);
+
+                OCMVerify([testKeyboardDelegate keyboardDidUpdateInputMask:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+                }]]);
+            });
+
             it(@"should respond to cancellation notifications", ^{
                 SDLRPCNotificationNotification *notification = nil;
 
