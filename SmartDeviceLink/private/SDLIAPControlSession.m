@@ -37,7 +37,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     _iapSession = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol iAPSessionDelegate:self];
     _protocolIndexTimer = nil;
     _delegate = delegate;
-    SDLLogD(@"SDLIAPControlSession Wait for the protocol string from Core, setting timeout timer for %d seconds", ProtocolIndexTimeoutSeconds);
+    SDLLogD(@"SDLIAPControlSession Waiting for the protocol string from Core, setting timeout timer for %d seconds", ProtocolIndexTimeoutSeconds);
     self.protocolIndexTimer = [self sdl_createControlSessionProtocolIndexStringDataTimeoutTimer];
 
     return self;

@@ -131,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-#pragma mark Otherd
+#pragma mark Getters
 
 - (nullable EAAccessory *) accessory {
     return self.iapSession.accessory;

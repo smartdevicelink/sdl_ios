@@ -376,7 +376,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Called when the data session should be retried.
  */
-- (void)dataSessionDidEnd{
+- (void)dataSessionDidEnd {
     SDLLogV(@"Retrying the data session");
     [self sdl_retryEstablishSession];
 }
