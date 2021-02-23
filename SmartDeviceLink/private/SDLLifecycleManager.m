@@ -60,6 +60,7 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLSystemInfo.h"
 #import "SDLTCPTransport.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLVersion.h"
@@ -374,6 +375,20 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
+    // If we received vehicle details in the protocol layer, we need to check if the developer wants to disconnect
+    self.systemInfo = self.protocolHandler.protocol.systemInfo;
+    if (self.systemInfo != nil) {
+        SDLLogD(@"System info received via protocol layer: %@", self.systemInfo);
+        if ([self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)]) {
+            BOOL shouldConnect = [self.delegate didReceiveSystemInfo:self.systemInfo];
+            if (!shouldConnect) {
+                SDLLogW(@"Developer chose to disconnect from the head unit; disconnecting now");
+                [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
+                [self sdl_transitionToState:SDLLifecycleStateStopped];
+            }
+        }
+    }
+
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
 
@@ -408,6 +423,25 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLLogW(@"Disconnecting from head unit, RPC version %@ is less than configured minimum version %@", [SDLGlobals sharedGlobals].rpcVersion.stringVersion, self.configuration.lifecycleConfig.minimumRPCVersion.stringVersion);
         [self sdl_transitionToState:SDLLifecycleStateUnregistering];
         return;
+    }
+
+    // If we did not receive vehicle details in the protocol layer, we need to check if the developer wants to disconnect based on vehicle details from the RAIR
+    if (self.systemInfo == nil) {
+        SDLVehicleType *vehicleType = self.registerResponse.vehicleType;
+        NSString *softwareVersion = self.registerResponse.systemSoftwareVersion;
+        if ((vehicleType != nil) || (softwareVersion != nil)) {
+            self.systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:nil];
+            SDLLogD(@"System info not received by protocol layer, using RAIR system info: %@", self.systemInfo);
+        }
+
+        if ([self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)]) {
+            BOOL shouldConnect = [self.delegate didReceiveSystemInfo:self.systemInfo];
+            if (!shouldConnect) {
+                SDLLogW(@"Developer chose to disconnect from the head unit; disconnecting now");
+                [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
+                [self sdl_transitionToState:SDLLifecycleStateStopped];
+            }
+        }
     }
 
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;

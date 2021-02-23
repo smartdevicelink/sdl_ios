@@ -42,6 +42,7 @@
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLSystemInfo.h"
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
@@ -71,7 +72,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (strong, nonatomic) NSMutableDictionary *videoEncoderSettings;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *customEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
@@ -199,7 +199,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _protocol = nil;
     [self.videoScaleManager stop];
     [self.focusableItemManager stop];
-    _connectedVehicleMake = nil;
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
@@ -597,7 +596,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
 
-    SDLLogD(@"Received Register App Interface");
+    SDLLogV(@"Received Register App Interface");
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)notification.response;
 
 #pragma clang diagnostic push
@@ -614,8 +613,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             self.videoScaleManager.scale = 1.0f / 0.75f; // Scale by 1.333333
         }
     }
-
-    self.connectedVehicleMake = registerResponse.vehicleType.make;
 
     SDLLogD(@"Determined base screen size on display capabilities: %@", NSStringFromCGSize(self.videoScaleManager.displayViewportResolution));
 }
@@ -798,7 +795,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLControlFramePayloadVideoStartService *startVideoPayload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:preferredResolution.resolutionHeight.intValue width:preferredResolution.resolutionWidth.intValue protocol:preferredFormat.protocol codec:preferredFormat.codec];
 
     // Decide if we need to start a secure service or not
-    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
+    NSString *connectedVehicleMake = self.connectionManager.systemInfo.vehicleType.make;
+    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:connectedVehicleMake])) {
         SDLLogD(@"Sending secure video start service with payload: %@", startVideoPayload);
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data tlsInitializationHandler:^(BOOL success, NSError *error) {
             if (error) {

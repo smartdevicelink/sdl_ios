@@ -28,6 +28,7 @@ char *const SDLControlFrameWidthKey = "width";
 char *const SDLControlFrameVehicleMakeKey = "make";
 char *const SDLControlFrameVehicleModelKey = "model";
 char *const SDLControlFrameVehicleModelYearKey = "modelYear";
+char *const SDLControlFrameVehicleHardwareVersionKey = "systemHardwareVersion";
 char *const SDLControlFrameVehicleSoftwareVersionKey = "systemSoftwareVersion";
 char *const SDLControlFrameVehicleTrimKey = "trim";
 char *const SDLControlFrameVideoServiceTransportsKey = "videoServiceTransports";

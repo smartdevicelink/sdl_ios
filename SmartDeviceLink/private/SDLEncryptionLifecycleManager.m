@@ -25,6 +25,7 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLServiceEncryptionDelegate.h"
 #import "SDLStateMachine.h"
+#import "SDLSystemInfo.h"
 #import "SDLVehicleType.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -80,7 +81,6 @@ typedef NSString SDLVehicleMake;
         }
     }
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerAppInterfaceResponseReceived:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
 
@@ -92,7 +92,13 @@ typedef NSString SDLVehicleMake;
 - (void)startWithProtocol:(SDLProtocol *)protocol {
     SDLLogD(@"Starting encryption manager");
     _protocol = protocol;
-    
+
+    // Set the security manager based on the known system info
+    self.protocol.securityManager = [self sdl_securityManagerForMake:self.connectionManager.systemInfo.vehicleType.make];
+    if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
+        self.protocol.securityManager.appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
+    }
+
     @synchronized(self.protocol.protocolDelegateTable) {
         if (![self.protocol.protocolDelegateTable containsObject:self]) {
             [self.protocol.protocolDelegateTable addObject:self];
@@ -237,16 +243,6 @@ typedef NSString SDLVehicleMake;
 }
 
 #pragma mark - Notifications
-
-- (void)sdl_registerAppInterfaceResponseReceived:(SDLRPCResponseNotification *)notification {
-    if (![notification isResponseMemberOfClass:[SDLRegisterAppInterfaceResponse class]]) { return; }
-
-    SDLRegisterAppInterfaceResponse *registerResponse = notification.response;
-    self.protocol.securityManager = [self sdl_securityManagerForMake:registerResponse.vehicleType.make];
-    if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
-        self.protocol.securityManager.appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
-    }
-}
 
 - (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
     if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) { return; }

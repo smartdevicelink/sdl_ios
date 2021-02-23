@@ -25,6 +25,7 @@
 #import "SDLRPCRequest.h"
 #import "SDLRPCResponse.h"
 #import "SDLSecurityType.h"
+#import "SDLSystemInfo.h"
 #import "SDLTimer.h"
 #import "SDLVersion.h"
 #import "SDLV2ProtocolHeader.h"
@@ -50,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Readonly public properties
 @property (strong, nonatomic, readwrite, nullable) NSString *authToken;
+@property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
 
 @end
 
@@ -523,9 +525,11 @@ NS_ASSUME_NONNULL_BEGIN
 
                 [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = (startServiceACKPayload.protocolVersion != nil) ? [SDLVersion versionWithString:startServiceACKPayload.protocolVersion] : [SDLVersion versionWithMajor:startServiceACK.header.version minor:0 patch:0];
 
-                self.authToken = [SDLGlobals.sharedGlobals.maxHeadUnitProtocolVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:5 minor:2 patch:0]] ? startServiceACKPayload.authToken : nil;
+                self.authToken = startServiceACKPayload.authToken;
 
-                // TODO: Hash id?
+                if ((startServiceACKPayload.make != nil) || (startServiceACKPayload.systemHardwareVersion != nil) || (startServiceACKPayload.systemSoftwareVersion != nil)) {
+                    self.systemInfo = [[SDLSystemInfo alloc] initWithMake:startServiceACKPayload.make model:startServiceACKPayload.model trim:startServiceACKPayload.trim modelYear:startServiceACKPayload.modelYear softwareVersion:startServiceACKPayload.systemSoftwareVersion hardwareVersion:startServiceACKPayload.systemHardwareVersion];
+                }
             } break;
             case SDLServiceTypeAudio: {
                 SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
