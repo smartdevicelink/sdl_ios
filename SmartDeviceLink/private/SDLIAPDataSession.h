@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPDataSessionDelegate>)delegate forProtocol:(NSString *)protocol;
 
 /**
- *  Closes the SDLIAPSession used by the SDLIAPControlSession
+ *  Closes the SDLIAPSession used by the SDLIAPDataSession
  */
 - (void) closeSession;
 
