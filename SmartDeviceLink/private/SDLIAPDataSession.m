@@ -55,14 +55,18 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableData *remainder = [self.sendDataQueue frontBuffer];
     if (remainder != nil) {
         NSUInteger bytesRemaining = remainder.length;
-  //      SDLLogD(@"SDLIAPDataSession sending data for IAPSession %@.", self.iapSession);
         [self.iapSession write:remainder length:bytesRemaining withCompletionHandler:^(NSInteger bytesWritten) {
-            if (bytesWritten == bytesRemaining) {
-                [self.sendDataQueue popBuffer];
+            if (bytesWritten >= 0) {
+                if (bytesWritten == bytesRemaining) {
+                    [self.sendDataQueue popBuffer];
+                } else {
+                    // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
+                    SDLLogD(@"SDLIAPDataSession writeDataToSessionStream bytes written %ld", (long)bytesWritten);
+                    [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
+                }
             } else {
-                // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
-                // SDLLogD(@"SDLIAPDataSession writeDataToSessionStream bytes written %ld", (long)bytesWritten);
-                [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
+                // The write operation failed but there is no further information about the error. This can occur when disconnecting from an external accessory.
+                SDLLogE(@"Output stream write operation failed");
             }
         }];
     } else {
