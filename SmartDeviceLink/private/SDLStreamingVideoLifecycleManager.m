@@ -90,6 +90,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapabilityUpdated;
 @property (assign, nonatomic) BOOL shouldAutoResume;
 @property (assign, nonatomic) BOOL shouldSendOnAppCapabilityUpdated;
+@property (assign, nonatomic) BOOL shouldUpdateDelegateOnSizeChange;
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
 @property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
@@ -395,6 +396,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Video stream stopped");
     _videoEncrypted = NO;
     _videoFormat = nil;
+    self.shouldUpdateDelegateOnSizeChange = NO;
 
     if (!self.shouldAutoResume) {
         [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self];
@@ -450,6 +452,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_disposeDisplayLink];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStartNotification object:nil];
+
+    if (self.shouldUpdateDelegateOnSizeChange && self.delegate != nil) {
+        const CGSize displaySize = self.videoStreamingCapability.makeImageResolution.makeSize;
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.delegate videoStreamingSizeDidUpdate:displaySize];
+        });
+    }
+    self.shouldUpdateDelegateOnSizeChange = NO;
 
     if (!self.isAppStateVideoStreamCapable) {
         SDLLogD(@"App is in the background and can not stream video. Video will resume when app is foregrounded");
@@ -507,12 +518,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_disposeDisplayLink];
     if (self.shouldAutoResume) {
         self.shouldAutoResume = NO;
+        SDLVideoStreamingCapability *capability = (self.videoStreamingCapabilityUpdated == nil) ? self.videoStreamingCapability : self.videoStreamingCapabilityUpdated;
+        typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            SDLVideoStreamingCapability *capability = nil == self.videoStreamingCapabilityUpdated ? self.videoStreamingCapability : self.videoStreamingCapabilityUpdated;
             if (capability) {
-                [self sdl_applyVideoCapability:capability];
+                [weakSelf sdl_applyVideoCapability:capability];
             }
-            [self sdl_resumeVideo];
+            [weakSelf sdl_resumeVideo];
         });
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamSuspendedNotification object:nil];
@@ -774,14 +786,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         matchedVideoCapability.supportedFormats = videoCapabilityUpdated.supportedFormats;
     }
     [self sdl_applyVideoCapability:matchedVideoCapability];
+    self.shouldUpdateDelegateOnSizeChange = YES;
 
-    if (self.delegate) {
-        __weak typeof(self) weakSelf = self;
-        const CGSize displaySize = matchedVideoCapability.makeImageResolution.makeSize;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.delegate videoStreamingSizeDidUpdate:displaySize];
-        });
-    }
     // start service with new capabilities or without (use old from start service ACK)
     [self sdl_sendVideoStartService];
 }
@@ -898,7 +904,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     // 1. resolution test: min <= resolution <= max
-    if ([range isImageResolutionRangeValid]) {
+    if ([self sdl_isImageResolutionRangeValid:range]) {
         SDLImageResolution *imageResolution = [capability makeImageResolution];
         if (![range isImageResolutionInRange:imageResolution]) {
             return NO;
@@ -926,6 +932,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
     // by this point the capability has passed all the restrictions
     return YES;
+}
+
+- (BOOL)sdl_isImageResolutionRangeValid:(SDLVideoStreamingRange *)range {
+    return (range.minimumResolution != nil || range.maximumResolution != nil);
 }
 
 #pragma mark - SDLVideoEncoderDelegate

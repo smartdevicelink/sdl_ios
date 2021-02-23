@@ -95,11 +95,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
 }
 
-- (void)setAdditionalVideoStreamingCapabilities:(nullable NSArray <SDLVideoStreamingCapability*> *)capabilities {
-    [self.store sdl_setObject:capabilities forName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities];
+- (void)setAdditionalVideoStreamingCapabilities:(nullable NSArray <SDLVideoStreamingCapability *> *)additionalVideoStreamingCapabilities {
+    [self.store sdl_setObject:additionalVideoStreamingCapabilities forName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities];
 }
 
-- (nullable NSArray <SDLVideoStreamingCapability*> *)additionalVideoStreamingCapabilities {
+- (nullable NSArray <SDLVideoStreamingCapability *> *)additionalVideoStreamingCapabilities {
     NSError *error = nil;
     return [self.store sdl_objectsForName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities ofClass:SDLVideoStreamingCapability.class error:&error];
 }

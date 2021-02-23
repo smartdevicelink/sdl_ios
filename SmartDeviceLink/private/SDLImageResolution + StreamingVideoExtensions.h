@@ -1,4 +1,4 @@
-//  SDLImageResolution.h
+//  SDLImageResolution + StreamingVideoExtensions.h
 //
 
 #import <CoreGraphics/CGGeometry.h>
@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, SDLImageResolutionKind) {
 
 /**
  * SDLImageResolutionKind
-*/
+ */
 @property (nonatomic, readonly) SDLImageResolutionKind kind;
 
 /**
@@ -31,9 +31,6 @@ typedef NS_ENUM(NSInteger, SDLImageResolutionKind) {
 
 // the return value is always equals or above 1.0 if valid, or is 0.0 if size is invalid
 - (float)normalizedAspectRatio;
-
-// string representation, for debug only
-- (NSString *)stringValue;
 
 @end
 

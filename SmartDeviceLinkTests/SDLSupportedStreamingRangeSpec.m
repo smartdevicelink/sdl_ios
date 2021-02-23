@@ -65,25 +65,6 @@ describe(@"initialization", ^{
 });
 
 describe(@"methods", ^{
-    context(@"isImageResolutionRangeValid", ^{
-        SDLVideoStreamingRange *streamingRange = [[SDLVideoStreamingRange alloc] init];
-
-        beforeEach(^{
-            streamingRange.minimumResolution = nil;
-            streamingRange.maximumResolution = nil;
-        });
-
-        it(@"expect to be valid when set", ^{
-            expect(streamingRange).toNot(beNil());
-            expect([streamingRange isImageResolutionRangeValid]).to(beFalse());
-            streamingRange.minimumResolution = minResolution;
-            expect([streamingRange isImageResolutionRangeValid]).to(beTrue());
-            streamingRange.minimumResolution = nil;
-            streamingRange.maximumResolution = maxResolution;
-            expect([streamingRange isImageResolutionRangeValid]).to(beTrue());
-        });
-    });
-
     context(@"isAspectRatioInRange:", ^{
         SDLVideoStreamingRange *streamingRange = [[SDLVideoStreamingRange alloc] init];
 

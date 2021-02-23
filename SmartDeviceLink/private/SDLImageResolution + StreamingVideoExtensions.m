@@ -1,4 +1,4 @@
-//  SDLImageResolution.m
+//  SDLImageResolution + StreamingVideoExtensions.m
 //
 
 
@@ -34,10 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
         return SDLImageResolutionKindLandscape;
     }
     return SDLImageResolutionKindSquare;
-}
-
-- (NSString *)stringValue {
-    return [NSString stringWithFormat:@"[%@ x %@]", self.resolutionWidth, self.resolutionHeight];
 }
 
 - (NSString *)description {

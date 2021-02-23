@@ -36,6 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)syncFrame;
 
+/**
+ Apply the new video streaming capability to the underlying view controller
+ @param videoStreamingCapability - The video streaming capability to apply
+*/
 - (void)updateVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
 
 @end

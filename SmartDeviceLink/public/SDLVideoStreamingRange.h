@@ -31,9 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 // Check if the argument is within the [.minimumResolution, .maximumResolution] range
 - (BOOL)isImageResolutionInRange:(SDLImageResolution *)imageResolution;
 
-// Check if the min/max resolution valid and therefore the test will be valid
-- (BOOL)isImageResolutionRangeValid;
-
 // Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range
 - (BOOL)isAspectRatioInRange:(float)aspectRatio;
 

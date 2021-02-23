@@ -85,7 +85,7 @@
     NSString *strClass = NSStringFromClass(self.class);
     NSString *strRatio = [NSString stringWithFormat:@"ratio-min/max:[%2.2f/%2.2f]", self.minimumAspectRatio, self.maximumAspectRatio];
     NSString *strDiagonal = [NSString stringWithFormat:@"min-diagonal:%2.2f", self.minimumDiagonal];
-    NSString *strResolution = [NSString stringWithFormat:@"resolution-min/max:[%@/%@]", self.minimumResolution.stringValue, self.maximumResolution.stringValue];
+    NSString *strResolution = [NSString stringWithFormat:@"resolution-min/max:[%@x%@/%@x%@]", self.minimumResolution.resolutionWidth, self.minimumResolution.resolutionHeight, self.maximumResolution.resolutionWidth, self.maximumResolution.resolutionHeight];
     return [NSString stringWithFormat:@"%@: {%@, %@, %@}", strClass, strRatio, strDiagonal, strResolution];
 }
 

@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 const float SDLDefaultScaleValue = 1.0f;
 const float SDLMaxScaleValue = 10.0f;
-const float SDLMinScaleValue = 1.0f/SDLMaxScaleValue;
+const float SDLMinScaleValue = 1.0f;
 CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 
 - (instancetype)init {
@@ -41,7 +41,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
         return nil;
     }
 
-    _scale = [self.class validateScale:scale];
+    _scale = [self.class sdl_validateScale:scale];
     _displayViewportResolution = displayViewportResolution;
 
     return self;
@@ -76,7 +76,7 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
 }
 
 - (void)setScale:(float)scale {
-    _scale = [self.class validateScale:scale];
+    _scale = [self.class sdl_validateScale:scale];
 }
 
 - (SDLImageResolution *)makeScaledResolution {
@@ -92,12 +92,12 @@ CGSize const SDLDefaultDisplayViewportResolution = {0, 0};
  @param scale The scale value to be validated.
  @return The validated scale value
  */
-+ (float)validateScale:(float)scale {
++ (float)sdl_validateScale:(float)scale {
     return simd_clamp(scale, SDLMinScaleValue, SDLMaxScaleValue);
 }
 
 + (CGSize)scale:(float)scale size:(CGSize)size {
-    const float validScale = [self validateScale:scale];
+    const float validScale = [self sdl_validateScale:scale];
     return CGSizeMake(roundf((float)size.width / validScale), roundf((float)size.height / validScale));
 }
 

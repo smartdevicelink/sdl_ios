@@ -69,6 +69,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (SDLHapticRect *)scaleHapticRect:(SDLHapticRect *)hapticRect;
 
+/**
+ Create and return the current display resolution respecting the scale factor
+ @return A new created object of type SDLImageResolution
+ */
 - (SDLImageResolution *)makeScaledResolution;
 
 /**
@@ -76,6 +80,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stop;
 
+/**
+ Calculate a new size based on the given size and the scale factor
+ @param scale The scale factor to apply
+ @param size The size struct to apply the scale to
+ @return A new created and inited struct of type CGSize
+ */
 + (CGSize)scale:(float)scale size:(CGSize)size;
 
 @end
