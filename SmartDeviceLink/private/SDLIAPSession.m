@@ -99,10 +99,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_close:(NSStream *)stream {
     if (stream.streamStatus == NSStreamStatusClosed) {
-        if ([self isInputStream:stream]) {
+        if ([self sdl_isInputStream:stream]) {
             SDLLogD(@"EASession inputstream already closed for EASession %@", self.eaSession);
         }
-        if ([self isOutputStream:stream]) {
+        if ([self sdl_isOutputStream:stream]) {
             SDLLogD(@"EASession outputstream already closed for EASession %@", self.eaSession);
         }
         return;
@@ -112,11 +112,11 @@ NS_ASSUME_NONNULL_BEGIN
     [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [stream setDelegate:nil];
     
-    if ([self isInputStream:stream]) {
+    if ([self sdl_isInputStream:stream]) {
         self.inputStreamOpen = NO;
         SDLLogD(@"EASession closed input stream for EASession %@", self.eaSession);
     }
-    if ([self isOutputStream:stream]) {
+    if ([self sdl_isOutputStream:stream]) {
         self.outputStreamOpen = NO;
         SDLLogD(@"EASession closed output stream for EASession %@", self.eaSession);
     }
@@ -191,10 +191,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param stream The stream that got the event code.
  */
 - (void)sdl_streamDidOpen:(NSStream *)stream {
-    if ([self isInputStream:stream]) {
+    if ([self sdl_isInputStream:stream]) {
         self.inputStreamOpen = YES;
     }
-    if ([self isOutputStream: stream]) {
+    if ([self sdl_isOutputStream: stream]) {
         self.outputStreamOpen = YES;
     }
     if (self.bothStreamsOpen) {
@@ -237,10 +237,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  Called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
  */
 - (void)sdl_streamDidError:(NSStream *)stream {
-    if ([self isInputStream:stream]) {
+    if ([self sdl_isInputStream:stream]) {
         SDLLogE(@"EASession input stream errored");
     }
-    if ([self isOutputStream:stream]) {
+    if ([self sdl_isOutputStream:stream]) {
         SDLLogE(@"EASession output stream errored");
     }
     [self closeSession];
@@ -258,13 +258,6 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
-- (BOOL)bothStreamsClosed {
-    if (self.inputStreamOpen || self.outputStreamOpen) {
-        return NO;
-    }
-    return YES;
-}
-
 - (NSUInteger)connectionID {
     return self.eaSession.accessory.connectionID;
 }
@@ -277,14 +270,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self.accessory.isConnected;
 }
 
-- (BOOL)isInputStream:(NSStream *)stream {
+- (BOOL)sdl_isInputStream:(NSStream *)stream {
     if (stream == self.eaSession.inputStream) {
         return YES;
     }
     return NO;
 }
 
-- (BOOL)isOutputStream:(NSStream *)stream {
+- (BOOL)sdl_isOutputStream:(NSStream *)stream {
     if (stream == self.eaSession.outputStream) {
         return YES;
     }

@@ -17,10 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)streamHasBytesAvailable:(NSInputStream *)inputStream;
 
 @end
+/**
+ * Responsible for opening a connection with the accessory and transmitting data to and from the accessory. When the accessory disconnects, the connection is closed.
+ * Once the connection with the accessory is closed, the connection can not be reopened; instead, a new `SDLIAPSession` must be created.
+ */
 @interface SDLIAPSession : NSObject <NSStreamDelegate>
 
 /**
- *  Convenience initializer for setting an accessory and protocol string.
+ *  Starts a session with the accessory.
  *
  *  @param accessory    The accessory with which to open a session
  *  @param protocol     The unique protocol string used to create the session with the accessory
@@ -36,13 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @returns True if both inputStream and outputStream are open
  */
-@property(readonly) BOOL bothStreamsOpen;
+@property(nonatomic, assign, readonly) BOOL bothStreamsOpen;
 
 /**
- *  Closes the EASession inputStream and the outputStream.
- *  Sets bothStreamsOpen flag to false.
- *  Stops SDLIAPSesssion operation by removing streams from the run loop
- *  By design a SDLIAPSession instance cannot be reopened.
+ *  Closes the session's input and output streams. Once closed, the session can not be reopened.
  */
 - (void)closeSession;
 
@@ -54,12 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  @returns True if the outputStream has space available to write data
  */
-@property(readonly) BOOL hasSpaceAvailable;
+@property(nonatomic, assign, readonly) BOOL hasSpaceAvailable;
 
 /**
  *  @returns True if the sessions EAAccessory is connected
  */
-@property(readonly) BOOL isConnected;
+@property(nonatomic, assign, readonly) BOOL isConnected;
 
 /**
  *  @returns True if either the inputStream or the outputStream is open
@@ -77,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param length The number of data bytes to write
  *  @param completionHandler  The number of data bytes actually written
  */
-- (void)write:(NSMutableData *) data length: (NSUInteger) length  withCompletionHandler:(void (^)(NSInteger bytesWritten))completionHandler;
+- (void)write:(NSMutableData *)data length:(NSUInteger)length  withCompletionHandler:(void (^)(NSInteger bytesWritten))completionHandler;
 
 @end
 
