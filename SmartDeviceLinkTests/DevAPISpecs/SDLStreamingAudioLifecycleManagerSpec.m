@@ -27,7 +27,6 @@
 @interface SDLStreamingAudioLifecycleManager()
 
 @property (weak, nonatomic) SDLProtocol *protocol;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (nonatomic, strong, readwrite) SDLAudioStreamManager *audioTranscodingManager;
 
 @end
@@ -96,26 +95,6 @@ describe(@"the streaming audio manager", ^{
             expect(@(streamingLifecycleManager.isAudioConnected)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isAudioEncrypted)).to(equal(@NO));
             expect(streamingLifecycleManager.currentAudioStreamState).to(match(SDLAudioStreamManagerStateStopped));
-        });
-
-        describe(@"after receiving a register app interface response", ^{
-            __block SDLRegisterAppInterfaceResponse *someRegisterAppInterfaceResponse = nil;
-            __block SDLVehicleType *testVehicleType = nil;
-
-            beforeEach(^{
-                someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-                testVehicleType = [[SDLVehicleType alloc] init];
-                testVehicleType.make = @"TestVehicleType";
-                someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
-
-                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
-
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
-            });
-
-            it(@"should should save the connected vehicle make", ^{
-                expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
-            });
         });
 
         describe(@"if the app state is active", ^{
@@ -395,7 +374,6 @@ describe(@"the streaming audio manager", ^{
             [streamingLifecycleManager endAudioServiceWithCompletionHandler:^ {
                 handlerCalled = YES;
             }];
-            streamingLifecycleManager.connectedVehicleMake = @"OEM_make_2";
         });
 
         context(@"when the manager is READY", ^{
@@ -409,7 +387,6 @@ describe(@"the streaming audio manager", ^{
 
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 OCMVerify([mockAudioStreamManager stop]);
                 expect(handlerCalled).to(beTrue());
             });
@@ -426,7 +403,6 @@ describe(@"the streaming audio manager", ^{
 
                 expect(streamingLifecycleManager.protocol).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 OCMReject([mockAudioStreamManager stop]);
                 expect(handlerCalled).to(beFalse());
             });

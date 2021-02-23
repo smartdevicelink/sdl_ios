@@ -49,7 +49,6 @@
 @property (weak, nonatomic) SDLProtocol *protocol;
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 
 @end
 
@@ -186,9 +185,8 @@ describe(@"the streaming video manager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
                 });
 
-                it(@"should save the connected vehicle make but not the screen size", ^{
+                it(@"should not save the screen size", ^{
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).toEventually(equal(@YES));
-                    expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
 
@@ -218,9 +216,8 @@ describe(@"the streaming video manager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
                 });
 
-                it(@"should save the connected vehicle make and the screen size", ^{
+                it(@"should save the screen size", ^{
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).toEventually(equal(@YES));
-                    expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
         });
@@ -774,7 +771,6 @@ describe(@"the streaming video manager", ^{
             [streamingLifecycleManager endVideoServiceWithCompletionHandler:^ {
                 handlerCalled = YES;
             }];
-            streamingLifecycleManager.connectedVehicleMake = @"OEM_make_2";
         });
 
         context(@"when the manager is not stopped", ^{
@@ -786,7 +782,6 @@ describe(@"the streaming video manager", ^{
             it(@"should transition to the stopped state", ^{
                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 expect(streamingLifecycleManager.protocol).to(beNil());
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
@@ -804,7 +799,6 @@ describe(@"the streaming video manager", ^{
             it(@"should stay in the stopped state", ^{
                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 expect(streamingLifecycleManager.protocol).to(beNil());
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
