@@ -56,7 +56,7 @@ int const CreateSessionRetries = 3;
     return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
     SDLLogV(@"SDLIAPTransport dealloc executed");
     if (self.dataSession != nil) {
         [self.dataSession closeSession];
@@ -235,16 +235,6 @@ int const CreateSessionRetries = 3;
     [self sdl_closeSessions:disconnectCompletionHandler];
 }
 
-- (EAAccessory * _Nullable)accessory {
-    if (self.controlSession.accessory != nil) {
-        return self.controlSession.accessory;
-    }
-    if (self.dataSession.accessory != nil) {
-        return self.dataSession.accessory;
-    }
-    return nil;
-}
-
 #pragma mark Helpers
 
 /**
@@ -386,7 +376,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Called when the data session should be retried.
  */
-- (void) dataSessionDidEnd{
+- (void)dataSessionDidEnd{
     SDLLogV(@"Retrying the data session");
     [self sdl_retryEstablishSession];
 }
