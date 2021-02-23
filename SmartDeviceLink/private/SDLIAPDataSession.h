@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-
 /**
  *  Returns whether the session has open I/O streams.
  */

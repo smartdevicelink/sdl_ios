@@ -6,7 +6,6 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <UIKit/UIDevice.h>
 #import "SDLIAPDataSession.h"
 #import "SDLGlobals.h"
 #import "SDLIAPConstants.h"
