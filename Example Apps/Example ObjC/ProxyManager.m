@@ -318,6 +318,11 @@ NS_ASSUME_NONNULL_BEGIN
     return update;
 }
 
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo {
+    SDLLogD(@"Example app did receive system info: %@", systemInfo);
+    return YES;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

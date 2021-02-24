@@ -146,7 +146,7 @@ private extension ProxyManager {
 // MARK: - SDLManagerDelegate
 
 extension ProxyManager: SDLManagerDelegate {
-    /// Called when the connection beween this app and the module has closed.
+    /// Called when the connection between this app and the module has closed.
     func managerDidDisconnect() {        
         if delegate?.proxyState != .some(.stopped) {
             delegate?.didChangeProxyState(ProxyState.searching)
@@ -233,6 +233,14 @@ extension ProxyManager: SDLManagerDelegate {
         update.ttsName = [SDLTTSChunk(text: update.appName!, type: .text)]
         
         return update
+    }
+
+    /// Called when connected module information becomes available
+    /// - Parameter systemInfo: The connected module's information
+    /// - Returns: True to continue connecting, false to disconnect immediately
+    func didReceive(systemInfo: SDLSystemInfo) -> Bool {
+        SDLLog.d("Example app got system info: \(systemInfo)")
+        return true
     }
 }
 

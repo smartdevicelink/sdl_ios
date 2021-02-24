@@ -434,7 +434,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 #pragma clang diagnostic pop
         if ((vehicleType != nil) || (softwareVersion != nil)) {
             self.systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:nil];
-            SDLLogD(@"System info not received by protocol layer, using RAIR system info: %@", self.systemInfo);
+            SDLLogD(@"System info received by RPC layer, using RAIR system info: %@", self.systemInfo);
 
             if ([self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)]) {
                 BOOL shouldConnect = [self.delegate didReceiveSystemInfo:self.systemInfo];

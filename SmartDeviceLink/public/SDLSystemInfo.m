@@ -42,4 +42,8 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Vehicle Type: %@, software version: %@, hardware version: %@", _vehicleType, _systemSoftwareVersion, _systemHardwareVersion];
+}
+
 @end

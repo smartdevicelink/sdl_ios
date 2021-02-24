@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param systemInfo The system information of the vehicle that this session is currently active on.
  * @return True if this session should continue, false if the session should end
  */
-- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo;
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo NS_SWIFT_NAME(didReceive(systemInfo:));
 
 @end
 
