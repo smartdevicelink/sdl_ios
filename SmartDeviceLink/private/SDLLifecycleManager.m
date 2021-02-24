@@ -385,6 +385,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                 SDLLogW(@"Developer chose to disconnect from the head unit; disconnecting now");
                 [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
                 [self sdl_transitionToState:SDLLifecycleStateStopped];
+                return;
             }
         }
     }
@@ -442,6 +443,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                     SDLLogW(@"Developer chose to disconnect from the head unit; disconnecting now");
                     [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
                     [self sdl_transitionToState:SDLLifecycleStateStopped];
+                    return;
                 }
             }
         }
