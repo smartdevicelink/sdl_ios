@@ -95,7 +95,7 @@ typedef NSString SDLVehicleMake;
 
     // Set the security manager based on the known system info
     self.protocol.securityManager = [self sdl_securityManagerForMake:self.connectionManager.systemInfo.vehicleType.make];
-    if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
+    if ((self.protocol.securityManager != nil) && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.configuration.lifecycleConfig.fullAppId ? self.configuration.lifecycleConfig.fullAppId : self.configuration.lifecycleConfig.appId;
     }
 

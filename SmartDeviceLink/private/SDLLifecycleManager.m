@@ -411,7 +411,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
         weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSDLMsgVersion:weakSelf.registerResponse.sdlMsgVersion];
-        SDLLogD(@"Did register app; RPC version: %@, SDL version: %@, starting languages: (VR) %@, (HMI) %@, vehicle type: %@", weakSelf.registerResponse.sdlMsgVersion, (weakSelf.registerResponse.sdlVersion ?: @"unavailable"), weakSelf.registerResponse.language, weakSelf.registerResponse.hmiDisplayLanguage, weakSelf.registerResponse.vehicleType);
+        SDLLogD(@"Did register app; RPC version: %@, starting languages: (VR) %@, (HMI) %@", weakSelf.registerResponse.sdlMsgVersion, weakSelf.registerResponse.language, weakSelf.registerResponse.hmiDisplayLanguage);
 
         [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
     }];
@@ -427,8 +427,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     // If we did not receive vehicle details in the protocol layer, we need to check if the developer wants to disconnect based on vehicle details from the RAIR
     if (self.systemInfo == nil) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         SDLVehicleType *vehicleType = self.registerResponse.vehicleType;
         NSString *softwareVersion = self.registerResponse.systemSoftwareVersion;
+#pragma clang diagnostic pop
         if ((vehicleType != nil) || (softwareVersion != nil)) {
             self.systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:nil];
             SDLLogD(@"System info not received by protocol layer, using RAIR system info: %@", self.systemInfo);

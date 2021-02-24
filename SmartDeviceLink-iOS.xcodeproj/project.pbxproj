@@ -513,6 +513,7 @@
 		4A8BD3D124FE7CF1000945E3 /* SDLPermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD3CF24FE7CF1000945E3 /* SDLPermissionManager.m */; };
 		4AAB6A1225E57BEA0017A5A7 /* SDLSystemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AAB6A1025E57BEA0017A5A7 /* SDLSystemInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4AAB6A1325E57BEA0017A5A7 /* SDLSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB6A1125E57BEA0017A5A7 /* SDLSystemInfo.m */; };
+		4AAB6A2325E69D010017A5A7 /* SDLSystemInfoSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB6A2225E69D010017A5A7 /* SDLSystemInfoSpec.m */; };
 		4ABB24BA24F592620061BF55 /* NSMutableArray+Safe.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */; };
 		4ABB24BB24F592620061BF55 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */; };
 		4ABB24BC24F592620061BF55 /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */; };
@@ -2324,6 +2325,7 @@
 		4A8BD3CF24FE7CF1000945E3 /* SDLPermissionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionManager.m; path = public/SDLPermissionManager.m; sourceTree = "<group>"; };
 		4AAB6A1025E57BEA0017A5A7 /* SDLSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSystemInfo.h; path = public/SDLSystemInfo.h; sourceTree = "<group>"; };
 		4AAB6A1125E57BEA0017A5A7 /* SDLSystemInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSystemInfo.m; path = public/SDLSystemInfo.m; sourceTree = "<group>"; };
+		4AAB6A2225E69D010017A5A7 /* SDLSystemInfoSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSystemInfoSpec.m; path = DevAPISpecs/SDLSystemInfoSpec.m; sourceTree = "<group>"; };
 		4ABB24B224F592620061BF55 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Safe.h"; path = "private/NSMutableArray+Safe.h"; sourceTree = "<group>"; };
 		4ABB24B324F592620061BF55 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Safe.m"; path = "private/NSMutableArray+Safe.m"; sourceTree = "<group>"; };
 		4ABB24B424F592620061BF55 /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+SDLBundle.m"; path = "private/NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
@@ -4444,16 +4446,17 @@
 		5D1654541D3E753100554D93 /* Lifecycle */ = {
 			isa = PBXGroup;
 			children = (
-				5D1654551D3E754F00554D93 /* SDLLifecycleManagerSpec.m */,
 				888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */,
 				5D60DF23202B7A80001EDA01 /* SDLAsynchronousRPCRequestOperationSpec.m */,
-				5D60DF25202B7A97001EDA01 /* SDLSequentialRPCRequestOperationSpec.m */,
 				88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */,
+				5D1654551D3E754F00554D93 /* SDLLifecycleManagerSpec.m */,
+				4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */,
 				4A457DC224A2933E00386CBA /* SDLLifecycleRPCAdapterSpec.m */,
 				4A457DD224A3886700386CBA /* SDLLifecycleSyncPDataHandlerSpec.m */,
-				4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */,
 				4A457DD624A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m */,
 				4A457DD824A5137100386CBA /* SDLLifecycleProtocolHandlerSpec.m */,
+				5D60DF25202B7A97001EDA01 /* SDLSequentialRPCRequestOperationSpec.m */,
+				4AAB6A2225E69D010017A5A7 /* SDLSystemInfoSpec.m */,
 			);
 			name = Lifecycle;
 			sourceTree = "<group>";
@@ -8604,6 +8607,7 @@
 				5D92935620B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m in Sources */,
 				162E82DE1A9BDE8B00906325 /* SDLFuelCutoffStatusSpec.m in Sources */,
 				162E83271A9BDE8B00906325 /* SDLCreateInteractionChoiceSetSpec.m in Sources */,
+				4AAB6A2325E69D010017A5A7 /* SDLSystemInfoSpec.m in Sources */,
 				4A404C68250BBE2B003AB65D /* SDLTextAndGraphicStateSpec.m in Sources */,
 				5DAD5F8920508F090025624C /* SDLSoftButtonStateSpec.m in Sources */,
 				1098F03824A39699004F53CC /* SDLPermissionElementSpec.m in Sources */,

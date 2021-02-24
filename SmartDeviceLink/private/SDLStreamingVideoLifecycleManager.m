@@ -607,7 +607,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         self.videoScaleManager.displayViewportResolution = CGSizeMake(resolution.resolutionWidth.floatValue,
                                  resolution.resolutionHeight.floatValue);
         // HAX: Workaround for Legacy Ford and Lincoln displays with > 800 resolution width or height. They don't support scaling and if we don't do this workaround, they will not correctly scale the view.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         NSString *make = registerResponse.vehicleType.make;
+#pragma clang diagnostic pop
         CGSize resolution = self.videoScaleManager.displayViewportResolution;
         if (([make containsString:@"Ford"] || [make containsString:@"Lincoln"]) && (resolution.width > 800 || resolution.height > 800)) {
             self.videoScaleManager.scale = 1.0f / 0.75f; // Scale by 1.333333
