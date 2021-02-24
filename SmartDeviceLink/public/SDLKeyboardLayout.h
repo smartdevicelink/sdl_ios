@@ -25,3 +25,8 @@ extern SDLKeyboardLayout const SDLKeyboardLayoutQWERTZ;
  AZERTY layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  */
 extern SDLKeyboardLayout const SDLKeyboardLayoutAZERTY;
+
+/**
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLKeyboardLayout const SDLKeyboardLayoutNumeric;

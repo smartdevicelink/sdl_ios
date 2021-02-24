@@ -46,6 +46,7 @@ describe(@"present choice operation", ^{
 
     __block BOOL hasCalledOperationCompletionHandler = NO;
     __block NSError *resultError = nil;
+    __block SDLWindowCapability *windowCapability = nil;
 
     beforeEach(^{
         resultError = nil;
@@ -58,9 +59,10 @@ describe(@"present choice operation", ^{
         testChoices = @[cell1];
         testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"Test Title" delegate:testChoiceDelegate layout:SDLChoiceSetLayoutTiles timeout:13 initialPromptString:@"Test initial prompt" timeoutPromptString:@"Test timeout prompt" helpPromptString:@"Test help prompt" vrHelpList:nil choices:testChoices];
 
+        windowCapability = [[SDLWindowCapability alloc] init];
         testKeyboardDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
         OCMStub([testKeyboardDelegate customKeyboardConfiguration]).andReturn(nil);
-        testKeyboardProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil];
+        testKeyboardProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
     });
 
     it(@"should have a priority of 'normal'", ^{
@@ -71,7 +73,7 @@ describe(@"present choice operation", ^{
 
     describe(@"running a non-searchable choice set operation", ^{
         beforeEach(^{
-            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID];
+            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID windowCapability:windowCapability];
             testOp.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
             };
@@ -125,7 +127,7 @@ describe(@"present choice operation", ^{
             __block SDLPresentChoiceSetOperation *testCancelOp = nil;
 
             beforeEach(^{
-                testCancelOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID];
+                testCancelOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID windowCapability:windowCapability];
                 testCancelOp.completionBlock = ^{
                     hasCalledOperationCompletionHandler = YES;
                 };
@@ -313,7 +315,7 @@ describe(@"present choice operation", ^{
 
     describe(@"running a searchable choice set operation", ^{
         beforeEach(^{
-            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:testKeyboardProperties keyboardDelegate:testKeyboardDelegate cancelID:testCancelID];
+            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:testKeyboardProperties keyboardDelegate:testKeyboardDelegate cancelID:testCancelID windowCapability:windowCapability];
 
             testOp.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
@@ -411,6 +413,25 @@ describe(@"present choice operation", ^{
 
                 OCMVerify([testKeyboardDelegate keyboardDidAbortWithReason:[OCMArg checkWithBlock:^BOOL(id obj) {
                     return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventAborted];
+                }]]);
+            });
+
+            it(@"should respond to enabled keyboard event", ^{
+                SDLRPCNotificationNotification *notification = nil;
+
+                // Submit notification
+                SDLOnKeyboardInput *input = [[SDLOnKeyboardInput alloc] init];
+                input.event = SDLKeyboardEventInputKeyMaskEnabled;
+                notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveKeyboardInputNotification object:nil rpcNotification:input];
+
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+                OCMVerify([testKeyboardDelegate keyboardDidSendEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+                }] text:[OCMArg isNil]]);
+
+                OCMVerify([testKeyboardDelegate keyboardDidUpdateInputMask:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
                 }]]);
             });
 
