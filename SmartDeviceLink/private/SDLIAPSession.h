@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param length The number of data bytes to write
  *  @param completionHandler  The number of data bytes actually written
  */
-- (void)write:(NSMutableData *)data length:(NSUInteger)length  withCompletionHandler:(void (^)(NSInteger bytesWritten))completionHandler;
+- (void)write:(NSMutableData *)data length:(NSUInteger)length withCompletionHandler:(void (^)(NSInteger bytesWritten))completionHandler;
 
 @end
 

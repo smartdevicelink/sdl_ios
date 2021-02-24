@@ -38,7 +38,7 @@ describe(@"SDLIAPControlSession", ^{
 
     describe(@"init", ^{
         beforeEach(^{
-            controlSession = [[SDLIAPControlSession alloc]          initWithAccessory:mockAccessory delegate:mockDelegate forProtocol:ControlProtocolString];
+            controlSession = [[SDLIAPControlSession alloc] initWithAccessory:mockAccessory delegate:mockDelegate forProtocol:ControlProtocolString];
         });
         
         it(@"Should init correctly", ^{

@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Closes the SDLIAPSession used by the SDLIAPDataSession
  */
-- (void) closeSession;
+- (void)closeSession;
 
 /**
  *  Sends data to Core via the data session.
