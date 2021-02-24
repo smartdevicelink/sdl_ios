@@ -64,6 +64,7 @@ describe(@"the streaming video manager", ^{
     __block SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
     __block SDLConfiguration *testConfig = nil;
+    SDLSystemInfo *testSystemInfo = [[SDLSystemInfo alloc] initWithMake:@"Livio" model:@"Model" trim:@"Trim" modelYear:@"2021" softwareVersion:@"1.1.1.1" hardwareVersion:@"2.2.2.2"];
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) = ^(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -80,6 +81,7 @@ describe(@"the streaming video manager", ^{
         testConfiguration.dataSource = testDataSource;
         testConfiguration.rootViewController = testViewController;
         testConnectionManager = [[TestConnectionManager alloc] init];
+        testConnectionManager.systemInfo = testSystemInfo;
 
         testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
 
@@ -157,7 +159,6 @@ describe(@"the streaming video manager", ^{
             __block SDLScreenParams *someScreenParams = nil;
             __block SDLImageResolution *someImageResolution = nil;
             __block SDLHMICapabilities *someHMICapabilities = nil;
-            __block SDLVehicleType *testVehicleType = nil;
 
             beforeEach(^{
                 someImageResolution = [[SDLImageResolution alloc] init];
@@ -166,9 +167,6 @@ describe(@"the streaming video manager", ^{
 
                 someScreenParams = [[SDLScreenParams alloc] init];
                 someScreenParams.resolution = someImageResolution;
-
-                testVehicleType = [[SDLVehicleType alloc] init];
-                testVehicleType.make = @"TestVehicleType";
             });
 
             describe(@"that does not support video streaming", ^{
@@ -178,7 +176,6 @@ describe(@"the streaming video manager", ^{
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
                     someRegisterAppInterfaceResponse.hmiCapabilities = someHMICapabilities;
-                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
@@ -207,9 +204,6 @@ describe(@"the streaming video manager", ^{
 #pragma clang diagnostic ignored "-Wdeprecated"
                     someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
 #pragma clang diagnostic pop
-                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
-
-                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 

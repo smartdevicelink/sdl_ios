@@ -466,7 +466,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
 
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
 
-                expect(testProtocol.authToken).to(beNil());
+                expect(testProtocol.authToken).to(equal(testAuthToken));
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.1.0"));
                 expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"5.1.0"));
             });

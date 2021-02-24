@@ -102,7 +102,6 @@ describe(@"the streaming audio manager", ^{
 
             beforeEach(^{
                 streamStub = OCMPartialMock(streamingLifecycleManager);
-
                 OCMStub([streamStub isStreamingSupported]).andReturn(YES);
 
                 [streamingLifecycleManager.appStateMachine setToState:SDLAppStateActive fromOldState:nil callEnterTransition:NO];
