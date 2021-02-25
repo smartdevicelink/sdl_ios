@@ -68,7 +68,8 @@ class TestFunctionsProducer(TestCase):
         structs = {
             'SoftButton': Struct(name='SoftButton', members={
                 'image': Param(name='image', param_type=String(), since='1.0.0', description=['image description']),
-                'ignore': Param(name='ignore', param_type=Struct(name='ignore'))}),
+                'dayColorScheme': Param(name='dayColorScheme', param_type=Struct(name='TemplateColorScheme', description=[
+                '\nA color scheme for all display layout templates.\n']))}),
             'PresetBankCapabilities': Struct(name='PresetBankCapabilities', members={
                 'availableHdChannelsAvailable': Param(name='availableHdChannelsAvailable', param_type=Boolean(),
                                                       since='2.0.0',
@@ -89,11 +90,8 @@ class TestFunctionsProducer(TestCase):
             self.producer.common_names(description=['availableHDChannelsAvailable description'],
                                        since='2.0.0', name='AvailableHdChannelsAvailable',
                                        origin='availableHdChannelsAvailable'),
-            self.producer.common_names(description=[], name='Ignore', origin='ignore', since=None),
+            self.producer.common_names(description=[], name='DayColorScheme', origin='dayColorScheme', since=None),
             self.producer.common_names(description=['image description'], name='Image', origin='image', since='1.0.0'),
-            self.producer.common_names(description=[], name='PresetBankCapabilities', origin='PresetBankCapabilities',
-                                       since=None),
-            self.producer.common_names(description=[], name='SoftButton', origin='SoftButton', since=None),
             self.producer.common_names(description=['syncMsgVersion description'], name='SdlMsgVersion',
                                        origin='syncMsgVersion', since='3.5.0')]
         actual = self.producer.get_simple_params(functions, structs)

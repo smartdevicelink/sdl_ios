@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLKeyboardProperties
 
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
-    self = [[self init] initWithLanguage:language keyboardLayout:layout keypressMode:keypressMode limitedCharacterList:limitedCharacterList autoCompleteList:autoCompleteList];
+    self = [self initWithLanguage:language keyboardLayout:layout keypressMode:keypressMode limitedCharacterList:limitedCharacterList autoCompleteList:autoCompleteList maskInputCharacters:nil customKeys:nil];
     if (!self) { return nil; }
     self.autoCompleteText = autoCompleteText;
 
@@ -19,17 +19,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList {
+    return [self initWithLanguage:language keyboardLayout:keyboardLayout keypressMode:keypressMode limitedCharacterList:limitedCharacterList autoCompleteList:autoCompleteList maskInputCharacters:nil customKeys:nil];
+}
+
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language keyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteList:(nullable NSArray<NSString *> *)autoCompleteList maskInputCharacters:(nullable SDLKeyboardInputMask)maskInputCharacters customKeys:(nullable NSArray<NSString *> *)customKeys {
     self = [self init];
     if (!self) {
         return nil;
     }
-
     self.language = language;
     self.keyboardLayout = keyboardLayout;
     self.keypressMode = keypressMode;
     self.limitedCharacterList = limitedCharacterList;
     self.autoCompleteList = autoCompleteList;
-
+    self.maskInputCharacters = maskInputCharacters;
+    self.customKeys = customKeys;
     return self;
 }
 
@@ -79,6 +83,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<NSString *> *)autoCompleteList {
     return [self.store sdl_objectsForName:SDLRPCParameterNameAutoCompleteList ofClass:NSString.class error:nil];
+}
+
+- (void)setMaskInputCharacters:(nullable SDLKeyboardInputMask)maskInputCharacters {
+    [self.store sdl_setObject:maskInputCharacters forName:SDLRPCParameterNameMaskInputCharacters];
+}
+
+- (nullable SDLKeyboardInputMask)maskInputCharacters {
+    return [self.store sdl_enumForName:SDLRPCParameterNameMaskInputCharacters error:nil];
+}
+
+- (void)setCustomKeys:(nullable NSArray<NSString *> *)customKeys {
+    [self.store sdl_setObject:customKeys forName:SDLRPCParameterNameCustomKeys];
+}
+
+- (nullable NSArray<NSString *> *)customKeys {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameCustomKeys ofClass:NSString.class error:nil];
 }
 
 @end

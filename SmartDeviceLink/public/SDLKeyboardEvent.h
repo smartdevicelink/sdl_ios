@@ -37,3 +37,13 @@ extern SDLKeyboardEvent const SDLKeyboardEventAborted;
  @since SDL 4.0
  */
 extern SDLKeyboardEvent const SDLKeyboardEventVoice;
+
+/**
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLKeyboardEvent const SDLKeyboardEventInputKeyMaskEnabled;
+
+/**
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLKeyboardEvent const SDLKeyboardEventInputKeyMaskDisabled;
