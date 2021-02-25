@@ -331,10 +331,10 @@ describe(@"uploading / deleting single files with the file manager", ^{
                 });
 
                 it(@"should not upload the file if persistence is YES", ^{
-                    SDLFile *persistantFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:YES];
-                    persistantFile.overwrite = testUploadOverwrite;
+                    SDLFile *persistentFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:YES];
+                    persistentFile.overwrite = testUploadOverwrite;
 
-                    [testFileManager uploadFile:persistantFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    [testFileManager uploadFile:persistentFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                         expect(@(success)).to(beFalse());
                         expect(@(bytesAvailable)).to(equal(@(testFileManager.bytesAvailable)));
                         expect(error).to(equal([NSError sdl_fileManager_cannotOverwriteError]));
