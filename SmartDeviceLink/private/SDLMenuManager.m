@@ -209,17 +209,10 @@ UInt32 const MenuCellIdMin = 1;
     _menuCells = menuCells;
 
     __weak typeof(self) weakself = self;
-    SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells compatibilityModeEnabled:(![self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) currentMenuUpdatedHandler:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells) {
+    SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells compatibilityModeEnabled:(![self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) currentMenuUpdatedHandler:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells, NSError *error) {
         weakself.currentMenuCells = currentMenuCells;
         [weakself sdl_updateMenuReplaceOperationsWithNewCurrentMenu];
     }];
-
-    __weak typeof(menuReplaceOperation) weakOp = menuReplaceOperation;
-    menuReplaceOperation.completionBlock = ^{
-        if (weakOp.error != nil) {
-            SDLLogE(@"Updating menu failed with error: %@", weakOp.error);
-        }
-    };
 
     // Cancel previous replace menu operations
     for (NSOperation *operation in self.transactionQueue.operations) {

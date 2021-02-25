@@ -21,7 +21,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCells);
+typedef void(^SDLCurrentMenuUpdatedBlock)(NSArray<SDLMenuCell *> *currentMenuCells, NSError *_Nullable error);
 
 @interface SDLMenuReplaceOperation : SDLAsynchronousOperation
 

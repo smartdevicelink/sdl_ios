@@ -38,7 +38,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedMenu;
 @property (assign, nonatomic) BOOL compatibilityModeEnabled;
-@property (assign, nonatomic) SDLCurrentMenuUpdatedBlock currentMenuUpdatedBlock;
+@property (copy, nonatomic) SDLCurrentMenuUpdatedBlock currentMenuUpdatedBlock;
 
 @property (strong, nonatomic) NSMutableArray<SDLMenuCell *> *mutableCurrentMenu;
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -345,6 +345,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         self.internalError = [NSError sdl_menuManager_replaceOperationCancelled];
     }
 
+    self.currentMenuUpdatedBlock(self.currentMenu.copy, self.error);
     [super finishOperation];
 }
 
