@@ -147,7 +147,7 @@ private extension ProxyManager {
 
 extension ProxyManager: SDLManagerDelegate {
     /// Called when the connection between this app and the module has closed.
-    func managerDidDisconnect() {        
+    func managerDidDisconnect() {
         if delegate?.proxyState != .some(.stopped) {
             delegate?.didChangeProxyState(ProxyState.searching)
         }

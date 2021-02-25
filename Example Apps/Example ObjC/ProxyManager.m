@@ -229,8 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDLManagerDelegate
-
-/// Called when the connection beween this app and the module has closed.
+/// Called when the connection between this app and the module has closed.
 - (void)managerDidDisconnect {
     if (self.state != ProxyStateStopped) {
         [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
