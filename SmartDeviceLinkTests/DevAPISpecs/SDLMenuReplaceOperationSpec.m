@@ -37,6 +37,8 @@ describe(@"a menu replace operation", ^{
     __block SDLMenuCell *submenuCell = nil;
     __block SDLMenuCell *submenuImageCell = nil;
 
+    __block SDLAddCommandResponse *addCommandSuccessResponse = nil;
+
     __block NSArray<SDLMenuCell *> *receivedMenuCells = nil;
     __block NSError *receivedError = nil;
     __block SDLCurrentMenuUpdatedBlock testCurrentMenuUpdatedBlock = nil;
@@ -54,6 +56,10 @@ describe(@"a menu replace operation", ^{
         submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell]];
         submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell]];
         textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+        addCommandSuccessResponse = [[SDLAddCommandResponse alloc] init];
+        addCommandSuccessResponse.success = @YES;
+        addCommandSuccessResponse.resultCode = SDLResultSuccess;
 
         testOp = nil;
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -85,6 +91,46 @@ describe(@"a menu replace operation", ^{
                 [testOp start];
 
                 expect(testConnectionManager.receivedRequests).to(beEmpty());
+                expect(testOp.isFinished).to(beTrue());
+            });
+        });
+
+        // when starting while cancelled
+        context(@"when starting while cancelled", ^{
+            it(@"should finish without doing anything", ^{
+                testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                [testOp cancel];
+                [testOp start];
+
+                expect(testConnectionManager.receivedRequests).to(beEmpty());
+                expect(testOp.isFinished).to(beTrue());
+            });
+        });
+
+        // when uploading a text-only cell
+        context(@"when uploading a text-only cell", ^{
+            beforeEach(^{
+                testNewMenu = @[textOnlyCell];
+                OCMStub([testFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
+            });
+
+            fit(@"should properly send the RPCs and finish the operation", ^{
+                testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                [testOp start];
+
+                OCMReject([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+
+                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteCommand class]];
+                NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+                expect(deletes).to(beEmpty());
+
+                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                NSArray *add = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                expect(add).to(haveCount(1));
+
+                [testConnectionManager respondToLastRequestWithResponse:addCommandSuccessResponse];
+                [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
                 expect(testOp.isFinished).to(beTrue());
             });
         });
@@ -139,29 +185,6 @@ describe(@"a menu replace operation", ^{
                     NSArray *add = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
                     expect(add).toNot(beEmpty());
                 });
-            });
-        });
-
-        // when uploading a text-only cell
-        context(@"when uploading a text-only cell", ^{
-            beforeEach(^{
-                testNewMenu = @[textOnlyCell];
-                OCMStub([testFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
-            });
-
-            it(@"should properly update a text cell", ^{
-                testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
-                [testOp start];
-
-                OCMReject([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
-
-                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteCommand class]];
-                NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
-                expect(deletes).to(beEmpty());
-
-                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-                NSArray *add = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-                expect(add).toNot(beEmpty());
             });
         });
 
