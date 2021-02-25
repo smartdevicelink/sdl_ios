@@ -10,6 +10,7 @@
 #import "SDLFileManagerConfiguration.h"
 #import "SDLFileType.h"
 #import "SDLFileWrapper.h"
+#import "SDLGlobals.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesOperation.h"
 #import "SDLListFilesResponse.h"
@@ -320,15 +321,16 @@ describe(@"uploading / deleting single files with the file manager", ^{
                 });
             });
 
-            context(@"when allow overwrite is NO", ^{
+            context(@"when allow overwrite is NO and the RPC version is < 4.4.0", ^{
                 __block NSString *testUploadFileName = nil;
                 __block Boolean testUploadOverwrite = NO;
 
                 beforeEach(^{
                     testUploadFileName = [testInitialFileNames lastObject];
+                    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:4 minor:3 patch:0];
                 });
 
-                it(@"should not upload the file if persistance is YES", ^{
+                it(@"should not upload the file if persistence is YES", ^{
                     SDLFile *persistantFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:YES];
                     persistantFile.overwrite = testUploadOverwrite;
 
@@ -341,11 +343,11 @@ describe(@"uploading / deleting single files with the file manager", ^{
                     expect(testFileManager.pendingTransactions.count).to(equal(0));
                 });
 
-                it(@"should upload the file if persistance is NO", ^{
-                    SDLFile *unPersistantFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:NO];
-                    unPersistantFile.overwrite = testUploadOverwrite;
+                it(@"should upload the file if persistence is NO", ^{
+                    SDLFile *unPersistentFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:NO];
+                    unPersistentFile.overwrite = testUploadOverwrite;
 
-                    [testFileManager uploadFile:unPersistantFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    [testFileManager uploadFile:unPersistentFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                         expect(success).to(beTrue());
                         expect(bytesAvailable).to(equal(newBytesAvailable));
                         expect(error).to(beNil());
@@ -473,6 +475,10 @@ describe(@"uploading / deleting single files with the file manager", ^{
         __block SDLArtwork *artwork = nil;
 
         context(@"when artwork is nil", ^{
+            beforeEach(^{
+                artwork = nil;
+            });
+
             it(@"should not allow file to be uploaded", ^{
                 expect(artwork).to(beNil());
                 BOOL testFileNeedsUpload = [testFileManager fileNeedsUpload:artwork];

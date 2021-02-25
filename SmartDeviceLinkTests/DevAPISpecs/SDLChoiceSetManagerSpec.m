@@ -264,9 +264,8 @@ describe(@"choice set manager tests", ^{
 
             context(@"when some choices are already uploaded with duplicate titles version >= 7.1.0", ^{
                 beforeEach(^{
-//                    [SDLGlobals sharedGlobals].rpcVersion = choiceSetUniquenessActiveVersion;
-                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) {
-                    }];
+                    [SDLGlobals sharedGlobals].rpcVersion = choiceSetUniquenessActiveVersion;
+                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) { }];
                 });
 
                 it(@"should not update the choiceCells' unique title", ^{
@@ -283,9 +282,8 @@ describe(@"choice set manager tests", ^{
 
             context(@"when some choices are already uploaded with duplicate titles version <= 7.1.0", ^{
                 beforeEach(^{
-//                    [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
-                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) {
-                    }];
+                    [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
+                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) { }];
                 });
 
                 it(@"append a number to the unique text for choice set cells", ^{
