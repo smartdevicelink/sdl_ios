@@ -4,9 +4,10 @@
 
 #import <SmartDeviceLink/SmartDeviceLink.h>
 
-#import "SDLMenuManager.h"
-#import "TestConnectionManager.h"
 #import "SDLGlobals.h"
+#import "SDLMenuManager.h"
+#import "SDLMenuReplaceOperation.h"
+#import "TestConnectionManager.h"
 
 
 @interface SDLMenuCell()
@@ -108,64 +109,30 @@ describe(@"menu manager", ^{
         });
     });
 
-    // before the HMI is ready
-    context(@"before the HMI is ready", ^{
-        // when in HMI NONE
-        context(@"when in HMI NONE", ^{
-            beforeEach(^{
-                testManager.currentHMILevel = SDLHMILevelNone;
-                testManager.menuCells = @[textOnlyCell];
-            });
-
-            it(@"should not update", ^{
-                expect(testManager.transactionQueue.isSuspended).to(beTrue());
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
-            });
-
-            describe(@"when entering the foreground", ^{
-                beforeEach(^{
-                    SDLOnHMIStatus *onHMIStatus = [[SDLOnHMIStatus alloc] init];
-                    onHMIStatus.hmiLevel = SDLHMILevelFull;
-                    onHMIStatus.systemContext = SDLSystemContextMain;
-
-                    SDLRPCNotificationNotification *testSystemContextNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:onHMIStatus];
-                    [[NSNotificationCenter defaultCenter] postNotification:testSystemContextNotification];
-                });
-
-                it(@"should update", ^{
-                    expect(testManager.transactionQueue.isSuspended).to(beFalse());
-                });
-            });
+    // when in HMI NONE
+    context(@"when in HMI NONE", ^{
+        beforeEach(^{
+            SDLOnHMIStatus *noneStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelNone systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:noneStatus]];
         });
 
-        // when no HMI level has been received
-        context(@"when no HMI level has been received", ^{
+        it(@"should not update", ^{
+            expect(testManager.transactionQueue.isSuspended).to(beTrue());
+        });
+
+        // when entering HMI FULL
+        describe(@"when entering HMI FULL", ^{
             beforeEach(^{
-                testManager.currentHMILevel = nil;
+                SDLOnHMIStatus *onHMIStatus = [[SDLOnHMIStatus alloc] init];
+                onHMIStatus.hmiLevel = SDLHMILevelFull;
+                onHMIStatus.systemContext = SDLSystemContextMain;
+
+                SDLRPCNotificationNotification *testSystemContextNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:onHMIStatus];
+                [[NSNotificationCenter defaultCenter] postNotification:testSystemContextNotification];
             });
 
-            // should queue the menu configuration
-            it(@"should queue the menu configuration", ^{
-                testManager.menuConfiguration = testMenuConfiguration;
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
-                expect(testManager.transactionQueue.isSuspended).to(beTrue());
-                expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
-            });
-
-            // should queue opening the menu
-            it(@"should queue opening the menu", ^{
-                [testManager openMenu:nil];
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
-                expect(testManager.transactionQueue.isSuspended).to(beTrue());
-            });
-
-            // should queue updating the menu cells
-            it(@"should queue updating the menu cells", ^{
-                NSArray<SDLMenuCell *> *menuCells = @[textOnlyCell];
-                testManager.menuCells = menuCells;
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
-                expect(testManager.transactionQueue.isSuspended).to(beTrue());
-                expect(testManager.menuCells).to(equal(menuCells));
+            it(@"should update", ^{
+                expect(testManager.transactionQueue.isSuspended).to(beFalse());
             });
         });
     });
@@ -198,6 +165,7 @@ describe(@"menu manager", ^{
                 });
             });
 
+            // if the new menu cells are identical to the old menu cells
             context(@"if the new menu cells are identical to the old menu cells", ^{
                 it(@"should only queue one transaction", ^{
                     testManager.menuCells = @[textOnlyCell];
@@ -208,7 +176,38 @@ describe(@"menu manager", ^{
                 });
             });
 
-            // TODO: Add tests for normal setting, including tests for ids, canceling old tasks (including on menu config and opening menu), updating current menu cells
+            // when a second menu cells update is queued before the first is done
+            context(@"when a second menu cells update is queued before the first is done", ^{
+                it(@"should cancel the first operation", ^{
+                    testManager.menuCells = @[textOnlyCell];
+                    testManager.menuCells = @[submenuCell];
+
+                    expect(testManager.menuCells).to(equal(@[submenuCell]));
+                    expect(testManager.transactionQueue.operationCount).to(equal(2));
+                    expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
+                });
+            });
+
+            // if cells are formed properly
+            context(@"if cells are formed properly", ^{
+                it(@"should properly prepare and queue the transaction", ^{
+                    testManager.menuCells = @[textOnlyCell];
+
+                    // Assign proper cell id
+                    expect(textOnlyCell.cellId).to(equal(1));
+                    expect(testManager.transactionQueue.operationCount).to(equal(1));
+                    expect(testManager.transactionQueue.operations[0]).to(beAnInstanceOf([SDLMenuReplaceOperation class]));
+
+                    // Assign proper current menu
+                    SDLMenuReplaceOperation *testOp = testManager.transactionQueue.operations[0];
+                    expect(testOp.currentMenu).to(haveCount(0));
+
+                    // Callback proper current menu
+                    testOp.currentMenu = @[textOnlyCell];
+                    [testOp finishOperation];
+                    expect(testManager.currentMenuCells).to(haveCount(1));
+                });
+            });
         });
 
         // updating the menu configuration
@@ -244,34 +243,16 @@ describe(@"menu manager", ^{
                     expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
                     expect(testManager.transactionQueue.operationCount).to(equal(1));
                 });
-            });
 
-            // when no HMI level has been received
-            context(@"when no HMI level has been received", ^{
-                beforeEach(^{
-                    testManager.currentHMILevel = nil;
-                });
+                // when queueing a second task after the first
+                context(@"when queueing a second task after the first", ^{
+                    it(@"should cancel the first task", ^{
+                        testManager.menuConfiguration = testMenuConfiguration;
+                        testManager.menuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutList defaultSubmenuLayout:SDLMenuLayoutList];
 
-                it(@"should queue a menu configuration update", ^{
-                    testManager.menuConfiguration = testMenuConfiguration;
-
-                    expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
-                    expect(testManager.transactionQueue.operationCount).to(equal(1));
-                });
-            });
-
-            // when in the menu
-            context(@"when in the menu", ^{
-                beforeEach(^{
-                    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
-                    testManager.currentHMILevel = SDLHMILevelFull;
-                    testManager.currentSystemContext = SDLSystemContextMenu;
-                });
-
-                it(@"should queue a menu configuration update", ^{
-                    testManager.menuConfiguration = testMenuConfiguration;
-                    expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
-                    expect(testManager.transactionQueue.operationCount).to(equal(1));
+                        expect(testManager.transactionQueue.operationCount).to(equal(2));
+                        expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
+                    });
                 });
             });
         });
@@ -306,6 +287,15 @@ describe(@"menu manager", ^{
 
                     expect(testManager.transactionQueue.operationCount).to(equal(2));
                     expect(canSendRPC).to(equal(YES));
+                });
+
+                it(@"should cancel the first task if a second is queued", ^{
+                    testManager.menuCells = @[submenuCell];
+                    [testManager openMenu:nil];
+                    [testManager openMenu:submenuCell];
+
+                    expect(testManager.transactionQueue.operationCount).to(equal(3));
+                    expect(testManager.transactionQueue.operations[1].isCancelled).to(beTrue());
                 });
             });
 

@@ -37,7 +37,8 @@ describe(@"a menu replace operation", ^{
     __block SDLMenuCell *submenuCell = nil;
     __block SDLMenuCell *submenuImageCell = nil;
 
-    __block NSArray<SDLMenuCell *> *newCurrentMenuCells = nil;
+    __block NSArray<SDLMenuCell *> *receivedMenuCells = nil;
+    __block NSError *receivedError = nil;
     __block SDLCurrentMenuUpdatedBlock testCurrentMenuUpdatedBlock = nil;
 
     __block SDLMenuReplaceUtilities *mockReplaceUtilities = nil;
@@ -65,9 +66,11 @@ describe(@"a menu replace operation", ^{
         testCurrentMenu = @[];
         testNewMenu = nil;
 
-        newCurrentMenuCells = nil;
-        testCurrentMenuUpdatedBlock = ^(NSArray<SDLMenuCell *> *currentMenuCells) {
-            newCurrentMenuCells = currentMenuCells;
+        receivedMenuCells = nil;
+        receivedError = nil;
+        testCurrentMenuUpdatedBlock = ^(NSArray<SDLMenuCell *> *currentMenuCells, NSError *error) {
+            receivedMenuCells = currentMenuCells;
+            receivedError = error;
         };
 
         mockReplaceUtilities = OCMClassMock([SDLMenuReplaceUtilities class]);
@@ -198,7 +201,7 @@ describe(@"a menu replace operation", ^{
                 testNewMenu = @[textOnlyCell, textOnlyCell2];
             });
 
-            fit(@"should send a delete and two adds", ^{
+            it(@"should send a delete and two adds", ^{
                 testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
                 [testOp start];
 
