@@ -33,6 +33,9 @@ BOOL compareRectangle(SDLRectangle *sdlRectangle, CGRect cgRect) {
 }
 
 BOOL compareScaledRectangle(SDLRectangle *sdlRectangle, CGRect cgRect, float scale) {
+    if (scale < 1.0) {
+        scale = 1.0;
+    }
     return floatEqual(sdlRectangle.x.floatValue, cgRect.origin.x * scale) &&
            floatEqual(sdlRectangle.y.floatValue, cgRect.origin.y * scale) &&
            floatEqual(sdlRectangle.width.floatValue, cgRect.size.width * scale) &&
@@ -578,7 +581,7 @@ describe(@"the haptic manager", ^{
                      SDLRectangle *sdlRect = sdlhapticRect.rect;
 
                      if (!compareScaledRectangle(sdlRect, viewRect1, testUpdatedScale)) {
-                         failWithMessage(([NSString stringWithFormat:@"rects are not equal {%@ vs %@}", sdlRect, NSStringFromCGRect(viewRect1)]));
+                         failWithMessage(([NSString stringWithFormat:@"rects are not equal {%@ vs %@} scale:%2.2f", sdlRect, NSStringFromCGRect(viewRect1), testUpdatedScale]));
                      }
                  }
              });

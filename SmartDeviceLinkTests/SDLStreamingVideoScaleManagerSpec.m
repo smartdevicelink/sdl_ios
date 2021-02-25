@@ -113,14 +113,14 @@ describe(@"the streaming video scale manager", ^{
 
          it(@"should scale the rectangle correctly with a scale < 1", ^{
              videoScaleManager.scale = 0.4;
-             SDLRectangle *expectedRect = [[SDLRectangle alloc] initWithX:4 y:4 width:40 height:80];
+             SDLRectangle *expectedRect = [[SDLRectangle alloc] initWithX:rect.origin.x y:rect.origin.y width:rect.size.width height:rect.size.height];
              SDLHapticRect *testRect = [videoScaleManager scaleHapticRect:hapticRect];
              expect(testRect.rect).to(equal(expectedRect));
          });
 
          it(@"should scale the rectangle correctly with a scale = 1", ^{
              videoScaleManager.scale = 1.0;
-             SDLRectangle *expectedRect = [[SDLRectangle alloc] initWithX:10 y:10 width:100 height:200];
+             SDLRectangle *expectedRect = [[SDLRectangle alloc] initWithX:rect.origin.x y:rect.origin.y width:rect.size.width height:rect.size.height];
              SDLHapticRect *testRect = [videoScaleManager scaleHapticRect:hapticRect];
              expect(testRect.rect).to(equal(expectedRect));
          });
