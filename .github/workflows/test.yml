@@ -75,8 +75,6 @@ jobs:
             # Upload coverage reports to Codecov
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v1.0.10
-#              with: 
-#                yml: ./codecov.yml
 
     rpcTest:
         name: RPC Generator Tests
