@@ -376,7 +376,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_videoStreamStateTransitionDictionary {
     return @{
              SDLVideoStreamManagerStateStopped : @[SDLVideoStreamManagerStateStarting],
-             SDLVideoStreamManagerStateStarting : @[SDLVideoStreamManagerStateStopped, SDLVideoStreamManagerStateReady],
+             SDLVideoStreamManagerStateStarting : @[SDLVideoStreamManagerStateStopped, SDLVideoStreamManagerStateReady, SDLVideoStreamManagerStateSuspended],
              SDLVideoStreamManagerStateReady : @[SDLVideoStreamManagerStateSuspended, SDLVideoStreamManagerStateShuttingDown, SDLVideoStreamManagerStateStopped],
              SDLVideoStreamManagerStateSuspended : @[SDLVideoStreamManagerStateReady, SDLVideoStreamManagerStateShuttingDown, SDLVideoStreamManagerStateStopped],
              SDLVideoStreamManagerStateShuttingDown : @[SDLVideoStreamManagerStateStopped]
@@ -444,6 +444,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamReady {
     SDLLogD(@"Video stream ready");
 
+    if ([self.currentAppState isEqual:SDLAppStateInactive]) {
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateSuspended];
+        return;
+    }
+
     if (self.videoEncoder != nil) {
         [self.videoEncoder stop];
         self.videoEncoder = nil;
@@ -453,6 +458,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStartNotification object:nil];
 
+    // Don't update the delegate if video is resuming after being suspended.
     if (self.shouldUpdateDelegateOnSizeChange && self.delegate != nil) {
         const CGSize displaySize = self.videoStreamingCapability.makeImageResolution.makeSize;
         __weak typeof(self) weakSelf = self;
@@ -569,7 +575,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
     self.videoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264 protocol:videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW];
 
-    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
+    SDLVideoStreamManagerState *nextState = [self.currentAppState isEqualToEnum:SDLAppStateInactive] ? SDLVideoStreamManagerStateSuspended : SDLVideoStreamManagerStateReady;
+    [self.videoStreamStateMachine transitionToState:nextState];
 }
 
 - (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
@@ -750,9 +757,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma mark - Video capability logic
 
 - (void)sdl_useVideoCapability:(nullable SDLVideoStreamingCapability *)videoCapability {
-    if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
+    if ([self.currentVideoStreamState isEqualToEnum:SDLVideoStreamManagerStateStarting]) {
         [self sdl_applyVideoCapabilityWhileStarting:videoCapability];
-    } else if ([self.videoStreamStateMachine.currentState isEqualToEnum:SDLVideoStreamManagerStateReady]) {
+    } else if ([self.currentVideoStreamState isEqualToEnum:SDLVideoStreamManagerStateReady] || [self.currentVideoStreamState isEqualToEnum:SDLVideoStreamManagerStateSuspended]) {
         [self sdl_applyVideoCapabilityWhenStreaming:videoCapability];
     } else {
         SDLLogD(@"Received video capabilities in wrong state: %@; ignore it", self.videoStreamStateMachine.currentState);
@@ -762,14 +769,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_applyVideoCapabilityWhileStarting:(nullable SDLVideoStreamingCapability *)videoCapabilityUpdated {
     SDLVideoStreamingCapability *videoCapability = (videoCapabilityUpdated == nil) ? [self sdl_defaultVideoCapability] : videoCapabilityUpdated;
     NSArray<SDLVideoStreamingCapability *> *capabilityMatches = [self matchVideoCapability:videoCapability];
+    if (capabilityMatches.count == 0) {
+        // no supported video capabilities, full stop
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
+        return;
+    }
+
     if (self.shouldSendOnAppCapabilityUpdated) {
         self.shouldSendOnAppCapabilityUpdated = NO;
         [self sdl_sendOnAppCapabilityUpdated:capabilityMatches];
-    }
-
-    if (capabilityMatches.count == 0) {
-        // use default video capability if no match found
-        capabilityMatches = (videoCapabilityUpdated == nil) ? @[[self sdl_defaultVideoCapability]] : @[[videoCapabilityUpdated shortCopy]];
     }
 
     SDLVideoStreamingCapability *matchedVideoCapability = capabilityMatches.firstObject;

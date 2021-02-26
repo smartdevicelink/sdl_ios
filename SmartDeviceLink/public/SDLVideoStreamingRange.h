@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithMinimumResolution:(SDLImageResolution *)minResolution maximumResolution:(SDLImageResolution *)maxResolution;
 
+// A convenience method to create a disabled range with the min and max resolutions equal to zero
++ (instancetype)disabled;
+
 @end
 
 NS_ASSUME_NONNULL_END

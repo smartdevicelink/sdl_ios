@@ -37,6 +37,11 @@
     return aCopy;
 }
 
++ (instancetype)disabled {
+    SDLImageResolution *disabledResolution = [[SDLImageResolution alloc] initWithWidth:0 height:0];
+    return [[self alloc] initWithMinimumResolution:disabledResolution maximumResolution:disabledResolution];
+}
+
 - (BOOL)isImageResolutionRangeValid {
     return (self.minimumResolution || self.maximumResolution);
 }
