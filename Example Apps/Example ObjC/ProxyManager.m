@@ -229,8 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDLManagerDelegate
-
-/// Called when the connection beween this app and the module has closed.
+/// Called when the connection between this app and the module has closed.
 - (void)managerDidDisconnect {
     if (self.state != ProxyStateStopped) {
         [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
@@ -316,6 +315,11 @@ NS_ASSUME_NONNULL_BEGIN
     update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
 
     return update;
+}
+
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo {
+    SDLLogD(@"Example app did receive system info: %@", systemInfo);
+    return YES;
 }
 
 @end

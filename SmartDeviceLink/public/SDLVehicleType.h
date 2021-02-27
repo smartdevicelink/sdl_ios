@@ -49,6 +49,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *trim;
 
+/**
+ * Initialize the object
+ *
+ * @param make - make
+ * @param model - model
+ * @param modelYear - modelYear
+ * @param trim - trim
+ * @return A SDLVehicleType object
+ */
+- (instancetype)initWithMake:(nullable NSString *)make model:(nullable NSString *)model modelYear:(nullable NSString *)modelYear trim:(nullable NSString *)trim;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -10,8 +10,10 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLTransportType.h"
+#import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLGlobals.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocol.h"
@@ -399,8 +401,15 @@ describe(@"HandleProtocolSessionStarted tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
-    __block int64_t testMTU = 989786483;
-    __block int32_t hashId = 1545784;
+    int64_t testMTU = 989786483;
+    int32_t hashId = 1545784;
+    NSString *testAuthToken = @"testAuthToken";;
+    NSString *testMake = @"Livio";
+    NSString *testModel = @"Is";
+    NSString *testTrim = @"Awesome";
+    NSString *testModelYear = @"2021";
+    NSString *testSystemSoftwareVersion = @"1.1.1.1";
+    NSString *testSystemHardwareVersion = @"2.2.2.2";
 
     beforeEach(^{
         transportMock = OCMProtocolMock(@protocol(SDLTransportType));
@@ -413,15 +422,9 @@ describe(@"HandleProtocolSessionStarted tests", ^{
     });
 
     context(@"For protocol versions 5.0.0 and greater", ^{
-        __block NSString *testAuthToken = nil;
-
-        beforeEach(^{
-            testAuthToken = @"testAuthToken";
-        });
-
         context(@"If the service type is RPC", ^{
-            it(@"Should store the auth token and the protocol version and pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.2.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+            it(@"Should store the auth token, system info, and the protocol version and pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.2.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:testMake model:testModel trim:testTrim modelYear:testModelYear systemSoftwareVersion:testSystemSoftwareVersion systemHardwareVersion:testSystemHardwareVersion];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -445,7 +448,7 @@ describe(@"HandleProtocolSessionStarted tests", ^{
             });
 
             it(@"Should store the protocol version, but not get the auth token, and pass the start service along to the delegate if the protocol version is greater than 5.0.0 but less than 5.2.0", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -463,13 +466,13 @@ describe(@"HandleProtocolSessionStarted tests", ^{
 
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
 
-                expect(testProtocol.authToken).to(beNil());
+                expect(testProtocol.authToken).to(equal(testAuthToken));
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.1.0"));
                 expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"5.1.0"));
             });
 
             it(@"Should set the max head unit version using the header version if the protocol version is missing from the payload", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:nil secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:nil secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -495,7 +498,7 @@ describe(@"HandleProtocolSessionStarted tests", ^{
 
         context(@"If the service type is control", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -522,7 +525,7 @@ describe(@"HandleProtocolSessionStarted tests", ^{
         
         context(@"If the service type is Audio", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadAudioStartServiceAck *testPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithMTU:testMTU];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -550,7 +553,7 @@ describe(@"HandleProtocolSessionStarted tests", ^{
         
         context(@"If the service type is Video", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadVideoStartServiceAck *testPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:0 width:0 protocol:nil codec:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -580,7 +583,7 @@ describe(@"HandleProtocolSessionStarted tests", ^{
     context(@"For protocol versions below 5.0.0", ^{
         context(@"If the service type is RPC", ^{
             it(@"Should store the protocol version and pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"3.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"3.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -605,7 +608,7 @@ describe(@"HandleProtocolSessionStarted tests", ^{
 
         context(@"If the service type is not RPC", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];
@@ -630,7 +633,7 @@ describe(@"HandleProtocolSessionStarted tests", ^{
         
         context(@"If the service type is Audio", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadAudioStartServiceAck *testPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithMTU:testMTU];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];
@@ -656,7 +659,7 @@ describe(@"HandleProtocolSessionStarted tests", ^{
         
         context(@"If the service type is Video", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadVideoStartServiceAck *testPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:0 width:0 protocol:nil codec:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];

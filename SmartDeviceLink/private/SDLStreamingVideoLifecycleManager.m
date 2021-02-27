@@ -47,6 +47,7 @@
 #import "SDLVideoStreamingRange.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLSystemInfo.h"
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
@@ -76,7 +77,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (strong, nonatomic) NSMutableDictionary *videoEncoderSettings;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *customEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
@@ -221,7 +221,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
     [self.videoScaleManager stop];
     [self.focusableItemManager stop];
-    _connectedVehicleMake = nil;
 
     @synchronized(self.protocol.protocolDelegateTable) {
         if ([self.protocol.protocolDelegateTable containsObject:self]) {
@@ -646,7 +645,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
 
-    SDLLogD(@"Received Register App Interface");
+    SDLLogV(@"Received Register App Interface");
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)notification.response;
 
 #pragma clang diagnostic push
@@ -659,16 +658,18 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         self.videoScaleManager.displayViewportResolution = initSize;
         self.videoScaleManager.scale = 1;
         // HAX: Workaround for Legacy Ford and Lincoln displays with > 800 resolution width or height. They don't support scaling and if we don't do this workaround, they will not correctly scale the view.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         NSString *make = registerResponse.vehicleType.make;
-        if (([make containsString:@"Ford"] || [make containsString:@"Lincoln"]) && (initSize.width > 800 || initSize.height > 800)) {
+#pragma clang diagnostic pop
+        CGSize resolution = self.videoScaleManager.displayViewportResolution;
+        if (([make containsString:@"Ford"] || [make containsString:@"Lincoln"]) && (resolution.width > 800 || resolution.height > 800)) {
             self.videoScaleManager.scale = 1.0f / 0.75f; // Scale by 1.333333
         }
     } else {
         self.videoScaleManager.displayViewportResolution = CGSizeZero;
         self.videoScaleManager.scale = 1;
     }
-
-    self.connectedVehicleMake = registerResponse.vehicleType.make;
 
     SDLLogD(@"Determined base screen size on display capabilities: %@", NSStringFromCGSize(self.videoScaleManager.displayViewportResolution));
 }
@@ -1084,7 +1085,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLControlFramePayloadVideoStartService *startVideoPayload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:preferredResolution.resolutionHeight.intValue width:preferredResolution.resolutionWidth.intValue protocol:preferredFormat.protocol codec:preferredFormat.codec];
 
     // Decide if we need to start a secure service or not
-    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
+    NSString *connectedVehicleMake = self.connectionManager.systemInfo.vehicleType.make;
+    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:connectedVehicleMake])) {
         SDLLogD(@"Sending secure video start service with payload: %@", startVideoPayload);
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data tlsInitializationHandler:^(BOOL success, NSError *error) {
             if (error) {

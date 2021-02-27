@@ -9,135 +9,84 @@
 
 QuickSpecBegin(SDLControlFramePayloadRPCStartServiceAckSpec)
 
-describe(@"Test encoding data", ^{
+describe(@"The payload", ^{
     __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
-    __block int32_t testHashId = 0;
-    __block int64_t testMTU = 0;
-    __block NSString *testProtocolVersion = nil;
-    __block NSArray<NSString *> *testSecondaryTransports = nil;
-    __block NSArray<NSNumber *> *testAudioServiceTransports = nil;
-    __block NSArray<NSNumber *> *testVideoServiceTransports = nil;
+    __block NSData *testData = nil;
+    int32_t testHashId = 1457689;
+    int64_t testMTU = 5984649;
+    NSString *testProtocolVersion = @"1.32.32";
+    NSString *testAuthToken = @"Test Auth Token";
+    NSArray<NSString *> *testSecondaryTransports = @[@"TCP_WIFI", @"IAP_USB"];
+    NSArray<NSNumber *> *testAudioServiceTransports = @[@(2)];
+    NSArray<NSNumber *> *testVideoServiceTransports = @[@2, @1];
+    NSString *testMake = @"Livio";
+    NSString *testModel = @"Is";
+    NSString *testTrim = @"Awesome";
+    NSString *testModelYear = @"2021";
+    NSString *testSystemSoftwareVersion = @"1.1.1.1";
+    NSString *testSystemHardwareVersion = @"2.2.2.2";
 
-    context(@"with parameters", ^{
-        beforeEach(^{
-            testHashId = 1457689;
-            testMTU = 5984649;
-            testProtocolVersion = @"1.32.32";
+    describe(@"Test encoding data", ^{
+        context(@"with parameters", ^{
+            beforeEach(^{
+                testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMTU authToken:testAuthToken protocolVersion:testProtocolVersion secondaryTransports:testSecondaryTransports audioServiceTransports:testAudioServiceTransports videoServiceTransports:testVideoServiceTransports make:testMake model:testModel trim:testTrim modelYear:testModelYear systemSoftwareVersion:testSystemSoftwareVersion systemHardwareVersion:testSystemHardwareVersion];
+            });
 
-            testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMTU authToken:nil protocolVersion:testProtocolVersion secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+            it(@"should create the correct data", ^{
+                NSString *base64Encoded = [testPayload.data base64EncodedStringWithOptions:0];
+                expect(base64Encoded).to(equal(@"bAEAAAR2aWRlb1NlcnZpY2VUcmFuc3BvcnRzABMAAAAQMAACAAAAEDEAAQAAAAAQaGFzaElkABk+FgACbW9kZWwAAwAAAElzABJtdHUAiVFbAAAAAAACbW9kZWxZZWFyAAUAAAAyMDIxAAJzeXN0ZW1IYXJkd2FyZVZlcnNpb24ACAAAADIuMi4yLjIAAm1ha2UABgAAAExpdmlvAAJhdXRoVG9rZW4AEAAAAFRlc3QgQXV0aCBUb2tlbgAEc2Vjb25kYXJ5VHJhbnNwb3J0cwAkAAAAAjAACQAAAFRDUF9XSUZJAAIxAAgAAABJQVBfVVNCAAACc3lzdGVtU29mdHdhcmVWZXJzaW9uAAgAAAAxLjEuMS4xAAJ0cmltAAgAAABBd2Vzb21lAARhdWRpb1NlcnZpY2VUcmFuc3BvcnRzAAwAAAAQMAACAAAAAAJwcm90b2NvbFZlcnNpb24ACAAAADEuMzIuMzIAAA=="));
+            });
         });
 
-        it(@"should create the correct data", ^{
-            NSString *base64Encoded = [testPayload.data base64EncodedStringWithOptions:0];
-            expect(base64Encoded).to(equal(@"OwAAABBoYXNoSWQAGT4WABJtdHUAiVFbAAAAAAACcHJvdG9jb2xWZXJzaW9uAAgAAAAxLjMyLjMyAAA="));
-        });
-    });
+        context(@"without parameters", ^{
+            beforeEach(^{
+                testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:SDLControlFrameInt32NotFound mtu:SDLControlFrameInt64NotFound authToken:nil protocolVersion:nil secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
+            });
 
-    context(@"with secondary transport parameters", ^{
-        beforeEach(^{
-            testHashId = 987654;
-            testMTU = 4096;
-            testProtocolVersion = @"5.10.01";
-            testSecondaryTransports = @[@"TCP_WIFI", @"IAP_USB"];
-            testAudioServiceTransports = @[@(2)];
-            testVideoServiceTransports = @[(@2), @(1)];
-
-            testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMTU authToken:nil protocolVersion:testProtocolVersion secondaryTransports:testSecondaryTransports audioServiceTransports:testAudioServiceTransports videoServiceTransports:testVideoServiceTransports];
-        });
-
-        it(@"should create the correct data", ^{
-            NSString *base64Encoded = [testPayload.data base64EncodedStringWithOptions:0];
-            expect(base64Encoded).to(equal(@"wwAAAAR2aWRlb1NlcnZpY2VUcmFuc3BvcnRzABMAAAAQMAACAAAAEDEAAQAAAAAQaGFzaElkAAYSDwASbXR1AAAQAAAAAAAABHNlY29uZGFyeVRyYW5zcG9ydHMAJAAAAAIwAAkAAABUQ1BfV0lGSQACMQAIAAAASUFQX1VTQgAABGF1ZGlvU2VydmljZVRyYW5zcG9ydHMADAAAABAwAAIAAAAAAnByb3RvY29sVmVyc2lvbgAIAAAANS4xMC4wMQAA"));
+            it(@"should create no data", ^{
+                expect(testPayload.data.length).to(equal(0));
+            });
         });
     });
 
-    context(@"without parameters", ^{
-        beforeEach(^{
-            testHashId = SDLControlFrameInt32NotFound;
-            testMTU = SDLControlFrameInt64NotFound;
+    describe(@"Test decoding data", ^{
+        context(@"with parameters", ^{
+            beforeEach(^{
+                SDLControlFramePayloadRPCStartServiceAck *firstPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMTU authToken:testAuthToken protocolVersion:testProtocolVersion secondaryTransports:testSecondaryTransports audioServiceTransports:testAudioServiceTransports videoServiceTransports:testVideoServiceTransports make:testMake model:testModel trim:testTrim modelYear:testModelYear systemSoftwareVersion:testSystemSoftwareVersion systemHardwareVersion:testSystemHardwareVersion];
+                testData = firstPayload.data;
 
-            testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMTU authToken:nil protocolVersion:nil secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:testData];
+            });
+
+            it(@"should output the correct params", ^{
+                expect(testPayload.hashId).to(equal(testHashId));
+                expect(testPayload.mtu).to(equal(testMTU));
+                expect(testPayload.authToken).to(equal(testAuthToken));
+                expect(testPayload.protocolVersion).to(equal(testProtocolVersion));
+                expect(testPayload.secondaryTransports).to(equal(testSecondaryTransports));
+                expect(testPayload.audioServiceTransports).to(equal(testAudioServiceTransports));
+                expect(testPayload.videoServiceTransports).to(equal(testVideoServiceTransports));
+                expect(testPayload.make).to(equal(testMake));
+                expect(testPayload.model).to(equal(testModel));
+                expect(testPayload.trim).to(equal(testTrim));
+                expect(testPayload.modelYear).to(equal(testModelYear));
+                expect(testPayload.systemSoftwareVersion).to(equal(testSystemSoftwareVersion));
+                expect(testPayload.systemHardwareVersion).to(equal(testSystemHardwareVersion));
+            });
+        });
+    });
+
+    describe(@"Test nil data", ^{
+        __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
+        __block NSData *testData = nil;
+
+        beforeEach(^{
+            testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:testData];
         });
 
-        it(@"should create no data", ^{
+        it(@"should output the correct params", ^{
             expect(testPayload.data.length).to(equal(0));
         });
-    });
-});
-
-describe(@"Test decoding data", ^{
-    __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
-    __block NSData *testData = nil;
-    __block int32_t testHashId = 0;
-    __block int64_t testMTU = 0;
-    __block NSString *testAuthToken = nil;
-    __block NSString *testProtocolVersion = nil;
-    __block NSArray<NSString *> *testSecondaryTransports = nil;
-    __block NSArray<NSNumber *> *testAudioServiceTransports = nil;
-    __block NSArray<NSNumber *> *testVideoServiceTransports = nil;
-
-    context(@"with parameters", ^{
-        beforeEach(^{
-            testHashId = 1545784;
-            testMTU = 989786483;
-            testAuthToken = @"testAuthToken";
-            testProtocolVersion = @"3.89.5";
-
-            SDLControlFramePayloadRPCStartServiceAck *firstPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMTU authToken:testAuthToken protocolVersion:testProtocolVersion secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
-            testData = firstPayload.data;
-
-            testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:testData];
-        });
-
-        it(@"should output the correct params", ^{
-            expect(testPayload.hashId).to(equal(testHashId));
-            expect(testPayload.mtu).to(equal(testMTU));
-            expect(testPayload.authToken).to(equal(testAuthToken));
-            expect(testPayload.protocolVersion).to(equal(testProtocolVersion));
-            expect(testPayload.secondaryTransports).to(beNil());
-            expect(testPayload.audioServiceTransports).to(beNil());
-            expect(testPayload.videoServiceTransports).to(beNil());
-        });
-    });
-
-    context(@"with secondary transport parameters", ^{
-        beforeEach(^{
-            testHashId = 17999024;
-            testMTU = 1798250;
-            testAuthToken = @"testAuthToken";
-            testProtocolVersion = @"6.01.00";
-            testSecondaryTransports = @[@"TCP_WIFI"];
-            testAudioServiceTransports = @[@(2), @(1)];
-            testVideoServiceTransports = @[@(1)];
-
-            SDLControlFramePayloadRPCStartServiceAck *firstPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:testHashId mtu:testMTU authToken:testAuthToken protocolVersion:testProtocolVersion secondaryTransports:testSecondaryTransports audioServiceTransports:testAudioServiceTransports videoServiceTransports:testVideoServiceTransports];
-            testData = firstPayload.data;
-
-            testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:testData];
-        });
-
-        it(@"should output the correct params", ^{
-            expect(testPayload.hashId).to(equal(testHashId));
-            expect(testPayload.mtu).to(equal(testMTU));
-            expect(testPayload.authToken).to(equal(testAuthToken));
-            expect(testPayload.protocolVersion).to(equal(testProtocolVersion));
-            expect(testPayload.secondaryTransports).to(equal(testSecondaryTransports));
-            expect(testPayload.audioServiceTransports).to(equal(testAudioServiceTransports));
-            expect(testPayload.videoServiceTransports).to(equal(testVideoServiceTransports));
-        });
-    });
-});
-
-describe(@"Test nil data", ^{
-    __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
-    __block NSData *testData = nil;
-
-    beforeEach(^{
-        testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:testData];
-    });
-
-    it(@"should output the correct params", ^{
-        expect(testPayload.data.length).to(equal(0));
     });
 });
 

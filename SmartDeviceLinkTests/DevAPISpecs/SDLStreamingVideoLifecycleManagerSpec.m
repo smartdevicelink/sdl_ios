@@ -55,7 +55,6 @@
 @property (weak, nonatomic) SDLProtocol *protocol;
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
 @property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
 @property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
@@ -146,35 +145,39 @@ describe(@"init tests", ^{
     SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
     SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
-    NSString *testAppName = @"Test App";
     SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
+    __block SDLConfiguration *testConfig = nil;
+    SDLSystemInfo *testSystemInfo = [[SDLSystemInfo alloc] initWithMake:@"Livio" model:@"Model" trim:@"Trim" modelYear:@"2021" softwareVersion:@"1.1.1.1" hardwareVersion:@"2.2.2.2"];
+    __block TestSmartConnectionManager *testConnectionManager = nil;
     SDLVersion *version600 = [SDLVersion versionWithMajor:6 minor:0 patch:0];
 
-    // set proper version up
-    [SDLGlobals sharedGlobals].rpcVersion = version600;
-    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = version600;
+    beforeEach(^{
+        // set up proper version
+        [SDLGlobals sharedGlobals].rpcVersion = version600;
+        [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = version600;
 
-    testConfiguration.customVideoEncoderSettings = @{(id)kVTCompressionPropertyKey_ExpectedFrameRate : @1};
-    testConfiguration.dataSource = testDataSource;
-    testConfiguration.rootViewController = testViewController;
+        testConfiguration.customVideoEncoderSettings = @{(id)kVTCompressionPropertyKey_ExpectedFrameRate : @1};
+        testConfiguration.dataSource = testDataSource;
+        testConfiguration.rootViewController = testViewController;
+        testConnectionManager = [[TestSmartConnectionManager alloc] init];
+        testConnectionManager.systemInfo = testSystemInfo;
 
-    // load connection manager with fake data
-    TestSmartConnectionManager *testConnectionManager = [[TestSmartConnectionManager alloc] init];
-    TestSmartConnection *connectionModel = [[TestSmartConnection alloc] init];
-    SDLGetSystemCapability *getRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
-    connectionModel.request = getRequest;
-    connectionModel.response = createSystemCapabilityResponse();
-    [testConnectionManager addConnectionModel:connectionModel];
+        // load connection manager with fake data
+        TestSmartConnection *connectionModel = [[TestSmartConnection alloc] init];
+        SDLGetSystemCapability *getRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
+        connectionModel.request = getRequest;
+        connectionModel.response = createSystemCapabilityResponse();
+        [testConnectionManager addConnectionModel:connectionModel];
 
-    testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
+        testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
 
-    SDLConfiguration *testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration] streamingMedia:testConfiguration fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil];
+        testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration] streamingMedia:testConfiguration fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil];
+    });
 
      it(@"should return true by default if the system capability manager is nil", ^{
          SDLStreamingVideoLifecycleManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:nil];
          expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
      });
-
 
     context(@"having inited", ^{
         beforeEach(^{
@@ -238,7 +241,6 @@ QuickSpecEnd
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_Runtime)
 
 describe(@"test internals", ^{
-    // note: this test suite created to satisfy Codecov
     context(@"init extended manager", ^{
         id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
         SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
@@ -487,7 +489,10 @@ describe(@"runtime tests", ^{
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
                     someRegisterAppInterfaceResponse.hmiCapabilities = someHMICapabilities;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
+#pragma clang diagnostic pop
                     someRegisterAppInterfaceResponse.success = @YES;
 
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
@@ -497,7 +502,6 @@ describe(@"runtime tests", ^{
 
                 it(@"should save the connected vehicle make but not the screen size", ^{
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).toEventually(equal(@YES));
-                    expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
 
@@ -518,9 +522,6 @@ describe(@"runtime tests", ^{
 #pragma clang diagnostic ignored "-Wdeprecated"
                     someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
 #pragma clang diagnostic pop
-                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
-
-                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
                     someRegisterAppInterfaceResponse.success = @YES;
 
@@ -531,7 +532,6 @@ describe(@"runtime tests", ^{
 
                 it(@"should save the connected vehicle make and the screen size", ^{
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).toEventually(equal(@YES));
-                    expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
         });
@@ -1017,7 +1017,6 @@ describe(@"runtime tests", ^{
             [streamingLifecycleManager endVideoServiceWithCompletionHandler:^ {
                 handlerCalled = YES;
             }];
-            streamingLifecycleManager.connectedVehicleMake = @"OEM_make_2";
         });
 
         context(@"when the manager is not stopped", ^{
@@ -1029,7 +1028,6 @@ describe(@"runtime tests", ^{
             it(@"should transition to the stopped state", ^{
                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 expect(streamingLifecycleManager.protocol).to(beNil());
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
@@ -1047,7 +1045,6 @@ describe(@"runtime tests", ^{
             it(@"should stay in the stopped state", ^{
                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 expect(streamingLifecycleManager.protocol).to(beNil());
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
