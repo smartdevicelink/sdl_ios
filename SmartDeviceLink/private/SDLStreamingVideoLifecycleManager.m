@@ -186,13 +186,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return self;
 }
 
-- (void)shutDown {
+- (void)sdl_shutDown {
     [self.systemCapabilityManager unsubscribeFromCapabilityType:SDLSystemCapabilityTypeVideoStreaming withObserver:self];
     [self sdl_unsubscribeNotifications];
 }
 
 - (void)dealloc {
-    [self shutDown];
+    [self sdl_shutDown];
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
@@ -445,6 +445,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Video stream ready");
 
     if ([self.currentAppState isEqual:SDLAppStateInactive]) {
+        SDLLogD(@"Video streaming will not start until the app becomes active");
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateSuspended];
         return;
     }
@@ -732,15 +733,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_videoStreamingCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
     SDLVideoStreamingCapability *videoCapability = systemCapability.videoStreamingCapability;
 
-    if (!videoCapability) {
-        SDLLogD(@"Empty video capabilities notification received (%@)", self.videoStreamStateMachine.currentState);
-    } else {
-        SDLLogD(@"Video capabilities notification received (%@): %@", self.videoStreamStateMachine.currentState, videoCapability);
-    }
-
     if (videoCapability) {
+        SDLLogD(@"Video capabilities notification received (%@): %@", self.videoStreamStateMachine.currentState, videoCapability);
         [self sdl_useVideoCapability:videoCapability];
     } else {
+        SDLLogD(@"Empty video capabilities notification received (%@)", self.videoStreamStateMachine.currentState);
         // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
         SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
         SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)self.videoScaleManager.displayViewportResolution.width height:(uint16_t)self.videoScaleManager.displayViewportResolution.height];
@@ -875,16 +872,16 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         BOOL isMatch = NO;
         switch (imageResolution.kind) {
             case SDLImageResolutionKindLandscape:
-                isMatch = [self isCapability:nextCapability inRange:self.supportedLandscapeStreamingRange];
+                isMatch = [self sdl_isCapability:nextCapability inRange:self.supportedLandscapeStreamingRange];
                 break;
 
             case SDLImageResolutionKindPortrait:
-                isMatch = [self isCapability:nextCapability inRange:self.supportedPortraitStreamingRange];
+                isMatch = [self sdl_isCapability:nextCapability inRange:self.supportedPortraitStreamingRange];
                 break;
 
             case SDLImageResolutionKindSquare:
-                isMatch = [self isCapability:nextCapability inRange:self.supportedLandscapeStreamingRange] ||
-                            [self isCapability:nextCapability inRange:self.supportedPortraitStreamingRange];
+                isMatch = [self sdl_isCapability:nextCapability inRange:self.supportedLandscapeStreamingRange] ||
+                            [self sdl_isCapability:nextCapability inRange:self.supportedPortraitStreamingRange];
                 break;
 
             case SDLImageResolutionKindUndefined:
@@ -901,7 +898,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return matchCapabilities;
 }
 
-- (BOOL)isCapability:(SDLVideoStreamingCapability *)capability inRange:(SDLVideoStreamingRange *)range {
+- (BOOL)sdl_isCapability:(SDLVideoStreamingCapability *)capability inRange:(SDLVideoStreamingRange *)range {
     if (!capability) {
         // sanity check, zero capability wont make through
         return NO;

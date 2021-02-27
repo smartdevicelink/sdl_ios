@@ -14,8 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLVideoStreamingCapability (StreamingVideoExtensions)
 
-// this returns a copy array of all capabilities including itself
-// in the result objects the .additionalVideoStreamingCapabilities will be ommited
+/**
+ this returns a copy array of all capabilities including itself
+ in the result objects the .additionalVideoStreamingCapabilities will be ommited
+ */
 - (NSArray <SDLVideoStreamingCapability *> *)allVideoStreamingCapabilities;
 
 /**

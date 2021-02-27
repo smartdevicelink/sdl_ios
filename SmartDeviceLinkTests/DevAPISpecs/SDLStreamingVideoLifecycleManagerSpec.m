@@ -64,7 +64,7 @@
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapabilityUpdated;
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
 
-- (void)shutDown;
+- (void)sdl_shutDown;
 - (NSArray<SDLVideoStreamingCapability *>* __nullable)matchVideoCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
 - (void)sdl_suspendVideo;
 - (void)didEnterStateVideoStreamStopped;
@@ -187,8 +187,8 @@ describe(@"init tests", ^{
 
         afterEach(^{
             if (streamingLifecycleManager) {
-                // shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
-                [streamingLifecycleManager shutDown];
+                // sdl_shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
+                [streamingLifecycleManager sdl_shutDown];
                 streamingLifecycleManager = nil;
             }
         });
@@ -428,8 +428,8 @@ describe(@"runtime tests", ^{
 
     afterEach(^{
         if (streamingLifecycleManager) {
-            // shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
-            [streamingLifecycleManager shutDown];
+            // sdl_shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
+            [streamingLifecycleManager sdl_shutDown];
             streamingLifecycleManager = nil;
         }
     });
@@ -1190,8 +1190,8 @@ describe(@"after sending GetSystemCapabilities", ^{
     afterEach(^{
         [strongDelegate reset];
         if (streamingLifecycleManager) {
-            // shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
-            [streamingLifecycleManager shutDown];
+            // sdl_shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
+            [streamingLifecycleManager sdl_shutDown];
             streamingLifecycleManager = nil;
         }
     });

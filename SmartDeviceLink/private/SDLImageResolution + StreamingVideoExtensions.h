@@ -14,7 +14,7 @@ typedef NS_ENUM(NSInteger, SDLImageResolutionKind) {
 };
 
 /**
- The resolution of an image
+ * The resolution of an image
  */
 @interface SDLImageResolution (StreamingVideoExtensions)
 
@@ -24,12 +24,15 @@ typedef NS_ENUM(NSInteger, SDLImageResolutionKind) {
 @property (nonatomic, readonly) SDLImageResolutionKind kind;
 
 /**
- It creates and returns a CGSize struct initialized with the resolution width and height
- @return CGSize struct
+ * Creates and returns a CGSize struct initialized with the resolution width and height
+ * @return CGSize struct
  */
 - (CGSize)makeSize;
 
-// the return value is always equals or above 1.0 if valid, or is 0.0 if size is invalid
+/**
+ * The return value is always equals or above 1.0 if valid, or is 0.0 if size is invalid
+ * @return The normalized aspect ratio
+ */
 - (float)normalizedAspectRatio;
 
 @end
