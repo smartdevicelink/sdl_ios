@@ -45,6 +45,7 @@ describe(@"the encryption lifecycle manager", ^{
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
+        testConnectionManager.systemInfo = [[SDLSystemInfo alloc] initWithMake:@"Make" model:@"Model" trim:@"Trim" modelYear:@"Model Year" softwareVersion:@"1.1.1.1" hardwareVersion:@"2.2.2.2"];
         testFakeSecurityManager = [[SDLFakeSecurityManager alloc] init];
 
         SDLEncryptionConfiguration *encryptionConfig = [[SDLEncryptionConfiguration alloc] initWithSecurityManagers:@[testFakeSecurityManager.class] delegate:nil];
@@ -63,122 +64,123 @@ describe(@"the encryption lifecycle manager", ^{
     describe(@"when started", ^{
         __block BOOL readyHandlerSuccess = NO;
         __block NSError *readyHandlerError = nil;
-        
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
-        
-        beforeEach(^{
-            readyHandlerSuccess = NO;
-            readyHandlerError = nil;
-            
-            [encryptionLifecycleManager startWithProtocol:protocolMock];
-        });
-        
-        it(@"should not be ready to encrypt", ^{
-            expect(encryptionLifecycleManager.isEncryptionReady).to(beFalse());
-        });
-        
-        describe(@"after receiving an RPC Start ACK", ^{
-            __block SDLProtocolHeader *testRPCHeader = nil;
-            __block SDLProtocolMessage *testRPCMessage = nil;
-            
+
+        context(@"when system info doesn't match", ^{
             beforeEach(^{
-                [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStarting fromOldState:nil callEnterTransition:YES];
-                
-                testRPCHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
-                testRPCHeader.frameType = SDLFrameTypeSingle;
-                testRPCHeader.frameData = SDLFrameInfoStartServiceACK;
-                testRPCHeader.encrypted = YES;
-                testRPCHeader.serviceType = SDLServiceTypeRPC;
-                
-                testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
-                [encryptionLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testRPCMessage];
+                readyHandlerSuccess = NO;
+                readyHandlerError = nil;
+
+                [encryptionLifecycleManager startWithProtocol:protocolMock];
             });
-            
-            it(@"should have set all the right properties", ^{
-                expect(encryptionLifecycleManager.isEncryptionReady).to(equal(YES));
-                expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateReady));
-            });
-        });
-        
-        describe(@"after receiving an RPC Start NAK", ^{
-            __block SDLProtocolHeader *testRPCHeader = nil;
-            __block SDLProtocolMessage *testRPCMessage = nil;
-            
-            beforeEach(^{
-                [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStarting fromOldState:nil callEnterTransition:NO];
-                
-                testRPCHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
-                testRPCHeader.frameType = SDLFrameTypeSingle;
-                testRPCHeader.frameData = SDLFrameInfoStartServiceNACK;
-                testRPCHeader.encrypted = NO;
-                testRPCHeader.serviceType = SDLServiceTypeRPC;
-                
-                testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
-                [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testRPCMessage];
-            });
-            
-            it(@"should have set all the right properties", ^{
-                expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
-            });
-        });
-        
-        describe(@"after receiving a RPC end ACK", ^{
-            __block SDLProtocolHeader *testRPCHeader = nil;
-            __block SDLProtocolMessage *testRPCMessage = nil;
-            
-            beforeEach(^{
-                [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStopped fromOldState:nil callEnterTransition:NO];
-                
-                testRPCHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
-                testRPCHeader.frameType = SDLFrameTypeSingle;
-                testRPCHeader.frameData = SDLFrameInfoEndServiceACK;
-                testRPCHeader.encrypted = NO;
-                testRPCHeader.serviceType = SDLServiceTypeRPC;
-                
-                testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
-                [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testRPCMessage];
-            });
-            
-            it(@"should have set all the right properties", ^{
-                expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
-            });
-        });
-        
-        describe(@"after receiving a RPC end NAK", ^{
-            __block SDLProtocolHeader *testRPCHeader = nil;
-            __block SDLProtocolMessage *testRPCMessage = nil;
-            
-            beforeEach(^{
-                [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStopped fromOldState:nil callEnterTransition:NO];
-                
-                testRPCHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
-                testRPCHeader.frameType = SDLFrameTypeSingle;
-                testRPCHeader.frameData = SDLFrameInfoEndServiceNACK;
-                testRPCHeader.encrypted = NO;
-                testRPCHeader.serviceType = SDLServiceTypeRPC;
-                
-                testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
-                [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testRPCMessage];
-            });
-            
-            it(@"should have set all the right properties", ^{
-                expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
+
+            it(@"should not be ready to encrypt", ^{
+                OCMVerify([protocolMock setSecurityManager:[OCMArg isNil]]);
+                expect(encryptionLifecycleManager.isEncryptionReady).to(beFalse());
             });
         });
 
-        describe(@"when a register app interface response is received", ^{
+        context(@"when security managers are available", ^{
             beforeEach(^{
-                OCMExpect([protocolMock setSecurityManager:[OCMArg any]]);
+                testConnectionManager.systemInfo.vehicleType.make = @"SDL";
+                readyHandlerSuccess = NO;
+                readyHandlerError = nil;
 
-                SDLRegisterAppInterfaceResponse *rair = [[SDLRegisterAppInterfaceResponse alloc] init];
-                rair.vehicleType = [[SDLVehicleType alloc] init];
-                rair.vehicleType.make = @"SDL";
-                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:nil rpcResponse:rair];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                [encryptionLifecycleManager startWithProtocol:protocolMock];
             });
 
-            it(@"should set the protocol's security manager", ^{
-                OCMVerifyAll((id)protocolMock);
+            it(@"should not be ready to encrypt", ^{
+                OCMVerify([protocolMock setSecurityManager:[OCMArg isNotNil]]);
+                expect(encryptionLifecycleManager.isEncryptionReady).to(beFalse());
+            });
+
+            describe(@"after receiving an RPC Start ACK", ^{
+                __block SDLProtocolHeader *testRPCHeader = nil;
+                __block SDLProtocolMessage *testRPCMessage = nil;
+
+                beforeEach(^{
+                    [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStarting fromOldState:nil callEnterTransition:YES];
+
+                    testRPCHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                    testRPCHeader.frameType = SDLFrameTypeSingle;
+                    testRPCHeader.frameData = SDLFrameInfoStartServiceACK;
+                    testRPCHeader.encrypted = YES;
+                    testRPCHeader.serviceType = SDLServiceTypeRPC;
+
+                    testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
+                    [encryptionLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testRPCMessage];
+                });
+
+                it(@"should have set all the right properties", ^{
+                    expect(encryptionLifecycleManager.isEncryptionReady).to(equal(YES));
+                    expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateReady));
+                });
+            });
+
+            describe(@"after receiving an RPC Start NAK", ^{
+                __block SDLProtocolHeader *testRPCHeader = nil;
+                __block SDLProtocolMessage *testRPCMessage = nil;
+
+                beforeEach(^{
+                    [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStarting fromOldState:nil callEnterTransition:NO];
+
+                    testRPCHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                    testRPCHeader.frameType = SDLFrameTypeSingle;
+                    testRPCHeader.frameData = SDLFrameInfoStartServiceNACK;
+                    testRPCHeader.encrypted = NO;
+                    testRPCHeader.serviceType = SDLServiceTypeRPC;
+
+                    testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
+                    [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testRPCMessage];
+                });
+
+                it(@"should have set all the right properties", ^{
+                    expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
+                });
+            });
+
+            describe(@"after receiving a RPC end ACK", ^{
+                __block SDLProtocolHeader *testRPCHeader = nil;
+                __block SDLProtocolMessage *testRPCMessage = nil;
+
+                beforeEach(^{
+                    [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStopped fromOldState:nil callEnterTransition:NO];
+
+                    testRPCHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                    testRPCHeader.frameType = SDLFrameTypeSingle;
+                    testRPCHeader.frameData = SDLFrameInfoEndServiceACK;
+                    testRPCHeader.encrypted = NO;
+                    testRPCHeader.serviceType = SDLServiceTypeRPC;
+
+                    testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
+                    [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceACK:testRPCMessage];
+                });
+
+                it(@"should have set all the right properties", ^{
+                    expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
+                });
+            });
+
+            describe(@"after receiving a RPC end NAK", ^{
+                __block SDLProtocolHeader *testRPCHeader = nil;
+                __block SDLProtocolMessage *testRPCMessage = nil;
+
+                beforeEach(^{
+                    [encryptionLifecycleManager.encryptionStateMachine setToState:SDLEncryptionLifecycleManagerStateStopped fromOldState:nil callEnterTransition:NO];
+
+                    testRPCHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                    testRPCHeader.frameType = SDLFrameTypeSingle;
+                    testRPCHeader.frameData = SDLFrameInfoEndServiceNACK;
+                    testRPCHeader.encrypted = NO;
+                    testRPCHeader.serviceType = SDLServiceTypeRPC;
+
+                    testRPCMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testRPCHeader andPayload:nil];
+                    [encryptionLifecycleManager protocol:protocolMock didReceiveEndServiceNAK:testRPCMessage];
+                });
+
+                it(@"should have set all the right properties", ^{
+                    expect(encryptionLifecycleManager.encryptionStateMachine.currentState).to(equal(SDLEncryptionLifecycleManagerStateStopped));
+                });
             });
         });
     });

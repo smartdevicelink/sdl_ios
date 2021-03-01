@@ -21,6 +21,7 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
 #import "SDLVersion.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,12 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
+@property (strong, nonatomic) SDLWindowCapability *windowCapability;
 
 @end
 
 @implementation SDLPresentKeyboardOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate  cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability {
     self = [super init];
     if (!self) { return self; }
 
@@ -53,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     _keyboardProperties = originalKeyboardProperties;
     _cancelId = cancelID;
     _operationId = [NSUUID UUID];
+    _windowCapability = windowCapability;
 
     return self;
 }
@@ -87,8 +90,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Sending Requests
 
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
+    // Create the keyboard configuration based on the window capability's keyboard capabilities
+    SDLKeyboardProperties *keyboardConfiguration = [self.windowCapability createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:self.keyboardProperties];
+    if (keyboardConfiguration == nil) {
+        if (completionHandler != nil) {
+            completionHandler();
+        }
+        return;
+    }
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
-    setProperties.keyboardProperties = self.keyboardProperties;
+    setProperties.keyboardProperties = keyboardConfiguration;
 
     [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
@@ -209,6 +220,12 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
         // Notify of abort / cancellation
         [self.keyboardDelegate keyboardDidAbortWithReason:onKeyboard.event];
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskDisabled]) {
+        // Notify of key mask change
+        if ([self.keyboardDelegate respondsToSelector:@selector(keyboardDidUpdateInputMask:)]) {
+            BOOL isEnabled = [onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+            [self.keyboardDelegate keyboardDidUpdateInputMask:isEnabled];
+        }
     }
 }
 

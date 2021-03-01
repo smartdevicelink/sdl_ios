@@ -489,7 +489,7 @@ describe(@"text and graphic manager", ^{
         beforeEach(^{
             testHMIStatus = [[SDLOnHMIStatus alloc] init];
 
-            testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
+            testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil keyboardCapabilities:nil];
             testDisplayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"Test display" windowCapabilities:@[testWindowCapability] windowTypeSupported:nil];
 
             OCMStub([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
@@ -554,7 +554,7 @@ describe(@"text and graphic manager", ^{
             SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testHMIStatus];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
-            testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil];
+            testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil keyboardCapabilities:nil];
             testDisplayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"Test display" windowCapabilities:@[testWindowCapability] windowTypeSupported:nil];
             testSystemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:@[testDisplayCapability]];
         });

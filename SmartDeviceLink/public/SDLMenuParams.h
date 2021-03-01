@@ -26,7 +26,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param parentId The unique ID of an existing submenu to which a command will be added
 /// @param position The position within the items of the parent Command Menu
 /// @return An instance of the add submenu class
-- (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position;
+- (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position __deprecated_msg("Use initWithMenuName:parentID:position:secondaryText:tertiaryText: instead");
+
+/**
+ * @param menuName - menuName
+ * @param parentID - parentID
+ * @param position - position
+ * @param secondaryText - secondaryText
+ * @param tertiaryText - tertiaryText
+ * @return A SDLMenuParams object
+ */
+- (instancetype)initWithMenuName:(NSString *)menuName parentID:(nullable NSNumber<SDLUInt> *)parentID position:(nullable NSNumber<SDLUInt> *)position secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText;
 
 /**
  * The unique ID of an existing submenu to which a command will be added
@@ -58,6 +68,22 @@ NS_ASSUME_NONNULL_BEGIN
  * Required, max length 500 characters
  */
 @property (strong, nonatomic) NSString *menuName;
+
+/**
+ * Optional secondary text to display
+ * {"string_min_length": 1, "string_max_length": 500}
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) NSString *secondaryText;
+
+/**
+ * Optional tertiary text to display
+ * {"string_min_length": 1, "string_max_length": 500}
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) NSString *tertiaryText;
 
 @end
 

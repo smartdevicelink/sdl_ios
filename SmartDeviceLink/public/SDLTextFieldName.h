@@ -232,6 +232,20 @@ extern SDLTextFieldName const SDLTextFieldNameAddressLines;
 extern SDLTextFieldName const SDLTextFieldNamePhoneNumber;
 
 /**
+ * Optional time to destination field for ShowConstantTBT
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameTimeToDestination;
+
+/**
+ * Turn text for turnList parameter of UpdateTurnList
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameTurnText;
+
+/**
  * The first line of the subtle alert text field; applies to `SubtleAlert` `alertText1`
  *
  * @since SDL 7.0.0
@@ -251,3 +265,31 @@ extern SDLTextFieldName const SDLTextFieldNameSubtleAlertText2;
  * @since SDL 7.0.0
  */
 extern SDLTextFieldName const SDLTextFieldNameSubtleAlertSoftButtonText;
+
+/**
+ * Secondary text for AddCommand
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameMenuCommandSecondaryText;
+
+/**
+ * Tertiary text for AddCommand
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameMenuCommandTertiaryText;
+
+/**
+ * Secondary text for AddSubMenu
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameMenuSubMenuSecondaryText;
+
+/**
+ * Tertiary text for AddSubMenu
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLTextFieldName const SDLTextFieldNameMenuSubMenuTertiaryText;

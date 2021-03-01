@@ -13,6 +13,7 @@
 #import "SDLSystemContext.h"
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLanguage.h"
+#import "SDLSystemInfo.h"
 #import "SDLVideoStreamingState.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -66,6 +67,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
  */
 - (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language hmiLanguage:(SDLLanguage)hmiLanguage;
+
+/**
+ * A way to determine if this SDL session should continue to be active while connected to the determined system information of the vehicle.
+ * @param systemInfo The system information of the vehicle that this session is currently active on.
+ * @return True if this session should continue, false if the session should end
+ */
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo NS_SWIFT_NAME(didReceive(systemInfo:));
 
 @end
 
