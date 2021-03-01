@@ -82,7 +82,10 @@ typedef NSNumber * SDLChoiceId;
 @end
 
 UInt16 const ChoiceCellIdMin = 1;
-UInt16 const ChoiceCellCancelIdMin = 1;
+
+// Assigns a set range of unique cancel ids in order to prevent overlap with other sub-screen managers that use cancel ids. If the max cancel id is reached, generation starts over from the cancel id min value.
+UInt16 const ChoiceCellCancelIdMin = 101;
+UInt16 const ChoiceCellCancelIdMax = 200;
 
 @implementation SDLChoiceSetManager
 
@@ -117,7 +120,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)start {
     SDLLogD(@"Starting manager");
 
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 
     if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
         [self.stateMachine transitionToState:SDLChoiceManagerStateCheckingVoiceOptional];
@@ -552,7 +555,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     __block UInt16 cancelId = 0;
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         cancelId = self->_nextCancelId;
-        self->_nextCancelId = cancelId + 1;
+        if (cancelId >= ChoiceCellCancelIdMax) {
+            self->_nextCancelId = ChoiceCellCancelIdMin;
+        } else {
+            self->_nextCancelId = cancelId + 1;
+        }
     }];
 
     return cancelId;
@@ -564,21 +571,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark - RPC Responses / Notifications
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
-    if (capabilities == nil || capabilities.count == 0) {
-        self.currentWindowCapability = nil;
-    } else {
-        SDLDisplayCapability *mainDisplay = capabilities[0];
-        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
-
-            self.currentWindowCapability = windowCapability;
-            break;
-        }
-    }
-
+- (void)sdl_displayCapabilityDidUpdate {
+    self.currentWindowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     [self sdl_updateTransactionQueueSuspended];
 }
 

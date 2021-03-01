@@ -22,6 +22,9 @@ extern SDLErrorDomain *const SDLErrorDomainCacheFileManager;
 /// An error in the SDLChoiceSetManager subset of SDLScreenManager
 extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 
+/// An error in the SDLAlertManager subset of SDLScreenManager
+extern SDLErrorDomain *const SDLErrorDomainAlertManager;
+
 /// An error in the SDLEncryptionLifecycleManager private class
 extern SDLErrorDomain *const SDLErrorDomainEncryptionLifecycleManager;
 
@@ -182,7 +185,7 @@ typedef NS_ENUM(NSInteger, SDLSubscribeButtonManagerError) {
 };
 
 /**
- Errors associated with the ScreenManager class
+ Errors associated with the Menu Manager class
  */
 typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     /// Sending menu-related RPCs returned an error from the remote system
@@ -190,7 +193,7 @@ typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     SDLMenuManagerErrorPendingUpdateSuperseded = -2
 };
 
-/// Errors associated with Choice Set class
+/// Errors associated with Choice Set Manager class
 typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     /// The choice set has been deleted before it was presented
     SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
@@ -206,6 +209,15 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
 
     /// Invalid state
     SDLChoiceSetManagerErrorInvalidState = -5
+};
+
+/// Errors associated with Alert Manager class
+typedef NS_ENUM(NSInteger, SDLAlertManagerError) {
+    /// There was an error presenting the alert
+    SDLAlertManagerPresentationError = -1,
+
+    /// The alert data is invalid
+    SDLAlertManagerInvalidDataError = -2,
 };
 
 /// Errors associated with the system capability manager

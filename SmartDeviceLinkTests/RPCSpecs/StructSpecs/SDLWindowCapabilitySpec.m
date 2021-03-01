@@ -18,6 +18,7 @@
 #import "SDLTextFieldName.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
+
 QuickSpecBegin(SDLWindowCapabilitySpec)
 
 __block SDLWindowCapability *testStruct = nil;
@@ -278,6 +279,113 @@ describe(@"creating a valid keyboard configuration based on keyboard capabilitie
                 expect(resultProperties.customKeys.count).to(equal(numConfigurableKeys));
                 expect(resultProperties.customKeys).to(equal(testCustomKeys));
             });
+        });
+    });
+});
+
+describe(@"extensions", ^{
+    describe(@"getting the max number of main field lines", ^{
+        __block SDLTextField *testTextField1 = nil;
+        __block SDLTextField *testTextField2 = nil;
+        __block SDLTextField *testTextField3 = nil;
+        __block SDLTextField *testTextField4 = nil;
+
+        beforeEach(^{
+            testTextField1 = [[SDLTextField alloc] init];
+            testTextField1.name = SDLTextFieldNameMainField1;
+
+            testTextField2 = [[SDLTextField alloc] init];
+            testTextField2.name = SDLTextFieldNameMainField2;
+
+            testTextField3 = [[SDLTextField alloc] init];
+            testTextField3.name = SDLTextFieldNameMainField3;
+
+            testTextField4 = [[SDLTextField alloc] init];
+            testTextField4.name = SDLTextFieldNameMainField4;
+
+            testStruct = [[SDLWindowCapability alloc] init];
+        });
+
+        it(@"should return 0 if none of the text fields are supported", ^ {
+            testStruct.textFields = @[];
+            NSUInteger maxNumberOfMainFieldLines = [testStruct maxNumberOfMainFieldLines];
+
+            expect(maxNumberOfMainFieldLines).to(equal(0));
+        });
+
+        it(@"should return 1 if only one text field is supported", ^ {
+            testStruct.textFields = @[testTextField1];
+            NSUInteger maxNumberOfMainFieldLines = [testStruct maxNumberOfMainFieldLines];
+
+            expect(maxNumberOfMainFieldLines).to(equal(1));
+        });
+
+        it(@"should return 2 if two text fields are supported", ^ {
+            testStruct.textFields = @[testTextField2, testTextField1];
+            NSUInteger maxNumberOfMainFieldLines = [testStruct maxNumberOfMainFieldLines];
+
+            expect(maxNumberOfMainFieldLines).to(equal(2));
+        });
+
+        it(@"should return 3 if all the text fields are supported", ^ {
+            testStruct.textFields = @[testTextField2, testTextField1, testTextField3];
+            NSUInteger maxNumberOfMainFieldLines = [testStruct maxNumberOfMainFieldLines];
+
+            expect(maxNumberOfMainFieldLines).to(equal(3));
+        });
+
+        it(@"should return 4 if all the text fields are supported", ^ {
+            testStruct.textFields = @[testTextField1, testTextField2, testTextField3, testTextField4];
+            NSUInteger maxNumberOfMainFieldLines = [testStruct maxNumberOfMainFieldLines];
+
+            expect(maxNumberOfMainFieldLines).to(equal(4));
+        });
+    });
+
+    describe(@"getting the max number of alert text field lines", ^{
+        __block SDLTextField *testAlertTextField1 = nil;
+        __block SDLTextField *testAlertTextField2 = nil;
+        __block SDLTextField *testAlertTextField3 = nil;
+
+        beforeEach(^{
+            testAlertTextField1 = [[SDLTextField alloc] init];
+            testAlertTextField1.name = SDLTextFieldNameAlertText1;
+
+            testAlertTextField2 = [[SDLTextField alloc] init];
+            testAlertTextField2.name = SDLTextFieldNameAlertText2;
+
+            testAlertTextField3 = [[SDLTextField alloc] init];
+            testAlertTextField3.name = SDLTextFieldNameAlertText3;
+
+            testStruct = [[SDLWindowCapability alloc] init];
+        });
+
+        it(@"should return 0 if none of the text fields are supported", ^ {
+            testStruct.textFields = @[];
+            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertFieldLines];
+
+            expect(maxNumberOfAlertMainFieldLines).to(equal(0));
+        });
+
+        it(@"should return 1 if only one text field is supported", ^ {
+            testStruct.textFields = @[testAlertTextField1];
+            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertFieldLines];
+
+            expect(maxNumberOfAlertMainFieldLines).to(equal(1));
+        });
+
+        it(@"should return 2 if two text fields are supported", ^ {
+            testStruct.textFields = @[testAlertTextField1, testAlertTextField2];
+            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertFieldLines];
+
+            expect(maxNumberOfAlertMainFieldLines).to(equal(2));
+        });
+
+        it(@"should return 3 if all the text fields are supported", ^ {
+            testStruct.textFields = @[testAlertTextField1, testAlertTextField2, testAlertTextField3];
+            NSUInteger maxNumberOfAlertMainFieldLines = [testStruct maxNumberOfAlertFieldLines];
+
+            expect(maxNumberOfAlertMainFieldLines).to(equal(3));
         });
     });
 });

@@ -105,7 +105,7 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)start {
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
 - (void)stop {
@@ -724,8 +724,7 @@ UInt32 const MenuCellIdMin = 1;
     [self sdl_callHandlerForCells:self.menuCells command:onCommand];
 }
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    // We won't use the object in the parameter but the convenience method of the system capability manager
+- (void)sdl_displayCapabilityDidUpdate {
     self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
 }
 

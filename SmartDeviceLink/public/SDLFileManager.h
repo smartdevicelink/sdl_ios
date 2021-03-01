@@ -146,7 +146,7 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
  * @param file the SDLFile that needs to be checked
  * @return BOOL that tells whether file needs to be uploaded to Core or not
  */
-- (BOOL)fileNeedsUpload:(SDLFile *)file;
+- (BOOL)fileNeedsUpload:(nullable SDLFile *)file;
 
 /**
  *  Uploads an artwork file to the remote file system and returns the name of the uploaded artwork once completed. If an artwork with the same name is already on the remote system, the artwork is not uploaded and the artwork name is simply returned.

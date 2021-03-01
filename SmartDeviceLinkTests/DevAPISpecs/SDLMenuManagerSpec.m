@@ -24,18 +24,18 @@
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
-
+@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (assign, nonatomic) BOOL waitingOnHMIUpdate;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
-@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
 
 - (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells;
+- (void)sdl_displayCapabilityDidUpdate;
 
 @end
 
@@ -163,6 +163,22 @@ describe(@"menu manager", ^{
                 expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
                 expect(testManager.menuConfiguration).to(equal(testMenuConfiguration));
             });
+        });
+    });
+
+    describe(@"display capability updates", ^{
+        beforeEach(^{
+            testManager.currentHMILevel = SDLHMILevelFull;
+            testManager.currentSystemContext = SDLSystemContextMain;
+        });
+
+        it(@"should save the new window capability", ^{
+            SDLWindowCapability *testWindowCapability = [[SDLWindowCapability alloc] init];
+            testWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1]];
+            OCMStub([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            [testManager sdl_displayCapabilityDidUpdate];
+
+            expect(testManager.windowCapability).to(equal(testWindowCapability));
         });
     });
 
