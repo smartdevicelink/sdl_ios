@@ -192,9 +192,9 @@ static NSUInteger const BinaryHeaderByteSize = 12;
 
 /// Calculates the max size of the data that can be set in the bulk data field for a PutFile to ensure that the PutFile is sent in a single frame packet. This size can vary due to the fact that JSON data included in the packet is different for each request. The size of the binary header, JSON, and frame header must be taken into account in order to make sure the packet size does not exceed the max MTU size allowed by SDL Core.
 /// Each RPC packet contains:
-///     binary header + JSON data + payload(binary header + JSON data + bulk data)
+///     frame header + payload(binary header + JSON data + bulk data)
 /// This means the bulk data size for each packet should not exceed:
-///     mtuSize - (binary header + JSON data + binary header)
+///     mtuSize - (binary header size + JSON data size + frame header size)
 /// @param file The file containing the data to be sent to the SDL Core
 /// @param mtuSize The maximum packet size allowed
 /// @return The max size of the data that can be set in the bulk data field
