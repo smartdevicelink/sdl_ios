@@ -673,8 +673,8 @@ UInt32 const MenuCellIdMin = 1;
     params.menuName = cell.title;
     params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
     params.position = @(position);
-    params.secondaryText = ([cell.secondaryText isEqualToString:@""]) ? nil : cell.secondaryText;
-    params.tertiaryText = ([cell.tertiaryText isEqualToString:@""]) ? nil : cell.tertiaryText;
+    params.secondaryText = (cell.secondaryText.length == 0) ? nil : cell.secondaryText;
+    params.tertiaryText = (cell.tertiaryText.length == 0) ? nil : cell.tertiaryText;
 
     command.menuParams = params;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
@@ -696,8 +696,8 @@ UInt32 const MenuCellIdMin = 1;
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
     
-    NSString *secondaryText = ([cell.secondaryText isEqualToString:@""]) ? nil : cell.secondaryText;
-    NSString *tertiaryText = ([cell.tertiaryText isEqualToString:@""]) ? nil : cell.tertiaryText;
+    NSString *secondaryText = (cell.secondaryText.length == 0) ? nil : cell.secondaryText;
+    NSString *tertiaryText = (cell.tertiaryText.length == 0) ? nil : cell.tertiaryText;
 
     return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:secondaryText tertiaryText:tertiaryText secondaryImage:secondaryImage];
 }
