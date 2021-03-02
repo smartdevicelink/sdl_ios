@@ -25,7 +25,7 @@
     for (NSUInteger index = 0; index < putFiles.count; index++) {
         SDLPutFile *putFile = putFiles[index];
 
-        NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData];
+        NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC];
         NSData *testBulkFileData = [testFileData subdataWithRange:NSMakeRange((index * mtuSize), MIN(putFile.length.unsignedIntegerValue, mtuSize))];
         unsigned long testBulkFileDataCrc = crc32(0, testBulkFileData.bytes, (uInt)testBulkFileData.length);
 
