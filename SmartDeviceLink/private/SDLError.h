@@ -55,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Menu Manager
 
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo;
++ (NSError *)sdl_voiceCommandManager_pendingUpdateSuperseded;
 
 #pragma mark Choice Set Manager
 
@@ -64,6 +65,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 + (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
 
+#pragma mark Alert Manager
+
++ (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime;
++ (NSError *)sdl_alertManager_alertDataInvalid;
++ (NSError *)sdl_alertManager_alertAudioFileNotSupported;
 
 #pragma mark System Capability Manager
 
@@ -94,9 +100,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSException (SDLExceptions)
 
++ (NSException *)sdl_duplicateSoftButtonsNameException;
 + (NSException *)sdl_missingHandlerException;
 + (NSException *)sdl_missingIdException;
 + (NSException *)sdl_missingFilesException;
++ (NSException *)sdl_invalidTTSSpeechCapabilitiesException;
++ (NSException *)sdl_invalidAlertSoftButtonStatesException;
 + (NSException *)sdl_invalidSoftButtonStateException;
 + (NSException *)sdl_carWindowOrientationException;
 + (NSException *)sdl_invalidLockscreenSetupException;

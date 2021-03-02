@@ -20,7 +20,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLTextFieldNameMainField4).to(equal(@"mainField4"));
         expect(SDLTextFieldNameTemplateTitle).to(equal(@"templateTitle"));
         expect(SDLTextFieldNameStatusBar).to(equal(@"statusBar"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLTextFieldNameMediaClock).to(equal(@"mediaClock"));
+#pragma clang diagnostic pop
         expect(SDLTextFieldNameMediaTrack).to(equal(@"mediaTrack"));
         expect(SDLTextFieldNameAlertText1).to(equal(@"alertText1"));
         expect(SDLTextFieldNameAlertText2).to(equal(@"alertText2"));
@@ -46,6 +49,12 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLTextFieldNameSubtleAlertText1).to(equal(@"subtleAlertText1"));
         expect(SDLTextFieldNameSubtleAlertText2).to(equal(@"subtleAlertText2"));
         expect(SDLTextFieldNameSubtleAlertSoftButtonText).to(equal("subtleAlertSoftButtonText"));
+        expect(SDLTextFieldNameTimeToDestination).to(equal(@"timeToDestination"));
+        expect(SDLTextFieldNameTurnText).to(equal(@"turnText"));
+        expect(SDLTextFieldNameMenuCommandSecondaryText).to(equal(@"menuCommandSecondaryText"));
+        expect(SDLTextFieldNameMenuCommandTertiaryText).to(equal(@"menuCommandTertiaryText"));
+        expect(SDLTextFieldNameMenuSubMenuSecondaryText).to(equal(@"menuSubMenuSecondaryText"));
+        expect(SDLTextFieldNameMenuSubMenuTertiaryText).to(equal(@"menuSubMenuTertiaryText"));
     });
 });
 

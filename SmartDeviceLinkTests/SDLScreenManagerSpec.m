@@ -2,11 +2,13 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLAlertManager.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
 #import "SDLGlobals.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuManager.h"
+#import "SDLPermissionManager.h"
 #import "SDLScreenManager.h"
 #import "SDLShow.h"
 #import "SDLSoftButtonManager.h"
@@ -17,6 +19,16 @@
 #import "SDLTextAndGraphicManager.h"
 #import "SDLVersion.h"
 #import "TestConnectionManager.h"
+
+@interface SDLAlertManager()
+
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
+@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
+@property (weak, nonatomic, nullable) SDLPermissionManager *permissionManager;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
+
+@end
 
 @interface SDLSoftButtonManager()
 
@@ -41,6 +53,7 @@
 @property (strong, nonatomic) SDLTextAndGraphicManager *textAndGraphicManager;
 @property (strong, nonatomic) SDLSoftButtonManager *softButtonManager;
 @property (strong, nonatomic) SDLMenuManager *menuManager;
+@property (strong, nonatomic) SDLAlertManager *alertManager;
 
 @end
 
@@ -50,6 +63,7 @@ describe(@"screen manager", ^{
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
     __block SDLSystemCapabilityManager *mockSystemCapabilityManager = nil;
+    __block SDLPermissionManager *mockPermissionManager = nil;
     __block SDLScreenManager *testScreenManager = nil;
 
     __block NSString *testString1 = @"test1";
@@ -77,8 +91,9 @@ describe(@"screen manager", ^{
         mockConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
         mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
+        mockPermissionManager = OCMClassMock([SDLPermissionManager class]);
 
-        testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
+        testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager permissionManager:mockPermissionManager];
     });
 
     // should set up the sub-managers correctly
@@ -87,6 +102,10 @@ describe(@"screen manager", ^{
         expect(testScreenManager.textAndGraphicManager.fileManager).to(equal(mockFileManager));
         expect(testScreenManager.softButtonManager.connectionManager).to(equal(mockConnectionManager));
         expect(testScreenManager.softButtonManager.fileManager).to(equal(mockFileManager));
+        expect(testScreenManager.alertManager.connectionManager).to(equal(mockConnectionManager));
+        expect(testScreenManager.alertManager.fileManager).to(equal(mockFileManager));
+        expect(testScreenManager.alertManager.systemCapabilityManager).to(equal(mockSystemCapabilityManager));
+        expect(testScreenManager.alertManager.permissionManager).to(equal(mockPermissionManager));
     });
 
     // batching updates
@@ -168,6 +187,17 @@ describe(@"screen manager", ^{
             [testScreenManager changeLayout:testTemplateConfig withCompletionHandler:nil];
 
             expect(testScreenManager.textAndGraphicManager.transactionQueue.operationCount).to(equal(1));
+        });
+    });
+
+    // presenting an alert
+    describe(@"presenting an alert", ^{
+        it(@"should pass the call to the alert manager", ^{
+            SDLAlertView *testAlertView = [[SDLAlertView alloc] initWithText:@"Test" buttons:@[[[SDLSoftButtonObject alloc] initWithName:@"Test Button" text:@"Test Button" artwork:nil handler:nil]]];
+
+            [testScreenManager presentAlert:testAlertView withCompletionHandler:nil];
+
+            expect(testScreenManager.alertManager.transactionQueue.operationCount).to(equal(1));
         });
     });
 });

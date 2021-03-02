@@ -82,7 +82,10 @@ typedef NSNumber * SDLChoiceId;
 @end
 
 UInt16 const ChoiceCellIdMin = 1;
-UInt16 const ChoiceCellCancelIdMin = 1;
+
+// Assigns a set range of unique cancel ids in order to prevent overlap with other sub-screen managers that use cancel ids. If the max cancel id is reached, generation starts over from the cancel id min value.
+UInt16 const ChoiceCellCancelIdMin = 101;
+UInt16 const ChoiceCellCancelIdMax = 200;
 
 @implementation SDLChoiceSetManager
 
@@ -117,7 +120,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)start {
     SDLLogD(@"Starting manager");
 
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 
     if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
         [self.stateMachine transitionToState:SDLChoiceManagerStateCheckingVoiceOptional];
@@ -147,6 +150,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"com.sdl.screenManager.choiceSetManager.transactionQueue";
     queue.maxConcurrentOperationCount = 1;
+    queue.qualityOfService = NSQualityOfServiceUserInteractive;
     queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
@@ -378,10 +382,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     SDLPresentChoiceSetOperation *presentOp = nil;
     if (delegate == nil) {
         // Non-searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
     } else {
         // Searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
     }
     self.pendingPresentOperation = presentOp;
 
@@ -420,7 +424,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     SDLLogD(@"Presenting keyboard with initial text: %@", initialText);
     // Present a keyboard with the choice set that we used to test VR's optional state
     UInt16 keyboardCancelId = self.nextCancelId;
-    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId];
+    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId windowCapability:self.currentWindowCapability];
     [self.transactionQueue addOperation:self.pendingPresentOperation];
     return @(keyboardCancelId);
 }
@@ -502,7 +506,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
     } else {
         SDLLogD(@"Updating keyboard configuration to a new configuration: %@", keyboardConfiguration);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         _keyboardConfiguration = [[SDLKeyboardProperties alloc] initWithLanguage:keyboardConfiguration.language layout:keyboardConfiguration.keyboardLayout keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:keyboardConfiguration.limitedCharacterList autoCompleteText:keyboardConfiguration.autoCompleteText autoCompleteList:keyboardConfiguration.autoCompleteList];
+#pragma clang diagnostic pop
 
         if (keyboardConfiguration.keypressMode != SDLKeypressModeResendCurrentEntry) {
             SDLLogW(@"Attempted to set a keyboard configuration with an invalid keypress mode; only .resentCurrentEntry is valid. This value will be ignored, the rest of the properties will be set.");
@@ -511,7 +518,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (SDLKeyboardProperties *)sdl_defaultKeyboardConfiguration {
-    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
+    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs keyboardLayout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
 }
 
 #pragma mark - Getters
@@ -548,7 +555,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     __block UInt16 cancelId = 0;
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         cancelId = self->_nextCancelId;
-        self->_nextCancelId = cancelId + 1;
+        if (cancelId >= ChoiceCellCancelIdMax) {
+            self->_nextCancelId = ChoiceCellCancelIdMin;
+        } else {
+            self->_nextCancelId = cancelId + 1;
+        }
     }];
 
     return cancelId;
@@ -560,21 +571,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark - RPC Responses / Notifications
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
-    if (capabilities == nil || capabilities.count == 0) {
-        self.currentWindowCapability = nil;
-    } else {
-        SDLDisplayCapability *mainDisplay = capabilities[0];
-        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
-
-            self.currentWindowCapability = windowCapability;
-            break;
-        }
-    }
-
+- (void)sdl_displayCapabilityDidUpdate {
+    self.currentWindowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     [self sdl_updateTransactionQueueSuspended];
 }
 

@@ -820,18 +820,37 @@ describe(@"the text and graphic operation", ^{
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
                     updatedState.secondaryGraphic = testArtwork2;
-
-                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
-                    [testOp start];
                 });
 
                 it(@"should send a show and not upload any artworks", ^{
+                    testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+                    [testOp start];
+
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
                     SDLShow *firstSentRequest = testConnectionManager.receivedRequests[0];
                     expect(firstSentRequest.mainField1).to(equal(field1String));
                     expect(firstSentRequest.mainField2).to(beEmpty());
                     expect(firstSentRequest.graphic).toNot(beNil());
                     expect(firstSentRequest.secondaryGraphic).to(beNil());
+                    OCMReject([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                });
+
+                it(@"should properly overwrite artwork", ^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
+                    SDLArtwork *testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
+                    testArtwork3.overwrite = YES;
+
+                    SDLTextAndGraphicState *updatedState2 = [[SDLTextAndGraphicState alloc] init];
+                    updatedState2.textField1 = field1String;
+                    updatedState2.primaryGraphic = testArtwork3;
+                    updatedState2.secondaryGraphic = testArtwork2;
+
+                    SDLTextAndGraphicUpdateOperation *testOp2 = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:updatedState newState:updatedState2 currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+                    [testOp2 start];
+
+                    [testConnectionManager respondToLastRequestWithResponse:successShowResponse];
+
+                    OCMVerify([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
             });
 
@@ -868,6 +887,7 @@ describe(@"the text and graphic operation", ^{
             // when there is text to update as well
             context(@"when there is text to update as well", ^{
                 beforeEach(^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
@@ -943,6 +963,7 @@ describe(@"the text and graphic operation", ^{
             // when there is no text to update
             context(@"when there is no text to update", ^{
                 beforeEach(^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.primaryGraphic = testArtwork;
 
@@ -972,6 +993,7 @@ describe(@"the text and graphic operation", ^{
             // when the image is a static icon
             context(@"when the image is a static icon", ^{
                 beforeEach(^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.primaryGraphic = testStaticIcon;
 
@@ -998,6 +1020,7 @@ describe(@"the text and graphic operation", ^{
             context(@"if the images for the primary and secondary graphics fail the upload process", ^{
                 beforeEach(^{
                     OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     NSArray<NSString *> *testSuccessfulArtworks = @[];
                     NSError *testError = [NSError errorWithDomain:@"errorDomain"
                                                              code:9
@@ -1030,6 +1053,7 @@ describe(@"the text and graphic operation", ^{
                     NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork.name];
                     NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork2.name:@"error 2"}];
                     OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] progressHandler:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;
@@ -1058,6 +1082,7 @@ describe(@"the text and graphic operation", ^{
                     NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork2.name];
                     NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork.name:@"error 2"}];
                     OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] progressHandler:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                     updatedState = [[SDLTextAndGraphicState alloc] init];
                     updatedState.textField1 = field1String;
                     updatedState.primaryGraphic = testArtwork;

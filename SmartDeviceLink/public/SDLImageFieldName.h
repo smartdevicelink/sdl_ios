@@ -125,3 +125,17 @@ extern SDLImageFieldName const SDLImageFieldNameSubMenuIcon;
  * @since SDL 7.0
  */
 extern SDLImageFieldName const SDLImageFieldNameSubtleAlertIcon;
+
+/**
+ * The secondary image field for AddCommand
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLImageFieldName const SDLImageFieldNameMenuCommandSecondaryImage;
+
+/**
+ * The secondary image field for AddSubMenu
+ *
+ * @added in SmartDeviceLink 7.0.0
+ */
+extern SDLImageFieldName const SDLImageFieldNameMenuSubMenuSecondaryImage;

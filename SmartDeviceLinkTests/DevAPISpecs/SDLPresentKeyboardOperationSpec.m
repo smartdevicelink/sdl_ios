@@ -33,6 +33,7 @@ describe(@"present keyboard operation", ^{
 
     __block BOOL hasCalledOperationCompletionHandler = NO;
     __block NSError *resultError = nil;
+    __block SDLWindowCapability *windowCapability = nil;
 
     beforeEach(^{
         testOp = nil;
@@ -43,7 +44,17 @@ describe(@"present keyboard operation", ^{
         testDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
         OCMStub([testDelegate customKeyboardConfiguration]).andReturn(nil);
 
-        testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa layout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
+        windowCapability = [[SDLWindowCapability alloc] init];
+        testInitialProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
+    });
+
+    afterEach(^{
+        if (testOp) {
+            // rationale: every test run creates a new operation to test, the old operation from a previous test
+            // stays 'undead' undefined time and can receive notifications causing a test fail at random
+            [[NSNotificationCenter defaultCenter] removeObserver:testOp];
+            testOp = nil;
+        }
     });
 
     it(@"should have a priority of 'normal'", ^{
@@ -54,7 +65,7 @@ describe(@"present keyboard operation", ^{
 
     describe(@"running the operation", ^{
         beforeEach(^{
-            testOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testInitialProperties initialText:testInitialText keyboardDelegate:testDelegate cancelID:testCancelID];
+            testOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testInitialProperties initialText:testInitialText keyboardDelegate:testDelegate cancelID:testCancelID windowCapability:windowCapability];
             testOp.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
             };
@@ -148,6 +159,25 @@ describe(@"present keyboard operation", ^{
                 }]]);
             });
 
+            it(@"should respond to enabled keyboard event", ^{
+                SDLRPCNotificationNotification *notification = nil;
+
+                // Submit notification
+                SDLOnKeyboardInput *input = [[SDLOnKeyboardInput alloc] init];
+                input.event = SDLKeyboardEventInputKeyMaskEnabled;
+                notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveKeyboardInputNotification object:nil rpcNotification:input];
+
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+                OCMVerify([testDelegate keyboardDidSendEvent:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+                }] text:[OCMArg isNil]]);
+
+                OCMVerify([testDelegate keyboardDidUpdateInputMask:[OCMArg checkWithBlock:^BOOL(id obj) {
+                    return [(SDLKeyboardEvent)obj isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+                }]]);
+            });
+
             it(@"should respond to cancellation notifications", ^{
                 SDLRPCNotificationNotification *notification = nil;
 
@@ -194,7 +224,10 @@ describe(@"present keyboard operation", ^{
                 expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLSetGlobalProperties class]));
 
                 SDLSetGlobalProperties *setProperties = testConnectionManager.receivedRequests.lastObject;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 expect(setProperties.keyboardProperties.autoCompleteText).to(equal(inputData));
+#pragma clang diagnostic pop
             });
 
             it(@"should respond to text input notification with character set", ^{
@@ -257,7 +290,7 @@ describe(@"present keyboard operation", ^{
 
     describe(@"Canceling the keyboard", ^{
         beforeEach(^{
-            testOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testInitialProperties initialText:testInitialText keyboardDelegate:testDelegate cancelID:testCancelID];
+            testOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testInitialProperties initialText:testInitialText keyboardDelegate:testDelegate cancelID:testCancelID windowCapability:windowCapability];
             testOp.completionBlock = ^{
                 hasCalledOperationCompletionHandler = YES;
             };

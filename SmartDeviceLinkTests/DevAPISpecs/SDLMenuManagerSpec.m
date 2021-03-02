@@ -24,16 +24,18 @@
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
-
+@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (assign, nonatomic) BOOL waitingOnHMIUpdate;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
-@property (strong, nonatomic, nullable) SDLWindowCapability *windowCapability;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
+
+- (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells;
+- (void)sdl_displayCapabilityDidUpdate;
 
 @end
 
@@ -46,6 +48,7 @@ describe(@"menu manager", ^{
     __block SDLSystemCapabilityManager *mockSystemCapabilityManager = nil;
     __block SDLArtwork *testArtwork = nil;
     __block SDLArtwork *testArtwork2 = nil;
+    __block SDLArtwork *testArtwork3 = nil;
 
     __block SDLMenuCell *textOnlyCell = nil;
     __block SDLMenuCell *textOnlyCell2 = nil;
@@ -58,12 +61,14 @@ describe(@"menu manager", ^{
     beforeEach(^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
         testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name 2" fileExtension:@"png" persistent:NO];
+        testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
+        testArtwork3.overwrite = YES;
 
-        textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell]];
-        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell]];
-        textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
+        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
+        textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
         testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutTiles defaultSubmenuLayout:SDLMenuLayoutList];
 
@@ -75,9 +80,13 @@ describe(@"menu manager", ^{
 
         SDLImageField *commandIconField = [[SDLImageField alloc] init];
         commandIconField.name = SDLImageFieldNameCommandIcon;
+        SDLImageField *subMenuSecondaryArtworkField = [[SDLImageField alloc] init];
+        subMenuSecondaryArtworkField.name = SDLImageFieldNameMenuSubMenuSecondaryImage;
+        SDLImageField *commandSecondaryArtworkField = [[SDLImageField alloc] init];
+        commandSecondaryArtworkField.name = SDLImageFieldNameMenuCommandSecondaryImage;
         SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
         windowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
-        windowCapability.imageFields = @[commandIconField];
+        windowCapability.imageFields = @[commandIconField, subMenuSecondaryArtworkField, commandSecondaryArtworkField];
         windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
         windowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
         testManager.windowCapability = windowCapability;
@@ -157,6 +166,22 @@ describe(@"menu manager", ^{
         });
     });
 
+    describe(@"display capability updates", ^{
+        beforeEach(^{
+            testManager.currentHMILevel = SDLHMILevelFull;
+            testManager.currentSystemContext = SDLSystemContextMain;
+        });
+
+        it(@"should save the new window capability", ^{
+            SDLWindowCapability *testWindowCapability = [[SDLWindowCapability alloc] init];
+            testWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1]];
+            OCMStub([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            [testManager sdl_displayCapabilityDidUpdate];
+
+            expect(testManager.windowCapability).to(equal(testWindowCapability));
+        });
+    });
+
     describe(@"updating menu cells", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
@@ -171,13 +196,27 @@ describe(@"menu manager", ^{
         });
 
         context(@"duplicate VR commands", ^{
-            __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil voiceCommands:@[@"Cat", @"Dog"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
             it(@"should fail when menu items have duplicate vr commands", ^{
                 testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
                 expect(testManager.menuCells).to(beEmpty());
             });
+        });
+
+        it(@"should check if all artworks are uploaded and return NO", ^{
+            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:testArtwork handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            testManager.menuCells = @[textAndImageCell, textOnlyCell];
+            OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
+            expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beFalse());
+        });
+
+        it(@"should check if all artworks are uploaded and return NO", ^{
+            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            testManager.menuCells = @[textAndImageCell, textOnlyCell];
+            OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
+            expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beFalse());
         });
 
         it(@"should properly update a text cell", ^{
@@ -213,6 +252,13 @@ describe(@"menu manager", ^{
                     OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
                 });
 
+                it(@"should check if all artworks are uploaded", ^{
+                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                    testManager.menuCells = @[textAndImageCell, textOnlyCell];
+                    OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
+                    expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beTrue());
+                });
+
                 it(@"should properly update an image cell", ^{
                     testManager.menuCells = @[textAndImageCell, submenuImageCell];
 
@@ -228,6 +274,14 @@ describe(@"menu manager", ^{
                     expect(submenu).to(haveCount(1));
                     expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
                     expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
+                    OCMReject([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+                });
+
+                it(@"should properly overwrite an image cell", ^{
+                    OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
+                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                    testManager.menuCells = @[textAndImageCell, submenuImageCell];
+                    OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
             });
 
@@ -511,7 +565,7 @@ describe(@"menu manager", ^{
 
         context(@"on a main menu cell", ^{
             beforeEach(^{
-                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
                     cellCalled = YES;
                     testTriggerSource = triggerSource;
                 }];
@@ -534,12 +588,12 @@ describe(@"menu manager", ^{
 
         context(@"on a submenu menu cell", ^{
             beforeEach(^{
-                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
                     cellCalled = YES;
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler]];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
 
                 testManager.menuCells = @[submenuCell];
             });

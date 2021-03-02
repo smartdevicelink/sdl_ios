@@ -24,6 +24,7 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
 #import "SDLVersion.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -60,12 +61,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readwrite, nullable) SDLChoiceCell *selectedCell;
 @property (strong, nonatomic, readwrite, nullable) SDLTriggerSource selectedTriggerSource;
 @property (assign, nonatomic, readwrite) NSUInteger selectedCellRow;
+@property (strong, nonatomic) SDLWindowCapability *windowCapability;
 
 @end
 
 @implementation SDLPresentChoiceSetOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability {
     self = [super init];
     if (!self) { return self; }
 
@@ -86,6 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
     _cancelId = cancelID;
 
     _selectedCellRow = NSNotFound;
+    _windowCapability = windowCapability;
 
     return self;
 }
@@ -121,15 +124,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Sending Requests
 
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
-    if (self.keyboardProperties == nil) {
+    // Create the keyboard configuration based on the window capability's keyboard capabilities
+    SDLKeyboardProperties *modifiedKeyboardConfig = [self.windowCapability createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:self.keyboardProperties];
+    if (modifiedKeyboardConfig == nil) {
         if (completionHandler != nil) {
             completionHandler();
         }
         return;
     }
-
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
-    setProperties.keyboardProperties = self.keyboardProperties;
+    setProperties.keyboardProperties = modifiedKeyboardConfig;
 
     __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -278,7 +282,10 @@ NS_ASSUME_NONNULL_BEGIN
                 }
 
                 weakself.keyboardProperties.autoCompleteList = (newList.count > 0) ? newList : @[];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 weakself.keyboardProperties.autoCompleteText = (newList.count > 0) ? newList.firstObject : nil;
+#pragma clang diagnostic pop
                 [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
             }];
         }
@@ -292,6 +299,12 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
         // Notify of abort / cancellation
         [self.keyboardDelegate keyboardDidAbortWithReason:onKeyboard.event];
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskDisabled]) {
+        // Notify of key mask change
+        if ([self.keyboardDelegate respondsToSelector:@selector(keyboardDidUpdateInputMask:)]) {
+            BOOL isEnabled = [onKeyboard.event isEqualToEnum:SDLKeyboardEventInputKeyMaskEnabled];
+            [self.keyboardDelegate keyboardDidUpdateInputMask:isEnabled];
+        }
     }
 }
 

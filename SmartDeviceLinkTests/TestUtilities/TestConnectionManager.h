@@ -9,23 +9,23 @@
 #import <Foundation/Foundation.h>
 #import "SDLConnectionManagerType.h"
 #import "SDLNotificationConstants.h"
+#import "TestConnectionRequestObject.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TestConnectionManager : NSObject <SDLConnectionManagerType>
 
+@property (strong, nonatomic, nullable) SDLSystemInfo *systemInfo;
+
 @property (copy, nonatomic, readonly) NSError *defaultError;
 
 /**
  *  All received requests. Chronological order. The 0th element will be the first request received; the nth request will be the n+1th request received.
  */
-@property (copy, nonatomic, readonly) NSMutableArray<__kindof SDLRPCMessage *> *receivedRequests;
+@property (copy, nonatomic, readonly) NSMutableArray<__kindof TestConnectionRequestObject *> *receivedRequestObjects;
 
-/**
- *  The block passed for the last request send with sendRequest:withCompletionHandler:
- */
-@property (copy, nonatomic, nullable) SDLResponseHandler lastRequestBlock;
+@property (copy, nonatomic, readonly) NSArray<__kindof SDLRPCMessage *> *receivedRequests;
 
 @property (copy, nonatomic, nullable) NSMutableArray<SDLMultipleRequestCompletionHandler> *multipleCompletionBlocks;
 

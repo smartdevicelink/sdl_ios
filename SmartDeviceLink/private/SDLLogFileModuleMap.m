@@ -36,6 +36,7 @@
                                  [self sdl_screenManagerSubscribeButtonModule],
                                  [self sdl_screenManagerMenuModule],
                                  [self sdl_screenManagerChoiceSetModule],
+                                 [self sdl_screenManagerAlertModule],
                                  [self sdl_utilitiesModule]]];
 }
 
@@ -129,8 +130,12 @@
     return [SDLLogFileModule moduleWithName:@"Screen/SubscribeButton" files:[NSSet setWithArray:@[@"SDLSubscribeButtonManager", @"SDLSubscribeButtonObserver"]]];
 }
 
++ (SDLLogFileModule *)sdl_screenManagerAlertModule {
+    return [SDLLogFileModule moduleWithName:@"Screen/Alert" files:[NSSet setWithArray:@[@"SDLAlertManager", @"SDLAlertView", @"SDLAlertAudioData", @"SDLPresentAlertOperation"]]];
+}
+
 + (SDLLogFileModule *)sdl_screenManagerMenuModule {
-    return [SDLLogFileModule moduleWithName:@"Screen/Menu" files:[NSSet setWithArray:@[@"SDLMenuManager", @"SDLVoiceCommandManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Screen/Menu" files:[NSSet setWithArray:@[@"SDLMenuManager", @"SDLVoiceCommandManager", @"SDLVoiceCommandUpdateOperation"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerChoiceSetModule {

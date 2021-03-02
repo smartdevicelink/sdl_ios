@@ -23,19 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *secondaryTransports;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSNumber *> *audioServiceTransports;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSNumber *> *videoServiceTransports;
+@property (copy, nonatomic, readwrite, nullable) NSString *make;
+@property (copy, nonatomic, readwrite, nullable) NSString *model;
+@property (copy, nonatomic, readwrite, nullable) NSString *trim;
+@property (copy, nonatomic, readwrite, nullable) NSString *modelYear;
+@property (copy, nonatomic, readwrite, nullable) NSString *systemSoftwareVersion;
+@property (copy, nonatomic, readwrite, nullable) NSString *systemHardwareVersion;
 
 @end
 
 
 @implementation SDLControlFramePayloadRPCStartServiceAck
 
-- (instancetype)initWithHashId:(int32_t)hashId
-                           mtu:(int64_t)mtu
-                     authToken:(nullable NSString *)authToken
-               protocolVersion:(nullable NSString *)protocolVersion
-           secondaryTransports:(nullable NSArray<NSString *> *)secondaryTransports
-        audioServiceTransports:(nullable NSArray<NSNumber *> *)audioServiceTransports
-        videoServiceTransports:(nullable NSArray<NSNumber *> *)videoServiceTransports {
+- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu authToken:(nullable NSString *)authToken protocolVersion:(nullable NSString *)protocolVersion secondaryTransports:(nullable NSArray<NSString *> *)secondaryTransports audioServiceTransports:(nullable NSArray<NSNumber *> *)audioServiceTransports videoServiceTransports:(nullable NSArray<NSNumber *> *)videoServiceTransports make:(nullable NSString *)make model:(nullable NSString *)model trim:(nullable NSString *)trim modelYear:(nullable NSString *)modelYear systemSoftwareVersion:(nullable NSString *)systemSoftwareVersion systemHardwareVersion:(nullable NSString *)systemHardwareVersion {
     self = [super init];
     if (!self) return nil;
 
@@ -46,6 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
     _secondaryTransports = secondaryTransports;
     _audioServiceTransports = audioServiceTransports;
     _videoServiceTransports = videoServiceTransports;
+    _make = make;
+    _model = model;
+    _trim = trim;
+    _modelYear = modelYear;
+    _systemSoftwareVersion = systemSoftwareVersion;
+    _systemHardwareVersion = systemHardwareVersion;
 
     return self;
 }
@@ -105,6 +111,30 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_addServiceTransports:&payloadObject fromArray:self.audioServiceTransports forKey:SDLControlFrameAudioServiceTransportsKey];
     [self sdl_addServiceTransports:&payloadObject fromArray:self.videoServiceTransports forKey:SDLControlFrameVideoServiceTransportsKey];
 
+    if (self.make != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameVehicleMakeKey, (char *)self.make.UTF8String);
+    }
+
+    if (self.model != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameVehicleModelKey, (char *)self.model.UTF8String);
+    }
+
+    if (self.trim != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameVehicleTrimKey, (char *)self.trim.UTF8String);
+    }
+
+    if (self.modelYear != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameVehicleModelYearKey, (char *)self.modelYear.UTF8String);
+    }
+
+    if (self.systemSoftwareVersion != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameVehicleSoftwareVersionKey, (char *)self.systemSoftwareVersion.UTF8String);
+    }
+
+    if (self.systemHardwareVersion != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameVehicleHardwareVersionKey, (char *)self.systemHardwareVersion.UTF8String);
+    }
+
     BytePtr bsonData = bson_object_to_bytes(&payloadObject);
     NSUInteger length = bson_object_size(&payloadObject);
 
@@ -147,6 +177,36 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.audioServiceTransports = [self sdl_getServiceTransports:&payloadObject forKey:SDLControlFrameAudioServiceTransportsKey];
     self.videoServiceTransports = [self sdl_getServiceTransports:&payloadObject forKey:SDLControlFrameVideoServiceTransportsKey];
+
+    char *makeString = bson_object_get_string(&payloadObject, SDLControlFrameVehicleMakeKey);
+    if (makeString != NULL) {
+        self.make = [NSString stringWithUTF8String:makeString];
+    }
+
+    char *modelString = bson_object_get_string(&payloadObject, SDLControlFrameVehicleModelKey);
+    if (modelString != NULL) {
+        self.model = [NSString stringWithUTF8String:modelString];
+    }
+
+    char *trimString = bson_object_get_string(&payloadObject, SDLControlFrameVehicleTrimKey);
+    if (trimString != NULL) {
+        self.trim = [NSString stringWithUTF8String:trimString];
+    }
+
+    char *modelYearString = bson_object_get_string(&payloadObject, SDLControlFrameVehicleModelYearKey);
+    if (modelYearString != NULL) {
+        self.modelYear = [NSString stringWithUTF8String:modelYearString];
+    }
+
+    char *softwareVersionString = bson_object_get_string(&payloadObject, SDLControlFrameVehicleSoftwareVersionKey);
+    if (softwareVersionString != NULL) {
+        self.systemSoftwareVersion = [NSString stringWithUTF8String:softwareVersionString];
+    }
+
+    char *hardwareVersionString = bson_object_get_string(&payloadObject, SDLControlFrameVehicleHardwareVersionKey);
+    if (hardwareVersionString != NULL) {
+        self.systemHardwareVersion = [NSString stringWithUTF8String:hardwareVersionString];
+    }
 
     bson_object_deinitialize(&payloadObject);
 }

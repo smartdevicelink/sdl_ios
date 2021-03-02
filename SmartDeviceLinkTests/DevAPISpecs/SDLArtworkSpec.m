@@ -162,6 +162,39 @@ describe(@"SDLArtwork Tests", ^{
             expect(expectedName1).toNot(equal(expectedName2));
         });
     });
+
+    describe(@"copying the image", ^{
+        context(@"a dynamic image", ^{
+            beforeEach(^{
+                expectedArtwork = [[SDLArtwork alloc] initWithImage:testImagePNGTemplate persistent:YES asImageFormat:SDLArtworkImageFormatPNG];
+                expectedArtwork.overwrite = YES;
+            });
+
+            it(@"should copy correctly", ^{
+                SDLArtwork *copiedArtwork = [expectedArtwork copy];
+                expect(copiedArtwork.isTemplate).to(equal(expectedArtwork.isTemplate));
+                expect(copiedArtwork.data).to(equal(expectedArtwork.data));
+                expect(copiedArtwork.imageRPC).to(equal(expectedArtwork.imageRPC));
+                expect(copiedArtwork.overwrite).to(equal(expectedArtwork.overwrite));
+                expect(copiedArtwork.isStaticIcon).to(equal(expectedArtwork.isStaticIcon));
+            });
+        });
+
+        context(@"a static image", ^{
+            beforeEach(^{
+                expectedArtwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
+            });
+
+            it(@"should copy correctly", ^{
+                SDLArtwork *copiedArtwork = [expectedArtwork copy];
+                expect(copiedArtwork.isTemplate).to(equal(expectedArtwork.isTemplate));
+                expect(copiedArtwork.data).to(equal(expectedArtwork.data));
+                expect(copiedArtwork.imageRPC).to(equal(expectedArtwork.imageRPC));
+                expect(copiedArtwork.overwrite).to(equal(expectedArtwork.overwrite));
+                expect(copiedArtwork.isStaticIcon).to(equal(expectedArtwork.isStaticIcon));
+            });
+        });
+    });
 });
 
 QuickSpecEnd

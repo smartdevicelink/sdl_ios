@@ -50,8 +50,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendNewSoftButtons {
+    // HAX: Work around a bug in Sync where not sending a main field when sending soft buttons will lock up the head unit for 10-15 seconds.
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.mainField1 = self.mainField1;
+    newShow.mainField1 = self.mainField1 ?: @"";
     newShow.softButtons = [self sdl_currentStateSoftButtonsForObjects:self.softButtons];
 
     [self.connectionManager sendConnectionRequest:newShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {

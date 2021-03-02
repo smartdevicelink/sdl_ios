@@ -49,7 +49,6 @@
 @property (weak, nonatomic) SDLProtocol *protocol;
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 
 @end
 
@@ -65,6 +64,7 @@ describe(@"the streaming video manager", ^{
     __block SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
     __block SDLConfiguration *testConfig = nil;
+    SDLSystemInfo *testSystemInfo = [[SDLSystemInfo alloc] initWithMake:@"Livio" model:@"Model" trim:@"Trim" modelYear:@"2021" softwareVersion:@"1.1.1.1" hardwareVersion:@"2.2.2.2"];
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) = ^(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -81,6 +81,7 @@ describe(@"the streaming video manager", ^{
         testConfiguration.dataSource = testDataSource;
         testConfiguration.rootViewController = testViewController;
         testConnectionManager = [[TestConnectionManager alloc] init];
+        testConnectionManager.systemInfo = testSystemInfo;
 
         testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
 
@@ -151,11 +152,13 @@ describe(@"the streaming video manager", ^{
 
         describe(@"after receiving a register app interface response", ^{
             __block SDLRegisterAppInterfaceResponse *someRegisterAppInterfaceResponse = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             __block SDLDisplayCapabilities *someDisplayCapabilities = nil;
+#pragma clang diagnostic pop
             __block SDLScreenParams *someScreenParams = nil;
             __block SDLImageResolution *someImageResolution = nil;
             __block SDLHMICapabilities *someHMICapabilities = nil;
-            __block SDLVehicleType *testVehicleType = nil;
 
             beforeEach(^{
                 someImageResolution = [[SDLImageResolution alloc] init];
@@ -164,9 +167,6 @@ describe(@"the streaming video manager", ^{
 
                 someScreenParams = [[SDLScreenParams alloc] init];
                 someScreenParams.resolution = someImageResolution;
-
-                testVehicleType = [[SDLVehicleType alloc] init];
-                testVehicleType.make = @"TestVehicleType";
             });
 
             describe(@"that does not support video streaming", ^{
@@ -176,16 +176,14 @@ describe(@"the streaming video manager", ^{
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
                     someRegisterAppInterfaceResponse.hmiCapabilities = someHMICapabilities;
-                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
                 });
 
-                it(@"should save the connected vehicle make but not the screen size", ^{
+                it(@"should not save the screen size", ^{
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).toEventually(equal(@YES));
-                    expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
 
@@ -194,7 +192,10 @@ describe(@"the streaming video manager", ^{
                     someHMICapabilities = [[SDLHMICapabilities alloc] init];
                     someHMICapabilities.videoStreaming = @YES;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
                     someDisplayCapabilities.screenParams = someScreenParams;
 
                     someRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
@@ -203,18 +204,14 @@ describe(@"the streaming video manager", ^{
 #pragma clang diagnostic ignored "-Wdeprecated"
                     someRegisterAppInterfaceResponse.displayCapabilities = someDisplayCapabilities;
 #pragma clang diagnostic pop
-                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
-
-                    someRegisterAppInterfaceResponse.vehicleType = testVehicleType;
 
                     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:someRegisterAppInterfaceResponse];
 
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
                 });
 
-                it(@"should save the connected vehicle make and the screen size", ^{
+                it(@"should save the screen size", ^{
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).toEventually(equal(@YES));
-                    expect(streamingLifecycleManager.connectedVehicleMake).toEventually(equal(testVehicleType.make));
                 });
             });
         });
@@ -492,7 +489,7 @@ describe(@"the streaming video manager", ^{
                             response.systemCapability = [[SDLSystemCapability alloc] init];
                             response.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
 
-                            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported diagonalScreenSize:8.5 pixelPerInch:117 scale:1.25];
+                            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:@(maxBitrate) supportedFormats:testFormats hapticSpatialDataSupported:@(testHapticsSupported) diagonalScreenSize:@(8.5) pixelPerInch:@(117) scale:@(1.25) preferredFPS:@(15)];
                             response.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
                             [testConnectionManager respondToLastRequestWithResponse:response];
                         });
@@ -768,7 +765,6 @@ describe(@"the streaming video manager", ^{
             [streamingLifecycleManager endVideoServiceWithCompletionHandler:^ {
                 handlerCalled = YES;
             }];
-            streamingLifecycleManager.connectedVehicleMake = @"OEM_make_2";
         });
 
         context(@"when the manager is not stopped", ^{
@@ -780,7 +776,6 @@ describe(@"the streaming video manager", ^{
             it(@"should transition to the stopped state", ^{
                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 expect(streamingLifecycleManager.protocol).to(beNil());
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
@@ -798,7 +793,6 @@ describe(@"the streaming video manager", ^{
             it(@"should stay in the stopped state", ^{
                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 expect(streamingLifecycleManager.protocol).to(beNil());
-                expect(streamingLifecycleManager.connectedVehicleMake).to(beNil());
                 expect(streamingLifecycleManager.hmiLevel).to(equal(SDLHMILevelNone));
                 expect(streamingLifecycleManager.videoStreamingState).to(equal(SDLVideoStreamingStateNotStreamable));
                 expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
