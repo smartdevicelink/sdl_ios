@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TestConnectionManager : NSObject <SDLConnectionManagerType>
 
+@property (strong, nonatomic, nullable) SDLSystemInfo *systemInfo;
+
 @property (copy, nonatomic, readonly) NSError *defaultError;
 
 /**

@@ -22,6 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLMenuCell
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands handler:(SDLMenuCellSelectionHandler)handler {
+    return [self initWithTitle:title icon:icon voiceCommands:voiceCommands secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:handler];
+}
+
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells {
+    return [self initWithTitle:title icon:icon submenuLayout:layout subCells:subCells secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
+}
+
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork handler:(SDLMenuCellSelectionHandler)handler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -33,10 +41,15 @@ NS_ASSUME_NONNULL_BEGIN
     _cellId = UINT32_MAX;
     _parentCellId = UINT32_MAX;
 
+    _secondaryText = secondaryText;
+    _tertiaryText = tertiaryText;
+    _secondaryArtwork = secondaryArtwork;
+
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells {
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork {
+
     self = [super init];
     if (!self) { return nil; }
 
@@ -47,6 +60,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     _cellId = UINT32_MAX;
     _parentCellId = UINT32_MAX;
+
+    _secondaryText = secondaryText;
+    _tertiaryText = tertiaryText;
+    _secondaryArtwork = secondaryArtwork;
 
     return self;
 }
@@ -67,7 +84,10 @@ NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
     ^ NSUIntRotateCell(self.voiceCommands.hash, NSUIntBitCell / 4)
     ^ NSUIntRotateCell(self.subCells.count !=0, NSUIntBitCell  / 5)
-    ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 6);
+    ^ NSUIntRotateCell(self.secondaryText.hash, NSUIntBitCell  / 6)
+    ^ NSUIntRotateCell(self.tertiaryText.hash, NSUIntBitCell  / 7)
+    ^ NSUIntRotateCell(self.secondaryArtwork.name.hash, NSUIntBitCell  / 8)
+    ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 9);
 }
 
 - (BOOL)isEqual:(id)object {

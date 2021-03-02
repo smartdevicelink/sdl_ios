@@ -302,6 +302,37 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
 }
 
+#pragma mark Alert Manager
+
++ (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime {
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: @"The alert presentation failed",
+        NSLocalizedFailureReasonErrorKey: @"Either the alert failed to present on the module or it was dismissed early after being shown",
+        NSLocalizedRecoverySuggestionErrorKey: @"Please check the \"error\" key and the \"tryAgainTime\" keys for more information",
+        @"tryAgainTime": @(tryAgainTime),
+        @"error": error
+    };
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerPresentationError userInfo:userInfo];
+}
+
++ (NSError *)sdl_alertManager_alertDataInvalid {
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: @"The alert data is invalid",
+        NSLocalizedFailureReasonErrorKey: @"At least either text, secondaryText or audio needs to be provided",
+        NSLocalizedRecoverySuggestionErrorKey: @"Make sure to set at least the text, secondaryText or audio properties on the SDLAlertView"
+    };
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
+}
+
++ (NSError *)sdl_alertManager_alertAudioFileNotSupported {
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: @"The module does not support the use of only audio file data in an alert",
+        NSLocalizedFailureReasonErrorKey: @"The alert has no data and can not be sent to the module",
+        NSLocalizedRecoverySuggestionErrorKey: @"The use of audio file data in an alert is only supported on modules supporting RPC Spec v5.0 or newer"
+    };
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
+}
+
 #pragma mark System Capability Manager
 
 + (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities {
@@ -430,6 +461,14 @@ NS_ASSUME_NONNULL_BEGIN
             exceptionWithName:@"MissingFilesNames"
             reason:@"This request requires that the array of files not be empty"
             userInfo:nil];
+}
+
++ (NSException *)sdl_invalidTTSSpeechCapabilitiesException {
+    return [NSException exceptionWithName:@"InvalidTTSSpeechCapabilities" reason:@"Attempting to create a text-to-speech string with an invalid phonetic type. The phoneticType must be of type `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED`." userInfo:nil];
+}
+
++ (NSException *)sdl_invalidAlertSoftButtonStatesException {
+    return [NSException exceptionWithName:@"InvalidSoftButtonStates" reason:@"Attempting to create a soft button for an Alert with more than one state. Alerts only support soft buttons with one state" userInfo:nil];
 }
 
 + (NSException *)sdl_invalidSoftButtonStateException {
