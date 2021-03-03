@@ -195,6 +195,7 @@ describe(@"a soft button manager", ^{
         });
     });
 
+    // valid button objects (button objects have different names)
     describe(@"valid button objects (button objects have different names)", ^{
         beforeEach(^{
             SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
@@ -210,6 +211,7 @@ describe(@"a soft button manager", ^{
             testManager.softButtonObjects = @[testObject1, testObject2];
         });
 
+        // should set soft buttons correctly
         it(@"should set soft buttons correctly", ^{
             expect(testManager.softButtonObjects).toEventuallyNot(beNil());
             expect(testObject1.buttonId).toEventually(equal(1));
@@ -221,13 +223,16 @@ describe(@"a soft button manager", ^{
             expect(testManager.transactionQueue.operationCount).toEventually(equal(1));
         });
 
+        // should replace earlier operations when a replace operation is entered
         it(@"should replace earlier operations when a replace operation is entered", ^{
             [testObject1 transitionToNextState];
             testManager.softButtonObjects = @[testObject1];
-            expect(testManager.transactionQueue.operationCount).toEventually(equal(3));
-            expect(testManager.transactionQueue.operations[0].isCancelled).toEventually(beTrue());
-            expect(testManager.transactionQueue.operations[1].isCancelled).toEventually(beTrue());
-            expect(testManager.transactionQueue.operations[2].isCancelled).toEventually(beFalse());
+            [NSThread sleepForTimeInterval:0.5]; // Necessary to not get range exceptions with toEventually?
+
+            expect(testManager.transactionQueue.operationCount).to(equal(3));
+            expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
+            expect(testManager.transactionQueue.operations[1].isCancelled).to(beTrue());
+            expect(testManager.transactionQueue.operations[2].isCancelled).to(beFalse());
         });
 
         it(@"should retrieve soft buttons correctly", ^{
