@@ -40,12 +40,11 @@ describe(@"the audio stream manager", ^{
                     [mockAudioManager clearData];
                     [testManager playNextWhenReady];
                     // playNextWhenReady dispatches to a new thread so the test can sometimes fail due to timing issues even when using `toEventually`.
-                    [NSThread sleepForTimeInterval:0.1];
                 });
 
                 it(@"should fail to send data", ^{
-                    expect(mockAudioManager.dataSinceClear.length).toEventually(equal(0));
-                    expect(mockAudioManager.error.code).toEventually(equal(SDLAudioStreamManagerErrorNotConnected));
+                    expect(mockAudioManager.dataSinceClear.length).withTimeout(3.0).toEventually(equal(0));
+                    expect(mockAudioManager.error.code).withTimeout(3.0).toEventually(equal(SDLAudioStreamManagerErrorNotConnected));
                 });
             });
         });
