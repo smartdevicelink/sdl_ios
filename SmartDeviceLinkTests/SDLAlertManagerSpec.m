@@ -186,8 +186,8 @@ describe(@"alert manager tests", ^{
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
             expect(presentAlertOp1.isExecuting).to(beTrue());
             expect(presentAlertOp2.isExecuting).to(beFalse());
-            expect(presentAlertOp2.currentWindowCapability).to(equal(testWindowCapability));
-            expect(presentAlertOp1.currentWindowCapability).to(equal(testWindowCapability));
+            expect(presentAlertOp2.currentWindowCapability).toEventually(equal(testWindowCapability));
+            expect(presentAlertOp1.currentWindowCapability).toEventually(equal(testWindowCapability));
         });
     });
 
