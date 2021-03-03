@@ -295,11 +295,10 @@ describe(@"a lifecycle manager", ^{
                 beforeEach(^{
                     [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
                     [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
-                    [NSThread sleepForTimeInterval:0.1];
                 });
                 
                 it(@"should be in the started state", ^{
-                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReconnecting));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReconnecting));
                 });
             });
             
@@ -491,11 +490,10 @@ describe(@"a lifecycle manager", ^{
                     OCMStub([protocolMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
                     OCMStub([secondaryTransportManagerMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
                     [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
-                    [NSThread sleepForTimeInterval:1.0];
                 });
                 
                 it(@"should enter the started state", ^{
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStarted));
+                    expect(testManager.lifecycleState).withTimeout(3.0).toEventually(equal(SDLLifecycleStateStarted));
                 });
             });
             

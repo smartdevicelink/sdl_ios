@@ -39,7 +39,6 @@ describe(@"the audio stream manager", ^{
                 beforeEach(^{
                     [mockAudioManager clearData];
                     [testManager playNextWhenReady];
-                    // playNextWhenReady dispatches to a new thread so the test can sometimes fail due to timing issues even when using `toEventually`.
                 });
 
                 it(@"should fail to send data", ^{
@@ -88,13 +87,7 @@ describe(@"the audio stream manager", ^{
             it(@"should be sending data", ^{
                 expect(testManager.isPlaying).toEventually(beTrue());
                 expect(mockAudioManager.dataSinceClear.length).toEventually(equal(34380));
-
-                // wait for the delegate to be called when the audio finishes
-                float waitTime = 1.1 + 0.25; // length of audio in testAudioFileURL + 0.25 buffer
-                NSLog(@"Please wait %f for audio file to finish playing...", waitTime);
-                [NSThread sleepForTimeInterval:waitTime];
-
-                expect(mockAudioManager.finishedPlaying).toEventually(beTrue());
+                expect(mockAudioManager.finishedPlaying).withTimeout(3.0).toEventually(beTrue());
             });
         });
 

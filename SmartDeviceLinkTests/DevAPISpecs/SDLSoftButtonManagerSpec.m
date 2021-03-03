@@ -208,18 +208,17 @@ describe(@"a soft button manager", ^{
             testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
 
             testManager.softButtonObjects = @[testObject1, testObject2];
-            [NSThread sleepForTimeInterval:0.1];
         });
 
         it(@"should set soft buttons correctly", ^{
-            expect(testManager.softButtonObjects).toNot(beNil());
-            expect(testObject1.buttonId).to(equal(1));
-            expect(testObject2.buttonId).to(equal(2));
-            expect(testObject1.manager).to(equal(testManager));
-            expect(testObject2.manager).to(equal(testManager));
+            expect(testManager.softButtonObjects).toEventuallyNot(beNil());
+            expect(testObject1.buttonId).toEventually(equal(1));
+            expect(testObject2.buttonId).toEventually(equal(2));
+            expect(testObject1.manager).toEventually(equal(testManager));
+            expect(testObject2.manager).toEventually(equal(testManager));
 
             // One replace operation
-            expect(testManager.transactionQueue.operationCount).to(equal(1));
+            expect(testManager.transactionQueue.operationCount).toEventually(equal(1));
         });
 
         it(@"should replace earlier operations when a replace operation is entered", ^{
