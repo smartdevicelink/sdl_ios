@@ -224,10 +224,10 @@ describe(@"a soft button manager", ^{
         it(@"should replace earlier operations when a replace operation is entered", ^{
             [testObject1 transitionToNextState];
             testManager.softButtonObjects = @[testObject1];
-            expect(testManager.transactionQueue.operationCount).to(equal(3));
-            expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
-            expect(testManager.transactionQueue.operations[1].isCancelled).to(beTrue());
-            expect(testManager.transactionQueue.operations[2].isCancelled).to(beFalse());
+            expect(testManager.transactionQueue.operationCount).toEventually(equal(3));
+            expect(testManager.transactionQueue.operations[0].isCancelled).toEventually(beTrue());
+            expect(testManager.transactionQueue.operations[1].isCancelled).toEventually(beTrue());
+            expect(testManager.transactionQueue.operations[2].isCancelled).toEventually(beFalse());
         });
 
         it(@"should retrieve soft buttons correctly", ^{
