@@ -146,6 +146,8 @@ describe(@"voice command manager", ^{
                     SDLVoiceCommandUpdateOperation *firstOp = testManager.transactionQueue.operations[0];
                     firstOp.currentVoiceCommands = [@[testVoiceCommand2] mutableCopy];
                     [firstOp finishOperation];
+
+                    [NSThread sleepForTimeInterval:0.5];
                 });
 
                 it(@"should update the second operation", ^{
