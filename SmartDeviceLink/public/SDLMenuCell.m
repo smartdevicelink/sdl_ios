@@ -22,14 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLMenuCell
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands handler:(SDLMenuCellSelectionHandler)handler {
-    return [self initWithTitle:title icon:icon voiceCommands:voiceCommands secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:handler];
+    return [self initWithTitle:title secondaryText:nil tertiaryText:nil icon:icon secondaryArtwork:nil voiceCommands:voiceCommands handler:handler];
 }
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells {
-    return [self initWithTitle:title icon:icon submenuLayout:layout subCells:subCells secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
+    return [self initWithTitle:title secondaryText:nil tertiaryText:nil icon:icon secondaryArtwork:nil submenuLayout:layout subCells:subCells];
 }
 
-- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork handler:(SDLMenuCellSelectionHandler)handler {
+- (instancetype)initWithTitle:(NSString *)title secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText icon:(nullable SDLArtwork *)icon secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork voiceCommands:(nullable NSArray<NSString *> *)voiceCommands handler:(SDLMenuCellSelectionHandler)handler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork {
+- (instancetype)initWithTitle:(NSString *)title secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText icon:(nullable SDLArtwork *)icon secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells {
 
     self = [super init];
     if (!self) { return nil; }
