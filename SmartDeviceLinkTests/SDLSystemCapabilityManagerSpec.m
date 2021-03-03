@@ -611,8 +611,7 @@ describe(@"System capability manager", ^{
                     expect(systemCapabilityManager.phoneCapability).to(beNil());
                 }];
 
-                [NSThread sleepForTimeInterval:0.1];
-
+                [NSThread sleepForTimeInterval:0.1]; // This still needs to be here to ensure request is sent first
                 [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
@@ -628,8 +627,7 @@ describe(@"System capability manager", ^{
                     expect(error).to(beNil());
                 }];
 
-                [NSThread sleepForTimeInterval:0.1];
-
+                [NSThread sleepForTimeInterval:0.1]; // This still needs to be here to ensure request is sent first
                 [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });

@@ -726,13 +726,9 @@ describe(@"the secondary transport manager ", ^{
 
                     OCMExpect([testStreamingProtocolDelegate transportClosed]);
 
-                    // Wait for the timer to elapse
-                    float waitTime = RegisterTransportTime;
-                    NSLog(@"Please wait for register transport timer to elapse... (for %.02f seconds)", waitTime);
-                    [NSThread sleepForTimeInterval:waitTime];
+                    [NSThread sleepForTimeInterval:RegisterTransportTime]; // This still needs to be here to ensure that the Verify happens correctly
 
                     OCMVerifyAllWithDelay(testStreamingProtocolDelegate, 0.5);
-
                     expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
                 });
 
@@ -743,12 +739,7 @@ describe(@"the secondary transport manager ", ^{
 
                     [testSecondaryProtocolMock onTransportConnected];
 
-                    // Wait for the timer to elapse
-                    float waitTime = RegisterTransportTime;
-                    NSLog(@"Please wait for register transport timer to elapse... (for %.02f seconds)", waitTime);
-                    [NSThread sleepForTimeInterval:waitTime];
-
-                    expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateReconnecting));
+                    expect(manager.stateMachine.currentState).withTimeout(3.0).toEventually(equal(SDLSecondaryTransportStateReconnecting));
                 });
             });
         });
@@ -1011,12 +1002,7 @@ describe(@"the secondary transport manager ", ^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateReconnecting fromOldState:nil callEnterTransition:YES];
                 });
 
-                // wait for the timer
-                float waitTime = RetryConnectionDelay;
-                NSLog(@"Please wait for reconnection timeout... (for %.02f seconds)", waitTime);
-                [NSThread sleepForTimeInterval:waitTime];
-
-                expect(manager.stateMachine.currentState).toEventually(equal(SDLSecondaryTransportStateConfigured));
+                expect(manager.stateMachine.currentState).withTimeout(10.0).toEventually(equal(SDLSecondaryTransportStateConfigured));
             });
         });
 
