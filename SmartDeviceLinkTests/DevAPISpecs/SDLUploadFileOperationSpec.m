@@ -5,6 +5,7 @@
 #import "SDLFile.h"
 #import "SDLFileWrapper.h"
 #import "SDLGlobals.h"
+#import "SDLProtocolHeader.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
 #import "SDLUploadFileOperation.h"
@@ -26,10 +27,11 @@
         SDLPutFile *putFile = putFiles[index];
 
         NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC];
-        NSData *testBulkFileData = [testFileData subdataWithRange:NSMakeRange((index * mtuSize), MIN(putFile.length.unsignedIntegerValue, mtuSize))];
+        NSUInteger maxBulkDataSize = [self.class testMaxBulkDataSizeForFile:testFile mtuSize:mtuSize];
+        NSData *testBulkFileData = [testFileData subdataWithRange:NSMakeRange((index * maxBulkDataSize), MIN(putFile.length.unsignedIntegerValue, maxBulkDataSize))];
         unsigned long testBulkFileDataCrc = crc32(0, testBulkFileData.bytes, (uInt)testBulkFileData.length);
 
-        expect(putFile.offset).to(equal(@(index * mtuSize)));
+        expect(putFile.offset).to(equal(@(index * maxBulkDataSize)));
         expect(putFile.persistentFile).to(equal(@NO));
         expect(putFile.sdlFileName).to(equal(testFile.name));
         expect(putFile.bulkData).to(equal(testBulkFileData));
@@ -41,12 +43,28 @@
             expect(putFile.length).to(equal(@([testFile fileSize])));
         } else if (index == putFiles.count - 1) {
             // The last pufile contains the remaining data size
-            expect(putFile.length).to(equal(@([testFile fileSize] - (index * mtuSize))));
+            expect(putFile.length).to(equal(@([testFile fileSize] - (index * maxBulkDataSize))));
         } else {
             // All other putfiles contain the max data size for a putfile packet
-            expect(putFile.length).to(equal(@(mtuSize)));
+            expect(putFile.length).to(equal(@(maxBulkDataSize)));
         }
     }
+}
+
++ (NSUInteger)testNumberOfPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize {
+    NSUInteger maxBulkDataSize = [self.class testMaxBulkDataSizeForFile:file mtuSize:mtuSize];
+    return (((file.fileSize - 1) / maxBulkDataSize) + 1);
+}
+
++ (NSUInteger)testMaxBulkDataSizeForFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize {
+    NSUInteger frameHeaderSize = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major].size;
+    NSUInteger binaryHeaderSize = 12;
+
+    SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.persistent systemFile:NO offset:(UInt32)file.fileSize length:(UInt32)file.fileSize bulkData:file.data];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[putFile serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:nil];
+    NSUInteger maxJSONSize = jsonData.length;
+
+    return mtuSize - (binaryHeaderSize + maxJSONSize + frameHeaderSize);
 }
 
 @end
@@ -58,7 +76,7 @@ describe(@"Streaming upload of data", ^{
     __block NSData *testFileData = nil;
     __block SDLFile *testFile = nil;
     __block SDLFileWrapper *testFileWrapper = nil;
-    __block NSUInteger numberOfPutFiles = 0;
+    __block NSUInteger expectedNumberOfPutFiles = 0;
 
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLUploadFileOperation *testOperation = nil;
@@ -67,14 +85,18 @@ describe(@"Streaming upload of data", ^{
     __block NSUInteger bytesAvailableResult = NO;
     __block NSError *errorResult = nil;
 
+    __block int testMTUSize = 1024;
+
     beforeEach(^{
         [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"2.0.0"];
+        // Since SDLGlobals is a singleton, the MTU size can be set by other test classes (i.e. the value returned can vary based on when these tests are run in relation to all the tests). Set the MTU size for this test suite to ensure the `mtuSize` is the same every time it is run.
+        [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)testMTUSize forServiceType:SDLServiceTypeRPC];
 
         testFileName = nil;
         testFileData = nil;
         testFile = nil;
         testFileWrapper = nil;
-        numberOfPutFiles = 0;
+        expectedNumberOfPutFiles = 0;
 
         testOperation = nil;
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -85,12 +107,18 @@ describe(@"Streaming upload of data", ^{
     });
 
     describe(@"When uploading data", ^{
+        __block NSInteger spaceLeft = 0;
+        __block SDLPutFileResponse *successResponse = nil;
+
+        beforeEach(^{
+            spaceLeft = 11212512;
+        });
+
         context(@"data should be split into smaller packets if too large to send all at once", ^{
             it(@"should split the data from a short chunk of text in memory correctly", ^{
                 testFileName = @"TestSmallMemory";
                 testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
                 testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
-                __block NSInteger spaceLeft = 11212512;
 
                 testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                     expect(success).to(beTrue());
@@ -98,36 +126,33 @@ describe(@"Streaming upload of data", ^{
                     expect(error).to(beNil());
                 }];
 
-                numberOfPutFiles = ((([testFile fileSize] - 1) / [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData]) + 1);
+                expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
 
                 testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
                 [testOperation start];
 
-                NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
-                expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
-                [UploadFileOperationSpecHelpers testPutFiles:putFiles data:testFileData file:testFile];
+                __block NSArray<SDLPutFile *> *testPutFiles = testConnectionManager.receivedRequests;
+                expect(@(testPutFiles.count)).to(equal(@(expectedNumberOfPutFiles)));
 
-                __block SDLPutFileResponse *goodResponse = nil;
+                [UploadFileOperationSpecHelpers testPutFiles:testPutFiles data:testFileData file:testFile];
 
-                // We must do some cleanup here otherwise the unit test cases will crash
-                for (int i = 0; i < numberOfPutFiles; i++) {
-                    spaceLeft -= 1024;
-                    goodResponse = [[SDLPutFileResponse alloc] init];
-                    goodResponse.success = @YES;
-                    goodResponse.spaceAvailable = @(spaceLeft);
-                    [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
+                // Respond to each PutFile request
+                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
+                    successResponse = [[SDLPutFileResponse alloc] init];
+                    successResponse.success = @YES;
+                    successResponse.spaceAvailable = @(spaceLeft -= 1024);
+                    [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
                 expect(testOperation.finished).toEventually(beTrue());
                 expect(testOperation.executing).toEventually(beFalse());
             });
 
-            it(@"should split the data from a large image in memory correctly", ^{
+            fit(@"should split the data from a large image in memory correctly", ^{
                 testFileName = @"TestLargeMemory";
                 UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
                 testFileData = UIImageJPEGRepresentation(testImage, 1.0);
                 testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
-                __block NSInteger spaceLeft = 11212512;
 
                 testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                     expect(success).to(beTrue());
@@ -135,24 +160,21 @@ describe(@"Streaming upload of data", ^{
                     expect(error).to(beNil());
                 }];
 
-                numberOfPutFiles = ((([testFile fileSize] - 1) / [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData]) + 1);
+                expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
 
                 testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
-                expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
+                expect(@(putFiles.count)).to(equal(@(expectedNumberOfPutFiles)));
                 [UploadFileOperationSpecHelpers testPutFiles:putFiles data:testFileData file:testFile];
 
-                __block SDLPutFileResponse *goodResponse = nil;
-
-                // We must do some cleanup here otherwise the unit test cases will crash
-                for (int i = 0; i < numberOfPutFiles; i++) {
-                    spaceLeft -= 1024;
-                    goodResponse = [[SDLPutFileResponse alloc] init];
-                    goodResponse.success = @YES;
-                    goodResponse.spaceAvailable = @(spaceLeft);
-                    [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
+                // Respond to each PutFile request
+                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
+                    successResponse = [[SDLPutFileResponse alloc] init];
+                    successResponse.success = @YES;
+                    successResponse.spaceAvailable = @(spaceLeft -= 1024);
+                    [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
                 expect(testOperation.finished).toEventually(beTrue());
@@ -160,13 +182,11 @@ describe(@"Streaming upload of data", ^{
             });
 
             it(@"should split the data from a small text file correctly", ^{
-                NSString *fileName = @"testFileJSON";
-                testFileName = fileName;
-                NSString *textFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:fileName ofType:@"json"];
+                testFileName = @"testFileJSON";
+                NSString *textFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:testFileName ofType:@"json"];
                 NSURL *textFileURL = [[NSURL alloc] initFileURLWithPath:textFilePath];
-                testFile = [SDLFile fileAtFileURL:textFileURL name:fileName];
+                testFile = [SDLFile fileAtFileURL:textFileURL name:testFileName];
                 testFileData = [[NSData alloc] initWithContentsOfURL:textFileURL];
-                __block NSInteger spaceLeft = 11212512;
 
                 testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                     expect(success).to(beTrue());
@@ -174,24 +194,21 @@ describe(@"Streaming upload of data", ^{
                     expect(error).to(beNil());
                 }];
 
-                numberOfPutFiles = ((([testFile fileSize] - 1) / [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData]) + 1);
+                expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
 
                 testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
-                expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
+                expect(@(putFiles.count)).to(equal(@(expectedNumberOfPutFiles)));
                 [UploadFileOperationSpecHelpers testPutFiles:putFiles data:testFileData file:testFile];
 
-                __block SDLPutFileResponse *goodResponse = nil;
-
-                // We must do some cleanup here otherwise the unit test cases will crash
-                for (int i = 0; i < numberOfPutFiles; i++) {
-                    spaceLeft -= 1024;
-                    goodResponse = [[SDLPutFileResponse alloc] init];
-                    goodResponse.success = @YES;
-                    goodResponse.spaceAvailable = @(spaceLeft);
-                    [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
+                // Respond to each PutFile request
+                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
+                    successResponse = [[SDLPutFileResponse alloc] init];
+                    successResponse.success = @YES;
+                    successResponse.spaceAvailable = @(spaceLeft -= 1024);
+                    [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
                 expect(testOperation.finished).toEventually(beTrue());
@@ -204,9 +221,6 @@ describe(@"Streaming upload of data", ^{
                 NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:fileName ofType:@"png"];
                 NSURL *imageFileURL = [[NSURL alloc] initFileURLWithPath:imageFilePath];
                 testFile = [SDLFile fileAtFileURL:imageFileURL name:fileName];
-                __block NSInteger spaceLeft = 11212512;
-
-                // For testing: get data to check if data chunks are being created correctly
                 testFileData = [[NSData alloc] initWithContentsOfURL:imageFileURL];
 
                 testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
@@ -215,30 +229,27 @@ describe(@"Streaming upload of data", ^{
                     expect(error).to(beNil());
                 }];
 
-                numberOfPutFiles = ((([testFile fileSize] - 1) / [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData]) + 1);
+                expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
 
                 testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
-                expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
+                expect(@(putFiles.count)).to(equal(@(expectedNumberOfPutFiles)));
                 [UploadFileOperationSpecHelpers testPutFiles:putFiles data:testFileData file:testFile];
 
-                __block SDLPutFileResponse *goodResponse = nil;
-
                 // We must do some cleanup here otherwise the unit test cases will crash
-                for (int i = 0; i < numberOfPutFiles; i++) {
-                    spaceLeft -= 1024;
-                    goodResponse = [[SDLPutFileResponse alloc] init];
-                    goodResponse.success = @YES;
-                    goodResponse.spaceAvailable = @(spaceLeft);
-                    [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
+                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
+                    successResponse = [[SDLPutFileResponse alloc] init];
+                    successResponse.success = @YES;
+                    successResponse.spaceAvailable = @(spaceLeft -= 1024);
+                    [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
                 expect(testOperation.finished).toEventually(beTrue());
                 expect(testOperation.executing).toEventually(beFalse());
             });
-        });
+        });;
     });
 
     describe(@"When a response to the data upload comes back", ^{
@@ -253,9 +264,7 @@ describe(@"Streaming upload of data", ^{
                 errorResult = error;
             }];
 
-            NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData];
-
-            numberOfPutFiles = ((([testFile fileSize] - 1) / mtuSize) + 1);
+            expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
 
             testConnectionManager = [[TestConnectionManager alloc] init];
             testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
@@ -263,21 +272,19 @@ describe(@"Streaming upload of data", ^{
         });
 
         context(@"If data was sent successfully", ^{
-            __block SDLPutFileResponse *goodResponse = nil;
             __block NSInteger spaceLeft = 0;
+            __block SDLPutFileResponse *successResponse = nil;
 
             beforeEach(^{
-                goodResponse = nil;
                 spaceLeft = 11212512;
             });
 
             it(@"should have called the completion handler with success only if all packets were sent successfully", ^{
-                for (int i = 0; i < numberOfPutFiles; i++) {
-                    spaceLeft -= 1024;
-                    goodResponse = [[SDLPutFileResponse alloc] init];
-                    goodResponse.success = @YES;
-                    goodResponse.spaceAvailable = @(spaceLeft);
-                    [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
+                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
+                    successResponse = [[SDLPutFileResponse alloc] init];
+                    successResponse.success = @YES;
+                    successResponse.spaceAvailable = @(spaceLeft -= 1024);
+                    [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
                 expect(successResult).toEventually(beTrue());
@@ -293,21 +300,19 @@ describe(@"Streaming upload of data", ^{
             __block SDLPutFileResponse *response = nil;
             __block NSString *responseErrorDescription = nil;
             __block NSString *responseErrorReason = nil;
+            __block NSError *error = nil;
             __block NSInteger spaceLeft = 0;
 
             beforeEach(^{
-                response = nil;
                 responseErrorDescription = nil;
                 responseErrorReason = nil;
                 spaceLeft = 11212512;
             });
 
             it(@"should have called the completion handler with error if the first packet was not sent successfully", ^{
-                for (int i = 0; i < numberOfPutFiles; i++) {
-                    spaceLeft -= 1024;
+                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
                     response = [[SDLPutFileResponse alloc] init];
-                    response.spaceAvailable = @(spaceLeft);
-                    NSError *error = nil;
+                    response.spaceAvailable = @(spaceLeft -= 1024);
 
                     if (i == 0) {
                         // Only the first packet is sent unsuccessfully
@@ -317,6 +322,7 @@ describe(@"Streaming upload of data", ^{
                         error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
                     } else  {
                         response.success = @YES;
+                        error = nil;
                     }
 
                     [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
@@ -328,13 +334,11 @@ describe(@"Streaming upload of data", ^{
             });
 
             it(@"should have called the completion handler with error if the last packet was not sent successfully", ^{
-                for (int i = 0; i < numberOfPutFiles; i++) {
-                    spaceLeft -= 1024;
+                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
                     response = [[SDLPutFileResponse alloc] init];
-                    response.spaceAvailable = @(spaceLeft);
-                    NSError *error = nil;
+                    response.spaceAvailable = @(spaceLeft -= 1024);
 
-                    if (i == (numberOfPutFiles - 1)) {
+                    if (i == (expectedNumberOfPutFiles - 1)) {
                         // Only the last packet is sent unsuccessfully
                         response.success = @NO;
                         responseErrorDescription = @"some description";
@@ -342,6 +346,7 @@ describe(@"Streaming upload of data", ^{
                         error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
                     } else  {
                         response.success = @YES;
+                        error = nil;
                     }
 
                     [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
@@ -353,11 +358,10 @@ describe(@"Streaming upload of data", ^{
             });
 
             it(@"should have called the completion handler with error if all packets were not sent successfully", ^{
-                for (int i = 0; i < numberOfPutFiles; i++) {
-                    spaceLeft -= 1024;
+                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
                     response = [[SDLPutFileResponse alloc] init];
                     response.success = @NO;
-                    response.spaceAvailable = @(spaceLeft);
+                    response.spaceAvailable = @(spaceLeft -= 1024);
 
                     responseErrorDescription = @"some description";
                     responseErrorReason = @"some reason";
@@ -410,3 +414,6 @@ describe(@"Streaming upload of data", ^{
 });
 
 QuickSpecEnd
+
+
+
