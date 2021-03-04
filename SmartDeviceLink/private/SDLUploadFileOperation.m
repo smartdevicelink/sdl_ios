@@ -196,7 +196,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 /// Each RPC packet contains:
 ///     frame header + payload(binary header + JSON data + bulk data)
 /// This means the bulk data size for each packet should not exceed:
-///     mtuSize - (binary header size + JSON data size + frame header size)
+///     mtuSize - (binary header size + maximum possible JSON data size + frame header size)
 /// @param file The file containing the data to be sent to the SDL Core
 /// @param mtuSize The maximum packet size allowed
 /// @return The max size of the data that can be set in the bulk data field
