@@ -151,9 +151,7 @@ describe(@"voice command manager", ^{
                 });
 
                 it(@"should update the second operation", ^{
-                    SDLVoiceCommandUpdateOperation *secondOp = testManager.transactionQueue.operations[0];
-
-                    expect(secondOp.oldVoiceCommands.firstObject).withTimeout(3.0).toEventually(equal(testVoiceCommand2));
+                    expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).withTimeout(3.0).toEventually(equal(testVoiceCommand2));
                 });
             });
         });
