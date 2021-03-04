@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLCancelInteraction : SDLRPCRequest
 
 /**
- Convenience init for dismissing the currently presented modal view (either an alert, slider, scrollable message, or perform interation).
+ Convenience init for dismissing the currently presented modal view (either an alert, slider, scrollable message, or perform interaction).
 
  @param functionID The ID of the type of modal view to dismiss
  @return A SDLCancelInteraction object

@@ -212,7 +212,7 @@ typedef NS_ENUM(NSInteger, SDLSystemCapabilityManagerError) {
     /// The connected head unit does not support any system capabilities
     SDLSystemCapabilityManagerErrorModuleDoesNotSupportSystemCapabilities = -1,
 
-    /// You must be in an HMI Level other than NONE to request or subscribe to capabilites other than DISPLAYS
+    /// You must be in an HMI Level other than NONE to request or subscribe to capabilities other than DISPLAYS
     SDLSystemCapabilityManagerErrorHMINone = -2,
 
     /// You may not update the system capability type DISPLAYS because it is always subscribed

@@ -57,7 +57,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 
  @note If you wish to alter this `rootViewController` while streaming via CarWindow, you must set a new `rootViewController` on `SDLStreamingMediaManager` and this will update both the haptic view parser and CarWindow.
 
- @warning Apps using views outside of the `UIView` heirarchy (such as OpenGL) are currently unsupported. If you app uses partial views in the heirarchy, only those views will be discovered. Your OpenGL views will not be discoverable to a haptic interface head unit and you will have to manually make these views discoverable via the `SDLSendHapticData` RPC request.
+ @warning Apps using views outside of the `UIView` hierarchy (such as OpenGL) are currently unsupported. If you app uses partial views in the hierarchy, only those views will be discovered. Your OpenGL views will not be discoverable to a haptic interface head unit and you will have to manually make these views discoverable via the `SDLSendHapticData` RPC request.
 
  @warning If the `rootViewController` is app UI and is set from the `UIViewController` class, it should only be set after viewDidAppear:animated is called. Setting the `rootViewController` in `viewDidLoad` or `viewWillAppear:animated` can cause weird behavior when setting the new frame.
 
@@ -99,9 +99,9 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 /**
  Manually set all the properties to the streaming media configuration
 
- @param encryptionFlag The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.
+ @param encryptionFlag The maximum encryption supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.
  @param videoSettings Custom video encoder settings to be used in video streaming.
- @param rootViewController The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
+ @param rootViewController The UIViewController with the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
  @return The configuration
  */
 - (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;

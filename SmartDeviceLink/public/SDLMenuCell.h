@@ -71,7 +71,7 @@ typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
 
  @param title The cell's primary text
  @param icon The cell's image
- @param layout The layout that the subCells will be layed out in if that submenu is entered
+ @param layout The layout that the subCells will be laid out in if that submenu is entered
  @param subCells The subcells that will appear when the cell is selected
  @return The menu cell
  */

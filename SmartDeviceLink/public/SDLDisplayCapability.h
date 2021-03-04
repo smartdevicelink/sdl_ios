@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDisplayName:(NSString *)displayName;
 
 /**
- Init with all the properities
+ Init with all the properties
 
  @param displayName Name of the display.
  @param windowCapabilities Contains a list of capabilities of all windows related to the app. @see windowCapabilities
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  After registration, only windows with capabilities changed will be included. Following cases will cause only affected windows to be included:
  
  1. App creates a new window. After the window is created, a system capability notification will be sent related only to the created window.
- 2. App sets a new template to the window. The new template changes window capabilties. The notification will reflect those changes to the single window.
+ 2. App sets a new template to the window. The new template changes window capabilities. The notification will reflect those changes to the single window.
  
  Min size 1, Max size 1000
  */

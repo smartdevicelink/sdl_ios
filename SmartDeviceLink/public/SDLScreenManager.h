@@ -189,7 +189,7 @@ Change the mode of the dynamic menu updater to be enabled, disabled, or enabled 
 
 The current status for dynamic menu updates. A dynamic menu update allows for smarter building of menu changes. If this status is set to `SDLDynamicMenuUpdatesModeForceOn`, menu updates will only create add commands for new items and delete commands for items no longer appearing in the menu. This helps reduce possible RPCs failures as there will be significantly less commands sent to the HMI.
 
-If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regarldess if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.
+If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regardless if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.
 
  We recommend using either `SDLDynamicMenuUpdatesModeOnWithCompatibility` or `SDLDynamicMenuUpdatesModeForceOn`. `SDLDynamicMenuUpdatesModeOnWithCompatibility` turns dynamic updates off for head units that we know have poor compatibility with dynamic updates (e.g. they have bugs that cause menu items to not be placed correctly).
  */

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLClimateControlCapabilities : SDLRPCStruct
 
-/// Convenience init to describe the climate control capabilities with all properities.
+/// Convenience init to describe the climate control capabilities with all properties.
 ///
 /// @param moduleName The short friendly name of the climate control module.
 /// @param moduleInfo Information about a RC module, including its id

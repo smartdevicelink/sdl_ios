@@ -157,7 +157,7 @@ extern SDLVehicleDataType const SDLVehicleDataTypeEngineOilLife;
 extern SDLVehicleDataType const SDLVehicleDataTypeEngineTorque;
 
 /**
- Vehicle accleration pedal data
+ Vehicle acceleration pedal data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeAccelerationPedal;
 

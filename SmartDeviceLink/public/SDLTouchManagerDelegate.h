@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @abstract
  *      Pinch did move.
  *  @param manager
- *      Current initalized SDLTouchManager issuing the callback.
+ *      Current initialized SDLTouchManager issuing the callback.
  *  @param point
  *      Center point of the pinch in the head unit's coordinate system.
  *  @param scale
