@@ -148,7 +148,7 @@ describe(@"Streaming upload of data", ^{
                 expect(testOperation.executing).toEventually(beFalse());
             });
 
-            fit(@"should split the data from a large image in memory correctly", ^{
+            it(@"should split the data from a large image in memory correctly", ^{
                 testFileName = @"TestLargeMemory";
                 UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
                 testFileData = UIImageJPEGRepresentation(testImage, 1.0);
@@ -238,7 +238,7 @@ describe(@"Streaming upload of data", ^{
                 expect(@(putFiles.count)).to(equal(@(expectedNumberOfPutFiles)));
                 [UploadFileOperationSpecHelpers testPutFiles:putFiles data:testFileData file:testFile];
 
-                // We must do some cleanup here otherwise the unit test cases will crash
+                // Respond to each PutFile request
                 for (int i = 0; i < expectedNumberOfPutFiles; i++) {
                     successResponse = [[SDLPutFileResponse alloc] init];
                     successResponse.success = @YES;
@@ -414,6 +414,3 @@ describe(@"Streaming upload of data", ^{
 });
 
 QuickSpecEnd
-
-
-
