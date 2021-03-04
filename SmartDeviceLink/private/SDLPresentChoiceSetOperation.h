@@ -15,6 +15,7 @@
 @class SDLChoiceCell;
 @class SDLChoiceSet;
 @class SDLKeyboardProperties;
+@class SDLWindowCapability;
 
 @protocol SDLConnectionManagerType;
 @protocol SDLKeyboardDelegate;
@@ -54,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param cancelID A unique ID for this specific choice set that allows cancellation through the `CancelInteraction` RPC.
  @return A SDLPresentChoiceSetOperation object
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability;
 
 @end
 

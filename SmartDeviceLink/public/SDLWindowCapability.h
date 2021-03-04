@@ -38,9 +38,9 @@
 @class SDLButtonCapabilities;
 @class SDLDynamicUpdateCapabilities;
 @class SDLImageField;
+@class SDLKeyboardCapabilities;
 @class SDLSoftButtonCapabilities;
 @class SDLTextField;
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -64,7 +64,23 @@ NS_ASSUME_NONNULL_BEGIN
  * @param dynamicUpdateCapabilities - dynamicUpdateCapabilities
  * @return A SDLWindowCapability object
  */
-- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities;
+- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities __deprecated_msg("please use initWithWindowID:textFields:imageFields:imageTypeSupported:templatesAvailable:numCustomPresetsAvailable:buttonCapabilities:softButtonCapabilities:menuLayoutsAvailable:dynamicUpdateCapabilities:keyboardCapabilities: instead");
+
+/**
+ * @param windowID - windowID
+ * @param textFields - textFields
+ * @param imageFields - imageFields
+ * @param imageTypeSupported - imageTypeSupported
+ * @param templatesAvailable - templatesAvailable
+ * @param numCustomPresetsAvailable - numCustomPresetsAvailable
+ * @param buttonCapabilities - buttonCapabilities
+ * @param softButtonCapabilities - softButtonCapabilities
+ * @param menuLayoutsAvailable - menuLayoutsAvailable
+ * @param dynamicUpdateCapabilities - dynamicUpdateCapabilities
+ * @param keyboardCapabilities - keyboardCapabilities
+ * @return A SDLWindowCapability object
+ */
+- (instancetype)initWithWindowID:(nullable NSNumber<SDLInt> *)windowID textFields:(nullable NSArray<SDLTextField *> *)textFields imageFields:(nullable NSArray<SDLImageField *> *)imageFields imageTypeSupported:(nullable NSArray<SDLImageType> *)imageTypeSupported templatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable numCustomPresetsAvailable:(nullable NSNumber<SDLUInt> *)numCustomPresetsAvailable buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities softButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities menuLayoutsAvailable:(nullable NSArray<SDLMenuLayout> *)menuLayoutsAvailable dynamicUpdateCapabilities:(nullable SDLDynamicUpdateCapabilities *)dynamicUpdateCapabilities keyboardCapabilities:(nullable SDLKeyboardCapabilities *)keyboardCapabilities;
 
 /**
  The specified ID of the window. Can be set to a predefined window, or omitted for the main window on the main display.
@@ -135,6 +151,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 7.0.0
  */
 @property (nullable, strong, nonatomic) SDLDynamicUpdateCapabilities *dynamicUpdateCapabilities;
+
+/**
+ * See KeyboardCapabilities
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) SDLKeyboardCapabilities *keyboardCapabilities;
 
 @end
 

@@ -15,19 +15,23 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation AlertManager
 
 + (void)sendAlertWithManager:(SDLManager *)sdlManager image:(nullable NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
-    SDLSoftButton *okSoftButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:AlertOKButtonText image:nil highlighted:YES buttonId:10000 systemAction:nil handler:nil];
-    SDLAlert *alert = [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil softButtons:@[okSoftButton] playTone:YES ttsChunks:nil duration:5000 progressIndicator:NO alertIcon:nil cancelID:0];
+    SDLSoftButtonObject *okSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertOKButtonText text:AlertOKButtonText artwork:nil handler:nil];
+    SDLAlertView *alert = [[SDLAlertView alloc] initWithText:textField1 buttons:@[okSoftButton]];
+    alert.secondaryText = textField2;
 
-    if (imageName == nil) {
-        [sdlManager sendRequest:alert];
-    } else {
-        [self sdlex_sendImageWithName:imageName sdlManager:sdlManager completionHandler:^(BOOL success, NSString * _Nullable artworkName) {
-            if (success) {
-                alert.alertIcon = [[SDLImage alloc] initWithName:artworkName isTemplate:YES];
-            }
-            [sdlManager sendRequest:alert];
-        }];
+    SDLAlertAudioData *alertAudioData = [[SDLAlertAudioData alloc] initWithSpeechSynthesizerString:@"alert"];
+    alertAudioData.playTone = YES;
+    alert.audio = alertAudioData;
+
+    if (imageName != nil) {
+        alert.icon = [SDLArtwork artworkWithImage:[[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG];
     }
+
+    [sdlManager.screenManager presentAlert:alert withCompletionHandler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogD(@"There was an error presenting the alert: %@", error);
+        }
+    }];
 }
 
 + (void)sendSubtleAlertWithManager:(SDLManager *)sdlManager image:(nullable NSString *)imageName textField1:(NSString *)textField1 textField2:(nullable NSString *)textField2 {

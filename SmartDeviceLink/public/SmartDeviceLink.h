@@ -225,6 +225,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLImage.h"
 #import "SDLImageField.h"
 #import "SDLImageResolution.h"
+#import "SDLKeyboardCapabilities.h"
+#import "SDLKeyboardLayoutCapability.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLLightCapabilities.h"
 #import "SDLLightControlCapabilities.h"
@@ -340,6 +342,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLImageType.h"
 #import "SDLInteractionMode.h"
 #import "SDLKeyboardEvent.h"
+#import "SDLKeyboardInputMask.h"
 #import "SDLKeyboardLayout.h"
 #import "SDLKeypressMode.h"
 #import "SDLLanguage.h"
@@ -471,6 +474,10 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLChoiceSet.h"
 #import "SDLChoiceSetDelegate.h"
 #import "SDLKeyboardDelegate.h"
+
+#import "SDLAlertAudioData.h"
+#import "SDLAlertView.h"
+#import "SDLAudioData.h"
 
 #pragma mark Touches
 #import "SDLPinchGesture.h"

@@ -41,7 +41,6 @@
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 #import "SDLVersion.h"
 #import "SDLVoiceCommand.h"
-#import "SDLError.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -107,7 +106,7 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)start {
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
 - (void)stop {
@@ -725,8 +724,8 @@ UInt32 const MenuCellIdMin = 1;
     params.menuName = cell.uniqueTitle;
     params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
     params.position = @(position);
-    params.tertiaryText = cell.tertiaryText;
-    params.secondaryText = cell.secondaryText;
+    params.secondaryText = (cell.secondaryText.length == 0) ? nil : cell.secondaryText;
+    params.tertiaryText = (cell.tertiaryText.length == 0) ? nil : cell.tertiaryText;
 
     command.menuParams = params;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
@@ -747,7 +746,10 @@ UInt32 const MenuCellIdMin = 1;
     } else {
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.uniqueTitle position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:secondaryImage];
+    
+    NSString *secondaryText = (cell.secondaryText.length == 0) ? nil : cell.secondaryText;
+    NSString *tertiaryText = (cell.tertiaryText.length == 0) ? nil : cell.tertiaryText;
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.uniqueTitle position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:secondaryText tertiaryText:tertiaryText secondaryImage:secondaryImage];
 }
 
 #pragma mark - Calling handlers
@@ -776,8 +778,7 @@ UInt32 const MenuCellIdMin = 1;
     [self sdl_callHandlerForCells:self.menuCells command:onCommand];
 }
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    // We won't use the object in the parameter but the convenience method of the system capability manager
+- (void)sdl_displayCapabilityDidUpdate {
     self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
 }
 
