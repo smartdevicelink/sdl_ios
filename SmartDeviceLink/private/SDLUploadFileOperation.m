@@ -25,8 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLUploadFileOperation
 
-// The size of the binary header, in bytes, for Protocol Version 2 and greater
+/// The size of the binary header, in bytes, for protocol version 2 and greater
 static NSUInteger const BinaryHeaderByteSize = 12;
+/// The maximum value that can be set for the PutFile's crc property
 static NSUInteger const MaxCRCValue = UINT32_MAX;
 
 @interface SDLUploadFileOperation ()
