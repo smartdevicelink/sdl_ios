@@ -249,7 +249,7 @@ describe(@"Streaming upload of data", ^{
                 expect(testOperation.finished).toEventually(beTrue());
                 expect(testOperation.executing).toEventually(beFalse());
             });
-        });;
+        });
     });
 
     describe(@"When a response to the data upload comes back", ^{
