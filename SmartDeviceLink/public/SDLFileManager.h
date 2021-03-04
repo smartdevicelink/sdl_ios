@@ -145,7 +145,7 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion NS_SWIFT_NAME(upload(artwork:completionHandler:));
 
 /**
- *  Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once an upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
+ *  Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once an upload request is sent to Core, the queue waits until a response is received from Core before the next upload request is sent.
  *
  *  @param artworks     An array of SDLArtworks to be sent
  *  @param completion   An optional SDLFileManagerMultiUploadArtworkCompletionHandler
