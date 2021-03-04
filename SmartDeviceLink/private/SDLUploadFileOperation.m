@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // The size of the binary header, in bytes, for Protocol Version 2 and greater
 static NSUInteger const BinaryHeaderByteSize = 12;
+static NSUInteger const MaxCRCValue = UINT32_MAX;
 
 @interface SDLUploadFileOperation ()
 
@@ -117,7 +118,7 @@ static NSUInteger const BinaryHeaderByteSize = 12;
     });
 
     // Break the data into small pieces, each of which will be sent in a separate putfile
-    NSUInteger maxBulkDataSize = [self sdl_maxBulkDataSizeForFile:file mtuSize:mtuSize];
+    NSUInteger maxBulkDataSize = [self sdl_getMaxBulkDataSizeForFile:file mtuSize:mtuSize];
     NSUInteger currentOffset = 0;
     for (int i = 0; i < (((file.fileSize - 1) / maxBulkDataSize) + 1); i++) {
         dispatch_group_enter(putFileGroup);
@@ -190,7 +191,7 @@ static NSUInteger const BinaryHeaderByteSize = 12;
     [self.inputStream close];
 }
 
-/// Calculates the max size of the data that can be set in the bulk data field for a PutFile to ensure that the PutFile is sent in a single frame packet. This size can vary due to the fact that JSON data included in the packet is different for each request. The size of the binary header, JSON, and frame header must be taken into account in order to make sure the packet size does not exceed the max MTU size allowed by SDL Core.
+/// Calculates the max size of the data that can be set in the bulk data field for a PutFile to ensure that if the file data must be broken into chunks and sent in separate PutFiles, each of the PutFiles is sent in a single frame packet. The size of the binary header, JSON, and frame header must be taken into account in order to make sure the packet size does not exceed the max MTU size allowed by SDL Core.
 /// Each RPC packet contains:
 ///     frame header + payload(binary header + JSON data + bulk data)
 /// This means the bulk data size for each packet should not exceed:
@@ -198,19 +199,20 @@ static NSUInteger const BinaryHeaderByteSize = 12;
 /// @param file The file containing the data to be sent to the SDL Core
 /// @param mtuSize The maximum packet size allowed
 /// @return The max size of the data that can be set in the bulk data field
-- (NSUInteger)sdl_maxBulkDataSizeForFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize {
+- (NSUInteger)sdl_getMaxBulkDataSizeForFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize {
     NSUInteger frameHeaderSize = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major].size;
     NSUInteger binaryHeaderSize = BinaryHeaderByteSize;
-    NSUInteger maxJSONSize = [self sdl_maxJSONSizeForFile:file];
+    NSUInteger maxJSONSize = [self sdl_getMaxJSONSizeForFile:file];
 
     return mtuSize - (binaryHeaderSize + maxJSONSize + frameHeaderSize);
 }
 
-/// Calculates the max possible (i.e. it may be larger than the actual JSON data generated) size of the JSON data generated for the PutFile request.
+/// Calculates the max possible (i.e. it may be larger than the actual JSON data generated) size of the JSON data generated for a PutFile request.
 /// @param file The file to be sent to the module
 /// @return The max possible size of the JSON data
-- (NSUInteger)sdl_maxJSONSizeForFile:(SDLFile *)file {
+- (NSUInteger)sdl_getMaxJSONSizeForFile:(SDLFile *)file {
     SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.persistent systemFile:NO offset:(UInt32)file.fileSize length:(UInt32)file.fileSize bulkData:file.data];
+    putFile.crc = @(MaxCRCValue);
 
     NSError *JSONSerializationError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[putFile serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&JSONSerializationError];
