@@ -131,7 +131,7 @@ describe(@"Streaming upload of data", ^{
                 testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
                 [testOperation start];
 
-                __block NSArray<SDLPutFile *> *testPutFiles = testConnectionManager.receivedRequests;
+                NSArray<SDLPutFile *> *testPutFiles = testConnectionManager.receivedRequests;
                 expect(@(testPutFiles.count)).to(equal(@(expectedNumberOfPutFiles)));
 
                 [UploadFileOperationSpecHelpers testPutFiles:testPutFiles data:testFileData file:testFile];
