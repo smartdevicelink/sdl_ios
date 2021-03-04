@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPreloadChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells {
     self = [super init];
     if (!self) { return nil; }
 
@@ -160,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSString *menuName = nil;
     if ([self sdl_shouldSendChoiceText]) {
-        menuName = cell.text;
+        menuName = cell.uniqueText;
     }
 
     if(!menuName) {

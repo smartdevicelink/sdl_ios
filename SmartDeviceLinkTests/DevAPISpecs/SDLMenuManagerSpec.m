@@ -53,10 +53,14 @@ describe(@"menu manager", ^{
     __block SDLMenuCell *textOnlyCell = nil;
     __block SDLMenuCell *textOnlyCell2 = nil;
     __block SDLMenuCell *textAndImageCell = nil;
+    __block SDLMenuCell *textAndImageCell2 = nil;
     __block SDLMenuCell *submenuCell = nil;
+    __block SDLMenuCell *submenuCell2 = nil;
     __block SDLMenuCell *submenuImageCell = nil;
 
     __block SDLMenuConfiguration *testMenuConfiguration = nil;
+
+    __block SDLVersion *menuUniquenessActiveVersion = nil;
 
     beforeEach(^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
@@ -64,11 +68,13 @@ describe(@"menu manager", ^{
         testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
         testArtwork3.overwrite = YES;
 
-        textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
-        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
-        textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:testArtwork secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        textAndImageCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2"  secondaryText:nil tertiaryText:nil icon:testArtwork2 secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell]];
+        submenuCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[textAndImageCell, textAndImageCell2]];
+        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" secondaryText:nil tertiaryText:nil icon:testArtwork2 secondaryArtwork:nil submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell]];
+        textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
         testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutTiles defaultSubmenuLayout:SDLMenuLayoutList];
 
@@ -90,6 +96,7 @@ describe(@"menu manager", ^{
         windowCapability.imageTypeSupported = @[SDLImageTypeDynamic, SDLImageTypeStatic];
         windowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
         testManager.windowCapability = windowCapability;
+        menuUniquenessActiveVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     });
 
     it(@"should instantiate correctly", ^{
@@ -188,16 +195,82 @@ describe(@"menu manager", ^{
             testManager.currentSystemContext = SDLSystemContextMain;
         });
 
-        context(@"duplicate titles", ^{
-            it(@"should fail with a duplicate title", ^{
-                testManager.menuCells = @[textOnlyCell, textOnlyCell];
+        context(@"duplicate titles version >= 7.1.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = menuUniquenessActiveVersion;
+            });
+
+            it(@"should not update the cells' unique title", ^{
+                testManager.menuCells = @[textAndImageCell, textAndImageCell2];
+                expect(testManager.menuCells).toNot(beEmpty());
+                expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2"));
+            });
+
+            it(@"should not update subcells' unique title", ^{
+                testManager.menuCells = @[submenuCell2];
+                expect(testManager.menuCells).toNot(beEmpty());
+                expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                expect(testManager.menuCells.firstObject.subCells.lastObject.uniqueTitle).to(equal("Test 2"));
+            });
+        });
+
+        context(@"duplicate titles version <= 7.1.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
+            });
+
+            it(@"append a number to the unique text for main menu cells", ^{
+                testManager.menuCells = @[textAndImageCell, textAndImageCell2];
+                expect(testManager.menuCells).toNot(beEmpty());
+                expect(testManager.menuCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                expect(testManager.menuCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
+            });
+
+            it(@"should append a number to the unique text for subcells", ^{
+                testManager.menuCells = @[submenuCell2];
+                expect(testManager.menuCells).toNot(beEmpty());
+                expect(testManager.menuCells.firstObject.subCells.firstObject.uniqueTitle).to(equal("Test 2"));
+                expect(testManager.menuCells.firstObject.subCells.lastObject.uniqueTitle).to(equal("Test 2 (2)"));
+            });
+        });
+
+        context(@"when the cells contain duplicates", ^{
+            SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"no", @"yes"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"no", @"yes"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+            it(@"should fail with duplicate cells", ^{
+                testManager.menuCells = @[textCell, textCell2];
+                expect(testManager.menuCells).to(beEmpty());
+            });
+        });
+
+        context(@"when cells contain duplicate subcells", ^{
+            SDLMenuCell *subCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *subCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[subCell1, subCell2]];
+
+            it(@"should fail with duplicate cells", ^{
+                testManager.menuCells = @[textCell];
                 expect(testManager.menuCells).to(beEmpty());
             });
         });
 
         context(@"duplicate VR commands", ^{
-            __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil voiceCommands:@[@"Cat", @"Dog"] secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+            it(@"should fail when menu items have duplicate vr commands", ^{
+                testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
+                expect(testManager.menuCells).to(beEmpty());
+            });
+        });
+
+        context(@"when there are duplicate VR commands in subCells", ^{
+            SDLMenuCell *textAndVRSubCell1 = [[SDLMenuCell alloc] initWithTitle:@"subCell 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRSubCell2 = [[SDLMenuCell alloc] initWithTitle:@"subCell 2" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[textAndVRSubCell1, textAndVRSubCell2]];
 
             it(@"should fail when menu items have duplicate vr commands", ^{
                 testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
@@ -206,14 +279,14 @@ describe(@"menu manager", ^{
         });
 
         it(@"should check if all artworks are uploaded and return NO", ^{
-            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:testArtwork handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
             testManager.menuCells = @[textAndImageCell, textOnlyCell];
             OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
             expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beFalse());
         });
 
         it(@"should check if all artworks are uploaded and return NO", ^{
-            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:testArtwork3 secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
             testManager.menuCells = @[textAndImageCell, textOnlyCell];
             OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
             expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beFalse());
@@ -253,7 +326,7 @@ describe(@"menu manager", ^{
                 });
 
                 it(@"should check if all artworks are uploaded", ^{
-                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:testArtwork3 secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                     testManager.menuCells = @[textAndImageCell, textOnlyCell];
                     OCMVerify([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]);
                     expect([testManager sdl_shouldRPCsIncludeImages:testManager.menuCells]).to(beTrue());
@@ -279,7 +352,7 @@ describe(@"menu manager", ^{
 
                 it(@"should properly overwrite an image cell", ^{
                     OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
-                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork3 voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                    textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:testArtwork3 secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                     testManager.menuCells = @[textAndImageCell, submenuImageCell];
                     OCMVerify([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
@@ -565,7 +638,7 @@ describe(@"menu manager", ^{
 
         context(@"on a main menu cell", ^{
             beforeEach(^{
-                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
                     cellCalled = YES;
                     testTriggerSource = triggerSource;
                 }];
@@ -588,12 +661,12 @@ describe(@"menu manager", ^{
 
         context(@"on a submenu menu cell", ^{
             beforeEach(^{
-                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil secondaryText:nil tertiaryText:nil secondaryArtwork:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
                     cellCalled = YES;
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler] secondaryText:nil tertiaryText:nil secondaryArtwork:nil];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler]];
 
                 testManager.menuCells = @[submenuCell];
             });
