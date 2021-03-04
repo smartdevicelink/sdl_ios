@@ -42,7 +42,7 @@
 
 @property (assign, nonatomic) BOOL isDirty;
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_displayCapabilityDidUpdate;
 
 @end
 
@@ -491,9 +491,9 @@ describe(@"text and graphic manager", ^{
 
             testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@(SDLPredefinedWindowsDefaultWindow) textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil keyboardCapabilities:nil];
             testDisplayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"Test display" windowCapabilities:@[testWindowCapability] windowTypeSupported:nil];
-            testSystemCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:@[testDisplayCapability]];
 
-            [testManager sdl_displayCapabilityDidUpdate:testSystemCapability];
+            OCMStub([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            [testManager sdl_displayCapabilityDidUpdate];
         });
 
         // with a non-default window
@@ -560,7 +560,8 @@ describe(@"text and graphic manager", ^{
         });
 
         it(@"should start the transaction queue and not send a transaction", ^{
-            [testManager sdl_displayCapabilityDidUpdate:testSystemCapability];
+            OCMStub([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            [testManager sdl_displayCapabilityDidUpdate];
 
             expect(testManager.transactionQueue.isSuspended).to(beFalse());
             expect(testManager.transactionQueue.operationCount).to(equal(0));
@@ -569,7 +570,8 @@ describe(@"text and graphic manager", ^{
         context(@"if there's data", ^{
             beforeEach(^{
                 testManager.textField1 = @"test";
-                [testManager sdl_displayCapabilityDidUpdate:testSystemCapability];
+                OCMStub([mockSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+                [testManager sdl_displayCapabilityDidUpdate];
             });
 
             it(@"should send an update and not supersede the previous update", ^{

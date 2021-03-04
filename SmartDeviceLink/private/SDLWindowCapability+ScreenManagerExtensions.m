@@ -1,5 +1,5 @@
 //
-//  SDLWindowCapability+ShowManagerExtensions.m
+//  SDLWindowCapability+ScreenManagerExtensions.m
 //  SmartDeviceLink
 //
 //  Created by Joel Fischer on 2/28/18.
@@ -39,7 +39,24 @@
             NSInteger fieldNumber = [[textField.name substringFromIndex:(textField.name.length - 1)] integerValue];
             highestFound = (highestFound < fieldNumber) ? fieldNumber : highestFound;
 
-            if (highestFound == 4) { break; }
+            if (highestFound == MaxMainFieldLineCount) { break; }
+        }
+    }
+
+    return (NSUInteger)highestFound;
+}
+
+- (NSUInteger)maxNumberOfAlertFieldLines {
+    NSInteger highestFound = 0;
+    for (SDLTextField *textField in self.textFields) {
+        if (![textField.name isKindOfClass:[NSString class]]) { continue; }
+        if ([textField.name isEqualToString:SDLTextFieldNameAlertText1]
+            || [textField.name isEqualToString:SDLTextFieldNameAlertText2]
+            || [textField.name isEqualToString:SDLTextFieldNameAlertText3]) {
+            NSInteger fieldNumber = [[textField.name substringFromIndex:(textField.name.length - 1)] integerValue];
+            highestFound = (highestFound < fieldNumber) ? fieldNumber : highestFound;
+
+            if (highestFound == MaxAlertTextFieldLineCount) { break; }
         }
     }
 

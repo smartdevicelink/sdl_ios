@@ -170,13 +170,14 @@ typedef NSString * SDLServiceID;
         return nil;
     }
 
-    SDLDisplayCapability *mainDisplay = capabilities.firstObject;
+    SDLDisplayCapability *mainDisplay = capabilities[0];
     for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
         NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-        if (currentWindowID == windowID) {
-            return windowCapability;
-        }
+        if (currentWindowID != windowID) { continue; }
+
+        return windowCapability;
     }
+
     return nil;
 }
 
