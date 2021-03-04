@@ -9,6 +9,7 @@
 #import "SDLMenuCell.h"
 
 #import "SDLArtwork.h"
+#import "NSArray+Extensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (strong, nonatomic, readwrite) NSString *uniqueTitle;
 
 @end
 
@@ -37,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
     _icon = icon;
     _voiceCommands = voiceCommands;
     _handler = handler;
+    _uniqueTitle = title;
 
     _cellId = UINT32_MAX;
     _parentCellId = UINT32_MAX;
@@ -57,6 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
     _submenuLayout = layout;
     _icon = icon;
     _subCells = subCells;
+    _uniqueTitle = title;
 
     _cellId = UINT32_MAX;
     _parentCellId = UINT32_MAX;
@@ -69,21 +73,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
+    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", unique title: %@, artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, ([_title isEqualToString:_uniqueTitle] ? @"NO" : _uniqueTitle),  _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
 }
 
 #pragma mark - Object Equality
 
-NSUInteger const NSUIntBitCell = (CHAR_BIT * sizeof(NSUInteger));
-NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
-    return ((((NSUInteger)val) << howMuch) | (((NSUInteger)val) >> (NSUIntBitCell - howMuch)));
-}
-
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
-    ^ NSUIntRotateCell(self.voiceCommands.hash, NSUIntBitCell / 4)
-    ^ NSUIntRotateCell(self.subCells.count !=0, NSUIntBitCell  / 5)
+    ^ NSUIntRotateCell(self.voiceCommands.dynamicHash, NSUIntBitCell / 4)
+    ^ NSUIntRotateCell((self.subCells.count != 0), NSUIntBitCell  / 5)
     ^ NSUIntRotateCell(self.secondaryText.hash, NSUIntBitCell  / 6)
     ^ NSUIntRotateCell(self.tertiaryText.hash, NSUIntBitCell  / 7)
     ^ NSUIntRotateCell(self.secondaryArtwork.name.hash, NSUIntBitCell  / 8)

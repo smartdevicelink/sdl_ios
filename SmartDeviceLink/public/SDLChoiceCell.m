@@ -9,12 +9,14 @@
 #import "SDLChoiceCell.h"
 
 #import "SDLArtwork.h"
+#import "NSArray+Extensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
+@property (nonatomic, readwrite) NSString *uniqueText;
 
 @end
 
@@ -40,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     _voiceCommands = voiceCommands;
     _artwork = artwork;
     _secondaryArtwork = secondaryArtwork;
+    _uniqueText = text;
     
     _choiceId = UINT16_MAX;
 
@@ -65,7 +68,7 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
     ^ NSUIntRotate(self.tertiaryText.hash, NSUIntBit / 4)
     ^ NSUIntRotate(self.artwork.name.hash, NSUIntBit / 5)
     ^ NSUIntRotate(self.secondaryArtwork.name.hash, NSUIntBit / 6)
-    ^ NSUIntRotate(self.voiceCommands.hash, NSUIntBit / 7);
+    ^ NSUIntRotate(self.voiceCommands.dynamicHash, NSUIntBit / 7);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -84,7 +87,7 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
 #pragma mark - Etc.
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count];
+    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu, uniqueText: %@", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, ([_text isEqualToString:_uniqueText] ? @"NO" : _uniqueText)];
 }
 
 @end

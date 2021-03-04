@@ -93,8 +93,19 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  */
 @property (copy, nonatomic) NSArray<SDLChoiceCell *> *choices;
 
+/// Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be `nil`.
+///
+/// WARNING: If you display multiple cells with the same `text` with the only uniquing property between cells being different `vrCommands` or a feature that is not displayed on the head unit (e.g. if the head unit doesn't display `secondaryArtwork` and that's the only uniquing property between two cells) then the cells may appear to be the same to the user in `Manual` mode. This only applies to RPC connections >= 7.1.0.
+///
+/// WARNING: On < 7.1.0 connections, the `text` cell will be automatically modified among cells that have the same `text` when they are preloaded, so they will always appear differently on-screen when they are displayed. `cell.uniqueText` will be created by appending ` (2)`, ` (3)`, etc.
+- (instancetype)init;
+
 /**
  Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be `nil`.
+
+ WARNING: If you display multiple cells with the same `text` with the only uniquing property between cells being different `vrCommands` or a feature that is not displayed on the head unit (e.g. if the head unit doesn't display `secondaryArtwork` and that's the only uniquing property between two cells) then the cells may appear to be the same to the user in `Manual` mode. This only applies to RPC connections >= 7.1.0.
+
+ WARNING: On < 7.1.0 connections, the `text` cell will be automatically modified among cells that have the same `text` when they are preloaded, so they will always appear differently on-screen when they are displayed. `cell.uniqueText` will be created by appending ` (2)`, ` (3)`, etc.
 
  @param title The choice set's title
  @param delegate The choice set delegate called after the user has interacted with your choice set
@@ -105,6 +116,10 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 
 /**
  Initializer with all possible properties.
+
+ WARNING: If you display multiple cells with the same `text` with the only uniquing property between cells being different `vrCommands` or a feature that is not displayed on the head unit (e.g. if the head unit doesn't display `secondaryArtwork` and that's the only uniquing property between two cells) then the cells may appear to be the same to the user in `Manual` mode. This only applies to RPC connections >= 7.1.0.
+
+ WARNING: On < 7.1.0 connections, the `text` cell will be automatically modified among cells that have the same `text` when they are preloaded, so they will always appear differently on-screen when they are displayed. `cell.uniqueText` will be created by appending ` (2)`, ` (3)`, etc.
 
  @param title The choice set's title
  @param delegate The choice set delegate called after the user has interacted with your choice set
@@ -121,6 +136,10 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 
 /**
  Initializer with all possible properties.
+
+ WARNING: If you display multiple cells with the same `text` with the only uniquing property between cells being different `vrCommands` or a feature that is not displayed on the head unit (e.g. if the head unit doesn't display `secondaryArtwork` and that's the only uniquing property between two cells) then the cells may appear to be the same to the user in `Manual` mode. This only applies to RPC connections >= 7.1.0.
+
+ WARNING: On < 7.1.0 connections, the `text` cell will be automatically modified among cells that have the same `text` when they are preloaded, so they will always appear differently on-screen when they are displayed. `cell.uniqueText` will be created by appending ` (2)`, ` (3)`, etc.
 
  @param title The choice set's title
  @param delegate The choice set delegate called after the user has interacted with your choice set

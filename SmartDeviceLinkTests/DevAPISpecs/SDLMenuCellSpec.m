@@ -60,6 +60,7 @@ describe(@"a menu cell", ^{
             expect(testCell.icon).to(equal(someArtwork));
             expect(testCell.voiceCommands).to(equal(someVoiceCommands));
             expect(testCell.subCells).to(beNil());
+            expect(testCell.uniqueTitle).to(equal(someTitle));
             expect(testCell.secondaryText).to(beNil());
             expect(testCell.tertiaryText).to(beNil());
             expect(testCell.secondaryArtwork).to(beNil());
@@ -85,6 +86,7 @@ describe(@"a menu cell", ^{
             expect(testCell.voiceCommands).to(beNil());
             expect(testCell.subCells).to(equal(someSubcells));
             expect(testCell.submenuLayout).to(equal(testLayout));
+            expect(testCell.uniqueTitle).to(equal(someTitle));
             expect(testCell.secondaryText).to(equal(someSecondaryTitle));
             expect(testCell.tertiaryText).to(equal(someTertiaryTitle));
             expect(testCell.secondaryArtwork).to(equal(someSecondaryArtwork));
