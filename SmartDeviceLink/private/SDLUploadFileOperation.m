@@ -192,7 +192,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
     [self.inputStream close];
 }
 
-/// Calculates the max size of the data that can be set in the bulk data field for a PutFile to ensure that if the file data must be broken into chunks and sent in separate PutFiles, each of the PutFiles is sent in a single frame packet. The size of the binary header, JSON, and frame header must be taken into account in order to make sure the packet size does not exceed the max MTU size allowed by SDL Core.
+/// Calculates the max size of the data that can be set in the bulk data field for a PutFile to ensure that if the file data must be broken into chunks and sent in separate PutFiles, each of the PutFiles is sent as a single frame packet. The size of the binary header, JSON, and frame header must be taken into account in order to make sure the packet size does not exceed the max MTU size allowed by SDL Core.
 /// Each RPC packet contains:
 ///     frame header + payload(binary header + JSON data + bulk data)
 /// This means the bulk data size for each packet should not exceed:
