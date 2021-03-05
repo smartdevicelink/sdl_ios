@@ -769,6 +769,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     NSArray<SDLVideoStreamingCapability *> *capabilityMatches = [self matchVideoCapability:videoCapability];
     if (capabilityMatches.count == 0) {
         // no supported video capabilities, full stop
+        SDLLogE(@"The video stream was not started because there are no supported video streaming capabilities. Please double check that the video streaming ranges set on the SDLStreamingMediaConfiguration are not disabled");
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
         return;
     }
