@@ -119,7 +119,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
     });
 
     // Break the data into small pieces, each of which will be sent in a separate putfile
-    NSUInteger maxBulkDataSize = [self sdl_getMaxBulkDataSizeForFile:file mtuSize:mtuSize];
+    NSUInteger maxBulkDataSize = [self.class sdl_getMaxBulkDataSizeForFile:file mtuSize:mtuSize];
     NSUInteger currentOffset = 0;
     for (int i = 0; i < (((file.fileSize - 1) / maxBulkDataSize) + 1); i++) {
         dispatch_group_enter(putFileGroup);
@@ -199,7 +199,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 /// @param file The file containing the data to be sent to the SDL Core
 /// @param mtuSize The maximum packet size allowed
 /// @return The max size of the data that can be set in the bulk data field
-- (NSUInteger)sdl_getMaxBulkDataSizeForFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize {
++ (NSUInteger)sdl_getMaxBulkDataSizeForFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize {
     NSUInteger frameHeaderSize = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major].size;
     NSUInteger binaryHeaderSize = BinaryHeaderByteSize;
     NSUInteger maxJSONSize = [self sdl_getMaxJSONSizeForFile:file];
@@ -210,7 +210,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 /// Calculates the max possible (i.e. it may be larger than the actual JSON data generated) size of the JSON data generated for a PutFile request.
 /// @param file The file to be sent to the module
 /// @return The max possible size of the JSON data
-- (NSUInteger)sdl_getMaxJSONSizeForFile:(SDLFile *)file {
++ (NSUInteger)sdl_getMaxJSONSizeForFile:(SDLFile *)file {
     SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.persistent systemFile:NO offset:(UInt32)file.fileSize length:(UInt32)file.fileSize bulkData:file.data];
     putFile.crc = @(MaxCRCValue);
 
