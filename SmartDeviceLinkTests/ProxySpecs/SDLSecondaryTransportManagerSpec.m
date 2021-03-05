@@ -1002,7 +1002,7 @@ describe(@"the secondary transport manager ", ^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateReconnecting fromOldState:nil callEnterTransition:YES];
                 });
 
-                expect(manager.stateMachine.currentState).withTimeout(RegisterTransportTime + 3.0).toEventually(equal(SDLSecondaryTransportStateConfigured));
+                expect(manager.stateMachine.currentState).withTimeout(RetryConnectionDelay + 3.0).toEventually(equal(SDLSecondaryTransportStateConfigured));
             });
         });
 
