@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, SDLSecondaryTransportType) {
 };
 
 // should be in sync with SDLSecondaryTransportManager.m
-//static const float RetryConnectionDelay = 5.25;
+static const float RetryConnectionDelay = 5.25;
 static const float RegisterTransportTime = 10.25;
 static const int TCPPortUnspecified = -1;
 
@@ -1002,7 +1002,7 @@ describe(@"the secondary transport manager ", ^{
                     [manager.stateMachine setToState:SDLSecondaryTransportStateReconnecting fromOldState:nil callEnterTransition:YES];
                 });
 
-                expect(manager.stateMachine.currentState).withTimeout(10.0).toEventually(equal(SDLSecondaryTransportStateConfigured));
+                expect(manager.stateMachine.currentState).withTimeout(RegisterTransportTime + 3.0).toEventually(equal(SDLSecondaryTransportStateConfigured));
             });
         });
 
