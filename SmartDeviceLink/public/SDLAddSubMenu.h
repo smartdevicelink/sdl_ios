@@ -44,7 +44,7 @@
  * added to a SDLSubMenu), and may only contain commands as children
  * <p>
  * <p>
- * <b>HMILevel needs to be FULL, LIMITED or BACKGROUD</b>
+ * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * </p>
  *
  * Since <b>SmartDeviceLink 1.0</b><br>

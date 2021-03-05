@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLAudioStreamingState audioStreamingState;
 
 /**
- Current availablility of video streaming for the application. When this parameter is NOT_STREAMABLE, the application must stop video streaming to SDL.
+ Current availability of video streaming for the application. When this parameter is NOT_STREAMABLE, the application must stop video streaming to SDL.
  */
 @property (strong, nonatomic, nullable) SDLVideoStreamingState videoStreamingState;
 
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param hmiLevel The HMI level
 /// @param systemContext The system context
 /// @param audioStreamingState The ability for an audio app to be heard
-/// @param videoStreamingState The ability for a video straming app to stream
+/// @param videoStreamingState The ability for a video streaming app to stream
 /// @param windowID Which window this status relates to
 - (instancetype)initWithHMILevel:(SDLHMILevel)hmiLevel systemContext:(SDLSystemContext)systemContext audioStreamingState:(SDLAudioStreamingState)audioStreamingState videoStreamingState:(nullable SDLVideoStreamingState)videoStreamingState windowID:(nullable NSNumber<SDLUInt> *)windowID;
 

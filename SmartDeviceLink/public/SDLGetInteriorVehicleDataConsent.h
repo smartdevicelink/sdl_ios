@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-/// This RPC allows you to get consent to control a certian module
+/// This RPC allows you to get consent to control a certain module
 ///
 /// @since RPC 6.0
 @interface SDLGetInteriorVehicleDataConsent : SDLRPCRequest

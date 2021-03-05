@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- Convinience constructor with all the parameters.
+ Convenience constructor with all the parameters.
 
  @param template Predefined or dynamically created window template. Currently only predefined window template layouts are defined.
  @param dayColorScheme The color scheme to use when the head unit is in a light / day situation. If nil, the existing color scheme will be used.
