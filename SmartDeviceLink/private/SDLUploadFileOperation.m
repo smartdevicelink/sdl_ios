@@ -193,10 +193,9 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 }
 
 /// Calculates the max size of the data that can be set in the bulk data field for a PutFile to ensure that if the file data must be broken into chunks and sent in separate PutFiles, each of the PutFiles is sent as a single frame packet. The size of the binary header, JSON, and frame header must be taken into account in order to make sure the packet size does not exceed the max MTU size allowed by SDL Core.
-/// Each RPC packet contains:
-///     frame header + payload(binary header + JSON data + bulk data)
-/// This means the bulk data size for each packet should not exceed:
-///     mtuSize - (binary header size + maximum possible JSON data size + frame header size)
+/// 
+/// Each RPC packet contains: frame header + payload(binary header + JSON data + bulk data)
+/// This means the bulk data size for each packet should not exceed: mtuSize - (binary header size + maximum possible JSON data size + frame header size)
 /// @param file The file containing the data to be sent to the SDL Core
 /// @param mtuSize The maximum packet size allowed
 /// @return The max size of the data that can be set in the bulk data field
@@ -217,7 +216,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 
     NSError *JSONSerializationError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[putFile serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&JSONSerializationError];
-    if (JSONSerializationError) {
+    if (JSONSerializationError != nil) {
         SDLLogW(@"Error attempting to get JSON data for PutFile: %@", putFile);
         return 0;
     }
@@ -230,7 +229,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 
  @param currentOffset The current position in the file
  @param fileSize The size of the file
- @param bulkDataSize The maximum size of the bulk data that can be sent in the putfile
+ @param bulkDataSize The maximum size of the bulk data that can be sent in the PutFile
  @return The the length of the data being sent in the putfile
  */
 + (NSUInteger)sdl_getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(NSUInteger)fileSize bulkDataSize:(NSUInteger)bulkDataSize {
