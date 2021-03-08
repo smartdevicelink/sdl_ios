@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLSingleTireStatus *innerLeftRear;
 
 /**
- The status of the innter right rear tire.
+ The status of the inner right rear tire.
 
  Required
  */

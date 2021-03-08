@@ -203,7 +203,7 @@ typedef void (^SDLRPCUpdatedBlock) (__kindof SDLRPCMessage *message);
  * 1. Zero parameters e.g. `- (void)registerAppInterfaceResponse`
  * 2. One parameter e.g. `- (void)registerAppInterfaceResponse:(NSNotification *)notification;`
  *
- * Note that using this method to get a response instead of the `sendRequest:withResponseHandler:` method of getting a response, you will not be notifed of any `SDLGenericResponse` errors where the head unit doesn't understand the request.
+ * Note that using this method to get a response instead of the `sendRequest:withResponseHandler:` method of getting a response, you will not be notified of any `SDLGenericResponse` errors where the head unit doesn't understand the request.
  *
  * @param rpcName The name of the RPC request, response, or notification to subscribe to.
  * @param observer The object that will have its selector called every time an RPC of the name and type specified is received.

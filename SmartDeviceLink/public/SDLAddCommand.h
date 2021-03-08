@@ -21,7 +21,7 @@
  *  2. Choices having only SDLMenuParams definitions, but no VR synonym definitions
  *  3. Choices having both SDLMenuParams and VR synonym definitions
  *
- *  HMILevel needs to be FULL, LIMITED or BACKGROUD
+ *  HMILevel needs to be FULL, LIMITED or BACKGROUND
  *  @since SDL 1.0
  *  @see SDLDeleteCommand, SDLAddSubMenu, SDLDeleteSubMenu
  */
