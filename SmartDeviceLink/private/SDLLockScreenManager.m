@@ -186,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
         if (!self.lockScreenDismissedByUser && self.canPresent) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
-        } else if (!self.lockScreenDismissable && [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] && self.canPresent) {
+        } else if (self.lastDriverDistractionNotification.lockScreenDismissalEnabled != nil && !self.lastDriverDistractionNotification.lockScreenDismissalEnabled.boolValue && [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] && self.canPresent) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
     } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusRequired) {
@@ -222,9 +222,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
     } else if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
         [self sdl_updateLockscreenViewControllerWithDismissableState:self.lockScreenDismissable];
-        if ([self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] && !self.lockScreenDismissable) {
-            [self sdl_updatePresentation];
-        }
     }
 
     if (!self.lockScreenDismissedByUser) {
