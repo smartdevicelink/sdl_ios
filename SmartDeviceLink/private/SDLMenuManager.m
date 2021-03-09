@@ -550,7 +550,6 @@ UInt32 const MenuCellIdMin = 1;
 ///
 /// @param cells The cells you will be adding
 /// @return Boolean that indicates whether menuCells are unique or not
- */
 - (BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells allVoiceCommands:(NSMutableArray<NSString *> *)allVoiceCommands {
     ///Check all voice commands for identical items and check each list of cells for identical cells
     NSMutableSet<SDLMenuCell *> *identicalCellsCheckSet = [NSMutableSet set];
@@ -691,7 +690,6 @@ UInt32 const MenuCellIdMin = 1;
 /// @param shouldHaveArtwork artwork bool
 /// @param menu the new menu array, this array should contain all the values the developer has set to be included in the new menu. This is used for placing the newly added cells in the correct location.
 /// @return list of SDLRPCRequest addCommands
- */
 - (NSArray<SDLRPCRequest *> *)sdl_mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
