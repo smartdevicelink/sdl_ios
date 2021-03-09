@@ -12,7 +12,8 @@
 
 @protocol SDLSecurityType;
 @protocol SDLStreamingMediaManagerDataSource;
-
+@protocol SDLStreamingVideoDelegate;
+@class SDLVideoStreamingRange;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -81,6 +82,25 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  When YES, the StreamingMediaManager will disable its internal checks that the `rootViewController` only has one `supportedOrientation`. Having multiple orientations can cause streaming issues. If you wish to disable this check, set it to YES. Defaults to NO.
  */
 @property (assign, nonatomic) BOOL allowMultipleViewControllerOrientations;
+
+/**
+ Set a landscape image dimension range and/or aspect ratio range that your rootViewController supports. If the module's screen size for your app changes during streaming (i.e. to a collapsed view, split screen, preview mode or picture-in-picture), your rootViewController will be resized to the new screen size. If left unset or set to `nil`, the default is to support all lanscape streaming ranges. If you wish to disable support for streaming in landscape mode, set a `disabled` video streaming range.
+ If desired, you can subscribe to screen size updates via the SDLStreamingVideoDelegate.
+ @warning If you disable both the supportedLandscapeStreamingRange and supportedPortraitStreamingRange, video will not stream
+ */
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
+
+/**
+ Set a portrait image dimension range and/or aspect ratio range that your rootViewController supports. If the module's screen size for your app changes during streaming (i.e. to a collapsed view, split screen, preview mode or picture-in-picture), your rootViewController will be resized to the new screen size. If left unset or set to `nil`, the default is to support all portrait streaming ranges. If you wish to disable support for streaming in portrait mode, set a `disabled` video streaming range.
+ If desired, you can subscribe to screen size updates via the SDLStreamingVideoDelegate.
+ @warning If you disable both the supportedLandscapeStreamingRange and supportedPortraitStreamingRange, video will not stream
+ */
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
+
+/**
+ The configuration delegate, this is an object conforming to the SDLStreamingVideoDelegate protocol. If video streaming parameters change then this object will be called on.
+ */
+@property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.

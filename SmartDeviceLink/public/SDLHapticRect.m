@@ -44,6 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_objectForName:SDLRPCParameterNameRect ofClass:SDLRectangle.class error:nil];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ id:%@, %@", NSStringFromClass(self.class), self.id, self.rect];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

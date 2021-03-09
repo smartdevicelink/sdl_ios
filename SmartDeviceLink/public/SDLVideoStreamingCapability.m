@@ -6,12 +6,13 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLImageResolution.h"
+#import "SDLImageResolution + StreamingVideoExtensions.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingFormat.h"
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLStreamingVideoScaleManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -92,6 +93,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLFloat> *)scale {
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
+}
+
+- (void)setAdditionalVideoStreamingCapabilities:(nullable NSArray <SDLVideoStreamingCapability *> *)additionalVideoStreamingCapabilities {
+    [self.store sdl_setObject:additionalVideoStreamingCapabilities forName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities];
+}
+
+- (nullable NSArray <SDLVideoStreamingCapability *> *)additionalVideoStreamingCapabilities {
+    NSError *error = nil;
+    return [self.store sdl_objectsForName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities ofClass:SDLVideoStreamingCapability.class error:&error];
 }
 
 - (void)setPreferredFPS:(nullable NSNumber<SDLUInt> *)preferredFPS {

@@ -36,6 +36,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameGetSystemCapability = @"GetSystemCapa
 SDLRPCFunctionName const SDLRPCFunctionNameGetVehicleData = @"GetVehicleData";
 SDLRPCFunctionName const SDLRPCFunctionNameGetWayPoints = @"GetWayPoints";
 SDLRPCFunctionName const SDLRPCFunctionNameListFiles = @"ListFiles";
+SDLRPCFunctionName const SDLRPCFunctionNameOnAppCapabilityUpdated = @"OnAppCapabilityUpdated";
 SDLRPCFunctionName const SDLRPCFunctionNameOnAppInterfaceUnregistered = @"OnAppInterfaceUnregistered";
 SDLRPCFunctionName const SDLRPCFunctionNameOnAppServiceData = @"OnAppServiceData";
 SDLRPCFunctionName const SDLRPCFunctionNameOnAudioPassThru = @"OnAudioPassThru";

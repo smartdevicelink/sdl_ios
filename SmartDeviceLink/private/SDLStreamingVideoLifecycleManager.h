@@ -20,7 +20,6 @@
 @class SDLImageResolution;
 @class SDLProtocol;
 @class SDLStateMachine;
-@class SDLStreamingMediaConfiguration;
 @class SDLStreamingVideoScaleManager;
 @class SDLSystemCapabilityManager;
 @class SDLTouchManager;
