@@ -229,10 +229,10 @@ describe(@"a soft button manager", ^{
             testManager.softButtonObjects = @[testObject1];
             [NSThread sleepForTimeInterval:0.5]; // Necessary to not get range exceptions with toEventually?
 
-            expect(testManager.transactionQueue.operationCount).to(equal(3));
-            expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
-            expect(testManager.transactionQueue.operations[1].isCancelled).to(beTrue());
-            expect(testManager.transactionQueue.operations[2].isCancelled).to(beFalse());
+            expect(testManager.transactionQueue.operationCount).withTimeout(3.0).toEventually(equal(3));
+            expect(testManager.transactionQueue.operations[0].isCancelled).withTimeout(3.0).toEventually(beTrue());
+            expect(testManager.transactionQueue.operations[1].isCancelled).withTimeout(3.0).toEventually(beTrue());
+            expect(testManager.transactionQueue.operations[2].isCancelled).withTimeout(3.0).toEventually(beFalse());
         });
 
         it(@"should retrieve soft buttons correctly", ^{
