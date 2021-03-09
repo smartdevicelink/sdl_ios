@@ -62,6 +62,18 @@
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (strong, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 @property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
+- (void)didEnterStateConnected;
+@end
+
+@interface SDLLifecycleTestManager : SDLLifecycleManager
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+@property (strong, nonatomic, nullable) __kindof SDLRPCMessage *testRequest;
+@end
+
+@implementation SDLLifecycleTestManager
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    self.testRequest = request;
+}
 @end
 
 @interface SDLGlobals ()
@@ -87,6 +99,21 @@ QuickConfigurationEnd
 
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
+
+describe(@"test lifecycle manager internals", ^{
+    context(@"init and assign version", ^{
+        SDLLifecycleTestManager *manager = [[SDLLifecycleTestManager alloc] init];
+        it(@"expect object to be created", ^{
+            expect(manager).notTo(beNil());
+        });
+        context(@"didEnterStateConnected", ^{
+            [manager didEnterStateConnected];
+            it(@"expect request to be of proper kind", ^{
+                expect([manager.testRequest isKindOfClass:SDLRegisterAppInterface.class]).to(equal(YES));
+            });
+        });
+    });
+});
 
 describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;

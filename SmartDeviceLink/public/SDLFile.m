@@ -167,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSObject overrides
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLFile: %@", self.name];
+    return [NSString stringWithFormat:@"SDLFile: %@, isPersistent: %@, should overwrite: %@, is static icon: %@, file type: %@", self.name, (self.isPersistent ? @"YES" : @"NO"), (self.overwrite ? @"YES" : @"NO"), (self.isStaticIcon ? @"YES" : @"NO"), self.fileType];
 }
 
 - (NSUInteger)hash {

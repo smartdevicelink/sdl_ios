@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *rows;
 
-/// Convenience initalizer for the TextField RPC struct
+/// Convenience initializer for the TextField RPC struct
 /// @param name The name identifying this text field
 /// @param characterSet The character set of this text field
 /// @param width The number of characters per row allowed in this text field

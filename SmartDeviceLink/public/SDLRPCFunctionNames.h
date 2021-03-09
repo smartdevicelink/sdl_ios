@@ -97,6 +97,9 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameGetWayPoints;
 /// Function name for a ListFiles RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameListFiles;
 
+/// Function name for an OnAppCapabilityUpdated notification RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameOnAppCapabilityUpdated;
+
 /// Function name for an OnAppInterfaceUnregistered notification RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnAppInterfaceUnregistered;
 

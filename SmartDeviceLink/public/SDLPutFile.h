@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType;
 
 /**
- *  Convenience init for creating a putfile with a name, file format, and persistance.
+ *  Convenience init for creating a putfile with a name, file format, and persistence.
  *
  *  @param fileName         The file's name
  *  @param fileType         The file's format
