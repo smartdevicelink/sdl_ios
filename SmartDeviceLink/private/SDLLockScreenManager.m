@@ -187,6 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (!self.lockScreenDismissedByUser && self.canPresent) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         } else if (self.lastDriverDistractionNotification.lockScreenDismissalEnabled != nil && !self.lastDriverDistractionNotification.lockScreenDismissalEnabled.boolValue && [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] && self.canPresent) {
+            // Checks added to satisfy specific situations found in the Excel sheet for lockScreen tests where the Lockscreen should be presented
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
     } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusRequired) {

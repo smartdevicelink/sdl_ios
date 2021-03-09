@@ -398,6 +398,42 @@ describe(@"a lock screen manager", ^{
                 expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beTrue());
             });
         });
+
+        context(@"receiving a lock screen status of off after the user dismissed the lockscreen", ^{
+            beforeEach(^{
+                testStatus.lockScreenStatus = SDLLockScreenStatusOff;
+
+                OCMStub([fakeViewControllerPresenter lockViewController]).andReturn([[SDLLockScreenViewController alloc] init]);
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testStatus}];
+            });
+
+            it(@"should not present the lock screen if it was already dismissed by the user", ^{
+                testManager.lockScreenDismissedByUser = YES;
+
+                OCMReject([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]);
+
+                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+
+                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beFalse());
+            });
+
+            it(@"should present the lock screen if It was already dismissed by the user but the lockScreen dismissal is false", ^{
+                testManager.canPresent = YES;
+                testManager.lockScreenDismissedByUser = YES;
+
+                SDLOnDriverDistraction *testLastDriverDistractionNotification = [[SDLOnDriverDistraction alloc] init];
+                testLastDriverDistractionNotification.lockScreenDismissalEnabled = @NO;
+                testLastDriverDistractionNotification.state = SDLDriverDistractionStateOn;
+                testManager.lastDriverDistractionNotification = testLastDriverDistractionNotification;
+
+                OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]);
+
+                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+
+                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beTrue());
+            });
+        });
     });
 
     describe(@"A lock screen status of OPTIONAL", ^{
