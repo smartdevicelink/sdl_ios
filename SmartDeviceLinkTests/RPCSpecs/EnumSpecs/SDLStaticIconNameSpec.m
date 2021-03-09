@@ -25,7 +25,11 @@ describe(@"Individual Enum Value Tests", ^{
         expect(SDLStaticIconNameAudioMute).to(equal(@"0x12"));
         expect(SDLStaticIconNameAudiobookEpisode).to(equal(@"0x83"));
         expect(SDLStaticIconNameAudiobookNarrator).to(equal(@"0x82"));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         expect(SDLStaticIconNameAuxillaryAudio).to(equal(@"0x45"));
+#pragma clang diagnostic pop
+        expect(SDLStaticIconNameAuxiliaryAudio).to(equal(@"0x45"));
         expect(SDLStaticIconNameBack).to(equal(@"0x86"));
         expect(SDLStaticIconNameBatteryCapacity0Of5).to(equal(@"0xF7"));
         expect(SDLStaticIconNameBatteryCapacity1Of5).to(equal(@"0xF8"));
