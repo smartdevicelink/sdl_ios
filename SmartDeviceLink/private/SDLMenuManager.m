@@ -502,6 +502,9 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark - Helpers
 
+/// Determine if the dynamic mode is active based on the set value.
+/// @param dynamicMenuUpdatesMode The set dynamic mode
+/// @returns YES if dynamic mode is forced on, or is on with compatibility, which only turns it on for Ford's Sync Gen 3 8-inch display type
 - (BOOL)sdl_isDynamicMenuUpdateActive:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
     switch (dynamicMenuUpdatesMode) {
         case SDLDynamicMenuUpdatesModeForceOn:
@@ -543,11 +546,10 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
-/**
- Check for cell lists with completely duplicate information, or any duplicate voiceCommands
-
- @param cells The cells you will be adding
- @return Boolean that indicates whether menuCells are unique or not
+/// Check for cell lists with completely duplicate information, or any duplicate voiceCommands
+///
+/// @param cells The cells you will be adding
+/// @return Boolean that indicates whether menuCells are unique or not
  */
 - (BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells allVoiceCommands:(NSMutableArray<NSString *> *)allVoiceCommands {
     ///Check all voice commands for identical items and check each list of cells for identical cells
@@ -583,6 +585,9 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark Artworks
 
+/// Get an array of artwork that needs to be uploaded form a list of menu cells
+/// @param cells The menu cells to get artwork from
+/// @returns The array of artwork that needs to be uploaded
 - (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
     if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         return @[];
@@ -612,6 +617,15 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableArtworks allObjects];
 }
 
+/// Determine if cells should or should not be uploaded to the head unit with artworks.
+///
+/// No artworks will be uploaded if:
+///
+/// 1. If any cell has a dynamic artwork that is not uploaded
+/// 2. If any cell contains a secondary artwork may be used on the head unit, and the cell has a dynamic secondary artwork that is not uploaded
+/// 3. If any cell's subcells fails check (1) or (2)
+/// @param cells The cells to check
+/// @return True if the cells should be uploaded with artwork, false if they should not
 - (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells {
     for (SDLMenuCell *cell in cells) {
         SDLArtwork *artwork = cell.icon;
@@ -626,8 +640,8 @@ UInt32 const MenuCellIdMin = 1;
             if (secondaryArtwork != nil && !secondaryArtwork.isStaticIcon && ![self.fileManager hasUploadedFile:secondaryArtwork]) {
                 return NO;
             }
-        } else if (cell.subCells.count > 0) {
-            return [self sdl_shouldRPCsIncludeImages:cell.subCells];
+        } else if (cell.subCells.count > 0 && ![self sdl_shouldRPCsIncludeImages:cell.subCells]) {
+            return NO;
         }
     }
 
@@ -636,6 +650,9 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark IDs
 
+/// Assign cell ids on an array of menu cells given a parent id (or no parent id)
+/// @param menuCells The array of menu cells to update
+/// @param parentId The parent id to assign if needed
 - (void)sdl_updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
     for (SDLMenuCell *cell in menuCells) {
         cell.cellId = self.lastMenuId++;
@@ -648,6 +665,8 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark Deletes
 
+/// Create an array of DeleteCommand and DeleteSubMenu RPCs from an array of menu cells
+/// @param cells The array of menu cells to use
 - (NSArray<SDLRPCRequest *> *)sdl_deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
     NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
@@ -664,14 +683,14 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark Commands / SubMenu RPCs
-/**
- This method will receive the cells to be added and the updated menu array. It will then build an array of add commands using the correct index to position the new items in the correct location.
 
- @param cells that will be added to the menu, this array must contain only cells that are not already in the menu.
- @param shouldHaveArtwork artwork bool
- @param menu the new menu array, this array should contain all the values the develeoper has set to be included in the new menu. This is used for placing the newly added cells in the correct locaiton.
- e.g. If the new menu array is [A, B, C, D] but only [C, D] are new we need to pass [A, B , C , D] so C and D can be added to index 2 and 3 respectively.
- @return list of SDLRPCRequest addCommands
+/// This method will receive the cells to be added and the updated menu array. It will then build an array of add commands using the correct index to position the new items in the correct location.
+/// e.g. If the new menu array is [A, B, C, D] but only [C, D] are new we need to pass [A, B , C , D] so C and D can be added to index 2 and 3 respectively.
+///
+/// @param cells that will be added to the menu, this array must contain only cells that are not already in the menu.
+/// @param shouldHaveArtwork artwork bool
+/// @param menu the new menu array, this array should contain all the values the developer has set to be included in the new menu. This is used for placing the newly added cells in the correct location.
+/// @return list of SDLRPCRequest addCommands
  */
 - (NSArray<SDLRPCRequest *> *)sdl_mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
@@ -691,6 +710,10 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableCommands copy];
 }
 
+/// Creates SDLAddSubMenu RPCs for the passed array of menu cells, AND all of those cells' subcell RPCs, both SDLAddCommands and SDLAddSubMenus
+/// @param cells The cells to create RPCs for
+/// @param shouldHaveArtwork Whether artwork should be applied to the RPCs
+/// @returns An array of RPCs of SDLAddSubMenus and their associated subcell RPCs
 - (NSArray<SDLRPCRequest *> *)sdl_subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
@@ -702,6 +725,10 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableCommands copy];
 }
 
+/// Creates SDLAddCommand and SDLAddSubMenu RPCs for a passed array of cells, AND all of those cells' subcell RPCs, both SDLAddCommands and SDLAddSubmenus
+/// @param cells The cells to create RPCs for
+/// @param shouldHaveArtwork Whether artwork should be applied to the RPCs
+/// @returns An array of RPCs of SDLAddCommand and SDLAddSubMenus for the array of menu cells and their subcells, recursively
 - (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
@@ -717,6 +744,11 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableCommands copy];
 }
 
+/// An individual SDLAddCommand RPC for a given SDLMenuCell
+/// @param cell The cell to create the RPC for
+/// @param shouldHaveArtwork Whether artwork should be applied to the RPC
+/// @param position The position the SDLAddCommand RPC should be given
+/// @returns The SDLAddCommand RPC
 - (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLAddCommand *command = [[SDLAddCommand alloc] init];
 
@@ -736,6 +768,11 @@ UInt32 const MenuCellIdMin = 1;
     return command;
 }
 
+/// An individual SDLAddSubMenu RPC for a given SDLMenuCell
+/// @param cell The cell to create the RPC for
+/// @param shouldHaveArtwork Whether artwork should be applied to the RPC
+/// @param position The position the SDLAddSubMenu RPC should be given
+/// @returns The SDLAddSubMenu RPC
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
     SDLImage *secondaryImage = (shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork] && (cell.secondaryArtwork.name != nil)) ? cell.secondaryArtwork.imageRPC : nil;
@@ -754,6 +791,10 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark - Calling handlers
 
+/// Call a handler for a currently displayed SDLMenuCell based on the incoming SDLOnCommand notification
+/// @param cells The menu cells to check (including their subcells)
+/// @param onCommand The notification retrieved
+/// @returns True if the handler was found, false if it was not found
 - (BOOL)sdl_callHandlerForCells:(NSArray<SDLMenuCell *> *)cells command:(SDLOnCommand *)onCommand {
     for (SDLMenuCell *cell in cells) {
         if (cell.cellId == onCommand.cmdID.unsignedIntegerValue && cell.handler != nil) {
