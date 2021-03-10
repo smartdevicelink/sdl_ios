@@ -122,14 +122,12 @@ describe(@"uploading / deleting single files with the file manager", ^{
                 startupError = error;
                 completionHandlerCalled = YES;
             }];
-
-            [NSThread sleepForTimeInterval:0.1];
         });
 
         it(@"should have queued a ListFiles request", ^{
-            expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
-            expect(testFileManager.pendingTransactions).to(haveCount(@1));
-            expect(testFileManager.pendingTransactions.firstObject).to(beAnInstanceOf([SDLListFilesOperation class]));
+            expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateFetchingInitialList));
+            expect(testFileManager.pendingTransactions).toEventually(haveCount(@1));
+            expect(testFileManager.pendingTransactions.firstObject).toEventually(beAnInstanceOf([SDLListFilesOperation class]));
         });
 
         describe(@"after going to the shutdown state and receiving a ListFiles response", ^{

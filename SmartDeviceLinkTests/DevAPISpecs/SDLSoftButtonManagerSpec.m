@@ -195,6 +195,7 @@ describe(@"a soft button manager", ^{
         });
     });
 
+    // valid button objects (button objects have different names)
     describe(@"valid button objects (button objects have different names)", ^{
         beforeEach(^{
             SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
@@ -208,27 +209,30 @@ describe(@"a soft button manager", ^{
             testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
 
             testManager.softButtonObjects = @[testObject1, testObject2];
-            [NSThread sleepForTimeInterval:0.1];
         });
 
+        // should set soft buttons correctly
         it(@"should set soft buttons correctly", ^{
-            expect(testManager.softButtonObjects).toNot(beNil());
-            expect(testObject1.buttonId).to(equal(1));
-            expect(testObject2.buttonId).to(equal(2));
-            expect(testObject1.manager).to(equal(testManager));
-            expect(testObject2.manager).to(equal(testManager));
+            expect(testManager.softButtonObjects).toEventuallyNot(beNil());
+            expect(testObject1.buttonId).toEventually(equal(1));
+            expect(testObject2.buttonId).toEventually(equal(2));
+            expect(testObject1.manager).toEventually(equal(testManager));
+            expect(testObject2.manager).toEventually(equal(testManager));
 
             // One replace operation
-            expect(testManager.transactionQueue.operationCount).to(equal(1));
+            expect(testManager.transactionQueue.operationCount).toEventually(equal(1));
         });
 
+        // should replace earlier operations when a replace operation is entered
         it(@"should replace earlier operations when a replace operation is entered", ^{
             [testObject1 transitionToNextState];
             testManager.softButtonObjects = @[testObject1];
-            expect(testManager.transactionQueue.operationCount).to(equal(3));
-            expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
-            expect(testManager.transactionQueue.operations[1].isCancelled).to(beTrue());
-            expect(testManager.transactionQueue.operations[2].isCancelled).to(beFalse());
+            [NSThread sleepForTimeInterval:0.5]; // Necessary to not get range exceptions with toEventually?
+
+            expect(testManager.transactionQueue.operationCount).withTimeout(3.0).toEventually(equal(3));
+            expect(testManager.transactionQueue.operations[0].isCancelled).withTimeout(3.0).toEventually(beTrue());
+            expect(testManager.transactionQueue.operations[1].isCancelled).withTimeout(3.0).toEventually(beTrue());
+            expect(testManager.transactionQueue.operations[2].isCancelled).withTimeout(3.0).toEventually(beFalse());
         });
 
         it(@"should retrieve soft buttons correctly", ^{

@@ -615,12 +615,11 @@ describe(@"System capability manager", ^{
 
             it(@"should should not save the capabilities", ^{
                 [testSystemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                    expect(error).toEventually(equal(testConnectionManager.defaultError));
-                    expect(systemCapabilityManager.phoneCapability).toEventually(beNil());
+                    expect(error).to(equal(testConnectionManager.defaultError));
+                    expect(systemCapabilityManager.phoneCapability).to(beNil());
                 }];
 
-                [NSThread sleepForTimeInterval:0.1];
-
+                [NSThread sleepForTimeInterval:0.1]; // This still needs to be here to ensure request is sent first
                 [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
@@ -632,18 +631,17 @@ describe(@"System capability manager", ^{
 
             it(@"should save the capabilitity", ^{
                 [testSystemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                    expect(testSystemCapabilityManager.phoneCapability).toEventually(equal(testPhoneCapability));
-                    expect(error).toEventually(beNil());
+                    expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
+                    expect(error).to(beNil());
                 }];
 
-                [NSThread sleepForTimeInterval:0.1];
-
+                [NSThread sleepForTimeInterval:0.1]; // This still needs to be here to ensure request is sent first
                 [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
 
         afterEach(^{
-            // Make sure the RAIR properties and other system capabilities were not inadverdently set
+            // Make sure the RAIR properties and other system capabilities were not inadvertently set
             expect(testSystemCapabilityManager.displays).to(beNil());
             expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
 #pragma clang diagnostic push

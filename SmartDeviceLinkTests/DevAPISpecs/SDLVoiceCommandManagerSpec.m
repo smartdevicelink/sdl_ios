@@ -146,12 +146,12 @@ describe(@"voice command manager", ^{
                     SDLVoiceCommandUpdateOperation *firstOp = testManager.transactionQueue.operations[0];
                     firstOp.currentVoiceCommands = [@[testVoiceCommand2] mutableCopy];
                     [firstOp finishOperation];
+
+                    [NSThread sleepForTimeInterval:0.5];
                 });
 
                 it(@"should update the second operation", ^{
-                    SDLVoiceCommandUpdateOperation *secondOp = testManager.transactionQueue.operations[0];
-
-                    expect(secondOp.oldVoiceCommands.firstObject).toEventually(equal(testVoiceCommand2));
+                    expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).withTimeout(3.0).toEventually(equal(testVoiceCommand2));
                 });
             });
         });

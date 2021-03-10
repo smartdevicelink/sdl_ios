@@ -697,8 +697,8 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testPresentAlertOperation start];
 
-                    expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertDataInvalid]));
-                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(testPresentAlertOperation.internalError).toEventually(equal([NSError sdl_alertManager_alertDataInvalid]));
+                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
                 });
             });
