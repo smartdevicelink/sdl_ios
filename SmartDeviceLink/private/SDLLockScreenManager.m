@@ -187,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (!self.lockScreenDismissedByUser && self.canPresent) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         } else if (self.lastDriverDistractionNotification.lockScreenDismissalEnabled != nil && !self.lastDriverDistractionNotification.lockScreenDismissalEnabled.boolValue && [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] && self.canPresent) {
-            // Checks added to satisfy specific situations found in the Excel sheet for lockScreen tests where the Lockscreen should be presented
+            // The lockscreen should be presented if it was already dismissed by the user (i.e. the first `OnDriverDistraction` notification received set the `lockScreenDismissalEnabled` to `true` ) and a new `OnDriverDistraction` notification with the `lockScreenDismissalEnabled` set to `false` is received from the module
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
     } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusRequired) {
@@ -221,7 +221,7 @@ NS_ASSUME_NONNULL_BEGIN
             !self.lockScreenDismissable) {
             self.lockScreenDismissedByUser = NO;
         }
-    } else if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
+    } else {
         [self sdl_updateLockscreenViewControllerWithDismissableState:self.lockScreenDismissable];
     }
 
