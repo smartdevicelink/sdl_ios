@@ -222,6 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
             self.lockScreenDismissedByUser = NO;
         }
     } else {
+        // This code solves Lockscreen State test #22 where the Lockscreen is presented but the user is not able to swipe to dismiss
         [self sdl_updateLockscreenViewControllerWithDismissableState:self.lockScreenDismissable];
     }
 

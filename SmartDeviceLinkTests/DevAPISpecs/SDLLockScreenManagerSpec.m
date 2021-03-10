@@ -435,7 +435,7 @@ describe(@"a lock screen manager", ^{
 
                 expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beTrue());
 
-                expect(testManager.lockScreenDismissable).to(equal(NO));
+                expect(testManager.lockScreenDismissable).to(beFalse());
             });
         });
     });
@@ -467,6 +467,19 @@ describe(@"a lock screen manager", ^{
 
                 OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
             });
+
+            it(@"should set lockScreenDismissedByUser to `false`", ^{
+                testManager.canPresent = YES;
+                testManager.lockScreenDismissedByUser = YES;
+
+                SDLOnDriverDistraction *testLastDriverDistractionNotification = [[SDLOnDriverDistraction alloc] init];
+                testLastDriverDistractionNotification.lockScreenDismissalEnabled = @NO;
+                testLastDriverDistractionNotification.state = SDLDriverDistractionStateOn;
+                testManager.lastDriverDistractionNotification = testLastDriverDistractionNotification;
+
+                [testManager sdl_updateLockScreenDismissable];
+                expect(testManager.lockScreenDismissedByUser).to(equal(NO));
+            });
         });
 
         context(@"displayMode is set to never show the lockscreen", ^{
@@ -483,21 +496,6 @@ describe(@"a lock screen manager", ^{
                 [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testOptionalStatus}];
 
                 OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
-            });
-
-            it(@"should not present the lock screen if it was already dismissed by the user but a new `OnDriverDistraction` notification with the `lockScreenDismissalEnabled` set to `false` is received and LockScreenDismissedByUser should be set to `false`", ^{
-                testManager.canPresent = YES;
-                testManager.lockScreenDismissedByUser = YES;
-
-                SDLOnDriverDistraction *testLastDriverDistractionNotification = [[SDLOnDriverDistraction alloc] init];
-                testLastDriverDistractionNotification.lockScreenDismissalEnabled = @NO;
-                testLastDriverDistractionNotification.state = SDLDriverDistractionStateOn;
-                testManager.lastDriverDistractionNotification = testLastDriverDistractionNotification;
-
-                expect(testManager.lockScreenDismissable).to(equal(NO));
-
-                [testManager sdl_updateLockScreenDismissable];
-                expect(testManager.lockScreenDismissedByUser).to(equal(NO));
             });
         });
     });
