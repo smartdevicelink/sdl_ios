@@ -17,6 +17,7 @@ SDLStaticIconName const SDLStaticIconNameAudioMute = @"0x12";
 SDLStaticIconName const SDLStaticIconNameAudiobookEpisode = @"0x83";
 SDLStaticIconName const SDLStaticIconNameAudiobookNarrator = @"0x82";
 SDLStaticIconName const SDLStaticIconNameAuxillaryAudio = @"0x45";
+SDLStaticIconName const SDLStaticIconNameAuxiliaryAudio = @"0x45";
 SDLStaticIconName const SDLStaticIconNameBack = @"0x86";
 SDLStaticIconName const SDLStaticIconNameBatteryCapacity0Of5 = @"0xF7";
 SDLStaticIconName const SDLStaticIconNameBatteryCapacity1Of5 = @"0xF8";

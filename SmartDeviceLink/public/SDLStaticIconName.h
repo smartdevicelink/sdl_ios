@@ -54,9 +54,14 @@ extern SDLStaticIconName const SDLStaticIconNameAudiobookEpisode;
 extern SDLStaticIconName const SDLStaticIconNameAudiobookNarrator;
 
 /**
- * Static icon auxillary audio
+ * Static icon auxiliary audio
  */
-extern SDLStaticIconName const SDLStaticIconNameAuxillaryAudio;
+extern SDLStaticIconName const SDLStaticIconNameAuxillaryAudio __deprecated_msg("Use SDLStaticIconNameAuxiliaryAudio instead");
+
+/**
+ * Static icon auxiliary audio
+ */
+extern SDLStaticIconName const SDLStaticIconNameAuxiliaryAudio;
 
 /**
  * Static icon back / return
