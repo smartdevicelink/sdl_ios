@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLChoiceSet
 
+static const float TimeoutDefault = 0.0;
+static const float TimeoutMinCap = 5.0;
+static const float TimeoutMaxCap = 100.0;
 static NSTimeInterval _defaultTimeout = 10.0;
 static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
@@ -32,7 +35,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     self = [super init];
     if (!self) { return nil; }
 
-    _timeout = self.class.defaultTimeout;
+    _timeout = TimeoutDefault;
     _layout = self.class.defaultLayout;
 
     return self;
@@ -59,11 +62,6 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         return nil;
     }
 
-    if (timeout < 5 || timeout > 100) {
-        SDLLogW(@"Attempted to create a choice set with a %f second timeout; Only 5 - 100 seconds is valid", timeout);
-        return nil;
-    }
-
     if (title.length == 0 || title.length > 500) {
         SDLLogW(@"Attempted to create a choice set title with a %lu length. Only 500 characters are supported", (unsigned long)title.length);
         return nil;
@@ -78,7 +76,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     _title = title;
     _delegate = delegate;
     _layout = layout;
-    _timeout = timeout;
+    self.timeout = timeout;
     _initialPrompt = initialPrompt;
     _timeoutPrompt = timeoutPrompt;
     _helpPrompt = helpPrompt;
@@ -97,12 +95,30 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
 #pragma mark - Getters / Setters
 
++ (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
+    _defaultTimeout = defaultTimeout;
+}
+
 + (NSTimeInterval)defaultTimeout {
+   if (_defaultTimeout < TimeoutMinCap) {
+        return TimeoutMinCap;
+    } else if (_defaultTimeout > TimeoutMaxCap) {
+        return TimeoutMaxCap;
+    }
+
     return _defaultTimeout;
 }
 
-+ (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
-    _defaultTimeout = defaultTimeout;
+- (NSTimeInterval)timeout {
+    if (_timeout == TimeoutDefault) {
+        return SDLChoiceSet.defaultTimeout;
+    } else if (_timeout < TimeoutMinCap) {
+        return TimeoutMinCap;
+    } else if (_timeout > TimeoutMaxCap) {
+        return TimeoutMaxCap;
+    }
+
+    return _timeout;
 }
 
 + (SDLChoiceSetLayout)defaultLayout {
