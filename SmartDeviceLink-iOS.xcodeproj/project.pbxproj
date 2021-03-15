@@ -1710,6 +1710,14 @@
 		B3A0BA2D259600D100CC3BDF /* SDLSupportedStreamingRangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A0BA2C259600D100CC3BDF /* SDLSupportedStreamingRangeSpec.m */; };
 		B3A3CE9E2522241600A7121D /* SDLAppCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A3CE9D2522241600A7121D /* SDLAppCapabilitySpec.m */; };
 		B3A3CEA025222A2900A7121D /* SDLOnAppCapabilityUpdatedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A3CE9F25222A2900A7121D /* SDLOnAppCapabilityUpdatedSpec.m */; };
+		B3A9D9E225D2571000CDFD21 /* SDLKeyboardCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9D9E025D2571000CDFD21 /* SDLKeyboardCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3A9D9E725D2578F00CDFD21 /* SDLKeyboardLayoutCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9D9E525D2578F00CDFD21 /* SDLKeyboardLayoutCapability.m */; };
+		B3A9D9E825D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9D9E625D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3A9D9ED25D2586C00CDFD21 /* SDLKeyboardInputMask.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9D9EB25D2586C00CDFD21 /* SDLKeyboardInputMask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3A9D9EE25D2586C00CDFD21 /* SDLKeyboardInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9D9EC25D2586C00CDFD21 /* SDLKeyboardInputMask.m */; };
+		B3A9DA0425D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA0325D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m */; };
+		B3A9DA0A25D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA0925D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m */; };
+		B3A9DA1225D270EA00CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA1125D270E900CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m */; };
 		B3A9DAFC25D4943E00CDFD21 /* SDLAppCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9DAFA25D4943D00CDFD21 /* SDLAppCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3A9DAFD25D4943E00CDFD21 /* SDLAppCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DAFB25D4943D00CDFD21 /* SDLAppCapability.m */; };
 		B3A9DB0625D497FB00CDFD21 /* SDLAppCapabilityType.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DB0425D497FB00CDFD21 /* SDLAppCapabilityType.m */; };
@@ -1724,15 +1732,6 @@
 		B3DF19ED251225300090D7BA /* TestSmartConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19EB251225300090D7BA /* TestSmartConnectionManager.m */; };
 		B3DF19F0251225770090D7BA /* TestStreamingMediaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19EE251225760090D7BA /* TestStreamingMediaDelegate.m */; };
 		B3DF19F3251225AA0090D7BA /* TestSmartConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19F1251225A90090D7BA /* TestSmartConnection.m */; };
-		B3A9D9E125D2571000CDFD21 /* SDLKeyboardCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9D9DF25D2571000CDFD21 /* SDLKeyboardCapabilities.m */; };
-		B3A9D9E225D2571000CDFD21 /* SDLKeyboardCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9D9E025D2571000CDFD21 /* SDLKeyboardCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3A9D9E725D2578F00CDFD21 /* SDLKeyboardLayoutCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9D9E525D2578F00CDFD21 /* SDLKeyboardLayoutCapability.m */; };
-		B3A9D9E825D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9D9E625D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3A9D9ED25D2586C00CDFD21 /* SDLKeyboardInputMask.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A9D9EB25D2586C00CDFD21 /* SDLKeyboardInputMask.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3A9D9EE25D2586C00CDFD21 /* SDLKeyboardInputMask.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9D9EC25D2586C00CDFD21 /* SDLKeyboardInputMask.m */; };
-		B3A9DA0425D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA0325D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m */; };
-		B3A9DA0A25D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA0925D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m */; };
-		B3A9DA1225D270EA00CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9DA1125D270E900CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m */; };
 		B3EC9E6E2579AA010039F3AA /* SDLClimateDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
 		C9707D1825DEE786009D00F2 /* NSArray+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = C9707D1625DEE786009D00F2 /* NSArray+Extensions.h */; };
@@ -3615,6 +3614,15 @@
 		B3A0BA2C259600D100CC3BDF /* SDLSupportedStreamingRangeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedStreamingRangeSpec.m; sourceTree = "<group>"; };
 		B3A3CE9D2522241600A7121D /* SDLAppCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppCapabilitySpec.m; sourceTree = "<group>"; };
 		B3A3CE9F25222A2900A7121D /* SDLOnAppCapabilityUpdatedSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnAppCapabilityUpdatedSpec.m; sourceTree = "<group>"; };
+		B3A9D9DF25D2571000CDFD21 /* SDLKeyboardCapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLKeyboardCapabilities.m; path = public/SDLKeyboardCapabilities.m; sourceTree = "<group>"; };
+		B3A9D9E025D2571000CDFD21 /* SDLKeyboardCapabilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLKeyboardCapabilities.h; path = public/SDLKeyboardCapabilities.h; sourceTree = "<group>"; };
+		B3A9D9E525D2578F00CDFD21 /* SDLKeyboardLayoutCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLKeyboardLayoutCapability.m; path = public/SDLKeyboardLayoutCapability.m; sourceTree = "<group>"; };
+		B3A9D9E625D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLKeyboardLayoutCapability.h; path = public/SDLKeyboardLayoutCapability.h; sourceTree = "<group>"; };
+		B3A9D9EB25D2586C00CDFD21 /* SDLKeyboardInputMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLKeyboardInputMask.h; path = public/SDLKeyboardInputMask.h; sourceTree = "<group>"; };
+		B3A9D9EC25D2586C00CDFD21 /* SDLKeyboardInputMask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLKeyboardInputMask.m; path = public/SDLKeyboardInputMask.m; sourceTree = "<group>"; };
+		B3A9DA0325D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardInputMaskSpec.m; sourceTree = "<group>"; };
+		B3A9DA0925D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardCapabilitiesSpec.m; sourceTree = "<group>"; };
+		B3A9DA1125D270E900CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardLayoutCapabilitySpec.m; sourceTree = "<group>"; };
 		B3A9DAFA25D4943D00CDFD21 /* SDLAppCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLAppCapability.h; path = public/SDLAppCapability.h; sourceTree = "<group>"; };
 		B3A9DAFB25D4943D00CDFD21 /* SDLAppCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLAppCapability.m; path = public/SDLAppCapability.m; sourceTree = "<group>"; };
 		B3A9DB0425D497FB00CDFD21 /* SDLAppCapabilityType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLAppCapabilityType.m; path = public/SDLAppCapabilityType.m; sourceTree = "<group>"; };
@@ -3632,15 +3640,6 @@
 		B3DF19EF251225760090D7BA /* TestStreamingMediaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestStreamingMediaDelegate.h; sourceTree = "<group>"; };
 		B3DF19F1251225A90090D7BA /* TestSmartConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSmartConnection.m; sourceTree = "<group>"; };
 		B3DF19F2251225A90090D7BA /* TestSmartConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSmartConnection.h; sourceTree = "<group>"; };
-		B3A9D9DF25D2571000CDFD21 /* SDLKeyboardCapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLKeyboardCapabilities.m; path = public/SDLKeyboardCapabilities.m; sourceTree = "<group>"; };
-		B3A9D9E025D2571000CDFD21 /* SDLKeyboardCapabilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLKeyboardCapabilities.h; path = public/SDLKeyboardCapabilities.h; sourceTree = "<group>"; };
-		B3A9D9E525D2578F00CDFD21 /* SDLKeyboardLayoutCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLKeyboardLayoutCapability.m; path = public/SDLKeyboardLayoutCapability.m; sourceTree = "<group>"; };
-		B3A9D9E625D2578F00CDFD21 /* SDLKeyboardLayoutCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLKeyboardLayoutCapability.h; path = public/SDLKeyboardLayoutCapability.h; sourceTree = "<group>"; };
-		B3A9D9EB25D2586C00CDFD21 /* SDLKeyboardInputMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLKeyboardInputMask.h; path = public/SDLKeyboardInputMask.h; sourceTree = "<group>"; };
-		B3A9D9EC25D2586C00CDFD21 /* SDLKeyboardInputMask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLKeyboardInputMask.m; path = public/SDLKeyboardInputMask.m; sourceTree = "<group>"; };
-		B3A9DA0325D26D8500CDFD21 /* SDLKeyboardInputMaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardInputMaskSpec.m; sourceTree = "<group>"; };
-		B3A9DA0925D26E1800CDFD21 /* SDLKeyboardCapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardCapabilitiesSpec.m; sourceTree = "<group>"; };
-		B3A9DA1125D270E900CDFD21 /* SDLKeyboardLayoutCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLKeyboardLayoutCapabilitySpec.m; sourceTree = "<group>"; };
 		B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLClimateDataSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
 		C9707D1625DEE786009D00F2 /* NSArray+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+Extensions.h"; path = "private/NSArray+Extensions.h"; sourceTree = "<group>"; };
@@ -9119,7 +9118,6 @@
 				B3A3CEA025222A2900A7121D /* SDLOnAppCapabilityUpdatedSpec.m in Sources */,
 				162E831E1A9BDE8B00906325 /* SDLOnTBTClientStateSpec.m in Sources */,
 				162E83351A9BDE8B00906325 /* SDLReadDIDSpec.m in Sources */,
-				5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */,
 				4AD1F1742559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m in Sources */,
 				88B3BFA020DA8FD000943565 /* SDLFuelTypeSpec.m in Sources */,
 				162E836F1A9BDE8B00906325 /* SDLUnsubscribeVehicleDataResponseSpec.m in Sources */,
@@ -9382,7 +9380,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = "7.1.0-rc.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
 				SWIFT_VERSION = 5.0;
@@ -9398,7 +9396,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = "7.1.0-rc.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
 				SWIFT_VERSION = 5.0;
@@ -9441,7 +9439,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = "7.1.0-rc.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -9487,7 +9485,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = "7.1.0-rc.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -9583,7 +9581,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = "7.1.0-rc.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9605,7 +9603,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = "7.1.0-rc.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9652,7 +9650,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = "7.1.0-rc.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -9703,7 +9701,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = "7.1.0-rc.1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
