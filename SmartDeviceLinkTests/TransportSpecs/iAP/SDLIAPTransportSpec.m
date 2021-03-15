@@ -137,54 +137,6 @@ describe(@"SDLIAPTransport", ^{
                 expect(transport.transportDestroyed).to(beFalse());
             });
         });
-
-        context(@"When a data session is open", ^{
-            __block SDLIAPDataSession *mockDataSession = nil;
-
-            beforeEach(^{
-                mockDataSession = OCMStrictClassMock([SDLIAPDataSession class]);
-                OCMStub([mockDataSession isSessionInProgress]).andReturn(YES);
-                OCMStub([mockDataSession connectionID]).andReturn(mockAccessory.connectionID);
-                transport.dataSession = mockDataSession;
-                transport.controlSession = nil;
-            });
-
-            it(@"It should cleanup on disconnect, close and destroy data session, and notify the lifecycle manager that the transport disconnected", ^{
-                OCMExpect([mockDataSession destroySessionWithCompletionHandler:[OCMArg invokeBlock]]);
-
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-
-                expect(transport.retryCounter).toEventually(equal(0));
-                expect(transport.sessionSetupInProgress).toEventually(beFalse());
-                expect(transport.transportDestroyed).toEventually(beTrue());
-
-                OCMVerify([mockTransportDelegate onTransportDisconnected]);
-            });
-        });
-
-        describe(@"When a control session is open", ^{
-            __block SDLIAPControlSession *mockControlSession = nil;
-
-            beforeEach(^{
-                mockControlSession = OCMStrictClassMock([SDLIAPControlSession class]);
-                OCMStub([mockControlSession isSessionInProgress]).andReturn(YES);
-                OCMStub([mockControlSession connectionID]).andReturn(mockAccessory.connectionID);
-                transport.controlSession = mockControlSession;
-                transport.dataSession = nil;
-            });
-
-            it(@"It should cleanup on disconnect, close and destroy data session, and should not tell the delegate that the transport closed", ^{
-                OCMExpect([mockControlSession destroySessionWithCompletionHandler:[OCMArg invokeBlock]]);
-
-                [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
-
-                expect(transport.retryCounter).toEventually(equal(0));
-                expect(transport.sessionSetupInProgress).toEventually(beFalse());
-                expect(transport.transportDestroyed).toEventually(beFalse());
-
-                OCMReject([mockTransportDelegate onTransportDisconnected]);
-            });
-        });
     });
 });
 

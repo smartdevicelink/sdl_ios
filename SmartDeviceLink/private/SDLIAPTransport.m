@@ -1,6 +1,5 @@
 //  SDLIAPTransport.h
 
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
@@ -55,6 +54,16 @@ int const CreateSessionRetries = 3;
     // Wait for setup to complete before scanning for accessories
 
     return self;
+}
+
+- (void)dealloc {
+    SDLLogV(@"SDLIAPTransport dealloc executed");
+    if (self.dataSession != nil) {
+        [self.dataSession closeSession];
+    }
+    if (self.controlSession != nil) {
+        [self.controlSession closeSession];
+    }
 }
 
 #pragma mark - Notifications
@@ -141,37 +150,36 @@ int const CreateSessionRetries = 3;
 
     if (!self.controlSession.isSessionInProgress && !self.dataSession.isSessionInProgress) {
         SDLLogV(@"Accessory (%@, %@), disconnected, but no session is in progress.", accessory.name, accessory.serialNumber);
-        [self sdl_closeSessions];
+        [self sdl_destroySessions];
     } else if (self.dataSession.isSessionInProgress) {
-        if (self.dataSession.connectionID != accessory.connectionID) {
-            SDLLogD(@"Accessory's connectionID, %lu, does not match the connectionID of the current data session, %lu. Another phone disconnected from the head unit. The session will not be closed.", accessory.connectionID, self.dataSession.connectionID);
-            return;
+        if (self.dataSession.connectionID == accessory.connectionID) {
+            // The data session has been established. Tell the delegate that the transport has disconnected. The lifecycle manager will destroy and create a new transport object.
+            SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
+            [self sdl_destroyTransport];
+        } else {
+            SDLLogD(@"Accessory connectionID, %lu, does not match the connectionID of the current data session, %lu. Another phone disconnected from the head unit. The session will not be closed.", accessory.connectionID, self.dataSession.connectionID);
         }
-        // The data session has been established. Tell the delegate that the transport has disconnected. The lifecycle manager will destroy and create a new transport object.
-        SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
-        [self sdl_destroyTransport];
     } else if (self.controlSession.isSessionInProgress) {
-        if (self.controlSession.connectionID != accessory.connectionID) {
+        if (self.controlSession.connectionID == accessory.connectionID) {
+            // The data session has yet to be established so the transport has not yet connected. DO NOT unregister for notifications from the accessory.
+            SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
+            [self sdl_destroySessions];
+        } else {
             SDLLogD(@"Accessory's connectionID, %lu, does not match the connectionID of the current control session, %lu. Another phone disconnected from the head unit. The session will not be closed.", accessory.connectionID, self.controlSession.connectionID);
-            return;
         }
-        // The data session has yet to be established so the transport has not yet connected. DO NOT unregister for notifications from the accessory.
-        SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
-        [self sdl_closeSessions];
     } else {
         SDLLogV(@"Accessory (%@, %@) disconnecting during an unknown session", accessory.name, accessory.serialNumber);
-        [self sdl_closeSessions];
+        [self sdl_destroySessions];
     }
 }
 
 /**
- *  Closes and cleans up the sessions after a control session has been closed. Since a data session has not been established, the lifecycle manager has not transitioned to state started. Do not unregister for notifications from accessory connections/disconnections otherwise the library will not be able to connect to an accessory again.
+ *  Destroys and cleans up the sessions after a control session has been closed. Since a data session has not been established, the lifecycle manager has not transitioned to state started. Do not unregister for notifications from accessory connections/disconnections otherwise the library will not be able to connect to an accessory again.
  */
-- (void)sdl_closeSessions {
+- (void)sdl_destroySessions {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
-
-    [self sdl_closeSessionsWithCompletionHandler:nil];
+    [self sdl_closeSessions:nil];
 }
 
 /**
@@ -224,9 +232,8 @@ int const CreateSessionRetries = 3;
     self.sessionSetupInProgress = NO;
     self.transportDestroyed = YES;
 
-    [self sdl_closeSessionsWithCompletionHandler:disconnectCompletionHandler];
+    [self sdl_closeSessions:disconnectCompletionHandler];
 }
-
 
 #pragma mark Helpers
 
@@ -290,7 +297,7 @@ int const CreateSessionRetries = 3;
     self.sessionSetupInProgress = NO;
 
     __weak typeof(self) weakSelf = self;
-    [self sdl_closeSessionsWithCompletionHandler:^{
+    [self sdl_closeSessions:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         // Search connected accessories
         [strongSelf sdl_connect:nil];
@@ -298,34 +305,31 @@ int const CreateSessionRetries = 3;
 }
 
 /// Helper method for closing both the data and control sessions.
-/// @param disconnectCompletionHandler Handler called when both the data and control sessions have been disconnected successfully
-- (void)sdl_closeSessionsWithCompletionHandler:(nullable void (^)(void))disconnectCompletionHandler {
+/// @param completionHandler Handler called when both the data and control sessions have been disconnected successfully
+- (void)sdl_closeSessions:(nullable void (^)(void))completionHandler {
     dispatch_group_t endSessionsTask = dispatch_group_create();
+    
     dispatch_group_enter(endSessionsTask);
-
     if (self.controlSession != nil) {
         dispatch_group_enter(endSessionsTask);
-        [self.controlSession destroySessionWithCompletionHandler:^{
-            SDLLogV(@"Control session destroyed");
-            dispatch_group_leave(endSessionsTask);
-        }];
+        [self.controlSession closeSession];
+        self.controlSession = nil;
+        SDLLogV(@"Control session tear down complete");
+        dispatch_group_leave(endSessionsTask);
     }
-
     if (self.dataSession != nil) {
         dispatch_group_enter(endSessionsTask);
-        [self.dataSession destroySessionWithCompletionHandler:^{
-            SDLLogV(@"Data session destroyed");
-            dispatch_group_leave(endSessionsTask);
-        }];
+        [self.dataSession closeSession];
+        self.dataSession = nil;
+        SDLLogV(@"Data session tear down complete");
+        dispatch_group_leave(endSessionsTask);
     }
-
     dispatch_group_leave(endSessionsTask);
-
-    // This will always run after all `leave` calls
+    
     dispatch_group_notify(endSessionsTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         SDLLogV(@"Both the data and control sessions are closed");
-        if (disconnectCompletionHandler != nil) {
-            disconnectCompletionHandler();
+        if (completionHandler != nil) {
+            completionHandler();
         }
     });
 }
@@ -338,7 +342,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Called when the control session should be retried.
  */
-- (void)controlSessionShouldRetry {
+- (void)controlSessionDidEnd {
     SDLLogV(@"Retrying the control session");
     [self sdl_retryEstablishSession];
 }
@@ -351,8 +355,10 @@ int const CreateSessionRetries = 3;
  */
 - (void)controlSession:(nonnull SDLIAPControlSession *)controlSession didReceiveProtocolString:(nonnull NSString *)protocolString {
     SDLLogD(@"Control transport session received data session number: %@", protocolString);
-    self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:controlSession.accessory delegate:self forProtocol:protocolString];
-    [self.dataSession startSession];
+    EAAccessory *accessory =  self.controlSession.accessory;
+    [self.controlSession closeSession];
+    self.controlSession = nil;
+    self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
 }
 
 
@@ -370,7 +376,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Called when the data session should be retried.
  */
-- (void)dataSessionShouldRetry {
+- (void)dataSessionDidEnd {
     SDLLogV(@"Retrying the data session");
     [self sdl_retryEstablishSession];
 }
@@ -539,18 +545,21 @@ int const CreateSessionRetries = 3;
     if (![self.class sdl_plistContainsAllSupportedProtocolStrings]) {
         return NO;
     }
-
+    
     if ([protocolString isEqualToString:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+        if (self.dataSession != nil) {
+            [self.dataSession closeSession];
+        }
         self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
-        [self.dataSession startSession];
         return YES;
     } else if ([protocolString isEqualToString:ControlProtocolString]) {
-        self.controlSession = [[SDLIAPControlSession alloc] initWithAccessory:accessory delegate:self];
-        [self.controlSession startSession];
+        if (self.controlSession != nil) {
+            [self.controlSession closeSession];
+        }
+        self.controlSession = [[SDLIAPControlSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
         return YES;
     } else if ([protocolString isEqualToString:LegacyProtocolString]) {
         self.dataSession = [[SDLIAPDataSession alloc] initWithAccessory:accessory delegate:self forProtocol:protocolString];
-        [self.dataSession startSession];
         return YES;
     }
 
@@ -560,3 +569,5 @@ int const CreateSessionRetries = 3;
 @end
 
 NS_ASSUME_NONNULL_END
+
+
