@@ -135,12 +135,14 @@ describe(@"an SDLChoiceSet", ^{
                 expect(testChoiceSet).to(beNil());
             });
 
-            it(@"should return nil with too short or too long timeout", ^{
+            it(@"should cap the timeout when too long or too short", ^{
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate layout:testLayout timeout:4.9 initialPromptString:nil timeoutPromptString:nil helpPromptString:nil vrHelpList:nil choices:@[testCell]];
-                expect(testChoiceSet).to(beNil());
+                expect(testChoiceSet).toNot(beNil());
+                expect(testChoiceSet.timeout).to(beCloseTo(5.0));
 
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate layout:testLayout timeout:100.1 initialPromptString:nil timeoutPromptString:nil helpPromptString:nil vrHelpList:nil choices:@[testCell]];
-                expect(testChoiceSet).to(beNil());
+                expect(testChoiceSet).toNot(beNil());
+                expect(testChoiceSet.timeout).to(beCloseTo(100.0));
             });
 
             it(@"should return nil with too short or too long title", ^{
