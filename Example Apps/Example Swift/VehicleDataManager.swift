@@ -187,8 +187,6 @@ extension VehicleDataManager {
             vehicleDataDescription = vehicleData.engineOilLife?.description ?? notAvailable
         case ACEngineTorqueMenuName:
             vehicleDataDescription = vehicleData.engineTorque?.description ?? notAvailable
-        case ACExternalTemperatureMenuName:
-            vehicleDataDescription = vehicleData.externalTemperature?.description ?? notAvailable
         case ACFuelLevelMenuName:
             vehicleDataDescription = vehicleData.fuelRange?.first?.level?.description ?? notAvailable
         case ACFuelLevelStateMenuName:

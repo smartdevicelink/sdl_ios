@@ -6,7 +6,7 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLImageResolution + StreamingVideoExtensions.h"
+#import "SDLImageResolution+StreamingVideoExtensions.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingFormat.h"
 

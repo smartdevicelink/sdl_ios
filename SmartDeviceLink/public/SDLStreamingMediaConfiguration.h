@@ -124,7 +124,17 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
  @param rootViewController The UIViewController with the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
  @return The configuration
  */
-- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;
+- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController __deprecated_msg("Use initWithEncryptionFlag:videoSettings:supportedLandscapeRange:supportedPortraitRange:dataSource:delegate:rootViewController:");
+
+/// Manually set all the properties to the streaming media configuration
+/// @param encryptionFlag The maximum encryption supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect
+/// @param videoSettings Custom video encoder settings to be used in video streaming
+/// @param landscapeRange Set a landscape image dimension range and/or aspect ratio range that your app supports
+/// @param portraitRange Set a portrait image dimension range and/or aspect ratio range that your rootViewController supports
+/// @param dataSource Allows you to respond with preferred resolutions and/or formats
+/// @param delegate Provides a delegate with notifications about changes to the audio stream
+/// @param rootViewController A view controller that should be automatically streamed
+- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings supportedLandscapeRange:(nullable SDLVideoStreamingRange *)landscapeRange supportedPortraitRange:(nullable SDLVideoStreamingRange *)portraitRange dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource delegate:(nullable id<SDLStreamingVideoDelegate>)delegate rootViewController:(nullable UIViewController *)rootViewController;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually. This is equivalent to `init`.

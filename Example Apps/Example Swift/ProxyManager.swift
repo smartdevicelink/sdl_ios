@@ -238,7 +238,7 @@ extension ProxyManager: SDLManagerDelegate {
     /// Called when connected module information becomes available
     /// - Parameter systemInfo: The connected module's information
     /// - Returns: True to continue connecting, false to disconnect immediately
-    func didReceive(systemInfo: SDLSystemInfo) -> Bool {
+    func didReceiveSystemInfo(_ systemInfo: SDLSystemInfo) -> Bool {
         SDLLog.d("Example app got system info: \(systemInfo)")
         return true
     }

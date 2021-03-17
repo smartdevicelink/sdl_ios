@@ -105,7 +105,6 @@ NSString * const ACElectronicParkBrakeStatus = @"Electronic Parking Brake Status
 NSString * const ACEmergencyEventMenuName = @"Emergency Event";
 NSString * const ACEngineOilLifeMenuName = @"Engine Oil Life";
 NSString * const ACEngineTorqueMenuName = @"Engine Torque";
-NSString * const ACExternalTemperatureMenuName = @"External Temperature";
 NSString * const ACFuelLevelMenuName = @"Fuel Level";
 NSString * const ACFuelLevelStateMenuName = @"Fuel Level State";
 NSString * const ACFuelRangeMenuName = @"Fuel Range";
