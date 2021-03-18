@@ -6,13 +6,13 @@
 //  Copyright © 2021 smartdevicelink. All rights reserved.
 //
 
-#import "SDLImageResolution + StreamingVideoExtensions.h"
-#import "SDLVideoStreamingCapability + StreamingVideoExtensions.h"
-#import "SDLVideoStreamingFormat.h"
+#import "SDLVideoStreamingCapability+StreamingVideoExtensions.h"
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLImageResolution+StreamingVideoExtensions.h"
 #import "SDLStreamingVideoScaleManager.h"
+#import "SDLVideoStreamingFormat.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -6,7 +6,7 @@
 //
 
 #import "SDLVideoStreamingRange.h"
-#import "SDLImageResolution + StreamingVideoExtensions.h"
+#import "SDLImageResolution+StreamingVideoExtensions.h"
 #import "SDLLogMacros.h"
 
 @implementation SDLVideoStreamingRange

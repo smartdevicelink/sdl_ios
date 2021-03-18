@@ -213,11 +213,6 @@ NS_ASSUME_NONNULL_BEGIN
         vehicleDataDescription = vehicleData.engineOilLife.description;
     } else if ([vehicleDataType isEqualToString:ACEngineTorqueMenuName]) {
         vehicleDataDescription = vehicleData.engineTorque.description;
-    } else if ([vehicleDataType isEqualToString:ACExternalTemperatureMenuName]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        vehicleDataDescription = vehicleData.externalTemperature.description;
-#pragma clang diagnostic pop
     } else if ([vehicleDataType isEqualToString:ACFuelLevelMenuName]) {
         vehicleDataDescription = vehicleData.fuelRange.firstObject.level.description;
     } else if ([vehicleDataType isEqualToString:ACFuelLevelStateMenuName]) {

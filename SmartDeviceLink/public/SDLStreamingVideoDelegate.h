@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLStreamingVideoDelegate <NSObject>
 
-- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize;
+- (void)videoStreamingSizeDidUpdate:(CGSize)displaySize NS_SWIFT_NAME(videoStreamingSizeDidUpdate(toSize:));
 
 @end
 

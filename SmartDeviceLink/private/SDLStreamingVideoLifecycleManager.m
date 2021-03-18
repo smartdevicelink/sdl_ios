@@ -25,7 +25,7 @@
 #import "SDLGlobals.h"
 #import "SDLH264VideoEncoder.h"
 #import "SDLHMILevel.h"
-#import "SDLImageResolution + StreamingVideoExtensions.h"
+#import "SDLImageResolution+StreamingVideoExtensions.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLogMacros.h"
 #import "SDLOnAppCapabilityUpdated.h"
@@ -51,7 +51,7 @@
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
 #import "SDLVideoEncoderDelegate.h"
-#import "SDLVideoStreamingCapability + StreamingVideoExtensions.h"
+#import "SDLVideoStreamingCapability+StreamingVideoExtensions.h"
 
 static NSUInteger const FramesToSendOnBackground = 30;
 

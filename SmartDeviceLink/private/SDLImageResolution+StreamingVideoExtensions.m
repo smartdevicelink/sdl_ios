@@ -4,7 +4,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
-#import "SDLImageResolution + StreamingVideoExtensions.h"
+#import "SDLImageResolution+StreamingVideoExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
