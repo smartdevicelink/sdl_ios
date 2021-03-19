@@ -108,6 +108,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)updateVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
+    [self sdl_applyDisplayDimensionsToRootViewController:self.rootViewController];
+}
+
 #pragma mark - SDLNavigationLockScreenManager Notifications
 - (void)sdl_willPresentLockScreenViewController:(NSNotification *)notification {
     self.lockScreenPresenting = YES;
