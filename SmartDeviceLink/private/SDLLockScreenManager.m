@@ -165,8 +165,13 @@ NS_ASSUME_NONNULL_BEGIN
     if (![notification isNotificationMemberOfClass:[SDLOnDriverDistraction class]]) {
         return;
     }
-
-    self.lastDriverDistractionNotification = notification.notification;
+    // currentDriverDistraction variable is introduced to insure that unless the lockScreenDismissalEnabled value changes, it should stay what it was last set to
+    SDLOnDriverDistraction *currentDriverDistraction = notification.notification;
+    if (currentDriver.lockScreenDismissalEnabled == nil && self.lastDriverDistractionNotification.lockScreenDismissalEnabled != nil){
+        currentDriverDistraction.lockScreenDismissalEnabled = self.lastDriverDistractionNotification.lockScreenDismissalEnabled;
+        currentDriverDistraction.lockScreenDismissalWarning = self.lastDriverDistractionNotification.lockScreenDismissalWarning;
+    }
+    self.lastDriverDistractionNotification = currentDriverDistraction;
     [self sdl_updateLockScreenDismissable];
 }
 
