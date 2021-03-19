@@ -499,7 +499,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                 return;
             }
 
-            SDLLogD(@"Successfully updated language with change registration. Request sent: %@", request);
+            SDLLogD(@"Successfully updated language with change registration. Request sent: %@, response received: %@", request, response);
         }];
     }
     

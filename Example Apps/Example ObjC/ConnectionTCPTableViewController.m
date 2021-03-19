@@ -103,15 +103,15 @@
     
     switch (newState) {
         case ProxyStateStopped: {
-            newColor = [UIColor redColor];
+            newColor = [UIColor systemRedColor];
             newTitle = @"Connect";
         } break;
         case ProxyStateSearchingForConnection: {
-            newColor = [UIColor blueColor];
+            newColor = [UIColor systemOrangeColor];
             newTitle = @"Stop Searching";
         } break;
         case ProxyStateConnected: {
-            newColor = [UIColor greenColor];
+            newColor = [UIColor systemGreenColor];
             newTitle = @"Disconnect";
         } break;
         default: break;
