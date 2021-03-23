@@ -131,7 +131,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (lockScreenStatus == nil) { return; }
 
     self.lastLockNotification = lockScreenStatus;
-
     [self sdl_checkLockScreen];
 }
 
@@ -185,7 +184,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updatePresentation {
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
-        if (self.canPresent) {
+        if (!self.lockScreenDismissedByUser && self.canPresent) {
+            [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
+        } else if (self.lastDriverDistractionNotification.lockScreenDismissalEnabled != nil && !self.lastDriverDistractionNotification.lockScreenDismissalEnabled.boolValue && [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] && self.canPresent) {
+            // The lockscreen should be presented if it was already dismissed by the user (i.e. the first `OnDriverDistraction` notification received set the `lockScreenDismissalEnabled` to `true` ) and a new `OnDriverDistraction` notification with the `lockScreenDismissalEnabled` set to `false` is received from the module
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
     } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusRequired) {
@@ -212,11 +214,16 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         self.lockScreenDismissable = YES;
     }
-    
-    if (self.lockScreenDismissedByUser &&
-        [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] &&
-        !self.lockScreenDismissable) {
-        self.lockScreenDismissedByUser = NO;
+
+    if (!(self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways)) {
+        if (self.lockScreenDismissedByUser &&
+            [self.lastDriverDistractionNotification.state isEqualToEnum:SDLDriverDistractionStateOn] &&
+            !self.lockScreenDismissable) {
+            self.lockScreenDismissedByUser = NO;
+        }
+    } else {
+        // This code solves Lockscreen State test #22 where the Lockscreen is presented but the user is not able to swipe to dismiss
+        [self sdl_updateLockscreenViewControllerWithDismissableState:self.lockScreenDismissable];
     }
 
     if (!self.lockScreenDismissedByUser) {

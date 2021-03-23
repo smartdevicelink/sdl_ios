@@ -25,6 +25,8 @@
 @property (assign, nonatomic, readwrite, getter=isLockScreenDismissable) BOOL lockScreenDismissable;
 @property (assign, nonatomic) BOOL lockScreenDismissedByUser;
 
+- (void)sdl_updateLockScreenDismissable;
+
 @end
 
 QuickSpecBegin(SDLLockScreenManagerSpec)
@@ -398,6 +400,44 @@ describe(@"a lock screen manager", ^{
                 expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beTrue());
             });
         });
+
+        context(@"receiving a lock screen status of off after the user dismissed the lockscreen", ^{
+            beforeEach(^{
+                testStatus.lockScreenStatus = SDLLockScreenStatusOff;
+
+                OCMStub([fakeViewControllerPresenter lockViewController]).andReturn([[SDLLockScreenViewController alloc] init]);
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testStatus}];
+            });
+
+            it(@"should not present the lock screen if it was already dismissed by the user", ^{
+                testManager.lockScreenDismissedByUser = YES;
+
+                OCMReject([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]);
+
+                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+
+                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beFalse());
+            });
+
+            it(@"should present the lock screen if it was already dismissed by the user but a new `OnDriverDistraction` notification with the `lockScreenDismissalEnabled` set to `false` is received", ^{
+                testManager.canPresent = YES;
+                testManager.lockScreenDismissedByUser = YES;
+
+                SDLOnDriverDistraction *testLastDriverDistractionNotification = [[SDLOnDriverDistraction alloc] init];
+                testLastDriverDistractionNotification.lockScreenDismissalEnabled = @NO;
+                testLastDriverDistractionNotification.state = SDLDriverDistractionStateOn;
+                testManager.lastDriverDistractionNotification = testLastDriverDistractionNotification;
+
+                OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]);
+
+                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+
+                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beTrue());
+
+                expect(testManager.lockScreenDismissable).to(beFalse());
+            });
+        });
     });
 
     describe(@"A lock screen status of OPTIONAL", ^{
@@ -426,6 +466,19 @@ describe(@"a lock screen manager", ^{
                  [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testOptionalStatus}];
 
                 OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+            });
+
+            it(@"should set lockScreenDismissedByUser to `false`", ^{
+                testManager.canPresent = YES;
+                testManager.lockScreenDismissedByUser = YES;
+
+                SDLOnDriverDistraction *testLastDriverDistractionNotification = [[SDLOnDriverDistraction alloc] init];
+                testLastDriverDistractionNotification.lockScreenDismissalEnabled = @NO;
+                testLastDriverDistractionNotification.state = SDLDriverDistractionStateOn;
+                testManager.lastDriverDistractionNotification = testLastDriverDistractionNotification;
+
+                [testManager sdl_updateLockScreenDismissable];
+                expect(testManager.lockScreenDismissedByUser).to(equal(NO));
             });
         });
 
