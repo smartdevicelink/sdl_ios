@@ -575,6 +575,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
     self.videoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264 protocol:videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW];
 
+    // Video is ready to stream. If the app is inactive and can't stream video, then the Ready state will handle transitioning to the Suspended state
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
 }
 
