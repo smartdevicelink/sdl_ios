@@ -575,8 +575,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
     self.videoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264 protocol:videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW];
 
-    SDLVideoStreamManagerState *nextState = [self.currentAppState isEqualToEnum:SDLAppStateInactive] ? SDLVideoStreamManagerStateSuspended : SDLVideoStreamManagerStateReady;
-    [self.videoStreamStateMachine transitionToState:nextState];
+    // Video is ready to stream. If the app is inactive and can't stream video, then the Ready state will handle transitioning to the Suspended state
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
 }
 
 - (void)protocol:(SDLProtocol *)protocol didReceiveStartServiceNAK:(SDLProtocolMessage *)startServiceNAK {
@@ -748,7 +748,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             self.focusableItemManager.enableHapticDataRequests = NO;
         }
         SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", self.preferredFormats, self.preferredResolutions);
-        [self sdl_useVideoCapability:nil];
+
+        // HAX: to support legacy head units (SYNC 3.0) as a slight delay is needed between getting the `OnHMIStatus` notification and sending the video `StartService`. Otherwise, video will stream but the screen will be black. Add the delay here as legacy head units do not support `videoStreamingCapability`. 
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 250 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
+             [self sdl_useVideoCapability:nil];
+        });
     }
 }
 
