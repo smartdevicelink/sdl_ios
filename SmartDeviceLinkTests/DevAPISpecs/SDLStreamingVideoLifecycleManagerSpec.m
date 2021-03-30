@@ -62,6 +62,8 @@
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapabilityUpdated;
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
+@property (strong, nonatomic) NSMutableDictionary *videoEncoderSettings;
+@property (copy, nonatomic) NSDictionary<NSString *, id> *customEncoderSettings;
 
 - (void)sdl_shutDown;
 - (NSArray<SDLVideoStreamingCapability *>* __nullable)matchVideoCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
@@ -71,6 +73,7 @@
 - (void)didEnterStateVideoStreamReady;
 - (void)didEnterStateVideoStreamSuspended;
 - (void)sdl_videoStreamingCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_applyVideoCapability:(SDLVideoStreamingCapability *)capability;
 
 @end
 
@@ -1111,6 +1114,184 @@ describe(@"runtime tests", ^{
 
         it(@"Should return the correct video stream background string for the screen size", ^{
             expect(streamingLifecycleManager.videoStreamBackgroundString).to(match(expectedVideoStreamBackgroundString));
+        });
+    });
+
+    describe(@"Setting the video encoder properties", ^{
+        __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
+
+        beforeEach(^{
+            testVideoStreamingCapability = nil;
+        });
+
+        context(@"setting the bitrate", ^{
+            describe(@"the VideoStreamingCapability returns a maxBitrate", ^{
+                it(@"should use the custom averageBitRate set by the developer when it is less than the VideoStreamingCapability's maxBitrate", ^{
+                    int testVideoStreamingCapabilityMaxBitrate = 99999;
+                    float testCustomBitRate = 88;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = @(testVideoStreamingCapabilityMaxBitrate);
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(111), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(testCustomBitRate)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(testCustomBitRate)));
+                });
+
+                it(@"should use the the module's VideoStreamingCapability's maxBitrate if it is less than the averageBitRate set by the developer ", ^{
+                    int testVideoStreamingCapabilityMaxBitrate = 88;
+                    int testCustomBitRate = 99999;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = @(testVideoStreamingCapabilityMaxBitrate);
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(111), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(testCustomBitRate)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    int expectedCustomBitRate = testVideoStreamingCapabilityMaxBitrate * 1000; //convert from video streaming capability bitrate unit of kbps to video encoder units of bps
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(expectedCustomBitRate)));
+                });
+
+                it(@"should use the the module's VideoStreamingCapability's maxBitrate if no averageBitRate was set by the developer ", ^{
+                    int testVideoStreamingCapabilityMaxBitrate = 7889;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = @(testVideoStreamingCapabilityMaxBitrate);
+
+                    streamingLifecycleManager.customEncoderSettings = nil;
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    int expectedCustomBitRate = testVideoStreamingCapabilityMaxBitrate * 1000; //convert from video streaming capability bitrate unit of kbps to video encoder units of bps
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(expectedCustomBitRate)));
+                });
+            });
+
+            describe(@"The VideoStreamingCapability returns a nil maxBitrate", ^{
+                it(@"should use the custom averageBitRate set by the developer even if it is larger than the default averageBitRate", ^{
+                    int testCustomBitRate = 9900000; // larger than the default of @600000
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(111), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(testCustomBitRate)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(testCustomBitRate)));
+                });
+
+                it(@"should use the custom averageBitRate set by the developer even if it is smaller than the default averageBitRate", ^{
+                    int testCustomBitRate = 2; // less than the default of @600000
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(111), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(testCustomBitRate)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(testCustomBitRate)));
+                });
+
+                it(@"should use the default averageBitRate if a custom averageBitRate was not set by the developer", ^{
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = nil;
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(600000)));
+                });
+            });
+        });
+
+        context(@"setting the framerate", ^{
+            describe(@"the VideoStreamingCapability returns a preferredFPS", ^{
+                it(@"should use the custom expectedFrameRate set by the developer when it is less than the VideoStreamingCapability's preferredFPS", ^{
+                    int testVideoStreamingCapabilityPreferredFPS = 1001;
+                    float testCustomExpectedFrameRate = 66;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = @(testVideoStreamingCapabilityPreferredFPS);
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(testCustomExpectedFrameRate), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(22)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testCustomExpectedFrameRate)));
+                });
+
+                it(@"should use the the module's VideoStreamingCapability's preferredFPS if it is less than the expectedFrameRate set by the developer ", ^{
+                    int testVideoStreamingCapabilityPreferredFPS = 66;
+                    int testCustomExpectedFrameRate = 1001;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = @(testVideoStreamingCapabilityPreferredFPS);
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(testCustomExpectedFrameRate), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(22)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testVideoStreamingCapabilityPreferredFPS)));
+                });
+
+                it(@"should use the the module's VideoStreamingCapability's preferredFPS if no expectedFrameRate was set by the developer ", ^{
+                    int testVideoStreamingCapabilityPreferredFPS = 66;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = @(testVideoStreamingCapabilityPreferredFPS);
+
+                    streamingLifecycleManager.customEncoderSettings = nil;
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testVideoStreamingCapabilityPreferredFPS)));
+                });
+            });
+
+            describe(@"The VideoStreamingCapability returns a nil preferredFPS", ^{
+                it(@"should use the custom expectedFrameRate set by the developer even if it is larger than the default expectedFrameRate", ^{
+                    int testCustomExpectedFrameRate = 990; // larger than the default of @15
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(testCustomExpectedFrameRate), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(22)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testCustomExpectedFrameRate)));
+                });
+
+                it(@"should use the custom expectedFrameRate set by the developer even if it is smaller than the default expectedFrameRate", ^{
+                    int testCustomExpectedFrameRate = 2; // less than the default of @15
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(testCustomExpectedFrameRate), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(22)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testCustomExpectedFrameRate)));
+                });
+
+                it(@"should use the default expectedFrameRate if a custom expectedFrameRate was not set by the developer", ^{
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = nil;
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(15)));
+                });
+            });
         });
     });
 });
