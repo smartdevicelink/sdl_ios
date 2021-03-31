@@ -33,13 +33,11 @@
 #import "SDLV2ProtocolHeader.h"
 
 NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
-
+static const NSUInteger TLSMaxDataToEncryptSize = 16384 /*TLS Max Record Size*/ - 5 /*TLS Record Header Size*/ - 32 /*TLS MES Auth CDE Size*/ - 256 /*TLS Max Record Padding Size*/;
 
 #pragma mark - SDLProtocol Private Interface
 
 typedef NSNumber SDLServiceTypeBox;
-
-static NSUInteger TLSMaxDataToEncryptSize = 16384 /*TLS Max Record Size*/ - 5 /*TLS Record Header Size*/ - 32 /*TLS MES Auth CDE Size*/ - 256 /*TLS Max Record Padding Size*/;
 
 NS_ASSUME_NONNULL_BEGIN
 
