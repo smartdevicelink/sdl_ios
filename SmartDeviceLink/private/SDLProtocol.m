@@ -39,6 +39,8 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 
 typedef NSNumber SDLServiceTypeBox;
 
+static NSUInteger TLSMaxDataToEncryptSize = 16384 /*TLS Max Record Size*/ - 5 /*TLS Record Header Size*/ - 32 /*TLS MES Auth CDE Size*/ - 256 /*TLS Max Record Padding Size*/;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocol () {
@@ -340,7 +342,6 @@ NS_ASSUME_NONNULL_BEGIN
             // TODO: (Joel F.)[2016-02-09] We should assert if the service isn't setup for encryption. See [#350](https://github.com/smartdevicelink/sdl_ios/issues/350)
             if (encryption) {
                 NSError *encryptError = nil;
-                
                 messagePayload = [self.securityManager encryptData:rpcPayload.data withError:&encryptError];
                 
                 if (encryptError) {
@@ -376,11 +377,12 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]) {
+    NSUInteger mtuSize = (encryption ? TLSMaxDataToEncryptSize : [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]);
+    if (protocolMessage.size < mtuSize) {
         SDLLogV(@"Sending protocol message: %@", protocolMessage);
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:mtuSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceTypeRPC];
