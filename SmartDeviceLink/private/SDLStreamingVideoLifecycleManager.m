@@ -796,6 +796,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (!matchedVideoCapability.supportedFormats) {
         matchedVideoCapability.supportedFormats = videoCapabilityUpdated.supportedFormats;
     }
+    if (!matchedVideoCapability.maxBitrate) {
+        matchedVideoCapability.maxBitrate = videoCapabilityUpdated.maxBitrate;
+    }
+    if (!matchedVideoCapability.preferredFPS) {
+        matchedVideoCapability.preferredFPS = videoCapabilityUpdated.preferredFPS;
+    }
+
     [self sdl_applyVideoCapability:matchedVideoCapability];
     self.shouldUpdateDelegateOnSizeChange = YES;
 
