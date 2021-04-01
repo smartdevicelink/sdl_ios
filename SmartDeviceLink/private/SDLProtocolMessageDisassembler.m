@@ -17,15 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
     // What message IDs does the current system use? Same messageIDs? Same CorrelationIDs?
     // What gets simply copied from incoming header to created headers; and what needs adjustment?
 
-    // How big is the message header?
+    // How big is the message header and payload?
     NSUInteger headerSize = incomingMessage.header.size;
-
-    // The size of the message is too big to send in one chunk. So let's break it up. Just how big IS this message?
-    NSUInteger incomingPayloadSize = (incomingMessage.data.length - headerSize);
+    NSUInteger payloadSize = (incomingMessage.data.length - headerSize);
 
     // How many messages do we need to create to hold that many bytes?
-    // Note: this does NOT count the special first message which acts as a descriptor.
-    NSUInteger numberOfMessagesRequired = (NSUInteger)ceil((float)incomingPayloadSize / (float)(mtu - headerSize));
+    // Note: This does NOT count the special first message which acts as a descriptor.
+    NSUInteger numberOfMessagesRequired = (NSUInteger)ceilf((float)payloadSize / (float)(mtu - headerSize));
 
     // And how many data bytes go in each message?
     NSUInteger numberOfDataBytesPerMessage = mtu - headerSize;
