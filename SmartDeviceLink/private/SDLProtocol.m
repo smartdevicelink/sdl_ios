@@ -375,12 +375,13 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    NSUInteger mtuSize = (encryption ? TLSMaxDataToEncryptSize : [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]);
+    NSUInteger rpcMTUSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC];
+    NSUInteger mtuSize = (encryption ? MIN(TLSMaxDataToEncryptSize, rpcMTUSize) : rpcMTUSize);
     if (protocolMessage.size < mtuSize) {
         SDLLogV(@"Sending protocol message: %@", protocolMessage);
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withPayloadSizeLimit:mtuSize];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withMTULimit:mtuSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceTypeRPC];
@@ -431,7 +432,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withPayloadSizeLimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withMTULimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]];
         for (SDLProtocolMessage *smallerMessage in messages) {
             SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:header.serviceType];

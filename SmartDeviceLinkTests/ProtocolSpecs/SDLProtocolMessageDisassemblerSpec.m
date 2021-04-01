@@ -41,7 +41,7 @@ describe(@"SDLProtocolMessageDisassembler Tests", ^ {
             testMessage.header = testHeader;
             testMessage.payload = payloadData;
 
-            NSArray<SDLProtocolMessage *> *messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withPayloadSizeLimit:1024];
+            NSArray<SDLProtocolMessage *> *messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withMTULimit:1024];
             expect(messageList.count).to(equal(1));
             expect(messageList[0]).to(equal(testMessage));
         });
@@ -70,7 +70,7 @@ describe(@"SDLProtocolMessageDisassembler Tests", ^ {
             testMessage.header = testHeader;
             testMessage.payload = payloadData;
 
-            NSArray<SDLProtocolMessage *> *messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withPayloadSizeLimit:1024];
+            NSArray<SDLProtocolMessage *> *messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withMTULimit:1024];
             expect(messageList.count).to(equal(5));
 
             //Payload length per message

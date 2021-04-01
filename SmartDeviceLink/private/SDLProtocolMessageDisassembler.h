@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @param protocolMessage The message to break up
 /// @param mtu The MTU size to use to determine where to break up the message payload
-+ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)protocolMessage withPayloadSizeLimit:(NSUInteger)mtu;
++ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)protocolMessage withMTULimit:(NSUInteger)mtu;
 
 @end
 

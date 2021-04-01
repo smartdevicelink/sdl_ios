@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLProtocolMessageDisassembler
 
-+ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)protocolMessage withPayloadSizeLimit:(NSUInteger)mtu {
++ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)protocolMessage withMTULimit:(NSUInteger)mtu {
     if (protocolMessage.size < mtu) {
         return @[protocolMessage];
     }
