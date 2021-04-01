@@ -380,7 +380,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"Sending protocol message: %@", protocolMessage);
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:mtuSize];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withPayloadSizeLimit:mtuSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceTypeRPC];
@@ -431,7 +431,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withPayloadSizeLimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]];
         for (SDLProtocolMessage *smallerMessage in messages) {
             SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:header.serviceType];
