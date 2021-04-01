@@ -165,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (![notification isNotificationMemberOfClass:[SDLOnDriverDistraction class]]) {
         return;
     }
-    // currentDriverDistraction variable is introduced to insure that unless the lockScreenDismissalEnabled value changes, it should stay what it was last set to
+    // When an `OnDriverDistraction` notification is sent with a `lockScreenDismissalEnabled` value, keep track of said value if subsequent `OnDriverDistraction`s are missing the `lockScreenDismissalEnabled` value. This is done because the `lockScreenDismissalEnabled` state is assumed to be the same value until a new `lockScreenDismissalEnabled` value is received.
     SDLOnDriverDistraction *currentDriverDistraction = notification.notification;
     if (currentDriverDistraction.lockScreenDismissalEnabled == nil && self.lastDriverDistractionNotification.lockScreenDismissalEnabled != nil){
         currentDriverDistraction.lockScreenDismissalEnabled = self.lastDriverDistractionNotification.lockScreenDismissalEnabled;
@@ -190,7 +190,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updatePresentation {
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
-        if (self.canPresent) {
+        if (self.canPresent && !self.lockScreenDismissedByUser) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
     } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusRequired) {
