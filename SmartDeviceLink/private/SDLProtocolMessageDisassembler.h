@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Use to break up a large message into a sequence of smaller messages, each of which is less than 'mtu' number of bytes total size.
 ///
-/// @param message The message to break up
+/// @param protocolMessage The message to break up
 /// @param mtu The MTU size to use to determine where to break up the message payload
 + (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)protocolMessage withPayloadSizeLimit:(NSUInteger)mtu;
 

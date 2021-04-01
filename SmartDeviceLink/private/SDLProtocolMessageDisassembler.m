@@ -9,14 +9,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLProtocolMessageDisassembler
 
-+ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)message withPayloadSizeLimit:(NSUInteger)mtu {
-    if (message.size < mtu) {
-        return @[message];
++ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)protocolMessage withPayloadSizeLimit:(NSUInteger)mtu {
+    if (protocolMessage.size < mtu) {
+        return @[protocolMessage];
     }
 
     // How big is the message header and payload?
-    NSUInteger headerSize = message.header.size;
-    NSUInteger payloadSize = (message.data.length - headerSize);
+    NSUInteger headerSize = protocolMessage.header.size;
+    NSUInteger payloadSize = (protocolMessage.data.length - headerSize);
 
     // How many messages do we need to create to hold that many bytes?
     // Note: This does NOT count the special first message which acts as a descriptor.
@@ -29,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLProtocolMessage *> *outgoingMessages = [NSMutableArray arrayWithCapacity:numberOfMessagesRequired + 1];
 
     // Create the first message, which cannot be encrypted because it needs to be exactly 8 bytes
-    SDLProtocolHeader *firstFrameHeader = [message.header copy];
+    SDLProtocolHeader *firstFrameHeader = [protocolMessage.header copy];
     firstFrameHeader.frameType = SDLFrameTypeFirst;
     firstFrameHeader.encrypted = NO;
 
     UInt32 payloadData[2];
-    payloadData[0] = CFSwapInt32HostToBig((UInt32)message.payload.length);
+    payloadData[0] = CFSwapInt32HostToBig((UInt32)protocolMessage.payload.length);
     payloadData[1] = CFSwapInt32HostToBig((UInt32)numberOfMessagesRequired);
     NSMutableData *firstFramePayload = [NSMutableData dataWithBytes:payloadData length:sizeof(payloadData)];
 
@@ -46,19 +46,19 @@ NS_ASSUME_NONNULL_BEGIN
         // Frame # after 255 must cycle back to 1, not 0. A 0 signals last frame (SDLFrameInfoConsecutiveLastFrame).
         UInt8 frameNumber = (n % 255) + 1;
 
-        SDLProtocolHeader *nextFrameHeader = [message.header copy];
+        SDLProtocolHeader *nextFrameHeader = [protocolMessage.header copy];
         nextFrameHeader.frameType = SDLFrameTypeConsecutive;
         nextFrameHeader.frameData = frameNumber;
 
         NSUInteger offsetOfDataForThisFrame = headerSize + (n * numberOfDataBytesPerMessage);
-        NSData *nextFramePayload = [message.data subdataWithRange:NSMakeRange(offsetOfDataForThisFrame, numberOfDataBytesPerMessage)];
+        NSData *nextFramePayload = [protocolMessage.data subdataWithRange:NSMakeRange(offsetOfDataForThisFrame, numberOfDataBytesPerMessage)];
 
         SDLProtocolMessage *nextMessage = [SDLProtocolMessage messageWithHeader:nextFrameHeader andPayload:nextFramePayload];
         outgoingMessages[n + 1] = nextMessage;
     }
 
     // Create the last message
-    SDLProtocolHeader *lastFrameHeader = [message.header copy];
+    SDLProtocolHeader *lastFrameHeader = [protocolMessage.header copy];
     lastFrameHeader.frameType = SDLFrameTypeConsecutive;
     lastFrameHeader.frameData = SDLFrameInfoConsecutiveLastFrame;
 
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSUInteger numberOfDataBytesSentSoFar = numberOfMessagesCreatedSoFar * numberOfDataBytesPerMessage;
     NSUInteger numberOfDataBytesInLastMessage = payloadSize - numberOfDataBytesSentSoFar;
     NSUInteger offsetOfDataForLastFrame = headerSize + numberOfDataBytesSentSoFar;
-    NSData *lastFramePayload = [message.data subdataWithRange:NSMakeRange(offsetOfDataForLastFrame, numberOfDataBytesInLastMessage)];
+    NSData *lastFramePayload = [protocolMessage.data subdataWithRange:NSMakeRange(offsetOfDataForLastFrame, numberOfDataBytesInLastMessage)];
 
     SDLProtocolMessage *lastMessage = [SDLProtocolMessage messageWithHeader:lastFrameHeader andPayload:lastFramePayload];
     outgoingMessages[numberOfMessagesRequired] = lastMessage;
