@@ -71,6 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
 
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *queuedDeleteMenuCells;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *queuedAddMenuCells;
+
 @end
 
 UInt32 const ParentIdNotFound = UINT32_MAX;
@@ -400,6 +403,8 @@ UInt32 const MenuCellIdMin = 1;
     if (self.inProgressUpdate != nil) {
         // There's an in progress update, we need to put this on hold
         self.hasQueuedUpdate = YES;
+        self.queuedAddMenuCells = addCells;
+        self.queuedDeleteMenuCells = deleteCells;
         return;
     }
     __weak typeof(self) weakself = self;
@@ -412,7 +417,10 @@ UInt32 const MenuCellIdMin = 1;
             }
 
             if (weakself.hasQueuedUpdate) {
-                [weakself sdl_updateMenuWithCellsToDelete:deleteCells cellsToAdd:addCells completionHandler:nil];
+                SDLLogD(@"Sending queued menu updates");
+                [weakself sdl_updateMenuWithCellsToDelete:self.queuedDeleteMenuCells cellsToAdd:self.queuedAddMenuCells completionHandler:nil];
+                weakself.queuedDeleteMenuCells = @[];
+                weakself.queuedAddMenuCells = @[];
                 weakself.hasQueuedUpdate = NO;
             }
         }];
