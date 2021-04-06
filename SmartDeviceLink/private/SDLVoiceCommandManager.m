@@ -115,25 +115,9 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     // Set the new voice commands internally
     _voiceCommands = voiceCommands;
 
-    // Handling deleting and setting identical voice commands
-    NSMutableArray<SDLVoiceCommand *> *pendingVCs = [voiceCommands mutableCopy];
-    NSMutableArray<SDLVoiceCommand *> *currentVCs = [self.currentVoiceCommands mutableCopy];
-    NSMapTable *dictionary = [NSMapTable weakToStrongObjectsMapTable];
-
-    for (SDLVoiceCommand *voiceCommand in self.currentVoiceCommands) {
-        [dictionary setObject:@"something" forKey:voiceCommand];
-    }
-
-    for (SDLVoiceCommand *voiceCommand in voiceCommands) {
-        if ([dictionary objectForKey:voiceCommand]) {
-            [pendingVCs removeObject:voiceCommand];
-            [currentVCs removeObject:voiceCommand];
-        }
-    }
-
     // Create the operation, cancel previous ones and set this one
     __weak typeof(self) weakSelf = self;
-    SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager pendingVoiceCommands:pendingVCs oldVoiceCommands:currentVCs updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
+    SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager pendingVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
         weakSelf.currentVoiceCommands = newCurrentVoiceCommands;
         [weakSelf sdl_updatePendingOperationsWithNewCurrentVoiceCommands:newCurrentVoiceCommands];
     }];
