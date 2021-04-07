@@ -1740,6 +1740,7 @@
 		C9707D3125E0444D009D00F2 /* SDLMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D2F25E0444D009D00F2 /* SDLMacros.m */; };
 		C975877F257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */; };
 		C9758785257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */; };
+		C9AA62C4261E5035000F49BC /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		C9DFFE78257ACE0000F7D57A /* SDLSeekStreamingIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9DFFE79257ACE0000F7D57A /* SDLSeekStreamingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DFFE77257ACE0000F7D57A /* SDLSeekStreamingIndicator.m */; };
 		C9DFFE7E257AD07E00F7D57A /* SDLSeekIndicatorType.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE7C257AD07E00F7D57A /* SDLSeekIndicatorType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -8863,6 +8864,7 @@
 				DA9F7EA21DCC05E100ACAE48 /* SDLGetWaypointsSpec.m in Sources */,
 				162E82D71A9BDE8A00906325 /* SDLDeviceLevelStatusSpec.m in Sources */,
 				162E83841A9BDE8B00906325 /* SDLMenuParamsSpec.m in Sources */,
+				C9AA62C4261E5035000F49BC /* SDLVoiceCommandManagerSpec.m in Sources */,
 				5DB1BCE11D243DDE002FFC37 /* SDLConfigurationSpec.m in Sources */,
 				B3DF19ED251225300090D7BA /* TestSmartConnectionManager.m in Sources */,
 				162E83071A9BDE8B00906325 /* SDLVehicleDataNotificationStatusSpec.m in Sources */,
