@@ -117,6 +117,10 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
     // Create the operation, cancel previous ones and set this one
     __weak typeof(self) weakSelf = self;
+    if (![weakSelf sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
+        return;
+    }
+
     SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager pendingVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
         weakSelf.currentVoiceCommands = newCurrentVoiceCommands;
         [weakSelf sdl_updatePendingOperationsWithNewCurrentVoiceCommands:newCurrentVoiceCommands];
@@ -144,6 +148,22 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     for (SDLVoiceCommand *voiceCommand in voiceCommands) {
         voiceCommand.commandId = self.lastVoiceCommandId++;
     }
+}
+
+/// Evaluate the pendingVoiceCommands to check if there is two or more voiceCommands with the same string
+- (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands {
+    NSMutableSet<NSString *> *voiceCommandSets = [[NSMutableSet alloc] init];
+    for (SDLVoiceCommand *voiceCommand in voiceCommands) {
+        for (NSString *voiceCommandString in voiceCommand.voiceCommands) {
+            if ([voiceCommandSets containsObject:voiceCommandString]) {
+                SDLLogE(@"Failed to upload voice commands for having duplicate strings in different voiceCommands %@", nil);
+                return NO;
+            } else {
+                [voiceCommandSets addObject:voiceCommandString];
+            }
+        }
+    }
+    return YES;
 }
 
 #pragma mark - Observers

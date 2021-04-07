@@ -57,21 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-
-    // Evaluate the pendingVoiceCommands to check if there is two or more voiceCommands with the same string
-    NSMutableSet<NSString *> *voiceCommandSets = [[NSMutableSet alloc] init];
-    for (SDLVoiceCommand *voiceCommand in weakSelf.pendingVoiceCommands) {
-        for (NSString *voiceCommandString in voiceCommand.voiceCommands) {
-            if ([voiceCommandSets containsObject:voiceCommandString]) {
-                SDLLogE(@"Failed to upload voice commands for having duplicate strings in different voiceCommands %@", nil);
-                [weakSelf finishOperation];
-                return;
-            } else {
-                [voiceCommandSets addObject:voiceCommandString];
-            }
-        }
-    }
-
     [self sdl_sendDeleteCurrentVoiceCommands:^{
         // If the operation has been canceled, then don't send the new commands and finish the operation
         if (self.isCancelled) {
