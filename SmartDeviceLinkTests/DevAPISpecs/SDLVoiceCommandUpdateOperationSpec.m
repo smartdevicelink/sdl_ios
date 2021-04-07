@@ -28,6 +28,7 @@ __block SDLAddCommandResponse *failAdd = nil;
 
 __block SDLVoiceCommand *newVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC1"] handler:^{}];
 __block SDLVoiceCommand *newVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC2"] handler:^{}];
+__block SDLVoiceCommand *newVoiceCommand3 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC3", @"NewVC3", @"NewVC3"] handler:^{}];
 __block SDLVoiceCommand *oldVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{}];
 __block SDLVoiceCommand *oldVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC2"] handler:^{}];
 
@@ -240,6 +241,32 @@ describe(@"a voice command operation", ^{
                         expect(callbackError).toNot(beNil());
                         expect(testConnectionManager.receivedRequests).to(haveCount(2));
                     });
+                });
+            });
+        });
+
+        context(@"if it has voiceCommand to upload with the same string multiple times", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand3] oldVoiceCommands:@[] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            context(@"and the add succeeds", ^{
+                beforeEach(^{
+                    SDLAddCommandResponse *addNew1 = [[SDLAddCommandResponse alloc] init];
+                    addNew1.success = @YES;
+                    addNew1.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:addNew1 requestNumber:0 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                });
+
+                it(@"should return the uploaded voiceCommand with reduced strings to 1 count", ^{
+                    expect(callbackError).toEventually(beNil());
+                    expect(callbackCurrentVoiceCommands.firstObject.voiceCommands.count).to(equal(1));
                 });
             });
         });
