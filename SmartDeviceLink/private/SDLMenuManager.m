@@ -123,6 +123,8 @@ UInt32 const MenuCellIdMin = 1;
     _hasQueuedUpdate = NO;
     _waitingOnHMIUpdate = NO;
     _waitingUpdateMenuCells = @[];
+    _queuedAddMenuCells = @[];
+    _queuedDeleteMenuCells = @[];
 }
 
 #pragma mark - Setters

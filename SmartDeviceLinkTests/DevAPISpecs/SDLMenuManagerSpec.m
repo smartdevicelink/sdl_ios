@@ -115,6 +115,8 @@ describe(@"menu manager", ^{
         expect(testManager.oldMenuCells).to(beEmpty());
         expect(testManager.waitingUpdateMenuCells).to(beNil());
         expect(testManager.menuConfiguration).toNot(beNil());
+        expect(testManager.queuedAddMenuCells).to(beNil());
+        expect(testManager.queuedDeleteMenuCells).to(beNil());
     });
 
     describe(@"updating menu cells before HMI is ready", ^{
@@ -855,6 +857,8 @@ describe(@"menu manager", ^{
             expect(testManager.oldMenuCells).to(beEmpty());
             expect(testManager.waitingUpdateMenuCells).to(beEmpty());
             expect(testManager.menuConfiguration).toNot(beNil());
+            expect(testManager.queuedAddMenuCells).to(beEmpty());
+            expect(testManager.queuedDeleteMenuCells).to(beEmpty());
         });
     });
 
