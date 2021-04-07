@@ -34,6 +34,9 @@
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
 
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *queuedDeleteMenuCells;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *queuedAddMenuCells;
+
 - (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells;
 - (void)sdl_displayCapabilityDidUpdate;
 
@@ -619,6 +622,116 @@ describe(@"menu manager", ^{
 
                 expect(deletes).to(haveCount(3));
                 expect(adds).to(haveCount(6));
+            });
+        });
+
+        describe(@"updating the menu when the existing menu has not finished updloading", ^{
+            __block NSArray<SDLMenuCell *> *testCurrentMenuCells = nil;
+            __block NSArray<SDLMenuCell *> *testQueuedMenuCells = nil;
+
+            beforeEach(^{
+                testCurrentMenuCells = @[textOnlyCell, textAndImageCell];
+                testQueuedMenuCells = @[textOnlyCell, textOnlyCell2];
+            });
+
+            context(@"dynamic updates off", ^{
+               beforeEach(^{
+                    testManager.dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeForceOff;
+                    OCMStub([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
+                    testManager.menuCells = testCurrentMenuCells;
+                });
+
+                it(@"should save the menu cells that are queued and send them when the current menu finishes uploading", ^{
+                    testManager.inProgressUpdate = @[];
+                    testManager.menuCells = testQueuedMenuCells;
+
+                    expect(testManager.hasQueuedUpdate).to(beTrue());
+                    expect(testManager.queuedDeleteMenuCells).to(haveCount(2));
+                    expect(testManager.queuedDeleteMenuCells).to(contain(textOnlyCell));
+                    expect(testManager.queuedDeleteMenuCells).to(contain(textAndImageCell));
+
+                    expect(testManager.queuedAddMenuCells).to(haveCount(2));
+                    expect(testManager.queuedAddMenuCells).to(contain(textOnlyCell));
+                    expect(testManager.queuedAddMenuCells).to(contain(textOnlyCell2));
+
+                    expect(mockConnectionManager.receivedRequests).to(haveCount(2));
+                    NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                    NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                    NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                    expect(deletes).to(haveCount(0));
+                    expect(adds).to(haveCount(2));
+
+                    // When the current menu finishes uploading it should send the queued menu
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                    expect(testManager.inProgressUpdate).to(beNil());
+                    expect(testManager.hasQueuedUpdate).to(beFalse());
+                    expect(testManager.queuedDeleteMenuCells).to(haveCount(0));
+                    expect(testManager.queuedAddMenuCells).to(haveCount(0));
+
+                    // Respond to the delete and add commands sent for the queued menu - (4 total)
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                    NSArray *queuedMenuDeletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+                    NSArray *queuedMenuAdds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                    expect(queuedMenuDeletes).to(haveCount(2));
+                    expect(queuedMenuAdds).to(haveCount(4));
+
+                    expect(mockConnectionManager.receivedRequests).to(haveCount(6));
+                });
+            });
+
+            context(@"dynamic updates on", ^{
+                beforeEach(^{
+                    testManager.dynamicMenuUpdatesMode = SDLDynamicMenuUpdatesModeForceOn;
+                    OCMStub([mockFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
+                    testManager.menuCells = testCurrentMenuCells;
+                });
+
+                it(@"should save the menu cells that are queued and send them when the current menu finishes uploading", ^{
+                    testManager.inProgressUpdate = @[];
+                    testManager.menuCells = testQueuedMenuCells;
+
+                    expect(testManager.hasQueuedUpdate).to(beTrue());
+                    expect(testManager.queuedDeleteMenuCells).to(haveCount(1));
+                    expect(testManager.queuedDeleteMenuCells).to(contain(textAndImageCell));
+
+                    expect(testManager.queuedAddMenuCells).to(haveCount(1));
+                    expect(testManager.queuedAddMenuCells).to(contain(textOnlyCell2));
+
+                    expect(mockConnectionManager.receivedRequests).to(haveCount(2));
+                    NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                    NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                    NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                    expect(deletes).to(haveCount(0));
+                    expect(adds).to(haveCount(2));
+
+                    // When the current menu finishes uploading it should send the queued menu
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                    expect(testManager.inProgressUpdate).to(beNil());
+                    expect(testManager.hasQueuedUpdate).to(beFalse());
+                    expect(testManager.queuedDeleteMenuCells).to(haveCount(0));
+                    expect(testManager.queuedAddMenuCells).to(haveCount(0));
+
+                    // Respond to the delete and add commands sent for the queued menu - (2 total)
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                    [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                    NSArray *queuedMenuDeletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+                    NSArray *queuedMenuAdds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                    expect(queuedMenuDeletes).to(haveCount(1));
+                    expect(queuedMenuAdds).to(haveCount(3));
+
+                    expect(mockConnectionManager.receivedRequests).to(haveCount(4));
+                });
             });
         });
     });
