@@ -24,7 +24,7 @@ describe(@"a voice command", ^{
             expect(testCommand.voiceCommands).to(equal(someVoiceCommands));
         });
 
-        it(@"should initialize properly with reduced repeated strings", ^{
+        it(@"should initialize properly if it have multiple of the same command string", ^{
             testCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:someVoiceCommands2 handler:^{}];
 
             expect(testCommand2.voiceCommands).toNot(equal(someVoiceCommands2));
