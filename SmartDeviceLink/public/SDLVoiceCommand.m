@@ -19,6 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLVoiceCommand
 
 - (instancetype)initWithVoiceCommands:(NSArray<NSString *> *)voiceCommands handler:(SDLVoiceCommandSelectionHandler)handler {
+    if (voiceCommands.count == 0) {
+        return nil;
+    }
+
     self = [super init];
     if (!self) { return nil; }
 
