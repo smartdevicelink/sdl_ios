@@ -136,7 +136,6 @@ NSString *const testAppName = @"Test App";
 static void postRAINotification(void);
 static void sendNotificationForHMILevel(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState);
 static SDLGetSystemCapabilityResponse *createSystemCapabilityResponse(void);
-static SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData);
 
 #pragma mark - test Init
 
@@ -1117,6 +1116,127 @@ describe(@"runtime tests", ^{
         });
     });
 
+    describe(@"Getting notifications of VideoStreamingCapability updates", ^{
+        beforeEach(^{
+            streamingLifecycleManager.delegate = nil;
+            streamingLifecycleManager.dataSource = nil;
+            streamingLifecycleManager.customEncoderSettings = nil;
+            [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateStarting fromOldState:nil callEnterTransition:NO];
+        });
+        
+        context(@"the module does not support the GetSystemCapabilities request", ^{
+            __block SDLSystemCapability *testNilVideoStreamingCapability = nil;
+
+            beforeEach(^{
+                testNilVideoStreamingCapability = [[SDLSystemCapability alloc] init];
+                testNilVideoStreamingCapability.videoStreamingCapability = nil;
+
+                [streamingLifecycleManager sdl_videoStreamingCapabilityDidUpdate:testNilVideoStreamingCapability];
+            });
+
+            it(@"should use the library's default values in lieu of a VideoStreamingCapability", ^{
+                expect(streamingLifecycleManager.videoStreamingCapability.maxBitrate).to(beNil());
+                expect(streamingLifecycleManager.videoStreamingCapability.preferredFPS).to(beNil());
+
+                expect(streamingLifecycleManager.preferredFormats).to(haveCount(1));
+                expect(streamingLifecycleManager.preferredFormats[0].codec).to(equal(SDLVideoStreamingCodecH264));
+                expect(streamingLifecycleManager.preferredFormats[0].protocol).to(equal(SDLVideoStreamingProtocolRAW));
+
+                expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
+                expect(streamingLifecycleManager.preferredResolutions[0].resolutionWidth).to(equal(streamingLifecycleManager.videoScaleManager.displayViewportResolution.width));
+                expect(streamingLifecycleManager.preferredResolutions[0].resolutionHeight).to(equal(streamingLifecycleManager.videoScaleManager.displayViewportResolution.height));
+
+
+                expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(beFalse());
+                expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(streamingLifecycleManager.videoScaleManager.scale));
+            });
+        });
+
+        context(@"the module supports the GetSystemCapabilities request", ^{
+            __block SDLSystemCapability *testSystemCapability = nil;
+            __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
+
+            context(@"The module does not support VideoStreamingCapability.additionalVideoStreamingCapabilities", ^{
+                beforeEach(^{
+                    SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:44 height:99];
+                    SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP];
+                    SDLVideoStreamingFormat *format2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+                    NSArray<SDLVideoStreamingFormat *> *testFormats = @[format1, format2];
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:@(333) supportedFormats:testFormats hapticSpatialDataSupported:@YES diagonalScreenSize:@(8.5) pixelPerInch:@(117) scale:@(1) preferredFPS:@(222)];
+
+                    testSystemCapability = [[SDLSystemCapability alloc] init];
+                    testSystemCapability.videoStreamingCapability = testVideoStreamingCapability;
+
+                    [streamingLifecycleManager sdl_videoStreamingCapabilityDidUpdate:testSystemCapability];
+                });
+
+                it(@"should use the data from the VideoStreamingCapability", ^{
+                    expect(streamingLifecycleManager.videoStreamingCapability.maxBitrate).to(equal(testVideoStreamingCapability.maxBitrate));
+                    expect(streamingLifecycleManager.videoStreamingCapability.preferredFPS).to(equal(testVideoStreamingCapability.preferredFPS));
+
+                    expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
+                    expect(streamingLifecycleManager.preferredResolutions[0].resolutionWidth).to(equal(testVideoStreamingCapability.preferredResolution.resolutionWidth));
+                    expect(streamingLifecycleManager.preferredResolutions[0].resolutionHeight).to(equal(testVideoStreamingCapability.preferredResolution.resolutionHeight));
+
+                    expect(streamingLifecycleManager.preferredFormats).to(haveCount(2));
+                    expect(streamingLifecycleManager.preferredFormats[0].codec).to(equal(testVideoStreamingCapability.supportedFormats[0].codec));
+                    expect(streamingLifecycleManager.preferredFormats[0].protocol).to(equal(testVideoStreamingCapability.supportedFormats[0].protocol));
+                    expect(streamingLifecycleManager.preferredFormats[1].codec).to(equal(testVideoStreamingCapability.supportedFormats[1].codec));
+                    expect(streamingLifecycleManager.preferredFormats[1].protocol).to(equal(testVideoStreamingCapability.supportedFormats[1].protocol));
+
+                    expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(equal(YES));
+                    expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(testVideoStreamingCapability.scale));
+                });
+            });
+
+            context(@"The module supports VideoStreamingCapability.additionalVideoStreamingCapabilities", ^{
+                __block SDLVideoStreamingCapability *testAdditionalVideoStreamingCapability = nil;
+
+                beforeEach(^{
+                    SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:44 height:99];
+                    SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP];
+                    SDLVideoStreamingFormat *format2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+                    NSArray<SDLVideoStreamingFormat *> *testFormats = @[format1, format2];
+
+                    testAdditionalVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testAdditionalVideoStreamingCapability.preferredResolution = [[SDLImageResolution alloc] initWithWidth:500 height:100];
+                    testAdditionalVideoStreamingCapability.hapticSpatialDataSupported = @YES;
+                    testAdditionalVideoStreamingCapability.diagonalScreenSize = @8;
+                    testAdditionalVideoStreamingCapability.scale = @1;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:@(333) supportedFormats:testFormats hapticSpatialDataSupported:@YES diagonalScreenSize:@(8.5) pixelPerInch:@(117) scale:@(1) preferredFPS:@(222)];
+                    testVideoStreamingCapability.additionalVideoStreamingCapabilities = @[testAdditionalVideoStreamingCapability];
+
+                    testSystemCapability = [[SDLSystemCapability alloc] init];
+                    testSystemCapability.videoStreamingCapability = testVideoStreamingCapability;
+
+                    [streamingLifecycleManager sdl_videoStreamingCapabilityDidUpdate:testSystemCapability];
+                });
+
+                it(@"should use the data from the VideoStreamingCapability and additionalVideoStreamingCapabilities", ^{
+                    expect(streamingLifecycleManager.videoStreamingCapability.maxBitrate).to(equal(testVideoStreamingCapability.maxBitrate));
+                    expect(streamingLifecycleManager.videoStreamingCapability.preferredFPS).to(equal(testVideoStreamingCapability.preferredFPS));
+
+                    expect(streamingLifecycleManager.preferredResolutions).to(haveCount(2));
+                    expect(streamingLifecycleManager.preferredResolutions[0].resolutionWidth).to(equal(testVideoStreamingCapability.preferredResolution.resolutionWidth));
+                    expect(streamingLifecycleManager.preferredResolutions[0].resolutionHeight).to(equal(testVideoStreamingCapability.preferredResolution.resolutionHeight));
+                    expect(streamingLifecycleManager.preferredResolutions[1].resolutionWidth).to(equal(testVideoStreamingCapability.additionalVideoStreamingCapabilities[0].preferredResolution.resolutionWidth));
+                    expect(streamingLifecycleManager.preferredResolutions[1].resolutionHeight).to(equal(testVideoStreamingCapability.additionalVideoStreamingCapabilities[0].preferredResolution.resolutionHeight));
+
+                    expect(streamingLifecycleManager.preferredFormats).to(haveCount(2));
+                    expect(streamingLifecycleManager.preferredFormats[0].codec).to(equal(testVideoStreamingCapability.supportedFormats[0].codec));
+                    expect(streamingLifecycleManager.preferredFormats[0].protocol).to(equal(testVideoStreamingCapability.supportedFormats[0].protocol));
+                    expect(streamingLifecycleManager.preferredFormats[1].codec).to(equal(testVideoStreamingCapability.supportedFormats[1].codec));
+                    expect(streamingLifecycleManager.preferredFormats[1].protocol).to(equal(testVideoStreamingCapability.supportedFormats[1].protocol));
+
+                    expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(equal(YES));
+                    expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(testVideoStreamingCapability.scale));
+                });
+            });
+        });
+    });
+
     describe(@"Setting the video encoder properties", ^{
         __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
 
@@ -1294,200 +1414,6 @@ describe(@"runtime tests", ^{
             });
         });
     });
-});
-
-QuickSpecEnd
-
-#pragma mark - test GetSystemCapabilities
-
-QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_GetSystemCapabilities)
-
-const NSInteger testScaledWidth = roundf((float)testVSCResolutionWidth/testVSCScale);
-const NSInteger testScaledHeight = roundf((float)testVSCResolutionHeight/testVSCScale);
-const CGSize testSize = CGSizeMake(testVSCResolutionWidth, testVSCResolutionHeight);
-
-SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
-SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
-SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
-SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
-SDLVersion *version600 = [SDLVersion versionWithMajor:6 minor:0 patch:0];
-
-// set proper version up
-[SDLGlobals sharedGlobals].rpcVersion = version600;
-[SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = version600;
-
-testConfiguration.customVideoEncoderSettings = @{(id)kVTCompressionPropertyKey_ExpectedFrameRate : @1};
-testConfiguration.dataSource = testDataSource;
-testConfiguration.rootViewController = testViewController;
-
-// load connection manager with fake data
-TestSmartConnectionManager *testConnectionManager = [[TestSmartConnectionManager alloc] init];
-TestSmartConnection *connectionModel = [[TestSmartConnection alloc] init];
-SDLGetSystemCapability *getRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
-connectionModel.request = getRequest;
-connectionModel.response = createSystemCapabilityResponse();
-[testConnectionManager addConnectionModel:connectionModel];
-
-testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
-
-SDLConfiguration *testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration] streamingMedia:testConfiguration fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil];
-
-SDLSystemCapabilityManager *testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
-
-describe(@"after sending GetSystemCapabilities", ^{
-    __block SDLStreamingVideoLifecycleManager *streamingLifecycleManager = nil;
-    // we need to keep the delegate somewhere sinse the manager does not retain it (weak ref)
-    __strong __block TestStreamingMediaDelegate *strongDelegate = nil;
-
-    beforeEach(^{
-        // create, init and setup SDLStreamingVideoLifecycleManager
-        strongDelegate = [[TestStreamingMediaDelegate alloc] init];
-        testConfig.streamingMediaConfig.delegate = strongDelegate;
-        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
-        testConnectionManager.lastRequestBlock = ^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            SDLLogD(@"testConnectionManager.lastRequestBlock:\n\trequest:{%@};\n\tresponse:{%@}\n\terror:{%@};", request, response, error);
-        };
-        SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
-        [streamingLifecycleManager startWithProtocol:protocolMock];
-        postRAINotification();
-
-        const int64_t testMTU = 789456;
-        const int32_t testVideoWidth = 320;
-        const int32_t testVideoHeight = 480;
-        SDLVideoStreamingCodec testVideoCodec = SDLVideoStreamingCodecH264;
-        SDLVideoStreamingProtocol testVideoProtocol = SDLVideoStreamingProtocolRTP;
-
-        SDLControlFramePayloadVideoStartServiceAck *testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:testVideoProtocol codec:testVideoCodec];
-        SDLProtocolHeader *testVideoHeader = createProtocolHeader(SDLFrameInfoStartServiceACK);
-        SDLProtocolMessage *testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
-
-        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
-        sendNotificationForHMILevel(SDLHMILevelFull, SDLVideoStreamingStateStreamable);
-    });
-
-    afterEach(^{
-        [strongDelegate reset];
-        if (streamingLifecycleManager) {
-            // sdl_shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
-            [streamingLifecycleManager sdl_shutDown];
-            streamingLifecycleManager = nil;
-        }
-    });
-
-    it(@"should initialize properties", ^{
-        expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(@(testVSCScale)));
-        expect(streamingLifecycleManager.touchManager).toNot(beNil());
-        expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
-        expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
-        expect(streamingLifecycleManager.isVideoConnected).to(beFalse());
-        expect(streamingLifecycleManager.isVideoEncrypted).to(beFalse());
-        expect(streamingLifecycleManager.isVideoStreamingPaused).to(beTrue());
-        expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, testSize))).to(equal(@YES));
-        expect(streamingLifecycleManager.pixelBufferPool == NULL).to(beTrue());
-        expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
-        expect(streamingLifecycleManager.showVideoBackgroundDisplay).to(beTrue());
-        expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
-        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStarting));
-        expect(streamingLifecycleManager.videoFormat).to(beNil());
-        expect(streamingLifecycleManager.dataSource).to(equal(testDataSource));
-        expect(streamingLifecycleManager.supportedFormats).to(haveCount(2));
-        expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
-        expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
-        expect(streamingLifecycleManager.preferredFormatIndex).to(equal(2));
-        expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
-    });
-
-    context(@"and receiving an error response", ^{
-        // This happens if the HU doesn't understand GetSystemCapabilities
-        beforeEach(^{
-            SDLGenericResponse *genericResponse = [[SDLGenericResponse alloc] init];
-            genericResponse.success = @NO;
-            genericResponse.resultCode = SDLResultInvalidData;
-
-            @try {
-                [testConnectionManager respondToLastRequestWithResponse:genericResponse];
-            } @catch(id ignore) {}
-        });
-
-        it(@"should have correct format and resolution", ^{
-            expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
-            expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
-            if (!streamingLifecycleManager.preferredFormats || !streamingLifecycleManager.preferredResolutions) {
-                failWithMessage(@"absent preferredFormats or preferredResolutions");
-            }
-
-            const int expectedFormatCount = 3;
-            NSArray<SDLVideoStreamingFormat *> *preferredFormats = streamingLifecycleManager.preferredFormats;
-            if (expectedFormatCount == preferredFormats.count) {
-                SDLVideoStreamingFormat *format = preferredFormats[expectedFormatCount-1];
-                expect(format.codec).to(equal(SDLVideoStreamingCodecH264));
-                expect(format.protocol).to(equal(SDLVideoStreamingProtocolRTP));
-            } else {
-                failWithMessage(([NSString stringWithFormat:@"expected %d preferred format only but got %d instead\n%@", expectedFormatCount, (int)preferredFormats.count, preferredFormats]));
-            }
-
-            NSArray<SDLImageResolution *> *preferredResolutions = streamingLifecycleManager.preferredResolutions;
-            if (1 == preferredResolutions.count) {
-                SDLImageResolution *resolution = preferredResolutions[0];
-                expect(resolution.resolutionWidth).to(equal(testScaledWidth));
-                expect(resolution.resolutionHeight).to(equal(testScaledHeight));
-            } else {
-                failWithMessage(([NSString stringWithFormat:@"expected one preferred resolution alone but got %d instead", (int)preferredResolutions.count]));
-            }
-        });
-
-        context(@"and receiving a response", ^{
-            beforeEach(^{
-                SDLGetSystemCapabilityResponse *response = createSystemCapabilityResponse();
-                @try {
-                    [testConnectionManager respondToLastRequestWithResponse:response];
-                } @catch(id ignore) {}
-            });
-
-            it(@"should have correct data from the data source", ^{
-                expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
-                expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
-                if (!streamingLifecycleManager.preferredFormats || !streamingLifecycleManager.preferredResolutions) {
-                    return;
-                }
-
-                // Correct formats should be retrieved from the data source
-                expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
-
-                expect(streamingLifecycleManager.preferredResolutions.firstObject.resolutionWidth).to(equal(testScaledWidth));
-                expect(streamingLifecycleManager.preferredResolutions.firstObject.resolutionHeight).to(equal(testScaledHeight));
-
-                expect(streamingLifecycleManager.preferredFormats).to(haveCount(streamingLifecycleManager.supportedFormats.count + 1));
-                expect(streamingLifecycleManager.preferredFormats.firstObject.codec).to(equal(testDataSource.extraFormat.codec));
-                expect(streamingLifecycleManager.preferredFormats.firstObject.protocol).to(equal(testDataSource.extraFormat.protocol));
-
-                // The haptic manager should be enabled
-                expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(equal(YES));
-            });
-
-            it(@"should have decided upon the correct preferred format and resolution", ^{
-                expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
-                expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
-                if (!streamingLifecycleManager.preferredFormats || !streamingLifecycleManager.preferredResolutions) {
-                    return;
-                }
-
-                SDLVideoStreamingFormat *preferredFormat = streamingLifecycleManager.preferredFormats[streamingLifecycleManager.preferredFormatIndex];
-                expect(preferredFormat.codec).to(equal(SDLVideoStreamingCodecH264));
-                expect(preferredFormat.protocol).to(equal(SDLVideoStreamingProtocolRTP));
-
-                SDLImageResolution *preferredResolution = streamingLifecycleManager.preferredResolutions[streamingLifecycleManager.preferredResolutionIndex];
-                expect(preferredResolution.resolutionWidth).to(equal(@(testScaledWidth)));
-                expect(preferredResolution.resolutionHeight).to(equal(@(testScaledHeight)));
-            });
-
-            it(@"should set the correct scale value", ^{
-                expect(streamingLifecycleManager.videoScaleManager).notTo(beNil());
-                expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(testVSCScale));
-            });
-        });
-    });
-
 });
 
 QuickSpecEnd
@@ -1724,15 +1650,4 @@ static SDLGetSystemCapabilityResponse* createSystemCapabilityResponse() {
     response.systemCapability = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:videoStreamingCapability];
 
     return response;
-}
-
-//.frameData = SDLFrameInfoStartServiceACK;
-static SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData) {
-    SDLProtocolHeader *testVideoHeader = nil;
-    testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
-    testVideoHeader.frameType = SDLFrameTypeSingle;
-    testVideoHeader.frameData = frameData;
-    testVideoHeader.encrypted = YES;
-    testVideoHeader.serviceType = SDLServiceTypeVideo;
-    return testVideoHeader;
 }
