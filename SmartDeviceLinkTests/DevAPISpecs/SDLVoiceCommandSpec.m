@@ -28,7 +28,7 @@ describe(@"a voice command", ^{
             testCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:someVoiceCommands2 handler:^{}];
 
             expect(testCommand2.voiceCommands).toNot(equal(someVoiceCommands2));
-            expect(testCommand2.voiceCommands.count).to(equal(1));
+            expect(testCommand2.voiceCommands).to(haveCount(1));
         });
     });
 });
