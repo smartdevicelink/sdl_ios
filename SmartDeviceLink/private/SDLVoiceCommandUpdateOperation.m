@@ -155,6 +155,15 @@ NS_ASSUME_NONNULL_BEGIN
     return [mutableDeletes copy];
 }
 
+/// Remove a voice command from the array of voice commands if it has no strings
+- (void)sdl_removeEmptyVoiceCommands {
+    for (SDLVoiceCommand *voiceCommand in self.currentVoiceCommands) {
+        if (voiceCommand.voiceCommands.count == 0) {
+            [self.currentVoiceCommands removeObject:voiceCommand];
+        }
+    }
+}
+
 #pragma mark Commands
 
 /// Create AddCommand RPCs for passed voice commands
