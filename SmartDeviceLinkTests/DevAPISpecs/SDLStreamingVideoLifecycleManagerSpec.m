@@ -1134,7 +1134,7 @@ describe(@"runtime tests", ^{
                 [streamingLifecycleManager sdl_videoStreamingCapabilityDidUpdate:testNilVideoStreamingCapability];
             });
 
-            it(@"should use the library's default values in lieu of a VideoStreamingCapability", ^{
+            it(@"should use the library's default values", ^{
                 expect(streamingLifecycleManager.videoStreamingCapability.maxBitrate).to(beNil());
                 expect(streamingLifecycleManager.videoStreamingCapability.preferredFPS).to(beNil());
 
@@ -1156,7 +1156,7 @@ describe(@"runtime tests", ^{
             __block SDLSystemCapability *testSystemCapability = nil;
             __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
 
-            context(@"The module does not support VideoStreamingCapability.additionalVideoStreamingCapabilities", ^{
+            context(@"the module does not support VideoStreamingCapability.additionalVideoStreamingCapabilities", ^{
                 beforeEach(^{
                     SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:44 height:99];
                     SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP];
@@ -1190,7 +1190,7 @@ describe(@"runtime tests", ^{
                 });
             });
 
-            context(@"The module supports VideoStreamingCapability.additionalVideoStreamingCapabilities", ^{
+            context(@"the module supports VideoStreamingCapability.additionalVideoStreamingCapabilities", ^{
                 __block SDLVideoStreamingCapability *testAdditionalVideoStreamingCapability = nil;
 
                 beforeEach(^{
@@ -1237,15 +1237,15 @@ describe(@"runtime tests", ^{
         });
     });
 
-    describe(@"Setting the video encoder properties", ^{
+    describe(@"setting the video encoder properties", ^{
         __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
 
         beforeEach(^{
             testVideoStreamingCapability = nil;
         });
 
-        context(@"setting the bitrate", ^{
-            describe(@"the VideoStreamingCapability returns a maxBitrate", ^{
+        describe(@"setting the bitrate", ^{
+            context(@"the VideoStreamingCapability returns a maxBitrate", ^{
                 it(@"should use the custom averageBitRate set by the developer when it is less than the VideoStreamingCapability's maxBitrate", ^{
                     int testVideoStreamingCapabilityMaxBitrate = 99999;
                     float testCustomBitRate = 88;
@@ -1290,7 +1290,7 @@ describe(@"runtime tests", ^{
                 });
             });
 
-            describe(@"The VideoStreamingCapability returns a nil maxBitrate", ^{
+            context(@"the VideoStreamingCapability returns a nil maxBitrate", ^{
                 it(@"should use the custom averageBitRate set by the developer even if it is larger than the default averageBitRate", ^{
                     int testCustomBitRate = 9900000; // larger than the default of @600000
 
@@ -1330,8 +1330,8 @@ describe(@"runtime tests", ^{
             });
         });
 
-        context(@"setting the framerate", ^{
-            describe(@"the VideoStreamingCapability returns a preferredFPS", ^{
+        describe(@"setting the framerate", ^{
+            context(@"the VideoStreamingCapability returns a preferredFPS", ^{
                 it(@"should use the custom expectedFrameRate set by the developer when it is less than the VideoStreamingCapability's preferredFPS", ^{
                     int testVideoStreamingCapabilityPreferredFPS = 1001;
                     float testCustomExpectedFrameRate = 66;
@@ -1374,7 +1374,7 @@ describe(@"runtime tests", ^{
                 });
             });
 
-            describe(@"The VideoStreamingCapability returns a nil preferredFPS", ^{
+            context(@"the VideoStreamingCapability returns a nil preferredFPS", ^{
                 it(@"should use the custom expectedFrameRate set by the developer even if it is larger than the default expectedFrameRate", ^{
                     int testCustomExpectedFrameRate = 990; // larger than the default of @15
 
