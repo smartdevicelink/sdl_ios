@@ -796,10 +796,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (!matchedVideoCapability.supportedFormats) {
         matchedVideoCapability.supportedFormats = videoCapabilityUpdated.supportedFormats;
     }
-    if (!matchedVideoCapability.maxBitrate) {
+    if (matchedVideoCapability.maxBitrate == nil) {
         matchedVideoCapability.maxBitrate = videoCapabilityUpdated.maxBitrate;
     }
-    if (!matchedVideoCapability.preferredFPS) {
+    if (matchedVideoCapability.preferredFPS == nil) {
         matchedVideoCapability.preferredFPS = videoCapabilityUpdated.preferredFPS;
     }
 
