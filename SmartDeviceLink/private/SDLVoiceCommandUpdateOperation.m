@@ -64,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
+        weakSelf.pendingVoiceCommands = [weakSelf sdl_removeEmptyVoiceCommands];
+
         // Send the new commands
         [weakSelf sdl_sendCurrentVoiceCommands:^{
             [weakSelf finishOperation];
@@ -156,12 +158,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /// Remove a voice command from the array of voice commands if it has no strings
-- (void)sdl_removeEmptyVoiceCommands {
-    for (SDLVoiceCommand *voiceCommand in self.currentVoiceCommands) {
-        if (voiceCommand.voiceCommands.count == 0) {
-            [self.currentVoiceCommands removeObject:voiceCommand];
+- (NSArray<SDLVoiceCommand *> *)sdl_removeEmptyVoiceCommands {
+    NSMutableArray<SDLVoiceCommand *> *pendingVoiceCommands = [[NSMutableArray alloc] init];
+    for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
+        if (voiceCommand.voiceCommands.count > 0) {
+            [pendingVoiceCommands addObject:voiceCommand];
         }
     }
+    return [pendingVoiceCommands copy];
 }
 
 #pragma mark Commands
