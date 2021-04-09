@@ -796,6 +796,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (!matchedVideoCapability.supportedFormats) {
         matchedVideoCapability.supportedFormats = videoCapabilityUpdated.supportedFormats;
     }
+    if (matchedVideoCapability.maxBitrate == nil) {
+        matchedVideoCapability.maxBitrate = videoCapabilityUpdated.maxBitrate;
+    }
+    if (matchedVideoCapability.preferredFPS == nil) {
+        matchedVideoCapability.preferredFPS = videoCapabilityUpdated.preferredFPS;
+    }
+
     [self sdl_applyVideoCapability:matchedVideoCapability];
     self.shouldUpdateDelegateOnSizeChange = YES;
 
@@ -1109,7 +1116,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     assert(capability != nil);
 
     self.videoStreamingCapability = capability;
-    self.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue; // nil capability makes NO
+    self.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
     self.videoScaleManager.scale = capability.scale.floatValue;
     self.videoScaleManager.displayViewportResolution = capability.preferredResolution.makeSize;
 
@@ -1124,12 +1131,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // Apply customEncoderSettings here. Note that value from HMI (such as maxBitrate) will be overwritten by custom settings
     // (Exception: ExpectedFrameRate, AverageBitRate)
     for (id key in self.customEncoderSettings.keyEnumerator) {
-        // do NOT override framerate or average bitreate if custom setting is higher than current setting.
+        // Do *not* override framerate or average bitrate if custom setting is higher than current setting.
         // See SDL 0323 (https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0323-align-VideoStreamingParameter-with-capability.md) for details.
-        if ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] ||
-            [(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]) {
-            NSNumber *customEncoderSettings = (NSNumber *)[self.customEncoderSettings valueForKey:key];
-            NSNumber *videoEncoderSettings = (NSNumber *)[self.videoEncoderSettings valueForKey:key];
+        if (([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] && capability.preferredFPS != nil) ||
+            ([(NSString *)key isEqualToString:(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate] && capability.maxBitrate != nil)) {
+            NSNumber *customEncoderSettings = (NSNumber *)self.customEncoderSettings[key];
+            NSNumber *videoEncoderSettings = (NSNumber *)self.videoEncoderSettings[key];
             if (customEncoderSettings.doubleValue < videoEncoderSettings.doubleValue) {
                 self.videoEncoderSettings[key] = customEncoderSettings;
             }
