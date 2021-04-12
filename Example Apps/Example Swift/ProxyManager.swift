@@ -178,7 +178,10 @@ extension ProxyManager: SDLManagerDelegate {
             subscribeButtonManager.subscribeToPresetButtons()
         case .limited: break // An active NAV or MEDIA SDL app is in the background
         case .background: break // The SDL app is not in the foreground
-        case .none: break // The SDL app is not yet running
+        case .none:
+            // The SDL app is not yet running or is terminated
+            firstHMILevelState = .none
+            break
         default: break
         }
     }
