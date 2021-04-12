@@ -869,10 +869,14 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Ignore the connection while we are reconnecting. The proxy needs to be disposed and restarted in order to ensure correct state. https://github.com/smartdevicelink/sdl_ios/issues/1172
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]
         && ![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
-        SDLLogD(@"Transport connected");
+        SDLLogD(@"RPC Service connected");
 
         dispatch_async(self.lifecycleQueue, ^{
-            [self sdl_transitionToState:SDLLifecycleStateConnected];
+            if ([self.lifecycleState isEqualToString:SDLLifecycleStateStarted]) {
+                [self sdl_transitionToState:SDLLifecycleStateConnected];
+            } else {
+                SDLLogW(@"RPC service connected while already connected. This is probably an encryption update. We will stay in our current state: %@", self.lifecycleState);
+            }
         });
     }
 }
