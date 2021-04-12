@@ -261,7 +261,8 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([newLevel isEqualToEnum:SDLHMILevelBackground]) {
         // The SDL app is not in the foreground
     } else if ([newLevel isEqualToEnum:SDLHMILevelNone]) {
-        // The SDL app is not yet running
+        // The SDL app is not yet running or is terminated
+        self.firstHMILevel = SDLHMILevelNone;
     }
 }
 
