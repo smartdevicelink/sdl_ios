@@ -14,6 +14,7 @@
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLEncryptionLifecycleManager.h"
+#import "SDLError.h"
 #import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
@@ -280,17 +281,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Send Data
 
-- (void)sendRPC:(SDLRPCMessage *)message {
+- (void)sendRPC:(SDLRPCMessage *)message error:(NSError *__autoreleasing *)error {
     if (!message.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:message]) {
         message.payloadProtected = YES;
     }
-    
-    if (message.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
-        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", message);
-        return;
-    }
 
-    [self sendRPC:message encrypted:message.isPayloadProtected error:nil];
+    [self sendRPC:message encrypted:message.isPayloadProtected error:error];
 }
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
@@ -333,17 +329,16 @@ NS_ASSUME_NONNULL_BEGIN
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
             } else {
                 NSAssert(NO, @"Unknown message type attempted to send. Type: %@", [message class]);
+                *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Unknown message type" andReason:@"An unknown RPC message type was attempted."];
                 return NO;
             }
 
             // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
-            // TODO: (Joel F.)[2016-02-09] We should assert if the service isn't setup for encryption. See [#350](https://github.com/smartdevicelink/sdl_ios/issues/350)
+            NSError *encryptError = nil;
             if (encryption) {
-                NSError *encryptError = nil;
-                
                 messagePayload = [self.securityManager encryptData:rpcPayload.data withError:&encryptError];
                 
-                if (encryptError) {
+                if (encryptError != nil) {
                     SDLLogE(@"Error encrypting request! %@", encryptError);
                 }
             } else {
@@ -351,9 +346,9 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             if (!messagePayload) {
+                *error = encryptError;
                 return NO;
             }
-            
         } break;
         default: {
             NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals sharedGlobals].protocolVersion.major), message);

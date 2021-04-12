@@ -799,19 +799,28 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     }
 
     // Before we send a message, we have to check if we need to adapt the RPC. When adapting the RPC, there could be multiple RPCs that need to be sent.
+    NSError *error = nil;
     NSArray<SDLRPCMessage *> *messages = [SDLLifecycleRPCAdapter adaptRPC:request direction:SDLRPCDirectionOutgoing];
     for (SDLRPCMessage *message in messages) {
+        BOOL successfullySent = NO;
         if ([request isKindOfClass:SDLRPCRequest.class]) {
             // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
             SDLRPCRequest *requestRPC = (SDLRPCRequest *)message;
             NSNumber *corrID = [self sdl_getNextCorrelationId];
             requestRPC.correlationID = corrID;
             [self.responseDispatcher storeRequest:requestRPC handler:handler];
-            [self.protocolHandler.protocol sendRPC:requestRPC];
+            successfullySent = [self.protocolHandler.protocol sendRPC:requestRPC error:&error];
         } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-            [self.protocolHandler.protocol sendRPC:message];
+            successfullySent = [self.protocolHandler.protocol sendRPC:message error:&error];
         } else {
             SDLLogE(@"Will not send an RPC with unknown type, %@. The request should be of type SDLRPCRequest, SDLRPCResponse, or SDLRPCNotification.", request.class);
+        }
+
+        if (!successfullySent) {
+            if (handler != nil) {
+                handler(request, nil, error);
+            }
+            break;
         }
     }
 }
