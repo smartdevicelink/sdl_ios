@@ -281,12 +281,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Send Data
 
-- (void)sendRPC:(SDLRPCMessage *)message error:(NSError *__autoreleasing *)error {
+- (BOOL)sendRPC:(SDLRPCMessage *)message error:(NSError *__autoreleasing *)error {
     if (!message.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:message]) {
         message.payloadProtected = YES;
     }
 
-    [self sendRPC:message encrypted:message.isPayloadProtected error:error];
+    return [self sendRPC:message encrypted:message.isPayloadProtected error:error];
 }
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
@@ -346,7 +346,9 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             if (!messagePayload) {
-                *error = encryptError;
+                if (error != nil) {
+                    *error = encryptError;
+                }
                 return NO;
             }
         } break;
