@@ -291,9 +291,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:error];
+    NSError *jsonError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&jsonError];
 
     if (error != nil) {
+        *error = jsonError;
         SDLLogW(@"Error encoding JSON data: %@", *error);
     }
     
