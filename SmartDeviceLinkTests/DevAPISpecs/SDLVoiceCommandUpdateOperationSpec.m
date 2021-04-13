@@ -261,7 +261,7 @@ describe(@"a voice command operation", ^{
                 [testOp start];
             });
 
-            it(@"should have 1 object in pendingVoiceCommands before the request is sent", ^{
+            it(@"should only add voice commands that are not empty", ^{
                 expect(testOp.pendingVoiceCommands).to(haveCount(1));
             });
         });
