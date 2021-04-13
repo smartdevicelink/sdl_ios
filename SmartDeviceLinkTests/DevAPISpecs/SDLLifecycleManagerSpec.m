@@ -285,13 +285,11 @@ describe(@"a lifecycle manager", ^{
 
         // after receiving a connect notification
         describe(@"after receiving a connect notification", ^{
-            beforeEach(^{
-                // When we connect, we should be creating an sending an RAI
-                OCMExpect([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]]]);
-            });
-
             // should send a register app interface request and be in the connected state
             it(@"should send a register app interface request and be in the connected state", ^{
+                // When we connect, we should be creating an sending an RAI
+                OCMExpect([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]] error:[OCMArg anyObjectRef]]);
+
                 [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
                 OCMVerifyAllWithDelay(protocolMock, 1.0);
                 expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateConnected));
@@ -302,13 +300,11 @@ describe(@"a lifecycle manager", ^{
             context(@"when the protocol system info is set", ^{
                 SDLSystemInfo *testSystemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:hardwareVersion];
 
-                beforeEach(^{
+                it(@"should call the delegate handler", ^{
                     OCMStub(protocolMock.systemInfo).andReturn(testSystemInfo);
                     OCMExpect([sdlManagerDelegateProtocolMock didReceiveSystemInfo:[OCMArg isEqual:testSystemInfo]]).andReturn(YES);
                     [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
-                });
 
-                it(@"should call the delegate handler", ^{
                     OCMVerifyAllWithDelay(sdlManagerDelegateProtocolMock, 1.0);
                 });
             });
@@ -464,7 +460,7 @@ describe(@"a lifecycle manager", ^{
                         expect(changeRegistration.ttsName).to(equal(update.ttsName));
                         expect(changeRegistration.vrSynonyms).to(equal(@[@"EnGb", @"Gb"]));
                         return [value isKindOfClass:[SDLChangeRegistration class]];
-                    }]]);
+                    }] error:[OCMArg anyObjectRef]]);
 
                     setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
 
@@ -520,7 +516,7 @@ describe(@"a lifecycle manager", ^{
                         expect(changeRegistration.ttsName).to(beNil());
                         expect(changeRegistration.vrSynonyms).to(beNil());
                         return [value isKindOfClass:[SDLChangeRegistration class]];
-                    }]]);
+                    }] error:[OCMArg anyObjectRef]]);
 
                     setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
 
@@ -663,7 +659,7 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Request", ^{
                 SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
-                OCMExpect([protocolMock sendRPC:testShow]);
+                OCMExpect([protocolMock sendRPC:testShow error:[OCMArg anyObjectRef]]);
                 [testManager sendRPC:testShow];
 
                 OCMVerifyAllWithDelay(protocolMock, 0.1);
@@ -671,7 +667,7 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Response", ^{
                 SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] init];
-                OCMExpect([protocolMock sendRPC:testResponse]);
+                OCMExpect([protocolMock sendRPC:testResponse error:[OCMArg anyObjectRef]]);
                 [testManager sendRPC:testResponse];
                 testResponse.correlationID = @(2);
                 testResponse.success = @(true);
@@ -683,7 +679,7 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Notification", ^{
                 SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithServiceData:[[SDLAppServiceData alloc] init]];
-                OCMExpect([protocolMock sendRPC:testNotification]);
+                OCMExpect([protocolMock sendRPC:testNotification error:[OCMArg anyObjectRef]]);
                 [testManager sendRPC:testNotification];
 
                 OCMVerifyAllWithDelay(protocolMock, 0.1);
@@ -727,7 +723,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should attempt to unregister", ^{
-                    OCMVerify([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
+                    OCMVerify([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]] error:[OCMArg anyObjectRef]]);
                     expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateUnregistering));
                 });
                 
