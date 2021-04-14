@@ -5,7 +5,7 @@
 #import "SDLEnum.h"
 
 /**
- * Describes the maintenence mode. Used in nothing.
+ * Describes the maintenance mode. Used in nothing.
  */
 typedef SDLEnum SDLMaintenanceModeStatus NS_TYPED_ENUM;
 

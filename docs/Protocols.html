@@ -16,6 +16,7 @@
   <li><a href="#section-SDLServiceEncryptionDelegate">SDLServiceEncryptionDelegate</a></li>
   <li><a href="#section-SDLStreamingAudioManagerType">SDLStreamingAudioManagerType</a></li>
   <li><a href="#section-SDLStreamingMediaManagerDataSource">SDLStreamingMediaManagerDataSource</a></li>
+  <li><a href="#section-SDLStreamingVideoDelegate">SDLStreamingVideoDelegate</a></li>
   <li><a href="#section-SDLTouchManagerDelegate">SDLTouchManagerDelegate</a></li>
 </ul>
 
@@ -120,7 +121,7 @@
       SDLChoiceSetDelegate
   </h3>
   
-  <p>Delegate for the the SDLChoiceSet. Contains methods that get called when an action is taken on a choice cell.</p>
+  <p>Delegate for the SDLChoiceSet. Contains methods that get called when an action is taken on a choice cell.</p>
 
   <a href="Protocols/SDLChoiceSetDelegate.html" class="slightly-smaller">See more</a>
   
@@ -269,6 +270,29 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLStreamingMediaManagerDataSource</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLStreamingVideoDelegate">
+      SDLStreamingVideoDelegate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Protocols/SDLStreamingVideoDelegate.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLStreamingVideoDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">videoStreamingSizeDidUpdate</span><span class="p">:(</span><span class="n">CGSize</span><span class="p">)</span><span class="nv">displaySize</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">videoStreamingSizeDidUpdate</span><span class="p">(</span><span class="n">toSize</span><span class="o">:</span><span class="p">));</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLStreamingVideoDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   

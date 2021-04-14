@@ -51,20 +51,19 @@ describe(@"Sending sequential requests", ^{
                 testOperation = [[SDLSequentialRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
                     TestRequestProgressResponse *progressResponse = testProgressResponses[request.correlationID];
 
-                    expect(progressResponse.percentComplete).toEventually(beCloseTo(percentComplete));
-                    expect(response).toEventuallyNot(beNil());
-                    expect(error).toEventually(beNil());
+                    expect(progressResponse.percentComplete).to(beCloseTo(percentComplete));
+                    expect(response).toNot(beNil());
+                    expect(error).to(beNil());
 
                     [resultResponses addObject:response];
 
                     return YES;
                 } completionHandler:^(BOOL success) {
                     expect(resultResponses).to(haveCount(3));
-                    expect(success).to(beTruthy());
+                    expect(success).to(beTrue());
                 }];
 
                 [testOperationQueue addOperation:testOperation];
-                [NSThread sleepForTimeInterval:0.5];
             });
         });
 
@@ -82,11 +81,10 @@ describe(@"Sending sequential requests", ^{
                     return NO;
                 } completionHandler:^(BOOL success) {
                     expect(resultResponses).to(haveCount(1));
-                    expect(success).to(beFalsy());
+                    expect(success).to(beFalse());
                 }];
 
                 [testOperationQueue addOperation:testOperation];
-                [NSThread sleepForTimeInterval:0.5];
             });
         });
     });
@@ -124,11 +122,10 @@ describe(@"Sending sequential requests", ^{
                 return YES;
             } completionHandler:^(BOOL success) {
                 expect(resultResponses).to(haveCount(3));
-                expect(success).to(beFalsy());
+                expect(success).to(beFalse());
             }];
 
             [testOperationQueue addOperation:testOperation];
-            [NSThread sleepForTimeInterval:0.5];
         });
     });
 });

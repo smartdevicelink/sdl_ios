@@ -125,7 +125,7 @@ describe(@"a response dispatcher", ^{
         __block NSUInteger numTimesHandlerCalled = 0;
         
         beforeEach(^{
-            testShow = [[SDLShow alloc] initWithMainField1:@"Test Show" mainField2:nil alignment:SDLTextAlignmentCenter];
+            testShow = [[SDLShow alloc] initWithMainField1:@"Test Show" mainField2:nil mainField3:nil mainField4:nil alignment:SDLTextAlignmentCenter statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
             testShow.correlationID = @1;
         });
         
@@ -242,8 +242,11 @@ describe(@"a response dispatcher", ^{
                 testCommandId = 1;
                 testAddCommandCorrelationId = @42;
                 numTimesHandlerCalled = 0;
-                
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testAddCommand = [[SDLAddCommand alloc] initWithId:testCommandId vrCommands:nil handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+#pragma clang diagnostic pop
                     numTimesHandlerCalled++;
                 }];
                 testAddCommand.correlationID = testAddCommandCorrelationId;
@@ -343,7 +346,10 @@ describe(@"a response dispatcher", ^{
         
         context(@"without a handler", ^{
             beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 testAddCommand = [[SDLAddCommand alloc] initWithId:1 vrCommands:nil handler:nil];
+#pragma clang diagnostic pop
             });
                                   
             it(@"should not add the command", ^{

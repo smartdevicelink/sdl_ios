@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary<SDLRPCFunctionName, SDLRPCPermissionStatus *> *)statusesOfRPCPermissions:(NSArray<SDLPermissionElement *> *)rpcNames;
 
 /**
- *  Subscribe to specified RPC names, with a callback that will be called whenever the value changes. Tthe callback will only return immediately if the groupType is set to SDLPermissionGroupTypeAny or if the groupType is set to SDLPermissionGroupTypeAllAllowed and all RPCs in the rpcNames parameter are allowed.
+ *  Subscribe to specified RPC names, with a callback that will be called whenever the value changes. The callback will only return immediately if the groupType is set to SDLPermissionGroupTypeAny or if the groupType is set to SDLPermissionGroupTypeAllAllowed and all RPCs in the rpcNames parameter are allowed.
  *
  *  @warning The observer may be called before this method returns. Do not attempt to remove the observer from within the observer.
  *

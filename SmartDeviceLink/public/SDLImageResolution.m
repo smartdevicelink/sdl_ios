@@ -2,9 +2,8 @@
 //
 
 
-#import "SDLImageResolution.h"
-
 #import "NSMutableDictionary+Store.h"
+#import "SDLImageResolution.h"
 #import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,6 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
     self.resolutionHeight = @(height);
 
     return self;
+}
+
+- (instancetype)copyWithZone:(nullable NSZone *)zone {
+    typeof(self) aCopy = [[self.class allocWithZone:zone] init];
+    // copy boxed values to keep nil cases if any and avoid outside updates
+    aCopy.resolutionWidth = [self.resolutionWidth copyWithZone:zone];
+    aCopy.resolutionHeight = [self.resolutionHeight copyWithZone:zone];
+    return aCopy;
 }
 
 - (void)setResolutionWidth:(NSNumber<SDLInt> *)resolutionWidth {
@@ -37,6 +44,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSNumber<SDLInt> *)resolutionHeight {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameResolutionHeight ofClass:NSNumber.class error:&error];
+}
+
+extern BOOL sdl_isNumberEqual(NSNumber *numberL, NSNumber *numberR);
+
+- (BOOL)isEqual:(id)object {
+    if (!object) {
+        return NO;
+    }
+    if (self == object) {
+        return YES;
+    }
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+    typeof(self) other = object;
+    return sdl_isNumberEqual(self.resolutionWidth, other.resolutionWidth) && sdl_isNumberEqual(self.resolutionHeight, other.resolutionHeight);
 }
 
 @end

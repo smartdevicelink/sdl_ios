@@ -24,6 +24,7 @@
   <li><a href="#section-keyboardConfiguration">keyboardConfiguration</a></li>
   <li><a href="#section-preloadedChoices">preloadedChoices</a></li>
   <li><a href="#section--initWithConnectionManager:fileManager:systemCapabilityManager:">-initWithConnectionManager:fileManager:systemCapabilityManager:</a></li>
+  <li><a href="#section--initWithConnectionManager:fileManager:systemCapabilityManager:permissionManager:">-initWithConnectionManager:fileManager:systemCapabilityManager:permissionManager:</a></li>
   <li><a href="#section--startWithCompletionHandler:">-startWithCompletionHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
   <li><a href="#section--beginUpdates">-beginUpdates</a></li>
@@ -42,6 +43,7 @@
   <li><a href="#section--dismissKeyboardWithCancelID:">-dismissKeyboardWithCancelID:</a></li>
   <li><a href="#section--openMenu">-openMenu</a></li>
   <li><a href="#section--openSubmenu:">-openSubmenu:</a></li>
+  <li><a href="#section--presentAlert:withCompletionHandler:">-presentAlert:withCompletionHandler:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -364,6 +366,12 @@
   
   <p>The current list of menu cells displayed in the app&rsquo;s menu.</p>
 
+<p>WARNING: If two or more cells in this array are duplicates – they contain all of the same data – the menu will not be set. Each list of <code>subCells</code> and the main menu are compared separately, which means you can have duplicate cells between the main menu and a sub cell list without a conflict occurring.</p>
+
+<p>WARNING: If two or more cells contain the same <code><a href="../Classes/SDLScreenManager.html#/c:objc(cs)SDLScreenManager(py)title">title</a></code> but are otherwise distinctive, unique identifiers will be appended in the style (2), (3), (4), etc. to those cells&rsquo; <code><a href="../Classes/SDLScreenManager.html#/c:objc(cs)SDLScreenManager(py)title">title</a></code>. The same rules apply to duplicate titles as apply to complete duplicates above: the titles can be duplicates between different array lists without a conflict.</p>
+
+<p>WARNING: If any two cells contain the same voice command string in their <code><a href="../Classes/SDLScreenManager.html#/c:objc(cs)SDLScreenManager(py)voiceCommands">voiceCommands</a></code> list, the menu will not be set. Note that unlike the two warnings above, these lists <em>are not</em> checked separately. If you have the same voice command in a cell of the main menu and a sub cell, it will not be set.</p>
+
   
   
   <h4>Objective-C</h4>
@@ -384,7 +392,7 @@
 
 <p>The current status for dynamic menu updates. A dynamic menu update allows for smarter building of menu changes. If this status is set to <code>SDLDynamicMenuUpdatesModeForceOn</code>, menu updates will only create add commands for new items and delete commands for items no longer appearing in the menu. This helps reduce possible RPCs failures as there will be significantly less commands sent to the HMI.</p>
 
-<p>If set to <code>SDLDynamicMenuUpdatesModeForceOff</code>, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regarldess if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.</p>
+<p>If set to <code>SDLDynamicMenuUpdatesModeForceOff</code>, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regardless if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.</p>
 
 <p>We recommend using either <code>SDLDynamicMenuUpdatesModeOnWithCompatibility</code> or <code>SDLDynamicMenuUpdatesModeForceOn</code>. <code>SDLDynamicMenuUpdatesModeOnWithCompatibility</code> turns dynamic updates off for head units that we know have poor compatibility with dynamic updates (e.g. they have bugs that cause menu items to not be placed correctly).</p>
 
@@ -405,6 +413,11 @@
   </h3>
   
   <p>The current list of voice commands available for the user to speak and be recognized by the IVI&rsquo;s voice recognition engine.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    May not be an empty string
+
+</div>
 
   
   
@@ -461,7 +474,7 @@
   <p>Initialize a screen manager</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    <p>For internal use</p>
+    <p>For internal use. An exception will be thrown if used.</p>
 
 </div>
 
@@ -486,6 +499,47 @@
       <dd><p>The file manager used to upload files</p></dd>
       <dt>systemCapabilityManager</dt>
       <dd><p>The system capability manager object for reading window capabilities</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The screen manager</p>
+  </div>
+  
+  <h3 id="section--initWithConnectionManager:fileManager:systemCapabilityManager:permissionManager:">
+      -initWithConnectionManager:fileManager:systemCapabilityManager:permissionManager:
+  </h3>
+  
+  <p>Initialize a screen manager</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>For internal use</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithConnectionManager</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span>
+                  <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManager</span>
+      <span class="nf">systemCapabilityManager</span><span class="p">:</span>
+          <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLSystemCapabilityManager.html">SDLSystemCapabilityManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">systemCapabilityManager</span>
+            <span class="nf">permissionManager</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLPermissionManager.html">SDLPermissionManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">permissionManager</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>connectionManager</dt>
+      <dd><p>The connection manager used to send RPCs</p></dd>
+      <dt>fileManager</dt>
+      <dd><p>The file manager used to upload files</p></dd>
+      <dt>systemCapabilityManager</dt>
+      <dd><p>The system capability manager object for reading window capabilities</p></dd>
+      <dt>permissionManager</dt>
+      <dd><p>The permission manager object for checking RPC permissions</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -971,6 +1025,37 @@
   <dl>
       <dt>cell</dt>
       <dd><p>The submenu cell that should be opened as a sub menu, with its sub cells as the options.</p></dd>
+  </dl>
+  
+  <h3 id="section--presentAlert:withCompletionHandler:">
+      -presentAlert:withCompletionHandler:
+  </h3>
+  
+  <p>Present the alert on the screen. To replace a currently presenting alert with a new alert, you must first call <code>cancel</code> on the currently presenting alert before sending the new alert. Otherwise the newest alert will only be presented when the module dismisses the currently presented alert (either due to the timeout or the user selecting a button on the alert). Please note that cancelling a currently presented alert will only work on modules supporting RPC Spec v.5.0+.</p>
+
+<p>If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.</p>
+
+<p>The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The <code>userInfo</code> object on the error contais an <code>error</code> key with more information about the error. If the alert failed to present, the <code>userInfo</code> object will contain a <code>tryAgainTime</code> key with information on how long to wait before trying to send another alert. The value for <code>tryAgainTime</code> may be <code>nil</code> if the module did not return a value in its response.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentAlert</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLAlertView.html">SDLAlertView</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">alert</span>
+    <span class="nf">withCompletionHandler</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">presentAlert</span><span class="p">(</span><span class="n">_</span> <span class="nv">alert</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAlertView.html">SDLAlertView</a></span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>alert</dt>
+      <dd><p>Alert to be presented</p></dd>
+      <dt>handler</dt>
+      <dd><p>The handler to be called when the alert either dismisses from the screen or it has failed to present.</p></dd>
   </dl>
   
 </section>

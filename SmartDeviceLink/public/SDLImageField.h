@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) SDLImageResolution *imageResolution;
 
-/// Convenience initalizer for the ImageField RPC struct
+/// Convenience initializer for the ImageField RPC struct
 /// @param name The name identifying this image field
 /// @param imageTypeSupported The image data types this field supports
 /// @param imageResolution The native resolution of this image field

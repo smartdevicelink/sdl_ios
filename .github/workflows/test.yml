@@ -5,7 +5,7 @@ on: [push, pull_request]
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
-    DESTINATION: 'platform=iOS Simulator,name=iPhone 11,OS=14.1'
+    DESTINATION: 'platform=iOS Simulator,name=iPhone 12,OS=14.4'
 
 jobs:
     build:
@@ -27,7 +27,7 @@ jobs:
 
             # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
             - name: Select Xcode version
-              run: sudo xcode-select -switch /Applications/Xcode_12.1.app
+              run: sudo xcode-select -switch /Applications/Xcode_12.4.app
 
             - name: Build
               run: set -o pipefail && xcodebuild -scheme "${{ matrix.scheme }}" -destination "$DESTINATION" build | xcpretty --color --simple
@@ -46,7 +46,7 @@ jobs:
 
             # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
             - name: Select Xcode version
-              run: sudo xcode-select -switch /Applications/Xcode_12.1.app
+              run: sudo xcode-select -switch /Applications/Xcode_12.4.app
 
             - name: Checkout repository
               uses: actions/checkout@v2.3.1
@@ -63,8 +63,7 @@ jobs:
 
             - name: Installing dependencies
               if: steps.carthage-cache.outputs.cache-hit != 'true'
-              run: bash carthage-build.sh --no-use-binaries --platform iOS --cache-builds
-              # run: carthage bootstrap --no-use-binaries --platform iOS --cache-builds
+              run: bash carthage-build.sh bootstrap --no-use-binaries --platform ios --cache-builds
 
             # Split build into build-only and test-only as it is faster than building and running in one step
             - name: Building unit tests
@@ -76,5 +75,20 @@ jobs:
             # Upload coverage reports to Codecov
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v1.0.10
-              with: 
-                yml: ./codecov.yml
+
+    rpcTest:
+        name: RPC Generator Tests
+        runs-on: ubuntu-20.04
+        strategy:
+            fail-fast: false
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2.3.1
+              with:
+                  submodules: true
+
+            - name: Install dependencies
+              run: python3 -m pip install -r generator/requirements.txt
+
+            - name: Run RPC generator tests
+              run: python3 generator/test/runner.py

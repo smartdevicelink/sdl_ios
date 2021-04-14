@@ -2,16 +2,40 @@
 //
 
 
-#import "SDLBodyInformation.h"
-
 #import "NSMutableDictionary+Store.h"
+#import "SDLBodyInformation.h"
+#import "SDLDoorStatus.h"
+#import "SDLGateStatus.h"
 #import "SDLIgnitionStableStatus.h"
 #import "SDLIgnitionStatus.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLRoofStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLBodyInformation
+
+- (instancetype)initWithParkBrakeActive:(BOOL)parkBrakeActive ignitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus ignitionStatus:(SDLIgnitionStatus)ignitionStatus {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.parkBrakeActive = @(parkBrakeActive);
+    self.ignitionStableStatus = ignitionStableStatus;
+    self.ignitionStatus = ignitionStatus;
+    return self;
+}
+
+- (instancetype)initWithParkBrakeActive:(BOOL)parkBrakeActive ignitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus ignitionStatus:(SDLIgnitionStatus)ignitionStatus doorStatuses:(nullable NSArray<SDLDoorStatus *> *)doorStatuses gateStatuses:(nullable NSArray<SDLGateStatus *> *)gateStatuses roofStatuses:(nullable NSArray<SDLRoofStatus *> *)roofStatuses {
+    self = [self initWithParkBrakeActive:parkBrakeActive ignitionStableStatus:ignitionStableStatus ignitionStatus:ignitionStatus];
+    if (!self) {
+        return nil;
+    }
+    self.doorStatuses = doorStatuses;
+    self.gateStatuses = gateStatuses;
+    self.roofStatuses = roofStatuses;
+    return self;
+}
 
 - (void)setParkBrakeActive:(NSNumber<SDLBool> *)parkBrakeActive {
     [self.store sdl_setObject:parkBrakeActive forName:SDLRPCParameterNameParkBrakeActive];
@@ -70,6 +94,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)rearRightDoorAjar {
     return [self.store sdl_objectForName:SDLRPCParameterNameRearRightDoorAjar ofClass:NSNumber.class error:nil];
+}
+
+- (void)setDoorStatuses:(nullable NSArray<SDLDoorStatus *> *)doorStatuses {
+    [self.store sdl_setObject:doorStatuses forName:SDLRPCParameterNameDoorStatuses];
+}
+
+- (nullable NSArray<SDLDoorStatus *> *)doorStatuses {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameDoorStatuses ofClass:SDLDoorStatus.class error:nil];
+}
+
+- (void)setGateStatuses:(nullable NSArray<SDLGateStatus *> *)gateStatuses {
+    [self.store sdl_setObject:gateStatuses forName:SDLRPCParameterNameGateStatuses];
+}
+
+- (nullable NSArray<SDLGateStatus *> *)gateStatuses {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameGateStatuses ofClass:SDLGateStatus.class error:nil];
+}
+
+- (void)setRoofStatuses:(nullable NSArray<SDLRoofStatus *> *)roofStatuses {
+    [self.store sdl_setObject:roofStatuses forName:SDLRPCParameterNameRoofStatuses];
+}
+
+- (nullable NSArray<SDLRoofStatus *> *)roofStatuses {
+    return [self.store sdl_objectsForName:SDLRPCParameterNameRoofStatuses ofClass:SDLRoofStatus.class error:nil];
 }
 
 @end

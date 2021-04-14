@@ -12,7 +12,7 @@
 typedef SDLEnum SDLVehicleDataStatus NS_TYPED_ENUM;
 
 /**
- No data avaliable
+ No data available
  */
 extern SDLVehicleDataStatus const SDLVehicleDataStatusNoDataExists;
 

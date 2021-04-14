@@ -88,17 +88,15 @@ class FunctionsProducer(InterfaceProducerCommon):
         """
         origin = element.name
         name = self._replace_sync(element.name)
-        # if isinstance(element.param_type, (Integer, Float, Boolean, String)):
         return {name: self.common_names(**{
             'name': self.title(name),
             'origin': origin,
             'description': self.extract_description(element.description),
             'since': element.since})}
-        # return OrderedDict()
 
     def get_simple_params(self, functions: dict, structs: dict) -> dict:
         """
-        Standalone method used for preparing SDLRPCParameterNames collection ready to be applied to Jinja2 template
+        Creates a list of all parameter names used in functions and structs. This list is used by a Jinja2 template to generate the SDLRPCParameterNames class.
         :param functions: collection with all functions from initial Model
         :param structs: collection with all structs from initial Model
         :return: collection with transformed element ready to be applied to Jinja2 template
@@ -110,8 +108,8 @@ class FunctionsProducer(InterfaceProducerCommon):
                 render.update(self.evaluate(param))
 
         for struct in structs.values():
-            render.update(self.evaluate(struct))
             for param in struct.members.values():
                 render.update(self.evaluate(param))
+
         unique = dict(zip(list(map(lambda l: l.name, render.values())), render.values()))
         return {'params': sorted(unique.values(), key=lambda a: a.name)}

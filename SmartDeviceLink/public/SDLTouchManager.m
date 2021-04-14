@@ -238,7 +238,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidStartInView:atCenterPoint:)]) {
                 CGPoint center = self.currentPinchGesture.center;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:center] : nil;
+                    UIView *hitView = [self.hitTester viewForPoint:center];
                     [self.touchEventDelegate touchManager:self pinchDidStartInView:hitView atCenterPoint:center];
                 });
             }
@@ -434,12 +434,16 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         [self sdl_cancelSingleTapTimer];
     }
 
-    __weak typeof(self) weakSelf = self;
-    self.singleTapTimer = [[SDLTimer alloc] initWithDuration:self.tapTimeThreshold];
-    self.singleTapTimer.elapsedBlock = ^{
-        [weakSelf sdl_singleTapTimerCallbackWithPoint:point];
-    };
-    [self.singleTapTimer start];
+    if (self.tapTimeThreshold == 0.0) {
+        [self sdl_singleTapTimerCallbackWithPoint:point];
+    } else {
+        __weak typeof(self) weakSelf = self;
+        self.singleTapTimer = [[SDLTimer alloc] initWithDuration:self.tapTimeThreshold];
+        self.singleTapTimer.elapsedBlock = ^{
+            [weakSelf sdl_singleTapTimerCallbackWithPoint:point];
+        };
+        [self.singleTapTimer start];
+    }
 }
 
 /**

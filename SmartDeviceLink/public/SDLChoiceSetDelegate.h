@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Delegate for the the SDLChoiceSet. Contains methods that get called when an action is taken on a choice cell.
+/// Delegate for the SDLChoiceSet. Contains methods that get called when an action is taken on a choice cell.
 @protocol SDLChoiceSetDelegate <NSObject>
 
 /// Delegate method called after a choice set item is selected

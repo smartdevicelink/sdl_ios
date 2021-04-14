@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Convenience init to create an alert maneuver with required parameters
 ///
 /// @param ttsText The text to speak
-/// @param softButtons An arry of soft buttons
+/// @param softButtons An array of soft buttons
 ///
 /// @return An SDLAlertManeuver object
 - (instancetype)initWithTTS:(nullable NSString *)ttsText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///  Convenience init to create an alert maneuver with all parameters
 ///
 /// @param ttsChunks An array of text chunks
-/// @param softButtons An arry of soft buttons
+/// @param softButtons An array of soft buttons
 /// @return An SDLAlertManeuver object
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsChunks;
 
 /**
- *  An arry of soft buttons. If omitted on supported displays, only the system defined "Close" SoftButton shall be displayed.
+ *  An array of soft buttons. If omitted on supported displays, only the system defined "Close" SoftButton shall be displayed.
  *
  *  Optional, Array of SDLSoftButton, Array length 0 - 3
  *

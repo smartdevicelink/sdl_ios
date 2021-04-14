@@ -1,4 +1,82 @@
 # Changelog
+## 7.1.0 (Since RC 1)
+### Versions
+* Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
+
+### Testing
+* Xcode 12.4
+* iOS 13.7 and 14.4.1
+* Core:
+    * Manticore (Core v7.0.0, Generic HMI v0.9.0)
+    * Ford Sync 3.4 (19353_DEVTEST)
+    * Ford Sync 3.0 (17276_DEVTEST)
+    * Ford Sync 4.0 (20016_DEVTEST)
+    * Core v7.1.0-develop with sdl_hmi v5.5.0-develop and generic_hmi v0.10.0-develop
+    
+### Enhancements
+* Updated the Swift name of the system info callback from `didReceive(systemInfo:)` to `didReceiveSystemInfo(_:)`.
+
+### Bug Fixes
+* Fixed video streaming apps not resuming when switching between them (https://github.com/smartdevicelink/sdl_ios/issues/1944)
+* Fixed lock screen not being dismissible when the lock screen display mode is always but `enableDismissGesture = YES` (https://github.com/smartdevicelink/sdl_ios/issues/1948)
+* Fixed custom video encoder settings not overriding default video encoder settings (https://github.com/smartdevicelink/sdl_ios/issues/1950)
+
+### Example Apps
+* Updated some coloring of the example apps to use more readable colors.
+* Fixed example app's menu not displaying correctly when the app is exited (https://github.com/smartdevicelink/sdl_ios/issues/1967).
+
+## 7.1.0 Release Candidate 1
+### Versions
+* Supports [SDL RPC Spec 7.1.0-in-progress](https://github.com/smartdevicelink/rpc_spec/commit/6b98355357b5b1893bbb59cb668d28545023457c) and [SDL Protocol Spec 5.4.0-in-progress](https://github.com/smartdevicelink/protocol_spec/commit/70e5dec7bbf8e2140cc2602e67f458174c282405).
+
+### Enhancements
+* Added the ability to show menu cells and choice set cells with the same `title` (https://github.com/smartdevicelink/sdl_ios/issues/1024)
+* Added the ability to display media time skip buttons instead of the standard track skip buttons, e.g. for podcast apps (https://github.com/smartdevicelink/sdl_ios/issues/1080)
+* Added the ability to use a numeric keyboard layout, mask input characters, and provide custom keys on a keyboard (https://github.com/smartdevicelink/sdl_ios/issues/1356)
+* Added the ability to set a custom playback rate for the media clock timer (https://github.com/smartdevicelink/sdl_ios/issues/1377)
+* Update vehicle data `BodyInformation` (https://github.com/smartdevicelink/sdl_ios/issues/1477)
+* Added new vehicle data `SeatOccupancy` (https://github.com/smartdevicelink/sdl_ios/issues/1487)
+* Main menu cells and subcells now have additional available text and image properties (https://github.com/smartdevicelink/sdl_ios/issues/1510) 
+* Added new vehicle data `ClimateData` (https://github.com/smartdevicelink/sdl_ios/issues/1511)
+* `VideoStreamingCapability` now allows the module to tell an app its preferred frame rate (https://github.com/smartdevicelink/sdl_ios/issues/1553)
+* Added the ability to present `Alert` RPCs through the screen manager (https://github.com/smartdevicelink/sdl_ios/issues/1579)
+* Added new `TextFieldName` enums for `ShowConstantTBT` (https://github.com/smartdevicelink/sdl_ios/issues/1676)
+* Added the ability for the module and app to declare multiple possible video streaming capabilities so that features like Picture-in-Picture and Split-Screen can be supported (https://github.com/smartdevicelink/sdl_ios/issues/1730)
+* `VideoStreamingCapability` parameters will now be merged with the app's preferred streaming settings to use the lowest settings (https://github.com/smartdevicelink/sdl_ios/issues/1860)
+* Updated `ShowConstantTBT` RPC description (https://github.com/smartdevicelink/sdl_ios/issues/1863)
+* Added the ability to disconnect based on received vehicle details, including before the app registers on 7.1+ modules (https://github.com/smartdevicelink/sdl_ios/issues/1876)
+* Fixed cases where setting the timeout of an `SDLChoiceSet` could fail (https://github.com/smartdevicelink/sdl_ios/issues/1891)
+* Deprecated `SDLStaticIcon.auxillaryAudio` and add a fixed spelling of `SDLStaticIcon.auxilliaryAudio` (https://github.com/smartdevicelink/sdl_ios/issues/1938) 
+
+### Bug Fixes
+* We changed a `ListFiles` workaround in `SDLFileManager` to only activate on RPC v4.3.1 and below connections (https://github.com/smartdevicelink/sdl_ios/issues/827)
+* Fixed overwriting `SDLArtwork` in the manager system not working properly (https://github.com/smartdevicelink/sdl_ios/issues/1117)
+* Fixed soft buttons being delayed on Ford Sync 3.0 and increased SDL CPU usage (https://github.com/smartdevicelink/sdl_ios/issues/1778)
+* Deprecated `SDLKeyboardProperties.autoCompleteText` in favor of  `SDLKeyboardProperties.autoCompleteList` (https://github.com/smartdevicelink/sdl_ios/issues/1784)
+* Setting `SDLTouchManager.tapTimeThreshold` to `0.0` will no longer cause a crash (https://github.com/smartdevicelink/sdl_ios/issues/1798)
+* Fixed button notifications not working properly the first button press on Ford Sync 3.0 (https://github.com/smartdevicelink/sdl_ios/issues/1793)
+* Fixed a number of potential issues around the iAP transport seen on iOS 14 devices (https://github.com/smartdevicelink/sdl_ios/issues/1799, https://github.com/smartdevicelink/sdl_ios/issues/1809, https://github.com/smartdevicelink/sdl_ios/issues/1892, https://github.com/smartdevicelink/sdl_ios/issues/1893)
+* Fixed cases when the first `StartService` protocol message is not version 1 (https://github.com/smartdevicelink/sdl_ios/issues/1837)
+* Refactored the `SDLVoiceCommandManager` to use queues (https://github.com/smartdevicelink/sdl_ios/issues/1841)
+* Fixed `SDLArtwork` with a static icon not copying (https://github.com/smartdevicelink/sdl_ios/issues/1846)
+* Fixed `SDLDisplayCapabilities` should be deprecated (https://github.com/smartdevicelink/sdl_ios/issues/1857)
+* Fixed uploading the blank artwork every time instead of persisting it (https://github.com/smartdevicelink/sdl_ios/issues/1864)
+* We now throw an exception if you try to display two `SDLSoftButtonObject`s with the same name (https://github.com/smartdevicelink/sdl_ios/issues/1897)
+* Fixed `SDLTextFieldName.timeToDestination` documentation (https://github.com/smartdevicelink/sdl_ios/issues/1915)
+* Fixed uploaded files not being divided into multiple RPCs correctly (https://github.com/smartdevicelink/sdl_ios/issues/1927)
+
+### RPC Generator
+* Fixed generator not adding enum parameter descriptions (https://github.com/smartdevicelink/sdl_ios/issues/1751)
+* Generator now correctly generates enums with `NS_TYPED_ENUM` (https://github.com/smartdevicelink/sdl_ios/issues/1834)
+* Fixed generator creating incorrect struct parameter names (https://github.com/smartdevicelink/sdl_ios/issues/1905)
+
+### Other
+* Fixed example app template resetting when HMI level changes (https://github.com/smartdevicelink/sdl_ios/issues/1827)
+* Fixed RPC Generator unit tests failing (https://github.com/smartdevicelink/sdl_ios/issues/1845)
+* Fixed failing unit tests on CI (https://github.com/smartdevicelink/sdl_ios/issues/1880, https://github.com/smartdevicelink/sdl_ios/issues/1884, https://github.com/smartdevicelink/sdl_ios/issues/1925, https://github.com/smartdevicelink/sdl_ios/issues/1929)
+* Fixed test cases using the `OCMock` deprecated `observerMock` (https://github.com/smartdevicelink/sdl_ios/issues/1913)
+* Removed snapshot test cases (https://github.com/smartdevicelink/sdl_ios/issues/1921)
+
 ## 7.0.0
 ### Versions
 * Supports [SDL RPC Spec 7.0.0](https://github.com/smartdevicelink/rpc_spec/commit/eead323f356be713d2b0f0a253f3f3d36143460a) and [SDL Protocol Spec 5.3.0](https://github.com/smartdevicelink/protocol_spec/tree/release/5.3.0).

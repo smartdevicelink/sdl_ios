@@ -14,7 +14,6 @@
 #import "SDLLifecycleRPCAdapter.h"
 #import "SDLAsynchronousRPCOperation.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
-#import "SDLBackgroundTaskManager.h"
 #import "SDLChangeRegistration.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
@@ -60,6 +59,7 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLSystemInfo.h"
 #import "SDLTCPTransport.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLVersion.h"
@@ -107,7 +107,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 @property (assign, nonatomic) int32_t lastCorrelationId;
-@property (copy, nonatomic) SDLBackgroundTaskManager *backgroundTaskManager;
 @property (strong, nonatomic) SDLLanguage currentVRLanguage;
 
 // RPC Handlers
@@ -157,6 +156,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
     _rpcOperationQueue = [[NSOperationQueue alloc] init];
     _rpcOperationQueue.name = @"com.sdl.lifecycle.rpcOperation.concurrent";
+    _rpcOperationQueue.qualityOfService = NSQualityOfServiceUserInteractive;
     _rpcOperationQueue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     _lifecycleQueue = dispatch_queue_create_with_target("com.sdl.lifecycle", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
 
@@ -167,7 +167,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
-    _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager systemCapabilityManager:_systemCapabilityManager];
+    _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager systemCapabilityManager:_systemCapabilityManager permissionManager:_permissionManager];
 
     if ([self.class sdl_isStreamingConfiguration:self.configuration]) {
         _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration systemCapabilityManager:self.systemCapabilityManager];
@@ -189,8 +189,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
-
-    _backgroundTaskManager = [[SDLBackgroundTaskManager alloc] initWithBackgroundTaskName:BackgroundTaskTransportName];
 
     return self;
 }
@@ -254,9 +252,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 }
 
 - (void)didEnterStateStarted {
-    // Start a background task so a session can be established even when the app is backgrounded.
-    [self.backgroundTaskManager startBackgroundTask];
-
     // Start up the internal protocol, transport, and other internal managers
     self.secondaryTransportManager = nil;
     SDLLifecycleConfiguration *lifecycleConfig = self.configuration.lifecycleConfig;
@@ -357,9 +352,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
         if (shouldRestart) {
             [strongSelf sdl_transitionToState:SDLLifecycleStateStarted];
-        } else {
-            // End the background task because a session will not be established
-            [strongSelf.backgroundTaskManager endBackgroundTask];
         }
     });
 }
@@ -371,6 +363,21 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
         [self sdl_transitionToState:SDLLifecycleStateStopped];
         return;
+    }
+
+    // If we received vehicle details in the protocol layer, we need to check if the developer wants to disconnect
+    self.systemInfo = self.protocolHandler.protocol.systemInfo;
+    if (self.systemInfo != nil) {
+        SDLLogD(@"System info received via protocol layer: %@", self.systemInfo);
+        if ([self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)]) {
+            BOOL shouldConnect = [self.delegate didReceiveSystemInfo:self.systemInfo];
+            if (!shouldConnect) {
+                SDLLogW(@"Developer chose to disconnect from the head unit; disconnecting now");
+                [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
+                [self sdl_transitionToState:SDLLifecycleStateStopped];
+                return;
+            }
+        }
     }
 
     // Build a register app interface request with the configuration data
@@ -395,6 +402,8 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
         weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSDLMsgVersion:weakSelf.registerResponse.sdlMsgVersion];
+        SDLLogD(@"Did register app; RPC version: %@, starting languages: (VR) %@, (HMI) %@", weakSelf.registerResponse.sdlMsgVersion, weakSelf.registerResponse.language, weakSelf.registerResponse.hmiDisplayLanguage);
+
         [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
     }];
 }
@@ -405,6 +414,29 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         SDLLogW(@"Disconnecting from head unit, RPC version %@ is less than configured minimum version %@", [SDLGlobals sharedGlobals].rpcVersion.stringVersion, self.configuration.lifecycleConfig.minimumRPCVersion.stringVersion);
         [self sdl_transitionToState:SDLLifecycleStateUnregistering];
         return;
+    }
+
+    // If we did not receive vehicle details in the protocol layer, we need to check if the developer wants to disconnect based on vehicle details from the RAIR
+    if (self.systemInfo == nil) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+        SDLVehicleType *vehicleType = self.registerResponse.vehicleType;
+        NSString *softwareVersion = self.registerResponse.systemSoftwareVersion;
+#pragma clang diagnostic pop
+        if ((vehicleType != nil) || (softwareVersion != nil)) {
+            self.systemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:nil];
+            SDLLogD(@"System info received by RPC layer, using RAIR system info: %@", self.systemInfo);
+
+            if ([self.delegate respondsToSelector:@selector(didReceiveSystemInfo:)]) {
+                BOOL shouldConnect = [self.delegate didReceiveSystemInfo:self.systemInfo];
+                if (!shouldConnect) {
+                    SDLLogW(@"Developer chose to disconnect from the head unit; disconnecting now");
+                    [self.protocolHandler.protocol endServiceWithType:SDLServiceTypeRPC];
+                    [self sdl_transitionToState:SDLLifecycleStateStopped];
+                    return;
+                }
+            }
+        }
     }
 
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
@@ -467,7 +499,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                 return;
             }
 
-            SDLLogD(@"Successfully updated language with change registration. Request sent: %@", request);
+            SDLLogD(@"Successfully updated language with change registration. Request sent: %@, response received: %@", request, response);
         }];
     }
     
@@ -586,9 +618,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     if ([self.delegate respondsToSelector:@selector(videoStreamingState:didChangetoState:)]) {
         [self.delegate videoStreamingState:SDLVideoStreamingStateNotStreamable didChangetoState:self.videoStreamingState];
     }
-
-    // Stop the background task now that setup has completed
-    [self.backgroundTaskManager endBackgroundTask];
 }
 
 - (void)didEnterStateUnregistering {

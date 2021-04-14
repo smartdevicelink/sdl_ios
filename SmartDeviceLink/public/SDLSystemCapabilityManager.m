@@ -53,7 +53,10 @@ typedef NSString * SDLServiceID;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 @property (nullable, strong, nonatomic, readwrite) NSArray<SDLDisplayCapability *> *displays;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
+#pragma clang diagnostic pop
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
@@ -167,13 +170,14 @@ typedef NSString * SDLServiceID;
         return nil;
     }
 
-    SDLDisplayCapability *mainDisplay = capabilities.firstObject;
+    SDLDisplayCapability *mainDisplay = capabilities[0];
     for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
         NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-        if (currentWindowID == windowID) {
-            return windowCapability;
-        }
+        if (currentWindowID != windowID) { continue; }
+
+        return windowCapability;
     }
+
     return nil;
 }
 
@@ -200,6 +204,8 @@ typedef NSString * SDLServiceID;
 /// @param display The old-style `SDLDisplayCapabilities` object to convert
 /// @param buttons The old-style `SDLButtonCapabilities` object to convert
 /// @param softButtons The old-style `SDLSoftButtonCapabilities` to convert
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities:(SDLDisplayCapabilities *)display buttons:(NSArray<SDLButtonCapabilities *> *)buttons softButtons:(NSArray<SDLSoftButtonCapabilities *> *)softButtons {
     SDLLogV(@"Creating display capability from deprecated display capabilities");
     // Based on deprecated Display capabilities we don't know if widgets are supported. The default MAIN window is the only window we know is supported, so it's the only one we will expose.
@@ -245,6 +251,7 @@ typedef NSString * SDLServiceID;
     displayCapability.windowCapabilities = @[defaultWindowCapability];
     return @[displayCapability];
 }
+#pragma clang diagnostic pop
 
 #pragma mark Convert New to Deprecated
 
@@ -257,7 +264,10 @@ typedef NSString * SDLServiceID;
     }
     
     // Create the deprecated capabilities for backward compatibility if developers try to access them
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SDLDisplayCapabilities *convertedCapabilities = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
     convertedCapabilities.displayType = SDLDisplayTypeGeneric; // deprecated but it is mandatory
@@ -374,15 +384,13 @@ typedef NSString * SDLServiceID;
     [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (![response isKindOfClass:[SDLGetSystemCapabilityResponse class]]) {
             SDLLogE(@"GetSystemCapability failed, type: %@, did not return a GetSystemCapability response", type);
-            if (handler == nil) { return; }
-            handler(nil, NO, [NSError sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities]);
+            [self sdl_notifyObserversOfCapabilityType:getSystemCapability.systemCapabilityType capability:nil error:[NSError sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities]];
             return;
         }
 
         if (response.success.boolValue == false) {
             SDLLogE(@"GetSystemCapability failed, type: %@, error: %@", type, error);
-            if (handler == nil) { return; }
-            handler(nil, NO, error);
+            [self sdl_notifyObserversOfCapabilityType:getSystemCapability.systemCapabilityType capability:nil error:error];
             return;
         }
 
@@ -397,6 +405,12 @@ typedef NSString * SDLServiceID;
 
         [weakself sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability error:error completionHandler:handler];
     }];
+}
+
+- (void)sdl_notifyObserversOfCapabilityType:(SDLSystemCapabilityType)type capability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
+    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
+        [self sdl_invokeObserver:observer withCapabilityType:type capability:capability error:error];
+    }
 }
 
 #pragma mark Saving Capability Responses
@@ -653,10 +667,7 @@ typedef NSString * SDLServiceID;
     SDLLogV(@"Calling observers for type: %@ with update: %@", type, capability);
 
     [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
-
-    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
-        [self sdl_invokeObserver:observer withCapabilityType:type capability:capability error:error];
-    }
+    [self sdl_notifyObserversOfCapabilityType:type capability:capability error:error];
 
     if (handler == nil) { return; }
     handler(capability, self.subscriptionStatus[type].boolValue, error);

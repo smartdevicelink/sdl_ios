@@ -48,7 +48,10 @@ typedef NSString * SDLServiceID;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 @property (nullable, strong, nonatomic, readwrite) NSArray<SDLDisplayCapability *> *displays;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
+#pragma clang diagnostic pop
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
@@ -87,7 +90,10 @@ describe(@"System capability manager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
 
     __block NSArray<SDLDisplayCapability *> *testDisplayCapabilityList = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
+#pragma clang diagnostic pop
     __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
     __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
     __block SDLPresetBankCapabilities *testPresetBankCapabilities = nil;
@@ -95,8 +101,10 @@ describe(@"System capability manager", ^{
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
-        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
         testDisplayCapabilities.graphicSupported = @NO;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -149,6 +157,14 @@ describe(@"System capability manager", ^{
         defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic];
         displayCapability.windowCapabilities = @[defaultWindowCapability];
         testDisplayCapabilityList = @[displayCapability];
+    });
+
+    afterEach(^{
+        if (testSystemCapabilityManager) {
+            // just in case unsubscribe from notifications and dealloc the manager
+            [[NSNotificationCenter defaultCenter] removeObserver:testSystemCapabilityManager];
+            testSystemCapabilityManager = nil;
+        }
     });
 
     it(@"should initialize the system capability manager properties correctly", ^{
@@ -267,7 +283,10 @@ describe(@"System capability manager", ^{
 
                     context(@"when displayCapabilities.graphicSupported is true", ^{
                         beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                             testSystemCapabilityManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
                             testSystemCapabilityManager.displayCapabilities.graphicSupported = @YES;
                         });
 
@@ -525,7 +544,7 @@ describe(@"System capability manager", ^{
 
             it(@"should should save the capabilities", ^{
                 // All the text fields and image fields should be available
-                expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(29));
+                expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(31));
                 expect(testSystemCapabilityManager.defaultMainWindowCapability.imageFields).to(haveCount(14));
             });
         });
@@ -596,12 +615,11 @@ describe(@"System capability manager", ^{
 
             it(@"should should not save the capabilities", ^{
                 [testSystemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                    expect(error).toEventually(equal(testConnectionManager.defaultError));
-                    expect(systemCapabilityManager.phoneCapability).toEventually(beNil());
+                    expect(error).to(equal(testConnectionManager.defaultError));
+                    expect(systemCapabilityManager.phoneCapability).to(beNil());
                 }];
 
-                [NSThread sleepForTimeInterval:0.1];
-
+                [NSThread sleepForTimeInterval:0.1]; // This still needs to be here to ensure request is sent first
                 [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
@@ -613,18 +631,17 @@ describe(@"System capability manager", ^{
 
             it(@"should save the capabilitity", ^{
                 [testSystemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                    expect(testSystemCapabilityManager.phoneCapability).toEventually(equal(testPhoneCapability));
-                    expect(error).toEventually(beNil());
+                    expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
+                    expect(error).to(beNil());
                 }];
 
-                [NSThread sleepForTimeInterval:0.1];
-
+                [NSThread sleepForTimeInterval:0.1]; // This still needs to be here to ensure request is sent first
                 [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
 
         afterEach(^{
-            // Make sure the RAIR properties and other system capabilities were not inadverdently set
+            // Make sure the RAIR properties and other system capabilities were not inadvertently set
             expect(testSystemCapabilityManager.displays).to(beNil());
             expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
 #pragma clang diagnostic push

@@ -38,6 +38,7 @@
 #import "SDLStateMachine.h"
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
@@ -53,6 +54,7 @@ typedef NSNumber * SDLChoiceId;
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
+@property (strong, nonatomic, readwrite) NSString *uniqueText;
 
 @end
 
@@ -82,7 +84,10 @@ typedef NSNumber * SDLChoiceId;
 @end
 
 UInt16 const ChoiceCellIdMin = 1;
-UInt16 const ChoiceCellCancelIdMin = 1;
+
+// Assigns a set range of unique cancel ids in order to prevent overlap with other sub-screen managers that use cancel ids. If the max cancel id is reached, generation starts over from the cancel id min value.
+UInt16 const ChoiceCellCancelIdMin = 101;
+UInt16 const ChoiceCellCancelIdMax = 200;
 
 @implementation SDLChoiceSetManager
 
@@ -117,7 +122,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 - (void)start {
     SDLLogD(@"Starting manager");
 
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 
     if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
         [self.stateMachine transitionToState:SDLChoiceManagerStateCheckingVoiceOptional];
@@ -147,6 +152,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"com.sdl.screenManager.choiceSetManager.transactionQueue";
     queue.maxConcurrentOperationCount = 1;
+    queue.qualityOfService = NSQualityOfServiceUserInteractive;
     queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
@@ -225,13 +231,14 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         return;
     }
 
-    NSMutableSet<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
 
+    NSMutableOrderedSet<SDLChoiceCell *> *mutableChoicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [choicesToUpload minusSet:self.preloadedMutableChoices];
-        [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
+        [mutableChoicesToUpload minusSet:self.preloadedMutableChoices];
+        [mutableChoicesToUpload minusSet:self.pendingMutablePreloadChoices];
     }];
 
+    NSOrderedSet<SDLChoiceCell *> *choicesToUpload = [mutableChoicesToUpload copy];
     if (choicesToUpload.count == 0) {
         SDLLogD(@"All choices already preloaded. No need to perform a preload");
         if (handler != nil) {
@@ -245,7 +252,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
     // Add the preload cells to the pending preloads
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
+        [self.pendingMutablePreloadChoices unionSet:choicesToUpload.set];
     }];
 
     // Upload pending preloads
@@ -273,8 +280,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload];
-            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
+            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
+            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
         }];
     };
     [self.transactionQueue addOperation:preloadOp];
@@ -378,10 +385,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     SDLPresentChoiceSetOperation *presentOp = nil;
     if (delegate == nil) {
         // Non-searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
     } else {
         // Searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
     }
     self.pendingPresentOperation = presentOp;
 
@@ -420,7 +427,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     SDLLogD(@"Presenting keyboard with initial text: %@", initialText);
     // Present a keyboard with the choice set that we used to test VR's optional state
     UInt16 keyboardCancelId = self.nextCancelId;
-    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId];
+    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId windowCapability:self.currentWindowCapability];
     [self.transactionQueue addOperation:self.pendingPresentOperation];
     return @(keyboardCancelId);
 }
@@ -443,11 +450,38 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 /// Checks the passed list of choices to be uploaded and returns the items that have not yet been uploaded to the module.
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
-- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
+- (NSMutableOrderedSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableOrderedSet<SDLChoiceCell *> *choicesSet = [[NSMutableOrderedSet alloc] initWithArray:choices];
+
+    // If we're running on a connection < RPC 7.1, we need to de-duplicate cells because presenting them will fail if we have the same cell primary text.
+    SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:choiceUniquenessSupportedVersion]) {
+        [self sdl_addUniqueNamesToCells:choicesSet];
+    }
     [choicesSet minusSet:self.preloadedChoices];
 
-    return [choicesSet copy];
+    return choicesSet;
+}
+
+/// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
+/// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
+/// @param choices The choices to be uploaded.
+- (void)sdl_addUniqueNamesToCells:(NSOrderedSet<SDLChoiceCell *> *)choices {
+    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
+    NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    for (SDLChoiceCell *cell in choices) {
+        NSString *cellName = cell.text;
+        NSNumber *counter = dictCounter[cellName];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[cellName] = counter;
+        } else {
+            dictCounter[cellName] = @1;
+        }
+        if (counter.intValue > 1) {
+            cell.uniqueText = [NSString stringWithFormat: @"%@ (%d)", cell.text, counter.intValue];
+        }
+    }
 }
 
 /// Checks the passed list of choices to be deleted and returns the items that have been uploaded to the module.
@@ -472,7 +506,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 /// Assigns a unique id to each choice item.
 /// @param choices An array of choices
-- (void)sdl_updateIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
+- (void)sdl_updateIdsOnChoices:(NSOrderedSet<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         cell.choiceId = self.nextChoiceId;
     }
@@ -502,7 +536,10 @@ UInt16 const ChoiceCellCancelIdMin = 1;
         _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
     } else {
         SDLLogD(@"Updating keyboard configuration to a new configuration: %@", keyboardConfiguration);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         _keyboardConfiguration = [[SDLKeyboardProperties alloc] initWithLanguage:keyboardConfiguration.language layout:keyboardConfiguration.keyboardLayout keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:keyboardConfiguration.limitedCharacterList autoCompleteText:keyboardConfiguration.autoCompleteText autoCompleteList:keyboardConfiguration.autoCompleteList];
+#pragma clang diagnostic pop
 
         if (keyboardConfiguration.keypressMode != SDLKeypressModeResendCurrentEntry) {
             SDLLogW(@"Attempted to set a keyboard configuration with an invalid keypress mode; only .resentCurrentEntry is valid. This value will be ignored, the rest of the properties will be set.");
@@ -511,7 +548,7 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 }
 
 - (SDLKeyboardProperties *)sdl_defaultKeyboardConfiguration {
-    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil autoCompleteList:nil];
+    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs keyboardLayout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
 }
 
 #pragma mark - Getters
@@ -548,7 +585,11 @@ UInt16 const ChoiceCellCancelIdMin = 1;
     __block UInt16 cancelId = 0;
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         cancelId = self->_nextCancelId;
-        self->_nextCancelId = cancelId + 1;
+        if (cancelId >= ChoiceCellCancelIdMax) {
+            self->_nextCancelId = ChoiceCellCancelIdMin;
+        } else {
+            self->_nextCancelId = cancelId + 1;
+        }
     }];
 
     return cancelId;
@@ -560,21 +601,8 @@ UInt16 const ChoiceCellCancelIdMin = 1;
 
 #pragma mark - RPC Responses / Notifications
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
-    if (capabilities == nil || capabilities.count == 0) {
-        self.currentWindowCapability = nil;
-    } else {
-        SDLDisplayCapability *mainDisplay = capabilities[0];
-        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
-
-            self.currentWindowCapability = windowCapability;
-            break;
-        }
-    }
-
+- (void)sdl_displayCapabilityDidUpdate {
+    self.currentWindowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     [self sdl_updateTransactionQueueSuspended];
 }
 

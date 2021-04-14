@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPreloadChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells {
     self = [super init];
     if (!self) { return nil; }
 
@@ -87,10 +87,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self sdl_shouldSendChoicePrimaryImage] && [self sdl_artworkNeedsUpload:cell.artwork]) {
+        if ([self sdl_shouldSendChoicePrimaryImage] && [self.fileManager fileNeedsUpload:cell.artwork]) {
             [artworksToUpload addObject:cell.artwork];
         }
-        if ([self sdl_shouldSendChoiceSecondaryImage] && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
+        if ([self sdl_shouldSendChoiceSecondaryImage] && [self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
             [artworksToUpload addObject:cell.secondaryArtwork];
         }
     }
@@ -111,10 +111,6 @@ NS_ASSUME_NONNULL_BEGIN
 
         completionHandler(error);
     }];
-}
-
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
 }
 
 - (void)sdl_preloadCells {
@@ -164,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSString *menuName = nil;
     if ([self sdl_shouldSendChoiceText]) {
-        menuName = cell.text;
+        menuName = cell.uniqueText;
     }
 
     if(!menuName) {

@@ -164,6 +164,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_showInitialData {
+    // Send static menu items and soft buttons
+    [self sdlex_createMenus];
+    self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
+
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
     [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:nil];
@@ -225,8 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDLManagerDelegate
-
-/// Called when the connection beween this app and the module has closed.
+/// Called when the connection between this app and the module has closed.
 - (void)managerDidDisconnect {
     if (self.state != ProxyStateStopped) {
         [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
@@ -243,24 +246,23 @@ NS_ASSUME_NONNULL_BEGIN
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
         
-        // Send static menu items and soft buttons
-        [self sdlex_createMenus];
-        self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
-
         // Subscribe to vehicle data.
         [self.vehicleDataManager subscribeToVehicleOdometer];
+
+        //Handle initial launch
+        [self sdlex_showInitialData];
     }
 
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
         // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
-        [self sdlex_showInitialData];
         [self.subscribeButtonManager subscribeToAllPresetButtons];
     } else if ([newLevel isEqualToEnum:SDLHMILevelLimited]) {
         // An active NAV or MEDIA SDL app is in the background
     } else if ([newLevel isEqualToEnum:SDLHMILevelBackground]) {
         // The SDL app is not in the foreground
     } else if ([newLevel isEqualToEnum:SDLHMILevelNone]) {
-        // The SDL app is not yet running
+        // The SDL app is not yet running or is terminated
+        self.firstHMILevel = SDLHMILevelNone;
     }
 }
 
@@ -314,6 +316,11 @@ NS_ASSUME_NONNULL_BEGIN
     update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
 
     return update;
+}
+
+- (BOOL)didReceiveSystemInfo:(SDLSystemInfo *)systemInfo {
+    SDLLogD(@"Example app did receive system info: %@", systemInfo);
+    return YES;
 }
 
 @end

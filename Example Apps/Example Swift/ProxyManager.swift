@@ -146,8 +146,8 @@ private extension ProxyManager {
 // MARK: - SDLManagerDelegate
 
 extension ProxyManager: SDLManagerDelegate {
-    /// Called when the connection beween this app and the module has closed.
-    func managerDidDisconnect() {        
+    /// Called when the connection between this app and the module has closed.
+    func managerDidDisconnect() {
         if delegate?.proxyState != .some(.stopped) {
             delegate?.didChangeProxyState(ProxyState.searching)
         }
@@ -165,22 +165,23 @@ extension ProxyManager: SDLManagerDelegate {
             // This is our first time in a non-NONE state
             firstHMILevelState = newLevel
 
-            // Send static menu items and soft buttons
-            createMenuAndGlobalVoiceCommands()
-            sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons()
-
             // Subscribe to vehicle data.
             vehicleDataManager.subscribeToVehicleOdometer()
+
+            //Handle initial launch
+            showInitialData()
         }
 
         switch newLevel {
         case .full:
             // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
-            showInitialData()
             subscribeButtonManager.subscribeToPresetButtons()
         case .limited: break // An active NAV or MEDIA SDL app is in the background
         case .background: break // The SDL app is not in the foreground
-        case .none: break // The SDL app is not yet running
+        case .none:
+            // The SDL app is not yet running or is terminated
+            firstHMILevelState = .none
+            break
         default: break
         }
     }
@@ -236,6 +237,14 @@ extension ProxyManager: SDLManagerDelegate {
         
         return update
     }
+
+    /// Called when connected module information becomes available
+    /// - Parameter systemInfo: The connected module's information
+    /// - Returns: True to continue connecting, false to disconnect immediately
+    func didReceiveSystemInfo(_ systemInfo: SDLSystemInfo) -> Bool {
+        SDLLog.d("Example app got system info: \(systemInfo)")
+        return true
+    }
 }
 
 // MARK: - SDL UI
@@ -250,6 +259,10 @@ private extension ProxyManager {
 
     /// Set the template and create the UI
     func showInitialData() {
+        // Send static menu items and soft buttons
+        createMenuAndGlobalVoiceCommands()
+        sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons()
+
         guard sdlManager.hmiLevel == .full else { return }
 
         sdlManager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia), withCompletionHandler: nil)

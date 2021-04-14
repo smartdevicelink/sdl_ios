@@ -43,6 +43,7 @@ describe(@"an SDLChoiceCell", ^{
             expect(testCell.artwork).to(beNil());
             expect(testCell.secondaryArtwork).to(beNil());
             expect(@(testCell.choiceId)).to(equal(@(UINT16_MAX)));
+            expect(testCell.uniqueText).to(equal(testText));
         });
 
         it(@"should initialize properly with initWithText:artwork:voiceCommands:", ^{
@@ -55,6 +56,7 @@ describe(@"an SDLChoiceCell", ^{
             expect(testCell.artwork).to(equal(testArtwork));
             expect(testCell.secondaryArtwork).to(beNil());
             expect(@(testCell.choiceId)).to(equal(@(UINT16_MAX)));
+            expect(testCell.uniqueText).to(equal(testText));
         });
 
         it(@"should initialize properly with initWithText:secondaryText:tertiaryText:voiceCommands:artwork:secondaryArtwork:", ^{
@@ -67,6 +69,7 @@ describe(@"an SDLChoiceCell", ^{
             expect(testCell.artwork).to(equal(testArtwork));
             expect(testCell.secondaryArtwork).to(equal(testSecondaryArtwork));
             expect(@(testCell.choiceId)).to(equal(@(UINT16_MAX)));
+            expect(testCell.uniqueText).to(equal(testText));
         });
     });
 

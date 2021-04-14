@@ -53,6 +53,21 @@ describe(@"Rectangle Tests", ^{
         expect(testStruct.width).to(beNil());
         expect(testStruct.height).to(beNil());
     });
+
+    context(@"isEqual:", ^{
+        SDLRectangle *testRect = [[SDLRectangle alloc] initWithX:50.5 y:60.2 width:500 height:600];
+        SDLRectangle *copyRect = [testRect copy];
+
+        it(@"expect copy to be equal", ^{
+            expect(testRect).to(equal(copyRect));
+        });
+
+        it(@"expect wrong object to be not equal", ^{
+            id object = [[NSObject alloc] init];
+            expect(testRect).toNot(equal(nil));
+            expect(testRect).toNot(equal(object));
+        });
+    });
 });
 
 QuickSpecEnd

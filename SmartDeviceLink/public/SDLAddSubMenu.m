@@ -61,6 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID {
+    return [self initWithMenuID:menuID menuName:menuName position:position menuIcon:menuIcon menuLayout:menuLayout parentID:parentID secondaryText:nil tertiaryText:nil secondaryImage:nil];
+}
+
+- (instancetype)initWithMenuID:(UInt32)menuID menuName:(NSString *)menuName position:(nullable NSNumber<SDLUInt> *)position menuIcon:(nullable SDLImage *)menuIcon menuLayout:(nullable SDLMenuLayout)menuLayout parentID:(nullable NSNumber<SDLUInt> *)parentID secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText secondaryImage:(nullable SDLImage *)secondaryImage {
     self = [self initWithMenuID:menuID menuName:menuName];
     if (!self) {
         return nil;
@@ -69,6 +73,9 @@ NS_ASSUME_NONNULL_BEGIN
     self.menuIcon = menuIcon;
     self.menuLayout = menuLayout;
     self.parentID = parentID;
+    self.secondaryText = secondaryText;
+    self.tertiaryText = tertiaryText;
+    self.secondaryImage = secondaryImage;
     return self;
 }
 
@@ -120,6 +127,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLUInt> *)parentID {
     return [self.parameters sdl_objectForName:SDLRPCParameterNameParentID ofClass:NSNumber.class error:nil];
+}
+
+- (void)setSecondaryText:(nullable NSString *)secondaryText {
+    [self.parameters sdl_setObject:secondaryText forName:SDLRPCParameterNameSecondaryText];
+}
+
+- (nullable NSString *)secondaryText {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSecondaryText ofClass:NSString.class error:nil];
+}
+
+- (void)setTertiaryText:(nullable NSString *)tertiaryText {
+    [self.parameters sdl_setObject:tertiaryText forName:SDLRPCParameterNameTertiaryText];
+}
+
+- (nullable NSString *)tertiaryText {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameTertiaryText ofClass:NSString.class error:nil];
+}
+
+- (void)setSecondaryImage:(nullable SDLImage *)secondaryImage {
+    [self.parameters sdl_setObject:secondaryImage forName:SDLRPCParameterNameSecondaryImage];
+}
+
+- (nullable SDLImage *)secondaryImage {
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSecondaryImage ofClass:SDLImage.class error:nil];
 }
 
 @end
