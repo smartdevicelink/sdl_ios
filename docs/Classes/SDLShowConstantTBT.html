@@ -70,9 +70,9 @@
       <dt>nextTurnIcon</dt>
       <dd><p>An icon to show with the next turn description</p></dd>
       <dt>distanceToManeuver</dt>
-      <dd><p>Fraction of distance till next maneuver</p></dd>
+      <dd><p>Distance (in meters) until next maneuver.</p></dd>
       <dt>distanceToManeuverScale</dt>
-      <dd><p>Distance till next maneuver</p></dd>
+      <dd><p>Distance (in meters) from previous maneuver to next maneuver.</p></dd>
       <dt>maneuverComplete</dt>
       <dd><p>If and when a maneuver has completed while an AlertManeuver is active, the app must send this value set to TRUE in order to clear the AlertManeuver overlay. If omitted the value will be assumed as FALSE</p></dd>
       <dt>softButtons</dt>
@@ -237,7 +237,7 @@
       distanceToManeuver
   </h3>
   
-  <p>Fraction of distance till next maneuver (starting from when AlertManeuver is triggered). Used to calculate progress bar.</p>
+  <p>Distance (in meters) until next maneuver. May be used to calculate progress bar.</p>
 
 <p>Optional, Float, 0 - 1,000,000,000</p>
 
@@ -257,7 +257,7 @@
       distanceToManeuverScale
   </h3>
   
-  <p>Distance till next maneuver (starting from) from previous maneuver. Used to calculate progress bar.</p>
+  <p>Distance (in meters) from previous maneuver to next maneuver. May be used to calculate progress bar.</p>
 
 <p>Optional, Float, 0 - 1,000,000,000</p>
 

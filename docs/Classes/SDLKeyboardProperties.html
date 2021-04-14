@@ -4,12 +4,16 @@
 
 <ul>
   <li><a href="#section--initWithLanguage:layout:keypressMode:limitedCharacterList:autoCompleteText:autoCompleteList:">-initWithLanguage:layout:keypressMode:limitedCharacterList:autoCompleteText:autoCompleteList:</a></li>
+  <li><a href="#section--initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList:">-initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList:</a></li>
+  <li><a href="#section--initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList:maskInputCharacters:customKeys:">-initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList:maskInputCharacters:customKeys:</a></li>
   <li><a href="#section-language">language</a></li>
   <li><a href="#section-keyboardLayout">keyboardLayout</a></li>
   <li><a href="#section-keypressMode">keypressMode</a></li>
   <li><a href="#section-limitedCharacterList">limitedCharacterList</a></li>
   <li><a href="#section-autoCompleteText">autoCompleteText</a></li>
   <li><a href="#section-autoCompleteList">autoCompleteList</a></li>
+  <li><a href="#section-maskInputCharacters">maskInputCharacters</a></li>
+  <li><a href="#section-customKeys">customKeys</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -59,6 +63,91 @@
   <div>
     <h4>Return Value</h4>
     <p>The RPC object</p>
+  </div>
+  
+  <h3 id="section--initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList:">
+      -initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList:
+  </h3>
+  
+  <p>Convenience init with all properties.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+        <span class="nf">initWithLanguage</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">language</span>
+          <span class="nf">keyboardLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span><span class="p">)</span><span class="nv">keyboardLayout</span>
+            <span class="nf">keypressMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLKeypressMode.h@T@SDLKeypressMode">SDLKeypressMode</a></span><span class="p">)</span><span class="nv">keypressMode</span>
+    <span class="nf">limitedCharacterList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">limitedCharacterList</span>
+        <span class="nf">autoCompleteList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoCompleteList</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">?,</span> <span class="nv">keyboardLayout</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span><span class="p">?,</span> <span class="nv">keypressMode</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLKeypressMode.h@T@SDLKeypressMode">SDLKeypressMode</a></span><span class="p">?,</span> <span class="nv">limitedCharacterList</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">autoCompleteList</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>language</dt>
+      <dd><p>- language</p></dd>
+      <dt>keyboardLayout</dt>
+      <dd><p>- keyboardLayout</p></dd>
+      <dt>keypressMode</dt>
+      <dd><p>- keypressMode</p></dd>
+      <dt>limitedCharacterList</dt>
+      <dd><p>- limitedCharacterList</p></dd>
+      <dt>autoCompleteList</dt>
+      <dd><p>- autoCompleteList</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLKeyboardProperties object</p>
+  </div>
+  
+  <h3 id="section--initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList:maskInputCharacters:customKeys:">
+      -initWithLanguage:keyboardLayout:keypressMode:limitedCharacterList:autoCompleteList:maskInputCharacters:customKeys:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+        <span class="nf">initWithLanguage</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">language</span>
+          <span class="nf">keyboardLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span><span class="p">)</span><span class="nv">keyboardLayout</span>
+            <span class="nf">keypressMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLKeypressMode.h@T@SDLKeypressMode">SDLKeypressMode</a></span><span class="p">)</span><span class="nv">keypressMode</span>
+    <span class="nf">limitedCharacterList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">limitedCharacterList</span>
+        <span class="nf">autoCompleteList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoCompleteList</span>
+     <span class="nf">maskInputCharacters</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span><span class="p">)</span><span class="nv">maskInputCharacters</span>
+              <span class="nf">customKeys</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">customKeys</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">?,</span> <span class="nv">keyboardLayout</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span><span class="p">?,</span> <span class="nv">keypressMode</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLKeypressMode.h@T@SDLKeypressMode">SDLKeypressMode</a></span><span class="p">?,</span> <span class="nv">limitedCharacterList</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">autoCompleteList</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">maskInputCharacters</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span><span class="p">?,</span> <span class="nv">customKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>language</dt>
+      <dd><p>- language</p></dd>
+      <dt>keyboardLayout</dt>
+      <dd><p>- keyboardLayout</p></dd>
+      <dt>keypressMode</dt>
+      <dd><p>- keypressMode</p></dd>
+      <dt>limitedCharacterList</dt>
+      <dd><p>- limitedCharacterList</p></dd>
+      <dt>autoCompleteList</dt>
+      <dd><p>- autoCompleteList</p></dd>
+      <dt>maskInputCharacters</dt>
+      <dd><p>- maskInputCharacters</p></dd>
+      <dt>customKeys</dt>
+      <dd><p>- customKeys</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLKeyboardProperties object</p>
   </div>
   
   <h3 id="section-language">
@@ -147,9 +236,11 @@
       autoCompleteText
   </h3>
   
-  <p>Allows an app to prepopulate the text field with a suggested or completed entry as the user types</p>
+  <p>Deprecated, use autoCompleteList instead.
+ {&ldquo;string_min_length&rdquo;: 1, &ldquo;string_max_length&rdquo;: 1000}</p>
 
-<p>Optional</p>
+<p>@deprecated in SmartDeviceLink 6.0.0
+ @added in SmartDeviceLink 3.0.0</p>
 
   
   
@@ -179,6 +270,47 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">autoCompleteList</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-maskInputCharacters">
+      maskInputCharacters
+  </h3>
+  
+  <p>Allows an app to mask entered characters on HMI</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="n">maskInputCharacters</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">maskInputCharacters</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-customKeys">
+      customKeys
+  </h3>
+  
+  <p>Array of special characters to show in customizable keys. If omitted, keyboard will show default special characters
+ {&ldquo;array_min_size&rdquo;: 1, &ldquo;array_max_size&rdquo;: 10, &ldquo;string_min_length&rdquo;: 1, &ldquo;string_max_length&rdquo;: 1}</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">customKeys</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">customKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

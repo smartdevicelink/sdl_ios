@@ -4,19 +4,29 @@
 
 <ul>
   <li><a href="#section-+countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:">+countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:</a></li>
+  <li><a href="#section-+countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">+countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:</a></li>
   <li><a href="#section-+countUpFromStartTime:toEndTime:playPauseIndicator:">+countUpFromStartTime:toEndTime:playPauseIndicator:</a></li>
+  <li><a href="#section-+countUpFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">+countUpFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:</a></li>
   <li><a href="#section-+countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:">+countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:</a></li>
+  <li><a href="#section-+countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">+countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:</a></li>
   <li><a href="#section-+countDownFromStartTime:toEndTime:playPauseIndicator:">+countDownFromStartTime:toEndTime:playPauseIndicator:</a></li>
+  <li><a href="#section-+countDownFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">+countDownFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:</a></li>
   <li><a href="#section-+pauseWithPlayPauseIndicator:">+pauseWithPlayPauseIndicator:</a></li>
   <li><a href="#section-+updatePauseWithNewStartTimeInterval:endTimeInterval:playPauseIndicator:">+updatePauseWithNewStartTimeInterval:endTimeInterval:playPauseIndicator:</a></li>
   <li><a href="#section-+updatePauseWithNewStartTime:endTime:playPauseIndicator:">+updatePauseWithNewStartTime:endTime:playPauseIndicator:</a></li>
   <li><a href="#section-+resumeWithPlayPauseIndicator:">+resumeWithPlayPauseIndicator:</a></li>
+  <li><a href="#section-+resumeWithPlayPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">+resumeWithPlayPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:</a></li>
   <li><a href="#section-+clearWithPlayPauseIndicator:">+clearWithPlayPauseIndicator:</a></li>
+  <li><a href="#section--initWithUpdateMode:">-initWithUpdateMode:</a></li>
   <li><a href="#section--initWithUpdateMode:startTime:endTime:playPauseIndicator:">-initWithUpdateMode:startTime:endTime:playPauseIndicator:</a></li>
+  <li><a href="#section--initWithUpdateMode:startTime:endTime:audioStreamingIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">-initWithUpdateMode:startTime:endTime:audioStreamingIndicator:forwardSeekIndicator:backSeekIndicator:countRate:</a></li>
   <li><a href="#section-startTime">startTime</a></li>
   <li><a href="#section-endTime">endTime</a></li>
   <li><a href="#section-updateMode">updateMode</a></li>
   <li><a href="#section-audioStreamingIndicator">audioStreamingIndicator</a></li>
+  <li><a href="#section-forwardSeekIndicator">forwardSeekIndicator</a></li>
+  <li><a href="#section-backSeekIndicator">backSeekIndicator</a></li>
+  <li><a href="#section-countRate">countRate</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -69,6 +79,54 @@
     <p>An object of SetMediaClockTimer</p>
   </div>
   
+  <h3 id="section-+countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">
+      +countUpFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:
+  </h3>
+  
+  <p>Create a media clock timer that counts up, e.g from 0:00 to 4:18.</p>
+
+<p>This will fail if startTime is greater than endTime</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">countUpFromStartTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">startTime</span>
+               <span class="nf">toEndTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">endTime</span>
+              <span class="nf">playPauseIndicator</span><span class="p">:</span>
+                  <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span>
+            <span class="nf">forwardSeekIndicator</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">forwardSeekIndicator</span>
+               <span class="nf">backSeekIndicator</span><span class="p">:</span>
+                   <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">backSeekIndicator</span>
+                       <span class="nf">countRate</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">countRate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">(</span><span class="n">from</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="n">to</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">forwardSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">backSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">countRate</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The start time interval, e.g. (0) 0:00</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time interval, e.g. (258) 4:18</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+      <dt>countRate</dt>
+      <dd><p>set the media playback timer, if <code>nil</code>, will default to 1.0</p></dd>
+      <dt>forwardSeekIndicator</dt>
+      <dd><p>- forwardSeekIndicator</p></dd>
+      <dt>backSeekIndicator</dt>
+      <dd><p>- backSeekIndicator</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
   <h3 id="section-+countUpFromStartTime:toEndTime:playPauseIndicator:">
       +countUpFromStartTime:toEndTime:playPauseIndicator:
   </h3>
@@ -100,6 +158,52 @@
       <dd><p>The end time interval, e.g. 4:18</p></dd>
       <dt>playPauseIndicator</dt>
       <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+countUpFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">
+      +countUpFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:
+  </h3>
+  
+  <p>Create a media clock timer that counts up, e.g from 0:00 to 4:18.</p>
+
+<p>This will fail if startTime is greater than endTime</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">countUpFromStartTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startTime</span>
+               <span class="nf">toEndTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endTime</span>
+      <span class="nf">playPauseIndicator</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span>
+    <span class="nf">forwardSeekIndicator</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">forwardSeekIndicator</span>
+       <span class="nf">backSeekIndicator</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">backSeekIndicator</span>
+               <span class="nf">countRate</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">countRate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">(</span><span class="n">from</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="n">to</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">forwardSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">backSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">countRate</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The start time interval, e.g. 0:00</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time interval, e.g. 4:18</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+      <dt>forwardSeekIndicator</dt>
+      <dd><p>- forwardSeekIndicator</p></dd>
+      <dt>backSeekIndicator</dt>
+      <dd><p>- backSeekIndicator</p></dd>
+      <dt>countRate</dt>
+      <dd><p>set the media playback timer, if <code>nil</code>, will default to 1.0</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -143,6 +247,54 @@
     <p>An object of SetMediaClockTimer</p>
   </div>
   
+  <h3 id="section-+countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">
+      +countDownFromStartTimeInterval:toEndTimeInterval:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:
+  </h3>
+  
+  <p>Create a media clock timer that counts down, e.g. from 4:18 to 0:00</p>
+
+<p>This will fail if endTime is greater than startTime</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">countDownFromStartTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">startTime</span>
+                 <span class="nf">toEndTimeInterval</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">endTime</span>
+                <span class="nf">playPauseIndicator</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span>
+              <span class="nf">forwardSeekIndicator</span><span class="p">:</span>
+                  <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">forwardSeekIndicator</span>
+                 <span class="nf">backSeekIndicator</span><span class="p">:</span>
+                     <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">backSeekIndicator</span>
+                         <span class="nf">countRate</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">countRate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">countDown</span><span class="p">(</span><span class="n">from</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="n">to</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">forwardSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">backSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">countRate</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The start time interval, e.g. (258) 4:18</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time interval, e.g. (0) 0:00</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+      <dt>forwardSeekIndicator</dt>
+      <dd><p>- forwardSeekIndicator</p></dd>
+      <dt>backSeekIndicator</dt>
+      <dd><p>- backSeekIndicator</p></dd>
+      <dt>countRate</dt>
+      <dd><p>set the media playback timer, if <code>nil</code>, will default to 1.0</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
   <h3 id="section-+countDownFromStartTime:toEndTime:playPauseIndicator:">
       +countDownFromStartTime:toEndTime:playPauseIndicator:
   </h3>
@@ -174,6 +326,54 @@
       <dd><p>The end time interval, e.g. 0:00</p></dd>
       <dt>playPauseIndicator</dt>
       <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section-+countDownFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">
+      +countDownFromStartTime:toEndTime:playPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:
+  </h3>
+  
+  <p>Create a media clock timer that counts down, e.g. from 4:18 to 0:00</p>
+
+<p>This will fail if endTime is greater than startTime</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">countDownFromStartTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startTime</span>
+                 <span class="nf">toEndTime</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endTime</span>
+        <span class="nf">playPauseIndicator</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span>
+      <span class="nf">forwardSeekIndicator</span><span class="p">:</span>
+          <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">forwardSeekIndicator</span>
+         <span class="nf">backSeekIndicator</span><span class="p">:</span>
+             <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">backSeekIndicator</span>
+                 <span class="nf">countRate</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">countRate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">countDown</span><span class="p">(</span><span class="n">from</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="n">to</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">,</span> <span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">forwardSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">backSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">countRate</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startTime</dt>
+      <dd><p>The start time interval, e.g. 4:18</p></dd>
+      <dt>endTime</dt>
+      <dd><p>The end time interval, e.g. 0:00</p></dd>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+      <dt>forwardSeekIndicator</dt>
+      <dd><p>- forwardSeekIndicator</p></dd>
+      <dt>backSeekIndicator</dt>
+      <dd><p>- backSeekIndicator</p></dd>
+      <dt>countRate</dt>
+      <dd><p>set the media playback timer, if <code>nil</code>, will default to 1.0</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -306,6 +506,46 @@
     <p>An object of SetMediaClockTimer</p>
   </div>
   
+  <h3 id="section-+resumeWithPlayPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">
+      +resumeWithPlayPauseIndicator:forwardSeekIndicator:backSeekIndicator:countRate:
+  </h3>
+  
+  <p>Resume a paused media clock timer. It resumes at the same time at which it was paused.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">resumeWithPlayPauseIndicator</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">playPauseIndicator</span>
+            <span class="nf">forwardSeekIndicator</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">forwardSeekIndicator</span>
+               <span class="nf">backSeekIndicator</span><span class="p">:</span>
+                   <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">backSeekIndicator</span>
+                       <span class="nf">countRate</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">countRate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">resume</span><span class="p">(</span><span class="nv">playPauseIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">forwardSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">backSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">countRate</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>playPauseIndicator</dt>
+      <dd><p>An optional audio indicator to change the play/pause button</p></dd>
+      <dt>forwardSeekIndicator</dt>
+      <dd><p>- forwardSeekIndicator</p></dd>
+      <dt>backSeekIndicator</dt>
+      <dd><p>- backSeekIndicator</p></dd>
+      <dt>countRate</dt>
+      <dd><p>set the media playback timer</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An object of SetMediaClockTimer, if <code>nil</code>, will default to 1.0</p>
+  </div>
+  
   <h3 id="section-+clearWithPlayPauseIndicator:">
       +clearWithPlayPauseIndicator:
   </h3>
@@ -332,6 +572,32 @@
   <div>
     <h4>Return Value</h4>
     <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section--initWithUpdateMode:">
+      -initWithUpdateMode:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>updateMode</dt>
+      <dd><p>- updateMode</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSetMediaClockTimer object</p>
   </div>
   
   <h3 id="section--initWithUpdateMode:startTime:endTime:playPauseIndicator:">
@@ -369,6 +635,54 @@
   <div>
     <h4>Return Value</h4>
     <p>An object of SetMediaClockTimer</p>
+  </div>
+  
+  <h3 id="section--initWithUpdateMode:startTime:endTime:audioStreamingIndicator:forwardSeekIndicator:backSeekIndicator:countRate:">
+      -initWithUpdateMode:startTime:endTime:audioStreamingIndicator:forwardSeekIndicator:backSeekIndicator:countRate:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+         <span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span>
+                  <span class="nf">startTime</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startTime</span>
+                    <span class="nf">endTime</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endTime</span>
+    <span class="nf">audioStreamingIndicator</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">audioStreamingIndicator</span>
+       <span class="nf">forwardSeekIndicator</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">forwardSeekIndicator</span>
+          <span class="nf">backSeekIndicator</span><span class="p">:</span>
+              <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">backSeekIndicator</span>
+                  <span class="nf">countRate</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">countRate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">,</span> <span class="nv">startTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">?,</span> <span class="n">end</span> <span class="nv">endTime</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStartTime.html">SDLStartTime</a></span><span class="p">?,</span> <span class="nv">audioStreamingIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">forwardSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">backSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?,</span> <span class="nv">countRate</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>updateMode</dt>
+      <dd><p>- updateMode</p></dd>
+      <dt>startTime</dt>
+      <dd><p>- startTime</p></dd>
+      <dt>endTime</dt>
+      <dd><p>- endTime</p></dd>
+      <dt>audioStreamingIndicator</dt>
+      <dd><p>- audioStreamingIndicator</p></dd>
+      <dt>forwardSeekIndicator</dt>
+      <dd><p>- forwardSeekIndicator</p></dd>
+      <dt>backSeekIndicator</dt>
+      <dd><p>- backSeekIndicator</p></dd>
+      <dt>countRate</dt>
+      <dd><p>- countRate</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSetMediaClockTimer object</p>
   </div>
   
   <h3 id="section-startTime">
@@ -464,6 +778,67 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">audioStreamingIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-forwardSeekIndicator">
+      forwardSeekIndicator
+  </h3>
+  
+  <p>Used to control the forward seek button to either skip forward a set amount of time or to the next track.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="n">forwardSeekIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">forwardSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-backSeekIndicator">
+      backSeekIndicator
+  </h3>
+  
+  <p>Used to control the back seek button to either skip back a set amount of time or to the previous track.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span> <span class="o">*</span><span class="n">backSeekIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">backSeekIndicator</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeekStreamingIndicator.html">SDLSeekStreamingIndicator</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-countRate">
+      countRate
+  </h3>
+  
+  <p>The value of this parameter is the amount that the media clock timer will advance per 1.0 seconds of real time. Values less than 1.0 will therefore advance the timer slower than real-time, while values greater than 1.0 will advance the timer faster than real-time. e.g. If this parameter is set to <code>0.5</code>, the timer will advance one second per two seconds real-time, or at 50% speed. If this parameter is set to <code>2.0</code>, the timer will advance two seconds per one second real-time, or at 200% speed.
+ {&ldquo;num_min_value&rdquo;: 0.1, &ldquo;num_max_value&rdquo;: 100.0, &ldquo;default_value&rdquo;: 1.0}</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">countRate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">countRate</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
