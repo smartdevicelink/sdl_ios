@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommand()
 
 @property (assign, nonatomic) UInt32 commandId;
-@property (copy, nonatomic, readwrite) NSArray<NSString *> *voiceCommands;
 
 @end
 
@@ -23,19 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    self.voiceCommands = voiceCommands;
+    _voiceCommands = [self.class sdl_removeDuplicateStrings:voiceCommands];
     _handler = handler;
 
     return self;
 }
 
-- (void)setVoiceCommands:(NSArray<NSString *> *)voiceCommands {
-    if (voiceCommands.count > 0) {
-        NSSet *voiceCommandsSet = [[NSSet alloc] initWithArray:voiceCommands];
-        _voiceCommands = [voiceCommandsSet allObjects];
-    } else {
-        _voiceCommands = voiceCommands;
-    }
++ (NSArray<NSString *> *)sdl_removeDuplicateStrings:(NSArray<NSString *> *)voiceCommands {
+    NSSet *voiceCommandsSet = [[NSSet alloc] initWithArray:voiceCommands];
+    return [voiceCommandsSet allObjects];
 }
 
 - (NSString *)description {
