@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommand()
 
 @property (assign, nonatomic) UInt32 commandId;
-@property (copy, nonatomic, readwrite) NSArray<NSString *> *voiceCommands;
 
 @end
 
@@ -64,8 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
             [weakSelf finishOperation];
             return;
         }
-
-        weakSelf.pendingVoiceCommands = [weakSelf sdl_removeEmptyVoiceCommands];
 
         // Send the new commands
         [weakSelf sdl_sendCurrentVoiceCommands:^{
@@ -156,26 +153,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return [mutableDeletes copy];
-}
-
-/// Remove a voice command from the array of voice commands if it has no strings
-/// @return A list of voice commands with the empty voice commands removed
-- (NSArray<SDLVoiceCommand *> *)sdl_removeEmptyVoiceCommands {
-    NSMutableArray<SDLVoiceCommand *> *pendingVoiceCommands = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *voiceCommandStrings = [[NSMutableArray alloc] init];
-    for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
-        for (NSString *voiceCommandString in voiceCommand.voiceCommands) {
-            if (voiceCommandString.length > 0) {
-                [voiceCommandStrings addObject:voiceCommandString];
-            }
-        }
-        if (voiceCommandStrings.count > 0) {
-            voiceCommand.voiceCommands = voiceCommandStrings;
-            [pendingVoiceCommands addObject:voiceCommand];
-            voiceCommandStrings = [[NSMutableArray alloc] init];
-        }
-    }
-    return [pendingVoiceCommands copy];
 }
 
 #pragma mark Commands

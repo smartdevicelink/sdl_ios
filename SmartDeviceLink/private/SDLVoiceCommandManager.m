@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommand()
 
 @property (assign, nonatomic) UInt32 commandId;
+@property (copy, nonatomic, readwrite) NSArray<NSString *> *voiceCommands;
 
 @end
 
@@ -40,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
+
+@property (assign, nonatomic) BOOL areVoiceCommandsEmptyStrings;
 
 @end
 
@@ -113,11 +116,17 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     [self sdl_updateIdsOnVoiceCommands:voiceCommands];
 
     // Set the new voice commands internally
-    _voiceCommands = voiceCommands;
+    _voiceCommands = [self sdl_removeEmptyVoiceCommands:voiceCommands];
+
+    // Check if the voiceCommand's strings that are set are all empty strings
+    if (self.areVoiceCommandsEmptyStrings) {
+        SDLLogE(@"New voice commands are set to empty strings");
+        return;
+    }
 
     // Create the operation, cancel previous ones and set this one
     __weak typeof(self) weakSelf = self;
-    SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager pendingVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
+    SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager pendingVoiceCommands:self.voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
         weakSelf.currentVoiceCommands = newCurrentVoiceCommands;
         [weakSelf sdl_updatePendingOperationsWithNewCurrentVoiceCommands:newCurrentVoiceCommands];
     }];
@@ -144,6 +153,33 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     for (SDLVoiceCommand *voiceCommand in voiceCommands) {
         voiceCommand.commandId = self.lastVoiceCommandId++;
     }
+}
+
+/// Remove a voice command from the array of voice commands if it has no strings
+/// @param voiceCommands - array of SDLVoiceCommands that are to be uploaded
+/// @return A list of voice commands with the empty voice commands removed
+- (NSArray<SDLVoiceCommand *> *)sdl_removeEmptyVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
+    NSMutableArray<SDLVoiceCommand *> *pendingVoiceCommands = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *voiceCommandStrings = [[NSMutableArray alloc] init];
+    self.areVoiceCommandsEmptyStrings = YES;
+    for (SDLVoiceCommand *voiceCommand in voiceCommands) {
+        if (voiceCommand.voiceCommands.count == 0) {
+            self.areVoiceCommandsEmptyStrings = NO;
+        }
+        for (NSString *voiceCommandString in voiceCommand.voiceCommands) {
+            NSString *probablyEmpty = [voiceCommandString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            if (probablyEmpty.length > 0) {
+                [voiceCommandStrings addObject:voiceCommandString];
+                self.areVoiceCommandsEmptyStrings = NO;
+            }
+        }
+        if (voiceCommandStrings.count > 0) {
+            voiceCommand.voiceCommands = voiceCommandStrings;
+            [pendingVoiceCommands addObject:voiceCommand];
+            voiceCommandStrings = [[NSMutableArray alloc] init];
+        }
+    }
+    return [pendingVoiceCommands copy];
 }
 
 #pragma mark - Observers
