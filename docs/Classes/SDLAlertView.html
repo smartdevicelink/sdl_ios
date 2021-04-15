@@ -1,0 +1,299 @@
+<h1>SDLAlertView Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-defaultTimeout">defaultTimeout</a></li>
+  <li><a href="#section-text">text</a></li>
+  <li><a href="#section-secondaryText">secondaryText</a></li>
+  <li><a href="#section-tertiaryText">tertiaryText</a></li>
+  <li><a href="#section-timeout">timeout</a></li>
+  <li><a href="#section-audio">audio</a></li>
+  <li><a href="#section-showWaitIndicator">showWaitIndicator</a></li>
+  <li><a href="#section-softButtons">softButtons</a></li>
+  <li><a href="#section-icon">icon</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithText:buttons:">-initWithText:buttons:</a></li>
+  <li><a href="#section--initWithText:secondaryText:tertiaryText:timeout:showWaitIndicator:audioIndication:buttons:icon:">-initWithText:secondaryText:tertiaryText:timeout:showWaitIndicator:audioIndication:buttons:icon:</a></li>
+  <li><a href="#section--cancel">-cancel</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-defaultTimeout">
+      defaultTimeout
+  </h3>
+  
+  <p>Set this to change the default timeout for all alerts. If a timeout is not set on an individual alert object (or if it is set to 0.0), then it will use this timeout instead. See <code><a href="../Classes/SDLAlertView.html#/c:objc(cs)SDLAlertView(py)timeout">timeout</a></code> for more details. If this is not set by you, it will default to 5 seconds. The minimum is 3 seconds, the maximum is 10 seconds. If this is set below the minimum, it will be capped at 3 seconds. If this is set above the maximum, it will be capped at 10 seconds.
+Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">defaultTimeout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="k">var</span> <span class="nv">defaultTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-text">
+      text
+  </h3>
+  
+  <p>The primary line of text for display on the alert. If fewer than three alert lines are available on the head unit, the screen manager will automatically concatenate some of the lines together.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-secondaryText">
+      secondaryText
+  </h3>
+  
+  <p>The secondary line of text for display on the alert. If fewer than three alert lines are available on the head unit, the screen manager will automatically concatenate some of the lines together.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">secondaryText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">secondaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-tertiaryText">
+      tertiaryText
+  </h3>
+  
+  <p>The tertiary line of text for display on the alert. If fewer than three alert lines are available on the head unit, the screen manager will automatically concatenate some of the lines together.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">tertiaryText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">tertiaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-timeout">
+      timeout
+  </h3>
+  
+  <p>Timeout in seconds. Defaults to 0, which will use <code><a href="../Classes/SDLAlertView.html#/c:objc(cs)SDLAlertView(cpy)defaultTimeout">defaultTimeout</a></code>. If this is set below the minimum, it will be capped at 3 seconds. Minimum 3 seconds, maximum 10 seconds. If this is set above the maximum, it will be capped at 10 seconds. Defaults to 0.
+Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">timeout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-audio">
+      audio
+  </h3>
+  
+  <p>Text spoken, file(s) played, and/or tone played when the alert appears</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAlertAudioData.html">SDLAlertAudioData</a></span> <span class="o">*</span><span class="n">audio</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">audio</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAlertAudioData.html">SDLAlertAudioData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-showWaitIndicator">
+      showWaitIndicator
+  </h3>
+  
+  <p>If supported, the alert GUI will display some sort of indefinite waiting / refresh / loading indicator animation. Defaults to NO.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">showWaitIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">showWaitIndicator</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-softButtons">
+      softButtons
+  </h3>
+  
+  <p>Soft buttons the user may select to perform actions. Only one <code><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></code> per object is supported; if any soft button object contains multiple states, an exception will be thrown.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtons</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-icon">
+      icon
+  </h3>
+  
+  <p>An artwork that will be displayed when the icon appears. This will be uploaded prior to the appearance of the alert if necessary. This will not be uploaded if the head unit does not declare support for alertIcon.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">icon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">icon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithText:buttons:">
+      -initWithText:buttons:
+  </h3>
+  
+  <p>Initialize a basic alert with a message and buttons</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span>
+                             <span class="nf">buttons</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                                         <span class="n"><a href="../Classes/SDLAlertView.html#/c:objc(cs)SDLAlertView(py)softButtons">softButtons</a></span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">buttons</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span><span class="p">])</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>text</dt>
+      <dd><p>The primary line of text for display on the alert</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Soft buttons the user may select to perform actions</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithText:secondaryText:tertiaryText:timeout:showWaitIndicator:audioIndication:buttons:icon:">
+      -initWithText:secondaryText:tertiaryText:timeout:showWaitIndicator:audioIndication:buttons:icon:
+  </h3>
+  
+  <p>Initialize a alert with a text, image, buttons and sound</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+         <span class="nf">initWithText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span>
+        <span class="nf">secondaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryText</span>
+         <span class="nf">tertiaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tertiaryText</span>
+              <span class="nf">timeout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeout</span>
+    <span class="nf">showWaitIndicator</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">showWaitIndicator</span>
+      <span class="nf">audioIndication</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLAlertAudioData.html">SDLAlertAudioData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audio</span>
+              <span class="nf">buttons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span>
+                 <span class="nf">icon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">secondaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">tertiaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">timeout</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">showWaitIndicator</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="n">audioIndication</span> <span class="nv">audio</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAlertAudioData.html">SDLAlertAudioData</a></span><span class="p">?,</span> <span class="n">buttons</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span><span class="p">]?,</span> <span class="nv">icon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>text</dt>
+      <dd><p>The primary line of text for display on the alert</p></dd>
+      <dt>secondaryText</dt>
+      <dd><p>The secondary line of text for display on the alert</p></dd>
+      <dt>tertiaryText</dt>
+      <dd><p>The tertiary line of text for display on the alert</p></dd>
+      <dt>timeout</dt>
+      <dd><p>Timeout in seconds</p></dd>
+      <dt>showWaitIndicator</dt>
+      <dd><p>If supported, the alert GUI will display some sort of indefinite waiting / refresh / loading indicator animation</p></dd>
+      <dt>audio</dt>
+      <dd><p>Text spoken and/or tone played when the alert appears</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>Soft buttons the user may select to perform actions</p></dd>
+      <dt>icon</dt>
+      <dd><p>An artwork that will be displayed when the icon appears</p></dd>
+  </dl>
+  
+  <h3 id="section--cancel">
+      -cancel
+  </h3>
+  
+  <p>Cancels the alert. If the alert has not yet been sent to the module, it will not be sent. If the alert is already presented on the module, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to modules supporting RPC Spec v.6.0+. On older versions the alert will not be dismissed.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">cancel</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+</section>

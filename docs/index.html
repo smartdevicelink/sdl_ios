@@ -16,12 +16,18 @@
       url: Classes/SDLAirbagStatus.html
     - name: SDLAlert
       url: Classes/SDLAlert.html
+    - name: SDLAlertAudioData
+      url: Classes/SDLAlertAudioData.html
     - name: SDLAlertManeuver
       url: Classes/SDLAlertManeuver.html
     - name: SDLAlertManeuverResponse
       url: Classes.html#/c:objc(cs)SDLAlertManeuverResponse
     - name: SDLAlertResponse
       url: Classes/SDLAlertResponse.html
+    - name: SDLAlertView
+      url: Classes/SDLAlertView.html
+    - name: SDLAppCapability
+      url: Classes/SDLAppCapability.html
     - name: SDLAppInfo
       url: Classes/SDLAppInfo.html
     - name: SDLAppServiceCapability
@@ -40,6 +46,8 @@
       url: Classes/SDLAudioControlCapabilities.html
     - name: SDLAudioControlData
       url: Classes/SDLAudioControlData.html
+    - name: SDLAudioData
+      url: Classes/SDLAudioData.html
     - name: SDLAudioFile
       url: Classes/SDLAudioFile.html
     - name: SDLAudioPassThruCapabilities
@@ -76,6 +84,8 @@
       url: Classes/SDLClimateControlCapabilities.html
     - name: SDLClimateControlData
       url: Classes/SDLClimateControlData.html
+    - name: SDLClimateData
+      url: Classes/SDLClimateData.html
     - name: SDLCloseApplication
       url: Classes.html#/c:objc(cs)SDLCloseApplication
     - name: SDLCloseApplicationResponse
@@ -134,6 +144,8 @@
       url: Classes/SDLDisplayCapabilities.html
     - name: SDLDisplayCapability
       url: Classes/SDLDisplayCapability.html
+    - name: SDLDoorStatus
+      url: Classes/SDLDoorStatus.html
     - name: SDLDriverDistractionCapability
       url: Classes/SDLDriverDistractionCapability.html
     - name: SDLDynamicUpdateCapabilities
@@ -166,6 +178,8 @@
       url: Classes/SDLFunctionID.html
     - name: SDLGPSData
       url: Classes/SDLGPSData.html
+    - name: SDLGateStatus
+      url: Classes/SDLGateStatus.html
     - name: SDLGearStatus
       url: Classes/SDLGearStatus.html
     - name: SDLGenericResponse
@@ -226,6 +240,10 @@
       url: Classes/SDLImageField.html
     - name: SDLImageResolution
       url: Classes/SDLImageResolution.html
+    - name: SDLKeyboardCapabilities
+      url: Classes/SDLKeyboardCapabilities.html
+    - name: SDLKeyboardLayoutCapability
+      url: Classes/SDLKeyboardLayoutCapability.html
     - name: SDLKeyboardProperties
       url: Classes/SDLKeyboardProperties.html
     - name: SDLLifecycleConfiguration
@@ -304,6 +322,8 @@
       url: Classes/SDLNotificationConstants.html
     - name: SDLOasisAddress
       url: Classes/SDLOasisAddress.html
+    - name: SDLOnAppCapabilityUpdated
+      url: Classes/SDLOnAppCapabilityUpdated.html
     - name: SDLOnAppInterfaceUnregistered
       url: Classes/SDLOnAppInterfaceUnregistered.html
     - name: SDLOnAppServiceData
@@ -434,6 +454,8 @@
       url: Classes/SDLResetGlobalProperties.html
     - name: SDLResetGlobalPropertiesResponse
       url: Classes.html#/c:objc(cs)SDLResetGlobalPropertiesResponse
+    - name: SDLRoofStatus
+      url: Classes/SDLRoofStatus.html
     - name: SDLSISData
       url: Classes/SDLSISData.html
     - name: SDLScreenManager
@@ -454,6 +476,12 @@
       url: Classes/SDLSeatLocationCapability.html
     - name: SDLSeatMemoryAction
       url: Classes/SDLSeatMemoryAction.html
+    - name: SDLSeatOccupancy
+      url: Classes/SDLSeatOccupancy.html
+    - name: SDLSeatStatus
+      url: Classes/SDLSeatStatus.html
+    - name: SDLSeekStreamingIndicator
+      url: Classes/SDLSeekStreamingIndicator.html
     - name: SDLSendHapticData
       url: Classes/SDLSendHapticData.html
     - name: SDLSendHapticDataResponse
@@ -552,6 +580,8 @@
       url: Classes/SDLSystemCapability.html
     - name: SDLSystemCapabilityManager
       url: Classes/SDLSystemCapabilityManager.html
+    - name: SDLSystemInfo
+      url: Classes/SDLSystemInfo.html
     - name: SDLSystemRequest
       url: Classes/SDLSystemRequest.html
     - name: SDLSystemRequestResponse
@@ -616,6 +646,8 @@
       url: Classes/SDLVideoStreamingCapability.html
     - name: SDLVideoStreamingFormat
       url: Classes/SDLVideoStreamingFormat.html
+    - name: SDLVideoStreamingRange
+      url: Classes/SDLVideoStreamingRange.html
     - name: SDLVoiceCommand
       url: Classes/SDLVoiceCommand.html
     - name: SDLWeatherAlert
@@ -652,6 +684,8 @@
       url: Constants.html#/c:@SDLAmbientLightStatusTwilight4
     - name: SDLAmbientLightStatusUnknown
       url: Constants.html#/c:@SDLAmbientLightStatusUnknown
+    - name: SDLAppCapabilityTypeVideoStreaming
+      url: Constants.html#/c:@SDLAppCapabilityTypeVideoStreaming
     - name: SDLAppHMITypeBackgroundProcess
       url: Constants.html#/c:@SDLAppHMITypeBackgroundProcess
     - name: SDLAppHMITypeCommunication
@@ -1298,6 +1332,14 @@
       url: Constants.html#/c:@SDLDistanceUnitKilometers
     - name: SDLDistanceUnitMiles
       url: Constants.html#/c:@SDLDistanceUnitMiles
+    - name: SDLDoorStatusTypeAjar
+      url: Constants.html#/c:@SDLDoorStatusTypeAjar
+    - name: SDLDoorStatusTypeClosed
+      url: Constants.html#/c:@SDLDoorStatusTypeClosed
+    - name: SDLDoorStatusTypeLocked
+      url: Constants.html#/c:@SDLDoorStatusTypeLocked
+    - name: SDLDoorStatusTypeRemoved
+      url: Constants.html#/c:@SDLDoorStatusTypeRemoved
     - name: SDLDriverDistractionStateOff
       url: Constants.html#/c:@SDLDriverDistractionStateOff
     - name: SDLDriverDistractionStateOn
@@ -1340,6 +1382,8 @@
       url: Constants.html#/c:@SDLEmergencyEventTypeRollover
     - name: SDLEmergencyEventTypeSide
       url: Constants.html#/c:@SDLEmergencyEventTypeSide
+    - name: SDLErrorDomainAlertManager
+      url: Constants.html#/c:@SDLErrorDomainAlertManager
     - name: SDLErrorDomainAudioStreamManager
       url: Constants.html#/c:@SDLErrorDomainAudioStreamManager
     - name: SDLErrorDomainCacheFileManager
@@ -1466,8 +1510,12 @@
       url: Constants.html#/c:@SDLImageFieldNameGraphic
     - name: SDLImageFieldNameLocationImage
       url: Constants.html#/c:@SDLImageFieldNameLocationImage
+    - name: SDLImageFieldNameMenuCommandSecondaryImage
+      url: Constants.html#/c:@SDLImageFieldNameMenuCommandSecondaryImage
     - name: SDLImageFieldNameMenuIcon
       url: Constants.html#/c:@SDLImageFieldNameMenuIcon
+    - name: SDLImageFieldNameMenuSubMenuSecondaryImage
+      url: Constants.html#/c:@SDLImageFieldNameMenuSubMenuSecondaryImage
     - name: SDLImageFieldNameSecondaryGraphic
       url: Constants.html#/c:@SDLImageFieldNameSecondaryGraphic
     - name: SDLImageFieldNameShowConstantTBTIcon
@@ -1498,14 +1546,26 @@
       url: Constants.html#/c:@SDLKeyboardEventAborted
     - name: SDLKeyboardEventCancelled
       url: Constants.html#/c:@SDLKeyboardEventCancelled
+    - name: SDLKeyboardEventInputKeyMaskDisabled
+      url: Constants.html#/c:@SDLKeyboardEventInputKeyMaskDisabled
+    - name: SDLKeyboardEventInputKeyMaskEnabled
+      url: Constants.html#/c:@SDLKeyboardEventInputKeyMaskEnabled
     - name: SDLKeyboardEventKeypress
       url: Constants.html#/c:@SDLKeyboardEventKeypress
     - name: SDLKeyboardEventSubmitted
       url: Constants.html#/c:@SDLKeyboardEventSubmitted
     - name: SDLKeyboardEventVoice
       url: Constants.html#/c:@SDLKeyboardEventVoice
+    - name: SDLKeyboardInputMaskDisableInputKeyMask
+      url: Constants.html#/c:@SDLKeyboardInputMaskDisableInputKeyMask
+    - name: SDLKeyboardInputMaskEnableInputKeyMask
+      url: Constants.html#/c:@SDLKeyboardInputMaskEnableInputKeyMask
+    - name: SDLKeyboardInputMaskUserChoiceInputKeyMask
+      url: Constants.html#/c:@SDLKeyboardInputMaskUserChoiceInputKeyMask
     - name: SDLKeyboardLayoutAZERTY
       url: Constants.html#/c:@SDLKeyboardLayoutAZERTY
+    - name: SDLKeyboardLayoutNumeric
+      url: Constants.html#/c:@SDLKeyboardLayoutNumeric
     - name: SDLKeyboardLayoutQWERTY
       url: Constants.html#/c:@SDLKeyboardLayoutQWERTY
     - name: SDLKeyboardLayoutQWERTZ
@@ -2048,6 +2108,8 @@
       url: Constants.html#/c:@SDLRPCFunctionNameGetWayPoints
     - name: SDLRPCFunctionNameListFiles
       url: Constants.html#/c:@SDLRPCFunctionNameListFiles
+    - name: SDLRPCFunctionNameOnAppCapabilityUpdated
+      url: Constants.html#/c:@SDLRPCFunctionNameOnAppCapabilityUpdated
     - name: SDLRPCFunctionNameOnAppInterfaceUnregistered
       url: Constants.html#/c:@SDLRPCFunctionNameOnAppInterfaceUnregistered
     - name: SDLRPCFunctionNameOnAppServiceData
@@ -2330,6 +2392,10 @@
       url: Constants.html#/c:@SDLSeatMemoryActionTypeRestore
     - name: SDLSeatMemoryActionTypeSave
       url: Constants.html#/c:@SDLSeatMemoryActionTypeSave
+    - name: SDLSeekIndicatorTypeTime
+      url: Constants.html#/c:@SDLSeekIndicatorTypeTime
+    - name: SDLSeekIndicatorTypeTrack
+      url: Constants.html#/c:@SDLSeekIndicatorTypeTrack
     - name: SDLServiceUpdateActivated
       url: Constants.html#/c:@SDLServiceUpdateActivated
     - name: SDLServiceUpdateDeactivated
@@ -2384,6 +2450,8 @@
       url: Constants.html#/c:@SDLStaticIconNameAudiobookEpisode
     - name: SDLStaticIconNameAudiobookNarrator
       url: Constants.html#/c:@SDLStaticIconNameAudiobookNarrator
+    - name: SDLStaticIconNameAuxiliaryAudio
+      url: Constants.html#/c:@SDLStaticIconNameAuxiliaryAudio
     - name: SDLStaticIconNameAuxillaryAudio
       url: Constants.html#/c:@SDLStaticIconNameAuxillaryAudio
     - name: SDLStaticIconNameBack
@@ -2836,8 +2904,16 @@
       url: Constants.html#/c:@SDLTextFieldNameMediaClock
     - name: SDLTextFieldNameMediaTrack
       url: Constants.html#/c:@SDLTextFieldNameMediaTrack
+    - name: SDLTextFieldNameMenuCommandSecondaryText
+      url: Constants.html#/c:@SDLTextFieldNameMenuCommandSecondaryText
+    - name: SDLTextFieldNameMenuCommandTertiaryText
+      url: Constants.html#/c:@SDLTextFieldNameMenuCommandTertiaryText
     - name: SDLTextFieldNameMenuName
       url: Constants.html#/c:@SDLTextFieldNameMenuName
+    - name: SDLTextFieldNameMenuSubMenuSecondaryText
+      url: Constants.html#/c:@SDLTextFieldNameMenuSubMenuSecondaryText
+    - name: SDLTextFieldNameMenuSubMenuTertiaryText
+      url: Constants.html#/c:@SDLTextFieldNameMenuSubMenuTertiaryText
     - name: SDLTextFieldNameMenuTitle
       url: Constants.html#/c:@SDLTextFieldNameMenuTitle
     - name: SDLTextFieldNameNavigationText1
@@ -2866,8 +2942,12 @@
       url: Constants.html#/c:@SDLTextFieldNameTemplateTitle
     - name: SDLTextFieldNameTertiaryText
       url: Constants.html#/c:@SDLTextFieldNameTertiaryText
+    - name: SDLTextFieldNameTimeToDestination
+      url: Constants.html#/c:@SDLTextFieldNameTimeToDestination
     - name: SDLTextFieldNameTotalDistance
       url: Constants.html#/c:@SDLTextFieldNameTotalDistance
+    - name: SDLTextFieldNameTurnText
+      url: Constants.html#/c:@SDLTextFieldNameTurnText
     - name: SDLTimerModeDown
       url: Constants.html#/c:@SDLTimerModeDown
     - name: SDLTimerModeNone
@@ -3038,6 +3118,8 @@
       url: Constants.html#/c:@SDLVehicleDataTypePRNDL
     - name: SDLVehicleDataTypeRPM
       url: Constants.html#/c:@SDLVehicleDataTypeRPM
+    - name: SDLVehicleDataTypeSeatOccupancy
+      url: Constants.html#/c:@SDLVehicleDataTypeSeatOccupancy
     - name: SDLVehicleDataTypeSpeed
       url: Constants.html#/c:@SDLVehicleDataTypeSpeed
     - name: SDLVehicleDataTypeStabilityControlsStatus
@@ -3050,6 +3132,8 @@
       url: Constants.html#/c:@SDLVehicleDataTypeTurnSignal
     - name: SDLVehicleDataTypeVIN
       url: Constants.html#/c:@SDLVehicleDataTypeVIN
+    - name: SDLVehicleDataTypeVehicleDataClimateData
+      url: Constants.html#/c:@SDLVehicleDataTypeVehicleDataClimateData
     - name: SDLVehicleDataTypeWindowStatus
       url: Constants.html#/c:@SDLVehicleDataTypeWindowStatus
     - name: SDLVehicleDataTypeWiperStatus
@@ -3156,6 +3240,8 @@
   sub_nav:
     - name: MenuCellState
       url: Enums/MenuCellState.html
+    - name: SDLAlertManagerError
+      url: Enums/SDLAlertManagerError.html
     - name: SDLArtworkImageFormat
       url: Enums/SDLArtworkImageFormat.html
     - name: SDLAudioStreamManagerError
@@ -3246,14 +3332,20 @@
       url: Protocols/SDLStreamingAudioManagerType.html
     - name: SDLStreamingMediaManagerDataSource
       url: Protocols/SDLStreamingMediaManagerDataSource.html
+    - name: SDLStreamingVideoDelegate
+      url: Protocols/SDLStreamingVideoDelegate.html
     - name: SDLTouchManagerDelegate
       url: Protocols/SDLTouchManagerDelegate.html
     - name: SDLUInt
       url: Protocols.html#/c:objc(pl)SDLUInt
 - name: Type Definitions
   sub_nav:
+    - name: SDLAlertCanceledHandler
+      url: Type%20Definitions.html#/c:SDLAlertView.h@T@SDLAlertCanceledHandler
     - name: SDLAmbientLightStatus
       url: Type%20Definitions.html#/c:SDLAmbientLightStatus.h@T@SDLAmbientLightStatus
+    - name: SDLAppCapabilityType
+      url: Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType
     - name: SDLAppHMIType
       url: Type%20Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType
     - name: SDLAppInterfaceUnregisteredReason
@@ -3312,6 +3404,8 @@
       url: Type%20Definitions.html#/c:SDLDisplayType.h@T@SDLDisplayType
     - name: SDLDistanceUnit
       url: Type%20Definitions.html#/c:SDLDistanceUnit.h@T@SDLDistanceUnit
+    - name: SDLDoorStatusType
+      url: Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType
     - name: SDLDriverDistractionState
       url: Type%20Definitions.html#/c:SDLDriverDistractionState.h@T@SDLDriverDistractionState
     - name: SDLECallConfirmationStatus
@@ -3378,6 +3472,8 @@
       url: Type%20Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardCharacterSetCompletionHandler
     - name: SDLKeyboardEvent
       url: Type%20Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent
+    - name: SDLKeyboardInputMask
+      url: Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask
     - name: SDLKeyboardLayout
       url: Type%20Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout
     - name: SDLKeypressMode
@@ -3478,6 +3574,8 @@
       url: Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler
     - name: SDLSeatMemoryActionType
       url: Type%20Definitions.html#/c:SDLSeatMemoryActionType.h@T@SDLSeatMemoryActionType
+    - name: SDLSeekIndicatorType
+      url: Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType
     - name: SDLServiceUpdateReason
       url: Type%20Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason
     - name: SDLSoftButtonType

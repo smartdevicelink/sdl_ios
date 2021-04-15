@@ -1,0 +1,85 @@
+<h1>SDLSeatOccupancy Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithSeatsOccupied:seatsBelted:">-initWithSeatsOccupied:seatsBelted:</a></li>
+  <li><a href="#section-seatsOccupied">seatsOccupied</a></li>
+  <li><a href="#section-seatsBelted">seatsBelted</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithSeatsOccupied:seatsBelted:">
+      -initWithSeatsOccupied:seatsBelted:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithSeatsOccupied</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSeatStatus.html">SDLSeatStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">seatsOccupied</span>
+              <span class="nf">seatsBelted</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSeatStatus.html">SDLSeatStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">seatsBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">seatsOccupied</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSeatStatus.html">SDLSeatStatus</a></span><span class="p">]?,</span> <span class="nv">seatsBelted</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSeatStatus.html">SDLSeatStatus</a></span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>seatsOccupied</dt>
+      <dd><p>- seatsOccupied</p></dd>
+      <dt>seatsBelted</dt>
+      <dd><p>- seatsBelted</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSeatOccupancy object</p>
+  </div>
+  
+  <h3 id="section-seatsOccupied">
+      seatsOccupied
+  </h3>
+  
+  <p>Seat status array containing location and whether the seats are occupied.
+{&ldquo;array_min_size&rdquo;: 0, &ldquo;array_max_size&rdquo;: 100}</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSeatStatus.html">SDLSeatStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">seatsOccupied</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seatsOccupied</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSeatStatus.html">SDLSeatStatus</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-seatsBelted">
+      seatsBelted
+  </h3>
+  
+  <p>Seat status array containing location and whether the seats are belted.
+{&ldquo;array_min_size&rdquo;: 0, &ldquo;array_max_size&rdquo;: 100}</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSeatStatus.html">SDLSeatStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">seatsBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seatsBelted</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSeatStatus.html">SDLSeatStatus</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
