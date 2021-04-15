@@ -349,7 +349,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             if (!messagePayload) {
-                if (error != nil) {
+                if (encryptError != nil) {
                     *error = encryptError;
                 }
                 return NO;
