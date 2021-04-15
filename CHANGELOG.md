@@ -45,7 +45,6 @@
 * `VideoStreamingCapability` parameters will now be merged with the app's preferred streaming settings to use the lowest settings (https://github.com/smartdevicelink/sdl_ios/issues/1860)
 * Updated `ShowConstantTBT` RPC description (https://github.com/smartdevicelink/sdl_ios/issues/1863)
 * Added the ability to disconnect based on received vehicle details, including before the app registers on 7.1+ modules (https://github.com/smartdevicelink/sdl_ios/issues/1876)
-* Fixed cases where setting the timeout of an `SDLChoiceSet` could fail (https://github.com/smartdevicelink/sdl_ios/issues/1891)
 * Deprecated `SDLStaticIcon.auxillaryAudio` and add a fixed spelling of `SDLStaticIcon.auxilliaryAudio` (https://github.com/smartdevicelink/sdl_ios/issues/1938) 
 
 ### Bug Fixes
@@ -61,6 +60,7 @@
 * Fixed `SDLArtwork` with a static icon not copying (https://github.com/smartdevicelink/sdl_ios/issues/1846)
 * Fixed `SDLDisplayCapabilities` should be deprecated (https://github.com/smartdevicelink/sdl_ios/issues/1857)
 * Fixed uploading the blank artwork every time instead of persisting it (https://github.com/smartdevicelink/sdl_ios/issues/1864)
+* Fixed cases where setting the timeout of an `SDLChoiceSet` could fail (https://github.com/smartdevicelink/sdl_ios/issues/1891)
 * We now throw an exception if you try to display two `SDLSoftButtonObject`s with the same name (https://github.com/smartdevicelink/sdl_ios/issues/1897)
 * Fixed `SDLTextFieldName.timeToDestination` documentation (https://github.com/smartdevicelink/sdl_ios/issues/1915)
 * Fixed uploaded files not being divided into multiple RPCs correctly (https://github.com/smartdevicelink/sdl_ios/issues/1927)
