@@ -387,7 +387,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     __weak typeof(self) weakSelf = self;
     [self sendConnectionManagerRequest:regRequest withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
         // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
-        if (error != nil || ![response.success boolValue]) {
+        if (error != nil || !response.success.boolValue) {
             SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
             if (weakSelf.readyHandler) {
                 weakSelf.readyHandler(NO, error);
@@ -626,7 +626,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     __weak typeof(self) weakSelf = self;
     [self sdl_sendConnectionRequest:unregisterRequest
       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-        if (error != nil || ![response.success boolValue]) {
+        if (error != nil || !response.success.boolValue) {
             SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
         }
 
