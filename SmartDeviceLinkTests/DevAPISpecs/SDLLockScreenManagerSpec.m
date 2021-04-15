@@ -318,16 +318,25 @@ describe(@"a lock screen manager", ^{
     context(@"the lockscreen dismissable state depends on the lockscreen configuration and the lockScreenDismissableEnabled property send in the driver distraction notification", ^{
         __block id testLockScreenViewController = nil;
         __block id mockPresenter = nil;
+        __block SDLOnDriverDistraction *testDriverDistraction = nil;
+        __block SDLLockScreenStatusInfo *testStatus = nil;
 
-        describe(@"with enableDismissGesture set to false in the configuration", ^{
+
+        beforeEach(^{
+            mockPresenter = OCMProtocolMock(@protocol(SDLViewControllerPresentable));
+
+            testLockScreenViewController = OCMClassMock([SDLLockScreenViewController class]);
+            OCMStub([mockPresenter lockViewController]).andReturn(testLockScreenViewController);
+            dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
+
+            testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+            testStatus = [[SDLLockScreenStatusInfo alloc] init];
+        });
+
+        describe(@"with enableDismissGesture set to false in the configuration and display mode set to required only", ^{
             beforeEach(^{
-                mockPresenter = OCMProtocolMock(@protocol(SDLViewControllerPresentable));
-
-                testLockScreenViewController = OCMClassMock([SDLLockScreenViewController class]);
-                OCMStub([mockPresenter lockViewController]).andReturn(testLockScreenViewController);
-                dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
-
                 SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
+                config.displayMode = SDLLockScreenConfigurationDisplayModeRequiredOnly;
                 config.enableDismissGesture = NO;
 
                 testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:dispatcherMock presenter:mockPresenter];
@@ -338,13 +347,8 @@ describe(@"a lock screen manager", ^{
                 __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
 
                 beforeEach(^{
-                    SDLLockScreenStatusInfo *status = [[SDLLockScreenStatusInfo alloc] init];
-                    status.lockScreenStatus = SDLLockScreenStatusRequired;
-                    testManager.lastLockNotification = status;
-
-                    SDLOnDriverDistraction *testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                    testManager.lastLockNotification = testStatus;
                     testDriverDistraction.lockScreenDismissalEnabled = @YES;
-
                     testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:dispatcherMock rpcNotification:testDriverDistraction];
 
                     [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
@@ -361,13 +365,8 @@ describe(@"a lock screen manager", ^{
                 __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
 
                 beforeEach(^{
-                    SDLLockScreenStatusInfo *status = [[SDLLockScreenStatusInfo alloc] init];
-                    status.lockScreenStatus = SDLLockScreenStatusRequired;
-                    testManager.lastLockNotification = status;
-
-                    SDLOnDriverDistraction *testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                    testManager.lastLockNotification = testStatus;
                     testDriverDistraction.lockScreenDismissalEnabled = @NO;
-
                     testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:dispatcherMock rpcNotification:testDriverDistraction];
 
                     [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
@@ -381,15 +380,10 @@ describe(@"a lock screen manager", ^{
             });
         });
 
-        describe(@"with enableDismissGesture set to true in the configuration", ^{
+        describe(@"with enableDismissGesture set to true in the configuration and display mode set to required only", ^{
             beforeEach(^{
-                mockPresenter = OCMProtocolMock(@protocol(SDLViewControllerPresentable));
-
-                testLockScreenViewController = OCMClassMock([SDLLockScreenViewController class]);
-                OCMStub([mockPresenter lockViewController]).andReturn(testLockScreenViewController);
-                dispatcherMock = OCMClassMock([SDLNotificationDispatcher class]);
-
                 SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
+                config.displayMode = SDLLockScreenConfigurationDisplayModeRequiredOnly;
                 config.enableDismissGesture = YES;
 
                 testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:dispatcherMock presenter:mockPresenter];
@@ -400,13 +394,8 @@ describe(@"a lock screen manager", ^{
                 __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
 
                 beforeEach(^{
-                    SDLLockScreenStatusInfo *status = [[SDLLockScreenStatusInfo alloc] init];
-                    status.lockScreenStatus = SDLLockScreenStatusRequired;
-                    testManager.lastLockNotification = status;
-
-                    SDLOnDriverDistraction *testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                    testManager.lastLockNotification = testStatus;
                     testDriverDistraction.lockScreenDismissalEnabled = @YES;
-
                     testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:dispatcherMock rpcNotification:testDriverDistraction];
 
                     [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
@@ -423,13 +412,8 @@ describe(@"a lock screen manager", ^{
                 __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
 
                 beforeEach(^{
-                    SDLLockScreenStatusInfo *status = [[SDLLockScreenStatusInfo alloc] init];
-                    status.lockScreenStatus = SDLLockScreenStatusRequired;
-                    testManager.lastLockNotification = status;
-
-                    SDLOnDriverDistraction *testDriverDistraction = [[SDLOnDriverDistraction alloc] init];
+                    testManager.lastLockNotification = testStatus;
                     testDriverDistraction.lockScreenDismissalEnabled = @NO;
-
                     testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:dispatcherMock rpcNotification:testDriverDistraction];
 
                     [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
@@ -438,6 +422,72 @@ describe(@"a lock screen manager", ^{
                 it(@"the lock screen should not be able to be dismissed", ^{
                     OCMExpect([testLockScreenViewController removeDismissGesture]);
                     OCMVerifyAllWithDelay(testLockScreenViewController, 0.5);
+                    expect(testManager.isLockScreenDismissable).to(equal(NO));
+                });
+            });
+        });
+
+        describe(@"with enableDismissGesture set to true in the configuration and display mode set to always", ^{
+            beforeEach(^{
+                SDLLockScreenConfiguration *config = [SDLLockScreenConfiguration enabledConfiguration];
+                config.displayMode = SDLLockScreenConfigurationDisplayModeAlways;
+                config.enableDismissGesture = YES;
+
+                testManager = [[SDLLockScreenManager alloc] initWithConfiguration:config notificationDispatcher:dispatcherMock presenter:mockPresenter];
+                [testManager start];
+            });
+
+            context(@"when a driver distraction notification is posted with lockScreenDismissableEnabled as true", ^{
+                __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+
+                beforeEach(^{
+                    testManager.lastLockNotification = testStatus;
+                    testDriverDistraction.lockScreenDismissalEnabled = @YES;
+                    testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:dispatcherMock rpcNotification:testDriverDistraction];
+
+                    [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                });
+
+                it(@"the lock screen should be able to be dismissed", ^{
+                    OCMExpect([testLockScreenViewController addDismissGestureWithCallback:[OCMArg any]]);
+                    OCMVerifyAllWithDelay(testLockScreenViewController, 0.5);
+                    expect(testManager.isLockScreenDismissable).to(equal(YES));
+                });
+            });
+
+            context(@"when a driver distraction notification is posted with lockScreenDismissableEnabled as false", ^{
+                __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+
+                beforeEach(^{
+                    testManager.lastLockNotification = testStatus;
+                    testDriverDistraction.lockScreenDismissalEnabled = @NO;
+                    testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:dispatcherMock rpcNotification:testDriverDistraction];
+
+                    [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                });
+
+                it(@"the lock screen should not be able to be dismissed", ^{
+                    OCMExpect([testLockScreenViewController removeDismissGesture]);
+                    OCMVerifyAllWithDelay(testLockScreenViewController, 0.5);
+                    expect(testManager.isLockScreenDismissable).to(equal(NO));
+                });
+            });
+
+            context(@"if the lock screen has already been dismissed, when a driver distraction notification is posted with lockScreenDismissableEnabled as false", ^{
+                __block SDLRPCNotificationNotification *testDriverDistractionNotification = nil;
+
+                beforeEach(^{
+                    testManager.lastLockNotification = testStatus;
+                    testManager.lockScreenDismissedByUser = YES;
+                    testDriverDistraction.lockScreenDismissalEnabled = @NO;
+                    testDriverDistractionNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:dispatcherMock rpcNotification:testDriverDistraction];
+
+                    [[NSNotificationCenter defaultCenter] postNotification:testDriverDistractionNotification];
+                });
+
+                it(@"the lock screen should not be able to be dismissed", ^{
+                    OCMReject([testLockScreenViewController removeDismissGesture]);
+                    OCMReject([testLockScreenViewController addDismissGestureWithCallback:[OCMArg any]]);
                     expect(testManager.isLockScreenDismissable).to(equal(NO));
                 });
             });
@@ -461,6 +511,24 @@ describe(@"a lock screen manager", ^{
         context(@"receiving a lock screen status of required", ^{
             beforeEach(^{
                 testStatus.lockScreenStatus = SDLLockScreenStatusRequired;
+
+                OCMStub([fakeViewControllerPresenter lockViewController]).andReturn([[SDLLockScreenViewController alloc] init]);
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testStatus}];
+            });
+
+            it(@"should present the lock screen if not already presented", ^{
+                OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]);
+
+                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+
+                expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).toEventually(beTrue());
+            });
+        });
+
+        context(@"receiving a lock screen status of off", ^{
+            beforeEach(^{
+                testStatus.lockScreenStatus = SDLLockScreenStatusOff;
 
                 OCMStub([fakeViewControllerPresenter lockViewController]).andReturn([[SDLLockScreenViewController alloc] init]);
 
