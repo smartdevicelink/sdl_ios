@@ -100,6 +100,7 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
+// test lifecycle manager internals
 describe(@"test lifecycle manager internals", ^{
     context(@"init and assign version", ^{
         SDLLifecycleTestManager *manager = [[SDLLifecycleTestManager alloc] init];
@@ -115,6 +116,7 @@ describe(@"test lifecycle manager internals", ^{
     });
 });
 
+// a lifecycle manager
 describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
@@ -207,7 +209,8 @@ describe(@"a lifecycle manager", ^{
         beforeEach(^{
             testHMIStatus = [[SDLOnHMIStatus alloc] init];
         });
-        
+
+        // a non-none hmi level
         context(@"a non-none hmi level", ^{
             beforeEach(^{
                 testHMILevel = SDLHMILevelNone;
@@ -220,7 +223,8 @@ describe(@"a lifecycle manager", ^{
                 expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
             });
         });
-        
+
+        // a non-full, non-none hmi level
         context(@"a non-full, non-none hmi level", ^{
             beforeEach(^{
                 testHMILevel = SDLHMILevelBackground;
@@ -233,7 +237,8 @@ describe(@"a lifecycle manager", ^{
                 expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
             });
         });
-        
+
+        // a full hmi level
         context(@"a full hmi level", ^{
             beforeEach(^{
                 testHMILevel = SDLHMILevelFull;
@@ -419,6 +424,7 @@ describe(@"a lifecycle manager", ^{
                 });
             });
 
+            // when the protocol system info is set
             context(@"when the protocol system info is set", ^{
                 SDLSystemInfo *testSystemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:hardwareVersion];
 
@@ -440,6 +446,7 @@ describe(@"a lifecycle manager", ^{
                 });
             });
 
+            // when the register response returns different language than the one passed with the lifecycle configuration
             context(@"when the register response returns different language than the one passed with the lifecycle configuration", ^{
                 it(@"should should update the configuration when the app supports the head unit language", ^{
                     SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
@@ -529,7 +536,8 @@ describe(@"a lifecycle manager", ^{
                     expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
                 });
             });
-            
+
+            // after receiving a disconnect notification
             describe(@"after receiving a disconnect notification", ^{
                 beforeEach(^{
                     OCMStub([protocolMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
@@ -541,7 +549,8 @@ describe(@"a lifecycle manager", ^{
                     expect(testManager.lifecycleState).withTimeout(3.0).toEventually(equal(SDLLifecycleStateStarted));
                 });
             });
-            
+
+            // stopping the manager
             describe(@"stopping the manager", ^{
                 beforeEach(^{
                     [testManager stop];
@@ -611,6 +620,7 @@ describe(@"a lifecycle manager", ^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:NO];
             });
 
+            // when the register response is a success
             context(@"when the register response is a success", ^{
                 it(@"should call the ready handler with success", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
@@ -624,6 +634,7 @@ describe(@"a lifecycle manager", ^{
                 });
             });
 
+            // when the register response is a warning
             context(@"when the register response is a warning", ^{
                 it(@"should call the ready handler with success but error", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
@@ -640,7 +651,8 @@ describe(@"a lifecycle manager", ^{
                 });
             });
         });
-        
+
+        // in the ready state
         describe(@"in the ready state", ^{
             beforeEach(^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:NO];
@@ -663,6 +675,28 @@ describe(@"a lifecycle manager", ^{
                 [testManager sendRPC:testShow];
 
                 OCMVerifyAllWithDelay(protocolMock, 0.1);
+            });
+
+            it(@"should call the callback if the protocol fails to send a request", ^{
+                NSError *testError = [NSError sdl_lifecycle_notReadyError];
+                OCMStub([protocolMock sendRPC:[OCMArg any] error:[OCMArg setTo:testError]]).andReturn(NO);
+
+                SDLShow *testShow = [[SDLShow alloc] init];
+                testShow.mainField1 = @"Test";
+
+                __block SDLRPCRequest *returnRequest = nil;
+                __block SDLRPCResponse *returnResponse = nil;
+                __block NSError *returnError = nil;
+                [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                    returnRequest = request;
+                    returnResponse = response;
+                    returnError = error;
+                }];
+
+                expect(returnRequest).toEventuallyNot(beNil());
+                expect(returnRequest).toEventually(beAnInstanceOf([SDLShow class]));
+                expect(returnResponse).toEventually(beNil());
+                expect(returnError).toEventuallyNot(beNil());
             });
 
             it(@"can send an RPC of type Response", ^{
