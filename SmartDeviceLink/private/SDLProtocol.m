@@ -294,9 +294,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSError *jsonError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&jsonError];
 
-    if (error != nil) {
+    if (jsonError != nil) {
         *error = jsonError;
-        SDLLogW(@"Error encoding JSON data: %@", *error);
+        SDLLogW(@"Error encoding JSON data: %@", jsonError);
+        return NO;
     }
     
     NSData *messagePayload = nil;
