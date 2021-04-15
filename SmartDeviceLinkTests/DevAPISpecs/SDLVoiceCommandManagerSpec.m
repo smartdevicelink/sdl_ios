@@ -49,6 +49,9 @@ describe(@"voice command manager", ^{
 
     __block SDLVoiceCommand *testVoiceCommand = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 1"] handler:^{}];
     __block SDLVoiceCommand *testVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 2"] handler:^{}];
+    __block SDLVoiceCommand *testVoiceCommand3 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 3", @" ", @"Test 4"] handler:^{}];
+    __block SDLVoiceCommand *testVoiceCommand4 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@""] handler:^{}];
+    __block SDLVoiceCommand *testVoiceCommand5 = [[SDLVoiceCommand alloc] init];
     __block SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] init];
     __block NSArray<SDLVoiceCommand *> *testVCArray = nil;
 
@@ -152,6 +155,50 @@ describe(@"voice command manager", ^{
 
                 it(@"should update the second operation", ^{
                     expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).withTimeout(3.0).toEventually(equal(testVoiceCommand2));
+                });
+            });
+        });
+
+        context(@"if it has voice commands to upload with one voice command strings contains an empty string", ^{
+            beforeEach(^{
+                testManager.voiceCommands = @[testVoiceCommand3, testVoiceCommand4, testVoiceCommand5];
+            });
+
+            // should queue another operation
+            it(@"should queue another operation", ^{
+                expect(testManager.transactionQueue.operations).to(haveCount(2));
+                expect(testManager.voiceCommands).to(haveCount(1));
+                expect(testManager.voiceCommands.firstObject.voiceCommands).to(haveCount(2));
+            });
+
+            // when the first operation finishes and updates the current voice commands
+            describe(@"when the first operation finishes and updates the current voice commands", ^{
+                context(@"if it has voice commands to upload with empty voice command strings", ^{
+                    beforeEach(^{
+                        SDLVoiceCommandUpdateOperation *firstOp = testManager.transactionQueue.operations[0];
+                        firstOp.currentVoiceCommands = [@[testVoiceCommand3] mutableCopy];
+                        [firstOp finishOperation];
+
+                        [NSThread sleepForTimeInterval:0.5];
+
+                        testManager.voiceCommands = @[testVoiceCommand5];
+                    });
+
+                    // should queue another operation
+                    it(@"should queue another operation", ^{
+                        expect(testManager.transactionQueue.operations).to(haveCount(2));
+                    });
+                });
+
+                context(@"if it has voice commands to upload with empty string voice command strings", ^{
+                    beforeEach(^{
+                        testManager.voiceCommands = @[testVoiceCommand4];
+                    });
+
+                    // should queue another operation
+                    it(@"should not queue another operation", ^{
+                        expect(testManager.transactionQueue.operations).to(haveCount(1));
+                    });
                 });
             });
         });

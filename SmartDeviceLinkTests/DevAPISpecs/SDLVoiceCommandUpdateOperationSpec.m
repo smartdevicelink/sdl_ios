@@ -34,8 +34,6 @@ __block SDLAddCommandResponse *failAdd = nil;
 
 __block SDLVoiceCommand *newVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC1"] handler:^{}];
 __block SDLVoiceCommand *newVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC2"] handler:^{}];
-__block SDLVoiceCommand *newVoiceCommand3 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[] handler:^{}];
-__block SDLVoiceCommand *newVoiceCommand4 = [[SDLVoiceCommand alloc] init];
 __block SDLVoiceCommand *oldVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{}];
 __block SDLVoiceCommand *oldVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC2"] handler:^{}];
 
@@ -249,20 +247,6 @@ describe(@"a voice command operation", ^{
                         expect(testConnectionManager.receivedRequests).to(haveCount(2));
                     });
                 });
-            });
-        });
-
-        context(@"if it has voice commands to upload with empty voice command strings", ^{
-            beforeEach(^{
-                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand3, newVoiceCommand4] oldVoiceCommands:@[] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
-                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
-                    callbackError = error;
-                }];
-                [testOp start];
-            });
-
-            it(@"should only add voice commands that are not empty", ^{
-                expect(testOp.pendingVoiceCommands).to(haveCount(1));
             });
         });
     });
