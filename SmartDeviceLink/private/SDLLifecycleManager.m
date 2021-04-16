@@ -647,7 +647,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
         if (error != nil) {
-            if (error.code == SDLFileManagerErrorCannotOverwrite) {
+            if ([error.domain isEqualToString:SDLErrorDomainFileManager] && error.code == SDLFileManagerErrorCannotOverwrite) {
                 SDLLogW(@"Failed to upload app icon: A file with this name already exists on the system");
             } else {
                 SDLLogW(@"Unexpected error uploading app icon: %@", error);
