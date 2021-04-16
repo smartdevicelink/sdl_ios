@@ -753,19 +753,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         
         return;
     }
-    
-    if (!request.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:request]) {
-        request.payloadProtected = YES;
-    }
-    
-    if (request.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
-        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
-        if (handler) {
-            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
-        }
-        
-        return;
-    }
 
     [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_sendConnectionRequest:request withResponseHandler:handler];
@@ -795,15 +782,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         if (handler) {
             handler(nil, nil, error);
         }
-        return;
-    }
-
-    if (request.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
-        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
-        if (handler) {
-            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
-        }
-
         return;
     }
 

@@ -291,12 +291,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
+
+    // Check that we can send the message over encryption and fail early if we cannot
+    if (message.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogE(@"Encryption Manager not ready, message not sent (%@)", message);
+        if (error != nil) {
+            *error = [NSError sdl_encryption_lifecycle_notReadyError];
+        }
+        return NO;
+    }
+
+    // Convert the message dictionary to JSON and return early if it fails
     NSError *jsonError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&jsonError];
-
     if (jsonError != nil) {
+        SDLLogE(@"Error encoding JSON data: %@", jsonError);
         *error = jsonError;
-        SDLLogW(@"Error encoding JSON data: %@", jsonError);
         return NO;
     }
     
@@ -348,6 +358,7 @@ NS_ASSUME_NONNULL_BEGIN
                 messagePayload = rpcPayload.data;
             }
 
+            // If the encryption failed, pass back the error and return false
             if (!messagePayload) {
                 if (encryptError != nil) {
                     *error = encryptError;
