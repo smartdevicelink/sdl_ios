@@ -416,7 +416,7 @@ NS_ASSUME_NONNULL_BEGIN
     header.sessionID = [self sdl_retrieveSessionIDforServiceType:service];
     header.messageID = ++_messageID;
 
-    if (encryption && data.length) {
+    if (encryption && data.length && data.length > 0) {
         NSError *encryptError = nil;
         data = [self.securityManager encryptData:data withError:&encryptError];
 
