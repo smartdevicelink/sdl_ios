@@ -4,6 +4,7 @@
 
 <ul>
   <li><a href="#section--initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:handsOffSteering:windowStatus:">-initWithGps:speed:rpm:instantFuelConsumption:fuelRange:externalTemperature:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:handsOffSteering:windowStatus:</a></li>
+  <li><a href="#section--initWithGps:speed:rpm:instantFuelConsumption:fuelRange:climateData:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:windowStatus:handsOffSteering:seatOccupancy:">-initWithGps:speed:rpm:instantFuelConsumption:fuelRange:climateData:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:windowStatus:handsOffSteering:seatOccupancy:</a></li>
   <li><a href="#section-gearStatus">gearStatus</a></li>
   <li><a href="#section-gps">gps</a></li>
   <li><a href="#section-speed">speed</a></li>
@@ -12,6 +13,7 @@
   <li><a href="#section-fuelLevel_State">fuelLevel_State</a></li>
   <li><a href="#section-fuelRange">fuelRange</a></li>
   <li><a href="#section-instantFuelConsumption">instantFuelConsumption</a></li>
+  <li><a href="#section-climateData">climateData</a></li>
   <li><a href="#section-externalTemperature">externalTemperature</a></li>
   <li><a href="#section-prndl">prndl</a></li>
   <li><a href="#section-tirePressure">tirePressure</a></li>
@@ -39,6 +41,7 @@
   <li><a href="#section-cloudAppVehicleID">cloudAppVehicleID</a></li>
   <li><a href="#section--setOEMCustomVehicleData:withVehicleDataState:">-setOEMCustomVehicleData:withVehicleDataState:</a></li>
   <li><a href="#section--getOEMCustomVehicleData:">-getOEMCustomVehicleData:</a></li>
+  <li><a href="#section-seatOccupancy">seatOccupancy</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -163,6 +166,128 @@
       <dd><p>- handsOffSteering</p></dd>
       <dt>windowStatus</dt>
       <dd><p>- windowStatus</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLUnsubscribeVehicleDataResponse object</p>
+  </div>
+  
+  <h3 id="section--initWithGps:speed:rpm:instantFuelConsumption:fuelRange:climateData:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:windowStatus:handsOffSteering:seatOccupancy:">
+      -initWithGps:speed:rpm:instantFuelConsumption:fuelRange:climateData:turnSignal:gearStatus:tirePressure:odometer:beltStatus:bodyInformation:deviceStatus:driverBraking:wiperStatus:headLampStatus:engineTorque:accPedalPosition:steeringWheelAngle:engineOilLife:electronicParkBrakeStatus:cloudAppVehicleID:stabilityControlsStatus:eCallInfo:airbagStatus:emergencyEvent:clusterModes:myKey:windowStatus:handsOffSteering:seatOccupancy:
+  </h3>
+  
+  <p>Convenience init for setting all possible values on vehicle data items.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+                  <span class="nf">initWithGps</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">gps</span>
+                        <span class="nf">speed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">speed</span>
+                          <span class="nf">rpm</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">rpm</span>
+       <span class="nf">instantFuelConsumption</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">instantFuelConsumption</span>
+                    <span class="nf">fuelRange</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fuelRange</span>
+                  <span class="nf">climateData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">climateData</span>
+                   <span class="nf">turnSignal</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">turnSignal</span>
+                   <span class="nf">gearStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">gearStatus</span>
+                 <span class="nf">tirePressure</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tirePressure</span>
+                     <span class="nf">odometer</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">odometer</span>
+                   <span class="nf">beltStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">beltStatus</span>
+              <span class="nf">bodyInformation</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">bodyInformation</span>
+                 <span class="nf">deviceStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">deviceStatus</span>
+                <span class="nf">driverBraking</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">driverBraking</span>
+                  <span class="nf">wiperStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">wiperStatus</span>
+               <span class="nf">headLampStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">headLampStatus</span>
+                 <span class="nf">engineTorque</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">engineTorque</span>
+             <span class="nf">accPedalPosition</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">accPedalPosition</span>
+           <span class="nf">steeringWheelAngle</span><span class="p">:</span>
+               <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">steeringWheelAngle</span>
+                <span class="nf">engineOilLife</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">engineOilLife</span>
+    <span class="nf">electronicParkBrakeStatus</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">electronicParkBrakeStatus</span>
+            <span class="nf">cloudAppVehicleID</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">cloudAppVehicleID</span>
+      <span class="nf">stabilityControlsStatus</span><span class="p">:</span>
+          <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">stabilityControlsStatus</span>
+                    <span class="nf">eCallInfo</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">eCallInfo</span>
+                 <span class="nf">airbagStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">airbagStatus</span>
+               <span class="nf">emergencyEvent</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">emergencyEvent</span>
+                 <span class="nf">clusterModes</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">clusterModes</span>
+                        <span class="nf">myKey</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">myKey</span>
+                 <span class="nf">windowStatus</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">windowStatus</span>
+             <span class="nf">handsOffSteering</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">handsOffSteering</span>
+                <span class="nf">seatOccupancy</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">seatOccupancy</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">gps</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">rpm</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">instantFuelConsumption</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">fuelRange</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">climateData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">gearStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">tirePressure</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">odometer</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">beltStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">bodyInformation</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">deviceStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">driverBraking</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">headLampStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">engineTorque</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">accPedalPosition</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">steeringWheelAngle</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">engineOilLife</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">electronicParkBrakeStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">cloudAppVehicleID</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">stabilityControlsStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">eCallInfo</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">airbagStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">emergencyEvent</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">clusterModes</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">myKey</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">windowStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">handsOffSteering</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?,</span> <span class="nv">seatOccupancy</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>gps</dt>
+      <dd><p>- gps</p></dd>
+      <dt>speed</dt>
+      <dd><p>- speed</p></dd>
+      <dt>rpm</dt>
+      <dd><p>- rpm</p></dd>
+      <dt>instantFuelConsumption</dt>
+      <dd><p>- instantFuelConsumption</p></dd>
+      <dt>fuelRange</dt>
+      <dd><p>- fuelRange</p></dd>
+      <dt>climateData</dt>
+      <dd><p>- climateData</p></dd>
+      <dt>turnSignal</dt>
+      <dd><p>- turnSignal</p></dd>
+      <dt>gearStatus</dt>
+      <dd><p>- gearStatus</p></dd>
+      <dt>tirePressure</dt>
+      <dd><p>- tirePressure</p></dd>
+      <dt>odometer</dt>
+      <dd><p>- odometer</p></dd>
+      <dt>beltStatus</dt>
+      <dd><p>- beltStatus</p></dd>
+      <dt>bodyInformation</dt>
+      <dd><p>- bodyInformation</p></dd>
+      <dt>deviceStatus</dt>
+      <dd><p>- deviceStatus</p></dd>
+      <dt>driverBraking</dt>
+      <dd><p>- driverBraking</p></dd>
+      <dt>wiperStatus</dt>
+      <dd><p>- wiperStatus</p></dd>
+      <dt>headLampStatus</dt>
+      <dd><p>- headLampStatus</p></dd>
+      <dt>engineTorque</dt>
+      <dd><p>- engineTorque</p></dd>
+      <dt>accPedalPosition</dt>
+      <dd><p>- accPedalPosition</p></dd>
+      <dt>steeringWheelAngle</dt>
+      <dd><p>- steeringWheelAngle</p></dd>
+      <dt>engineOilLife</dt>
+      <dd><p>- engineOilLife</p></dd>
+      <dt>electronicParkBrakeStatus</dt>
+      <dd><p>- electronicParkBrakeStatus</p></dd>
+      <dt>cloudAppVehicleID</dt>
+      <dd><p>- cloudAppVehicleID</p></dd>
+      <dt>stabilityControlsStatus</dt>
+      <dd><p>- stabilityControlsStatus</p></dd>
+      <dt>eCallInfo</dt>
+      <dd><p>- eCallInfo</p></dd>
+      <dt>airbagStatus</dt>
+      <dd><p>- airbagStatus</p></dd>
+      <dt>emergencyEvent</dt>
+      <dd><p>- emergencyEvent</p></dd>
+      <dt>clusterModes</dt>
+      <dd><p>- clusterModes</p></dd>
+      <dt>myKey</dt>
+      <dd><p>- myKey</p></dd>
+      <dt>windowStatus</dt>
+      <dd><p>- windowStatus</p></dd>
+      <dt>handsOffSteering</dt>
+      <dd><p>- handsOffSteering</p></dd>
+      <dt>seatOccupancy</dt>
+      <dd><p>- seatOccupancy</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -329,13 +454,34 @@
   
   
   
+  <h3 id="section-climateData">
+      climateData
+  </h3>
+  
+  <p>See ClimateData</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">climateData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">climateData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-externalTemperature">
       externalTemperature
   </h3>
   
-  <p>The result of requesting to unsubscribe to the external temperature in degrees celsius.</p>
+  <p>The external temperature in degrees celsius. This parameter is deprecated starting RPC Spec 7.1, please see climateData.</p>
 
-<p>Optional</p>
+<p>@deprecated in SmartDeviceLink 7.1.0
+ @added in SmartDeviceLink 2.0.0</p>
 
   
   
@@ -884,5 +1030,25 @@
     <h4>Return Value</h4>
     <p>SDLVehicleDataResult object containing custom data type and result code information.</p>
   </div>
+  
+  <h3 id="section-seatOccupancy">
+      seatOccupancy
+  </h3>
+  
+  <p>See SeatOccupancy</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">seatOccupancy</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seatOccupancy</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
   
 </section>

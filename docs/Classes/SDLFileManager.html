@@ -18,6 +18,7 @@
   <li><a href="#section--uploadFile:completionHandler:">-uploadFile:completionHandler:</a></li>
   <li><a href="#section--uploadFiles:progressHandler:completionHandler:">-uploadFiles:progressHandler:completionHandler:</a></li>
   <li><a href="#section--uploadFiles:completionHandler:">-uploadFiles:completionHandler:</a></li>
+  <li><a href="#section--fileNeedsUpload:">-fileNeedsUpload:</a></li>
   <li><a href="#section--uploadArtwork:completionHandler:">-uploadArtwork:completionHandler:</a></li>
   <li><a href="#section--uploadArtworks:completionHandler:">-uploadArtworks:completionHandler:</a></li>
   <li><a href="#section--uploadArtworks:progressHandler:completionHandler:">-uploadArtworks:progressHandler:completionHandler:</a></li>
@@ -356,7 +357,7 @@
       -uploadFiles:completionHandler:
   </h3>
   
-  <p>Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.</p>
+  <p>Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once an upload request is sent to Core, the queue waits until a response is received from Core before the next upload request is sent.</p>
 
   
   
@@ -378,6 +379,37 @@
       <dt>completionHandler</dt>
       <dd><p>An optional SDLFileManagerMultiUploadCompletionHandler</p></dd>
   </dl>
+  
+  <h3 id="section--fileNeedsUpload:">
+      -fileNeedsUpload:
+  </h3>
+  
+  <p>Check if an SDLFile needs to be uploaded to Core or not. This method differs from hasUploadedFile() because it takes the <code>isStaticIcon</code> and <code>overwrite</code> properties into consideration.</p>
+
+<p>For example, if the file is static icon, the method always returns false.</p>
+
+<p>If the file is dynamic, it returns true in one of these situations: 1) the file has the overwrite property set to true, 2) the file hasn&rsquo;t been uploaded to Core before.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">fileNeedsUpload</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fileNeedsUpload</span><span class="p">(</span><span class="n">_</span> <span class="nv">file</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>file</dt>
+      <dd><p>the SDLFile that needs to be checked</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>BOOL that tells whether file needs to be uploaded to Core or not</p>
+  </div>
   
   <h3 id="section--uploadArtwork:completionHandler:">
       -uploadArtwork:completionHandler:
@@ -410,7 +442,7 @@
       -uploadArtworks:completionHandler:
   </h3>
   
-  <p>Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.</p>
+  <p>Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once an upload request is sent to Core, the queue waits until a response is received from Core before the next upload request is sent.</p>
 
   
   
@@ -437,9 +469,9 @@
       -uploadArtworks:progressHandler:completionHandler:
   </h3>
   
-  <p>Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.</p>
+  <p>Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once an upload request is sent to Core, the queue waits until a response is received from Core before the next upload request is sent.</p>
 
-<p>The optional progress handler can be used to keep track of the upload progress. After each artwork upload, the progress handler returns the artwork name, the upload percentage and an error, if one occured during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.</p>
+<p>The optional progress handler can be used to keep track of the upload progress. After each artwork upload, the progress handler returns the artwork name, the upload percentage and an error, if one occurred during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.</p>
 
   
   
