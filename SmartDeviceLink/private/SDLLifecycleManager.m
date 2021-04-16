@@ -651,8 +651,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                 SDLLogW(@"Failed to upload app icon: A file with this name already exists on the system");
             } else {
                 SDLLogW(@"Unexpected error uploading app icon: %@", error);
-                completion();
-                return;
+                return completion();
             }
         }
 
@@ -666,8 +665,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                 SDLLogW(@"Error setting up app icon: %@", error);
             }
 
-            // We've succeeded or failed
-            completion();
+            return completion();
         }];
     }];
 }
