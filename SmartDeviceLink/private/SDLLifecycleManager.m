@@ -798,6 +798,15 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
+    if (request.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
+        if (handler) {
+            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
+        }
+
+        return;
+    }
+
     // Before we send a message, we have to check if we need to adapt the RPC. When adapting the RPC, there could be multiple RPCs that need to be sent.
     NSError *error = nil;
     NSArray<SDLRPCMessage *> *messages = [SDLLifecycleRPCAdapter adaptRPC:request direction:SDLRPCDirectionOutgoing];
