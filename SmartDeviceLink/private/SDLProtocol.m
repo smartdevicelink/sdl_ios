@@ -351,6 +351,8 @@ NS_ASSUME_NONNULL_BEGIN
             if (!messagePayload) {
                 if (encryptError != nil) {
                     *error = encryptError;
+                } else {
+                    *error = [NSError sdl_encryption_unknown];
                 }
                 return NO;
             }
