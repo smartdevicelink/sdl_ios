@@ -29,8 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (NSArray<NSString *> *)sdl_removeDuplicateStrings:(NSArray<NSString *> *)voiceCommands {
-    NSSet *voiceCommandsSet = [[NSSet alloc] initWithArray:voiceCommands];
-    return [voiceCommandsSet allObjects];
+    return [[[NSSet alloc] initWithArray:voiceCommands] allObjects];
 }
 
 - (NSString *)description {
