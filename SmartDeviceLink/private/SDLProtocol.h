@@ -136,6 +136,7 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *  Sends an unencrypted RPC to Core
  *
  *  @param message A SDLRPCMessage message
+ *  @param error A pass-back error object if the RPC failed to send
  *  @returns YES if the RPC was sent, NO if it was not
  */
 - (BOOL)sendRPC:(SDLRPCMessage *)message error:(NSError *__autoreleasing *)error;
