@@ -19,6 +19,12 @@
 
 @end
 
+@interface SDLVoiceCommandUpdateOperation()
+
+- (NSArray<SDLVoiceCommand *> *)voiceCommandsInArray:(NSArray<SDLVoiceCommand *> *)firstArray notInSecondArray:(NSArray<SDLVoiceCommand *> *)secondArray;
+
+@end
+
 QuickSpecBegin(SDLVoiceCommandUpdateOperationSpec)
 
 __block SDLDeleteCommandResponse *successDelete = nil;
@@ -243,6 +249,15 @@ describe(@"a voice command operation", ^{
                 });
             });
         });
+    });
+
+    // should test voiceCommandsInArray and return the difference between two arrays
+    it(@"should have a priority of 'normal'", ^{
+        testOp = [[SDLVoiceCommandUpdateOperation alloc] init];
+        NSArray<SDLVoiceCommand *> *voiceCommands = [testOp voiceCommandsInArray:@[newVoiceCommand1, newVoiceCommand2] notInSecondArray:@[newVoiceCommand1]];
+
+        expect(voiceCommands).to(haveCount(1));
+        expect(voiceCommands.firstObject).to(equal(newVoiceCommand2));
     });
 });
 
