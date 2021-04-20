@@ -237,9 +237,12 @@ describe(@"SendRPCRequest Tests", ^{
             testHeader.sessionID = 0xFF;
             [testProtocol protocol:testProtocol didReceiveStartServiceACK:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
             
-            [testProtocol sendRPC:mockRequest];
+            NSError *error = nil;
+            BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
             expect(verified).toEventually(beTrue());
+            expect(sent).to(beTrue());
+            expect(error).to(beNil());
         });
     });
     
@@ -282,10 +285,13 @@ describe(@"SendRPCRequest Tests", ^{
             testHeader.serviceType = SDLServiceTypeRPC;
             testHeader.sessionID = 0x01;
             [testProtocol protocol:testProtocol didReceiveStartServiceACK:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
-            
-            [testProtocol sendRPC:mockRequest];
+
+            NSError *error = nil;
+            BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
             expect(verified).toEventually(beTrue());
+            expect(sent).to(beTrue());
+            expect(error).to(beNil());
         });
     });
 });

@@ -14,6 +14,7 @@
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLEncryptionLifecycleManager.h"
+#import "SDLError.h"
 #import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
@@ -280,25 +281,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Send Data
 
-- (void)sendRPC:(SDLRPCMessage *)message {
+- (BOOL)sendRPC:(SDLRPCMessage *)message error:(NSError *__autoreleasing *)error {
     if (!message.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:message]) {
         message.payloadProtected = YES;
     }
-    
-    if (message.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
-        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", message);
-        return;
-    }
 
-    [self sendRPC:message encrypted:message.isPayloadProtected error:nil];
+    return [self sendRPC:message encrypted:message.isPayloadProtected error:error];
 }
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:error];
 
-    if (error != nil) {
-        SDLLogW(@"Error encoding JSON data: %@", *error);
+    // Check that we can send the message over encryption and fail early if we cannot
+    if (message.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogE(@"Encryption Manager not ready, message not sent (%@)", message);
+        if (error != nil) {
+            *error = [NSError sdl_encryption_lifecycle_notReadyError];
+        }
+        return NO;
+    }
+
+    // Convert the message dictionary to JSON and return early if it fails
+    NSError *jsonError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&jsonError];
+    if (jsonError != nil) {
+        SDLLogE(@"Error encoding JSON data: %@", jsonError);
+        *error = jsonError;
+        return NO;
     }
     
     NSData *messagePayload = nil;
@@ -333,27 +342,31 @@ NS_ASSUME_NONNULL_BEGIN
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
             } else {
                 NSAssert(NO, @"Unknown message type attempted to send. Type: %@", [message class]);
+                *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Unknown message type" andReason:@"An unknown RPC message type was attempted."];
                 return NO;
             }
 
             // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
-            // TODO: (Joel F.)[2016-02-09] We should assert if the service isn't setup for encryption. See [#350](https://github.com/smartdevicelink/sdl_ios/issues/350)
+            NSError *encryptError = nil;
             if (encryption) {
-                NSError *encryptError = nil;
-                
                 messagePayload = [self.securityManager encryptData:rpcPayload.data withError:&encryptError];
                 
-                if (encryptError) {
+                if (encryptError != nil) {
                     SDLLogE(@"Error encrypting request! %@", encryptError);
                 }
             } else {
                 messagePayload = rpcPayload.data;
             }
 
+            // If the encryption failed, pass back the error and return false
             if (!messagePayload) {
+                if (encryptError != nil) {
+                    *error = encryptError;
+                } else {
+                    *error = [NSError sdl_encryption_unknown];
+                }
                 return NO;
             }
-            
         } break;
         default: {
             NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals sharedGlobals].protocolVersion.major), message);
