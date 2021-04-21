@@ -153,7 +153,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
             }
 
             // If the SDL Core returned an error, cancel the upload the process in the future
-            if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
+            if (error != nil || response == nil || !response.success.boolValue || strongself.isCancelled) {
                 [strongself cancel];
                 streamError = error;
                 dispatch_group_leave(putFileGroup);

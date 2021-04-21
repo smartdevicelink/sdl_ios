@@ -5,12 +5,16 @@
 <ul>
   <li><a href="#section--initWithMenuID:menuName:">-initWithMenuID:menuName:</a></li>
   <li><a href="#section--initWithMenuID:menuName:position:menuIcon:menuLayout:parentID:">-initWithMenuID:menuName:position:menuIcon:menuLayout:parentID:</a></li>
+  <li><a href="#section--initWithMenuID:menuName:position:menuIcon:menuLayout:parentID:secondaryText:tertiaryText:secondaryImage:">-initWithMenuID:menuName:position:menuIcon:menuLayout:parentID:secondaryText:tertiaryText:secondaryImage:</a></li>
   <li><a href="#section-menuID">menuID</a></li>
   <li><a href="#section-position">position</a></li>
   <li><a href="#section-menuName">menuName</a></li>
   <li><a href="#section-menuIcon">menuIcon</a></li>
   <li><a href="#section-menuLayout">menuLayout</a></li>
   <li><a href="#section-parentID">parentID</a></li>
+  <li><a href="#section-secondaryText">secondaryText</a></li>
+  <li><a href="#section-tertiaryText">tertiaryText</a></li>
+  <li><a href="#section-secondaryImage">secondaryImage</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -21,7 +25,7 @@
  added to a SDLSubMenu), and may only contain commands as children
  <p>
  <p>
- <b>HMILevel needs to be FULL, LIMITED or BACKGROUD</b>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  </p></p>
 
 <p>Since <b>SmartDeviceLink 1.0</b><br>
@@ -93,6 +97,56 @@
       <dd><p>- menuLayout</p></dd>
       <dt>parentID</dt>
       <dd><p>- parentID</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAddSubMenu object</p>
+  </div>
+  
+  <h3 id="section--initWithMenuID:menuName:position:menuIcon:menuLayout:parentID:secondaryText:tertiaryText:secondaryImage:">
+      -initWithMenuID:menuName:position:menuIcon:menuLayout:parentID:secondaryText:tertiaryText:secondaryImage:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMenuID</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">menuID</span>
+                              <span class="nf">menuName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">menuName</span>
+                              <span class="nf">position</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">position</span>
+                              <span class="nf">menuIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">menuIcon</span>
+                            <span class="nf">menuLayout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">)</span><span class="nv">menuLayout</span>
+                              <span class="nf">parentID</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">parentID</span>
+                         <span class="nf">secondaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryText</span>
+                          <span class="nf">tertiaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tertiaryText</span>
+                        <span class="nf">secondaryImage</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryImage</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">menuID</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">menuName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">menuIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">menuLayout</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLMenuLayout.h@T@SDLMenuLayout">SDLMenuLayout</a></span><span class="p">?,</span> <span class="nv">parentID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?,</span> <span class="nv">secondaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">tertiaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">secondaryImage</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>menuID</dt>
+      <dd><p>- @(menuID)</p></dd>
+      <dt>menuName</dt>
+      <dd><p>- menuName</p></dd>
+      <dt>position</dt>
+      <dd><p>- position</p></dd>
+      <dt>menuIcon</dt>
+      <dd><p>- menuIcon</p></dd>
+      <dt>menuLayout</dt>
+      <dd><p>- menuLayout</p></dd>
+      <dt>parentID</dt>
+      <dd><p>- parentID</p></dd>
+      <dt>secondaryText</dt>
+      <dd><p>- secondaryText</p></dd>
+      <dt>tertiaryText</dt>
+      <dd><p>- tertiaryText</p></dd>
+      <dt>secondaryImage</dt>
+      <dd><p>- secondaryImage</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -225,6 +279,68 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">parentID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-secondaryText">
+      secondaryText
+  </h3>
+  
+  <p>Optional secondary text to display
+ {&ldquo;string_min_length&rdquo;: 1, &ldquo;string_max_length&rdquo;: 500}</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">secondaryText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">secondaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-tertiaryText">
+      tertiaryText
+  </h3>
+  
+  <p>Optional tertiary text to display
+ {&ldquo;string_min_length&rdquo;: 1, &ldquo;string_max_length&rdquo;: 500}</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">tertiaryText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">tertiaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-secondaryImage">
+      secondaryImage
+  </h3>
+  
+  <p>Optional secondary image struct for sub-menu cell</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">secondaryImage</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">secondaryImage</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

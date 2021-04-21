@@ -254,9 +254,12 @@ describe(@"SendRPC Tests", ^{
             testHeader.sessionID = 0xFF;
             [testProtocol protocol:testProtocol didReceiveStartServiceACK:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
             
-            [testProtocol sendRPC:mockRequest];
+            NSError *error = nil;
+            BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
             expect(verified).toEventually(beTrue());
+            expect(sent).to(beTrue());
+            expect(error).to(beNil());
         });
     });
 
@@ -286,16 +289,15 @@ describe(@"SendRPC Tests", ^{
             testHeader.sessionID = 0x01;
             [testProtocol protocol:testProtocol didReceiveStartServiceACK:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
 
-            id disassember = OCMClassMock([SDLProtocolMessageDisassembler class]);
-            OCMStub([disassember disassemble:[OCMArg any] withMTULimit:0]).ignoringNonObjectArgs();
-            OCMReject([disassember disassemble:[OCMArg any] withMTULimit:0]).ignoringNonObjectArgs();
-
-            [testProtocol sendRPC:mockRequest];
+            NSError *error = nil;
+            BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
-            expect(numTimesCalled).toEventually(equal(1));
+            expect(verified).toEventually(beTrue());
+            expect(sent).to(beTrue());
+            expect(error).to(beNil());
         });
 
-        it(@"should correctly send a request larger than the MTU size", ^{
+		it(@"should correctly send a request larger than the MTU size", ^{
             char dummyBytes[2000];
 
             SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];
@@ -304,6 +306,29 @@ describe(@"SendRPC Tests", ^{
 
             __block NSUInteger numTimesCalled = 0;
             id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
+            [[[transportMock stub] andDo:^(NSInvocation* invocation) {
+                verified = YES;
+                
+                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
+                __unsafe_unretained NSData* data;
+                [invocation getArgument:&data atIndex:2];
+                NSData* dataSent = [data copy];
+                
+                NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV2 options:0 error:0];
+                NSUInteger dataLength = jsonTestData.length;
+                
+                const char testPayloadHeader[12] = {0x00, 0x00, 0x00, 0x06, 0x00, 0x09, 0x87, 0x65, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
+                
+                NSMutableData* payloadData = [NSMutableData dataWithBytes:testPayloadHeader length:12];
+                [payloadData appendData:jsonTestData];
+                [payloadData appendBytes:"COMMAND" length:strlen("COMMAND")];
+                
+                const char testHeader[12] = {0x20 | SDLFrameTypeSingle, SDLServiceTypeBulkData, SDLFrameInfoSingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,(payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
+                
+                NSMutableData* testData = [NSMutableData dataWithBytes:testHeader length:12];
+                [testData appendData:payloadData];
+                
+                expect(dataSent).to(equal([testData copy]));
             [[[transportMock stub] andDo:^(NSInvocation *invocation) {
                 numTimesCalled++;
             }] sendData:[OCMArg any]];

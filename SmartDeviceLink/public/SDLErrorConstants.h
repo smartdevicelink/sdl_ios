@@ -73,7 +73,10 @@ typedef NS_ENUM(NSInteger, SDLEncryptionLifecycleManagerError) {
     /**
      *  Received NAK from the remote head unit.
      */
-    SDLEncryptionLifecycleManagerErrorNAK = -3
+    SDLEncryptionLifecycleManagerErrorNAK = -3,
+
+    /// An unknown error occurred
+    SDLEncryptionLifecycleManagerErrorUnknown = -4
 };
 
 /**

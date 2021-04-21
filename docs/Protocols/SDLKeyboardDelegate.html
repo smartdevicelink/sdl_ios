@@ -9,6 +9,7 @@
   <li><a href="#section--updateAutocompleteWithInput:autoCompleteResultsHandler:">-updateAutocompleteWithInput:autoCompleteResultsHandler:</a></li>
   <li><a href="#section--updateCharacterSetWithInput:completionHandler:">-updateCharacterSetWithInput:completionHandler:</a></li>
   <li><a href="#section--keyboardDidSendEvent:text:">-keyboardDidSendEvent:text:</a></li>
+  <li><a href="#section--keyboardDidUpdateInputMask:">-keyboardDidUpdateInputMask:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -173,6 +174,30 @@
       <dd><p>The event that occurred</p></dd>
       <dt>currentInputText</dt>
       <dd><p>The user&rsquo;s full current input text</p></dd>
+  </dl>
+  
+  <h3 id="section--keyboardDidUpdateInputMask:">
+      -keyboardDidUpdateInputMask:
+  </h3>
+  
+  <p>Implement this to be notified of input key mask update (whether or not the user has changed the input to be hidden, like passwords)</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidUpdateInputMask</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isEnabled</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">keyboardDidUpdateInputMask</span><span class="p">(</span><span class="n">_</span> <span class="nv">isEnabled</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>isEnabled</dt>
+      <dd><p>- YES if the mask is enabled, NO if the mask is disabled
+@added in SmartDeviceLink 7.1.0</p></dd>
   </dl>
   
 </section>
