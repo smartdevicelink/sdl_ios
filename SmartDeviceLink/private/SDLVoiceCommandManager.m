@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
 
-@property (assign, nonatomic) BOOL areVoiceCommandsEmptyStrings;
-
 @end
 
 UInt32 const VoiceCommandIdMin = 1900000000;
@@ -112,17 +110,17 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         return;
     }
 
-    // Set the ids
-    [self sdl_updateIdsOnVoiceCommands:voiceCommands];
-
     // Set the new voice commands internally
     _voiceCommands = [self sdl_removeEmptyVoiceCommands:voiceCommands];
 
-    // Check if the voiceCommand's strings that are set are all empty strings
-    if (self.areVoiceCommandsEmptyStrings) {
+    // Check if the voiceCommand's strings that are set are all empty strings. If the user only sends voice commands with empty voice command string arrays, the existing voice commands will be deleted, and if the user only sends invalid voice command strings in array(e.g. strings consisting just of whitespace characters) then the voiceCommands update operation will be aborted.
+    if (self.voiceCommands.count == 0 && voiceCommands.count > 0) {
         SDLLogE(@"New voice commands are set to empty strings");
         return;
     }
+
+    // Set the ids
+    [self sdl_updateIdsOnVoiceCommands:voiceCommands];
 
     // Create the operation, cancel previous ones and set this one
     __weak typeof(self) weakSelf = self;
@@ -155,22 +153,18 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     }
 }
 
-/// Remove a voice command from the array of voice commands if it has no strings
+/// Remove all voice command strings consisting of just whitespace characters as the module will reject any "empty" strings.
 /// @param voiceCommands - array of SDLVoiceCommands that are to be uploaded
 /// @return A list of voice commands with the empty voice commands removed
 - (NSArray<SDLVoiceCommand *> *)sdl_removeEmptyVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     NSMutableArray<SDLVoiceCommand *> *pendingVoiceCommands = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *voiceCommandStrings = [[NSMutableArray alloc] init];
-    self.areVoiceCommandsEmptyStrings = YES;
     for (SDLVoiceCommand *voiceCommand in voiceCommands) {
-        if (voiceCommand.voiceCommands.count == 0) {
-            self.areVoiceCommandsEmptyStrings = NO;
-        }
+        NSMutableArray<NSString *> *voiceCommandStrings = [[NSMutableArray alloc] init];
         for (NSString *voiceCommandString in voiceCommand.voiceCommands) {
-            NSString *probablyEmpty = [voiceCommandString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            if (probablyEmpty.length > 0) {
+            NSString *trimmedString = [voiceCommandString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            // Updates voice command strings array by only adding ones that are not empty(e.g. "", " ", ...)
+            if (trimmedString.length > 0) {
                 [voiceCommandStrings addObject:voiceCommandString];
-                self.areVoiceCommandsEmptyStrings = NO;
             }
         }
         if (voiceCommandStrings.count > 0) {
