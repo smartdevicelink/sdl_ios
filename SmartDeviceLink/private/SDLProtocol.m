@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     _transport.delegate = self;
 
     _encryptionLifecycleManager = encryptionManager;
-    
+
     return self;
 }
 
@@ -309,7 +309,7 @@ NS_ASSUME_NONNULL_BEGIN
         *error = jsonError;
         return NO;
     }
-    
+
     NSData *messagePayload = nil;
     SDLLogV(@"Sending RPC: %@", message);
 
@@ -346,27 +346,7 @@ NS_ASSUME_NONNULL_BEGIN
                 return NO;
             }
 
-            // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
-            NSError *encryptError = nil;
-            if (encryption) {
-                messagePayload = [self.securityManager encryptData:rpcPayload.data withError:&encryptError];
-                
-                if (encryptError != nil) {
-                    SDLLogE(@"Error encrypting request! %@", encryptError);
-                }
-            } else {
-                messagePayload = rpcPayload.data;
-            }
-
-            // If the encryption failed, pass back the error and return false
-            if (!messagePayload) {
-                if (encryptError != nil) {
-                    *error = encryptError;
-                } else {
-                    *error = [NSError sdl_encryption_unknown];
-                }
-                return NO;
-            }
+            messagePayload = rpcPayload.data;
         } break;
         default: {
             NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals sharedGlobals].protocolVersion.major), message);
@@ -392,6 +372,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSUInteger rpcMTUSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC];
     NSUInteger mtuSize = (encryption ? MIN(TLSMaxDataToEncryptSize, rpcMTUSize) : rpcMTUSize);
     if (protocolMessage.size < mtuSize) {
+
         SDLLogV(@"Sending protocol message: %@", protocolMessage);
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
     } else {
@@ -403,6 +384,27 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return YES;
+}
+
+- (void)sdl_encryptProtocolMessages:(NSArray<SDLProtocolMessage *> *)protocolMessages error:(NSError *__autoreleasing *)error {
+    for (SDLProtocolMessage *message in protocolMessages) {
+        // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
+        NSError *encryptError = nil;
+        NSData *encryptedMessagePayload = [self.securityManager encryptData:message.payload withError:&encryptError];
+
+        // If the encryption failed, pass back the error and return false
+        if (encryptedMessagePayload.length == 0 || encryptError != nil) {
+            if (encryptError != nil) {
+                *error = encryptError;
+            } else {
+                *error = [NSError sdl_encryption_unknown];
+            }
+
+            break;
+        } else {
+            message.payload = encryptedMessagePayload;
+        }
+    }
 }
 
 // Use for normal messages
@@ -420,6 +422,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType {
+    // TODO: Ensure data is at or below TLS max
     [self sdl_sendRawData:data onService:serviceType encryption:YES];
 }
 
