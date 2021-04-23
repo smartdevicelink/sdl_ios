@@ -160,7 +160,7 @@ describe(@"voice command manager", ^{
             });
         });
 
-        context(@"if it has voice commands to upload with one voice command strings contains an empty string", ^{
+        context(@"if it has voice commands to upload where one voice command strings contains an empty string", ^{
             beforeEach(^{
                 testManager.voiceCommands = @[testVoiceCommand3, testVoiceCommand4, testVoiceCommand5, testVoiceCommand6];
             });

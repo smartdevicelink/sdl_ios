@@ -120,7 +120,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     }
 
     // Set the ids
-    [self sdl_updateIdsOnVoiceCommands:voiceCommands];
+    [self sdl_updateIdsOnVoiceCommands:self.voiceCommands];
 
     // Create the operation, cancel previous ones and set this one
     __weak typeof(self) weakSelf = self;
@@ -170,7 +170,6 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         if (voiceCommandStrings.count > 0) {
             voiceCommand.voiceCommands = voiceCommandStrings;
             [pendingVoiceCommands addObject:voiceCommand];
-            voiceCommandStrings = [[NSMutableArray alloc] init];
         }
     }
     return [pendingVoiceCommands copy];
