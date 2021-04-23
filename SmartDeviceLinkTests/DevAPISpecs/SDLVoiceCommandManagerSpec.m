@@ -188,7 +188,7 @@ describe(@"voice command manager", ^{
 
                     // should queue another operation
                     it(@"should queue another operation", ^{
-                        expect(testManager.transactionQueue.operations).to(haveCount(2));
+                        expect(testManager.transactionQueue.operations).to(haveCount(1));
                     });
                 });
 

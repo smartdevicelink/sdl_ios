@@ -105,7 +105,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 #pragma mark - Setters
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    if (voiceCommands == self.voiceCommands) {
+    if ([voiceCommands isEqualToArray:self.voiceCommands]) {
         SDLLogD(@"New voice commands are equal to the existing voice commands, skipping...");
         return;
     }
