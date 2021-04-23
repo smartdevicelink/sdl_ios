@@ -185,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // TLS initialization succeeded. Build and send the message.
         SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:nil];
-        SDLLogD(@"TLS initialized, sending start service for message: %@", message);
+        SDLLogD(@"TLS initialized, sending start service with encryption for message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:serviceType];
     }];
 }
