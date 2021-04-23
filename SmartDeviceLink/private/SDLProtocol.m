@@ -371,16 +371,24 @@ NS_ASSUME_NONNULL_BEGIN
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
     NSUInteger rpcMTUSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC];
     NSUInteger mtuSize = (encryption ? MIN(TLSMaxDataToEncryptSize, rpcMTUSize) : rpcMTUSize);
+    NSArray<SDLProtocolMessage *> *protocolMessages = nil;
     if (protocolMessage.size < mtuSize) {
-
-        SDLLogV(@"Sending protocol message: %@", protocolMessage);
-        [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
+        protocolMessages = @[protocolMessage];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withMTULimit:mtuSize];
-        for (SDLProtocolMessage *smallerMessage in messages) {
-            SDLLogV(@"Sending protocol message: %@", smallerMessage);
-            [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceTypeRPC];
+        protocolMessages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withMTULimit:mtuSize];
+    }
+
+    for (SDLProtocolMessage *message in protocolMessages) {
+        if (encryption) {
+            [self sdl_encryptProtocolMessages:protocolMessages error:error];
+            if (*error != nil) {
+                SDLLogE(@"Error encrypting protocol messages. Messages will not be sent. Error: %@", error);
+                return NO;
+            }
         }
+
+        SDLLogV(@"Sending protocol message: %@", message);
+        [self sdl_sendDataToTransport:message.data onService:SDLServiceTypeRPC];
     }
 
     return YES;
