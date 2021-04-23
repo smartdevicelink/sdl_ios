@@ -380,9 +380,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     for (SDLProtocolMessage *message in protocolMessages) {
         if (encryption) {
-            [self sdl_encryptProtocolMessages:protocolMessages error:error];
-            if (*error != nil) {
-                SDLLogE(@"Error encrypting protocol messages. Messages will not be sent. Error: %@", error);
+            BOOL success = [self sdl_encryptProtocolMessages:protocolMessages error:error];
+            if (!success) {
+                SDLLogE(@"Error encrypting protocol messages. Messages will not be sent. Error: %@", *error);
                 return NO;
             }
         }
@@ -394,7 +394,7 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (void)sdl_encryptProtocolMessages:(NSArray<SDLProtocolMessage *> *)protocolMessages error:(NSError *__autoreleasing *)error {
+- (BOOL)sdl_encryptProtocolMessages:(NSArray<SDLProtocolMessage *> *)protocolMessages error:(NSError *__autoreleasing *)error {
     for (SDLProtocolMessage *message in protocolMessages) {
         // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
         NSError *encryptError = nil;
@@ -408,11 +408,13 @@ NS_ASSUME_NONNULL_BEGIN
                 *error = [NSError sdl_encryption_unknown];
             }
 
-            break;
+            return NO;
         } else {
             message.payload = encryptedMessagePayload;
         }
     }
+
+    return YES;
 }
 
 // Use for normal messages
