@@ -413,7 +413,7 @@ NS_ASSUME_NONNULL_BEGIN
             return NO;
         } else {
             message.payload = encryptedMessagePayload;
-            message.header.bytesInPayload = encryptedMessagePayload.length;
+            message.header.bytesInPayload = (UInt32)encryptedMessagePayload.length;
         }
     }
 
