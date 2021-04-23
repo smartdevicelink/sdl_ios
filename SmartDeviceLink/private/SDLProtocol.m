@@ -378,15 +378,17 @@ NS_ASSUME_NONNULL_BEGIN
         protocolMessages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withMTULimit:mtuSize];
     }
 
-    for (SDLProtocolMessage *message in protocolMessages) {
-        if (encryption) {
-            BOOL success = [self sdl_encryptProtocolMessages:protocolMessages error:error];
-            if (!success) {
-                SDLLogE(@"Error encrypting protocol messages. Messages will not be sent. Error: %@", *error);
-                return NO;
-            }
+    // If the message should be encrypted, encrypt the payloads
+    if (encryption) {
+        BOOL success = [self sdl_encryptProtocolMessages:protocolMessages error:error];
+        if (!success) {
+            SDLLogE(@"Error encrypting protocol messages. Messages will not be sent. Error: %@", *error);
+            return NO;
         }
+    }
 
+    // Send each message
+    for (SDLProtocolMessage *message in protocolMessages) {
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:SDLServiceTypeRPC];
     }
