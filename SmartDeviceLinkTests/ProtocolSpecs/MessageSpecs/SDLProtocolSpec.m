@@ -14,6 +14,7 @@
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDeleteCommand.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLGlobals.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocol.h"
@@ -292,66 +293,102 @@ describe(@"SendRPC Tests", ^{
             NSError *error = nil;
             BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
-            expect(verified).toEventually(beTrue());
+            expect(numTimesCalled).toEventually(equal(1));
             expect(sent).to(beTrue());
             expect(error).to(beNil());
         });
 
 		it(@"should correctly send a request larger than the MTU size", ^{
-            char dummyBytes[2000];
+            char dummyBytes[1100];
 
             SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];
             deleteRequest.correlationID = @12345;
-            deleteRequest.bulkData = [NSData dataWithBytes:dummyBytes length:2000];
+            deleteRequest.bulkData = [NSData dataWithBytes:dummyBytes length:1100];
 
             __block NSUInteger numTimesCalled = 0;
             id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
-            [[[transportMock stub] andDo:^(NSInvocation* invocation) {
-                verified = YES;
-                
-                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
-                __unsafe_unretained NSData* data;
-                [invocation getArgument:&data atIndex:2];
-                NSData* dataSent = [data copy];
-                
-                NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV2 options:0 error:0];
-                NSUInteger dataLength = jsonTestData.length;
-                
-                const char testPayloadHeader[12] = {0x00, 0x00, 0x00, 0x06, 0x00, 0x09, 0x87, 0x65, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
-                
-                NSMutableData* payloadData = [NSMutableData dataWithBytes:testPayloadHeader length:12];
-                [payloadData appendData:jsonTestData];
-                [payloadData appendBytes:"COMMAND" length:strlen("COMMAND")];
-                
-                const char testHeader[12] = {0x20 | SDLFrameTypeSingle, SDLServiceTypeBulkData, SDLFrameInfoSingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,(payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
-                
-                NSMutableData* testData = [NSMutableData dataWithBytes:testHeader length:12];
-                [testData appendData:payloadData];
-                
-                expect(dataSent).to(equal([testData copy]));
             [[[transportMock stub] andDo:^(NSInvocation *invocation) {
                 numTimesCalled++;
             }] sendData:[OCMArg any]];
 
             SDLProtocol *testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
 
-            // Send a start service ack to ensure that it's set up for sending the RPC
-            SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:2];
-            testHeader.serviceType = SDLServiceTypeRPC;
-            testHeader.sessionID = 0x01;
-            [testProtocol protocol:testProtocol didReceiveStartServiceACK:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
+            NSError *error = nil;
+            [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
+            BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
 
-            id disassember = OCMClassMock([SDLProtocolMessageDisassembler class]);
-            OCMStub([disassember disassemble:[OCMArg any] withMTULimit:0]).ignoringNonObjectArgs();
-            OCMReject([disassember disassemble:[OCMArg any] withMTULimit:0]).ignoringNonObjectArgs();
-
-            [testProtocol sendRPC:mockRequest];
-
-            expect(numTimesCalled).toEventually(equal(2));
+            expect(numTimesCalled).toEventually(equal(3));
+            expect(sent).to(beTrue());
+            expect(error).to(beNil());
         });
 
-        it(@"should correctly adjust the MTU size when the packet is encrypted and the service MTU size is larger than the TLS max size", ^{
+        describe(@"when encrypting the requests", ^{
+            context(@"when the encryption manager is not ready", ^{
+                it(@"should not send the request and return an error", ^{
+                    char dummyBytes[20000];
 
+                    SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];
+                    deleteRequest.correlationID = @12345;
+                    deleteRequest.bulkData = [NSData dataWithBytes:dummyBytes length:20000];
+                    deleteRequest.payloadProtected = YES;
+
+                    __block NSUInteger numTimesCalled = 0;
+                    id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
+                    [[[transportMock stub] andDo:^(NSInvocation *invocation) {
+                        numTimesCalled++;
+                    }] sendData:[OCMArg any]];
+
+                    SDLProtocol *testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
+
+                    NSError *error = nil;
+                    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                    BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
+
+                    expect(numTimesCalled).toEventually(equal(0));
+                    expect(sent).to(beFalse());
+                    expect(error).toNot(beNil());
+                });
+            });
+
+            context(@"when the encryption manager is ready", ^{
+                __block NSUInteger numTimesCalled = 0;
+                __block SDLProtocol *testProtocol = nil;
+                NSUInteger dataSize = 20000;
+                beforeEach(^{
+                    id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
+                    [[[transportMock stub] andDo:^(NSInvocation *invocation) {
+                        numTimesCalled++;
+                    }] sendData:[OCMArg any]];
+
+                    SDLEncryptionLifecycleManager *encryptionMock = OCMClassMock([SDLEncryptionLifecycleManager class]);
+                    OCMStub(encryptionMock.isEncryptionReady).andReturn(YES);
+
+                    id securityManager = OCMProtocolMock(@protocol(SDLSecurityType));
+                    char dummyBytes[dataSize];
+                    NSData *returnData = [NSData dataWithBytes:dummyBytes length:dataSize];
+                    OCMStub([securityManager encryptData:[OCMArg any] withError:[OCMArg setTo:nil]]).andReturn(returnData);
+
+                    testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:encryptionMock];
+                    testProtocol.securityManager = securityManager;
+                });
+
+                fit(@"should correctly adjust the MTU size when the packet is encrypted and the service MTU size is larger than the TLS max size", ^{
+                    char dummyBytes[dataSize];
+                    
+                    SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];
+                    deleteRequest.correlationID = @12345;
+                    deleteRequest.bulkData = [NSData dataWithBytes:dummyBytes length:dataSize];
+                    deleteRequest.payloadProtected = YES;
+
+                    NSError *error = nil;
+                    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                    BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
+
+                    expect(numTimesCalled).toEventually(equal(3));
+                    expect(sent).to(beTrue());
+                    expect(error).to(beNil());
+                });
+            });
         });
     });
 });
