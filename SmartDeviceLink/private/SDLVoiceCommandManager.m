@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *comparedVoiceCommands;
 
 @end
 
@@ -105,10 +106,13 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 #pragma mark - Setters
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    if ([voiceCommands isEqualToArray:self.voiceCommands]) {
+    if (voiceCommands == self.comparedVoiceCommands) {
         SDLLogD(@"New voice commands are equal to the existing voice commands, skipping...");
         return;
     }
+
+    // Set a copy of voiceCommands to reduce duplicate voiceCommands sent
+    self.comparedVoiceCommands = voiceCommands;
 
     // Set the new voice commands internally
     _voiceCommands = [self sdl_removeEmptyVoiceCommands:voiceCommands];
