@@ -398,6 +398,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sdl_encryptProtocolMessages:(NSArray<SDLProtocolMessage *> *)protocolMessages error:(NSError *__autoreleasing *)error {
     for (SDLProtocolMessage *message in protocolMessages) {
+        if (message.header.frameType == SDLFrameTypeFirst) { continue; }
+
         // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
         NSError *encryptError = nil;
         NSData *encryptedMessagePayload = [self.securityManager encryptData:message.payload withError:&encryptError];
