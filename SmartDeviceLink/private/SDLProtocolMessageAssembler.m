@@ -59,14 +59,14 @@ NS_ASSUME_NONNULL_BEGIN
         header.frameData = SDLFrameInfoSingleFrame;
 
         // Create the payload
-        NSMutableData *payload = [[NSMutableData alloc] init];
+        NSMutableData *payload = [NSMutableData data];
         for (unsigned int i = 1; i < self.frameCount; i++) {
-            NSData *dataToAppend = [self.parts objectForKey:[NSNumber numberWithUnsignedInt:i]];
+            NSData *dataToAppend = self.parts[@(i)];
             [payload appendData:dataToAppend];
         }
 
         // Append the last frame, it has a frame # of 0.
-        NSData *dataToAppend = [self.parts objectForKey:[NSNumber numberWithUnsignedInt:0]];
+        NSData *dataToAppend = self.parts[@0];
         [payload appendData:dataToAppend];
 
         // Validation
