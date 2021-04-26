@@ -34,7 +34,8 @@
 #import "SDLV2ProtocolHeader.h"
 
 NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
-static const NSUInteger TLSMaxDataToEncryptSize = 16384 /*TLS Max Record Size*/ - 5 /*TLS Record Header Size*/ - 32 /*TLS MES Auth CDE Size*/ - 256 /*TLS Max Record Padding Size*/;
+static const NSUInteger TLSMaxDataSize = 16834;
+static const NSUInteger TLSMaxRPCPayloadDataToEncryptSize = 16384 /*TLS Max Record Size*/ - 5 /*TLS Record Header Size*/ - 32 /*TLS MES Auth CDE Size*/ - 256 /*TLS Max Record Padding Size*/;
 
 #pragma mark - SDLProtocol Private Interface
 
@@ -370,7 +371,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
     NSUInteger rpcMTUSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC];
-    NSUInteger mtuSize = (encryption ? MIN(TLSMaxDataToEncryptSize, rpcMTUSize) : rpcMTUSize);
+    NSUInteger mtuSize = (encryption ? MIN(TLSMaxRPCPayloadDataToEncryptSize, rpcMTUSize) : rpcMTUSize);
     NSArray<SDLProtocolMessage *> *protocolMessages = nil;
     if (protocolMessage.size < mtuSize) {
         protocolMessages = @[protocolMessage];
@@ -437,8 +438,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType {
-    // TODO: Ensure data is at or below TLS max
-    [self sdl_sendRawData:data onService:serviceType encryption:YES];
+    // We need to chunk encrypted data beneath the max TLS size
+    NSUInteger offset = 0;
+    do {
+        NSUInteger remainingDataLength = data.length - offset;
+        NSUInteger chunkSize = (remainingDataLength > TLSMaxDataSize) ? TLSMaxDataSize : remainingDataLength;
+        NSData *chunk = [NSData dataWithBytesNoCopy:(BytePtr)data.bytes + offset length:chunkSize freeWhenDone:NO];
+
+        [self sdl_sendRawData:chunk onService:serviceType encryption:YES];
+        offset += chunkSize;
+    } while (offset < data.length);
 }
 
 - (void)sdl_sendRawData:(NSData *)data onService:(SDLServiceType)service encryption:(BOOL)encryption {
