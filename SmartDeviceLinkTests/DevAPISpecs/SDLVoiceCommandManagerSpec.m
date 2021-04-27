@@ -164,7 +164,6 @@ describe(@"voice command manager", ^{
                 testManager.voiceCommands = @[testVoiceCommand2, testVoiceCommand3];
             });
 
-            // should queue another operation
             it(@"should only have one operation", ^{
                 expect(testManager.transactionQueue.operations).to(haveCount(1));
                 expect([testManager sdl_arePendingVoiceCommandsUnique:@[testVoiceCommand2, testVoiceCommand3]]).to(equal(NO));

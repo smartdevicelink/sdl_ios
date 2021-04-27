@@ -115,11 +115,13 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     // Set the new voice commands internally
     _voiceCommands = voiceCommands;
 
-    // Create the operation, cancel previous ones and set this one
-    __weak typeof(self) weakSelf = self;
-    if (![weakSelf sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
+    if (![self sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
+        SDLLogE(@"Not all voice command strings are unique across all voice commands. Voice commands will not be set.");
         return;
     }
+
+    // Create the operation, cancel previous ones and set this one
+    __weak typeof(self) weakSelf = self;
 
     SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager pendingVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
         weakSelf.currentVoiceCommands = newCurrentVoiceCommands;
@@ -152,18 +154,14 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
 /// Evaluate the pendingVoiceCommands to check if there is two or more voiceCommands with the same string
 - (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    NSMutableSet<NSString *> *voiceCommandSets = [[NSMutableSet alloc] init];
+    NSUInteger voiceCommandCount = 0;
+    NSMutableSet<NSString *> *voiceCommandsSet = [[NSMutableSet alloc] init];
     for (SDLVoiceCommand *voiceCommand in voiceCommands) {
-        for (NSString *voiceCommandString in voiceCommand.voiceCommands) {
-            if ([voiceCommandSets containsObject:voiceCommandString]) {
-                SDLLogE(@"Failed to upload voice commands for having duplicate strings in different voiceCommands %@", nil);
-                return NO;
-            } else {
-                [voiceCommandSets addObject:voiceCommandString];
-            }
-        }
+        [voiceCommandsSet addObjectsFromArray:voiceCommand.voiceCommands];
+        voiceCommandCount += voiceCommand.voiceCommands.count;
     }
-    return YES;
+
+    return (voiceCommandsSet.count == voiceCommandCount);
 }
 
 #pragma mark - Observers
