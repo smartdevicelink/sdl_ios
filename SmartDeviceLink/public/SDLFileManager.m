@@ -184,8 +184,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
                 [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
                 BLOCK_RETURN;
             } else if ([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultEncryptionNeeded]) {
-                // HAX: If the module rejects the ListFiles request because it requires that the request be encrypted, we still want to transition to a ready state. Unfortunately, since we do not know what files are on the module already, we may end up doing unnecessary duplicate file uploads.
-                SDLLogW(@"ListFiles must be encrypted. We do not know which files have already been uploaded to the module. Certain file manager APIs may not work properly.");
+                // If the module rejects the ListFiles request because it requires that the request be encrypted, we still want to transition to a ready state. Unfortunately, since we do not know what files are on the module already, we may end up doing unnecessary duplicate file uploads.
+                SDLLogE(@"ListFiles must be encrypted but was not when the file manager started. We do not know which files have already been uploaded to the module. All files will need to be re-uploaded. Certain file manager APIs may not work properly.");
                 [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
                 BLOCK_RETURN;
             }
