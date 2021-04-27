@@ -372,7 +372,7 @@ describe(@"SendRPC Tests", ^{
                     testProtocol.securityManager = securityManager;
                 });
 
-                fit(@"should correctly adjust the MTU size when the packet is encrypted and the service MTU size is larger than the TLS max size", ^{
+                it(@"should correctly adjust the MTU size when the packet is encrypted and the service MTU size is larger than the TLS max size", ^{
                     char dummyBytes[dataSize];
                     
                     SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];

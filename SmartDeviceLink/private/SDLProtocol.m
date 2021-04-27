@@ -397,6 +397,10 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
+/// Receives an array of `SDLProtocolMessage` and attempts to encrypt their payloads in place through the active security manager. If anything fails, it will return NO and pass back the error.
+/// @param protocolMessages The array of protocol messages to encrypt.
+/// @param error A passback error object if attempting to encrypt the protocol message payloads fails.
+/// @returns YES if the encryption was successful, NO if it was not
 - (BOOL)sdl_encryptProtocolMessages:(NSArray<SDLProtocolMessage *> *)protocolMessages error:(NSError *__autoreleasing *)error {
     for (SDLProtocolMessage *message in protocolMessages) {
         if (message.header.frameType == SDLFrameTypeFirst) { continue; }
@@ -438,7 +442,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType {
-    // We need to chunk encrypted data beneath the max TLS size
+    // Break up data larger than the max TLS size so the data can be encrypted by the security manager without failing due to the data size being too big
     NSUInteger offset = 0;
     do {
         NSUInteger remainingDataLength = data.length - offset;

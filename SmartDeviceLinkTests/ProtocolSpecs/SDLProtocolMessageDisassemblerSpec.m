@@ -49,7 +49,7 @@ describe(@"SDLProtocolMessageDisassembler Tests", ^ {
 
     context(@"when the MTU size is smaller than the payload size", ^{
         it(@"Should disassemble the message properly", ^ {
-            //Allocate 2000 bytes, and use it as sample data
+            //Allocate 4000 bytes and use it as sample data
             const NSUInteger dataLength = 4000;
             char dummyBytes[dataLength];
 
