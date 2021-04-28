@@ -1645,6 +1645,7 @@
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
 		88D79EED255D8D5B005FACB1 /* SDLPresentAlertOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D79EEB255D8D5B005FACB1 /* SDLPresentAlertOperation.h */; };
 		88D79EEE255D8D5B005FACB1 /* SDLPresentAlertOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D79EEC255D8D5B005FACB1 /* SDLPresentAlertOperation.m */; };
+		88D930262630686100DA9E44 /* SDLFileManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */; };
 		88DDD0F9229ECA57002F9623 /* SDLIAPConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DDD0F8229ECA57002F9623 /* SDLIAPConstantsSpec.m */; };
 		88DF998D22035CC600477AC1 /* EAAccessory+OCMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF998C22035CC600477AC1 /* EAAccessory+OCMock.m */; };
 		88DF998F22035D1700477AC1 /* SDLIAPSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF998E22035D1700477AC1 /* SDLIAPSessionSpec.m */; };
@@ -8995,6 +8996,7 @@
 				162E83791A9BDE8B00906325 /* SDLDeviceStatusSpec.m in Sources */,
 				162E83821A9BDE8B00906325 /* SDLImageSpec.m in Sources */,
 				162E834A1A9BDE8B00906325 /* SDLAddSubMenuResponseSpec.m in Sources */,
+				88D930262630686100DA9E44 /* SDLFileManagerSpec.m in Sources */,
 				162E830C1A9BDE8B00906325 /* SDLWarningLightStatusSpec.m in Sources */,
 				881BBF5B255ADB8300761B7E /* SDLAlertViewSpec.m in Sources */,
 				1EE8C45F1F3884FF00FDC2CF /* SDLSetInteriorVehicleDataSpec.m in Sources */,
