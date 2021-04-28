@@ -109,20 +109,20 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         return;
     }
 
+    // Check if all new voice commands have unique strings
+    if (![self sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
+        SDLLogE(@"Not all voice command strings are unique across all voice commands. Voice commands will not be set.");
+        return;
+    }
+
     // Set the ids
     [self sdl_updateIdsOnVoiceCommands:voiceCommands];
 
     // Set the new voice commands internally
     _voiceCommands = voiceCommands;
 
-    if (![self sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
-        SDLLogE(@"Not all voice command strings are unique across all voice commands. Voice commands will not be set.");
-        return;
-    }
-
     // Create the operation, cancel previous ones and set this one
     __weak typeof(self) weakSelf = self;
-
     SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager pendingVoiceCommands:voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
         weakSelf.currentVoiceCommands = newCurrentVoiceCommands;
         [weakSelf sdl_updatePendingOperationsWithNewCurrentVoiceCommands:newCurrentVoiceCommands];
