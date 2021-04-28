@@ -52,6 +52,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 }
 
++ (NSError *)sdl_encryption_unknown {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: @"Encryption received an unknown error",
+                                                       NSLocalizedFailureReasonErrorKey: @"We don't know the reason for the failure",
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"Ensure that encryption is properly set up"
+                                                       };
+
+    return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
+                               code:SDLEncryptionLifecycleManagerErrorNAK
+                           userInfo:userInfo];
+}
+
 #pragma mark - SDLManager
 
 + (NSError *)sdl_lifecycle_rpcErrorWithDescription:(nullable NSString *)description andReason:(nullable NSString *)reason {

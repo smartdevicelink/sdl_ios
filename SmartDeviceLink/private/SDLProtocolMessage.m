@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     [description appendString:self.header.description];
 
     if (self.header.encrypted) {
-        [description appendString:@", Payload is encrypted - no description can be provided"];
+        [description appendString:@"Payload is encrypted - no description can be provided"];
         return description;
     }
 

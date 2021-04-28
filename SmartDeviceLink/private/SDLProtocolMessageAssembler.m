@@ -32,13 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (self.parts == nil) {
-        self.parts = [NSMutableDictionary new];
+        self.parts = [NSMutableDictionary dictionary];
     }
 
 
     // Determine which frame it is and save it.
-    // Note: frames are numbered 1,2,3, ..., 0
-    // Always 0 for last frame.
+    // Note: frames are numbered 1,2,3, ..., 0. Always 0 for last frame.
     if (message.header.frameType == SDLFrameTypeFirst) {
         // If it's the first-frame, extract the meta-data
         self.expectedBytes = NSSwapBigIntToHost(((UInt32 *)message.payload.bytes)[0]);
@@ -51,27 +50,23 @@ NS_ASSUME_NONNULL_BEGIN
         self.parts[frameNumberObj] = message.payload;
     }
 
-
-    //
     // If we have all the parts, assemble it and execute the completion handler.
-    //
     SDLProtocolMessage *assembledMessage = nil;
     if (self.parts.count == self.frameCount + 1) { // +1 since we also require the first-frame
-
         // Create the header
         SDLProtocolHeader *header = message.header.copy;
         header.frameType = SDLFrameTypeSingle;
         header.frameData = SDLFrameInfoSingleFrame;
 
-
         // Create the payload
-        NSMutableData *payload = [[NSMutableData alloc] init];
+        NSMutableData *payload = [NSMutableData data];
         for (unsigned int i = 1; i < self.frameCount; i++) {
-            NSData *dataToAppend = [self.parts objectForKey:[NSNumber numberWithUnsignedInt:i]];
+            NSData *dataToAppend = self.parts[@(i)];
             [payload appendData:dataToAppend];
         }
+
         // Append the last frame, it has a frame # of 0.
-        NSData *dataToAppend = [self.parts objectForKey:[NSNumber numberWithUnsignedInt:0]];
+        NSData *dataToAppend = self.parts[@0];
         [payload appendData:dataToAppend];
 
         // Validation
@@ -82,7 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
         // Create the message.
         assembledMessage = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
 
-
         // Execute completion handler.
         if (completionHandler != nil) {
             completionHandler(YES, assembledMessage);
@@ -90,7 +84,6 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Done with this data, release it.
         self.parts = nil;
-
     } else {
         // Not done, let caller know
         if (completionHandler != nil) {
