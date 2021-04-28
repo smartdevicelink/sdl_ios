@@ -143,20 +143,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
         });
 
-        describe(@"after receiving a ListFiles error due to the file manager not being able to start", ^{
-            beforeEach(^{
-                SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
-                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError sdl_fileManager_unableToStartError]);
-            });
-
-            it(@"should handle the error properly", ^{
-                expect(testFileManager.currentState).to(match(SDLFileManagerStateStartupError));
-                expect(testFileManager.remoteFileNames).to(beEmpty());
-                expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
-            });
-        });
-
-        describe(@"getting an error from the module to a ListFiles request", ^{
+        describe(@"getting an error for a ListFiles request", ^{
             __block SDLListFilesOperation *operation = nil;
 
             beforeEach(^{
@@ -181,6 +168,14 @@ describe(@"uploading / deleting single files with the file manager", ^{
 
             it(@"should transition to the error state if it gets a ListFiles error with a resultCode that is not handled by the library", ^{
                 operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:@{@"resultCode" : SDLResultUnsupportedRequest}]);
+
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateStartupError));
+                expect(testFileManager.remoteFileNames).to(beEmpty());
+                expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
+            });
+
+            it(@"should transition to the error state if it gets a ListFiles error without a resultCode", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError sdl_fileManager_unableToStartError]);
 
                 expect(testFileManager.currentState).to(match(SDLFileManagerStateStartupError));
                 expect(testFileManager.remoteFileNames).to(beEmpty());
