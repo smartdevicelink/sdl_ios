@@ -209,6 +209,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
+        if (error && screenManager.primaryGraphic == nil && [self sdlex_imageFieldSupported:SDLImageFieldNameGraphic]) {
+            screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        } else if (error && screenManager.primaryGraphic == nil && [self sdlex_imageFieldSupported:SDLImageFieldNameSecondaryGraphic]) {
+            screenManager.secondaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        }
+
         SDLLogD(@"Updated text and graphics, error? %@", error);
     }];
 }
