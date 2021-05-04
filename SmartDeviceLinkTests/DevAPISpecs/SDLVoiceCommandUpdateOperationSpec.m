@@ -21,7 +21,7 @@
 
 @interface SDLVoiceCommandUpdateOperation()
 
-- (NSArray<SDLVoiceCommand *> *)voiceCommandsInArray:(NSArray<SDLVoiceCommand *> *)firstArray notInSecondArray:(NSArray<SDLVoiceCommand *> *)secondArray;
++ (NSArray<SDLVoiceCommand *> *)sdl_voiceCommandsInArray:(NSArray<SDLVoiceCommand *> *)firstArray notInSecondArray:(NSArray<SDLVoiceCommand *> *)secondArray;
 
 @end
 
@@ -251,13 +251,44 @@ describe(@"a voice command operation", ^{
         });
     });
 
-    // should test voiceCommandsInArray and return the difference between two arrays
-    it(@"should have a priority of 'normal'", ^{
+    // should test voiceCommandsInArray with pendingVoiceCommands being the same as oldVoiceCommands but fewer so that it should only delete
+    it(@"should test voiceCommandsInArray with pendingVoiceCommands being the same as oldVoiceCommands but fewer so that it should only delete", ^{
         testOp = [[SDLVoiceCommandUpdateOperation alloc] init];
-        NSArray<SDLVoiceCommand *> *voiceCommands = [testOp voiceCommandsInArray:@[newVoiceCommand1, newVoiceCommand2] notInSecondArray:@[newVoiceCommand1]];
+        NSArray<SDLVoiceCommand *> *voiceCommandsToDelete = [testOp.class sdl_voiceCommandsInArray:@[newVoiceCommand1, newVoiceCommand2] notInSecondArray:@[newVoiceCommand1]];
 
-        expect(voiceCommands).to(haveCount(1));
-        expect(voiceCommands.firstObject).to(equal(newVoiceCommand2));
+        NSArray<SDLVoiceCommand *> *voiceCommandsToAppend = [testOp.class sdl_voiceCommandsInArray:@[newVoiceCommand1] notInSecondArray:@[newVoiceCommand1, newVoiceCommand2]];
+
+        expect(voiceCommandsToDelete).to(haveCount(1));
+        expect(voiceCommandsToDelete.firstObject).to(equal(newVoiceCommand2));
+        expect(voiceCommandsToAppend).to(haveCount(0));
+    });
+
+    // should test voiceCommandsInArray with identical pendingVoiceCommands and oldVoiceCommands
+    it(@"should test voiceCommandsInArray with identical pendingVoiceCommands and oldVoiceCommands", ^{
+        testOp = [[SDLVoiceCommandUpdateOperation alloc] init];
+        NSArray<SDLVoiceCommand *> *voiceCommandsToDelete = [testOp.class sdl_voiceCommandsInArray:@[newVoiceCommand1, newVoiceCommand2] notInSecondArray:@[newVoiceCommand1, newVoiceCommand2]];
+
+        expect(voiceCommandsToDelete).to(haveCount(0));
+    });
+
+    // should test voiceCommandsInArray with the pending voice commands being the same and a few more so that it should only add
+    it(@"should test voiceCommandsInArray with the pending voice commands being the same and a few more so that it should only add", ^{
+        testOp = [[SDLVoiceCommandUpdateOperation alloc] init];
+        NSArray<SDLVoiceCommand *> *voiceCommandsToDelete = [testOp.class sdl_voiceCommandsInArray:@[newVoiceCommand1] notInSecondArray:@[newVoiceCommand1, newVoiceCommand2]];
+        NSArray<SDLVoiceCommand *> *voiceCommandsToAppend = [testOp.class sdl_voiceCommandsInArray:@[newVoiceCommand1, newVoiceCommand2] notInSecondArray:@[newVoiceCommand1]];
+
+        expect(voiceCommandsToDelete).to(haveCount(0));
+        expect(voiceCommandsToAppend).to(haveCount(1));
+    });
+
+    // should delete all previous voice commands and upload all sent voice commands
+    it(@"should delete all previous voice commands and upload all sent voice commands", ^{
+        testOp = [[SDLVoiceCommandUpdateOperation alloc] init];
+        NSArray<SDLVoiceCommand *> *voiceCommandsToDelete = [testOp.class sdl_voiceCommandsInArray:@[oldVoiceCommand1, oldVoiceCommand2] notInSecondArray:@[newVoiceCommand1, newVoiceCommand2]];
+        NSArray<SDLVoiceCommand *> *voiceCommandsToAppend = [testOp.class sdl_voiceCommandsInArray:@[newVoiceCommand1, newVoiceCommand2] notInSecondArray:@[oldVoiceCommand1, oldVoiceCommand2]];
+
+        expect(voiceCommandsToDelete).to(haveCount(2));
+        expect(voiceCommandsToAppend).to(haveCount(2));
     });
 });
 
