@@ -36,7 +36,7 @@
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
 
-- (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands;
++ (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands;
 
 @end
 
@@ -166,7 +166,7 @@ describe(@"voice command manager", ^{
 
             it(@"should only have one operation", ^{
                 expect(testManager.transactionQueue.operations).to(haveCount(1));
-                expect([testManager sdl_arePendingVoiceCommandsUnique:@[testVoiceCommand2, testVoiceCommand3]]).to(equal(NO));
+                expect([testManager.class sdl_arePendingVoiceCommandsUnique:@[testVoiceCommand2, testVoiceCommand3]]).to(equal(NO));
             });
         });
     });

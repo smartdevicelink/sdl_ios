@@ -110,7 +110,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     }
 
     // Check if all new voice commands have unique strings
-    if (![self sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
+    if (![self.class sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
         SDLLogE(@"Not all voice command strings are unique across all voice commands. Voice commands will not be set.");
         return;
     }
@@ -153,7 +153,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 }
 
 /// Evaluate the pendingVoiceCommands to check if there is two or more voiceCommands with the same string
-- (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands {
++ (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     NSUInteger voiceCommandCount = 0;
     NSMutableSet<NSString *> *voiceCommandsSet = [[NSMutableSet alloc] init];
     for (SDLVoiceCommand *voiceCommand in voiceCommands) {
