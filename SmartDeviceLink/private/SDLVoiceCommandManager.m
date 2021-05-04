@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
-@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *comparedVoiceCommands;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *originalVoiceCommands;
 
 @end
 
@@ -106,23 +106,20 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 #pragma mark - Setters
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    if (voiceCommands == self.comparedVoiceCommands) {
+    if (voiceCommands == self.originalVoiceCommands) {
         SDLLogD(@"New voice commands are equal to the existing voice commands, skipping...");
         return;
     }
 
-    // Set a copy of voiceCommands to reduce duplicate voiceCommands sent
-    self.comparedVoiceCommands = voiceCommands;
-
     // Set the new voice commands internally
-    _voiceCommands = [self sdl_removeEmptyVoiceCommands:voiceCommands];
-
-    // Check if the voiceCommand's strings that are set are all empty strings. If the user only sends voice commands with empty voice command string arrays, the existing voice commands will be deleted, and if the user only sends invalid voice command strings in array(e.g. strings consisting just of whitespace characters) then the voiceCommands update operation will be aborted.
-    if (self.voiceCommands.count == 0 && voiceCommands.count > 0) {
-        SDLLogE(@"New voice commands are set to empty strings");
+    // Validate the voiceCommand's strings. In the rare case that the user has set only empty whitespace strings, abort the update operation.
+    NSArray<SDLVoiceCommand *> *validatedVoiceCommands = [self sdl_removeEmptyVoiceCommands:voiceCommands];
+    if (validatedVoiceCommands.count == 0 && voiceCommands.count > 0) {
+        SDLLogE(@"New voice commands are invalid, skipping...");
         return;
     }
-
+    _originalVoiceCommands = voiceCommands;
+    _voiceCommands = validatedVoiceCommands;
     // Set the ids
     [self sdl_updateIdsOnVoiceCommands:self.voiceCommands];
 
@@ -161,7 +158,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 /// @param voiceCommands - array of SDLVoiceCommands that are to be uploaded
 /// @return A list of voice commands with the empty voice commands removed
 - (NSArray<SDLVoiceCommand *> *)sdl_removeEmptyVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    NSMutableArray<SDLVoiceCommand *> *pendingVoiceCommands = [[NSMutableArray alloc] init];
+    NSMutableArray<SDLVoiceCommand *> *validatedVoiceCommands = [[NSMutableArray alloc] init];
     for (SDLVoiceCommand *voiceCommand in voiceCommands) {
         NSMutableArray<NSString *> *voiceCommandStrings = [[NSMutableArray alloc] init];
         for (NSString *voiceCommandString in voiceCommand.voiceCommands) {
