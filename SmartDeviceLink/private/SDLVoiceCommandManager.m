@@ -170,10 +170,10 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         }
         if (voiceCommandStrings.count > 0) {
             voiceCommand.voiceCommands = voiceCommandStrings;
-            [pendingVoiceCommands addObject:voiceCommand];
+            [validatedVoiceCommands addObject:voiceCommand];
         }
     }
-    return [pendingVoiceCommands copy];
+    return [validatedVoiceCommands copy];
 }
 
 #pragma mark - Observers
