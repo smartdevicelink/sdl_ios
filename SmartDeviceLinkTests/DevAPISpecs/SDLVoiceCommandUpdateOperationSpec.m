@@ -172,6 +172,120 @@ describe(@"a voice command operation", ^{
             });
         });
 
+        context(@"if it has pending voice commands identical to old voice commands", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            it(@"Should not delete or upload the voiceCommands", ^{
+                expect(testConnectionManager.receivedRequests).to(haveCount(0));
+                expect(callbackCurrentVoiceCommands).to(haveCount(2));
+                expect(callbackError).to(beNil());
+            });
+        });
+
+        context(@"if there is some common voice commands between pending and old but with less pending", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1] oldVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            context(@"And the delete succeeds", ^{
+                beforeEach(^{
+                    SDLDeleteCommandResponse *deleteOld1 = [[SDLDeleteCommandResponse alloc] init];
+                    deleteOld1.success = @YES;
+                    deleteOld1.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:deleteOld1 requestNumber:0 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                });
+
+                it(@"Should only delete voiceCommands thats not in common", ^{
+                    expect(callbackCurrentVoiceCommands).to(haveCount(1));
+                    expect(callbackError).to(beNil());
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                });
+            });
+        });
+
+        context(@"if there is some common voice commands between pending and old but with more pending", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[newVoiceCommand1] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            context(@"And the add succeeds", ^{
+                beforeEach(^{
+                    SDLAddCommandResponse *addNew1 = [[SDLAddCommandResponse alloc] init];
+                    addNew1.success = @YES;
+                    addNew1.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:addNew1 requestNumber:0 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                });
+
+                it(@"Should only upload the voiceCommand thats not in common and not delete anything", ^{
+                    expect(callbackCurrentVoiceCommands).to(haveCount(2));
+                    expect(callbackError).to(beNil());
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                });
+            });
+        });
+
+        context(@"if it has pending voice commands completely different from old voice commands", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            context(@"The delete and add commands succeeds", ^{
+                beforeEach(^{
+                    SDLDeleteCommandResponse *deleteOld1 = [[SDLDeleteCommandResponse alloc] init];
+                    deleteOld1.success = @YES;
+                    deleteOld1.resultCode = SDLResultSuccess;
+
+                    SDLDeleteCommandResponse *deleteOld2 = [[SDLDeleteCommandResponse alloc] init];
+                    deleteOld2.success = @YES;
+                    deleteOld2.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:deleteOld1 requestNumber:0 error:nil];
+                    [testConnectionManager respondToRequestWithResponse:deleteOld2 requestNumber:1 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                    SDLAddCommandResponse *addNew1 = [[SDLAddCommandResponse alloc] init];
+                    addNew1.success = @YES;
+                    addNew1.resultCode = SDLResultSuccess;
+
+                    SDLAddCommandResponse *addNew2 = [[SDLAddCommandResponse alloc] init];
+                    addNew2.success = @YES;
+                    addNew2.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:addNew1 requestNumber:2 error:nil];
+                    [testConnectionManager respondToRequestWithResponse:addNew2 requestNumber:3 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                });
+
+                it(@"Should delete and upload the voiceCommands", ^{
+                    expect(callbackCurrentVoiceCommands).to(haveCount(2));
+                    expect(callbackError).to(beNil());
+                    expect(testConnectionManager.receivedRequests).to(haveCount(4));
+                });
+            });
+        });
+
         context(@"if it doesn't have any voice commands to delete", ^{
             beforeEach(^{
                 testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
