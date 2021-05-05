@@ -21,6 +21,15 @@
 #import "SDLTouch.h"
 #import "TestHapticRectViewController.h"
 
+@interface TestFocusableTextField: UITextField
+@end
+
+@implementation TestFocusableTextField
+
+- (BOOL)canBecomeFocused { return YES; }
+
+@end
+
 static inline BOOL floatEqual(const float f1, const float f2) {
     return fabsf(f1 - f2) < 0.01;
 }
@@ -80,7 +89,7 @@ describe(@"the haptic manager", ^{
     context(@"when disabled", ^{
         beforeEach(^{
             viewRect1 = CGRectMake(101, 101, 50, 50);
-            UITextField *textField1 = [[UITextField alloc] initWithFrame:viewRect1];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc] initWithFrame:viewRect1];
             [testHapticRectViewController.view addSubview:textField1];
 
             hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:testHapticRectViewController connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
@@ -122,7 +131,7 @@ describe(@"the haptic manager", ^{
     context(@"when initialized with single view", ^{
         beforeEach(^{
             viewRect1 = CGRectMake(101, 101, 50, 50);
-            UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc] initWithFrame:viewRect1];
             [testHapticRectViewController.view addSubview:textField1];
 
             hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:testHapticRectViewController connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
@@ -130,7 +139,7 @@ describe(@"the haptic manager", ^{
             [hapticManager updateInterfaceLayout];
         });
 
-        it(@"should have one view", ^{
+        fit(@"should have one view", ^{
             OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
                 BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
                 if(isFirstArg) {
@@ -192,12 +201,12 @@ describe(@"the haptic manager", ^{
             [hapticManager updateInterfaceLayout];
 
             viewRect1 = CGRectMake(101, 101, 50, 50);
-            UITextField *textField1 = [[UITextField alloc] initWithFrame:viewRect1];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc] initWithFrame:viewRect1];
             textField1.tag = 2;
             [testHapticRectViewController.view addSubview:textField1];
 
             viewRect2 = CGRectMake(333, 333, 50, 50);
-            UITextField *textField2 = [[UITextField alloc] initWithFrame:viewRect2];
+            TestFocusableTextField *textField2 = [[TestFocusableTextField alloc] initWithFrame:viewRect2];
             textField2.tag = 1; // Preferred focus view
             [testHapticRectViewController.view addSubview:textField2];
 
@@ -236,12 +245,12 @@ describe(@"the haptic manager", ^{
             [testHapticRectViewController.view addSubview:containerView];
 
             viewRect1 = CGRectMake(110, 110, 10, 10);
-            UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc]  initWithFrame:viewRect1];
             textField1.text = @"B";
             [containerView addSubview:textField1];
 
             viewRect2 = CGRectMake(130, 130, 10, 10);
-            UITextField *textField2 = [[UITextField alloc]  initWithFrame:viewRect2];
+            TestFocusableTextField *textField2 = [[TestFocusableTextField alloc]  initWithFrame:viewRect2];
             textField2.text = @"C";
             [containerView addSubview:textField2];
 
@@ -287,7 +296,7 @@ describe(@"the haptic manager", ^{
             [boxView addSubview:button1];
 
             viewRect2 = CGRectMake(130, 130, 10, 10);
-            UITextField *textField2 = [[UITextField alloc]  initWithFrame:viewRect2];
+            TestFocusableTextField *textField2 = [[TestFocusableTextField alloc]  initWithFrame:viewRect2];
             textField2.text = @"C";
             [boxView addSubview:textField2];
 
@@ -333,11 +342,11 @@ describe(@"the haptic manager", ^{
             }] withResponseHandler:[OCMArg any]]);
 
             viewRect1 = CGRectMake(101, 101, 50, 50);
-            UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc]  initWithFrame:viewRect1];
             [testHapticRectViewController.view addSubview:textField1];
 
             viewRect2 = CGRectMake(201, 201, 50, 50);
-            UITextField *textField2 = [[UITextField alloc]  initWithFrame:viewRect2];
+            TestFocusableTextField *textField2 = [[TestFocusableTextField alloc]  initWithFrame:viewRect2];
             [testHapticRectViewController.view addSubview:textField2];
 
             hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:testHapticRectViewController connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
@@ -375,7 +384,7 @@ describe(@"the haptic manager", ^{
             }] withResponseHandler:[OCMArg any]]);
 
             viewRect1 = CGRectMake(101, 101, 50, 50);
-            UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc]  initWithFrame:viewRect1];
             textField1.tag = 2;
             [testHapticRectViewController.view addSubview:textField1];
 
@@ -384,7 +393,7 @@ describe(@"the haptic manager", ^{
             [hapticManager updateInterfaceLayout];
 
             viewRect2 = CGRectMake(201, 201, 50, 50);
-            UITextField *textField2 = [[UITextField alloc] initWithFrame:viewRect2];
+            TestFocusableTextField *textField2 = [[TestFocusableTextField alloc] initWithFrame:viewRect2];
             textField2.tag = 1; // Preferred focus view
             [testHapticRectViewController.view addSubview:textField2];
         });
@@ -449,10 +458,10 @@ describe(@"the haptic manager", ^{
 
     context(@"when touched inside a view", ^{
         beforeEach(^{
-            UITextField *textField1 = [[UITextField alloc]  initWithFrame:CGRectMake(101, 101, 50, 50)];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc]  initWithFrame:CGRectMake(101, 101, 50, 50)];
             [testHapticRectViewController.view addSubview:textField1];
 
-            UITextField *textField2 = [[UITextField alloc]  initWithFrame:CGRectMake(201, 201, 50, 50)];
+            TestFocusableTextField *textField2 = [[TestFocusableTextField alloc]  initWithFrame:CGRectMake(201, 201, 50, 50)];
             [testHapticRectViewController.view addSubview:textField2];
 
             hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:testHapticRectViewController connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
@@ -471,11 +480,11 @@ describe(@"the haptic manager", ^{
 
     context(@"when touched in overlapping views' area", ^{
         beforeEach(^{
-            UITextField *textField1 = [[UITextField alloc]  initWithFrame:CGRectMake(101, 101, 50, 50)];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc]  initWithFrame:CGRectMake(101, 101, 50, 50)];
             textField1.text = @"A";
             [testHapticRectViewController.view addSubview:textField1];
 
-            UITextField *textField2 = [[UITextField alloc]  initWithFrame:CGRectMake(126, 126, 50, 50)];
+            TestFocusableTextField *textField2 = [[TestFocusableTextField alloc]  initWithFrame:CGRectMake(126, 126, 50, 50)];
             textField2.text = @"B";
             [testHapticRectViewController.view addSubview:textField2];
 
@@ -495,7 +504,7 @@ describe(@"the haptic manager", ^{
 
     context(@"when touched outside view boundary", ^{
         beforeEach(^{
-            UITextField *textField1 = [[UITextField alloc]  initWithFrame:CGRectMake(101, 101, 50, 50)];
+            TestFocusableTextField *textField1 = [[TestFocusableTextField alloc]  initWithFrame:CGRectMake(101, 101, 50, 50)];
             [uiWindow insertSubview:textField1 aboveSubview:uiWindow];
 
             hapticManager = [[SDLFocusableItemLocator alloc] initWithViewController:testHapticRectViewController connectionManager:sdlLifecycleManager videoScaleManager:sdlStreamingVideoScaleManager];
