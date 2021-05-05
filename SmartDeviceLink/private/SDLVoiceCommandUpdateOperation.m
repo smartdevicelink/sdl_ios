@@ -77,7 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param completionHandler A handler called when all DeleteCommands have completed
 - (void)sdl_sendDeleteCurrentVoiceCommands:(void(^)(void))completionHandler {
     NSArray *voiceCommandsToDelete = [self.class sdl_voiceCommandsInArray:self.oldVoiceCommands notInSecondArray:self.pendingVoiceCommands];
-
     if (voiceCommandsToDelete.count == 0) {
         SDLLogD(@"No voice commands to delete");
         return completionHandler();
@@ -112,7 +111,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param completionHandler A handler called when all AddCommands have completed
 - (void)sdl_sendCurrentVoiceCommands:(void(^)(void))completionHandler {
     NSArray *voiceCommandsToAdd = [self.class sdl_voiceCommandsInArray:self.pendingVoiceCommands notInSecondArray:self.oldVoiceCommands];
-
     if (voiceCommandsToAdd.count == 0) {
         SDLLogD(@"No voice commands to send");
         return completionHandler();
@@ -177,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [mutableCommands copy];
 }
 
-/// Create array of unique SDLVoiceCommand after comparison between firstArray and secondArray
+/// Create array of SDLVoiceCommands that exist in the first array but not in the second array. Items in the second array that are not in the first array will not be included. For example, if the arrays [A, B, C] and [A, B, D] are passed, the array [C] will be returned.
 /// @param firstArray voiceCommands that will be compared with
 /// @param secondArray voiceCommands that need to be compared
 /// @return unique voiceCommands to be used either in deleteVoiceCommands or sendVoiceCommands
