@@ -111,13 +111,13 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         return;
     }
 
-    // Set the new voice commands internally
     // Validate the voiceCommand's strings. In the rare case that the user has set only empty whitespace strings, abort the update operation.
     NSArray<SDLVoiceCommand *> *validatedVoiceCommands = [self sdl_removeEmptyVoiceCommands:voiceCommands];
     if (validatedVoiceCommands.count == 0 && voiceCommands.count > 0) {
         SDLLogE(@"New voice commands are invalid, skipping...");
         return;
     }
+    // Set the new voice commands internally
     _originalVoiceCommands = voiceCommands;
     _voiceCommands = validatedVoiceCommands;
     // Set the ids
