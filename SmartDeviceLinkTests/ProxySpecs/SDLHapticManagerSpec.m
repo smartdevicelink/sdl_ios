@@ -139,7 +139,7 @@ describe(@"the haptic manager", ^{
             [hapticManager updateInterfaceLayout];
         });
 
-        fit(@"should have one view", ^{
+        it(@"should have one view", ^{
             OCMVerify([sdlLifecycleManager sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
                 BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
                 if(isFirstArg) {
