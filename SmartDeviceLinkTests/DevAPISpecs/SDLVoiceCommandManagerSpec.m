@@ -160,48 +160,25 @@ describe(@"voice command manager", ^{
             });
         });
 
-        context(@"if it has voice commands to upload where one voice command strings contains an empty string", ^{
-            beforeEach(^{
-                testManager.voiceCommands = @[testVoiceCommand3, testVoiceCommand4, testVoiceCommand5, testVoiceCommand6];
-            });
-
-            // should queue another operation
-            it(@"should queue another operation", ^{
+        context(@"if any of the voice commands contains an empty string", ^{
+            // should remove the empty strings and queue another operation
+            it(@"should remove the empty strings and queue another operation", ^{
+                testManager.voiceCommands = @[testVoiceCommand2, testVoiceCommand3, testVoiceCommand4, testVoiceCommand5, testVoiceCommand6];
                 expect(testManager.transactionQueue.operations).to(haveCount(2));
-                expect(testManager.voiceCommands).to(haveCount(1));
-                expect(testManager.voiceCommands.firstObject.voiceCommands).to(haveCount(2));
-                expect(testManager.voiceCommands.firstObject.voiceCommands).to(equal(@[@"Test 3", @"Test 4"]));
+                expect(testManager.voiceCommands).to(haveCount(2));
+                expect(testManager.voiceCommands[0].voiceCommands).to(haveCount(1));
+                expect(testManager.voiceCommands[0].voiceCommands).to(equal(@[@"Test 2"]));
+                expect(testManager.voiceCommands[1].voiceCommands).to(haveCount(2));
+                expect(testManager.voiceCommands[1].voiceCommands).to(equal(@[@"Test 3", @"Test 4"]));
             });
 
-            // when the first operation finishes and updates the current voice commands
-            describe(@"when the first operation finishes and updates the current voice commands", ^{
-                context(@"if it has voice commands to upload with empty voice command strings", ^{
-                    beforeEach(^{
-                        SDLVoiceCommandUpdateOperation *firstOp = testManager.transactionQueue.operations[0];
-                        firstOp.currentVoiceCommands = [@[testVoiceCommand3] mutableCopy];
-                        [firstOp finishOperation];
-
-                        [NSThread sleepForTimeInterval:0.5];
-
-                        testManager.voiceCommands = @[testVoiceCommand5];
-                    });
-
-                    // should queue another operation
-                    it(@"should queue another operation", ^{
-                        expect(testManager.transactionQueue.operations).to(haveCount(1));
-                    });
-                });
-
-                context(@"if it has voice commands to upload with empty string voice command strings", ^{
-                    beforeEach(^{
-                        testManager.voiceCommands = @[testVoiceCommand5];
-                    });
-
-                    // should not queue another operation
-                    it(@"should not queue another operation", ^{
-                        expect(testManager.transactionQueue.operations).to(haveCount(1));
-                    });
-                });
+            // should not queue another operation if all the voice command strings are empty strings
+            it(@"should not queue another operation if all the voice command strings are empty strings", ^{
+                testManager.voiceCommands = @[testVoiceCommand4, testVoiceCommand5];
+                expect(testManager.transactionQueue.operations).to(haveCount(1));
+                expect(testManager.voiceCommands).to(haveCount(1));
+                expect(testManager.voiceCommands.firstObject.voiceCommands).to(haveCount(1));
+                expect(testManager.voiceCommands.firstObject.voiceCommands).to(equal(@[@"Test 1"]));
             });
         });
     });

@@ -19,12 +19,6 @@
 
 @end
 
-@interface SDLVoiceCommandUpdateOperation()
-
-@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *pendingVoiceCommands;
-
-@end
-
 QuickSpecBegin(SDLVoiceCommandUpdateOperationSpec)
 
 __block SDLDeleteCommandResponse *successDelete = nil;
