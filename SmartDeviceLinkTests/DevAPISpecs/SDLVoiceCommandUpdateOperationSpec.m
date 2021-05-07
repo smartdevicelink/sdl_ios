@@ -183,8 +183,8 @@ describe(@"a voice command operation", ^{
             });
         });
 
-        // going from voice commands [A] to [AB]
-        context(@"going from voice commands [A] to [AB]", ^{
+        // going from voice commands [AB] to [A]
+        context(@"going from voice commands [AB] to [A]", ^{
             beforeEach(^{
                 testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1] oldVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
                     callbackCurrentVoiceCommands = newCurrentVoiceCommands;
@@ -194,7 +194,7 @@ describe(@"a voice command operation", ^{
             });
 
             // and the delete succeeds
-            context(@"and the delete succeeds", ^{
+            describe(@"and the delete succeeds", ^{
                 beforeEach(^{
                     SDLDeleteCommandResponse *deleteOld1 = [[SDLDeleteCommandResponse alloc] init];
                     deleteOld1.success = @YES;
@@ -213,8 +213,8 @@ describe(@"a voice command operation", ^{
         });
 
 
-        // going from voice commands [AB] to [A]
-        context(@"going from voice commands [AB] to [A]", ^{
+        // going from voice commands [A] to [AB]
+        context(@"going from voice commands [A] to [AB]", ^{
             beforeEach(^{
                 testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[newVoiceCommand1] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
                     callbackCurrentVoiceCommands = newCurrentVoiceCommands;
@@ -224,7 +224,7 @@ describe(@"a voice command operation", ^{
             });
 
             // and the add succeeds
-            context(@"and the add succeeds", ^{
+            describe(@"and the add succeeds", ^{
                 beforeEach(^{
                     SDLAddCommandResponse *addNew1 = [[SDLAddCommandResponse alloc] init];
                     addNew1.success = @YES;
@@ -234,7 +234,7 @@ describe(@"a voice command operation", ^{
                     [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 });
 
-                it(@"Should only upload the voiceCommand thats not in common and not delete anything", ^{
+                it(@"should only upload the voiceCommand thats not in common and not delete anything", ^{
                     expect(callbackCurrentVoiceCommands).to(haveCount(2));
                     expect(callbackError).to(beNil());
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
@@ -253,7 +253,7 @@ describe(@"a voice command operation", ^{
             });
 
             // the delete and add commands succeeds
-            context(@"the delete and add commands succeeds", ^{
+            describe(@"the delete and add commands succeeds", ^{
                 beforeEach(^{
                     SDLDeleteCommandResponse *deleteOld1 = [[SDLDeleteCommandResponse alloc] init];
                     deleteOld1.success = @YES;
@@ -280,7 +280,7 @@ describe(@"a voice command operation", ^{
                     [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 });
 
-                it(@"Should delete and upload the voiceCommands", ^{
+                it(@"should delete and upload the voiceCommands", ^{
                     expect(callbackCurrentVoiceCommands).to(haveCount(2));
                     expect(callbackError).to(beNil());
                     expect(testConnectionManager.receivedRequests).to(haveCount(4));
