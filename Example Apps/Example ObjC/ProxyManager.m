@@ -72,7 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
-        [weakSelf sdlex_showInitialData];
 
         SDLLogD(@"SDL file manager storage: %lu mb", self.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
     }];
