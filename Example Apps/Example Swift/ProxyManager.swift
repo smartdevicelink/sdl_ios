@@ -297,12 +297,6 @@ private extension ProxyManager {
         
         screenManager.endUpdates(completionHandler: { (error) in
             guard error != nil else { return }
-            if screenManager.primaryGraphic == nil && self.imageFieldSupported(imageFieldName: SDLImageFieldName.graphic) {
-                screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
-            } else if screenManager.primaryGraphic == nil && self.imageFieldSupported(imageFieldName:SDLImageFieldName.secondaryGraphic) {
-                screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG) : nil
-            }
-
             SDLLog.e("Textfields, graphics and soft buttons failed to update: \(error!.localizedDescription)")
         })
     }
