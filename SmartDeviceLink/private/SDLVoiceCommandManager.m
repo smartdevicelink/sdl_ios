@@ -43,12 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface SDLVoiceCommandUpdateOperation()
-
-@property (strong, nonatomic) NSMutableArray<SDLVoiceCommand *> *currentVoiceCommands;
-
-@end
-
 UInt32 const VoiceCommandIdMin = 1900000000;
 
 @implementation SDLVoiceCommandManager
@@ -140,7 +134,6 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
         SDLVoiceCommandUpdateOperation *updateOp = (SDLVoiceCommandUpdateOperation *)operation;
         updateOp.oldVoiceCommands = currentVoiceCommands;
-        updateOp.currentVoiceCommands = currentVoiceCommands.copy;
     }
 }
 

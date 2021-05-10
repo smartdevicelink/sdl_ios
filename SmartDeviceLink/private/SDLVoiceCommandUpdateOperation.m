@@ -71,6 +71,13 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+#pragma mark - Setters
+
+- (void)setOldVoiceCommands:(nullable NSArray<SDLVoiceCommand *> *)oldVoiceCommands {
+    _oldVoiceCommands = oldVoiceCommands;
+    _currentVoiceCommands = oldVoiceCommands.mutableCopy;
+}
+
 #pragma mark - Sending RPCs
 
 /// Send DeleteCommand RPCs for voice commands that should be deleted
