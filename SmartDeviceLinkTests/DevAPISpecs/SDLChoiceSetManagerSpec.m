@@ -10,6 +10,7 @@
 #import "SDLChoiceSetDelegate.h"
 #import "SDLDeleteChoicesOperation.h"
 #import "SDLDisplayCapability.h"
+#import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
@@ -36,6 +37,9 @@
 
 @property (copy, nonatomic, nullable) NSError *internalError;
 @property (assign, nonatomic) UInt16 cancelId;
+@property (strong, nonatomic, readwrite, nullable) SDLChoiceCell *selectedCell;
+@property (strong, nonatomic, readwrite, nullable) SDLTriggerSource selectedTriggerSource;
+@property (assign, nonatomic, readwrite) NSUInteger selectedCellRow;
 
 @end
 
@@ -446,11 +450,14 @@ describe(@"choice set manager tests", ^{
             __block SDLInteractionMode testMode = SDLInteractionModeBoth;
             __block SDLPresentKeyboardOperation *pendingPresentOp = nil;
             __block id strickMockOperationQueue = nil;
+            __block SDLChoiceCell *testSelectedCell = nil;
+            NSUInteger testSelectedCellRow = 1;
 
             beforeEach(^{
                 keyboardDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
                 choiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:choiceDelegate choices:@[testCell1, testCell2, testCell3]];
+                testSelectedCell = testChoiceSet.choices[1];
 
                 pendingPresentOp = OCMClassMock([SDLPresentKeyboardOperation class]);
                 testManager.pendingPresentOperation = pendingPresentOp;
@@ -461,7 +468,36 @@ describe(@"choice set manager tests", ^{
             });
 
             context(@"searchable", ^{
-                it(@"should properly start the presentation and return the error in the handler if an error occured", ^{
+                it(@"should notify the choice delegate when a choice item is selected", ^{
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                        preloadChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.selectedCell = testSelectedCell;
+                        presentChoicesOperation.selectedTriggerSource = testMode;
+                        presentChoicesOperation.selectedCellRow = testSelectedCellRow;
+                        presentChoicesOperation.internalError = nil;
+                        presentChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                    }]]);
+
+                    OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
+
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                    expect(testManager.pendingPresentationSet).to(beNil());
+                    expect(testManager.pendingPresentOperation).to(beNil());
+                });
+
+                it(@"should notify the choice delegate if an error occured during presentation", ^{
                     OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
                         SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
                         expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
@@ -476,16 +512,20 @@ describe(@"choice set manager tests", ^{
                         return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
                     }]]);
 
+                    OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg isNotNil]]);
+
                     [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
 
                     OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
-                    OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg isNotNil]]);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
 
                     expect(testManager.pendingPresentationSet).to(beNil());
                     expect(testManager.pendingPresentOperation).to(beNil());
                 });
+            });
 
-                it(@"should properly start the presentation and call the handler", ^{
+            context(@"non-searchable", ^{
+                fit(@"should notify the choice delegate when a choice item is selected", ^{
                     OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
                         SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
                         expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
@@ -495,48 +535,51 @@ describe(@"choice set manager tests", ^{
 
                     OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
                         SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.selectedCell = testSelectedCell;
+                        presentChoicesOperation.selectedTriggerSource = testMode;
+                        presentChoicesOperation.selectedCellRow = testSelectedCellRow;
                         presentChoicesOperation.internalError = nil;
                         presentChoicesOperation.completionBlock();
                         return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
                     }]]);
 
-                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+                    OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
+
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:nil];
 
                     OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
-                    OCMReject([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg isNotNil]]);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
 
                     expect(testManager.pendingPresentationSet).to(beNil());
                     expect(testManager.pendingPresentOperation).to(beNil());
                 });
-            });
 
-            context(@"non-searchable", ^{
-                beforeEach(^{
+                it(@"should notify the choice delegate if an error occured during presentation", ^{
+                    NSError *testError = [NSError sdl_choiceSetManager_failedToCreateMenuItems];
+
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                        preloadChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.internalError = testError;
+                        presentChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                    }]]);
+
+                    OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testError]);
+
                     [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:nil];
-                });
 
-                it(@"should properly start the presentation", ^{
-                    OCMVerify([pendingPresentOp cancel]);
-                    expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
-                    expect(testManager.transactionQueue.operations).to(haveCount(2));
-                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
-                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
-                });
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
 
-                describe(@"after the completion handler is called", ^{
-                    context(@"with an error", ^{
-                        beforeEach(^{
-                            SDLPresentChoiceSetOperation *op = testManager.transactionQueue.operations.lastObject;
-                            op.internalError = [[NSError alloc] init];
-                            op.completionBlock();
-                        });
-
-                        it(@"should call the error handler", ^{
-                            OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg isNotNil]]);
-                            expect(testManager.pendingPresentationSet).to(beNil());
-                            expect(testManager.pendingPresentOperation).to(beNil());
-                        });
-                    });
+                    expect(testManager.pendingPresentationSet).to(beNil());
+                    expect(testManager.pendingPresentOperation).to(beNil());
                 });
             });
 
