@@ -576,22 +576,29 @@ describe(@"choice set manager tests", ^{
                 });
             });
 
-            xdescribe(@"when the manager shuts down during presentation", ^{
-                beforeEach(^{
-                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
-                });
+            describe(@"when the manager shuts down during presentation", ^{
+                __block SDLPresentChoiceSetOperation *presentChoicesOperation = nil;
 
                 it(@"should leave the list of pending and uploaded choice items empty when the operation finishes", ^{
-                    expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
-                    expect(testManager.transactionQueue.operations).to(haveCount(2));
-                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
-                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                        preloadChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.internalError = nil;
+                        testManager.pendingMutablePreloadChoices = [NSMutableSet set];
+                        testManager.preloadedMutableChoices = [NSMutableSet set];
 
-                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
-                    testManager.preloadedMutableChoices = [NSMutableSet set];
+                        [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
+                        presentChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                    }]]);
 
-                    testManager.transactionQueue.operations.lastObject.completionBlock();
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
 
                     expect(testManager.preloadedMutableChoices).to(beEmpty());
                     expect(testManager.preloadedChoices).to(beEmpty());
