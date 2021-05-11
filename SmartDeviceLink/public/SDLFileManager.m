@@ -290,13 +290,14 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly.
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
         if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
-            // If it's a persistent file, the bug won't present itself; just check if it's on the remote system
+            // HAX: If it's a persistent file, the bug won't present itself; just check if it's on the remote system
             return YES;
         } else if (!file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
-            // If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
+            // HAX: If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
             return YES;
         }
     } else if ([self.remoteFileNames containsObject:file.name]) {
+        // If not connected to a system where the bug presents itself, we can trust the `remoteFileNames`
         return YES;
     }
 
