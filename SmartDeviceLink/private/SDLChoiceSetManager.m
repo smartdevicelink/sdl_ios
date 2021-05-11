@@ -231,7 +231,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-
     NSMutableOrderedSet<SDLChoiceCell *> *mutableChoicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         [mutableChoicesToUpload minusSet:self.preloadedMutableChoices];
@@ -268,6 +267,18 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Choices finished preloading");
 
+        NSMutableSet *failedChoiceUploads = [NSMutableSet set];
+        if (weakPreloadOp.error != nil) {
+            NSDictionary *failedChoices = weakPreloadOp.error.userInfo;
+            for (SDLCreateInteractionChoiceSet *request in failedChoices) {
+                NSUInteger failedChoiceUploadIndex = [choicesToUpload indexOfObjectPassingTest:^BOOL(SDLChoiceCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    return (obj.choiceId == request.interactionChoiceSetID.unsignedIntValue);
+                }];
+                if (failedChoiceUploadIndex == NSNotFound) { continue; }
+                [failedChoiceUploads addObject:[choicesToUpload objectAtIndex:failedChoiceUploadIndex]];
+            }
+        }
+
         if (handler != nil) {
             handler(weakPreloadOp.error);
         }
@@ -280,8 +291,16 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
-            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
+            if (failedChoiceUploads.count == 0) {
+                [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
+                [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
+            } else {
+                NSMutableSet *successfulChoiceUploads = [NSMutableSet setWithSet:choicesToUpload.set];
+                [successfulChoiceUploads minusSet:failedChoiceUploads];
+
+                [strongSelf.preloadedMutableChoices unionSet:[successfulChoiceUploads copy]];
+                [strongSelf.pendingMutablePreloadChoices minusSet:failedChoiceUploads];
+            }
         }];
     };
     [self.transactionQueue addOperation:preloadOp];
@@ -373,13 +392,23 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
     self.pendingPresentationSet = choiceSet;
 
+    __weak typeof(self) weakSelf = self;
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:^(NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
+            SDLLogE(@"Error preloading choice cells. Aborting presentation.");
             [choiceSet.delegate choiceSet:choiceSet didReceiveError:error];
             return;
         }
-    }];
 
+        [strongSelf sdl_presentChoiceSetWithMode:mode keyboardDelegate:delegate];
+    }];
+}
+
+/// TODO
+/// @param mode If the set should be presented for the user to interact via voice, touch, or both
+/// @param delegate The keyboard delegate called when the user interacts with the search field of the choice set, if not set, a non-searchable choice set will be used
+- (void)sdl_presentChoiceSetWithMode:(SDLInteractionMode)mode keyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     [self sdl_findIdsOnChoiceSet:self.pendingPresentationSet];
 
     SDLPresentChoiceSetOperation *presentOp = nil;
