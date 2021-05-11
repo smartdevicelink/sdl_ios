@@ -8,41 +8,16 @@
 
 #import "SDLSystemCapabilityManager.h"
 
-#import "SDLAppServiceCapability.h"
-#import "SDLAppServiceRecord.h"
-#import "SDLAppServicesCapabilities.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLConnectionManagerType.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayCapability.h"
-#import "SDLDriverDistractionCapability.h"
 #import "SDLError.h"
-#import "SDLGenericResponse.h"
-#import "SDLGetSystemCapability.h"
-#import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
-#import "SDLHMICapabilities.h"
 #import "SDLImageField+ScreenManagerExtensions.h"
-#import "SDLLogMacros.h"
-#import "SDLNavigationCapability.h"
-#import "SDLNotificationConstants.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLOnSystemCapabilityUpdated.h"
-#import "SDLPhoneCapability.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLPredefinedWindows.h"
-#import "SDLRemoteControlCapabilities.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
-#import "SDLSeatLocationCapability.h"
-#import "SDLSetDisplayLayoutResponse.h"
-#import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityObserver.h"
 #import "SDLTextField+ScreenManagerExtensions.h"
-#import "SDLTextFieldName.h"
-#import "SDLVersion.h"
-#import "SDLVideoStreamingCapability.h"
-#import "SDLWindowCapability.h"
-#import "SDLWindowTypeCapabilities.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,7 +31,12 @@ typedef NSString * SDLServiceID;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
+
+// HAX: Issue #1152, Ford Sync bug returning incorrect display capabilities (https://github.com/smartdevicelink/sdl_ios/issues/1152)
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *initialMediaCapabilities;
+@property (nullable, strong, nonatomic) NSString *lastDisplayLayoutRequestTemplate;
 #pragma clang diagnostic pop
+
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
@@ -138,6 +118,8 @@ typedef NSString * SDLServiceID;
         self.remoteControlCapability = nil;
         self.seatLocationCapability = nil;
         self.driverDistractionCapability = nil;
+        self.initialMediaCapabilities = nil;
+        self.lastDisplayLayoutRequestTemplate = nil;
 
         self.supportsSubscriptions = NO;
 
@@ -731,6 +713,12 @@ typedef NSString * SDLServiceID;
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.buttonCapabilities = response.buttonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
+
+    // HAX: Issue #1152, Ford Sync bug returning incorrect display capabilities (https://github.com/smartdevicelink/sdl_ios/issues/1152). Store the initial capabilities if we are a media app so that we can use them in the future.
+    SDLLifecycleConfiguration *lifecycleConfig = self.connectionManager.configuration.lifecycleConfig;
+    if (lifecycleConfig.appType == SDLAppHMITypeMedia || [lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeMedia]) {
+        self.initialMediaCapabilities = self.displayCapabilities;
+    }
 #pragma clang diagnostic pop
 
     self.hmiCapabilities = response.hmiCapabilities;
@@ -766,7 +754,12 @@ typedef NSString * SDLServiceID;
     // If we've received a display capability update then we should not convert our deprecated display capabilities and we should just return
     if (!self.shouldConvertDeprecatedDisplayCapabilities) { return; }
 
-    self.displayCapabilities = response.displayCapabilities;
+    if (self.initialMediaCapabilities != nil && [self.lastDisplayLayoutRequestTemplate isEqualToString:SDLPredefinedLayoutMedia]) {
+        self.displayCapabilities = self.initialMediaCapabilities;
+    } else {
+        self.displayCapabilities = response.displayCapabilities;
+    }
+
     self.buttonCapabilities = response.buttonCapabilities;
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
