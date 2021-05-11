@@ -19,6 +19,12 @@
 
 @end
 
+@interface SDLVoiceCommandUpdateOperation()
+
+@property (strong, nonatomic) NSMutableArray<SDLVoiceCommand *> *currentVoiceCommands;
+
+@end
+
 QuickSpecBegin(SDLVoiceCommandUpdateOperationSpec)
 
 __block SDLDeleteCommandResponse *successDelete = nil;
@@ -110,6 +116,17 @@ describe(@"a voice command operation", ^{
                     callbackError = error;
                 }];
                 [testOp start];
+            });
+
+            describe(@"when updating oldVoiceCommands", ^{
+                beforeEach(^{
+                    testOp.oldVoiceCommands = @[newVoiceCommand1, newVoiceCommand2];
+                });
+
+                it(@"should update both oldVoiceCommands and currentVoiceCommands", ^{
+                    expect(testOp.oldVoiceCommands).to(equal(@[newVoiceCommand1, newVoiceCommand2]));
+                    expect(testOp.currentVoiceCommands).to(equal(testOp.oldVoiceCommands));
+                });
             });
 
             // and the delete succeeds
