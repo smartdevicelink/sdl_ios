@@ -4,48 +4,19 @@
 
 #import "SDLLifecycleManager.h"
 
-#import "SDLAppServiceData.h"
-#import "SDLChangeRegistration.h"
-#import "SDLConfiguration.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLConnectionManagerType.h"
-#import "SDLEncryptionConfiguration.h"
 #import "SDLEncryptionLifecycleManager.h"
 #import "SDLError.h"
-#import "SDLFileManagerConfiguration.h"
-#import "SDLFileManager.h"
 #import "SDLGlobals.h"
-#import "SDLHMILevel.h"
-#import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleProtocolHandler.h"
-#import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
-#import "SDLLogConfiguration.h"
-#import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
-#import "SDLOnAppInterfaceUnregistered.h"
-#import "SDLOnAppServiceData.h"
-#import "SDLOnHashChange.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLPerformAppServiceInteractionResponse.h"
-#import "SDLPermissionManager.h"
 #import "SDLProtocol.h"
-#import "SDLRegisterAppInterface.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLResult.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSecondaryTransportManager.h"
-#import "SDLShow.h"
 #import "SDLStateMachine.h"
-#import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaManager.h"
-#import "SDLSystemCapabilityManager.h"
-#import "SDLTextAlignment.h"
-#import "SDLTTSChunk.h"
-#import "SDLUnregisterAppInterface.h"
-#import "SDLUnregisterAppInterfaceResponse.h"
-#import "SDLVehicleType.h"
-#import "SDLVersion.h"
-#import "SDLVideoStreamingState.h"
 
 @interface SDLStreamingMediaManager ()
 
@@ -62,6 +33,13 @@
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (strong, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 @property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
+@property (copy, nonatomic, readwrite, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLAudioStreamingState audioStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLVideoStreamingState videoStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLSystemContext systemContext;
+@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
+
 - (void)didEnterStateConnected;
 @end
 
