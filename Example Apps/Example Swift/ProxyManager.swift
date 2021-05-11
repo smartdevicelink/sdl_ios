@@ -287,12 +287,12 @@ private extension ProxyManager {
 
         // Primary graphic
         if imageFieldSupported(imageFieldName: .graphic) {
-            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
+            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: true, as: .PNG) : nil
         }
         
         // Secondary graphic
         if imageFieldSupported(imageFieldName: .secondaryGraphic) {
-            screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG) : nil
+            screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: true, as: .PNG) : nil
         }
         
         screenManager.endUpdates(completionHandler: { (error) in
