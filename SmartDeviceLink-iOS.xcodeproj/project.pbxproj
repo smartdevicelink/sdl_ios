@@ -1739,6 +1739,9 @@
 		C9707D1925DEE786009D00F2 /* NSArray+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D1725DEE786009D00F2 /* NSArray+Extensions.m */; };
 		C9707D3025E0444D009D00F2 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = C9707D2E25E0444D009D00F2 /* SDLMacros.h */; };
 		C9707D3125E0444D009D00F2 /* SDLMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D2F25E0444D009D00F2 /* SDLMacros.m */; };
+		C971E3EE2649BD8700FC24D6 /* SDLOnSystemRequestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82371A9BDE8A00906325 /* SDLOnSystemRequestSpec.m */; };
+		C971E3EF2649C52000FC24D6 /* SDLResponseDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */; };
+		C971E3F02649D12D00FC24D6 /* NSMutableDictionary+StoreSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */; };
 		C975877F257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */; };
 		C9758785257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */; };
 		C9DFFE78257ACE0000F7D57A /* SDLSeekStreamingIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -8684,6 +8687,7 @@
 				162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */,
 				DABB62171E4A900C0034C567 /* SDLH264VideoEncoderSpec.m in Sources */,
 				000DD57022EF038C005AB7A7 /* SDLGetInteriorVehicleDataConsentSpec.m in Sources */,
+				C971E3EF2649C52000FC24D6 /* SDLResponseDispatcherSpec.m in Sources */,
 				5DBEFA581F436132009EE295 /* SDLFakeSecurityManager.m in Sources */,
 				9FA0D00022DF06A0009CF344 /* SDLWindowCapabilitySpec.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,
@@ -8915,6 +8919,7 @@
 				162E83541A9BDE8B00906325 /* SDLEncodedSyncPDataResponseSpec.m in Sources */,
 				1EAA47582035AFD9000FE74B /* SDLHMISettingsControlDataSpec.m in Sources */,
 				162E83161A9BDE8B00906325 /* SDLOnHashChangeSpec.m in Sources */,
+				C971E3F02649D12D00FC24D6 /* NSMutableDictionary+StoreSpec.m in Sources */,
 				8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */,
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
 				5DB1BCD41D243A8E002FFC37 /* SDLListFilesOperationSpec.m in Sources */,
@@ -8989,6 +8994,7 @@
 				162E835E1A9BDE8B00906325 /* SDLRegisterAppInterfaceResponseSpec.m in Sources */,
 				162E835A1A9BDE8B00906325 /* SDLPerformAudioPassThruResponseSpec.m in Sources */,
 				883468FA234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m in Sources */,
+				C971E3EE2649BD8700FC24D6 /* SDLOnSystemRequestSpec.m in Sources */,
 				162E83501A9BDE8B00906325 /* SDLDeleteFileResponseSpec.m in Sources */,
 				162E83601A9BDE8B00906325 /* SDLScrollableMessageResponseSpec.m in Sources */,
 				88B3BFA220DA911E00943565 /* SDLFuelRangeSpec.m in Sources */,
