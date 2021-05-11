@@ -25,6 +25,12 @@
 
 @end
 
+@interface SDLSystemCapabilityManager ()
+
+@property (nullable, strong, nonatomic) NSString *lastDisplayLayoutRequestTemplate;
+
+@end
+
 @interface SDLLifecycleManager ()
 // this private property is used for testing
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
@@ -647,12 +653,30 @@ describe(@"a lifecycle manager", ^{
                 });
             });
 
-            it(@"can send an RPC of type Request", ^{
-                SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
-                OCMExpect([protocolMock sendRPC:testShow error:[OCMArg anyObjectRef]]);
-                [testManager sendRPC:testShow];
+            describe(@"when sending a request RPC", ^{
+                it(@"can send the RPC", ^{
+                    SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
+                    OCMExpect([protocolMock sendRPC:testShow error:[OCMArg anyObjectRef]]);
+                    [testManager sendRPC:testShow];
 
-                OCMVerifyAllWithDelay(protocolMock, 0.1);
+                    OCMVerifyAllWithDelay(protocolMock, 0.1);
+                });
+
+                describe(@"when sending a SetDisplayLayout request", ^{
+                    beforeEach(^{
+                        OCMExpect([systemCapabilityMock setLastDisplayLayoutRequestTemplate:[OCMArg isKindOfClass:NSString.class]]);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                        SDLSetDisplayLayout *request = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutMedia];
+#pragma clang diagnostic pop
+                        [testManager sendRequest:request withResponseHandler:nil];
+                    });
+
+                    it(@"should update the System Capability Manager with the next template type", ^{
+                        OCMVerifyAllWithDelay(systemCapabilityMock, 0.3);
+                    });
+                });
             });
 
             it(@"should call the callback if the protocol fails to send a request", ^{
