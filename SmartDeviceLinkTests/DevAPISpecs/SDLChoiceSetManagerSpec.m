@@ -576,40 +576,73 @@ describe(@"choice set manager tests", ^{
 
         describe(@"generating a cancel id", ^{
             __block SDLChoiceSet *testChoiceSet = nil;
+            __block SDLChoiceSet *testChoiceSet2 = nil;
             __block id<SDLChoiceSetDelegate> testChoiceDelegate = nil;
+            __block id strickMockOperationQueue = nil;
 
             beforeEach(^{
+                strickMockOperationQueue = OCMStrictClassMock([NSOperationQueue class]);
                 testChoiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
-                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"tests" delegate:testChoiceDelegate choices:@[testCell1]];
+                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"choice set 1" delegate:testChoiceDelegate choices:@[testCell1]];
+                testChoiceSet2 = [[SDLChoiceSet alloc] initWithTitle:@"choice set 2" delegate:testChoiceDelegate choices:@[testCell2]];
                 testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
                 [testManager.stateMachine setToState:SDLChoiceManagerStateReady fromOldState:SDLChoiceManagerStateCheckingVoiceOptional callEnterTransition:NO];
+                testManager.transactionQueue = strickMockOperationQueue;
             });
 
             it(@"should set the first cancelID correctly", ^{
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    expect(@(presentChoicesOperation.cancelId)).to(equal(101));
+                    [presentChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
+
                 [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
 
-                expect(testManager.transactionQueue.operations.count).to(equal(2));
-                expect(testManager.transactionQueue.operations[0]).to(beAKindOf([SDLPreloadChoicesOperation class]));
-                SDLPresentChoiceSetOperation *testPresentOp = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[1];
-                expect(@(testPresentOp.cancelId)).to(equal(101));
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
             });
 
             it(@"should reset the cancelID correctly once the max has been reached", ^{
-                testManager.nextCancelId = 200;
+                testManager.nextCancelId = 200;  // set the max cancelID
+
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    expect(@(presentChoicesOperation.cancelId)).to(equal(200));
+                    [presentChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
+
                 [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
 
-                expect(testManager.transactionQueue.operations.count).to(equal(2));
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
 
-                expect(testManager.transactionQueue.operations[0]).to(beAKindOf([SDLPreloadChoicesOperation class]));
-                SDLPresentChoiceSetOperation *testPresentOp = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[1];
-                expect(@(testPresentOp.cancelId)).to(equal(200));
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    expect(@(presentChoicesOperation.cancelId)).to(equal(101));
+                    [presentChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
 
-                [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
+                [testManager presentChoiceSet:testChoiceSet2 mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
 
-                expect(testManager.transactionQueue.operations.count).to(equal(3));
-
-                SDLPresentChoiceSetOperation *testPresentOp2 = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[2];
-                expect(@(testPresentOp2.cancelId)).to(equal(101));
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
             });
         });
 
