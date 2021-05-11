@@ -89,6 +89,20 @@ describe(@"a voice command operation", ^{
         expect(testOp.oldVoiceCommands).to(equal(@[oldVoiceCommand1, oldVoiceCommand2]));
     });
 
+    // when updating oldVoiceCommands
+    describe(@"when updating oldVoiceCommands", ^{
+        beforeEach(^{
+            testOp = [[SDLVoiceCommandUpdateOperation alloc] init];
+            testOp.oldVoiceCommands = @[newVoiceCommand1, newVoiceCommand2];
+        });
+
+        // should update both oldVoiceCommands and currentVoiceCommands
+        it(@"should update both oldVoiceCommands and currentVoiceCommands", ^{
+            expect(testOp.oldVoiceCommands).to(equal(@[newVoiceCommand1, newVoiceCommand2]));
+            expect(testOp.currentVoiceCommands).to(equal(testOp.oldVoiceCommands));
+        });
+    });
+
     // starting the operation
     describe(@"starting the operation", ^{
 
@@ -116,17 +130,6 @@ describe(@"a voice command operation", ^{
                     callbackError = error;
                 }];
                 [testOp start];
-            });
-
-            describe(@"when updating oldVoiceCommands", ^{
-                beforeEach(^{
-                    testOp.oldVoiceCommands = @[newVoiceCommand1, newVoiceCommand2];
-                });
-
-                it(@"should update both oldVoiceCommands and currentVoiceCommands", ^{
-                    expect(testOp.oldVoiceCommands).to(equal(@[newVoiceCommand1, newVoiceCommand2]));
-                    expect(testOp.currentVoiceCommands).to(equal(testOp.oldVoiceCommands));
-                });
             });
 
             // and the delete succeeds
