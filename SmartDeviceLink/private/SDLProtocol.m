@@ -305,7 +305,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Convert the message dictionary to JSON and return early if it fails
     NSError *jsonError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&jsonError];
-    if (jsonError != nil) {
+    if (jsonError != nil && error != nil) {
         SDLLogE(@"Error encoding JSON data: %@", jsonError);
         *error = jsonError;
         return NO;
@@ -382,7 +382,7 @@ NS_ASSUME_NONNULL_BEGIN
     // If the message should be encrypted, encrypt the payloads
     if (encryption) {
         BOOL success = [self sdl_encryptProtocolMessages:protocolMessages error:error];
-        if (!success) {
+        if (!success && error != nil) {
             SDLLogE(@"Error encrypting protocol messages. Messages will not be sent. Error: %@", *error);
             return NO;
         }
@@ -410,7 +410,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSData *encryptedMessagePayload = [self.securityManager encryptData:message.payload withError:&encryptError];
 
         // If the encryption failed, pass back the error and return false
-        if (encryptedMessagePayload.length == 0 || encryptError != nil) {
+        if ((encryptedMessagePayload.length == 0 || encryptError != nil) && error != nil) {
             if (encryptError != nil) {
                 *error = encryptError;
             } else {
