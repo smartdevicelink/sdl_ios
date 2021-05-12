@@ -48,6 +48,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(int)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
 + (NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)sdl_incrementFailedUploadCountForFileName:(SDLFileName *)fileName failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
+- (BOOL)hasUploadedFile:(SDLFile *)file;
 
 @end
 
@@ -252,6 +253,51 @@ describe(@"uploading / deleting single files with the file manager", ^{
                 expect(@(testFileManager.bytesAvailable)).to(equal(@(newSpaceAvailable)));
                 expect(completionError).to(beNil());
                 expect(testFileManager.remoteFileNames).toNot(contain(someKnownFileName));
+            });
+        });
+    });
+
+    describe(@"check hasUploadedFile response", ^{
+        __block SDLFile *testFile = nil;
+
+        beforeEach(^{
+            NSData *testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+            testFile = [SDLFile fileWithData:testFileData name:@"testFile1" fileExtension:@"png"];
+
+            testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+            testFileManager.uploadedEphemeralFileNames = [[NSMutableSet alloc] init];
+            [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
+        });
+
+        context(@"when the file is already uploaded and the RPC version is >= 4.4.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:7 minor:1 patch:0];
+            });
+
+            it(@"should return yes even if uploadedEphemeralFileNames is empty", ^{
+                expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+            });
+
+            it(@"should return yes", ^{
+                [testFileManager.uploadedEphemeralFileNames addObject:@"testFile1"];
+
+                expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+            });
+        });
+
+        context(@"when the file is already uploaded and the RPC version is < 4.4.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:4 minor:3 patch:0];
+            });
+
+            it(@"should return no if uploadedEphemeralFileNames is empty", ^{
+                expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+            });
+
+            it(@"should return no if uploadedEphemeralFileNames contains fileName", ^{
+                [testFileManager.uploadedEphemeralFileNames addObject:@"testFile1"];
+
+                expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
             });
         });
     });
