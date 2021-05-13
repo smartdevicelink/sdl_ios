@@ -99,29 +99,27 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
 
-    SDLLifecycleConfiguration *lifecycleConfig = proxyTransportType == ProxyTransportTypeIAP ? [self.class sdlex_iapLifecycleConfiguration] : [self.class sdlex_tcpLifecycleConfiguration];
-    [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
-}
-
-+ (SDLLifecycleConfiguration *)sdlex_iapLifecycleConfiguration {
-    return [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId]];
-}
-
-+ (SDLLifecycleConfiguration *)sdlex_tcpLifecycleConfiguration {
-    return [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-}
-
-- (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    if (self.sdlManager != nil) {
-        // Manager already created, just start it again.
-        [self sdlex_startManager];
-        return;
-    }
-
-    SDLLockScreenConfiguration *lockScreenConfiguration = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil];
-    SDLConfiguration *config = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
+    SDLConfiguration *config = (proxyTransportType == ProxyTransportTypeIAP) ? [self.class sdlex_iapConfiguration] : [self.class sdlex_tcpConfiguration];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     [self sdlex_startManager];
+}
+
++ (SDLConfiguration *)sdlex_iapConfiguration {
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId]];
+
+    return [self sdlex_setupManagerConfigurationWithLifecycleConfiguration:lifecycleConfig];
+}
+
++ (SDLConfiguration *)sdlex_tcpConfiguration {
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+
+    return [self sdlex_setupManagerConfigurationWithLifecycleConfiguration:lifecycleConfig];
+}
+
++ (SDLConfiguration *)sdlex_setupManagerConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    SDLLockScreenConfiguration *lockScreenConfiguration = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil];
+
+    return [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
 }
 
 + (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {

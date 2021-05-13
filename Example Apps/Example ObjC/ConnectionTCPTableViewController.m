@@ -72,9 +72,7 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section != 0) {
-        return;
-    }
+    if (indexPath.section != 0) { return; }
     
     switch (indexPath.row) {
         case 0: {
