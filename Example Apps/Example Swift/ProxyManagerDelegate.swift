@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ProxyManagerDelegate: class {
+protocol ProxyManagerDelegate: AnyObject {
     var proxyState: ProxyState { get }
 
     func didChangeProxyState(_ newState: ProxyState)
