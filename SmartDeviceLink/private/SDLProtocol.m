@@ -306,8 +306,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSError *jsonError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&jsonError];
     if (jsonError != nil) {
+        if (error != nil) {
+            *error = jsonError;
+        }
         SDLLogE(@"Error encoding JSON data: %@", jsonError);
-        *error = jsonError;
         return NO;
     }
 
@@ -411,10 +413,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         // If the encryption failed, pass back the error and return false
         if (encryptedMessagePayload.length == 0 || encryptError != nil) {
-            if (encryptError != nil) {
-                *error = encryptError;
-            } else {
-                *error = [NSError sdl_encryption_unknown];
+            if (error != nil) {
+                if (encryptError != nil) {
+                    *error = encryptError;
+                } else {
+                    *error = [NSError sdl_encryption_unknown];
+                }
             }
 
             return NO;
