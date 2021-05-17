@@ -63,7 +63,8 @@ extension ButtonManager {
     private var softButtonAlert: SDLSoftButtonObject {
         let imageAndTextState = SDLSoftButtonState(stateName: AlertSoftButtonImageAndTextState, text: AlertSoftButtonText, image: UIImage(named: AlertBWIconName)?.withRenderingMode(.alwaysTemplate))
         let textState = SDLSoftButtonState(stateName: AlertSoftButtonTextState, text: AlertSoftButtonText, image: nil)
-        return SDLSoftButtonObject(name: AlertSoftButton, states: [imageAndTextState, textState], initialStateName: imageAndTextState.name) { [weak self] (buttonPress, buttonEvent) in
+        let initialButtonStateName = self.imagesEnabled ? imageAndTextState.name : textState.name
+        return SDLSoftButtonObject(name: AlertSoftButton, states: [imageAndTextState, textState], initialStateName: initialButtonStateName) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
             if (self.isAlertAllowed) {
@@ -80,7 +81,8 @@ extension ButtonManager {
     private var softButtonSubtleAlert: SDLSoftButtonObject {
         let imageAndTextState = SDLSoftButtonState(stateName: SubtleAlertSoftButtonImageAndTextState, text: SubtleAlertSoftButtonText, image: UIImage(named: BatteryFullBWIconName)?.withRenderingMode(.alwaysTemplate))
         let textState = SDLSoftButtonState(stateName: SubtleAlertSoftButtonTextState, text: SubtleAlertSoftButtonText, image: nil)
-        return SDLSoftButtonObject(name: SubtleAlertSoftButton, states: [imageAndTextState, textState], initialStateName: imageAndTextState.name) { [weak self] (buttonPress, buttonEvent) in
+        let initialButtonStateName = self.imagesEnabled ? imageAndTextState.name : textState.name
+        return SDLSoftButtonObject(name: SubtleAlertSoftButton, states: [imageAndTextState, textState], initialStateName: initialButtonStateName) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
             if (self.isSubtleAlertAllowed) {
