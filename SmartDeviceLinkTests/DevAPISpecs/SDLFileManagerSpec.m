@@ -261,10 +261,13 @@ describe(@"uploading / deleting single files with the file manager", ^{
     describe(@"check hasUploadedFile response", ^{
         __block SDLFile *testFile = nil;
 
+        beforeEach(^{
+            [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
+        });
+
         context(@"on RPC version >= 4.4.0", ^{
             beforeEach(^{
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:7 minor:1 patch:0];
-                [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
 
                 NSData *testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
                 testFile = [SDLFile persistentFileWithData:testFileData name:@"testFile4" fileExtension:@"png"];
@@ -275,7 +278,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
                     testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
                 });
 
-                it(@"should return NO", ^{
+                it(@"should return YES", ^{
                     expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
                 });
             });
@@ -294,7 +297,6 @@ describe(@"uploading / deleting single files with the file manager", ^{
         context(@"on RPC version < 4.4.0", ^{
             beforeEach(^{
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:4 minor:3 patch:0];
-                [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
             });
 
             context(@"when the file is persistent", ^{
@@ -303,8 +305,14 @@ describe(@"uploading / deleting single files with the file manager", ^{
                     testFile = [SDLFile persistentFileWithData:testFileData name:@"testFile4" fileExtension:@"png"];
                 });
 
-                it(@"should return NO", ^{
-                    expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                context(@"when the file is not in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                    });
+
+                    it(@"should return NO", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                    });
                 });
 
                 context(@"when the file is in remoteFileNames", ^{
@@ -325,16 +333,6 @@ describe(@"uploading / deleting single files with the file manager", ^{
                         it(@"should return YES", ^{
                             expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
                         });
-                    });
-                });
-
-                context(@"when the file is not in remoteFileNames", ^{
-                    beforeEach(^{
-                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
-                    });
-
-                    it(@"should return NO", ^{
-                        expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
                     });
                 });
             });
