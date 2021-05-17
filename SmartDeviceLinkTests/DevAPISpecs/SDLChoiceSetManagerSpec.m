@@ -722,16 +722,16 @@ describe(@"choice set manager tests", ^{
         });
 
        describe(@"dismissing the keyboard", ^{
-           __block SDLPresentKeyboardOperation *mockKeyboardOp1 = nil;
-           __block SDLPresentKeyboardOperation *mockKeyboardOp2 = nil;
+           __block id mockKeyboardOp1 = nil;
+           __block id mockKeyboardOp2 = nil;
            __block NSOperationQueue *mockQueue = nil;
            __block UInt16 testCancelId = 387;
 
             beforeEach(^{
-                mockKeyboardOp1 = OCMPartialMock([[SDLPresentKeyboardOperation alloc] init]);
+                mockKeyboardOp1 = OCMStrictClassMock([SDLPresentKeyboardOperation class]);
                 OCMStub([mockKeyboardOp1 cancelId]).andReturn(88);
 
-                mockKeyboardOp2 = OCMPartialMock([[SDLPresentKeyboardOperation alloc] init]);
+                mockKeyboardOp2 = OCMStrictClassMock([SDLPresentKeyboardOperation class]);
                 OCMStub([mockKeyboardOp2 cancelId]).andReturn(testCancelId);
 
                 mockQueue = OCMPartialMock([[NSOperationQueue alloc] init]);
@@ -742,19 +742,29 @@ describe(@"choice set manager tests", ^{
             });
 
            it(@"should dismiss the keyboard operation with the matching cancelID if it is executing", ^{
+               OCMStub([mockKeyboardOp1 isExecuting]).andReturn(true);
                OCMStub([mockKeyboardOp2 isExecuting]).andReturn(true);
-               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
 
                OCMReject([mockKeyboardOp1 dismissKeyboard]);
-               OCMVerify([mockKeyboardOp2 dismissKeyboard]);
+               OCMExpect([mockKeyboardOp2 dismissKeyboard]);
+
+               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
+
+               OCMVerifyAllWithDelay(mockKeyboardOp1, 0.5);
+               OCMVerifyAllWithDelay(mockKeyboardOp2, 0.5);
            });
 
            it(@"should dismiss the keyboard operation with the matching cancelID if it is not executing", ^{
+               OCMStub([mockKeyboardOp1 isExecuting]).andReturn(false);
                OCMStub([mockKeyboardOp2 isExecuting]).andReturn(false);
-               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
 
                OCMReject([mockKeyboardOp1 dismissKeyboard]);
-               OCMVerify([mockKeyboardOp2 dismissKeyboard]);
+               OCMExpect([mockKeyboardOp2 dismissKeyboard]);
+
+               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
+
+               OCMVerifyAllWithDelay(mockKeyboardOp1, 0.5);
+               OCMVerifyAllWithDelay(mockKeyboardOp2, 0.5);
            });
         });
     });
