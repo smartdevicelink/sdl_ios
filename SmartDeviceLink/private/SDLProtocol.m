@@ -14,6 +14,7 @@
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLEncryptionLifecycleManager.h"
+#import "SDLError.h"
 #import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
@@ -33,7 +34,8 @@
 #import "SDLV2ProtocolHeader.h"
 
 NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
-
+static const NSUInteger TLSMaxDataSize = 16834;
+static const NSUInteger TLSMaxRPCPayloadDataToEncryptSize = 16384 /*TLS Max Record Size*/ - 5 /*TLS Record Header Size*/ - 32 /*TLS MES Auth CDE Size*/ - 256 /*TLS Max Record Padding Size*/;
 
 #pragma mark - SDLProtocol Private Interface
 
@@ -81,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
     _transport.delegate = self;
 
     _encryptionLifecycleManager = encryptionManager;
-    
+
     return self;
 }
 
@@ -184,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // TLS initialization succeeded. Build and send the message.
         SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:nil];
-        SDLLogD(@"TLS initialized, sending start service for message: %@", message);
+        SDLLogD(@"TLS initialized, sending start service with encryption for message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:serviceType];
     }];
 }
@@ -280,27 +282,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Send Data
 
-- (void)sendRPC:(SDLRPCMessage *)message {
+- (BOOL)sendRPC:(SDLRPCMessage *)message error:(NSError *__autoreleasing *)error {
     if (!message.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:message]) {
         message.payloadProtected = YES;
     }
-    
-    if (message.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
-        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", message);
-        return;
-    }
 
-    [self sendRPC:message encrypted:message.isPayloadProtected error:nil];
+    return [self sendRPC:message encrypted:message.isPayloadProtected error:error];
 }
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:error];
 
-    if (error != nil) {
-        SDLLogW(@"Error encoding JSON data: %@", *error);
+    // Check that we can send the message over encryption and fail early if we cannot
+    if (message.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
+        SDLLogE(@"Encryption Manager not ready, message not sent (%@)", message);
+        if (error != nil) {
+            *error = [NSError sdl_encryption_lifecycle_notReadyError];
+        }
+        return NO;
     }
-    
+
+    // Convert the message dictionary to JSON and return early if it fails
+    NSError *jsonError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&jsonError];
+    if (jsonError != nil) {
+        SDLLogE(@"Error encoding JSON data: %@", jsonError);
+        *error = jsonError;
+        return NO;
+    }
+
     NSData *messagePayload = nil;
     SDLLogV(@"Sending RPC: %@", message);
 
@@ -333,27 +343,11 @@ NS_ASSUME_NONNULL_BEGIN
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
             } else {
                 NSAssert(NO, @"Unknown message type attempted to send. Type: %@", [message class]);
+                *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Unknown message type" andReason:@"An unknown RPC message type was attempted."];
                 return NO;
             }
 
-            // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
-            // TODO: (Joel F.)[2016-02-09] We should assert if the service isn't setup for encryption. See [#350](https://github.com/smartdevicelink/sdl_ios/issues/350)
-            if (encryption) {
-                NSError *encryptError = nil;
-                
-                messagePayload = [self.securityManager encryptData:rpcPayload.data withError:&encryptError];
-                
-                if (encryptError) {
-                    SDLLogE(@"Error encrypting request! %@", encryptError);
-                }
-            } else {
-                messagePayload = rpcPayload.data;
-            }
-
-            if (!messagePayload) {
-                return NO;
-            }
-            
+            messagePayload = rpcPayload.data;
         } break;
         default: {
             NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals sharedGlobals].protocolVersion.major), message);
@@ -376,14 +370,57 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]) {
-        SDLLogV(@"Sending protocol message: %@", protocolMessage);
-        [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
+    NSUInteger rpcMTUSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC];
+    NSUInteger mtuSize = (encryption ? MIN(TLSMaxRPCPayloadDataToEncryptSize, rpcMTUSize) : rpcMTUSize);
+    NSArray<SDLProtocolMessage *> *protocolMessages = nil;
+    if (protocolMessage.size < mtuSize) {
+        protocolMessages = @[protocolMessage];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
-        for (SDLProtocolMessage *smallerMessage in messages) {
-            SDLLogV(@"Sending protocol message: %@", smallerMessage);
-            [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceTypeRPC];
+        protocolMessages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withMTULimit:mtuSize];
+    }
+
+    // If the message should be encrypted, encrypt the payloads
+    if (encryption) {
+        BOOL success = [self sdl_encryptProtocolMessages:protocolMessages error:error];
+        if (!success) {
+            SDLLogE(@"Error encrypting protocol messages. Messages will not be sent. Error: %@", *error);
+            return NO;
+        }
+    }
+
+    // Send each message
+    for (SDLProtocolMessage *message in protocolMessages) {
+        SDLLogV(@"Sending protocol message: %@", message);
+        [self sdl_sendDataToTransport:message.data onService:SDLServiceTypeRPC];
+    }
+
+    return YES;
+}
+
+/// Receives an array of `SDLProtocolMessage` and attempts to encrypt their payloads in place through the active security manager. If anything fails, it will return NO and pass back the error.
+/// @param protocolMessages The array of protocol messages to encrypt.
+/// @param error A passback error object if attempting to encrypt the protocol message payloads fails.
+/// @returns YES if the encryption was successful, NO if it was not
+- (BOOL)sdl_encryptProtocolMessages:(NSArray<SDLProtocolMessage *> *)protocolMessages error:(NSError *__autoreleasing *)error {
+    for (SDLProtocolMessage *message in protocolMessages) {
+        if (message.header.frameType == SDLFrameTypeFirst) { continue; }
+
+        // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
+        NSError *encryptError = nil;
+        NSData *encryptedMessagePayload = [self.securityManager encryptData:message.payload withError:&encryptError];
+
+        // If the encryption failed, pass back the error and return false
+        if (encryptedMessagePayload.length == 0 || encryptError != nil) {
+            if (encryptError != nil) {
+                *error = encryptError;
+            } else {
+                *error = [NSError sdl_encryption_unknown];
+            }
+
+            return NO;
+        } else {
+            message.payload = encryptedMessagePayload;
+            message.header.bytesInPayload = (UInt32)encryptedMessagePayload.length;
         }
     }
 
@@ -405,7 +442,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType {
-    [self sdl_sendRawData:data onService:serviceType encryption:YES];
+    // Break up data larger than the max TLS size so the data can be encrypted by the security manager without failing due to the data size being too big
+    NSUInteger offset = 0;
+    do {
+        NSUInteger remainingDataLength = data.length - offset;
+        NSUInteger chunkSize = (remainingDataLength > TLSMaxDataSize) ? TLSMaxDataSize : remainingDataLength;
+        NSData *chunk = [NSData dataWithBytesNoCopy:(BytePtr)data.bytes + offset length:chunkSize freeWhenDone:NO];
+
+        [self sdl_sendRawData:chunk onService:serviceType encryption:YES];
+        offset += chunkSize;
+    } while (offset < data.length);
 }
 
 - (void)sdl_sendRawData:(NSData *)data onService:(SDLServiceType)service encryption:(BOOL)encryption {
@@ -431,7 +477,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withMTULimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]];
         for (SDLProtocolMessage *smallerMessage in messages) {
             SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:header.serviceType];

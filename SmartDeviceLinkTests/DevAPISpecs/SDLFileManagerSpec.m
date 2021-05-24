@@ -143,30 +143,41 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
         });
 
-        describe(@"after receiving a ListFiles error", ^{
+        describe(@"getting an error for a ListFiles request", ^{
+            __block SDLListFilesOperation *operation = nil;
+
             beforeEach(^{
-                SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
-                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError sdl_fileManager_unableToStartError]);
+                operation = testFileManager.pendingTransactions.firstObject;
             });
 
-            it(@"should handle the error properly", ^{
+            it(@"should handle a ListFiles error with a resultCode of DISALLOWED and transition to the ready state", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:@{@"resultCode" : SDLResultDisallowed}]);
+
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                expect(testFileManager.remoteFileNames).to(beEmpty());
+                expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
+            });
+
+            it(@"should handle a ListFiles error with a resultCode ENCRYPTION_NEEDED and transition to the ready state", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:@{@"resultCode" : SDLResultEncryptionNeeded}]);
+
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                expect(testFileManager.remoteFileNames).to(beEmpty());
+                expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
+            });
+
+            it(@"should transition to the error state if it gets a ListFiles error with a resultCode that is not handled by the library", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:@{@"resultCode" : SDLResultUnsupportedRequest}]);
+
                 expect(testFileManager.currentState).to(match(SDLFileManagerStateStartupError));
                 expect(testFileManager.remoteFileNames).to(beEmpty());
                 expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
             });
-        });
 
-        describe(@"after receiving a ListFiles error with a resultCode DISALLOWED", ^{
-            beforeEach(^{
-                SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
-                NSMutableDictionary *userInfo = [[NSError sdl_fileManager_unableToStartError].userInfo mutableCopy];
-                userInfo[@"resultCode"] = SDLResultDisallowed;
-                NSError *errorWithResultCode = [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:userInfo];
-                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, errorWithResultCode);
-            });
+            it(@"should transition to the error state if it gets a ListFiles error without a resultCode", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError sdl_fileManager_unableToStartError]);
 
-            it(@"should handle the error properly", ^{
-                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateStartupError));
                 expect(testFileManager.remoteFileNames).to(beEmpty());
                 expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
             });

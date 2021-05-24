@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_encryption_lifecycle_notReadyError;
 + (NSError *)sdl_encryption_lifecycle_encryption_off;
 + (NSError *)sdl_encryption_lifecycle_nak;
++ (NSError *)sdl_encryption_unknown;
 
 #pragma mark SDLManager
 
