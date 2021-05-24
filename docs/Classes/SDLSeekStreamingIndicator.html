@@ -1,0 +1,139 @@
+<h1>SDLSeekStreamingIndicator Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithType:">-initWithType:</a></li>
+  <li><a href="#section--initWithType:seekTime:">-initWithType:seekTime:</a></li>
+  <li><a href="#section-+seekIndicatorWithSeekTime:">+seekIndicatorWithSeekTime:</a></li>
+  <li><a href="#section-type">type</a></li>
+  <li><a href="#section-seekTime">seekTime</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>The seek next / skip previous subscription buttons&rsquo; content</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithType:">
+      -initWithType:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>- type</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSeekStreamingIndicator object</p>
+  </div>
+  
+  <h3 id="section--initWithType:seekTime:">
+      -initWithType:seekTime:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span><span class="p">)</span><span class="nv">type</span>
+                            <span class="nf">seekTime</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">seekTime</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span><span class="p">,</span> <span class="nv">seekTime</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>type</dt>
+      <dd><p>- type</p></dd>
+      <dt>seekTime</dt>
+      <dd><p>- seekTime</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSeekStreamingIndicator object</p>
+  </div>
+  
+  <h3 id="section-+seekIndicatorWithSeekTime:">
+      +seekIndicatorWithSeekTime:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">seekIndicatorWithSeekTime</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">seekTime</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">seekIndicator</span><span class="p">(</span><span class="n">withSeekTime</span> <span class="nv">seekTime</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>seekTime</dt>
+      <dd><p>- seekTime</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLSeekStreamingIndicator object</p>
+  </div>
+  
+  <h3 id="section-type">
+      type
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span> <span class="n">type</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-seekTime">
+      seekTime
+  </h3>
+  
+  <p>If the type is TIME, this number of seconds may be present alongside the skip indicator. It will indicate the number of seconds that the currently playing media will skip forward or backward.
+{&ldquo;num_min_value&rdquo;: 1, &ldquo;num_max_value&rdquo;: 99}</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">seekTime</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seekTime</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

@@ -62,6 +62,8 @@
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (strong, nonatomic, nullable) SDLVideoStreamingCapability *videoStreamingCapabilityUpdated;
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
+@property (strong, nonatomic) NSMutableDictionary *videoEncoderSettings;
+@property (copy, nonatomic) NSDictionary<NSString *, id> *customEncoderSettings;
 
 - (void)sdl_shutDown;
 - (NSArray<SDLVideoStreamingCapability *>* __nullable)matchVideoCapability:(SDLVideoStreamingCapability *)videoStreamingCapability;
@@ -71,6 +73,7 @@
 - (void)didEnterStateVideoStreamReady;
 - (void)didEnterStateVideoStreamSuspended;
 - (void)sdl_videoStreamingCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_applyVideoCapability:(SDLVideoStreamingCapability *)capability;
 
 @end
 
@@ -133,7 +136,6 @@ NSString *const testAppName = @"Test App";
 static void postRAINotification(void);
 static void sendNotificationForHMILevel(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState);
 static SDLGetSystemCapabilityResponse *createSystemCapabilityResponse(void);
-static SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData);
 
 #pragma mark - test Init
 
@@ -1113,200 +1115,305 @@ describe(@"runtime tests", ^{
             expect(streamingLifecycleManager.videoStreamBackgroundString).to(match(expectedVideoStreamBackgroundString));
         });
     });
-});
 
-QuickSpecEnd
-
-#pragma mark - test GetSystemCapabilities
-
-QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec_GetSystemCapabilities)
-
-const NSInteger testScaledWidth = roundf((float)testVSCResolutionWidth/testVSCScale);
-const NSInteger testScaledHeight = roundf((float)testVSCResolutionHeight/testVSCScale);
-const CGSize testSize = CGSizeMake(testVSCResolutionWidth, testVSCResolutionHeight);
-
-SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
-SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
-SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
-SDLLifecycleConfiguration *testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
-SDLVersion *version600 = [SDLVersion versionWithMajor:6 minor:0 patch:0];
-
-// set proper version up
-[SDLGlobals sharedGlobals].rpcVersion = version600;
-[SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = version600;
-
-testConfiguration.customVideoEncoderSettings = @{(id)kVTCompressionPropertyKey_ExpectedFrameRate : @1};
-testConfiguration.dataSource = testDataSource;
-testConfiguration.rootViewController = testViewController;
-
-// load connection manager with fake data
-TestSmartConnectionManager *testConnectionManager = [[TestSmartConnectionManager alloc] init];
-TestSmartConnection *connectionModel = [[TestSmartConnection alloc] init];
-SDLGetSystemCapability *getRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
-connectionModel.request = getRequest;
-connectionModel.response = createSystemCapabilityResponse();
-[testConnectionManager addConnectionModel:connectionModel];
-
-testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
-
-SDLConfiguration *testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration] streamingMedia:testConfiguration fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:nil];
-
-SDLSystemCapabilityManager *testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
-
-describe(@"after sending GetSystemCapabilities", ^{
-    __block SDLStreamingVideoLifecycleManager *streamingLifecycleManager = nil;
-    // we need to keep the delegate somewhere sinse the manager does not retain it (weak ref)
-    __strong __block TestStreamingMediaDelegate *strongDelegate = nil;
-
-    beforeEach(^{
-        // create, init and setup SDLStreamingVideoLifecycleManager
-        strongDelegate = [[TestStreamingMediaDelegate alloc] init];
-        testConfig.streamingMediaConfig.delegate = strongDelegate;
-        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig systemCapabilityManager:testSystemCapabilityManager];
-        testConnectionManager.lastRequestBlock = ^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            SDLLogD(@"testConnectionManager.lastRequestBlock:\n\trequest:{%@};\n\tresponse:{%@}\n\terror:{%@};", request, response, error);
-        };
-        SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
-        [streamingLifecycleManager startWithProtocol:protocolMock];
-        postRAINotification();
-
-        const int64_t testMTU = 789456;
-        const int32_t testVideoWidth = 320;
-        const int32_t testVideoHeight = 480;
-        SDLVideoStreamingCodec testVideoCodec = SDLVideoStreamingCodecH264;
-        SDLVideoStreamingProtocol testVideoProtocol = SDLVideoStreamingProtocolRTP;
-
-        SDLControlFramePayloadVideoStartServiceAck *testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:testVideoProtocol codec:testVideoCodec];
-        SDLProtocolHeader *testVideoHeader = createProtocolHeader(SDLFrameInfoStartServiceACK);
-        SDLProtocolMessage *testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
-
-        [streamingLifecycleManager protocol:protocolMock didReceiveStartServiceACK:testVideoMessage];
-        sendNotificationForHMILevel(SDLHMILevelFull, SDLVideoStreamingStateStreamable);
-    });
-
-    afterEach(^{
-        [strongDelegate reset];
-        if (streamingLifecycleManager) {
-            // sdl_shutDown: unsubscribe from notifications, otherwise the zombie managers will still receive all notifications
-            [streamingLifecycleManager sdl_shutDown];
-            streamingLifecycleManager = nil;
-        }
-    });
-
-    it(@"should initialize properties", ^{
-        expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(@(testVSCScale)));
-        expect(streamingLifecycleManager.touchManager).toNot(beNil());
-        expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
-        expect(streamingLifecycleManager.isStreamingSupported).to(beTrue());
-        expect(streamingLifecycleManager.isVideoConnected).to(beFalse());
-        expect(streamingLifecycleManager.isVideoEncrypted).to(beFalse());
-        expect(streamingLifecycleManager.isVideoStreamingPaused).to(beTrue());
-        expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, testSize))).to(equal(@YES));
-        expect(streamingLifecycleManager.pixelBufferPool == NULL).to(beTrue());
-        expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
-        expect(streamingLifecycleManager.showVideoBackgroundDisplay).to(beTrue());
-        expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
-        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStarting));
-        expect(streamingLifecycleManager.videoFormat).to(beNil());
-        expect(streamingLifecycleManager.dataSource).to(equal(testDataSource));
-        expect(streamingLifecycleManager.supportedFormats).to(haveCount(2));
-        expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
-        expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
-        expect(streamingLifecycleManager.preferredFormatIndex).to(equal(2));
-        expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
-    });
-
-    context(@"and receiving an error response", ^{
-        // This happens if the HU doesn't understand GetSystemCapabilities
+    describe(@"Getting notifications of VideoStreamingCapability updates", ^{
         beforeEach(^{
-            SDLGenericResponse *genericResponse = [[SDLGenericResponse alloc] init];
-            genericResponse.success = @NO;
-            genericResponse.resultCode = SDLResultInvalidData;
-
-            @try {
-                [testConnectionManager respondToLastRequestWithResponse:genericResponse];
-            } @catch(id ignore) {}
+            streamingLifecycleManager.delegate = nil;
+            streamingLifecycleManager.dataSource = nil;
+            streamingLifecycleManager.customEncoderSettings = nil;
+            [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamManagerStateStarting fromOldState:nil callEnterTransition:NO];
         });
+        
+        context(@"the module does not support the GetSystemCapabilities request", ^{
+            __block SDLSystemCapability *testNilVideoStreamingCapability = nil;
 
-        it(@"should have correct format and resolution", ^{
-            expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
-            expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
-            if (!streamingLifecycleManager.preferredFormats || !streamingLifecycleManager.preferredResolutions) {
-                failWithMessage(@"absent preferredFormats or preferredResolutions");
-            }
-
-            const int expectedFormatCount = 3;
-            NSArray<SDLVideoStreamingFormat *> *preferredFormats = streamingLifecycleManager.preferredFormats;
-            if (expectedFormatCount == preferredFormats.count) {
-                SDLVideoStreamingFormat *format = preferredFormats[expectedFormatCount-1];
-                expect(format.codec).to(equal(SDLVideoStreamingCodecH264));
-                expect(format.protocol).to(equal(SDLVideoStreamingProtocolRTP));
-            } else {
-                failWithMessage(([NSString stringWithFormat:@"expected %d preferred format only but got %d instead\n%@", expectedFormatCount, (int)preferredFormats.count, preferredFormats]));
-            }
-
-            NSArray<SDLImageResolution *> *preferredResolutions = streamingLifecycleManager.preferredResolutions;
-            if (1 == preferredResolutions.count) {
-                SDLImageResolution *resolution = preferredResolutions[0];
-                expect(resolution.resolutionWidth).to(equal(testScaledWidth));
-                expect(resolution.resolutionHeight).to(equal(testScaledHeight));
-            } else {
-                failWithMessage(([NSString stringWithFormat:@"expected one preferred resolution alone but got %d instead", (int)preferredResolutions.count]));
-            }
-        });
-
-        context(@"and receiving a response", ^{
             beforeEach(^{
-                SDLGetSystemCapabilityResponse *response = createSystemCapabilityResponse();
-                @try {
-                    [testConnectionManager respondToLastRequestWithResponse:response];
-                } @catch(id ignore) {}
+                testNilVideoStreamingCapability = [[SDLSystemCapability alloc] init];
+                testNilVideoStreamingCapability.videoStreamingCapability = nil;
+
+                [streamingLifecycleManager sdl_videoStreamingCapabilityDidUpdate:testNilVideoStreamingCapability];
             });
 
-            it(@"should have correct data from the data source", ^{
-                expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
-                expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
-                if (!streamingLifecycleManager.preferredFormats || !streamingLifecycleManager.preferredResolutions) {
-                    return;
-                }
+            it(@"should use the library's default values", ^{
+                expect(streamingLifecycleManager.videoStreamingCapability.maxBitrate).to(beNil());
+                expect(streamingLifecycleManager.videoStreamingCapability.preferredFPS).to(beNil());
 
-                // Correct formats should be retrieved from the data source
+                expect(streamingLifecycleManager.preferredFormats).to(haveCount(1));
+                expect(streamingLifecycleManager.preferredFormats[0].codec).to(equal(SDLVideoStreamingCodecH264));
+                expect(streamingLifecycleManager.preferredFormats[0].protocol).to(equal(SDLVideoStreamingProtocolRAW));
+
                 expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
+                expect(streamingLifecycleManager.preferredResolutions[0].resolutionWidth).to(equal(streamingLifecycleManager.videoScaleManager.displayViewportResolution.width));
+                expect(streamingLifecycleManager.preferredResolutions[0].resolutionHeight).to(equal(streamingLifecycleManager.videoScaleManager.displayViewportResolution.height));
 
-                expect(streamingLifecycleManager.preferredResolutions.firstObject.resolutionWidth).to(equal(testScaledWidth));
-                expect(streamingLifecycleManager.preferredResolutions.firstObject.resolutionHeight).to(equal(testScaledHeight));
 
-                expect(streamingLifecycleManager.preferredFormats).to(haveCount(streamingLifecycleManager.supportedFormats.count + 1));
-                expect(streamingLifecycleManager.preferredFormats.firstObject.codec).to(equal(testDataSource.extraFormat.codec));
-                expect(streamingLifecycleManager.preferredFormats.firstObject.protocol).to(equal(testDataSource.extraFormat.protocol));
+                expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(beFalse());
+                expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(streamingLifecycleManager.videoScaleManager.scale));
+            });
+        });
 
-                // The haptic manager should be enabled
-                expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(equal(YES));
+        context(@"the module supports the GetSystemCapabilities request", ^{
+            __block SDLSystemCapability *testSystemCapability = nil;
+            __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
+
+            context(@"the module does not support VideoStreamingCapability.additionalVideoStreamingCapabilities", ^{
+                beforeEach(^{
+                    SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:44 height:99];
+                    SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP];
+                    SDLVideoStreamingFormat *format2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+                    NSArray<SDLVideoStreamingFormat *> *testFormats = @[format1, format2];
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:@(333) supportedFormats:testFormats hapticSpatialDataSupported:@YES diagonalScreenSize:@(8.5) pixelPerInch:@(117) scale:@(1) preferredFPS:@(222)];
+
+                    testSystemCapability = [[SDLSystemCapability alloc] init];
+                    testSystemCapability.videoStreamingCapability = testVideoStreamingCapability;
+
+                    [streamingLifecycleManager sdl_videoStreamingCapabilityDidUpdate:testSystemCapability];
+                });
+
+                it(@"should use the data from the VideoStreamingCapability", ^{
+                    expect(streamingLifecycleManager.videoStreamingCapability.maxBitrate).to(equal(testVideoStreamingCapability.maxBitrate));
+                    expect(streamingLifecycleManager.videoStreamingCapability.preferredFPS).to(equal(testVideoStreamingCapability.preferredFPS));
+
+                    expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
+                    expect(streamingLifecycleManager.preferredResolutions[0].resolutionWidth).to(equal(testVideoStreamingCapability.preferredResolution.resolutionWidth));
+                    expect(streamingLifecycleManager.preferredResolutions[0].resolutionHeight).to(equal(testVideoStreamingCapability.preferredResolution.resolutionHeight));
+
+                    expect(streamingLifecycleManager.preferredFormats).to(haveCount(2));
+                    expect(streamingLifecycleManager.preferredFormats[0].codec).to(equal(testVideoStreamingCapability.supportedFormats[0].codec));
+                    expect(streamingLifecycleManager.preferredFormats[0].protocol).to(equal(testVideoStreamingCapability.supportedFormats[0].protocol));
+                    expect(streamingLifecycleManager.preferredFormats[1].codec).to(equal(testVideoStreamingCapability.supportedFormats[1].codec));
+                    expect(streamingLifecycleManager.preferredFormats[1].protocol).to(equal(testVideoStreamingCapability.supportedFormats[1].protocol));
+
+                    expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(equal(YES));
+                    expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(testVideoStreamingCapability.scale));
+                });
             });
 
-            it(@"should have decided upon the correct preferred format and resolution", ^{
-                expect(streamingLifecycleManager.preferredFormats).notTo(beNil());
-                expect(streamingLifecycleManager.preferredResolutions).notTo(beNil());
-                if (!streamingLifecycleManager.preferredFormats || !streamingLifecycleManager.preferredResolutions) {
-                    return;
-                }
+            context(@"the module supports VideoStreamingCapability.additionalVideoStreamingCapabilities", ^{
+                __block SDLVideoStreamingCapability *testAdditionalVideoStreamingCapability = nil;
 
-                SDLVideoStreamingFormat *preferredFormat = streamingLifecycleManager.preferredFormats[streamingLifecycleManager.preferredFormatIndex];
-                expect(preferredFormat.codec).to(equal(SDLVideoStreamingCodecH264));
-                expect(preferredFormat.protocol).to(equal(SDLVideoStreamingProtocolRTP));
+                beforeEach(^{
+                    SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:44 height:99];
+                    SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP];
+                    SDLVideoStreamingFormat *format2 = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+                    NSArray<SDLVideoStreamingFormat *> *testFormats = @[format1, format2];
 
-                SDLImageResolution *preferredResolution = streamingLifecycleManager.preferredResolutions[streamingLifecycleManager.preferredResolutionIndex];
-                expect(preferredResolution.resolutionWidth).to(equal(@(testScaledWidth)));
-                expect(preferredResolution.resolutionHeight).to(equal(@(testScaledHeight)));
-            });
+                    testAdditionalVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testAdditionalVideoStreamingCapability.preferredResolution = [[SDLImageResolution alloc] initWithWidth:500 height:100];
+                    testAdditionalVideoStreamingCapability.hapticSpatialDataSupported = @YES;
+                    testAdditionalVideoStreamingCapability.diagonalScreenSize = @8;
+                    testAdditionalVideoStreamingCapability.scale = @1;
 
-            it(@"should set the correct scale value", ^{
-                expect(streamingLifecycleManager.videoScaleManager).notTo(beNil());
-                expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(testVSCScale));
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:@(333) supportedFormats:testFormats hapticSpatialDataSupported:@YES diagonalScreenSize:@(8.5) pixelPerInch:@(117) scale:@(1) preferredFPS:@(222)];
+                    testVideoStreamingCapability.additionalVideoStreamingCapabilities = @[testAdditionalVideoStreamingCapability];
+
+                    testSystemCapability = [[SDLSystemCapability alloc] init];
+                    testSystemCapability.videoStreamingCapability = testVideoStreamingCapability;
+
+                    [streamingLifecycleManager sdl_videoStreamingCapabilityDidUpdate:testSystemCapability];
+                });
+
+                it(@"should use the data from the VideoStreamingCapability and additionalVideoStreamingCapabilities", ^{
+                    expect(streamingLifecycleManager.videoStreamingCapability.maxBitrate).to(equal(testVideoStreamingCapability.maxBitrate));
+                    expect(streamingLifecycleManager.videoStreamingCapability.preferredFPS).to(equal(testVideoStreamingCapability.preferredFPS));
+
+                    expect(streamingLifecycleManager.preferredResolutions).to(haveCount(2));
+                    expect(streamingLifecycleManager.preferredResolutions[0].resolutionWidth).to(equal(testVideoStreamingCapability.preferredResolution.resolutionWidth));
+                    expect(streamingLifecycleManager.preferredResolutions[0].resolutionHeight).to(equal(testVideoStreamingCapability.preferredResolution.resolutionHeight));
+                    expect(streamingLifecycleManager.preferredResolutions[1].resolutionWidth).to(equal(testVideoStreamingCapability.additionalVideoStreamingCapabilities[0].preferredResolution.resolutionWidth));
+                    expect(streamingLifecycleManager.preferredResolutions[1].resolutionHeight).to(equal(testVideoStreamingCapability.additionalVideoStreamingCapabilities[0].preferredResolution.resolutionHeight));
+
+                    expect(streamingLifecycleManager.preferredFormats).to(haveCount(2));
+                    expect(streamingLifecycleManager.preferredFormats[0].codec).to(equal(testVideoStreamingCapability.supportedFormats[0].codec));
+                    expect(streamingLifecycleManager.preferredFormats[0].protocol).to(equal(testVideoStreamingCapability.supportedFormats[0].protocol));
+                    expect(streamingLifecycleManager.preferredFormats[1].codec).to(equal(testVideoStreamingCapability.supportedFormats[1].codec));
+                    expect(streamingLifecycleManager.preferredFormats[1].protocol).to(equal(testVideoStreamingCapability.supportedFormats[1].protocol));
+
+                    expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(equal(YES));
+                    expect(streamingLifecycleManager.videoScaleManager.scale).to(equal(testVideoStreamingCapability.scale));
+                });
             });
         });
     });
 
+    describe(@"setting the video encoder properties", ^{
+        __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
+
+        beforeEach(^{
+            testVideoStreamingCapability = nil;
+        });
+
+        describe(@"setting the bitrate", ^{
+            context(@"the VideoStreamingCapability returns a maxBitrate", ^{
+                it(@"should use the custom averageBitRate set by the developer when it is less than the VideoStreamingCapability's maxBitrate", ^{
+                    int testVideoStreamingCapabilityMaxBitrate = 99999;
+                    float testCustomBitRate = 88;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = @(testVideoStreamingCapabilityMaxBitrate);
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(111), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(testCustomBitRate)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(testCustomBitRate)));
+                });
+
+                it(@"should use the the module's VideoStreamingCapability's maxBitrate if it is less than the averageBitRate set by the developer ", ^{
+                    int testVideoStreamingCapabilityMaxBitrate = 88;
+                    int testCustomBitRate = 99999;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = @(testVideoStreamingCapabilityMaxBitrate);
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(111), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(testCustomBitRate)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    int expectedCustomBitRate = testVideoStreamingCapabilityMaxBitrate * 1000; //convert from video streaming capability bitrate unit of kbps to video encoder units of bps
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(expectedCustomBitRate)));
+                });
+
+                it(@"should use the the module's VideoStreamingCapability's maxBitrate if no averageBitRate was set by the developer ", ^{
+                    int testVideoStreamingCapabilityMaxBitrate = 7889;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = @(testVideoStreamingCapabilityMaxBitrate);
+
+                    streamingLifecycleManager.customEncoderSettings = nil;
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    int expectedCustomBitRate = testVideoStreamingCapabilityMaxBitrate * 1000; //convert from video streaming capability bitrate unit of kbps to video encoder units of bps
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(expectedCustomBitRate)));
+                });
+            });
+
+            context(@"the VideoStreamingCapability returns a nil maxBitrate", ^{
+                it(@"should use the custom averageBitRate set by the developer even if it is larger than the default averageBitRate", ^{
+                    int testCustomBitRate = 9900000; // larger than the default of @600000
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(111), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(testCustomBitRate)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(testCustomBitRate)));
+                });
+
+                it(@"should use the custom averageBitRate set by the developer even if it is smaller than the default averageBitRate", ^{
+                    int testCustomBitRate = 2; // less than the default of @600000
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(111), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(testCustomBitRate)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(testCustomBitRate)));
+                });
+
+                it(@"should use the default averageBitRate if a custom averageBitRate was not set by the developer", ^{
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.maxBitrate = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = nil;
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate]).to(equal(@(600000)));
+                });
+            });
+        });
+
+        describe(@"setting the framerate", ^{
+            context(@"the VideoStreamingCapability returns a preferredFPS", ^{
+                it(@"should use the custom expectedFrameRate set by the developer when it is less than the VideoStreamingCapability's preferredFPS", ^{
+                    int testVideoStreamingCapabilityPreferredFPS = 1001;
+                    float testCustomExpectedFrameRate = 66;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = @(testVideoStreamingCapabilityPreferredFPS);
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(testCustomExpectedFrameRate), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(22)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testCustomExpectedFrameRate)));
+                });
+
+                it(@"should use the the module's VideoStreamingCapability's preferredFPS if it is less than the expectedFrameRate set by the developer ", ^{
+                    int testVideoStreamingCapabilityPreferredFPS = 66;
+                    int testCustomExpectedFrameRate = 1001;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = @(testVideoStreamingCapabilityPreferredFPS);
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(testCustomExpectedFrameRate), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(22)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testVideoStreamingCapabilityPreferredFPS)));
+                });
+
+                it(@"should use the the module's VideoStreamingCapability's preferredFPS if no expectedFrameRate was set by the developer ", ^{
+                    int testVideoStreamingCapabilityPreferredFPS = 66;
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = @(testVideoStreamingCapabilityPreferredFPS);
+
+                    streamingLifecycleManager.customEncoderSettings = nil;
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testVideoStreamingCapabilityPreferredFPS)));
+                });
+            });
+
+            context(@"the VideoStreamingCapability returns a nil preferredFPS", ^{
+                it(@"should use the custom expectedFrameRate set by the developer even if it is larger than the default expectedFrameRate", ^{
+                    int testCustomExpectedFrameRate = 990; // larger than the default of @15
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(testCustomExpectedFrameRate), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(22)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testCustomExpectedFrameRate)));
+                });
+
+                it(@"should use the custom expectedFrameRate set by the developer even if it is smaller than the default expectedFrameRate", ^{
+                    int testCustomExpectedFrameRate = 2; // less than the default of @15
+
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = @{(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate:@(testCustomExpectedFrameRate), (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:@(22)};
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(testCustomExpectedFrameRate)));
+                });
+
+                it(@"should use the default expectedFrameRate if a custom expectedFrameRate was not set by the developer", ^{
+                    testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] init];
+                    testVideoStreamingCapability.preferredFPS = nil;
+
+                    streamingLifecycleManager.customEncoderSettings = nil;
+
+                    [streamingLifecycleManager sdl_applyVideoCapability:testVideoStreamingCapability];
+
+                    expect(streamingLifecycleManager.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).to(equal(@(15)));
+                });
+            });
+        });
+    });
 });
 
 QuickSpecEnd
@@ -1543,15 +1650,4 @@ static SDLGetSystemCapabilityResponse* createSystemCapabilityResponse() {
     response.systemCapability = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:videoStreamingCapability];
 
     return response;
-}
-
-//.frameData = SDLFrameInfoStartServiceACK;
-static SDLProtocolHeader *createProtocolHeader(SDLFrameInfo frameData) {
-    SDLProtocolHeader *testVideoHeader = nil;
-    testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
-    testVideoHeader.frameType = SDLFrameTypeSingle;
-    testVideoHeader.frameData = frameData;
-    testVideoHeader.encrypted = YES;
-    testVideoHeader.serviceType = SDLServiceTypeVideo;
-    return testVideoHeader;
 }

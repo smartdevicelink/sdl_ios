@@ -117,6 +117,13 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         SDLLogE(@"New voice commands are invalid, skipping...");
         return;
     }
+
+    // Check if all new voice commands have unique strings
+    if (![self.class sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
+        SDLLogE(@"Not all voice command strings are unique across all voice commands. Voice commands will not be set.");
+        return;
+    }
+
     // Set the new voice commands internally
     _originalVoiceCommands = voiceCommands;
     _voiceCommands = validatedVoiceCommands;
@@ -174,6 +181,18 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         }
     }
     return [validatedVoiceCommands copy];
+}
+
+/// Evaluate the pendingVoiceCommands to check if there is two or more voiceCommands with the same string
++ (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands {
+    NSUInteger voiceCommandCount = 0;
+    NSMutableSet<NSString *> *voiceCommandsSet = [[NSMutableSet alloc] init];
+    for (SDLVoiceCommand *voiceCommand in voiceCommands) {
+        [voiceCommandsSet addObjectsFromArray:voiceCommand.voiceCommands];
+        voiceCommandCount += voiceCommand.voiceCommands.count;
+    }
+
+    return (voiceCommandsSet.count == voiceCommandCount);
 }
 
 #pragma mark - Observers

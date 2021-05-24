@@ -7,6 +7,7 @@
   <li><a href="#section-model">model</a></li>
   <li><a href="#section-modelYear">modelYear</a></li>
   <li><a href="#section-trim">trim</a></li>
+  <li><a href="#section--initWithMake:model:modelYear:trim:">-initWithMake:model:modelYear:trim:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -104,5 +105,41 @@
 
   
   
+  
+  <h3 id="section--initWithMake:model:modelYear:trim:">
+      -initWithMake:model:modelYear:trim:
+  </h3>
+  
+  <p>Initialize the object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMake</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">make</span>
+                               <span class="nf">model</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">model</span>
+                           <span class="nf">modelYear</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">modelYear</span>
+                                <span class="nf">trim</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">trim</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">make</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">modelYear</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">trim</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>make</dt>
+      <dd><p>- make</p></dd>
+      <dt>model</dt>
+      <dd><p>- model</p></dd>
+      <dt>modelYear</dt>
+      <dd><p>- modelYear</p></dd>
+      <dt>trim</dt>
+      <dd><p>- trim</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLVehicleType object</p>
+  </div>
   
 </section>

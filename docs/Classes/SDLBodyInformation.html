@@ -3,6 +3,8 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section--initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:">-initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:</a></li>
+  <li><a href="#section--initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:doorStatuses:gateStatuses:roofStatuses:">-initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:doorStatuses:gateStatuses:roofStatuses:</a></li>
   <li><a href="#section-parkBrakeActive">parkBrakeActive</a></li>
   <li><a href="#section-ignitionStableStatus">ignitionStableStatus</a></li>
   <li><a href="#section-ignitionStatus">ignitionStatus</a></li>
@@ -10,14 +12,94 @@
   <li><a href="#section-passengerDoorAjar">passengerDoorAjar</a></li>
   <li><a href="#section-rearLeftDoorAjar">rearLeftDoorAjar</a></li>
   <li><a href="#section-rearRightDoorAjar">rearRightDoorAjar</a></li>
+  <li><a href="#section-doorStatuses">doorStatuses</a></li>
+  <li><a href="#section-gateStatuses">gateStatuses</a></li>
+  <li><a href="#section-roofStatuses">roofStatuses</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>The body information including power modes.</p>
+<p>Undocumented</p>
 
 
 <section class="section task-group-section">
+  <h3 id="section--initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:">
+      -initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithParkBrakeActive</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">parkBrakeActive</span>
+       <span class="nf">ignitionStableStatus</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLIgnitionStableStatus.h@T@SDLIgnitionStableStatus">SDLIgnitionStableStatus</a></span><span class="p">)</span><span class="nv">ignitionStableStatus</span>
+             <span class="nf">ignitionStatus</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLIgnitionStatus.h@T@SDLIgnitionStatus">SDLIgnitionStatus</a></span><span class="p">)</span><span class="nv">ignitionStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">parkBrakeActive</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">ignitionStableStatus</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLIgnitionStableStatus.h@T@SDLIgnitionStableStatus">SDLIgnitionStableStatus</a></span><span class="p">,</span> <span class="nv">ignitionStatus</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLIgnitionStatus.h@T@SDLIgnitionStatus">SDLIgnitionStatus</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>parkBrakeActive</dt>
+      <dd><p>- @(parkBrakeActive)</p></dd>
+      <dt>ignitionStableStatus</dt>
+      <dd><p>- ignitionStableStatus</p></dd>
+      <dt>ignitionStatus</dt>
+      <dd><p>- ignitionStatus</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLBodyInformation object</p>
+  </div>
+  
+  <h3 id="section--initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:doorStatuses:gateStatuses:roofStatuses:">
+      -initWithParkBrakeActive:ignitionStableStatus:ignitionStatus:doorStatuses:gateStatuses:roofStatuses:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithParkBrakeActive</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">parkBrakeActive</span>
+       <span class="nf">ignitionStableStatus</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLIgnitionStableStatus.h@T@SDLIgnitionStableStatus">SDLIgnitionStableStatus</a></span><span class="p">)</span><span class="nv">ignitionStableStatus</span>
+             <span class="nf">ignitionStatus</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLIgnitionStatus.h@T@SDLIgnitionStatus">SDLIgnitionStatus</a></span><span class="p">)</span><span class="nv">ignitionStatus</span>
+               <span class="nf">doorStatuses</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLDoorStatus.html">SDLDoorStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">doorStatuses</span>
+               <span class="nf">gateStatuses</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLGateStatus.html">SDLGateStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">gateStatuses</span>
+               <span class="nf">roofStatuses</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLRoofStatus.html">SDLRoofStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">roofStatuses</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">parkBrakeActive</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">ignitionStableStatus</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLIgnitionStableStatus.h@T@SDLIgnitionStableStatus">SDLIgnitionStableStatus</a></span><span class="p">,</span> <span class="nv">ignitionStatus</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLIgnitionStatus.h@T@SDLIgnitionStatus">SDLIgnitionStatus</a></span><span class="p">,</span> <span class="nv">doorStatuses</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLDoorStatus.html">SDLDoorStatus</a></span><span class="p">]?,</span> <span class="nv">gateStatuses</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLGateStatus.html">SDLGateStatus</a></span><span class="p">]?,</span> <span class="nv">roofStatuses</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLRoofStatus.html">SDLRoofStatus</a></span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>parkBrakeActive</dt>
+      <dd><p>- @(parkBrakeActive)</p></dd>
+      <dt>ignitionStableStatus</dt>
+      <dd><p>- ignitionStableStatus</p></dd>
+      <dt>ignitionStatus</dt>
+      <dd><p>- ignitionStatus</p></dd>
+      <dt>doorStatuses</dt>
+      <dd><p>- doorStatuses</p></dd>
+      <dt>gateStatuses</dt>
+      <dd><p>- gateStatuses</p></dd>
+      <dt>roofStatuses</dt>
+      <dd><p>- roofStatuses</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLBodyInformation object</p>
+  </div>
+  
   <h3 id="section-parkBrakeActive">
       parkBrakeActive
   </h3>
@@ -91,12 +173,10 @@
       driverDoorAjar
   </h3>
   
-  
-<ul>
-<li>References signal &ldquo;DrStatDrv_B_Actl&rdquo;.</li>
-</ul>
+  <p>References signal &ldquo;DrStatDrv_B_Actl&rdquo;. Deprecated starting with RPC Spec 7.1.0.</p>
 
-<p>Optional</p>
+<p>@deprecated in SmartDeviceLink 7.1.0
+ @added in SmartDeviceLink 2.0.0</p>
 
   
   
@@ -114,12 +194,10 @@
       passengerDoorAjar
   </h3>
   
-  
-<ul>
-<li>References signal &ldquo;DrStatPsngr_B_Actl&rdquo;.</li>
-</ul>
+  <p>References signal &ldquo;DrStatPsngr_B_Actl&rdquo;. Deprecated starting with RPC Spec 7.1.0.</p>
 
-<p>Optional</p>
+<p>@deprecated in SmartDeviceLink 7.1.0
+ @added in SmartDeviceLink 2.0.0</p>
 
   
   
@@ -137,12 +215,10 @@
       rearLeftDoorAjar
   </h3>
   
-  
-<ul>
-<li>References signal &ldquo;DrStatRl_B_Actl&rdquo;.</li>
-</ul>
+  <p>References signal &ldquo;DrStatRl_B_Actl&rdquo;. Deprecated starting with RPC Spec 7.1.0.</p>
 
-<p>Optional</p>
+<p>@deprecated in SmartDeviceLink 7.1.0
+ @added in SmartDeviceLink 2.0.0</p>
 
   
   
@@ -160,12 +236,10 @@
       rearRightDoorAjar
   </h3>
   
-  
-<ul>
-<li>References signal &ldquo;DrStatRr_B_Actl&rdquo;.</li>
-</ul>
+  <p>References signal &ldquo;DrStatRr_B_Actl&rdquo;. Deprecated starting with RPC Spec 7.1.0.</p>
 
-<p>Optional</p>
+<p>@deprecated in SmartDeviceLink 7.1.0
+ @added in SmartDeviceLink 2.0.0</p>
 
   
   
@@ -175,6 +249,69 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rearRightDoorAjar</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-doorStatuses">
+      doorStatuses
+  </h3>
+  
+  <p>Provides status for doors if Ajar/Closed/Locked
+ {&ldquo;array_min_size&rdquo;: 0, &ldquo;array_max_size&rdquo;: 100}</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLDoorStatus.html">SDLDoorStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">doorStatuses</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">doorStatuses</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLDoorStatus.html">SDLDoorStatus</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-gateStatuses">
+      gateStatuses
+  </h3>
+  
+  <p>Provides status for trunk/hood/etc. if Ajar/Closed/Locked
+ {&ldquo;array_min_size&rdquo;: 0, &ldquo;array_max_size&rdquo;: 100}</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLGateStatus.html">SDLGateStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">gateStatuses</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">gateStatuses</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLGateStatus.html">SDLGateStatus</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-roofStatuses">
+      roofStatuses
+  </h3>
+  
+  <p>Provides status for roof/convertible roof/sunroof/moonroof etc., if Closed/Ajar/Removed etc.
+ {&ldquo;array_min_size&rdquo;: 0, &ldquo;array_max_size&rdquo;: 100}</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLRoofStatus.html">SDLRoofStatus</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">roofStatuses</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">roofStatuses</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLRoofStatus.html">SDLRoofStatus</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

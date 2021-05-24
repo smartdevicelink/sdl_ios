@@ -43,11 +43,12 @@ describe(@"A mutable dictionary with the storing category imported", ^{
         });
 
         it(@"should return string when called correctly", ^{
-            expect([testDictionary sdl_objectForName:testKey ofClass:[NSString class]]).to(equal(testObject));
+            expect([testDictionary sdl_objectForName:testKey ofClass:[NSString class] error:nil]).to(equal(testObject));
         });
+
         it(@"should raise an exception when called with wrong class type", ^{
             expectAction(^{
-                expect([testDictionary sdl_objectForName:testKey ofClass:[NSNumber class]]).to(beNil());
+                [testDictionary sdl_objectForName:testKey ofClass:[NSNumber class] error:nil];
             }).to(raiseException());
         });
     });
@@ -61,7 +62,7 @@ describe(@"A mutable dictionary with the storing category imported", ^{
 
         it(@"should return nil and raise an exception when retrieved as an array", ^{
             expectAction(^{
-                expect([testDictionary sdl_objectsForName:testKey ofClass:[NSString class] error:nil]).to(beNil());
+                [testDictionary sdl_objectsForName:testKey ofClass:[NSString class] error:nil];
             }).to(raiseException());
         });
     });
@@ -75,11 +76,12 @@ describe(@"A mutable dictionary with the storing category imported", ^{
         });
 
         it(@"should return the object correctly when retrieved correctly", ^{
-            expect([testDictionary sdl_objectForName:testKey ofClass:[TestObject class]]).to(equal(testObject));
+            expect([testDictionary sdl_objectForName:testKey ofClass:[TestObject class] error:nil]).to(equal(testObject));
         });
+
         it(@"should raise an exception when retrieved as an NSNumber", ^{
             expectAction(^{
-                expect([testDictionary sdl_objectForName:testKey ofClass:[NSNumber class]]).to(beNil());
+                [testDictionary sdl_objectForName:testKey ofClass:[NSNumber class] error:nil];
             }).to(raiseException());
         });
     });
@@ -94,17 +96,18 @@ describe(@"A mutable dictionary with the storing category imported", ^{
 
         it(@"should raise an exception when retrieved as an NSString", ^{
             expectAction(^{
-                expect([testDictionary sdl_objectForName:testKey ofClass:[NSString class]]).to(equal(testObject));
+                [testDictionary sdl_objectForName:testKey ofClass:[NSString class] error:nil];
             }).to(raiseException());
         });
 
         it(@"should return correctly when retrieved correctly", ^{
             expect([testDictionary sdl_objectsForName:testKey ofClass:[NSString class] error:nil]).to(equal(testObjectArray));
         });
+
         it(@"should raise an exception when retrieved as an NSNumber", ^{
             expectAction(^{
-                expect([testDictionary sdl_objectForName:testKey ofClass:[NSNumber class] error:nil]).to(beNil());
-                expect([testDictionary sdl_objectsForName:testKey ofClass:[NSNumber class] error:nil]).to(beNil());
+                [testDictionary sdl_objectForName:testKey ofClass:[NSNumber class] error:nil];
+                [testDictionary sdl_objectsForName:testKey ofClass:[NSNumber class] error:nil];
             }).to(raiseException());
         });
     });
@@ -123,9 +126,10 @@ describe(@"A mutable dictionary with the storing category imported", ^{
         it(@"should return correctly when retrieved correctly", ^{
             expect([testDictionary sdl_objectsForName:testKey ofClass:[TestObject class] error:nil]).to(equal(testObjectArray));
         });
+
         it(@"should raise an exception when retrieved as an NSNumber", ^{
             expectAction(^{
-                expect([testDictionary sdl_objectsForName:testKey ofClass:[NSNumber class] error:nil]).to(beNil());
+                [testDictionary sdl_objectsForName:testKey ofClass:[NSNumber class] error:nil];
             }).to(raiseException());
         });
     });
@@ -140,9 +144,10 @@ describe(@"A mutable dictionary with the storing category imported", ^{
         it(@"should return correctly when retrieved correctly", ^{
             expect([testDictionary sdl_enumForName:testKey error:nil]).to(equal(testObject));
         });
+
         it(@"should raise an exception when retrieved as an array", ^{
             expectAction(^{
-                expect([testDictionary sdl_enumsForName:testKey error:nil]).to(beNil());
+                [testDictionary sdl_enumsForName:testKey error:nil];
             }).to(raiseException());
         });
     });
@@ -159,9 +164,10 @@ describe(@"A mutable dictionary with the storing category imported", ^{
         it(@"should return an array of SDLEnum when retrieved correctly", ^{
             expect([testDictionary sdl_enumsForName:testKey error:nil]).to(equal(testObjectArray));
         });
+
         it(@"should raise an exception when retrieved as an NSNumber", ^{
             expectAction(^{
-                expect([testDictionary sdl_objectForName:testKey ofClass:[NSNumber class]]).to(beNil());
+                [testDictionary sdl_objectForName:testKey ofClass:[NSNumber class] error:nil];
             }).to(raiseException());
         });
     });

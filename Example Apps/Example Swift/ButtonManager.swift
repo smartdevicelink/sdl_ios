@@ -63,7 +63,8 @@ extension ButtonManager {
     private var softButtonAlert: SDLSoftButtonObject {
         let imageAndTextState = SDLSoftButtonState(stateName: AlertSoftButtonImageAndTextState, text: AlertSoftButtonText, image: UIImage(named: AlertBWIconName)?.withRenderingMode(.alwaysTemplate))
         let textState = SDLSoftButtonState(stateName: AlertSoftButtonTextState, text: AlertSoftButtonText, image: nil)
-        return SDLSoftButtonObject(name: AlertSoftButton, states: [imageAndTextState, textState], initialStateName: imageAndTextState.name) { [weak self] (buttonPress, buttonEvent) in
+        let initialButtonStateName = self.imagesEnabled ? imageAndTextState.name : textState.name
+        return SDLSoftButtonObject(name: AlertSoftButton, states: [imageAndTextState, textState], initialStateName: initialButtonStateName) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
             if (self.isAlertAllowed) {
@@ -80,7 +81,8 @@ extension ButtonManager {
     private var softButtonSubtleAlert: SDLSoftButtonObject {
         let imageAndTextState = SDLSoftButtonState(stateName: SubtleAlertSoftButtonImageAndTextState, text: SubtleAlertSoftButtonText, image: UIImage(named: BatteryFullBWIconName)?.withRenderingMode(.alwaysTemplate))
         let textState = SDLSoftButtonState(stateName: SubtleAlertSoftButtonTextState, text: SubtleAlertSoftButtonText, image: nil)
-        return SDLSoftButtonObject(name: SubtleAlertSoftButton, states: [imageAndTextState, textState], initialStateName: imageAndTextState.name) { [weak self] (buttonPress, buttonEvent) in
+        let initialButtonStateName = self.imagesEnabled ? imageAndTextState.name : textState.name
+        return SDLSoftButtonObject(name: SubtleAlertSoftButton, states: [imageAndTextState, textState], initialStateName: initialButtonStateName) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, buttonPress != nil else { return }
 
             if (self.isSubtleAlertAllowed) {
@@ -97,7 +99,8 @@ extension ButtonManager {
     private var softButtonTextVisible: SDLSoftButtonObject {
         let textVisibleState = SDLSoftButtonState(stateName: TextVisibleSoftButtonTextOnState, text: TextVisibleSoftButtonTextOnText, artwork: nil)
         let textNotVisibleState = SDLSoftButtonState(stateName: TextVisibleSoftButtonTextOffState, text: TextVisibleSoftButtonTextOffText, image: nil)
-        return SDLSoftButtonObject(name: TextVisibleSoftButton, states: [textVisibleState, textNotVisibleState], initialStateName: textVisibleState.name) { [unowned self] (buttonPress, buttonEvent) in
+        let initialButtonStateName = self.textEnabled ? textVisibleState.name : textNotVisibleState.name
+        return SDLSoftButtonObject(name: TextVisibleSoftButton, states: [textVisibleState, textNotVisibleState], initialStateName: initialButtonStateName) { [unowned self] (buttonPress, buttonEvent) in
             guard buttonPress != nil else { return }
             self.textEnabled = !self.textEnabled
 
@@ -111,7 +114,8 @@ extension ButtonManager {
     private var softButtonImagesVisible: SDLSoftButtonObject {
         let imagesVisibleState = SDLSoftButtonState(stateName: ImagesVisibleSoftButtonImageOnState, text: ImagesVisibleSoftButtonImageOnText, image: nil)
         let imagesNotVisibleState = SDLSoftButtonState(stateName: ImagesVisibleSoftButtonImageOffState, text: ImagesVisibleSoftButtonImageOffText, image: nil)
-        return SDLSoftButtonObject(name: ImagesVisibleSoftButton, states: [imagesVisibleState, imagesNotVisibleState], initialStateName: imagesVisibleState.name) { [weak self] (buttonPress, buttonEvent) in
+        let initialButtonStateName = self.imagesEnabled ? imagesVisibleState.name : imagesNotVisibleState.name
+        return SDLSoftButtonObject(name: ImagesVisibleSoftButton, states: [imagesVisibleState, imagesNotVisibleState], initialStateName: initialButtonStateName) { [weak self] (buttonPress, buttonEvent) in
             guard let self = self, let sdlManager = self.sdlManager, buttonPress != nil else { return }
             
             self.imagesEnabled = !self.imagesEnabled

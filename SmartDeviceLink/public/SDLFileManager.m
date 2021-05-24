@@ -178,9 +178,14 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
         // If there was an error, we'll pass the error to the startup handler and cancel out
         if (error != nil) {
-            // HAX: In the case we are DISALLOWED we still want to transition to a ready state. Some head units return DISALLOWED for this RPC but otherwise work.
-            if([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
+            if ([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
+                // HAX: In the case we are DISALLOWED we still want to transition to a ready state. Some head units return DISALLOWED for this RPC but otherwise work.
                 SDLLogW(@"ListFiles is disallowed. Certain file manager APIs may not work properly.");
+                [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
+                BLOCK_RETURN;
+            } else if ([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultEncryptionNeeded]) {
+                // If the module rejects the ListFiles request because it requires that the request be encrypted, we still want to transition to a ready state. Unfortunately, since we do not know what files are on the module already, we may end up doing unnecessary duplicate file uploads.
+                SDLLogE(@"ListFiles must be encrypted but was not when the file manager started. We do not know which files have already been uploaded to the module. All files will need to be re-uploaded. Certain file manager APIs may not work properly.");
                 [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
                 BLOCK_RETURN;
             }
