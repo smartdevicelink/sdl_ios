@@ -1,4 +1,26 @@
 # Changelog
+## 7.1.1
+### Versions
+* Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
+
+### Testing
+* Xcode 12.5
+* iOS 14.5.1
+* Core:
+    * Manticore (Core v7.0.0, Generic HMI v0.9.0)
+    * Ford Sync 3.4 (19353_DEVTEST)
+    * Ford Sync 3.0 (17276_DEVTEST)
+    * Ford Sync 4.0 (20016_DEVTEST)
+    * Core v6.1.2 with sdl_hmi v5.3.0 and generic_hmi v0.8.1
+    * Core v7.1.1 with generic_hmi v0.10.0
+    
+### Bug Fixes
+* Fixed initial StartServiceACK being timed out too soon with many app connections to module (https://github.com/smartdevicelink/sdl_ios/issues/1783, https://github.com/smartdevicelink/sdl_ios/issues/1795, https://github.com/smartdevicelink/sdl_ios/issues/1847)
+* Fixed RPC encryption fails when RPCs have multi-frame payloads (https://github.com/smartdevicelink/sdl_ios/issues/1954)
+* Fixed a crash when the head unit sends a StartServiceACK to elevate the RPC service to encryption (https://github.com/smartdevicelink/sdl_ios/issues/1966)
+* Fixed encrypted RPCs fail without a callback when encryption isn't set up (https://github.com/smartdevicelink/sdl_ios/issues/1971)
+* Fixed the file manager not sending images when `ListFiles` is encrypted (https://github.com/smartdevicelink/sdl_ios/issues/1975)
+
 ## 7.1.0 (Since RC 1)
 ### Versions
 * Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
