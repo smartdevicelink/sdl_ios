@@ -271,7 +271,9 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     }
 
     NSData *data = [NSData dataWithBytesNoCopy:buffer length:(NSUInteger)readBytes freeWhenDone:YES];
-    [self.delegate onDataReceived:data];
+    dispatch_after(DISPATCH_TIME_NOW, SDLGlobals.sharedGlobals.sdlProcessingQueue, ^{
+        [self.delegate onDataReceived:data];
+    });
 }
 
 - (void)sdl_writeToStream {
