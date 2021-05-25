@@ -271,7 +271,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     }
 
     NSData *data = [NSData dataWithBytesNoCopy:buffer length:(NSUInteger)readBytes freeWhenDone:YES];
-    dispatch_after(DISPATCH_TIME_NOW, SDLGlobals.sharedGlobals.sdlProcessingQueue, ^{
+    // Handle a race condition thats caused by the TCP readFromStream thread and a read-only thread when app is in didEnterStateConnected state of the lifeCycleManager
+    dispatch_sync(SDLGlobals.sharedGlobals.sdlProcessingQueue, ^{
         [self.delegate onDataReceived:data];
     });
 }
