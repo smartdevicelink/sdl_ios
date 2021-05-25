@@ -93,6 +93,7 @@ describe(@"System capability manager", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
+    __block SDLDisplayCapabilities *testDisplayCapabilities2 = nil;
 #pragma clang diagnostic pop
     __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
     __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
@@ -157,6 +158,9 @@ describe(@"System capability manager", ^{
         defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic];
         displayCapability.windowCapabilities = @[defaultWindowCapability];
         testDisplayCapabilityList = @[displayCapability];
+
+        testDisplayCapabilities2 = [testDisplayCapabilities copy];
+        testDisplayCapabilities2.templatesAvailable = @[@"DEFAULT", @"MEDIA", @"NON_MEDIA"];
     });
 
     afterEach(^{
@@ -449,6 +453,61 @@ describe(@"System capability manager", ^{
                 expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
                 expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
                 expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+            });
+        });
+    });
+
+    context(@"When notified of a SetDisplayLayout Response with NON_MEDIA in templates", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
+#pragma clang diagnostic pop
+
+        beforeEach(^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
+#pragma clang diagnostic pop
+            testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities2;
+            testSetDisplayLayoutResponse.buttonCapabilities = testButtonCapabilities;
+            testSetDisplayLayoutResponse.softButtonCapabilities = testSoftButtonCapabilities;
+            testSetDisplayLayoutResponse.presetBankCapabilities = testPresetBankCapabilities;
+        });
+
+        describe(@"If the SetDisplayLayout request succeeds", ^{
+            beforeEach(^{
+                testSetDisplayLayoutResponse.success = @YES;
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should should save the capabilities", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities2));
+                expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
+                expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
+                expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
+#pragma clang diagnostic pop
+
+                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+            });
+
+            describe(@"If templatesAvailable has NON_MEDIA", ^{
+                it(@"should also include NON-MEDIA", ^{
+                    expect(testSystemCapabilityManager.defaultMainWindowCapability.templatesAvailable).to(equal(@[@"DEFAULT", @"MEDIA", @"NON_MEDIA", @"NON-MEDIA"]));
+                });
             });
         });
     });
