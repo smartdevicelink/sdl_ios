@@ -4,53 +4,30 @@
 
 #import "SDLLifecycleManager.h"
 
-#import "SDLAppServiceData.h"
-#import "SDLChangeRegistration.h"
-#import "SDLConfiguration.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLConnectionManagerType.h"
-#import "SDLEncryptionConfiguration.h"
 #import "SDLEncryptionLifecycleManager.h"
 #import "SDLError.h"
-#import "SDLFileManagerConfiguration.h"
-#import "SDLFileManager.h"
 #import "SDLGlobals.h"
-#import "SDLHMILevel.h"
-#import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleProtocolHandler.h"
-#import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
-#import "SDLLogConfiguration.h"
-#import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
-#import "SDLOnAppInterfaceUnregistered.h"
-#import "SDLOnAppServiceData.h"
-#import "SDLOnHashChange.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLPerformAppServiceInteractionResponse.h"
-#import "SDLPermissionManager.h"
 #import "SDLProtocol.h"
-#import "SDLRegisterAppInterface.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLResult.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSecondaryTransportManager.h"
-#import "SDLShow.h"
 #import "SDLStateMachine.h"
-#import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaManager.h"
-#import "SDLSystemCapabilityManager.h"
-#import "SDLTextAlignment.h"
-#import "SDLTTSChunk.h"
-#import "SDLUnregisterAppInterface.h"
-#import "SDLUnregisterAppInterfaceResponse.h"
-#import "SDLVehicleType.h"
-#import "SDLVersion.h"
-#import "SDLVideoStreamingState.h"
 
 @interface SDLStreamingMediaManager ()
 
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 - (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
+
+@end
+
+@interface SDLSystemCapabilityManager ()
+
+@property (nullable, strong, nonatomic) NSString *lastDisplayLayoutRequestTemplate;
 
 @end
 
@@ -62,6 +39,13 @@
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (strong, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 @property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
+@property (copy, nonatomic, readwrite, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLAudioStreamingState audioStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLVideoStreamingState videoStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLSystemContext systemContext;
+@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
+
 - (void)didEnterStateConnected;
 @end
 
@@ -669,12 +653,30 @@ describe(@"a lifecycle manager", ^{
                 });
             });
 
-            it(@"can send an RPC of type Request", ^{
-                SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
-                OCMExpect([protocolMock sendRPC:testShow error:[OCMArg anyObjectRef]]);
-                [testManager sendRPC:testShow];
+            describe(@"when sending a request RPC", ^{
+                it(@"can send the RPC", ^{
+                    SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
+                    OCMExpect([protocolMock sendRPC:testShow error:[OCMArg anyObjectRef]]);
+                    [testManager sendRPC:testShow];
 
-                OCMVerifyAllWithDelay(protocolMock, 0.1);
+                    OCMVerifyAllWithDelay(protocolMock, 0.1);
+                });
+
+                describe(@"when sending a SetDisplayLayout request", ^{
+                    beforeEach(^{
+                        OCMExpect([systemCapabilityMock setLastDisplayLayoutRequestTemplate:[OCMArg isKindOfClass:NSString.class]]);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                        SDLSetDisplayLayout *request = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutMedia];
+#pragma clang diagnostic pop
+                        [testManager sendRequest:request withResponseHandler:nil];
+                    });
+
+                    it(@"should update the System Capability Manager with the next template type", ^{
+                        OCMVerifyAllWithDelay(systemCapabilityMock, 0.3);
+                    });
+                });
             });
 
             it(@"should call the callback if the protocol fails to send a request", ^{
