@@ -1,6 +1,5 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
-#import <OCMock/OCMock.h>
 
 #import "SDLAddCommand.h"
 #import "SDLAddCommandResponse.h"
@@ -37,6 +36,8 @@
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
 
++ (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands;
+
 @end
 
 UInt32 const VoiceCommandIdMin = 1900000000;
@@ -49,6 +50,11 @@ describe(@"voice command manager", ^{
 
     __block SDLVoiceCommand *testVoiceCommand = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 1"] handler:^{}];
     __block SDLVoiceCommand *testVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 2"] handler:^{}];
+    __block SDLVoiceCommand *testVoiceCommand3 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 3", @" ", @"Test 4", @"\t"] handler:^{}];
+    __block SDLVoiceCommand *testVoiceCommand4 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"\t"] handler:^{}];
+    __block SDLVoiceCommand *testVoiceCommand5 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@""] handler:^{}];
+    __block SDLVoiceCommand *testVoiceCommand6 = [[SDLVoiceCommand alloc] init];
+    __block SDLVoiceCommand *testVoiceCommand7 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test 1", @"Test 2"] handler:^{}];
     __block SDLOnHMIStatus *newHMIStatus = [[SDLOnHMIStatus alloc] init];
     __block NSArray<SDLVoiceCommand *> *testVCArray = nil;
 
@@ -153,6 +159,40 @@ describe(@"voice command manager", ^{
                 it(@"should update the second operation", ^{
                     expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).withTimeout(3.0).toEventually(equal(testVoiceCommand2));
                 });
+            });
+        });
+
+        context(@"if any of the voice commands contains an empty string", ^{
+            // should remove the empty strings and queue another operation
+            it(@"should remove the empty strings and queue another operation", ^{
+                testManager.voiceCommands = @[testVoiceCommand2, testVoiceCommand3, testVoiceCommand4, testVoiceCommand5, testVoiceCommand6];
+                expect(testManager.transactionQueue.operations).to(haveCount(2));
+                expect(testManager.voiceCommands).to(haveCount(2));
+                expect(testManager.voiceCommands[0].voiceCommands).to(haveCount(1));
+                expect(testManager.voiceCommands[0].voiceCommands).to(equal(@[@"Test 2"]));
+                expect(testManager.voiceCommands[1].voiceCommands).to(haveCount(2));
+                expect(testManager.voiceCommands[1].voiceCommands).to(equal(@[@"Test 3", @"Test 4"]));
+            });
+
+            // should not queue another operation if all the voice command strings are empty strings
+            it(@"should not queue another operation if all the voice command strings are empty strings", ^{
+                testManager.voiceCommands = @[testVoiceCommand4, testVoiceCommand5];
+                expect(testManager.transactionQueue.operations).to(haveCount(1));
+                expect(testManager.voiceCommands).to(haveCount(1));
+                expect(testManager.voiceCommands.firstObject.voiceCommands).to(haveCount(1));
+                expect(testManager.voiceCommands.firstObject.voiceCommands).to(equal(@[@"Test 1"]));
+            });
+        });
+
+        // updating voice commands with duplicate string in different voice commands
+        describe(@"when new voice commands are set and have duplicate strings in different voice commands", ^{
+            beforeEach(^{
+                testManager.voiceCommands = @[testVoiceCommand2, testVoiceCommand7];
+            });
+
+            it(@"should only have one operation", ^{
+                expect(testManager.transactionQueue.operations).to(haveCount(1));
+                expect([testManager.class sdl_arePendingVoiceCommandsUnique:@[testVoiceCommand2, testVoiceCommand7]]).to(equal(NO));
             });
         });
     });
