@@ -19,6 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 cellId;
 @property (strong, nonatomic, readwrite) NSString *uniqueTitle;
 
+@property (copy, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *icon;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+
 @end
 
 @implementation SDLMenuCell
@@ -77,6 +84,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Object Equality
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    return [[SDLMenuCell allocWithZone:zone] initWithTitle:_title secondaryText:_secondaryText tertiaryText:_tertiaryText icon:_icon secondaryArtwork:_secondaryArtwork voiceCommands:_voiceCommands handler:_handler];
+}
 
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)

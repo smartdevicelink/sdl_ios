@@ -23,7 +23,7 @@ The handler to run when a menu item is selected.
 typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
 
 /// A menu cell item for the main menu or sub-menu.
-@interface SDLMenuCell : NSObject
+@interface SDLMenuCell : NSObject <NSCopying>
 
 /**
  The cell's text to be displayed
