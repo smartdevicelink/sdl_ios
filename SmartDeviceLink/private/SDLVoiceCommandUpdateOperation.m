@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommand()
 
 @property (assign, nonatomic) UInt32 commandId;
+@property (copy, nonatomic, readwrite, nullable) SDLVoiceCommandSelectionHandler handler;
 
 @end
 
@@ -54,6 +55,18 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isCancelled) {
         [self finishOperation];
         return;
+    }
+
+    // Check if a voiceCommand has already been uploaded and update its VoiceCommandSelectionListener to
+    // prevent calling the wrong listener in a case where a voice command was uploaded and then its voiceCommandSelectionListener was updated in another upload.
+    if (self.pendingVoiceCommands != nil && self.pendingVoiceCommands.count > 0) {
+        for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
+            for (SDLVoiceCommand *currentVoiceCommand in self.currentVoiceCommands) {
+                if ([voiceCommand isEqual:currentVoiceCommand]) {
+                    currentVoiceCommand.handler = voiceCommand.handler;
+                }
+            }
+        }
     }
 
     __weak typeof(self) weakSelf = self;
@@ -189,18 +202,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<SDLVoiceCommand *> *)sdl_voiceCommandsInArray:(NSArray<SDLVoiceCommand *> *)firstArray notInSecondArray:(NSArray<SDLVoiceCommand *> *)secondArray {
     if (secondArray.count == 0) { return firstArray; }
 
-    NSMutableArray<SDLVoiceCommand *> *differenceArray = [NSMutableArray array];
-    for (NSUInteger i = 0; i < firstArray.count; i++) {
-        SDLVoiceCommand *checkVC = firstArray[i];
-        // Check the second array for the same item as we are on in the first array. If it's not there, include it in the difference array.
-        for (NSUInteger j = 0; j < secondArray.count; j++) {
-            if ([checkVC isEqual:secondArray[j]]) { break; }
-            if (j == secondArray.count - 1) {
-                [differenceArray addObject:checkVC];
-            }
-        }
-    }
-
+    NSMutableArray<SDLVoiceCommand *> *differenceArray = [firstArray mutableCopy];
+    [differenceArray removeObjectsInArray:secondArray];
     return differenceArray.copy;
 }
 

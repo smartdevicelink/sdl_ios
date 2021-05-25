@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommand()
 
 @property (assign, nonatomic) UInt32 commandId;
+@property (copy, nonatomic, readwrite, nullable) SDLVoiceCommandSelectionHandler handler;
 
 @end
 
