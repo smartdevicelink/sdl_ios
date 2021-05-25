@@ -233,10 +233,10 @@ typedef NSString * SDLServiceID;
 
     // Copy all available display capability properties
     NSArray *templatesArray = display.templatesAvailable;
-    if ([display.templatesAvailable containsObject:@"NON_MEDIA"]) {
-        NSMutableArray *array = [display.templatesAvailable mutableCopy];
-        [array addObject:@"NON-MEDIA"];
-        templatesArray = [NSArray arrayWithArray:array];
+    if ([templatesArray containsObject:@"NON_MEDIA"]) {
+        NSMutableArray *templatesMutableArray = [templatesArray mutableCopy];
+        [templatesMutableArray addObject:@"NON-MEDIA"];
+        templatesArray = [NSArray arrayWithArray:templatesMutableArray];
     }
     defaultWindowCapability.templatesAvailable = templatesArray;
     defaultWindowCapability.numCustomPresetsAvailable = [display.numCustomPresetsAvailable copy];
