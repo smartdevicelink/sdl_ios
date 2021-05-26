@@ -554,7 +554,7 @@ describe(@"a system capability manager", ^{
 
             describe(@"If templatesAvailable has NON_MEDIA", ^{
                 it(@"should also include NON-MEDIA", ^{
-                    expect(testSystemCapabilityManager.defaultMainWindowCapability.templatesAvailable).to(equal(@[@"DEFAULT", @"MEDIA", @"NON_MEDIA", @"NON-MEDIA"]));
+                    expect(testSystemCapabilityManager.defaultMainWindowCapability.templatesAvailable).to(equal(@[@"DEFAULT", @"MEDIA", @"NON-MEDIA"]));
                 });
             });
         });
