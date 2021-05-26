@@ -267,15 +267,15 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Choices finished preloading");
 
-        NSMutableSet *failedChoiceUploads = [NSMutableSet set];
+        NSMutableSet<SDLChoiceCell *> *failedChoiceUploads = [NSMutableSet set];
         if (weakPreloadOp.error != nil) {
-            NSDictionary *failedChoices = weakPreloadOp.error.userInfo;
+            NSDictionary<NSErrorUserInfoKey, id> *failedChoices = weakPreloadOp.error.userInfo;
             for (SDLCreateInteractionChoiceSet *request in failedChoices) {
                 NSUInteger failedChoiceUploadIndex = [choicesToUpload indexOfObjectPassingTest:^BOOL(SDLChoiceCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     return (obj.choiceId == request.choiceSet.firstObject.choiceID.intValue);
                 }];
                 if (failedChoiceUploadIndex == NSNotFound) { continue; }
-                [failedChoiceUploads addObject:[choicesToUpload objectAtIndex:failedChoiceUploadIndex]];
+                [failedChoiceUploads addObject:choicesToUpload[failedChoiceUploadIndex]];
             }
         }
 
