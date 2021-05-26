@@ -138,9 +138,8 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     }];
 
     for (NSOperation *operation in self.transactionQueue.operations) {
-        if (operation.isExecuting && !operation.isFinished && !operation.isCancelled) {
+        if (!operation.isCancelled) {
             [operation cancel];
-            break;
         }
     }
     [self.transactionQueue addOperation:updateOperation];
