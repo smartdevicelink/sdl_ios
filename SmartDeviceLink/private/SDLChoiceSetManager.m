@@ -272,7 +272,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             NSDictionary *failedChoices = weakPreloadOp.error.userInfo;
             for (SDLCreateInteractionChoiceSet *request in failedChoices) {
                 NSUInteger failedChoiceUploadIndex = [choicesToUpload indexOfObjectPassingTest:^BOOL(SDLChoiceCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    return (obj.choiceId == request.interactionChoiceSetID.unsignedIntValue);
+                    return (obj.choiceId == request.choiceSet.firstObject.choiceID.intValue);
                 }];
                 if (failedChoiceUploadIndex == NSNotFound) { continue; }
                 [failedChoiceUploads addObject:[choicesToUpload objectAtIndex:failedChoiceUploadIndex]];
@@ -299,7 +299,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
                 [successfulChoiceUploads minusSet:failedChoiceUploads];
 
                 [strongSelf.preloadedMutableChoices unionSet:[successfulChoiceUploads copy]];
-                [strongSelf.pendingMutablePreloadChoices minusSet:failedChoiceUploads];
+                [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
             }
         }];
     };
