@@ -57,14 +57,11 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // Check if a voiceCommand has already been uploaded and update its VoiceCommandSelectionListener to
-    // prevent calling the wrong listener in a case where a voice command was uploaded and then its voiceCommandSelectionListener was updated in another upload.
-    if (self.pendingVoiceCommands != nil && self.pendingVoiceCommands.count > 0) {
-        for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
-            for (SDLVoiceCommand *currentVoiceCommand in self.currentVoiceCommands) {
-                if ([voiceCommand isEqual:currentVoiceCommand]) {
-                    currentVoiceCommand.handler = voiceCommand.handler;
-                }
+    // Check if a voiceCommand has already been uploaded and update its VoiceCommandSelectionListener to prevent calling the wrong listener in a case where a voice command was uploaded and then its voiceCommandSelectionListener was updated in another upload.
+    for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
+        for (SDLVoiceCommand *currentVoiceCommand in self.currentVoiceCommands) {
+            if ([voiceCommand isEqual:currentVoiceCommand]) {
+                currentVoiceCommand.handler = voiceCommand.handler;
             }
         }
     }
@@ -88,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setOldVoiceCommands:(nullable NSArray<SDLVoiceCommand *> *)oldVoiceCommands {
     _oldVoiceCommands = oldVoiceCommands;
-    _currentVoiceCommands = oldVoiceCommands.mutableCopy;
+    _currentVoiceCommands = [oldVoiceCommands mutableCopy];
 }
 
 #pragma mark - Sending RPCs
@@ -204,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLVoiceCommand *> *differenceArray = [firstArray mutableCopy];
     [differenceArray removeObjectsInArray:secondArray];
-    return differenceArray.copy;
+    return [differenceArray copy];
 }
 
 #pragma mark - Managing list of commands on head unit
