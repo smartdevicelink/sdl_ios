@@ -48,6 +48,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(int)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
 + (NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)sdl_incrementFailedUploadCountForFileName:(SDLFileName *)fileName failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
+- (BOOL)hasUploadedFile:(SDLFile *)file;
 
 @end
 
@@ -86,6 +87,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
     NSUInteger failureSpaceAvailabe = 2000000000;
     NSUInteger newBytesAvailable = 750;
     NSArray<NSString *> *testInitialFileNames = @[@"testFile1", @"testFile2", @"testFile3"];
+    NSArray<NSString *> *testInitialFileNames2 = @[@"testFile1", @"testFile2", @"testFile3", @"testFile4"];
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -252,6 +254,140 @@ describe(@"uploading / deleting single files with the file manager", ^{
                 expect(@(testFileManager.bytesAvailable)).to(equal(@(newSpaceAvailable)));
                 expect(completionError).to(beNil());
                 expect(testFileManager.remoteFileNames).toNot(contain(someKnownFileName));
+            });
+        });
+    });
+
+    describe(@"check hasUploadedFile response", ^{
+        __block SDLFile *testFile = nil;
+
+        beforeEach(^{
+            [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
+        });
+
+        context(@"on RPC version >= 4.4.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:7 minor:1 patch:0];
+
+                NSData *testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                testFile = [SDLFile persistentFileWithData:testFileData name:@"testFile4" fileExtension:@"png"];
+            });
+
+            context(@"when the file is in remoteFileNames", ^{
+                beforeEach(^{
+                    testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
+                });
+
+                it(@"should return YES", ^{
+                    expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+                });
+            });
+
+            context(@"when the file is not in remoteFileNames", ^{
+                beforeEach(^{
+                    testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                });
+
+                it(@"should return NO", ^{
+                    expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                });
+            });
+        });
+
+        context(@"on RPC version < 4.4.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:4 minor:3 patch:0];
+            });
+
+            context(@"when the file is persistent", ^{
+                beforeEach(^{
+                    NSData *testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                    testFile = [SDLFile persistentFileWithData:testFileData name:@"testFile4" fileExtension:@"png"];
+                });
+
+                context(@"when the file is not in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                    });
+
+                    it(@"should return NO", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                    });
+                });
+
+                context(@"when the file is in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
+                    });
+
+                    it(@"should return YES", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+                    });
+
+                    context(@"when the file is in uploadedEphemeralFiles", ^{
+                        beforeEach(^{
+                            testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+
+                        });
+
+                        it(@"should return YES", ^{
+                            expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+                        });
+                    });
+                });
+            });
+
+            context(@"when the file is not persistent", ^{
+                beforeEach(^{
+                    NSData *testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                    testFile = [SDLFile fileWithData:testFileData name:@"testFile4" fileExtension:@"png"];
+                });
+
+                it(@"should return NO", ^{
+                    expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                });
+
+                context(@"when the file is in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
+                    });
+
+                    it(@"should return NO", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                    });
+
+                    context(@"when the file is in uploadedEphemeralFiles", ^{
+                        beforeEach(^{
+                            testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
+
+                        });
+
+                        it(@"should return YES", ^{
+                            expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+                        });
+                    });
+
+                    context(@"when the file is not in uploadedEphemeralFiles", ^{
+                        beforeEach(^{
+                            testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+
+                        });
+
+                        it(@"should return NO", ^{
+                            expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                        });
+                    });
+                });
+
+                context(@"when the file is not in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                    });
+
+                    it(@"should return NO", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                    });
+                });
             });
         });
     });
