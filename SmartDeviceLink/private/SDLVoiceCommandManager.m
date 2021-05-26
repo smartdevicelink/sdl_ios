@@ -137,7 +137,12 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         [weakSelf sdl_updatePendingOperationsWithNewCurrentVoiceCommands:newCurrentVoiceCommands];
     }];
 
-    [self.transactionQueue cancelAllOperations];
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if (operation.isExecuting && !operation.isFinished && !operation.isCancelled) {
+            [operation cancel];
+            break;
+        }
+    }
     [self.transactionQueue addOperation:updateOperation];
 }
 
