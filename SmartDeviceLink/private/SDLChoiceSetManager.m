@@ -405,7 +405,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     }];
 }
 
-/// TODO
+/// Helper method for presenting a choice set.
 /// @param mode If the set should be presented for the user to interact via voice, touch, or both
 /// @param delegate The keyboard delegate called when the user interacts with the search field of the choice set, if not set, a non-searchable choice set will be used
 - (void)sdl_presentChoiceSetWithMode:(SDLInteractionMode)mode keyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
