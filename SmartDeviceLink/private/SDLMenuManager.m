@@ -537,6 +537,7 @@ UInt32 const MenuCellIdMin = 1;
         // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
         cell.voiceCommands = nil;
 
+        // Don't check SDLImageFieldNameSubMenuIcon because it was added in 7.0 when the feature was added in 5.0. Just assume that if CommandIcon is not available, the submenu icon is not either.
         if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
             cell.icon = nil;
         }
@@ -548,8 +549,8 @@ UInt32 const MenuCellIdMin = 1;
             if (![self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuTertiaryText]) {
                 cell.tertiaryText = nil;
             }
-            if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon]) {
-                cell.icon = nil;
+            if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+                cell.secondaryArtwork = nil;
             }
             [self sdl_removeUnusedProperties:cell.subCells];
         } else {
@@ -559,8 +560,8 @@ UInt32 const MenuCellIdMin = 1;
             if (![self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]) {
                 cell.tertiaryText = nil;
             }
-            if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuIcon]) {
-                cell.icon = nil;
+            if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
+                cell.secondaryArtwork = nil;
             }
         }
     }
