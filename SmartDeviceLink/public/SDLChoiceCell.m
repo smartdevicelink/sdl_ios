@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt16 choiceId;
 @property (nonatomic, readwrite) NSString *uniqueText;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *artwork;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
 
 @end
 

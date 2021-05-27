@@ -8,38 +8,19 @@
 
 #import "SDLChoiceSetManager.h"
 
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLCheckChoiceVROptionalOperation.h"
-#import "SDLChoice.h"
-#import "SDLChoiceCell.h"
-#import "SDLChoiceSet.h"
-#import "SDLChoiceSetDelegate.h"
-#import "SDLConnectionManagerType.h"
-#import "SDLCreateInteractionChoiceSet.h"
-#import "SDLCreateInteractionChoiceSetResponse.h"
 #import "SDLDeleteChoicesOperation.h"
-#import "SDLDisplayCapability.h"
 #import "SDLError.h"
-#import "SDLFileManager.h"
 #import "SDLGlobals.h"
-#import "SDLHMILevel.h"
-#import "SDLKeyboardProperties.h"
-#import "SDLLogMacros.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLPerformInteraction.h"
-#import "SDLPerformInteractionResponse.h"
-#import "SDLPredefinedWindows.h"
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
 #import "SDLPresentKeyboardOperation.h"
-#import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
-#import "SDLSetDisplayLayoutResponse.h"
 #import "SDLStateMachine.h"
-#import "SDLSystemCapability.h"
-#import "SDLSystemCapabilityManager.h"
 #import "SDLVersion.h"
-#import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -55,6 +36,11 @@ typedef NSNumber * SDLChoiceId;
 
 @property (assign, nonatomic) UInt16 choiceId;
 @property (strong, nonatomic, readwrite) NSString *uniqueText;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *artwork;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
 
 @end
 
@@ -451,16 +437,41 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
 - (NSMutableOrderedSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableOrderedSet<SDLChoiceCell *> *choicesSet = [[NSMutableOrderedSet alloc] initWithArray:choices];
+    NSMutableOrderedSet<SDLChoiceCell *> *choicesCopy = [[NSMutableOrderedSet alloc] initWithArray:choices copyItems:YES];
+    NSMutableOrderedSet<SDLChoiceCell *> *strippedCells = [self sdl_removeUnusedProperties:choicesCopy];
 
     // If we're running on a connection < RPC 7.1, we need to de-duplicate cells because presenting them will fail if we have the same cell primary text.
     SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:choiceUniquenessSupportedVersion]) {
-        [self sdl_addUniqueNamesToCells:choicesSet];
+        [self sdl_addUniqueNamesToCells:choicesCopy];
     }
-    [choicesSet minusSet:self.preloadedChoices];
+    [choicesCopy minusSet:self.preloadedChoices];
 
-    return choicesSet;
+    return choicesCopy;
+}
+
+- (NSMutableOrderedSet<SDLChoiceCell *> *)sdl_removeUnusedProperties:(NSMutableOrderedSet<SDLChoiceCell *> *)choiceCells {
+    NSMutableOrderedSet<SDLChoiceCell *> *removePropertiesCopy = [[NSMutableOrderedSet alloc] initWithOrderedSet:choiceCells copyItems:YES];
+    for (SDLChoiceCell *cell in removePropertiesCopy) {
+        // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
+        cell.voiceCommands = nil;
+
+        // Don't check SDLImageFieldNameSubMenuIcon because it was added in 7.0 when the feature was added in 5.0. Just assume that if CommandIcon is not available, the submenu icon is not either.
+        if (![self.currentWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
+            cell.artwork = nil;
+        }
+        if (![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText]) {
+            cell.secondaryText = nil;
+        }
+        if (![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText]) {
+            cell.tertiaryText = nil;
+        }
+        if (![self.currentWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]) {
+            cell.secondaryArtwork = nil;
+        }
+    }
+
+    return removePropertiesCopy;
 }
 
 /// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
