@@ -615,7 +615,7 @@ UInt32 const MenuCellIdMin = 1;
         }
 
         if (cell.subCells.count > 0) {
-            [self sdl_addUniqueNamesToCellsWithDuplicatePrimaryText:cell.subCells];
+            [self sdl_addUniqueNamesBasedOnStrippedCells:cell.subCells toUnstrippedCells:unstrippedCells[i].subCells];
         }
     }
 }
