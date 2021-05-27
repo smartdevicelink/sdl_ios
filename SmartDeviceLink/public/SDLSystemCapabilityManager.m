@@ -201,16 +201,15 @@ typedef NSString * SDLServiceID;
     }
 
     // HAX: Issue #1999, Ford Sync bug returning incorrect template name for "NON-MEDIA" (https://github.com/smartdevicelink/sdl_ios/issues/1999).
-    NSArray<NSString *> *templatesArray = [self.displayCapabilities.templatesAvailable copy];
-    for (NSUInteger i = 0; i < templatesArray.count; i++) {
-        if ([templatesArray[i] isEqual:@"NON_MEDIA"]) {
-            NSMutableArray<NSString *> *templatesMutableArray = [templatesArray mutableCopy];
-            templatesMutableArray[i] = @"NON-MEDIA";
-            templatesArray = [NSArray arrayWithArray:templatesMutableArray];
+    NSMutableArray<NSString *> *mutableTemplatesAvailable = [self.displayCapabilities.templatesAvailable mutableCopy];
+    for (NSUInteger i = 0; i < mutableTemplatesAvailable.count; i++) {
+        if ([mutableTemplatesAvailable[i] isEqualToString:@"NON_MEDIA"]) {
+            mutableTemplatesAvailable[i] = @"NON-MEDIA";
+            break;
         }
     }
     // Copy all available display capability properties
-    defaultWindowCapability.templatesAvailable = templatesArray;
+    defaultWindowCapability.templatesAvailable = [mutableTemplatesAvailable copy];
     defaultWindowCapability.numCustomPresetsAvailable = [self.displayCapabilities.numCustomPresetsAvailable copy];
     defaultWindowCapability.textFields = [self.displayCapabilities.textFields copy];
     defaultWindowCapability.imageFields = [self.displayCapabilities.imageFields copy];
