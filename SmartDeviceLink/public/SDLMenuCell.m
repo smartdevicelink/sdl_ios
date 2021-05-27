@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", unique title: %@, artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, ([_title isEqualToString:_uniqueTitle] ? @"NO" : _uniqueTitle),  _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
+    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\" | \"%@\" | \"%@\", unique title: %@, artworkNames: %@ | %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, _secondaryText, _tertiaryText, ([_title isEqualToString:_uniqueTitle] ? @"NO" : _uniqueTitle), _icon.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
 }
 
 #pragma mark - Object Equality
