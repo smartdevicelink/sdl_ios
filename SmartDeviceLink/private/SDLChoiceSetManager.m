@@ -454,8 +454,8 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 }
 
 - (NSMutableOrderedSet<SDLChoiceCell *> *)sdl_removeUnusedProperties:(NSMutableOrderedSet<SDLChoiceCell *> *)choiceCells {
-    NSMutableOrderedSet<SDLChoiceCell *> *removePropertiesCopy = [[NSMutableOrderedSet alloc] initWithOrderedSet:choiceCells copyItems:YES];
-    for (SDLChoiceCell *cell in removePropertiesCopy) {
+    NSMutableOrderedSet<SDLChoiceCell *> *strippedCellsCopy = [[NSMutableOrderedSet alloc] initWithOrderedSet:choiceCells copyItems:YES];
+    for (SDLChoiceCell *cell in strippedCellsCopy) {
         // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
         cell.voiceCommands = nil;
 
@@ -474,7 +474,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         }
     }
 
-    return removePropertiesCopy;
+    return strippedCellsCopy;
 }
 
 - (void)sdl_addUniqueNamesBasedOnStrippedCells:(NSMutableOrderedSet<SDLChoiceCell *> *)strippedCells toUnstrippedCells:(NSMutableOrderedSet<SDLChoiceCell *> *)unstrippedCells {
