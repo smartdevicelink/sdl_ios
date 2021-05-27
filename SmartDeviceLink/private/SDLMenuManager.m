@@ -190,8 +190,7 @@ UInt32 const MenuCellIdMin = 1;
     } else {
         // On > RPC 7.1, at this point all cells are unique when considering all properties, but we also need to check if any cells will _appear_ as duplicates when displayed on the screen. To check that, we'll remove properties from the set cells based on the system capabilities (we probably don't need to consider them changing between now and when they're actually sent to the HU unless the menu layout changes) and check for uniqueness again. Then we'll add unique identifiers to primary text if there are duplicates. Then we transfer the primary text identifiers back to the main cells and add those to an operation to be sent.
         NSArray<SDLMenuCell *> *cellsWithRemovedProperties = [self sdl_removeUnusedProperties:menuCellsCopy];
-        [self sdl_addUniqueNamesToDuplicateCells:cellsWithRemovedProperties];
-        [self sdl_transferPrimaryTextFromCells:cellsWithRemovedProperties toCells:menuCellsCopy];
+        [self sdl_addUniqueNamesBasedOnStrippedCells:cellsWithRemovedProperties toUnstrippedCells:menuCellsCopy];
     }
 
     _oldMenuCells = _menuCells;
@@ -596,10 +595,12 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
-- (void)sdl_addUniqueNamesToDuplicateCells:(nullable NSArray<SDLMenuCell *> *)choices {
+- (void)sdl_addUniqueNamesBasedOnStrippedCells:(NSArray<SDLMenuCell *> *)strippedCells toUnstrippedCells:(NSArray<SDLMenuCell *> *)unstrippedCells {
+    NSParameterAssert(strippedCells.count == unstrippedCells.count);
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<SDLMenuCell *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
-    for (SDLMenuCell *cell in choices) {
+    for (NSUInteger i = 0; i < strippedCells.count; i++) {
+        SDLMenuCell *cell = strippedCells[i];
         NSNumber *counter = dictCounter[cell];
         if (counter != nil) {
             counter = @(counter.intValue + 1);
@@ -610,21 +611,11 @@ UInt32 const MenuCellIdMin = 1;
 
         counter = dictCounter[cell];
         if (counter.intValue > 1) {
-            cell.uniqueTitle = [NSString stringWithFormat: @"%@ (%d)", cell.title, counter.intValue];
+            unstrippedCells[i].uniqueTitle = [NSString stringWithFormat: @"%@ (%d)", unstrippedCells[i].title, counter.intValue];
         }
 
         if (cell.subCells.count > 0) {
             [self sdl_addUniqueNamesToCellsWithDuplicatePrimaryText:cell.subCells];
-        }
-    }
-}
-
-- (void)sdl_transferPrimaryTextFromCells:(NSArray<SDLMenuCell *> *)fromMenuCells toCells:(NSArray<SDLMenuCell *> *)toMenuCells {
-    for (NSUInteger i = 0; i < fromMenuCells.count; i++) {
-        toMenuCells[i].title = fromMenuCells[i].title;
-
-        if (fromMenuCells[i].subCells.count > 0) {
-            [self sdl_transferPrimaryTextFromCells:fromMenuCells[i].subCells toCells:toMenuCells[i].subCells];
         }
     }
 }
