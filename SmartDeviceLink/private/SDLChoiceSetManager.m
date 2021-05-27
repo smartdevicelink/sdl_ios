@@ -438,12 +438,15 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 /// @return The choices that have not yet been uploaded to the module
 - (NSMutableOrderedSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableOrderedSet<SDLChoiceCell *> *choicesCopy = [[NSMutableOrderedSet alloc] initWithArray:choices copyItems:YES];
-    NSMutableOrderedSet<SDLChoiceCell *> *strippedCells = [self sdl_removeUnusedProperties:choicesCopy];
 
-    // If we're running on a connection < RPC 7.1, we need to de-duplicate cells because presenting them will fail if we have the same cell primary text.
     SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:choiceUniquenessSupportedVersion]) {
+        // If we're on < RPC 7.1, all primary texts need to be unique, so we don't need to check removed properties and duplicate cells
         [self sdl_addUniqueNamesToCells:choicesCopy];
+    } else {
+        // On > RPC 7.1, at this point all cells are unique when considering all properties, but we also need to check if any cells will _appear_ as duplicates when displayed on the screen. To check that, we'll remove properties from the set cells based on the system capabilities (we probably don't need to consider them changing between now and when they're actually sent to the HU) and check for uniqueness again. Then we'll add unique identifiers to primary text if there are duplicates. Then we transfer the primary text identifiers back to the main cells and add those to an operation to be sent.
+        NSMutableOrderedSet<SDLChoiceCell *> *strippedCellsCopy = [self sdl_removeUnusedProperties:choicesCopy];
+        [self sdl_addUniqueNamesBasedOnStrippedCells:strippedCellsCopy toUnstrippedCells:choicesCopy];
     }
     [choicesCopy minusSet:self.preloadedChoices];
 
@@ -472,6 +475,27 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     }
 
     return removePropertiesCopy;
+}
+
+- (void)sdl_addUniqueNamesBasedOnStrippedCells:(NSMutableOrderedSet<SDLChoiceCell *> *)strippedCells toUnstrippedCells:(NSMutableOrderedSet<SDLChoiceCell *> *)unstrippedCells {
+    NSParameterAssert(strippedCells.count == unstrippedCells.count);
+    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
+    NSMutableDictionary<SDLChoiceCell *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    for (NSUInteger i = 0; i < strippedCells.count; i++) {
+        SDLChoiceCell *cell = strippedCells[i];
+        NSNumber *counter = dictCounter[cell];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[cell] = counter;
+        } else {
+            dictCounter[cell] = @1;
+        }
+
+        counter = dictCounter[cell];
+        if (counter.intValue > 1) {
+            unstrippedCells[i].uniqueText = [NSString stringWithFormat: @"%@ (%d)", unstrippedCells[i].text, counter.intValue];
+        }
+    }
 }
 
 /// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
