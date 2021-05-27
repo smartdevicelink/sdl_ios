@@ -1,0 +1,87 @@
+<h1>SDLKeyboardCapabilities Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithMaskInputCharactersSupported:supportedKeyboards:">-initWithMaskInputCharactersSupported:supportedKeyboards:</a></li>
+  <li><a href="#section-maskInputCharactersSupported">maskInputCharactersSupported</a></li>
+  <li><a href="#section-supportedKeyboards">supportedKeyboards</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithMaskInputCharactersSupported:supportedKeyboards:">
+      -initWithMaskInputCharactersSupported:supportedKeyboards:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithMaskInputCharactersSupported</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">maskInputCharactersSupported</span>
+                      <span class="nf">supportedKeyboards</span><span class="p">:</span>
+                          <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLKeyboardLayoutCapability.html">SDLKeyboardLayoutCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                              <span class="n"><a href="../Classes/SDLKeyboardCapabilities.html#/c:objc(cs)SDLKeyboardCapabilities(py)supportedKeyboards">supportedKeyboards</a></span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">maskInputCharactersSupported</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">supportedKeyboards</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLKeyboardLayoutCapability.html">SDLKeyboardLayoutCapability</a></span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>maskInputCharactersSupported</dt>
+      <dd><p>- maskInputCharactersSupported</p></dd>
+      <dt>supportedKeyboards</dt>
+      <dd><p>- supportedKeyboards</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLKeyboardCapabilities object</p>
+  </div>
+  
+  <h3 id="section-maskInputCharactersSupported">
+      maskInputCharactersSupported
+  </h3>
+  
+  <p>Availability of capability to mask input characters using keyboard. True: Available, False: Not Available</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">maskInputCharactersSupported</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">maskInputCharactersSupported</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-supportedKeyboards">
+      supportedKeyboards
+  </h3>
+  
+  <p>Capabilities of supported keyboard layouts by HMI.
+{&ldquo;array_min_size&rdquo;: 1, &ldquo;array_max_size&rdquo;: 1000}</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLKeyboardLayoutCapability.html">SDLKeyboardLayoutCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">supportedKeyboards</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">supportedKeyboards</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLKeyboardLayoutCapability.html">SDLKeyboardLayoutCapability</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

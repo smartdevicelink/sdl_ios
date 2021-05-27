@@ -10,60 +10,33 @@
 
 #import "SDLLifecycleManager.h"
 
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "NSMapTable+Subscripting.h"
-#import "SDLLifecycleRPCAdapter.h"
 #import "SDLAsynchronousRPCOperation.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
-#import "SDLChangeRegistration.h"
-#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLEncryptionConfiguration.h"
-#import "SDLLogMacros.h"
 #import "SDLError.h"
 #import "SDLEncryptionLifecycleManager.h"
-#import "SDLFile.h"
-#import "SDLFileManager.h"
-#import "SDLFileManagerConfiguration.h"
 #import "SDLGlobals.h"
 #import "SDLIAPTransport.h"
-#import "SDLLifecycleConfiguration.h"
-#import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLifecycleMobileHMIStateHandler.h"
+#import "SDLLifecycleRPCAdapter.h"
 #import "SDLLifecycleSyncPDataHandler.h"
 #import "SDLLifecycleSystemRequestHandler.h"
-#import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLLockScreenPresenter.h"
-#import "SDLLogConfiguration.h"
 #import "SDLLogFileModuleMap.h"
 #import "SDLLogManager.h"
-#import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
-#import "SDLOnAppInterfaceUnregistered.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLOnHashChange.h"
-#import "SDLPermissionManager.h"
-#import "SDLPredefinedWindows.h"
 #import "SDLProtocol.h"
 #import "SDLLifecycleProtocolHandler.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLRegisterAppInterface.h"
-#import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
-#import "SDLResult.h"
-#import "SDLScreenManager.h"
 #import "SDLSecondaryTransportManager.h"
 #import "SDLSequentialRPCRequestOperation.h"
-#import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
-#import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaManager.h"
-#import "SDLSystemCapabilityManager.h"
-#import "SDLSystemInfo.h"
 #import "SDLTCPTransport.h"
-#import "SDLUnregisterAppInterface.h"
-#import "SDLVersion.h"
-#import "SDLWindowCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -88,6 +61,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 @end
 
+@interface SDLSystemCapabilityManager ()
+
+@property (nullable, strong, nonatomic) NSString *lastDisplayLayoutRequestTemplate;
+
+@end
+
 #pragma mark - SDLLifecycleManager Private Interface
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
@@ -98,6 +77,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
+@property (copy, nonatomic, readwrite, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLAudioStreamingState audioStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLVideoStreamingState videoStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLSystemContext systemContext;
+@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
 
 // Private Managers
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
@@ -387,7 +372,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     __weak typeof(self) weakSelf = self;
     [self sendConnectionManagerRequest:regRequest withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
         // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
-        if (error != nil || ![response.success boolValue]) {
+        if (error != nil || !response.success.boolValue) {
             SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
             if (weakSelf.readyHandler) {
                 weakSelf.readyHandler(NO, error);
@@ -626,7 +611,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     __weak typeof(self) weakSelf = self;
     [self sdl_sendConnectionRequest:unregisterRequest
       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-        if (error != nil || ![response.success boolValue]) {
+        if (error != nil || !response.success.boolValue) {
             SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
         }
 
@@ -647,12 +632,11 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
         if (error != nil) {
-            if (error.code == SDLFileManagerErrorCannotOverwrite) {
+            if ([error.domain isEqualToString:SDLErrorDomainFileManager] && error.code == SDLFileManagerErrorCannotOverwrite) {
                 SDLLogW(@"Failed to upload app icon: A file with this name already exists on the system");
             } else {
                 SDLLogW(@"Unexpected error uploading app icon: %@", error);
-                completion();
-                return;
+                return completion();
             }
         }
 
@@ -666,8 +650,7 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
                 SDLLogW(@"Error setting up app icon: %@", error);
             }
 
-            // We've succeeded or failed
-            completion();
+            return completion();
         }];
     }];
 }
@@ -753,19 +736,6 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         
         return;
     }
-    
-    if (!request.isPayloadProtected && [self.encryptionLifecycleManager rpcRequiresEncryption:request]) {
-        request.payloadProtected = YES;
-    }
-    
-    if (request.isPayloadProtected && !self.encryptionLifecycleManager.isEncryptionReady) {
-        SDLLogW(@"Encryption Manager not ready, request not sent (%@)", request);
-        if (handler) {
-            handler(request, nil, [NSError sdl_encryption_lifecycle_notReadyError]);
-        }
-        
-        return;
-    }
 
     [SDLGlobals runSyncOnSerialSubQueue:self.lifecycleQueue block:^{
         [self sdl_sendConnectionRequest:request withResponseHandler:handler];
@@ -798,20 +768,39 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         return;
     }
 
+    // HAX: Issue #1152, Ford Sync bug returning incorrect display capabilities (https://github.com/smartdevicelink/sdl_ios/issues/1152).
+    // Inform the system capability manager of the next SetDisplayLayout type
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    if ([request.name isEqualToString:SDLRPCFunctionNameSetDisplayLayout]) {
+        SDLSetDisplayLayout *setDisplayLayoutRequest = (SDLSetDisplayLayout *)request;
+        self.systemCapabilityManager.lastDisplayLayoutRequestTemplate = setDisplayLayoutRequest.displayLayout;
+    }
+#pragma clang diagnostic pop
+
     // Before we send a message, we have to check if we need to adapt the RPC. When adapting the RPC, there could be multiple RPCs that need to be sent.
+    NSError *error = nil;
     NSArray<SDLRPCMessage *> *messages = [SDLLifecycleRPCAdapter adaptRPC:request direction:SDLRPCDirectionOutgoing];
     for (SDLRPCMessage *message in messages) {
+        BOOL successfullySent = NO;
         if ([request isKindOfClass:SDLRPCRequest.class]) {
             // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
             SDLRPCRequest *requestRPC = (SDLRPCRequest *)message;
             NSNumber *corrID = [self sdl_getNextCorrelationId];
             requestRPC.correlationID = corrID;
             [self.responseDispatcher storeRequest:requestRPC handler:handler];
-            [self.protocolHandler.protocol sendRPC:requestRPC];
+            successfullySent = [self.protocolHandler.protocol sendRPC:requestRPC error:&error];
         } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-            [self.protocolHandler.protocol sendRPC:message];
+            successfullySent = [self.protocolHandler.protocol sendRPC:message error:&error];
         } else {
             SDLLogE(@"Will not send an RPC with unknown type, %@. The request should be of type SDLRPCRequest, SDLRPCResponse, or SDLRPCNotification.", request.class);
+        }
+
+        if (!successfullySent) {
+            if (handler != nil) {
+                handler(request, nil, error);
+            }
+            break;
         }
     }
 }
@@ -869,10 +858,14 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
     // Ignore the connection while we are reconnecting. The proxy needs to be disposed and restarted in order to ensure correct state. https://github.com/smartdevicelink/sdl_ios/issues/1172
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]
         && ![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
-        SDLLogD(@"Transport connected");
+        SDLLogD(@"RPC Service connected");
 
         dispatch_async(self.lifecycleQueue, ^{
-            [self sdl_transitionToState:SDLLifecycleStateConnected];
+            if ([self.lifecycleState isEqualToString:SDLLifecycleStateStarted]) {
+                [self sdl_transitionToState:SDLLifecycleStateConnected];
+            } else {
+                SDLLogW(@"RPC service connected while already connected. This is probably an encryption update. We will stay in our current state: %@", self.lifecycleState);
+            }
         });
     }
 }

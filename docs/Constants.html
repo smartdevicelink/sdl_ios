@@ -11,6 +11,7 @@
   <li><a href="#section-SDLAmbientLightStatusDay">SDLAmbientLightStatusDay</a></li>
   <li><a href="#section-SDLAmbientLightStatusUnknown">SDLAmbientLightStatusUnknown</a></li>
   <li><a href="#section-SDLAmbientLightStatusInvalid">SDLAmbientLightStatusInvalid</a></li>
+  <li><a href="#section-SDLAppCapabilityTypeVideoStreaming">SDLAppCapabilityTypeVideoStreaming</a></li>
   <li><a href="#section-SDLAppHMITypeDefault">SDLAppHMITypeDefault</a></li>
   <li><a href="#section-SDLAppHMITypeCommunication">SDLAppHMITypeCommunication</a></li>
   <li><a href="#section-SDLAppHMITypeMedia">SDLAppHMITypeMedia</a></li>
@@ -167,6 +168,10 @@
   <li><a href="#section-SDLDisplayTypeGeneric">SDLDisplayTypeGeneric</a></li>
   <li><a href="#section-SDLDistanceUnitMiles">SDLDistanceUnitMiles</a></li>
   <li><a href="#section-SDLDistanceUnitKilometers">SDLDistanceUnitKilometers</a></li>
+  <li><a href="#section-SDLDoorStatusTypeClosed">SDLDoorStatusTypeClosed</a></li>
+  <li><a href="#section-SDLDoorStatusTypeLocked">SDLDoorStatusTypeLocked</a></li>
+  <li><a href="#section-SDLDoorStatusTypeAjar">SDLDoorStatusTypeAjar</a></li>
+  <li><a href="#section-SDLDoorStatusTypeRemoved">SDLDoorStatusTypeRemoved</a></li>
   <li><a href="#section-SDLDriverDistractionStateOn">SDLDriverDistractionStateOn</a></li>
   <li><a href="#section-SDLDriverDistractionStateOff">SDLDriverDistractionStateOff</a></li>
   <li><a href="#section-SDLECallConfirmationStatusNormal">SDLECallConfirmationStatusNormal</a></li>
@@ -191,6 +196,7 @@
   <li><a href="#section-SDLErrorDomainAudioStreamManager">SDLErrorDomainAudioStreamManager</a></li>
   <li><a href="#section-SDLErrorDomainCacheFileManager">SDLErrorDomainCacheFileManager</a></li>
   <li><a href="#section-SDLErrorDomainChoiceSetManager">SDLErrorDomainChoiceSetManager</a></li>
+  <li><a href="#section-SDLErrorDomainAlertManager">SDLErrorDomainAlertManager</a></li>
   <li><a href="#section-SDLErrorDomainEncryptionLifecycleManager">SDLErrorDomainEncryptionLifecycleManager</a></li>
   <li><a href="#section-SDLErrorDomainFileManager">SDLErrorDomainFileManager</a></li>
   <li><a href="#section-SDLErrorDomainLifecycleManager">SDLErrorDomainLifecycleManager</a></li>
@@ -260,6 +266,8 @@
   <li><a href="#section-SDLImageFieldNameLocationImage">SDLImageFieldNameLocationImage</a></li>
   <li><a href="#section-SDLImageFieldNameSubMenuIcon">SDLImageFieldNameSubMenuIcon</a></li>
   <li><a href="#section-SDLImageFieldNameSubtleAlertIcon">SDLImageFieldNameSubtleAlertIcon</a></li>
+  <li><a href="#section-SDLImageFieldNameMenuCommandSecondaryImage">SDLImageFieldNameMenuCommandSecondaryImage</a></li>
+  <li><a href="#section-SDLImageFieldNameMenuSubMenuSecondaryImage">SDLImageFieldNameMenuSubMenuSecondaryImage</a></li>
   <li><a href="#section-SDLImageTypeStatic">SDLImageTypeStatic</a></li>
   <li><a href="#section-SDLImageTypeDynamic">SDLImageTypeDynamic</a></li>
   <li><a href="#section-SDLInteractionModeManualOnly">SDLInteractionModeManualOnly</a></li>
@@ -270,9 +278,15 @@
   <li><a href="#section-SDLKeyboardEventCancelled">SDLKeyboardEventCancelled</a></li>
   <li><a href="#section-SDLKeyboardEventAborted">SDLKeyboardEventAborted</a></li>
   <li><a href="#section-SDLKeyboardEventVoice">SDLKeyboardEventVoice</a></li>
+  <li><a href="#section-SDLKeyboardEventInputKeyMaskEnabled">SDLKeyboardEventInputKeyMaskEnabled</a></li>
+  <li><a href="#section-SDLKeyboardEventInputKeyMaskDisabled">SDLKeyboardEventInputKeyMaskDisabled</a></li>
+  <li><a href="#section-SDLKeyboardInputMaskEnableInputKeyMask">SDLKeyboardInputMaskEnableInputKeyMask</a></li>
+  <li><a href="#section-SDLKeyboardInputMaskDisableInputKeyMask">SDLKeyboardInputMaskDisableInputKeyMask</a></li>
+  <li><a href="#section-SDLKeyboardInputMaskUserChoiceInputKeyMask">SDLKeyboardInputMaskUserChoiceInputKeyMask</a></li>
   <li><a href="#section-SDLKeyboardLayoutQWERTY">SDLKeyboardLayoutQWERTY</a></li>
   <li><a href="#section-SDLKeyboardLayoutQWERTZ">SDLKeyboardLayoutQWERTZ</a></li>
   <li><a href="#section-SDLKeyboardLayoutAZERTY">SDLKeyboardLayoutAZERTY</a></li>
+  <li><a href="#section-SDLKeyboardLayoutNumeric">SDLKeyboardLayoutNumeric</a></li>
   <li><a href="#section-SDLKeypressModeSingleKeypress">SDLKeypressModeSingleKeypress</a></li>
   <li><a href="#section-SDLKeypressModeQueueKeypresses">SDLKeypressModeQueueKeypresses</a></li>
   <li><a href="#section-SDLKeypressModeResendCurrentEntry">SDLKeypressModeResendCurrentEntry</a></li>
@@ -701,6 +715,7 @@
   <li><a href="#section-SDLRPCFunctionNameGetVehicleData">SDLRPCFunctionNameGetVehicleData</a></li>
   <li><a href="#section-SDLRPCFunctionNameGetWayPoints">SDLRPCFunctionNameGetWayPoints</a></li>
   <li><a href="#section-SDLRPCFunctionNameListFiles">SDLRPCFunctionNameListFiles</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnAppCapabilityUpdated">SDLRPCFunctionNameOnAppCapabilityUpdated</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnAppInterfaceUnregistered">SDLRPCFunctionNameOnAppInterfaceUnregistered</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnAppServiceData">SDLRPCFunctionNameOnAppServiceData</a></li>
   <li><a href="#section-SDLRPCFunctionNameOnAudioPassThru">SDLRPCFunctionNameOnAudioPassThru</a></li>
@@ -841,6 +856,8 @@
   <li><a href="#section-SDLSeatMemoryActionTypeSave">SDLSeatMemoryActionTypeSave</a></li>
   <li><a href="#section-SDLSeatMemoryActionTypeRestore">SDLSeatMemoryActionTypeRestore</a></li>
   <li><a href="#section-SDLSeatMemoryActionTypeNone">SDLSeatMemoryActionTypeNone</a></li>
+  <li><a href="#section-SDLSeekIndicatorTypeTrack">SDLSeekIndicatorTypeTrack</a></li>
+  <li><a href="#section-SDLSeekIndicatorTypeTime">SDLSeekIndicatorTypeTime</a></li>
   <li><a href="#section-SDLServiceUpdateReasonPublished">SDLServiceUpdateReasonPublished</a></li>
   <li><a href="#section-SDLServiceUpdatePublished">SDLServiceUpdatePublished</a></li>
   <li><a href="#section-SDLServiceUpdateReasonRemoved">SDLServiceUpdateReasonRemoved</a></li>
@@ -869,6 +886,7 @@
   <li><a href="#section-SDLStaticIconNameAudiobookEpisode">SDLStaticIconNameAudiobookEpisode</a></li>
   <li><a href="#section-SDLStaticIconNameAudiobookNarrator">SDLStaticIconNameAudiobookNarrator</a></li>
   <li><a href="#section-SDLStaticIconNameAuxillaryAudio">SDLStaticIconNameAuxillaryAudio</a></li>
+  <li><a href="#section-SDLStaticIconNameAuxiliaryAudio">SDLStaticIconNameAuxiliaryAudio</a></li>
   <li><a href="#section-SDLStaticIconNameBack">SDLStaticIconNameBack</a></li>
   <li><a href="#section-SDLStaticIconNameBatteryCapacity0Of5">SDLStaticIconNameBatteryCapacity0Of5</a></li>
   <li><a href="#section-SDLStaticIconNameBatteryCapacity1Of5">SDLStaticIconNameBatteryCapacity1Of5</a></li>
@@ -1127,9 +1145,15 @@
   <li><a href="#section-SDLTextFieldNameLocationDescription">SDLTextFieldNameLocationDescription</a></li>
   <li><a href="#section-SDLTextFieldNameAddressLines">SDLTextFieldNameAddressLines</a></li>
   <li><a href="#section-SDLTextFieldNamePhoneNumber">SDLTextFieldNamePhoneNumber</a></li>
+  <li><a href="#section-SDLTextFieldNameTimeToDestination">SDLTextFieldNameTimeToDestination</a></li>
+  <li><a href="#section-SDLTextFieldNameTurnText">SDLTextFieldNameTurnText</a></li>
   <li><a href="#section-SDLTextFieldNameSubtleAlertText1">SDLTextFieldNameSubtleAlertText1</a></li>
   <li><a href="#section-SDLTextFieldNameSubtleAlertText2">SDLTextFieldNameSubtleAlertText2</a></li>
   <li><a href="#section-SDLTextFieldNameSubtleAlertSoftButtonText">SDLTextFieldNameSubtleAlertSoftButtonText</a></li>
+  <li><a href="#section-SDLTextFieldNameMenuCommandSecondaryText">SDLTextFieldNameMenuCommandSecondaryText</a></li>
+  <li><a href="#section-SDLTextFieldNameMenuCommandTertiaryText">SDLTextFieldNameMenuCommandTertiaryText</a></li>
+  <li><a href="#section-SDLTextFieldNameMenuSubMenuSecondaryText">SDLTextFieldNameMenuSubMenuSecondaryText</a></li>
+  <li><a href="#section-SDLTextFieldNameMenuSubMenuTertiaryText">SDLTextFieldNameMenuSubMenuTertiaryText</a></li>
   <li><a href="#section-SDLTimerModeUp">SDLTimerModeUp</a></li>
   <li><a href="#section-SDLTimerModeDown">SDLTimerModeDown</a></li>
   <li><a href="#section-SDLTimerModeNone">SDLTimerModeNone</a></li>
@@ -1192,6 +1216,7 @@
   <li><a href="#section-SDLVehicleDataTypeFuelLevelState">SDLVehicleDataTypeFuelLevelState</a></li>
   <li><a href="#section-SDLVehicleDataTypeFuelConsumption">SDLVehicleDataTypeFuelConsumption</a></li>
   <li><a href="#section-SDLVehicleDataTypeExternalTemperature">SDLVehicleDataTypeExternalTemperature</a></li>
+  <li><a href="#section-SDLVehicleDataTypeVehicleDataClimateData">SDLVehicleDataTypeVehicleDataClimateData</a></li>
   <li><a href="#section-SDLVehicleDataTypeVIN">SDLVehicleDataTypeVIN</a></li>
   <li><a href="#section-SDLVehicleDataTypePRNDL">SDLVehicleDataTypePRNDL</a></li>
   <li><a href="#section-SDLVehicleDataTypeTirePressure">SDLVehicleDataTypeTirePressure</a></li>
@@ -1219,6 +1244,7 @@
   <li><a href="#section-SDLVehicleDataTypeCloudAppVehicleID">SDLVehicleDataTypeCloudAppVehicleID</a></li>
   <li><a href="#section-SDLVehicleDataTypeOEMVehicleDataType">SDLVehicleDataTypeOEMVehicleDataType</a></li>
   <li><a href="#section-SDLVehicleDataTypeWindowStatus">SDLVehicleDataTypeWindowStatus</a></li>
+  <li><a href="#section-SDLVehicleDataTypeSeatOccupancy">SDLVehicleDataTypeSeatOccupancy</a></li>
   <li><a href="#section-SDLVentilationModeUpper">SDLVentilationModeUpper</a></li>
   <li><a href="#section-SDLVentilationModeLower">SDLVentilationModeLower</a></li>
   <li><a href="#section-SDLVentilationModeBoth">SDLVentilationModeBoth</a></li>
@@ -1409,6 +1435,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">invalid</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLAmbientLightStatus.h@T@SDLAmbientLightStatus">SDLAmbientLightStatus</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppCapabilityTypeVideoStreaming">
+      SDLAppCapabilityTypeVideoStreaming
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span> <span class="k">const</span> <span class="n">SDLAppCapabilityTypeVideoStreaming</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">videoStreaming</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span></code></pre>
 
   
   
@@ -4265,6 +4309,78 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   
   
+  <h3 id="section-SDLDoorStatusTypeClosed">
+      SDLDoorStatusTypeClosed
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="k">const</span> <span class="n">SDLDoorStatusTypeClosed</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">closed</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDoorStatusTypeLocked">
+      SDLDoorStatusTypeLocked
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="k">const</span> <span class="n">SDLDoorStatusTypeLocked</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">locked</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDoorStatusTypeAjar">
+      SDLDoorStatusTypeAjar
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="k">const</span> <span class="n">SDLDoorStatusTypeAjar</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">ajar</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDoorStatusTypeRemoved">
+      SDLDoorStatusTypeRemoved
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="k">const</span> <span class="n">SDLDoorStatusTypeRemoved</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">removed</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDriverDistractionStateOn">
       SDLDriverDistractionStateOn
   </h3>
@@ -4695,6 +4811,24 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainChoiceSetManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainAlertManager">
+      SDLErrorDomainAlertManager
+  </h3>
+  
+  <p>An error in the SDLAlertManager subset of SDLScreenManager</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainAlertManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainAlertManager</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
   
   
@@ -5964,6 +6098,46 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   
   
+  <h3 id="section-SDLImageFieldNameMenuCommandSecondaryImage">
+      SDLImageFieldNameMenuCommandSecondaryImage
+  </h3>
+  
+  <p>The secondary image field for AddCommand</p>
+
+<p>@added in SmartDeviceLink 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span> <span class="n">SDLImageFieldNameMenuCommandSecondaryImage</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">menuCommandSecondaryImage</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLImageFieldNameMenuSubMenuSecondaryImage">
+      SDLImageFieldNameMenuSubMenuSecondaryImage
+  </h3>
+  
+  <p>The secondary image field for AddSubMenu</p>
+
+<p>@added in SmartDeviceLink 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span> <span class="n">SDLImageFieldNameMenuSubMenuSecondaryImage</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">menuSubMenuSecondaryImage</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLImageFieldName.h@T@SDLImageFieldName">SDLImageFieldName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLImageTypeStatic">
       SDLImageTypeStatic
   </h3>
@@ -6161,6 +6335,96 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   
   
+  <h3 id="section-SDLKeyboardEventInputKeyMaskEnabled">
+      SDLKeyboardEventInputKeyMaskEnabled
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span> <span class="n">SDLKeyboardEventInputKeyMaskEnabled</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">inputKeyMaskEnabled</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLKeyboardEventInputKeyMaskDisabled">
+      SDLKeyboardEventInputKeyMaskDisabled
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span> <span class="n">SDLKeyboardEventInputKeyMaskDisabled</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">inputKeyMaskDisabled</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLKeyboardInputMaskEnableInputKeyMask">
+      SDLKeyboardInputMaskEnableInputKeyMask
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="k">const</span> <span class="n">SDLKeyboardInputMaskEnableInputKeyMask</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">enableInputKeyMask</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLKeyboardInputMaskDisableInputKeyMask">
+      SDLKeyboardInputMaskDisableInputKeyMask
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="k">const</span> <span class="n">SDLKeyboardInputMaskDisableInputKeyMask</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">disableInputKeyMask</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLKeyboardInputMaskUserChoiceInputKeyMask">
+      SDLKeyboardInputMaskUserChoiceInputKeyMask
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="k">const</span> <span class="n">SDLKeyboardInputMaskUserChoiceInputKeyMask</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">userChoiceInputKeyMask</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLKeyboardLayoutQWERTY">
       SDLKeyboardLayoutQWERTY
   </h3>
@@ -6211,6 +6475,24 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">AZERTY</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLKeyboardLayoutNumeric">
+      SDLKeyboardLayoutNumeric
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span> <span class="n">SDLKeyboardLayoutNumeric</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">numeric</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span></code></pre>
 
   
   
@@ -13996,6 +14278,24 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
   
   
   
+  <h3 id="section-SDLRPCFunctionNameOnAppCapabilityUpdated">
+      SDLRPCFunctionNameOnAppCapabilityUpdated
+  </h3>
+  
+  <p>Function name for an OnAppCapabilityUpdated notification RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="n">SDLRPCFunctionNameOnAppCapabilityUpdated</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onAppCapabilityUpdated</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRPCFunctionNameOnAppInterfaceUnregistered">
       SDLRPCFunctionNameOnAppInterfaceUnregistered
   </h3>
@@ -16485,7 +16785,7 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
       SDLSeatMemoryActionTypeSave
   </h3>
   
-  <p>@abstract Save current seat postions and settings to seat memory.</p>
+  <p>@abstract Save current seat positions and settings to seat memory.</p>
 
   
   
@@ -16531,6 +16831,42 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">none</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLSeatMemoryActionType.h@T@SDLSeatMemoryActionType">SDLSeatMemoryActionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeekIndicatorTypeTrack">
+      SDLSeekIndicatorTypeTrack
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span> <span class="k">const</span> <span class="n">SDLSeekIndicatorTypeTrack</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">track</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeekIndicatorTypeTime">
+      SDLSeekIndicatorTypeTime
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span> <span class="k">const</span> <span class="n">SDLSeekIndicatorTypeTime</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">time</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span></code></pre>
 
   
   
@@ -17025,7 +17361,7 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
       SDLStaticIconNameAuxillaryAudio
   </h3>
   
-  <p>Static icon auxillary audio</p>
+  <p>Static icon auxiliary audio</p>
 
   
   
@@ -17035,6 +17371,24 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">auxillaryAudio</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLStaticIconNameAuxiliaryAudio">
+      SDLStaticIconNameAuxiliaryAudio
+  </h3>
+  
+  <p>Static icon auxiliary audio</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span> <span class="n">SDLStaticIconNameAuxiliaryAudio</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">auxiliaryAudio</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLStaticIconName.h@T@SDLStaticIconName">SDLStaticIconName</a></span></code></pre>
 
   
   
@@ -21313,6 +21667,9 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
 
 <p>@discussion This field is commonly used to show elapsed or remaining time in an audio track or audio capture.</p>
 
+<p>@deprecated in SmartDeviceLink 7.1.0
+ @added in SmartDeviceLink 1.0.0</p>
+
   
   
   <h4>Objective-C</h4>
@@ -21755,6 +22112,46 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
   
   
   
+  <h3 id="section-SDLTextFieldNameTimeToDestination">
+      SDLTextFieldNameTimeToDestination
+  </h3>
+  
+  <p>Optional time to destination field for ShowConstantTBT</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameTimeToDestination</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">timeToDestination</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextFieldNameTurnText">
+      SDLTextFieldNameTurnText
+  </h3>
+  
+  <p>Turn text for turnList parameter of UpdateTurnList</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameTurnText</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">turnText</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLTextFieldNameSubtleAlertText1">
       SDLTextFieldNameSubtleAlertText1
   </h3>
@@ -21811,6 +22208,86 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subtleAlertSoftButtonText</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextFieldNameMenuCommandSecondaryText">
+      SDLTextFieldNameMenuCommandSecondaryText
+  </h3>
+  
+  <p>Secondary text for AddCommand</p>
+
+<p>@added in SmartDeviceLink 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameMenuCommandSecondaryText</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">menuCommandSecondaryText</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextFieldNameMenuCommandTertiaryText">
+      SDLTextFieldNameMenuCommandTertiaryText
+  </h3>
+  
+  <p>Tertiary text for AddCommand</p>
+
+<p>@added in SmartDeviceLink 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameMenuCommandTertiaryText</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">menuCommandTertiaryText</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextFieldNameMenuSubMenuSecondaryText">
+      SDLTextFieldNameMenuSubMenuSecondaryText
+  </h3>
+  
+  <p>Secondary text for AddSubMenu</p>
+
+<p>@added in SmartDeviceLink 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameMenuSubMenuSecondaryText</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">menuSubMenuSecondaryText</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextFieldNameMenuSubMenuTertiaryText">
+      SDLTextFieldNameMenuSubMenuTertiaryText
+  </h3>
+  
+  <p>Tertiary text for AddSubMenu</p>
+
+<p>@added in SmartDeviceLink 7.0.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span> <span class="n">SDLTextFieldNameMenuSubMenuTertiaryText</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">menuSubMenuTertiaryText</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLTextFieldName.h@T@SDLTextFieldName">SDLTextFieldName</a></span></code></pre>
 
   
   
@@ -22729,7 +23206,7 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
       SDLVehicleDataStatusNoDataExists
   </h3>
   
-  <p>No data avaliable</p>
+  <p>No data available</p>
 
   
   
@@ -22928,7 +23405,9 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
       SDLVehicleDataTypeExternalTemperature
   </h3>
   
-  <p>Vehicle external temperature data</p>
+  <p>Vehicle external temperature data
+@deprecated in SmartDeviceLink 7.1.0
+@added in SmartDeviceLink 2.0.0</p>
 
   
   
@@ -22938,6 +23417,24 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVehicleDataTypeVehicleDataClimateData">
+      SDLVehicleDataTypeVehicleDataClimateData
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span> <span class="n">SDLVehicleDataTypeVehicleDataClimateData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">vehicleDataClimateData</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
 
   
   
@@ -23307,7 +23804,7 @@ Added in SDL 7.0.0</p>
       SDLVehicleDataTypeAccelerationPedal
   </h3>
   
-  <p>Vehicle accleration pedal data</p>
+  <p>Vehicle acceleration pedal data</p>
 
   
   
@@ -23429,6 +23926,24 @@ Added in SDL 7.0.0</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">windowStatus</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVehicleDataTypeSeatOccupancy">
+      SDLVehicleDataTypeSeatOccupancy
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span> <span class="n">SDLVehicleDataTypeSeatOccupancy</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">seatOccupancy</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
 
   
   

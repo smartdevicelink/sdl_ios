@@ -1,7 +1,29 @@
 # Changelog
-## 7.1.0 Release Candidate 1
+## 7.1.1
 ### Versions
-* Supports [SDL RPC Spec 7.1.0-in-progress](https://github.com/smartdevicelink/rpc_spec/commit/6b98355357b5b1893bbb59cb668d28545023457c) and [SDL Protocol Spec 5.4.0-in-progress](https://github.com/smartdevicelink/protocol_spec/commit/70e5dec7bbf8e2140cc2602e67f458174c282405).
+* Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
+
+### Testing
+* Xcode 12.5
+* iOS 14.5.1
+* Core:
+    * Manticore (Core v7.0.0, Generic HMI v0.9.0)
+    * Ford Sync 3.4 (19353_DEVTEST)
+    * Ford Sync 3.0 (17276_DEVTEST)
+    * Ford Sync 4.0 (20016_DEVTEST)
+    * Core v6.1.2 with sdl_hmi v5.3.0 and generic_hmi v0.8.1
+    * Core v7.1.1 with generic_hmi v0.10.0
+    
+### Bug Fixes
+* Fixed initial StartServiceACK being timed out too soon with many app connections to module (https://github.com/smartdevicelink/sdl_ios/issues/1783, https://github.com/smartdevicelink/sdl_ios/issues/1795, https://github.com/smartdevicelink/sdl_ios/issues/1847)
+* Fixed RPC encryption fails when RPCs have multi-frame payloads (https://github.com/smartdevicelink/sdl_ios/issues/1954)
+* Fixed a crash when the head unit sends a StartServiceACK to elevate the RPC service to encryption (https://github.com/smartdevicelink/sdl_ios/issues/1966)
+* Fixed encrypted RPCs fail without a callback when encryption isn't set up (https://github.com/smartdevicelink/sdl_ios/issues/1971)
+* Fixed the file manager not sending images when `ListFiles` is encrypted (https://github.com/smartdevicelink/sdl_ios/issues/1975)
+
+## 7.1.0 (Since RC 1)
+### Versions
+* Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
 
 ### Testing
 * Xcode 12.4
@@ -12,6 +34,22 @@
     * Ford Sync 3.0 (17276_DEVTEST)
     * Ford Sync 4.0 (20016_DEVTEST)
     * Core v7.1.0-develop with sdl_hmi v5.5.0-develop and generic_hmi v0.10.0-develop
+    
+### Enhancements
+* Updated the Swift name of the system info callback from `didReceive(systemInfo:)` to `didReceiveSystemInfo(_:)`.
+
+### Bug Fixes
+* Fixed video streaming apps not resuming when switching between them (https://github.com/smartdevicelink/sdl_ios/issues/1944)
+* Fixed lock screen not being dismissible when the lock screen display mode is always but `enableDismissGesture = YES` (https://github.com/smartdevicelink/sdl_ios/issues/1948)
+* Fixed custom video encoder settings not overriding default video encoder settings (https://github.com/smartdevicelink/sdl_ios/issues/1950)
+
+### Example Apps
+* Updated some coloring of the example apps to use more readable colors.
+* Fixed example app's menu not displaying correctly when the app is exited (https://github.com/smartdevicelink/sdl_ios/issues/1967).
+
+## 7.1.0 Release Candidate 1
+### Versions
+* Supports [SDL RPC Spec 7.1.0-in-progress](https://github.com/smartdevicelink/rpc_spec/commit/6b98355357b5b1893bbb59cb668d28545023457c) and [SDL Protocol Spec 5.4.0-in-progress](https://github.com/smartdevicelink/protocol_spec/commit/70e5dec7bbf8e2140cc2602e67f458174c282405).
 
 ### Enhancements
 * Added the ability to show menu cells and choice set cells with the same `title` (https://github.com/smartdevicelink/sdl_ios/issues/1024)
@@ -29,7 +67,6 @@
 * `VideoStreamingCapability` parameters will now be merged with the app's preferred streaming settings to use the lowest settings (https://github.com/smartdevicelink/sdl_ios/issues/1860)
 * Updated `ShowConstantTBT` RPC description (https://github.com/smartdevicelink/sdl_ios/issues/1863)
 * Added the ability to disconnect based on received vehicle details, including before the app registers on 7.1+ modules (https://github.com/smartdevicelink/sdl_ios/issues/1876)
-* Fixed cases where setting the timeout of an `SDLChoiceSet` could fail (https://github.com/smartdevicelink/sdl_ios/issues/1891)
 * Deprecated `SDLStaticIcon.auxillaryAudio` and add a fixed spelling of `SDLStaticIcon.auxilliaryAudio` (https://github.com/smartdevicelink/sdl_ios/issues/1938) 
 
 ### Bug Fixes
@@ -45,6 +82,7 @@
 * Fixed `SDLArtwork` with a static icon not copying (https://github.com/smartdevicelink/sdl_ios/issues/1846)
 * Fixed `SDLDisplayCapabilities` should be deprecated (https://github.com/smartdevicelink/sdl_ios/issues/1857)
 * Fixed uploading the blank artwork every time instead of persisting it (https://github.com/smartdevicelink/sdl_ios/issues/1864)
+* Fixed cases where setting the timeout of an `SDLChoiceSet` could fail (https://github.com/smartdevicelink/sdl_ios/issues/1891)
 * We now throw an exception if you try to display two `SDLSoftButtonObject`s with the same name (https://github.com/smartdevicelink/sdl_ios/issues/1897)
 * Fixed `SDLTextFieldName.timeToDestination` documentation (https://github.com/smartdevicelink/sdl_ios/issues/1915)
 * Fixed uploaded files not being divided into multiple RPCs correctly (https://github.com/smartdevicelink/sdl_ios/issues/1927)

@@ -72,9 +72,7 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section != 0) {
-        return;
-    }
+    if (indexPath.section != 0) { return; }
     
     switch (indexPath.row) {
         case 0: {
@@ -103,15 +101,15 @@
     
     switch (newState) {
         case ProxyStateStopped: {
-            newColor = [UIColor systemRedColor];
+            newColor = [UIColor colorWithRed:(255.0 / 255.0) green:(69.0 / 255.0) blue:(58.0 / 255.0) alpha:1.0];
             newTitle = @"Connect";
         } break;
         case ProxyStateSearchingForConnection: {
-            newColor = [UIColor systemOrangeColor];
+            newColor = [UIColor colorWithRed:(255.0 / 255.0) green:(159.0 / 255.0) blue:(10.0 / 255.0) alpha:1.0];
             newTitle = @"Stop Searching";
         } break;
         case ProxyStateConnected: {
-            newColor = [UIColor systemGreenColor];
+            newColor = [UIColor colorWithRed:(50.0 / 255.0) green:(215.0 / 255.0) blue:(75.0 / 255.0) alpha:1.0];
             newTitle = @"Disconnect";
         } break;
         default: break;

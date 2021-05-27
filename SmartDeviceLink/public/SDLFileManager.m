@@ -178,9 +178,14 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
         // If there was an error, we'll pass the error to the startup handler and cancel out
         if (error != nil) {
-            // HAX: In the case we are DISALLOWED we still want to transition to a ready state. Some head units return DISALLOWED for this RPC but otherwise work.
-            if([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
+            if ([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
+                // HAX: In the case we are DISALLOWED we still want to transition to a ready state. Some head units return DISALLOWED for this RPC but otherwise work.
                 SDLLogW(@"ListFiles is disallowed. Certain file manager APIs may not work properly.");
+                [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
+                BLOCK_RETURN;
+            } else if ([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultEncryptionNeeded]) {
+                // If the module rejects the ListFiles request because it requires that the request be encrypted, we still want to transition to a ready state. Unfortunately, since we do not know what files are on the module already, we may end up doing unnecessary duplicate file uploads.
+                SDLLogE(@"ListFiles must be encrypted but was not when the file manager started. We do not know which files have already been uploaded to the module. All files will need to be re-uploaded. Certain file manager APIs may not work properly.");
                 [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
                 BLOCK_RETURN;
             }
@@ -283,11 +288,16 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (BOOL)hasUploadedFile:(SDLFile *)file {
     // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly.
-    if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
-        // If it's a persistant file, the bug won't present itself; just check if it's on the remote system
-        return YES;
-    } else if (!file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
-        // If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
+        if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
+            // HAX: If it's a persistent file, the bug won't present itself; just check if it's on the remote system
+            return YES;
+        } else if (!file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
+            // HAX: If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
+            return YES;
+        }
+    } else if ([self.remoteFileNames containsObject:file.name]) {
+        // If not connected to a system where the bug presents itself, we can trust the `remoteFileNames`
         return YES;
     }
 

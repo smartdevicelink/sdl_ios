@@ -1,6 +1,292 @@
 {
   "warnings": [
-
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLAlertAudioData.h",
+      "line": 13,
+      "symbol": "SDLAlertAudioData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLAlertAudioData.h",
+      "line": 18,
+      "symbol": "SDLAlertAudioData.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLAlertView.h",
+      "line": 22,
+      "symbol": "SDLAlertView",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLAlertView.h",
+      "line": 53,
+      "symbol": "SDLAlertView.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLAppCapabilityType.h",
+      "line": 42,
+      "symbol": "SDLAppCapabilityTypeVideoStreaming",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLAudioData.h",
+      "line": 18,
+      "symbol": "SDLAudioData",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLAudioData.h",
+      "line": 38,
+      "symbol": "SDLAudioData.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLBodyInformation.h",
+      "line": 16,
+      "symbol": "SDLBodyInformation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLDoorStatus.h",
+      "line": 54,
+      "symbol": "SDLDoorStatus.location",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLDoorStatus.h",
+      "line": 56,
+      "symbol": "SDLDoorStatus.status",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLDoorStatusType.h",
+      "line": 40,
+      "symbol": "SDLDoorStatusTypeClosed",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLDoorStatusType.h",
+      "line": 42,
+      "symbol": "SDLDoorStatusTypeLocked",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLDoorStatusType.h",
+      "line": 44,
+      "symbol": "SDLDoorStatusTypeAjar",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLDoorStatusType.h",
+      "line": 46,
+      "symbol": "SDLDoorStatusTypeRemoved",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLGateStatus.h",
+      "line": 54,
+      "symbol": "SDLGateStatus.location",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLGateStatus.h",
+      "line": 56,
+      "symbol": "SDLGateStatus.status",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLKeyboardInputMask.h",
+      "line": 42,
+      "symbol": "SDLKeyboardInputMaskEnableInputKeyMask",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLKeyboardInputMask.h",
+      "line": 44,
+      "symbol": "SDLKeyboardInputMaskDisableInputKeyMask",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLKeyboardInputMask.h",
+      "line": 46,
+      "symbol": "SDLKeyboardInputMaskUserChoiceInputKeyMask",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLKeyboardLayoutCapability.h",
+      "line": 52,
+      "symbol": "SDLKeyboardLayoutCapability.keyboardLayout",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLRoofStatus.h",
+      "line": 63,
+      "symbol": "SDLRoofStatus.location",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLRoofStatus.h",
+      "line": 65,
+      "symbol": "SDLRoofStatus.status",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLRoofStatus.h",
+      "line": 67,
+      "symbol": "SDLRoofStatus.state",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLSeatStatus.h",
+      "line": 53,
+      "symbol": "SDLSeatStatus.seatLocation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLSeatStatus.h",
+      "line": 55,
+      "symbol": "SDLSeatStatus.conditionActive",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLSeekIndicatorType.h",
+      "line": 40,
+      "symbol": "SDLSeekIndicatorTypeTrack",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLSeekIndicatorType.h",
+      "line": 41,
+      "symbol": "SDLSeekIndicatorTypeTime",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLSeekStreamingIndicator.h",
+      "line": 64,
+      "symbol": "SDLSeekStreamingIndicator.type",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLStreamingVideoDelegate.h",
+      "line": 12,
+      "symbol": "SDLStreamingVideoDelegate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLStreamingVideoDelegate.h",
+      "line": 14,
+      "symbol": "SDLStreamingVideoDelegate.-videoStreamingSizeDidUpdate:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLSystemInfo.h",
+      "line": 15,
+      "symbol": "SDLSystemInfo",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 14,
+      "symbol": "SDLVideoStreamingRange",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 17,
+      "symbol": "SDLVideoStreamingRange.minimumAspectRatio",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 20,
+      "symbol": "SDLVideoStreamingRange.maximumAspectRatio",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 23,
+      "symbol": "SDLVideoStreamingRange.minimumDiagonal",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 26,
+      "symbol": "SDLVideoStreamingRange.minimumResolution",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 29,
+      "symbol": "SDLVideoStreamingRange.maximumResolution",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 32,
+      "symbol": "SDLVideoStreamingRange.-isImageResolutionInRange:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 35,
+      "symbol": "SDLVideoStreamingRange.-isAspectRatioInRange:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 37,
+      "symbol": "SDLVideoStreamingRange.-initWithMinimumResolution:maximumResolution:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joelfischer/Developer/livio/sdl/sdl_ios/SmartDeviceLink/public/SDLVideoStreamingRange.h",
+      "line": 40,
+      "symbol": "SDLVideoStreamingRange.+disabled",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
+      "warning": "undocumented"
+    }
   ],
-  "source_directory": "/Users/joelfischer/Development/livio/sdl/sdl_ios"
+  "source_directory": "/Users/joelfischer/Developer/livio/sdl/sdl_ios"
 }
