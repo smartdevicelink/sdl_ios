@@ -505,7 +505,7 @@ describe(@"a system capability manager", ^{
         });
     });
 
-    context(@"When notified of a SetDisplayLayout Response with NON_MEDIA in templates", ^ {
+    describe(@"when notified of a SetDisplayLayout Response with NON_MEDIA in templates", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
@@ -522,7 +522,7 @@ describe(@"a system capability manager", ^{
             testSetDisplayLayoutResponse.presetBankCapabilities = testPresetBankCapabilities;
         });
 
-        describe(@"If the SetDisplayLayout request succeeds", ^{
+        describe(@"if the SetDisplayLayout request succeeds", ^{
             beforeEach(^{
                 testSetDisplayLayoutResponse.success = @YES;
                 SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
@@ -552,9 +552,10 @@ describe(@"a system capability manager", ^{
                 expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
             });
 
-            describe(@"If templatesAvailable has NON_MEDIA", ^{
-                it(@"should also include NON-MEDIA", ^{
+            describe(@"if templatesAvailable has NON_MEDIA", ^{
+                it(@"should be changed to include NON-MEDIA and not NON_MEDIA", ^{
                     expect(testSystemCapabilityManager.defaultMainWindowCapability.templatesAvailable).to(equal(@[@"DEFAULT", @"MEDIA", @"NON-MEDIA"]));
+                    expect(testSystemCapabilityManager.defaultMainWindowCapability.templatesAvailable).notTo(contain(@"NON_MEDIA"));
                 });
             });
         });

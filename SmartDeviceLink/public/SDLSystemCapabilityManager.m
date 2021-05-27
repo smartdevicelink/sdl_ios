@@ -208,6 +208,7 @@ typedef NSString * SDLServiceID;
             break;
         }
     }
+    
     // Copy all available display capability properties
     defaultWindowCapability.templatesAvailable = [mutableTemplatesAvailable copy];
     defaultWindowCapability.numCustomPresetsAvailable = [self.displayCapabilities.numCustomPresetsAvailable copy];
