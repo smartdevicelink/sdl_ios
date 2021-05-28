@@ -56,6 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
 @property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
 @property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+@property (copy, nonatomic, readwrite, nullable) SDLMenuCellSelectionHandler handler;
 
 @end
 
@@ -551,7 +553,7 @@ UInt32 const MenuCellIdMin = 1;
             if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
                 cell.secondaryArtwork = nil;
             }
-            [self sdl_removeUnusedProperties:cell.subCells];
+            cell.subCells = [self sdl_removeUnusedProperties:cell.subCells];
         } else {
             if (![self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText]) {
                 cell.secondaryText = nil;
