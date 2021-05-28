@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // Check if a voiceCommand has already been uploaded and update its VoiceCommandSelectionListener to prevent calling the wrong listener in a case where a voice command was uploaded and then its voiceCommandSelectionListener was updated in another upload.
+    // Check if a voiceCommand has already been uploaded and update its handler to prevent calling the wrong listener in a case where a voice command was uploaded and then its handler was updated without any changes to the voice command strings in a later update.
     for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
         for (SDLVoiceCommand *currentVoiceCommand in self.currentVoiceCommands) {
             if ([voiceCommand isEqual:currentVoiceCommand]) {
