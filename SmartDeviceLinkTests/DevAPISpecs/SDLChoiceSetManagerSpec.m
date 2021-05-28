@@ -2,30 +2,17 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import <SmartDeviceLink/SmartDeviceLink.h>
 #import "SDLChoiceSetManager.h"
 
 #import "SDLCheckChoiceVROptionalOperation.h"
-#import "SDLChoiceCell.h"
-#import "SDLChoiceSet.h"
-#import "SDLChoiceSetDelegate.h"
 #import "SDLDeleteChoicesOperation.h"
-#import "SDLDisplayCapability.h"
-#import "SDLFileManager.h"
 #import "SDLGlobals.h"
-#import "SDLHMILevel.h"
-#import "SDLKeyboardDelegate.h"
-#import "SDLKeyboardProperties.h"
-#import "SDLNotificationConstants.h"
-#import "SDLOnHMIStatus.h"
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
 #import "SDLPresentKeyboardOperation.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLStateMachine.h"
-#import "SDLSystemContext.h"
-#import "SDLSystemCapability.h"
-#import "SDLSystemCapabilityManager.h"
-#import "SDLTextField.h"
 #import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 
@@ -80,7 +67,7 @@ describe(@"choice set manager tests", ^{
 
     __block SDLWindowCapability *enabledWindowCapability = nil;
     __block SDLWindowCapability *disabledWindowCapability = nil;
-    __block SDLWindowCapability *blankWindowCapability = nil;
+    __block SDLWindowCapability *primaryTextOnlyCapability = nil;
 
     __block SDLChoiceCell *testCell1 = nil;
     __block SDLChoiceCell *testCell2 = nil;
@@ -103,11 +90,21 @@ describe(@"choice set manager tests", ^{
         testCellDuplicate = [[SDLChoiceCell alloc] initWithText:@"test1" artwork:nil voiceCommands:nil];
 
         enabledWindowCapability = [[SDLWindowCapability alloc] init];
-        enabledWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1]];
+        enabledWindowCapability.textFields = @[
+            [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1],
+            [[SDLTextField alloc] initWithName:SDLTextFieldNameSecondaryText characterSet:SDLCharacterSetUtf8 width:500 rows:1],
+            [[SDLTextField alloc] initWithName:SDLTextFieldNameTertiaryText characterSet:SDLCharacterSetUtf8 width:500 rows:1]
+        ];
+        enabledWindowCapability.imageFields = @[
+            [[SDLImageField alloc] initWithName:SDLImageFieldNameChoiceImage imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil],
+            [[SDLImageField alloc] initWithName:SDLImageFieldNameChoiceSecondaryImage imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil]
+        ];
         disabledWindowCapability = [[SDLWindowCapability alloc] init];
         disabledWindowCapability.textFields = @[];
-        blankWindowCapability = [[SDLWindowCapability alloc] init];
-        blankWindowCapability.textFields = @[];
+        primaryTextOnlyCapability = [[SDLWindowCapability alloc] init];
+        primaryTextOnlyCapability.textFields = @[
+            [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1],
+        ];
         choiceSetUniquenessActiveVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     });
 
@@ -173,7 +170,7 @@ describe(@"choice set manager tests", ^{
             });
 
             it(@"should not suspend the queue when receiving an empty display capability", ^{
-                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(blankWindowCapability);
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(disabledWindowCapability);
                 [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
@@ -269,15 +266,38 @@ describe(@"choice set manager tests", ^{
                     [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) { }];
                 });
 
-                it(@"should not update the choiceCells' unique title", ^{
-                    SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                    testOp.completionBlock();
-                    NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
-                    for (SDLChoiceCell *choiceCell in testArrays) {
-                        expect(choiceCell.uniqueText).to(equal("test1"));
-                    }
-                    expect(testManager.preloadedChoices).to(contain(testCell1));
-                    expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
+                context(@"if there are duplicate cells once you strip unused cell properties", ^{
+                    beforeEach(^{
+                        testManager.currentWindowCapability = primaryTextOnlyCapability;
+                    });
+
+                    it(@"should update the choiceCells' unique title", ^{
+                        SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
+                        testOp.completionBlock();
+                        NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
+                        for (SDLChoiceCell *choiceCell in testArrays) {
+                            if (choiceCell.artwork) {
+                                expect(choiceCell.uniqueText).to(equal("test1 (2)"));
+                            } else {
+                                expect(choiceCell.uniqueText).to(equal("test1"));
+                            }
+                        }
+                        expect(testManager.preloadedChoices).to(contain(testCell1));
+                        expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
+                    });
+                });
+
+                context(@"if all cell properties are used", ^{
+                    it(@"should not update the choiceCells' unique title", ^{
+                        SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
+                        testOp.completionBlock();
+                        NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
+                        for (SDLChoiceCell *choiceCell in testArrays) {
+                            expect(choiceCell.uniqueText).to(equal("test1"));
+                        }
+                        expect(testManager.preloadedChoices).to(contain(testCell1));
+                        expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
+                    });
                 });
             });
 
