@@ -470,13 +470,14 @@ NS_ASSUME_NONNULL_BEGIN
         NSError *encryptError = nil;
         data = [self.securityManager encryptData:data withError:&encryptError];
 
-        if (encryptError) {
+        // If the data fails to encrypt, fail out of sending this chunk of data.
+        if ((data.length == 0) || (encryptError != nil)) {
             SDLLogE(@"Error attempting to encrypt raw data for service: %@, error: %@", @(service), encryptError);
+            return;
         }
     }
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
-
     if (message.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]) {
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
@@ -531,7 +532,7 @@ NS_ASSUME_NONNULL_BEGIN
             NSError *decryptError = nil;
             payload = [self.securityManager decryptData:payload withError:&decryptError];
 
-            if (decryptError) {
+            if (decryptError != nil) {
                 SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
                 return;
             }
