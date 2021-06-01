@@ -264,7 +264,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploads) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        // Find the choices that failed to upload
+        // Find the `SDLChoiceCell`s that failed to upload by comparing the `choiceId`s
         NSMutableSet<SDLChoiceCell *> *failedChoiceUploadSet = [NSMutableSet set];
         if (failedChoiceUploads.count > 0) {
             for (NSNumber *failedChoiceId in failedChoiceUploads) {
@@ -282,6 +282,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             return;
         }
 
+        // Update the list of `preloadedMutableChoices` and `pendingMutablePreloadChoices` based the set of successful choice uploads
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (failedChoiceUploadSet.count == 0) {
@@ -294,7 +295,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
                 [strongSelf.preloadedMutableChoices unionSet:[successfulChoiceUploads copy]];
                 [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
 
-                // Update pending preload choice operations with the failed choices
+                // Add the failed choices to all the pending present operations
                 [strongSelf sdl_updatePendingOperationsWithFailedPreloadedChoices:failedChoiceUploadSet];
             }
         }];
@@ -312,7 +313,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     [self.transactionQueue addOperation:preloadOp];
 }
 
-/// Update currently pending operations with the failed choice commands
+/// Update currently pending preload choice operations with the failed choice commands so a re-upload can be attempted.
 /// @param failedPreloadedChoices The failed choice commands
 - (void)sdl_updatePendingOperationsWithFailedPreloadedChoices:(NSMutableSet<SDLChoiceCell *> *)failedPreloadedChoices {
     for (NSOperation *operation in self.transactionQueue.operations) {

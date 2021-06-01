@@ -16,6 +16,18 @@
 #import "SDLWindowCapability.h"
 #import "TestConnectionManager.h"
 
+@interface SDLPreloadChoicesOperation()
+
+@property (strong, nonatomic, nullable) NSMutableArray<NSNumber *> *failedChoiceUploadIDs;
+
+@end
+
+@interface SDLChoiceCell()
+
+@property (assign, nonatomic) UInt16 choiceId;
+
+@end
+
 QuickSpecBegin(SDLPreloadChoicesOperationSpec)
 
 describe(@"a preload choices operation", ^{
@@ -379,6 +391,76 @@ describe(@"a preload choices operation", ^{
                     expect(receivedRequests).to(haveCount(2));
                     expect(receivedRequests[0].choiceSet[0].menuName).to(equal(testCell1.text));
                     expect(receivedRequests[1].choiceSet[0].menuName).to(equal(testCell2.text));
+                });
+            });
+        });
+
+        context(@"the module's response to choice uploads", ^{
+            __block SDLChoiceCell *testCell1 = nil;
+            __block SDLChoiceCell *testCell2 = nil;
+            __block NSOrderedSet<SDLChoiceCell *> *testCells = nil;
+            __block SDLCreateInteractionChoiceSetResponse *testBadResponse = nil;
+            __block SDLCreateInteractionChoiceSetResponse *testGoodResponse = nil;
+
+            beforeEach(^{
+                testCell1 = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
+                testCell1.choiceId = 55;
+                testCell2 = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameClock]];
+                testCell2.choiceId = 66;
+                testCells = [[NSOrderedSet alloc] initWithArray:@[testCell1, testCell2]];
+
+                testBadResponse = [[SDLCreateInteractionChoiceSetResponse alloc] init];
+                testBadResponse.success = @NO;
+                testBadResponse.resultCode = SDLResultRejected;
+
+                testGoodResponse = [[SDLCreateInteractionChoiceSetResponse alloc] init];
+                testGoodResponse.success = @YES;
+                testGoodResponse.resultCode = SDLResultSuccess;
+            });
+
+            context(@"when a bad response comes back", ^{
+                 it(@"should add the choice id of the failed choice item to the failedChoiceUploadIDs array", ^{
+                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
+                    primaryTextField.name = SDLTextFieldNameMenuName;
+                    windowCapability.textFields = @[primaryTextField];
+
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploads) {}];
+                    [testOp start];
+
+                    NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
+
+                    expect(receivedRequests).to(haveCount(2));
+                    expect(receivedRequests[0].choiceSet[0].menuName).to(equal(testCell1.text));
+                    expect(receivedRequests[1].choiceSet[0].menuName).to(equal(testCell2.text));
+
+                    [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:0 error:nil];
+                    [testConnectionManager respondToRequestWithResponse:testBadResponse requestNumber:1 error:[NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorUploadFailed userInfo:nil]];
+
+                    expect(testOp.failedChoiceUploadIDs.count).to(equal(1));
+                    expect(testOp.failedChoiceUploadIDs).to(contain(@(testCell2.choiceId)));
+                    expect(testOp.failedChoiceUploadIDs).toNot(contain(@(testCell1.choiceId)));
+                });
+            });
+
+            context(@"when only good responses comes back", ^{
+                it(@"should leave the failedChoiceUploadIDs array empty", ^{
+                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
+                    primaryTextField.name = SDLTextFieldNameMenuName;
+                    windowCapability.textFields = @[primaryTextField];
+
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploads) {}];
+                    [testOp start];
+
+                    NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
+
+                    expect(receivedRequests).to(haveCount(2));
+                    expect(receivedRequests[0].choiceSet[0].menuName).to(equal(testCell1.text));
+                    expect(receivedRequests[1].choiceSet[0].menuName).to(equal(testCell2.text));
+
+                    [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:0 error:nil];
+                    [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:1 error:nil];
+
+                    expect(testOp.failedChoiceUploadIDs).to(beEmpty());
                 });
             });
         });
