@@ -554,6 +554,7 @@ describe(@"choice set manager tests", ^{
                     testErrors[failedChoiceSet] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
                     NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
 
+                    OCMExpect([strickMockOperationQueue operations]).andReturn(nil);
                     OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
                         SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
                         expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
@@ -562,7 +563,7 @@ describe(@"choice set manager tests", ^{
                         expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[2]));
                         expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[3]));
                         preloadChoicesOperation.internalError = testInternalError;
-                        preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:@[@1]];
+                        preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:(@[@1])];
                         [preloadChoicesOperation finishOperation];
                         return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
                     }]]);
@@ -598,6 +599,7 @@ describe(@"choice set manager tests", ^{
                     testErrors[failedChoiceSet4] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
                     NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
 
+                    OCMExpect([strickMockOperationQueue operations]).andReturn(nil);
                     OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
                         SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
                         expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
@@ -615,7 +617,7 @@ describe(@"choice set manager tests", ^{
 
                     [testManager presentChoiceSet:testFailedChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
 
-                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 1.0);
                     OCMVerifyAllWithDelay(choiceDelegate, 0.5);
 
                     expect(testManager.pendingPresentationSet).toNot(beNil());
@@ -683,6 +685,7 @@ describe(@"choice set manager tests", ^{
                 testErrors[failedChoiceSet] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
                 NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
 
+                OCMExpect([strickMockOperationQueue operations]).andReturn(nil);
                 OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
                     SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
                     expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
@@ -692,7 +695,7 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[3]));
                     expect(testManager.pendingPresentationSet).to(equal(testFailedChoiceSet));
                     preloadChoicesOperation.internalError = testInternalError;
-                    preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:@[@1]];
+                    preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:(@[@1])];
                     [preloadChoicesOperation finishOperation];
                     return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
                 }]]);
@@ -700,7 +703,7 @@ describe(@"choice set manager tests", ^{
 
                 [testManager presentChoiceSet:testFailedChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
 
-                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 1.0);
                 OCMVerifyAllWithDelay(choiceDelegate, 0.5);
 
                 expect(testManager.pendingPresentationSet).toNot(beNil());

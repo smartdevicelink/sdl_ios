@@ -244,7 +244,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self.internalError;
 }
 
-#pragma mark - Getters
+#pragma mark - Getters & Setters
 
 - (nullable NSMutableArray<NSNumber *> *)failedChoiceUploadIDs {
     if (!_failedChoiceUploadIDs) {
