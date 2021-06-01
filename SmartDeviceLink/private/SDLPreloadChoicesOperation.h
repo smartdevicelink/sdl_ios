@@ -18,6 +18,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A handler run when the operation completes, containing the failed choice uploads.
+///
+/// @param failedChoiceUploads The ids of failed choice uploads; nil if no choices failed to upload
+typedef void(^SDLPreloadChoicesCompletionHandler)(NSArray<NSNumber *> * _Nullable failedChoiceUploads);
+
 typedef NS_ENUM(NSUInteger, SDLPreloadChoicesOperationState) {
     SDLPreloadChoicesOperationStateWaitingToStart,
     SDLPreloadChoicesOperationStateUploadingArtworks,
@@ -29,9 +34,10 @@ typedef NS_ENUM(NSUInteger, SDLPreloadChoicesOperationState) {
 
 @property (assign, nonatomic) SDLPreloadChoicesOperationState currentState;
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells updateCompletionHandler:(SDLPreloadChoicesCompletionHandler)completionHandler;
 
 - (BOOL)removeChoicesFromUpload:(NSSet<SDLChoiceCell *> *)choices;
+- (BOOL)addChoicesToUpload:(NSSet<SDLChoiceCell *> *)choices;
 
 @end
 
