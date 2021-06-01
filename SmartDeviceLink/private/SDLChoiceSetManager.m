@@ -316,7 +316,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 /// @param failedPreloadedChoices The failed choice commands
 - (void)sdl_updatePendingOperationsWithFailedPreloadedChoices:(NSMutableSet<SDLChoiceCell *> *)failedPreloadedChoices {
     for (NSOperation *operation in self.transactionQueue.operations) {
-        if (![operation isMemberOfClass:[SDLPreloadChoicesOperation class]] || operation.isExecuting) { continue; }
+        if (operation.isExecuting) { continue; }
 
         SDLPreloadChoicesOperation *updateOp = (SDLPreloadChoicesOperation *)operation;
         [updateOp addChoicesToUpload:failedPreloadedChoices];
