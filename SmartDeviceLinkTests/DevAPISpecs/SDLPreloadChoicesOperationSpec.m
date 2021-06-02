@@ -96,7 +96,7 @@ describe(@"a preload choices operation", ^{
                     primaryTextField.name = SDLTextFieldNameMenuName;
                     windowCapability.textFields = @[];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork allCells:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
                 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -107,7 +107,7 @@ describe(@"a preload choices operation", ^{
 
             context(@"only main text capabilities", ^{
                 it(@"should skip to preloading cells", ^{
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork allCells:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
                     expect(@(testOp.currentState)).to(equal(SDLPreloadChoicesOperationStatePreloadingChoices));
@@ -122,7 +122,7 @@ describe(@"a preload choices operation", ^{
 
                     OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork allCells:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
                 });
 
@@ -149,7 +149,7 @@ describe(@"a preload choices operation", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
 
-                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork allCells:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                         [testOp start];
                     });
 
@@ -173,7 +173,7 @@ describe(@"a preload choices operation", ^{
 
                         cellsWithArtwork = [[NSOrderedSet alloc] initWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
                         cellsWithStaticIcon = [[NSOrderedSet alloc] initWithArray:@[cellWithStaticIcon]];
-                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork allCells:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                         [testOp start];
 
                         OCMExpect([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
@@ -183,7 +183,7 @@ describe(@"a preload choices operation", ^{
 
                 context(@"when artworks are static icons", ^{
                     beforeEach(^{
-                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithStaticIcon allCells:cellsWithStaticIcon updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithStaticIcon updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                         [testOp start];
                     });
 
@@ -196,7 +196,7 @@ describe(@"a preload choices operation", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
 
-                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork allCells:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                         [testOp start];
                     });
 
@@ -226,7 +226,7 @@ describe(@"a preload choices operation", ^{
 
             describe(@"assembling choices", ^{
                 it(@"should be correct with no text and VR required", ^{
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork allCells:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
 
@@ -242,7 +242,7 @@ describe(@"a preload choices operation", ^{
                     primaryTextField.name = SDLTextFieldNameMenuName;
                     windowCapability.textFields = @[primaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork allCells:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -261,7 +261,7 @@ describe(@"a preload choices operation", ^{
                     secondaryTextField.name = SDLTextFieldNameSecondaryText;
                     windowCapability.textFields = @[primaryTextField, secondaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork allCells:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -282,7 +282,7 @@ describe(@"a preload choices operation", ^{
                     tertiaryTextField.name = SDLTextFieldNameTertiaryText;
                     windowCapability.textFields = @[primaryTextField, secondaryTextField, tertiaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork allCells:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -295,7 +295,7 @@ describe(@"a preload choices operation", ^{
                 });
 
                 it(@"should be correct with VR optional", ^{
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:YES cellsToPreload:cellsWithoutArtwork allCells:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:YES cellsToPreload:cellsWithoutArtwork updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -326,7 +326,7 @@ describe(@"a preload choices operation", ^{
                     primaryTextField.name = SDLTextFieldNameMenuName;
                     windowCapability.textFields = @[primaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells allCells:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp removeChoicesFromUpload:[NSSet setWithArray:@[testCell1]]];
                     [testOp start];
 
@@ -341,71 +341,9 @@ describe(@"a preload choices operation", ^{
                     primaryTextField.name = SDLTextFieldNameMenuName;
                     windowCapability.textFields = @[primaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells allCells:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
                     [testOp removeChoicesFromUpload:[NSSet setWithArray:@[testCell1]]];
-
-                    NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
-
-                    expect(receivedRequests).to(haveCount(2));
-                    expect(receivedRequests[0].choiceSet[0].menuName).to(equal(testCell1.text));
-                    expect(receivedRequests[1].choiceSet[0].menuName).to(equal(testCell2.text));
-                });
-            });
-
-            context(@"if a choice item is added", ^{
-                __block SDLChoiceCell *testCell3 = nil;
-                __block SDLChoiceCell *testCell4 = nil;
-
-                beforeEach(^{
-                    testCell3 = [[SDLChoiceCell alloc] initWithText:@"Cell3" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
-                    testCell4 = [[SDLChoiceCell alloc] initWithText:@"Cell4" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
-                });
-
-                it(@"should add the choice items if the addition is attempted while the operation is pending", ^{
-                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
-                    primaryTextField.name = SDLTextFieldNameMenuName;
-                    windowCapability.textFields = @[primaryTextField];
-
-                    NSOrderedSet<SDLChoiceCell *> *testAllCells = [NSOrderedSet orderedSetWithArray:@[testCell1, testCell2, testCell3]];
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells allCells:testAllCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
-                    [testOp addFailedChoicesToUpload:[NSSet setWithArray:@[testCell2, testCell3]]];
-                    [testOp start];
-
-                    NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
-
-                    expect(receivedRequests).to(haveCount(3));
-                    expect(receivedRequests[0].choiceSet[0].menuName).to(equal(testCell1.text));
-                    expect(receivedRequests[1].choiceSet[0].menuName).to(equal(testCell2.text));
-                    expect(receivedRequests[2].choiceSet[0].menuName).to(equal(testCell3.text));
-                });
-
-                it(@"should not add the choice items if the choice item is not part of the choice set being presented", ^{
-                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
-                    primaryTextField.name = SDLTextFieldNameMenuName;
-                    windowCapability.textFields = @[primaryTextField];
-
-                    NSOrderedSet<SDLChoiceCell *> *testAllCells = [NSOrderedSet orderedSetWithArray:@[testCell1, testCell2, testCell3]];
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells allCells:testAllCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
-                    [testOp addFailedChoicesToUpload:[NSSet setWithArray:@[testCell4]]];
-                    [testOp start];
-
-                    NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
-
-                    expect(receivedRequests).to(haveCount(2));
-                    expect(receivedRequests[0].choiceSet[0].menuName).to(equal(testCell1.text));
-                    expect(receivedRequests[1].choiceSet[0].menuName).to(equal(testCell2.text));
-                });
-
-                it(@"should not add the choice items if the addition is attempted while operation is executing", ^{
-                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
-                    primaryTextField.name = SDLTextFieldNameMenuName;
-                    windowCapability.textFields = @[primaryTextField];
-
-                    NSOrderedSet<SDLChoiceCell *> *testAllCells = [NSOrderedSet orderedSetWithArray:@[testCell1, testCell2, testCell3]];
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells allCells:testAllCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
-                    [testOp start];
-                    [testOp addFailedChoicesToUpload:[NSSet setWithArray:@[testCell2, testCell3]]];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
 
@@ -445,7 +383,7 @@ describe(@"a preload choices operation", ^{
                     primaryTextField.name = SDLTextFieldNameMenuName;
                     windowCapability.textFields = @[primaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells allCells:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
@@ -469,7 +407,7 @@ describe(@"a preload choices operation", ^{
                     primaryTextField.name = SDLTextFieldNameMenuName;
                     windowCapability.textFields = @[primaryTextField];
 
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells allCells:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;

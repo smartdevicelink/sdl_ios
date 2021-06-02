@@ -261,7 +261,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
     __weak typeof(self) weakSelf = self;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload allCells:[mutableChoicesToUpload copy] updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         // Find the `SDLChoiceCell`s that failed to upload using the `choiceId`s
@@ -292,9 +292,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
                 [strongSelf.preloadedMutableChoices unionSet:[successfulChoiceUploads copy]];
                 [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
-
-                // Add the failed choices to all the pending present operations
-                [strongSelf sdl_updatePendingOperationsWithFailedPreloadedChoices:[failedChoiceUploadSet copy]];
             }
         }];
     }];
@@ -309,17 +306,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     };
 
     [self.transactionQueue addOperation:preloadOp];
-}
-
-/// Update currently pending preload choice operations with the failed choice commands so a re-upload can be attempted.
-/// @param failedPreloadedChoices The failed choice commands
-- (void)sdl_updatePendingOperationsWithFailedPreloadedChoices:(NSSet<SDLChoiceCell *> *)failedPreloadedChoices {
-    for (NSOperation *operation in self.transactionQueue.operations) {
-        if (operation.isExecuting || ![operation isKindOfClass:SDLPreloadChoicesOperation.class]) { continue; }
-
-        SDLPreloadChoicesOperation *updateOp = (SDLPreloadChoicesOperation *)operation;
-        [updateOp addFailedChoicesToUpload:failedPreloadedChoices];
-    }
 }
 
 - (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices {
