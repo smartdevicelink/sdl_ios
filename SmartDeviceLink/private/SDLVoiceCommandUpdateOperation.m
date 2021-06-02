@@ -58,10 +58,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Check if a voiceCommand has already been uploaded and update its handler to prevent calling the wrong listener in a case where a voice command was uploaded and then its handler was updated without any changes to the voice command strings in a later update.
-    for (NSUInteger i = 0; i < self.pendingVoiceCommands.count; i++) {
-        for (NSUInteger j = i; j < self.currentVoiceCommands.count; j++) {
-            if ([self.pendingVoiceCommands[i] isEqual:self.currentVoiceCommands[j]]) {
-                self.currentVoiceCommands[j].handler = self.pendingVoiceCommands[i].handler;
+    for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
+        for (SDLVoiceCommand *currentVoiceCommand in self.currentVoiceCommands) {
+            if ([voiceCommand isEqual:currentVoiceCommand]) {
+                currentVoiceCommand.handler = voiceCommand.handler;
             }
         }
     }
