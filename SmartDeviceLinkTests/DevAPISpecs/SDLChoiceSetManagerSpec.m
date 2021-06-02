@@ -72,7 +72,8 @@ describe(@"choice set manager tests", ^{
     __block SDLChoiceCell *testCell1 = nil;
     __block SDLChoiceCell *testCell2 = nil;
     __block SDLChoiceCell *testCell3 = nil;
-    __block SDLChoiceCell *testCellDuplicate = nil;
+    __block SDLChoiceCell *testCell1Duplicate = nil;
+    __block SDLChoiceCell *testCell1Similar = nil;
     __block SDLVersion *choiceSetUniquenessActiveVersion = nil;
     __block SDLArtwork *testArtwork = nil;
 
@@ -87,7 +88,8 @@ describe(@"choice set manager tests", ^{
         testCell1 = [[SDLChoiceCell alloc] initWithText:@"test1"];
         testCell2 = [[SDLChoiceCell alloc] initWithText:@"test2"];
         testCell3 = [[SDLChoiceCell alloc] initWithText:@"test3"];
-        testCellDuplicate = [[SDLChoiceCell alloc] initWithText:@"test1" artwork:nil voiceCommands:nil];
+        testCell1Duplicate = [[SDLChoiceCell alloc] initWithText:@"test1"];
+        testCell1Similar = [[SDLChoiceCell alloc] initWithText:@"test1" secondaryText:@"secondary" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
 
         enabledWindowCapability = [[SDLWindowCapability alloc] init];
         enabledWindowCapability.textFields = @[
@@ -263,12 +265,12 @@ describe(@"choice set manager tests", ^{
             context(@"when some choices are already uploaded with duplicate titles version >= 7.1.0", ^{
                 beforeEach(^{
                     [SDLGlobals sharedGlobals].rpcVersion = choiceSetUniquenessActiveVersion;
-                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) { }];
                 });
 
                 context(@"if there are duplicate cells once you strip unused cell properties", ^{
                     beforeEach(^{
                         testManager.currentWindowCapability = primaryTextOnlyCapability;
+                        [testManager preloadChoices:@[testCell1, testCell1Similar] withCompletionHandler:^(NSError * _Nullable error) { }];
                     });
 
                     it(@"should update the choiceCells' unique title", ^{
@@ -276,18 +278,24 @@ describe(@"choice set manager tests", ^{
                         testOp.completionBlock();
                         NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
                         for (SDLChoiceCell *choiceCell in testArrays) {
-                            if (choiceCell.artwork) {
+                            if (choiceCell.secondaryText) {
                                 expect(choiceCell.uniqueText).to(equal("test1 (2)"));
                             } else {
                                 expect(choiceCell.uniqueText).to(equal("test1"));
                             }
                         }
+                        expect(testManager.preloadedChoices).to(haveCount(2));
                         expect(testManager.preloadedChoices).to(contain(testCell1));
-                        expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
+                        expect(testManager.preloadedChoices).to(contain(testCell1Duplicate));
                     });
                 });
 
                 context(@"if all cell properties are used", ^{
+                    beforeEach(^{
+                        testManager.currentWindowCapability = enabledWindowCapability;
+                        [testManager preloadChoices:@[testCell1, testCell1Similar] withCompletionHandler:^(NSError * _Nullable error) { }];
+                    });
+
                     it(@"should not update the choiceCells' unique title", ^{
                         SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
                         testOp.completionBlock();
@@ -295,8 +303,9 @@ describe(@"choice set manager tests", ^{
                         for (SDLChoiceCell *choiceCell in testArrays) {
                             expect(choiceCell.uniqueText).to(equal("test1"));
                         }
+                        expect(testManager.preloadedChoices).to(haveCount(2));
                         expect(testManager.preloadedChoices).to(contain(testCell1));
-                        expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
+                        expect(testManager.preloadedChoices).to(contain(testCell1Duplicate));
                     });
                 });
             });
@@ -304,7 +313,7 @@ describe(@"choice set manager tests", ^{
             context(@"when some choices are already uploaded with duplicate titles version <= 7.1.0", ^{
                 beforeEach(^{
                     [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
-                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) { }];
+                    [testManager preloadChoices:@[testCell1, testCell1Similar] withCompletionHandler:^(NSError * _Nullable error) { }];
                 });
 
                 it(@"append a number to the unique text for choice set cells", ^{
@@ -312,14 +321,15 @@ describe(@"choice set manager tests", ^{
                     testOp.completionBlock();
                     NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
                     for (SDLChoiceCell *choiceCell in testArrays) {
-                        if (choiceCell.artwork) {
+                        if (choiceCell.secondaryText) {
                             expect(choiceCell.uniqueText).to(equal("test1 (2)"));
                         } else {
                             expect(choiceCell.uniqueText).to(equal("test1"));
                         }
                     }
+                    expect(testManager.preloadedChoices).to(haveCount(2));
                     expect(testManager.preloadedChoices).to(contain(testCell1));
-                    expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
+                    expect(testManager.preloadedChoices).to(contain(testCell1Duplicate));
                 });
             });
 
