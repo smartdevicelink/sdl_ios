@@ -763,7 +763,7 @@ describe(@"choice set manager tests", ^{
                 OCMExpect([mockPreloadChoicesOp isExecuting]).andReturn(NO);
                 OCMExpect([strickMockOperationQueue operations]).andReturn(@[mockPreloadChoicesOp]);
 
-                OCMExpect([mockPreloadChoicesOp addChoicesToUpload:[OCMArg checkWithBlock:^BOOL(id value) {
+                OCMExpect([mockPreloadChoicesOp addFailedChoicesToUpload:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLChoiceCell *> *choices = (NSArray<SDLChoiceCell *> *)value;
                     expect(choices).to(contain(testFailedChoiceSet.choices[0]));
                     expect(choices).to(contain(testFailedChoiceSet.choices[1]));

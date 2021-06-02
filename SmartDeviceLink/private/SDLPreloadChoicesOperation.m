@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSUUID *operationId;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *cellsToUpload;
+@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *allCells;
 @property (strong, nonatomic) SDLWindowCapability *windowCapability;
 @property (strong, nonatomic) NSString *displayName;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
@@ -47,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPreloadChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells updateCompletionHandler:(SDLPreloadChoicesCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells allCells:(NSOrderedSet<SDLChoiceCell *> *)allCells updateCompletionHandler:(SDLPreloadChoicesCompletionHandler)completionHandler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -57,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
     _windowCapability = defaultMainWindowCapability;
     _vrOptional = isVROptional;
     _cellsToUpload = [cells mutableCopy];
+    _allCells = [allCells mutableCopy];
     _completionHandler = completionHandler;
     _operationId = [NSUUID UUID];
 
@@ -84,10 +86,14 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (BOOL)addChoicesToUpload:(NSSet<SDLChoiceCell *> *)choices {
+- (BOOL)addFailedChoicesToUpload:(NSSet<SDLChoiceCell *> *)failedChoices {
     if (self.isExecuting) { return NO; }
 
-    [self.cellsToUpload unionSet:choices];
+    for (SDLChoiceCell *choice in failedChoices) {
+        if (![self.allCells containsObject:choice]) { continue; }
+        [self.cellsToUpload addObject:choice];
+    }
+
     return YES;
 }
 

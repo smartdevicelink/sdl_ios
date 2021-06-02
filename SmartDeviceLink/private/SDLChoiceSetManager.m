@@ -261,7 +261,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
     __weak typeof(self) weakSelf = self;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload allCells:[mutableChoicesToUpload copy] updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         // Find the `SDLChoiceCell`s that failed to upload using the `choiceId`s
@@ -294,7 +294,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
                 [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
 
                 // Add the failed choices to all the pending present operations
-                [strongSelf sdl_updatePendingOperationsWithFailedPreloadedChoices:failedChoiceUploadSet];
+                [strongSelf sdl_updatePendingOperationsWithFailedPreloadedChoices:[failedChoiceUploadSet copy]];
             }
         }];
     }];
@@ -313,12 +313,12 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
 /// Update currently pending preload choice operations with the failed choice commands so a re-upload can be attempted.
 /// @param failedPreloadedChoices The failed choice commands
-- (void)sdl_updatePendingOperationsWithFailedPreloadedChoices:(NSMutableSet<SDLChoiceCell *> *)failedPreloadedChoices {
+- (void)sdl_updatePendingOperationsWithFailedPreloadedChoices:(NSSet<SDLChoiceCell *> *)failedPreloadedChoices {
     for (NSOperation *operation in self.transactionQueue.operations) {
-        if (operation.isExecuting) { continue; }
+        if (operation.isExecuting || ![operation isKindOfClass:SDLPreloadChoicesOperation.class]) { continue; }
 
         SDLPreloadChoicesOperation *updateOp = (SDLPreloadChoicesOperation *)operation;
-        [updateOp addChoicesToUpload:failedPreloadedChoices];
+        [updateOp addFailedChoicesToUpload:failedPreloadedChoices];
     }
 }
 
@@ -420,6 +420,15 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
             SDLLogD(@"Cancelling presenting choices because the manager has shut down");
             return;
+        }
+
+        NSSet<SDLChoiceCell *> *choicesToPresent = [NSSet setWithArray:self.pendingPresentationSet.choices];
+        for (SDLChoiceCell *cell in choicesToPresent) {
+            SDLChoiceCell *uploadCell = [self.preloadedChoices member:cell];
+            if (uploadCell == nil) {
+                SDLLogD(@"Cancelling presenting choices because at least one of the choices failed to upload");
+                return;
+            }
         }
 
         [strongSelf sdl_presentChoiceSetWithMode:mode keyboardDelegate:delegate];

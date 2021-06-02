@@ -34,10 +34,13 @@ typedef NS_ENUM(NSUInteger, SDLPreloadChoicesOperationState) {
 
 @property (assign, nonatomic) SDLPreloadChoicesOperationState currentState;
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells updateCompletionHandler:(SDLPreloadChoicesCompletionHandler)completionHandler;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells allCells:(NSOrderedSet<SDLChoiceCell *> *)allCells updateCompletionHandler:(SDLPreloadChoicesCompletionHandler)completionHandler;
 
 - (BOOL)removeChoicesFromUpload:(NSSet<SDLChoiceCell *> *)choices;
-- (BOOL)addChoicesToUpload:(NSSet<SDLChoiceCell *> *)choices;
+
+/// Checks if any of choice items failed to upload to the module and, if so, adds them to the list of choices to upload.
+/// @param failedChoices The failed choice uploads
+- (BOOL)addFailedChoicesToUpload:(NSSet<SDLChoiceCell *> *)failedChoices;
 
 @end
 
