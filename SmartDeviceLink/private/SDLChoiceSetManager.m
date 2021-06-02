@@ -264,16 +264,14 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploads) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        // Find the `SDLChoiceCell`s that failed to upload by comparing the `choiceId`s
+        // Find the `SDLChoiceCell`s that failed to upload using the `choiceId`s
         NSMutableSet<SDLChoiceCell *> *failedChoiceUploadSet = [NSMutableSet set];
-        if (failedChoiceUploads.count > 0) {
-            for (NSNumber *failedChoiceId in failedChoiceUploads) {
-                NSUInteger failedChoiceUploadIndex = [choicesToUpload indexOfObjectPassingTest:^BOOL(SDLChoiceCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    return obj.choiceId == failedChoiceId.intValue;
-                }];
-                if (failedChoiceUploadIndex == NSNotFound) { continue; }
-                [failedChoiceUploadSet addObject:choicesToUpload[failedChoiceUploadIndex]];
-            }
+        for (NSNumber *failedChoiceId in failedChoiceUploads) {
+            NSUInteger failedChoiceUploadIndex = [choicesToUpload indexOfObjectPassingTest:^BOOL(SDLChoiceCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                return obj.choiceId == failedChoiceId.intValue;
+            }];
+            if (failedChoiceUploadIndex == NSNotFound) { continue; }
+            [failedChoiceUploadSet addObject:choicesToUpload[failedChoiceUploadIndex]];
         }
 
         // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
