@@ -31,10 +31,13 @@ __block SDLDeleteCommandResponse *successDelete = nil;
 __block SDLDeleteCommandResponse *failDelete = nil;
 __block SDLAddCommandResponse *successAdd = nil;
 __block SDLAddCommandResponse *failAdd = nil;
+__block BOOL handlerTest = NO;
 
 __block SDLVoiceCommand *newVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC1"] handler:^{}];
 __block SDLVoiceCommand *newVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC2"] handler:^{}];
-__block SDLVoiceCommand *newVoiceCommand3 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{}];
+__block SDLVoiceCommand *newVoiceCommand3 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{
+    handlerTest = YES;
+}];
 __block SDLVoiceCommand *oldVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{}];
 __block SDLVoiceCommand *oldVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC2"] handler:^{}];
 
@@ -255,11 +258,12 @@ describe(@"a voice command operation", ^{
                     [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
                 });
 
-                fit(@"should only upload the voiceCommand thats not in common and update the handler for voiceCommand in common", ^{
+                it(@"should only upload the voiceCommand thats not in common and update the handler for voiceCommand in common", ^{
                     expect(callbackCurrentVoiceCommands).to(haveCount(2));
                     expect(callbackError).to(beNil());
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
-                    XCTAssertEqual(testOp.currentVoiceCommands.firstObject.handler, newVoiceCommand3.handler);
+                    testOp.currentVoiceCommands.firstObject.handler();
+                    expect(handlerTest).to(equal(YES));
                 });
             });
         });
