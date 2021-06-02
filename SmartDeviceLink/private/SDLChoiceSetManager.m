@@ -261,14 +261,14 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
     __weak typeof(self) weakSelf = self;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploads) {
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         // Find the `SDLChoiceCell`s that failed to upload using the `choiceId`s
         NSMutableSet<SDLChoiceCell *> *failedChoiceUploadSet = [NSMutableSet set];
-        for (NSNumber *failedChoiceId in failedChoiceUploads) {
+        for (NSNumber *failedChoiceUploadID in failedChoiceUploadIDs) {
             NSUInteger failedChoiceUploadIndex = [choicesToUpload indexOfObjectPassingTest:^BOOL(SDLChoiceCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                return obj.choiceId == failedChoiceId.intValue;
+                return obj.choiceId == failedChoiceUploadID.intValue;
             }];
             if (failedChoiceUploadIndex == NSNotFound) { continue; }
             [failedChoiceUploadSet addObject:choicesToUpload[failedChoiceUploadIndex]];
@@ -280,7 +280,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             return;
         }
 
-        // Update the list of `preloadedMutableChoices` and `pendingMutablePreloadChoices` based the set of successful choice uploads
+        // Update the list of `preloadedMutableChoices` and `pendingMutablePreloadChoices` with the successful choice uploads
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (failedChoiceUploadSet.count == 0) {

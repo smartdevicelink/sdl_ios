@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// A handler run when the operation completes, containing the failed choice uploads.
 ///
-/// @param failedChoiceUploads The ids of failed choice uploads; nil if no choices failed to upload
-typedef void(^SDLPreloadChoicesCompletionHandler)(NSArray<NSNumber *> * _Nullable failedChoiceUploads);
+/// @param failedChoiceUploadIDs The IDs of failed choice uploads
+typedef void(^SDLPreloadChoicesCompletionHandler)(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs);
 
 typedef NS_ENUM(NSUInteger, SDLPreloadChoicesOperationState) {
     SDLPreloadChoicesOperationStateWaitingToStart,
