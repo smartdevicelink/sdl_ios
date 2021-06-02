@@ -408,15 +408,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             return;
         }
 
-        NSSet<SDLChoiceCell *> *choicesToPresent = [NSSet setWithArray:self.pendingPresentationSet.choices];
-        for (SDLChoiceCell *cell in choicesToPresent) {
-            SDLChoiceCell *uploadCell = [self.preloadedChoices member:cell];
-            if (uploadCell == nil) {
-                SDLLogD(@"Cancelling presenting choices because at least one of the choices failed to upload");
-                return;
-            }
-        }
-
         [strongSelf sdl_presentChoiceSetWithMode:mode keyboardDelegate:delegate];
     }];
 }
