@@ -61,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
     _operationId = [NSUUID UUID];
 
     _currentState = SDLPreloadChoicesOperationStateWaitingToStart;
+    _failedChoiceUploadIDs = [NSMutableArray array];
 
     return self;
 }
@@ -242,16 +243,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSError *)error {
     return self.internalError;
-}
-
-#pragma mark - Getters & Setters
-
-- (nullable NSMutableArray<NSNumber *> *)failedChoiceUploadIDs {
-    if (!_failedChoiceUploadIDs) {
-        _failedChoiceUploadIDs = [NSMutableArray array];
-    }
-
-    return _failedChoiceUploadIDs;
 }
 
 @end
