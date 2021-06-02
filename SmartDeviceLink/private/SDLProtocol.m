@@ -178,14 +178,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload tlsInitializationHandler:(void (^)(BOOL success, NSError *error))tlsInitializationHandler {
     SDLLogD(@"Attempting to start TLS for service type: %hhu", serviceType);
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
+        tlsInitializationHandler(success, error);
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
-            tlsInitializationHandler(success, error);
             BLOCK_RETURN;
         }
 
         // TLS initialization succeeded. Build and send the message.
-        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:nil];
+        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:payload];
         SDLLogD(@"TLS initialized, sending start service with encryption for message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:serviceType];
     }];

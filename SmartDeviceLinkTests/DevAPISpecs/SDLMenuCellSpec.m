@@ -125,7 +125,7 @@ describe(@"a menu cell", ^{
             testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" icon:nil submenuLayout:testLayout subCells:@[]];
 #pragma clang diagnostic pop
 
-            expect([testCell isEqual:testCell2]).to(beFalse()));
+            expect([testCell isEqual:testCell2]).to(beFalse());
         });
     });
 });
