@@ -31,13 +31,10 @@ __block SDLDeleteCommandResponse *successDelete = nil;
 __block SDLDeleteCommandResponse *failDelete = nil;
 __block SDLAddCommandResponse *successAdd = nil;
 __block SDLAddCommandResponse *failAdd = nil;
-__block BOOL handlerTest = NO;
 
 __block SDLVoiceCommand *newVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC1"] handler:^{}];
 __block SDLVoiceCommand *newVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC2"] handler:^{}];
-__block SDLVoiceCommand *newVoiceCommand3 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{
-    handlerTest = YES;
-}];
+__block SDLVoiceCommand *oldVoiceCommand1Dupe = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{}];
 __block SDLVoiceCommand *oldVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{}];
 __block SDLVoiceCommand *oldVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC2"] handler:^{}];
 
@@ -240,7 +237,7 @@ describe(@"a voice command operation", ^{
         // going from voice commands [A] to [AB]
         context(@"going from voice commands [A] to [AB]", ^{
             beforeEach(^{
-                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand3] oldVoiceCommands:@[oldVoiceCommand1] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, oldVoiceCommand1Dupe] oldVoiceCommands:@[oldVoiceCommand1] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
                     callbackCurrentVoiceCommands = newCurrentVoiceCommands;
                     callbackError = error;
                 }];
@@ -262,8 +259,7 @@ describe(@"a voice command operation", ^{
                     expect(callbackCurrentVoiceCommands).to(haveCount(2));
                     expect(callbackError).to(beNil());
                     expect(testConnectionManager.receivedRequests).to(haveCount(1));
-                    testOp.currentVoiceCommands.firstObject.handler();
-                    expect(handlerTest).to(equal(YES));
+                    expect(testOp.currentVoiceCommands.firstObject.handler == oldVoiceCommand1Dupe.handler).to(beTrue());
                 });
             });
         });
