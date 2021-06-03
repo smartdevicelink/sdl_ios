@@ -481,6 +481,7 @@ describe(@"choice set manager tests", ^{
                 testManager.pendingPresentationSet = [[SDLChoiceSet alloc] init];
 
                 strickMockOperationQueue = OCMStrictClassMock([NSOperationQueue class]);
+                [strickMockOperationQueue setExpectationOrderMatters:YES];
                 testManager.transactionQueue = strickMockOperationQueue;
             });
 
