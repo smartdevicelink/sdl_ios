@@ -44,6 +44,7 @@ describe(@"a soft button replace operation", ^{
     __block NSString *object2State2ArtworkName = @"O2S2 Artwork";
     __block SDLArtwork *object2State1Art = nil;
     __block SDLArtwork *object2State2Art = nil;
+    __block SDLArtwork *object2State11Art = nil;
     __block SDLSoftButtonState *object2State1 = nil;
     __block SDLSoftButtonState *object2State2 = nil;
     __block SDLSoftButtonObject *buttonWithTextAndImage = nil;
@@ -97,6 +98,8 @@ describe(@"a soft button replace operation", ^{
 
         object2State1Art = [[SDLArtwork alloc] initWithData:[@"TestData" dataUsingEncoding:NSUTF8StringEncoding] name:object2State1ArtworkName fileExtension:@"png" persistent:YES];
         object2State2Art = [[SDLArtwork alloc] initWithData:[@"TestData2" dataUsingEncoding:NSUTF8StringEncoding] name:object2State2ArtworkName fileExtension:@"png" persistent:YES];
+        object2State11Art = [[SDLArtwork alloc] initWithData:[@"TestData11" dataUsingEncoding:NSUTF8StringEncoding] name:object2State1ArtworkName fileExtension:@"png" persistent:YES];
+        object2State11Art.overwrite = YES;
         object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State1Art];
         object2State2 = [[SDLSoftButtonState alloc] initWithStateName:object2State2Name text:object2State2Text artwork:object2State2Art];
         buttonWithTextAndImage = [[SDLSoftButtonObject alloc] initWithName:object2Name states:@[object2State1, object2State2] initialStateName:object2State1.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
@@ -162,6 +165,7 @@ describe(@"a soft button replace operation", ^{
 
             context(@"When a response is received to the upload", ^{
                 beforeEach(^{
+                    OCMExpect([testFileManager fileNeedsUpload:[OCMArg any]]);
                     [testOp start];
                 });
 
@@ -278,7 +282,7 @@ describe(@"a soft button replace operation", ^{
 
                     it(@"should not upload artworks", ^{
                         OCMReject([testFileManager uploadArtworks:[OCMArg any] progressHandler:nil completionHandler:nil]);
-
+                        OCMStub([testFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
                         [testOp start];
 
                         OCMVerifyAllWithDelay(testFileManager, 0.5);
@@ -296,8 +300,22 @@ describe(@"a soft button replace operation", ^{
                         expect(sentRequests.firstObject.softButtons.lastObject.type).to(equal(SDLSoftButtonTypeBoth));
                     });
 
+                    it(@"should properly overwrite artwork", ^{
+                        OCMExpect([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                        OCMExpect([testFileManager fileNeedsUpload:[OCMArg any]]);
+                        OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
+                        object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State11Art];
+                        buttonWithTextAndImage = [[SDLSoftButtonObject alloc] initWithName:object2Name states:@[object2State1, object2State2] initialStateName:object2State1.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
+                        testSoftButtonObjects = @[buttonWithText, buttonWithTextAndImage];
+                        testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                        OCMExpect([testFileManager fileNeedsUpload:[OCMArg any]]);
+                        [testOp start];
+                        OCMVerify([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+                    });
+
                     context(@"When a response is received to the upload", ^{
                         beforeEach(^{
+                            OCMStub([testFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
                             [testOp start];
                         });
 
@@ -324,6 +342,7 @@ describe(@"a soft button replace operation", ^{
 
                     context(@"when artworks are static icons", ^{
                         beforeEach(^{
+                            OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
                             testSoftButtonObjects = @[buttonWithTextAndStaticImage];
 
                             testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
@@ -371,8 +390,11 @@ describe(@"a soft button replace operation", ^{
                         it(@"should upload all artworks", ^{
                             // Check that the artworks in the initial button states are uploaded
                             OCMExpect([testFileManager uploadArtworks:@[buttonWithTextAndImage.states[0].artwork] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+                            OCMExpect([testFileManager fileNeedsUpload:[OCMArg any]]);
+                            OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                             testSoftButtonObjects = @[buttonWithText, buttonWithTextAndImage];
                             testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                            OCMExpect([testFileManager fileNeedsUpload:[OCMArg any]]);
                             [testOp start];
                             OCMVerifyAllWithDelay(testFileManager, 0.5);
 
@@ -407,14 +429,19 @@ describe(@"a soft button replace operation", ^{
 
                         it(@"should upload all artworks even if the initial state does not have artworks", ^{
                             OCMReject([testFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+                            OCMExpect([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
+                            OCMExpect([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
+                            OCMExpect([testFileManager fileNeedsUpload:[OCMArg isNil]]).andReturn(NO);
 
                             // buttonWithTextAndImage2 has text in the first state and an text and image in the second & third states
                             testSoftButtonObjects = @[buttonWithTextAndStaticImage, buttonWithTextAndImage2];
                             testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+
                             [testOp start];
                             OCMVerifyAllWithDelay(testFileManager, 0.5);
 
                             NSArray<SDLArtwork *> *testArtworkUploads = @[buttonWithTextAndImage2.states[1].artwork, buttonWithTextAndImage2.states[2].artwork];
+                            OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                             OCMExpect([testFileManager uploadArtworks:testArtworkUploads progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
                             [testConnectionManager respondToLastRequestWithResponse:successResponse];
                             OCMVerifyAllWithDelay(testFileManager, 0.5);
@@ -445,6 +472,7 @@ describe(@"a soft button replace operation", ^{
 
                         context(@"When a response is received to the upload", ^{
                             beforeEach(^{
+                                OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                                 OCMExpect([testFileManager uploadArtworks:[OCMArg isNotNil] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                                 testSoftButtonObjects = @[buttonWithTextAndImage];

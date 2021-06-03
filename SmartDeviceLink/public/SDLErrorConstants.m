@@ -13,6 +13,7 @@
 SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioStreamManager";
 SDLErrorDomain *const SDLErrorDomainCacheFileManager = @"com.sdl.cachefilemanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
+SDLErrorDomain *const SDLErrorDomainAlertManager = @"com.sdl.alertmanager.error";
 SDLErrorDomain *const SDLErrorDomainEncryptionLifecycleManager = @"com.sdl.encryptionlifecyclemanager.error";
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
 SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanager.error";

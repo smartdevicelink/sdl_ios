@@ -12,6 +12,7 @@
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
+#import "SDLGlobals.h"
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLRPCParameterNames.h"
@@ -42,7 +43,7 @@ describe(@"RegisterAppInterface Tests", ^{
     __block SDLDeviceInfo *info = nil;
     __block SDLAppInfo *appInfo = nil;
     __block SDLTemplateColorScheme *colorScheme = nil;
-    __block SDLMsgVersion * currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:7 minorVersion:0 patchVersion:0];
+    __block SDLMsgVersion * currentSDLMsgVersion = nil;
 
     beforeEach(^{
         testRegisterAppInterface = nil;
@@ -51,6 +52,10 @@ describe(@"RegisterAppInterface Tests", ^{
         info = [[SDLDeviceInfo alloc] init];
         appInfo = [[SDLAppInfo alloc] init];
         colorScheme = [[SDLTemplateColorScheme alloc] init];
+        UInt8 majorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(0, 1)].intValue;
+        UInt8 minorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(2, 1)].intValue;
+        UInt8 patchVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(4, 1)].intValue;
+        currentSDLMsgVersion = [[SDLMsgVersion alloc] initWithMajorVersion:majorVersion minorVersion:minorVersion patchVersion:patchVersion];
     });
 
     it(@"Should set and get correctly", ^ {
@@ -90,52 +95,48 @@ describe(@"RegisterAppInterface Tests", ^{
         expect(testRegisterAppInterface.sdlMsgVersion).to(equal(msgVersion));
     });
 
- describe(@"Setting With Dictionary", ^{
-     beforeEach( ^{
-         NSDictionary *dict = @{SDLRPCParameterNameRequest:
-                      @{SDLRPCParameterNameParameters:
-                            @{SDLRPCParameterNameSyncMessageVersion:@{
-                                      SDLRPCParameterNameMajorVersion: @7,
-                                      SDLRPCParameterNameMinorVersion: @0,
-                                      SDLRPCParameterNamePatchVersion: @0
-                                      },
-                              SDLRPCParameterNameAppName:appName,
-                              SDLRPCParameterNameTTSName:[@[chunk] mutableCopy],
-                              SDLRPCParameterNameNGNMediaScreenAppName:shortAppName,
-                              SDLRPCParameterNameVRSynonyms:@[vrSynonyms],
-                              SDLRPCParameterNameIsMediaApplication:isMediaApp,
-                              SDLRPCParameterNameLanguageDesired:SDLLanguageNoNo,
-                              SDLRPCParameterNameHMIDisplayLanguageDesired:SDLLanguagePtPt,
-                              SDLRPCParameterNameAppHMIType:appTypes,
-                              SDLRPCParameterNameHashId:resumeHash,
-                              SDLRPCParameterNameDeviceInfo:info,
-                              SDLRPCParameterNameFullAppID:fullAppId,
-                              SDLRPCParameterNameAppId:appId,
-                              SDLRPCParameterNameAppInfo:appInfo,
-                              SDLRPCParameterNameDayColorScheme: colorScheme,
-                              SDLRPCParameterNameNightColorScheme: colorScheme,
-                              },
-                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
-         SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
+    describe(@"Setting With Dictionary", ^{
+        it(@"initWithDictionary", ^{
+            NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                       @{SDLRPCParameterNameParameters:
+                                             @{SDLRPCParameterNameSyncMessageVersion:currentSDLMsgVersion,
+                                               SDLRPCParameterNameAppName:appName,
+                                               SDLRPCParameterNameTTSName:[@[chunk] mutableCopy],
+                                               SDLRPCParameterNameNGNMediaScreenAppName:shortAppName,
+                                               SDLRPCParameterNameVRSynonyms:@[vrSynonyms],
+                                               SDLRPCParameterNameIsMediaApplication:isMediaApp,
+                                               SDLRPCParameterNameLanguageDesired:SDLLanguageNoNo,
+                                               SDLRPCParameterNameHMIDisplayLanguageDesired:SDLLanguagePtPt,
+                                               SDLRPCParameterNameAppHMIType:appTypes,
+                                               SDLRPCParameterNameHashId:resumeHash,
+                                               SDLRPCParameterNameDeviceInfo:info,
+                                               SDLRPCParameterNameFullAppID:fullAppId,
+                                               SDLRPCParameterNameAppId:appId,
+                                               SDLRPCParameterNameAppInfo:appInfo,
+                                               SDLRPCParameterNameDayColorScheme: colorScheme,
+                                               SDLRPCParameterNameNightColorScheme: colorScheme,
+                                             },
+                                         SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
 
-         expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
-         expect(testRegisterAppInterface.appName).to(match(appName));
-         expect(testRegisterAppInterface.ttsName).to(equal([@[chunk] mutableCopy]));
-         expect(testRegisterAppInterface.ngnMediaScreenAppName).to(match(shortAppName));
-         expect(testRegisterAppInterface.vrSynonyms).to(equal(@[vrSynonyms]));
-         expect(testRegisterAppInterface.isMediaApplication).to(equal(isMediaApp));
-         expect(testRegisterAppInterface.languageDesired).to(equal(SDLLanguageNoNo));
-         expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(SDLLanguagePtPt));
-         expect(testRegisterAppInterface.appHMIType).to(equal(appTypes));
-         expect(testRegisterAppInterface.hashID).to(match(resumeHash));
-         expect(testRegisterAppInterface.deviceInfo).to(equal(info));
-         expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
-         expect(testRegisterAppInterface.appID).to(match(appId));
-         expect(testRegisterAppInterface.appInfo).to(equal(appInfo));
-         expect(testRegisterAppInterface.dayColorScheme).to(equal(colorScheme));
-         expect(testRegisterAppInterface.nightColorScheme).to(equal(colorScheme));
-     });
- });
+            expect(testRegisterAppInterface.sdlMsgVersion).to(equal(currentSDLMsgVersion));
+            expect(testRegisterAppInterface.appName).to(match(appName));
+            expect(testRegisterAppInterface.ttsName).to(equal([@[chunk] mutableCopy]));
+            expect(testRegisterAppInterface.ngnMediaScreenAppName).to(match(shortAppName));
+            expect(testRegisterAppInterface.vrSynonyms).to(equal(@[vrSynonyms]));
+            expect(testRegisterAppInterface.isMediaApplication).to(equal(isMediaApp));
+            expect(testRegisterAppInterface.languageDesired).to(equal(SDLLanguageNoNo));
+            expect(testRegisterAppInterface.hmiDisplayLanguageDesired).to(equal(SDLLanguagePtPt));
+            expect(testRegisterAppInterface.appHMIType).to(equal(appTypes));
+            expect(testRegisterAppInterface.hashID).to(match(resumeHash));
+            expect(testRegisterAppInterface.deviceInfo).to(equal(info));
+            expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
+            expect(testRegisterAppInterface.appID).to(match(appId));
+            expect(testRegisterAppInterface.appInfo).to(equal(appInfo));
+            expect(testRegisterAppInterface.dayColorScheme).to(equal(colorScheme));
+            expect(testRegisterAppInterface.nightColorScheme).to(equal(colorScheme));
+        });
+    });
 
     describe(@"initializers", ^{
         it(@"init", ^{

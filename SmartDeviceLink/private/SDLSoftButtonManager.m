@@ -11,6 +11,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPredefinedWindows.h"
@@ -31,6 +32,9 @@
 #import "SDLDisplayCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+static const int SDLShowSoftButtonIDMin = 1;
+static const int SDLShowSoftButtonIDCount = 8;
 
 @interface SDLSoftButtonObject()
 
@@ -75,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
 - (void)stop {
@@ -94,7 +98,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     queue.name = @"SDLSoftButtonManager Transaction Queue";
     queue.maxConcurrentOperationCount = 1;
-    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.qualityOfService = NSQualityOfServiceUserInteractive;
+    queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
     return queue;
@@ -122,16 +127,19 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
-    for (NSUInteger i = 0; i < softButtonObjects.count; i++) {
+    // Set the soft button ids. The number of soft buttons is maxed at 8 according to the RPC spec. We will only send the first 8 soft buttons if more are set into the array.
+    // Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
+    NSUInteger softButtonCount = MIN(softButtonObjects.count, SDLShowSoftButtonIDCount);
+    for (NSUInteger i = 0; i < softButtonCount; i++) {
         NSString *buttonName = softButtonObjects[i].name;
         // HAX: Due to a SYNC 3.0 bug (https://github.com/smartdevicelink/sdl_ios/issues/1793#issue-708356008), a `buttonId` can not be zero. As a workaround we will start the `buttonId`s from 1.
-        softButtonObjects[i].buttonId = i + 1;
-        for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
+        // Offset the soft buttons based on the minimum ID number to prevent clashes with other managers.
+        softButtonObjects[i].buttonId = i + SDLShowSoftButtonIDMin;
+        for (NSUInteger j = (i + 1); j < softButtonCount; j++) {
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
                 SDLLogE(@"Attempted to set soft button objects, but two buttons had the same name: %@", softButtonObjects);
-                return;
+                @throw [NSException sdl_duplicateSoftButtonsNameException];
             }
         }
     }
@@ -211,23 +219,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Observers
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
+- (void)sdl_displayCapabilityDidUpdate {
     SDLSoftButtonCapabilities *oldCapabilities = self.softButtonCapabilities;
 
     // Extract and update the capabilities
-    NSArray<SDLDisplayCapability *> *capabilities = systemCapability.displayCapabilities;
-    if (capabilities == nil || capabilities.count == 0) {
-        self.softButtonCapabilities = nil;
-    } else {
-        SDLDisplayCapability *mainDisplay = capabilities[0];
-        for (SDLWindowCapability *windowCapability in mainDisplay.windowCapabilities) {
-            NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
-            if (currentWindowID != SDLPredefinedWindowsDefaultWindow) { continue; }
-            
-            self.softButtonCapabilities = windowCapability.softButtonCapabilities.firstObject;
-            break;
-        }
-    }
+    SDLWindowCapability *currentWindowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
+    self.softButtonCapabilities = currentWindowCapability.softButtonCapabilities.firstObject;
 
     // Update the queue's suspend state
     [self sdl_updateTransactionQueueSuspended];

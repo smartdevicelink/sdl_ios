@@ -1,0 +1,141 @@
+<h1>SDLSystemInfo Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-vehicleType">vehicleType</a></li>
+  <li><a href="#section-systemSoftwareVersion">systemSoftwareVersion</a></li>
+  <li><a href="#section-systemHardwareVersion">systemHardwareVersion</a></li>
+  <li><a href="#section--initWithMake:model:trim:modelYear:softwareVersion:hardwareVersion:">-initWithMake:model:trim:modelYear:softwareVersion:hardwareVersion:</a></li>
+  <li><a href="#section--initWithVehicleType:softwareVersion:hardwareVersion:">-initWithVehicleType:softwareVersion:hardwareVersion:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-vehicleType">
+      vehicleType
+  </h3>
+  
+  <p>The connected module&rsquo;s vehicle type: it&rsquo;s make, model, trim, and model year</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleType.html">SDLVehicleType</a></span> <span class="o">*</span><span class="n">vehicleType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">vehicleType</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleType.html">SDLVehicleType</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-systemSoftwareVersion">
+      systemSoftwareVersion
+  </h3>
+  
+  <p>The connected module&rsquo;s software version</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">systemSoftwareVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">systemSoftwareVersion</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-systemHardwareVersion">
+      systemHardwareVersion
+  </h3>
+  
+  <p>The connected module&rsquo;s hardware version</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">systemHardwareVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">systemHardwareVersion</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithMake:model:trim:modelYear:softwareVersion:hardwareVersion:">
+      -initWithMake:model:trim:modelYear:softwareVersion:hardwareVersion:
+  </h3>
+  
+  <p>Initialize a system info object with individual pieces</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMake</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">make</span>
+                               <span class="nf">model</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">model</span>
+                                <span class="nf">trim</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">trim</span>
+                           <span class="nf">modelYear</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">modelYear</span>
+                     <span class="nf">softwareVersion</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">softwareVersion</span>
+                     <span class="nf">hardwareVersion</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">hardwareVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">make</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">trim</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">modelYear</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">softwareVersion</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">hardwareVersion</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>make</dt>
+      <dd><p>The vehicle&rsquo;s make</p></dd>
+      <dt>model</dt>
+      <dd><p>The vehicle&rsquo;s model</p></dd>
+      <dt>trim</dt>
+      <dd><p>The vehicle&rsquo;s trim</p></dd>
+      <dt>modelYear</dt>
+      <dd><p>The vehicle&rsquo;s model year</p></dd>
+      <dt>softwareVersion</dt>
+      <dd><p>The vehicle&rsquo;s software version</p></dd>
+      <dt>hardwareVersion</dt>
+      <dd><p>The vehicle&rsquo;s hardware version</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithVehicleType:softwareVersion:hardwareVersion:">
+      -initWithVehicleType:softwareVersion:hardwareVersion:
+  </h3>
+  
+  <p>Initialize a system info object with the vehicle type and versions</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithVehicleType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVehicleType.html">SDLVehicleType</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">vehicleType</span>
+        <span class="nf">softwareVersion</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">softwareVersion</span>
+        <span class="nf">hardwareVersion</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">hardwareVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">vehicleType</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleType.html">SDLVehicleType</a></span><span class="p">?,</span> <span class="nv">softwareVersion</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">hardwareVersion</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>vehicleType</dt>
+      <dd><p>The vehicle information</p></dd>
+      <dt>softwareVersion</dt>
+      <dd><p>The vehicle&rsquo;s software version</p></dd>
+      <dt>hardwareVersion</dt>
+      <dd><p>The vehicle&rsquo;s hardware version</p></dd>
+  </dl>
+  
+</section>

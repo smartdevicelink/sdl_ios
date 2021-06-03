@@ -1,0 +1,107 @@
+<h1>SDLClimateData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithExternalTemperature:cabinTemperature:atmosphericPressure:">-initWithExternalTemperature:cabinTemperature:atmosphericPressure:</a></li>
+  <li><a href="#section-externalTemperature">externalTemperature</a></li>
+  <li><a href="#section-cabinTemperature">cabinTemperature</a></li>
+  <li><a href="#section-atmosphericPressure">atmosphericPressure</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithExternalTemperature:cabinTemperature:atmosphericPressure:">
+      -initWithExternalTemperature:cabinTemperature:atmosphericPressure:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithExternalTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">externalTemperature</span>
+               <span class="nf">cabinTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">cabinTemperature</span>
+            <span class="nf">atmosphericPressure</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">atmosphericPressure</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?,</span> <span class="nv">cabinTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?,</span> <span class="nv">atmosphericPressure</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>externalTemperature</dt>
+      <dd><p>- externalTemperature</p></dd>
+      <dt>cabinTemperature</dt>
+      <dd><p>- cabinTemperature</p></dd>
+      <dt>atmosphericPressure</dt>
+      <dd><p>- atmosphericPressure</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLClimateData object</p>
+  </div>
+  
+  <h3 id="section-externalTemperature">
+      externalTemperature
+  </h3>
+  
+  <p>The external temperature in degrees celsius</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">externalTemperature</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cabinTemperature">
+      cabinTemperature
+  </h3>
+  
+  <p>Internal ambient cabin temperature in degrees celsius</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">cabinTemperature</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cabinTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-atmosphericPressure">
+      atmosphericPressure
+  </h3>
+  
+  <p>Current atmospheric pressure in mBar
+{&ldquo;num_min_value&rdquo;: 0.0, &ldquo;num_max_value&rdquo;: 2000.0}</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">atmosphericPressure</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">atmosphericPressure</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

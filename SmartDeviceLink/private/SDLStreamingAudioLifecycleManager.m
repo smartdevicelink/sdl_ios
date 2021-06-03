@@ -15,6 +15,7 @@
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadNak.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLEncryptionConfiguration.h"
 #import "SDLGlobals.h"
 #import "SDLHMICapabilities.h"
 #import "SDLLogMacros.h"
@@ -28,7 +29,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLSystemCapabilityManager.h"
-#import "SDLEncryptionConfiguration.h"
+#import "SDLSystemInfo.h"
 #import "SDLVehicleType.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,7 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
-@property (copy, nonatomic, nullable) NSString *connectedVehicleMake;
 @property (assign, nonatomic, readwrite, getter=isAudioEncrypted) BOOL audioEncrypted;
 
 @property (nonatomic, copy, nullable) void (^audioServiceEndedCompletionHandler)(void);
@@ -72,7 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     _audioStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLAudioStreamManagerStateStopped states:[self.class sdl_audioStreamingStateTransitionDictionary]];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
@@ -96,7 +95,6 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Stopping manager");
     _protocol = nil;
     _hmiLevel = SDLHMILevelNone;
-    _connectedVehicleMake = nil;
     [self.audioTranscodingManager stop];
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
@@ -162,7 +160,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)didEnterStateAudioStreamStarting {
     SDLLogD(@"Audio stream starting");
-    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
+
+    NSString *connectedVehicleMake = self.connectionManager.systemInfo.vehicleType.make;
+    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:connectedVehicleMake])) {
         [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil tlsInitializationHandler:^(BOOL success, NSError * _Nonnull error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
@@ -226,18 +226,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDL RPC Notification callbacks
-
-- (void)sdl_didReceiveRegisterAppInterfaceResponse:(SDLRPCResponseNotification *)notification {
-    NSAssert([notification.response isKindOfClass:[SDLRegisterAppInterfaceResponse class]], @"A notification was sent with an unanticipated object");
-    if (![notification.response isKindOfClass:[SDLRegisterAppInterfaceResponse class]]) {
-        return;
-    }
-
-    SDLLogV(@"Received Register App Interface response");
-    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
-
-    self.connectedVehicleMake = registerResponse.vehicleType.make;
-}
 
 - (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
     NSAssert([notification.notification isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");

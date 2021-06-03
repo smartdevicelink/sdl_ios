@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (strong, nonatomic, readwrite) NSString *uniqueTitle;
 
 @end
 
@@ -105,7 +106,7 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)start {
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
 - (void)stop {
@@ -160,6 +161,9 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
+    // Check for cell lists with completely duplicate information, or any duplicate voiceCommands and return if it fails (logs are in the called method).
+    if (![self sdl_menuCellsAreUnique:menuCells allVoiceCommands:[NSMutableArray array]]) { return; }
+
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
@@ -171,26 +175,10 @@ UInt32 const MenuCellIdMin = 1;
 
     self.waitingOnHMIUpdate = NO;
 
-    NSMutableSet *titleCheckSet = [NSMutableSet set];
-    NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
-    NSUInteger voiceCommandCount = 0;
-    for (SDLMenuCell *cell in menuCells) {
-        [titleCheckSet addObject:cell.title];
-        if (cell.voiceCommands == nil) { continue; }
-        [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
-        voiceCommandCount += cell.voiceCommands.count;
-    }
-
-    // Check for duplicate titles
-    if (titleCheckSet.count != menuCells.count) {
-        SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
-        return;
-    }
-
-    // Check for duplicate voice recognition commands
-    if (allMenuVoiceCommands.count != voiceCommandCount) {
-        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
-        return;
+    // If connected over RPC < 7.1, append unique identifiers to cell titles that are duplicates even if other properties are identical
+    SDLVersion *menuUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:menuUniquenessSupportedVersion]) {
+        [self sdl_addUniqueNamesToCells:menuCells];
     }
 
     _oldMenuCells = _menuCells;
@@ -212,7 +200,6 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     SDLShowAppMenu *openMenu = [[SDLShowAppMenu alloc] init];
-
     [self.connectionManager sendConnectionRequest:openMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if ([response.resultCode isEqualToEnum:SDLResultWarnings]) {
             SDLLogW(@"Warning opening application menu: %@", error);
@@ -239,7 +226,6 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     SDLShowAppMenu *subMenu = [[SDLShowAppMenu alloc] initWithMenuID:cell.cellId];
-
     [self.connectionManager sendConnectionRequest:subMenu withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if ([response.resultCode isEqualToEnum:SDLResultWarnings]) {
             SDLLogW(@"Warning opening application menu to submenu cell %@, with error: %@", cell, error);
@@ -472,7 +458,7 @@ UInt32 const MenuCellIdMin = 1;
     NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
     NSArray<SDLRPCRequest *> *subMenuCommands = nil;
 
-    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+    if (![self sdl_shouldRPCsIncludeImages:self.menuCells] || ![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         // Send artwork-less menu
         mainMenuCommands = [self sdl_mainMenuCommandsForCells:updatedMenu withArtwork:NO usingIndexesFrom:menu];
         subMenuCommands =  [self sdl_subMenuCommandsForCells:updatedMenu withArtwork:NO];
@@ -516,6 +502,9 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark - Helpers
 
+/// Determine if the dynamic mode is active based on the set value.
+/// @param dynamicMenuUpdatesMode The set dynamic mode
+/// @returns YES if dynamic mode is forced on, or is on with compatibility, which only turns it on for Ford's Sync Gen 3 8-inch display type
 - (BOOL)sdl_isDynamicMenuUpdateActive:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
     switch (dynamicMenuUpdatesMode) {
         case SDLDynamicMenuUpdatesModeForceOn:
@@ -530,8 +519,74 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
+/// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
+/// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
+/// @param choices The choices to be uploaded.
+- (void)sdl_addUniqueNamesToCells:(nullable NSArray<SDLMenuCell *> *)choices {
+    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
+    NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    for (SDLMenuCell *cell in choices) {
+        NSString *cellName = cell.title;
+        NSNumber *counter = dictCounter[cellName];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[cellName] = counter;
+        } else {
+            dictCounter[cellName] = @1;
+        }
+
+        counter = dictCounter[cellName];
+        if (counter.intValue > 1) {
+            cell.uniqueTitle = [NSString stringWithFormat: @"%@ (%d)", cell.title, counter.intValue];
+        }
+
+        if (cell.subCells.count > 0) {
+            [self sdl_addUniqueNamesToCells:cell.subCells];
+        }
+    }
+}
+
+/// Check for cell lists with completely duplicate information, or any duplicate voiceCommands
+///
+/// @param cells The cells you will be adding
+/// @return Boolean that indicates whether menuCells are unique or not
+- (BOOL)sdl_menuCellsAreUnique:(NSArray<SDLMenuCell *> *)cells allVoiceCommands:(NSMutableArray<NSString *> *)allVoiceCommands {
+    ///Check all voice commands for identical items and check each list of cells for identical cells
+    NSMutableSet<SDLMenuCell *> *identicalCellsCheckSet = [NSMutableSet set];
+    for (SDLMenuCell *cell in cells) {
+        [identicalCellsCheckSet addObject:cell];
+
+        // Recursively check the subcell lists to see if they are all unique as well. If anything is not, this will chain back up the list to return false.
+        if (cell.subCells.count > 0) {
+            BOOL subcellsAreUnique = [self sdl_menuCellsAreUnique:cell.subCells allVoiceCommands:allVoiceCommands];
+            if (!subcellsAreUnique) { return NO; }
+        }
+
+        // Voice commands have to be identical across all lists
+        if (cell.voiceCommands == nil) { continue; }
+        [allVoiceCommands addObjectsFromArray:cell.voiceCommands];
+    }
+
+    // Check for duplicate cells
+    if (identicalCellsCheckSet.count != cells.count) {
+        SDLLogE(@"Not all cells are unique. Cells in each list (such as main menu or subcell list) must have some differentiating property other than the subcells within a cell. The menu will not be set.");
+        return NO;
+    }
+
+    // All the VR commands must be unique
+    if (allVoiceCommands.count != [NSSet setWithArray:allVoiceCommands].count) {
+        SDLLogE(@"Attempted to create a menu with duplicate voice commands, but voice commands must be unique across all menu items including main menu and subcell lists. The menu will not be set.");
+        return NO;
+    }
+
+    return YES;
+}
+
 #pragma mark Artworks
 
+/// Get an array of artwork that needs to be uploaded form a list of menu cells
+/// @param cells The menu cells to get artwork from
+/// @returns The array of artwork that needs to be uploaded
 - (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
     if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         return @[];
@@ -539,8 +594,18 @@ UInt32 const MenuCellIdMin = 1;
 
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
-        if ([self sdl_artworkNeedsUpload:cell.icon]) {
+        if ([self.fileManager fileNeedsUpload:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
+        }
+
+        if (cell.subCells.count > 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+            if ([self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
+                [mutableArtworks addObject:cell.secondaryArtwork];
+            }
+        } else if (cell.subCells.count == 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
+            if ([self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
+                [mutableArtworks addObject:cell.secondaryArtwork];
+            }
         }
 
         if (cell.subCells.count > 0) {
@@ -551,12 +616,42 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableArtworks allObjects];
 }
 
-- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
+/// Determine if cells should or should not be uploaded to the head unit with artworks.
+///
+/// No artworks will be uploaded if:
+///
+/// 1. If any cell has a dynamic artwork that is not uploaded
+/// 2. If any cell contains a secondary artwork may be used on the head unit, and the cell has a dynamic secondary artwork that is not uploaded
+/// 3. If any cell's subcells fails check (1) or (2)
+/// @param cells The cells to check
+/// @return True if the cells should be uploaded with artwork, false if they should not
+- (BOOL)sdl_shouldRPCsIncludeImages:(NSArray<SDLMenuCell *> *)cells {
+    for (SDLMenuCell *cell in cells) {
+        SDLArtwork *artwork = cell.icon;
+        SDLArtwork *secondaryArtwork = cell.secondaryArtwork;
+        if (artwork != nil && !artwork.isStaticIcon && ![self.fileManager hasUploadedFile:artwork]) {
+            return NO;
+        } else if (cell.subCells.count > 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+            if (secondaryArtwork != nil && !secondaryArtwork.isStaticIcon && ![self.fileManager hasUploadedFile:secondaryArtwork]) {
+                return NO;
+            }
+        } else if (cell.subCells.count == 0 && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
+            if (secondaryArtwork != nil && !secondaryArtwork.isStaticIcon && ![self.fileManager hasUploadedFile:secondaryArtwork]) {
+                return NO;
+            }
+        } else if (cell.subCells.count > 0 && ![self sdl_shouldRPCsIncludeImages:cell.subCells]) {
+            return NO;
+        }
+    }
+
+    return YES;
 }
 
 #pragma mark IDs
 
+/// Assign cell ids on an array of menu cells given a parent id (or no parent id)
+/// @param menuCells The array of menu cells to update
+/// @param parentId The parent id to assign if needed
 - (void)sdl_updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
     for (SDLMenuCell *cell in menuCells) {
         cell.cellId = self.lastMenuId++;
@@ -569,6 +664,8 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark Deletes
 
+/// Create an array of DeleteCommand and DeleteSubMenu RPCs from an array of menu cells
+/// @param cells The array of menu cells to use
 - (NSArray<SDLRPCRequest *> *)sdl_deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
     NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
@@ -585,15 +682,14 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 #pragma mark Commands / SubMenu RPCs
-/**
- This method will receive the cells to be added and the updated menu array. It will then build an array of add commands using the correct index to position the new items in the correct location.
 
- @param cells that will be added to the menu, this array must contain only cells that are not already in the menu.
- @param shouldHaveArtwork artwork bool
- @param menu the new menu array, this array should contain all the values the develeoper has set to be included in the new menu. This is used for placing the newly added cells in the correct locaiton.
- e.g. If the new menu array is [A, B, C, D] but only [C, D] are new we need to pass [A, B , C , D] so C and D can be added to index 2 and 3 respectively.
- @return list of SDLRPCRequest addCommands
- */
+/// This method will receive the cells to be added and the updated menu array. It will then build an array of add commands using the correct index to position the new items in the correct location.
+/// e.g. If the new menu array is [A, B, C, D] but only [C, D] are new we need to pass [A, B , C , D] so C and D can be added to index 2 and 3 respectively.
+///
+/// @param cells that will be added to the menu, this array must contain only cells that are not already in the menu.
+/// @param shouldHaveArtwork artwork bool
+/// @param menu the new menu array, this array should contain all the values the developer has set to be included in the new menu. This is used for placing the newly added cells in the correct location.
+/// @return list of SDLRPCRequest addCommands
 - (NSArray<SDLRPCRequest *> *)sdl_mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
@@ -612,6 +708,10 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableCommands copy];
 }
 
+/// Creates SDLAddSubMenu RPCs for the passed array of menu cells, AND all of those cells' subcell RPCs, both SDLAddCommands and SDLAddSubMenus
+/// @param cells The cells to create RPCs for
+/// @param shouldHaveArtwork Whether artwork should be applied to the RPCs
+/// @returns An array of RPCs of SDLAddSubMenus and their associated subcell RPCs
 - (NSArray<SDLRPCRequest *> *)sdl_subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
@@ -623,6 +723,10 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableCommands copy];
 }
 
+/// Creates SDLAddCommand and SDLAddSubMenu RPCs for a passed array of cells, AND all of those cells' subcell RPCs, both SDLAddCommands and SDLAddSubmenus
+/// @param cells The cells to create RPCs for
+/// @param shouldHaveArtwork Whether artwork should be applied to the RPCs
+/// @returns An array of RPCs of SDLAddCommand and SDLAddSubMenus for the array of menu cells and their subcells, recursively
 - (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
@@ -638,24 +742,38 @@ UInt32 const MenuCellIdMin = 1;
     return [mutableCommands copy];
 }
 
+/// An individual SDLAddCommand RPC for a given SDLMenuCell
+/// @param cell The cell to create the RPC for
+/// @param shouldHaveArtwork Whether artwork should be applied to the RPC
+/// @param position The position the SDLAddCommand RPC should be given
+/// @returns The SDLAddCommand RPC
 - (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLAddCommand *command = [[SDLAddCommand alloc] init];
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
-    params.menuName = cell.title;
+    params.menuName = cell.uniqueTitle;
     params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
     params.position = @(position);
+    params.secondaryText = (cell.secondaryText.length > 0 && [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText]) ? cell.secondaryText : nil;
+    params.tertiaryText = (cell.tertiaryText.length > 0 && [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]) ? cell.tertiaryText : nil;
 
     command.menuParams = params;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
     command.cmdIcon = (cell.icon && shouldHaveArtwork) ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
+    command.secondaryImage = (cell.secondaryArtwork && shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork]) ? cell.secondaryArtwork.imageRPC : nil;
 
     return command;
 }
 
+/// An individual SDLAddSubMenu RPC for a given SDLMenuCell
+/// @param cell The cell to create the RPC for
+/// @param shouldHaveArtwork Whether artwork should be applied to the RPC
+/// @param position The position the SDLAddSubMenu RPC should be given
+/// @returns The SDLAddSubMenu RPC
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
+    SDLImage *secondaryImage = (shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork] && (cell.secondaryArtwork.name != nil)) ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
     if (cell.submenuLayout && [self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
@@ -663,12 +781,18 @@ UInt32 const MenuCellIdMin = 1;
     } else {
         submenuLayout = self.menuConfiguration.defaultSubmenuLayout;
     }
-
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil];
+    
+    NSString *secondaryText = (cell.secondaryText.length > 0 && [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuSecondaryText]) ? cell.secondaryText : nil;
+    NSString *tertiaryText = (cell.tertiaryText.length > 0 && [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuTertiaryText]) ? cell.tertiaryText : nil;
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.uniqueTitle position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:secondaryText tertiaryText:tertiaryText secondaryImage:secondaryImage];
 }
 
 #pragma mark - Calling handlers
 
+/// Call a handler for a currently displayed SDLMenuCell based on the incoming SDLOnCommand notification
+/// @param cells The menu cells to check (including their subcells)
+/// @param onCommand The notification retrieved
+/// @returns True if the handler was found, false if it was not found
 - (BOOL)sdl_callHandlerForCells:(NSArray<SDLMenuCell *> *)cells command:(SDLOnCommand *)onCommand {
     for (SDLMenuCell *cell in cells) {
         if (cell.cellId == onCommand.cmdID.unsignedIntegerValue && cell.handler != nil) {
@@ -693,8 +817,7 @@ UInt32 const MenuCellIdMin = 1;
     [self sdl_callHandlerForCells:self.menuCells command:onCommand];
 }
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    // We won't use the object in the parameter but the convenience method of the system capability manager
+- (void)sdl_displayCapabilityDidUpdate {
     self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
 }
 

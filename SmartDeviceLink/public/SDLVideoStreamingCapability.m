@@ -6,31 +6,36 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLImageResolution.h"
+#import "SDLImageResolution+StreamingVideoExtensions.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingFormat.h"
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLStreamingVideoScaleManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
+// deprecated method, and will be removed in the future
 - (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported diagonalScreenSize:(float)diagonalScreenSize pixelPerInch:(float)pixelPerInch scale:(float)scale {
+    return [self initWithPreferredResolution:preferredResolution maxBitrate:@(maxBitrate) supportedFormats:supportedFormats hapticSpatialDataSupported:@(hapticDataSupported) diagonalScreenSize:@(diagonalScreenSize) pixelPerInch:@(pixelPerInch) scale:@(scale) preferredFPS:nil];
+}
+
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLUInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported diagonalScreenSize:(nullable NSNumber<SDLFloat> *)diagonalScreenSize pixelPerInch:(nullable NSNumber<SDLFloat> *)pixelPerInch scale:(nullable NSNumber<SDLFloat> *)scale preferredFPS:(nullable NSNumber<SDLUInt> *)preferredFPS {
     self = [self init];
     if (!self) {
-        return self;
+        return nil;
     }
-
-    self.maxBitrate = @(maxBitrate);
     self.preferredResolution = preferredResolution;
+    self.maxBitrate = maxBitrate;
     self.supportedFormats = supportedFormats;
-    self.hapticSpatialDataSupported = @(hapticDataSupported);
-    self.diagonalScreenSize = @(diagonalScreenSize);
-    self.pixelPerInch = @(pixelPerInch);
-    self.scale = @(scale);
-
+    self.hapticSpatialDataSupported = hapticSpatialDataSupported;
+    self.diagonalScreenSize = diagonalScreenSize;
+    self.pixelPerInch = pixelPerInch;
+    self.scale = scale;
+    self.preferredFPS = preferredFPS;
     return self;
 }
 
@@ -88,6 +93,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLFloat> *)scale {
     return [self.store sdl_objectForName:SDLRPCParameterNameScale ofClass:NSNumber.class error:nil];
+}
+
+- (void)setAdditionalVideoStreamingCapabilities:(nullable NSArray <SDLVideoStreamingCapability *> *)additionalVideoStreamingCapabilities {
+    [self.store sdl_setObject:additionalVideoStreamingCapabilities forName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities];
+}
+
+- (nullable NSArray <SDLVideoStreamingCapability *> *)additionalVideoStreamingCapabilities {
+    NSError *error = nil;
+    return [self.store sdl_objectsForName:SDLRPCParameterNameAdditionalVideoStreamingCapabilities ofClass:SDLVideoStreamingCapability.class error:&error];
+}
+
+- (void)setPreferredFPS:(nullable NSNumber<SDLUInt> *)preferredFPS {
+    [self.store sdl_setObject:preferredFPS forName:SDLRPCParameterNamePreferredFPS];
+}
+
+- (nullable NSNumber<SDLUInt> *)preferredFPS {
+    return [self.store sdl_objectForName:SDLRPCParameterNamePreferredFPS ofClass:NSNumber.class error:nil];
 }
 
 @end

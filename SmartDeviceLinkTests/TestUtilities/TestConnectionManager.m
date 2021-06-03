@@ -21,21 +21,29 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _receivedRequests = [NSMutableArray<__kindof SDLRPCMessage *> array];
+    _receivedRequestObjects = [NSMutableArray<TestConnectionRequestObject *> array];
     _multipleCompletionBlocks = [NSMutableArray array];
+    _systemInfo = [[SDLSystemInfo alloc] initWithMake:@"Livio" model:@"Is" trim:@"Awesome" modelYear:@"2021" softwareVersion:@"1.1.1.1" hardwareVersion:@"2.2.2.2"];
 
     return self;
 }
 
+- (NSArray<__kindof SDLRPCMessage *> *)receivedRequests {
+    NSMutableArray<__kindof SDLRPCMessage *> *requests = [NSMutableArray array];
+    [_receivedRequestObjects enumerateObjectsUsingBlock:^(__kindof TestConnectionRequestObject * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [requests addObject:obj.message];
+    }];
+
+    return [requests copy];
+}
+
 - (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
-    [self.receivedRequests addObject:rpc];
+    [self.receivedRequestObjects addObject:[[TestConnectionRequestObject alloc] initWithMessage:rpc responseHandler:nil]];
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    self.lastRequestBlock = handler;
-    SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
-    requestRPC.correlationID = [self test_nextCorrelationID];
-    [self.receivedRequests addObject:requestRPC];
+    request.correlationID = [self test_nextCorrelationID];
+    [self.receivedRequestObjects addObject:[[TestConnectionRequestObject alloc] initWithMessage:request responseHandler:handler]];
 }
 
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -48,11 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sendRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     [requests enumerateObjectsUsingBlock:^(SDLRPCRequest * _Nonnull request, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self sendConnectionRequest:request withResponseHandler:nil];
-
-        if (progressHandler != nil) {
-            progressHandler(request, nil, nil, (double)idx / (double)requests.count);
-        }
+        [self sendConnectionRequest:request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (progressHandler != nil) {
+                progressHandler(request, response, error, (double)idx / (double)requests.count);
+            }
+        }];
     }];
 
     [_multipleCompletionBlocks addObject:completionHandler];
@@ -79,8 +87,9 @@ NS_ASSUME_NONNULL_BEGIN
         thisError = error;
     }
 
-    if (self.lastRequestBlock != nil) {
-        self.lastRequestBlock(self.receivedRequests.lastObject, response, thisError);
+    TestConnectionRequestObject *lastObject = self.receivedRequestObjects.lastObject;
+    if (lastObject.responseHandler != nil) {
+        lastObject.responseHandler((SDLRPCRequest *)lastObject.message, response, thisError);
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
     }
@@ -94,8 +103,9 @@ NS_ASSUME_NONNULL_BEGIN
         thisError = error;
     }
 
-    if (self.lastRequestBlock != nil) {
-        self.lastRequestBlock(self.receivedRequests[requestNumber], response, thisError);
+    TestConnectionRequestObject *requestObj = self.receivedRequestObjects[requestNumber];
+    if (requestObj.responseHandler != nil) {
+        requestObj.responseHandler((SDLRPCRequest *)requestObj.message, response, thisError);
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
     }
@@ -110,8 +120,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)reset {
-    _receivedRequests = [NSMutableArray<__kindof SDLRPCMessage *> array];
-    _lastRequestBlock = nil;
+    _receivedRequestObjects = [NSMutableArray<__kindof TestConnectionRequestObject *> array];
+    _multipleCompletionBlocks = [NSMutableArray array];
 }
 
 

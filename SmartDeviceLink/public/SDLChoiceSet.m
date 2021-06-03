@@ -12,6 +12,8 @@
 #import "SDLLogMacros.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
+#import "SDLVersion.h"
+#import "SDLGlobals.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLChoiceSet
 
+static const float TimeoutDefault = 0.0;
+static const float TimeoutMinCap = 5.0;
+static const float TimeoutMaxCap = 100.0;
 static NSTimeInterval _defaultTimeout = 10.0;
 static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
@@ -30,7 +35,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     self = [super init];
     if (!self) { return nil; }
 
-    _timeout = self.class.defaultTimeout;
+    _timeout = TimeoutDefault;
     _layout = self.class.defaultLayout;
 
     return self;
@@ -57,42 +62,12 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         return nil;
     }
 
-    if (timeout < 5 || timeout > 100) {
-        SDLLogW(@"Attempted to create a choice set with a %f second timeout; Only 5 - 100 seconds is valid", timeout);
-        return nil;
-    }
-
     if (title.length == 0 || title.length > 500) {
         SDLLogW(@"Attempted to create a choice set title with a %lu length. Only 500 characters are supported", (unsigned long)title.length);
         return nil;
     }
 
-    NSMutableSet<NSString *> *choiceTextSet = [NSMutableSet setWithCapacity:choices.count];
-    NSMutableSet<NSString *> *uniqueVoiceCommands = [NSMutableSet set];
-    NSUInteger allVoiceCommandsCount = 0;
-    NSUInteger choiceCellWithVoiceCommandCount = 0;
-    for (SDLChoiceCell *cell in choices) {
-        [choiceTextSet addObject:cell.text];
-        if (cell.voiceCommands == nil) { continue; }
-        [uniqueVoiceCommands addObjectsFromArray:cell.voiceCommands];
-        choiceCellWithVoiceCommandCount += 1;
-        allVoiceCommandsCount += cell.voiceCommands.count;
-    }
-    if (choiceTextSet.count < choices.count) {
-        SDLLogE(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
-        return nil;
-    }
-
-    // All or none of the choices must have VR commands
-    if ((choiceCellWithVoiceCommandCount > 0 && choiceCellWithVoiceCommandCount < choices.count)) {
-        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu cells with unique voice commands and %lu total cells. The choice set will not be set.", (unsigned long)choiceCellWithVoiceCommandCount, (unsigned long)choices.count);
-        return nil;
-    }
-    // All the VR commands must be unique
-    if (uniqueVoiceCommands.count < allVoiceCommandsCount) {
-        SDLLogE(@"If using voice recognition commands, all VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)uniqueVoiceCommands.count, (unsigned long)allVoiceCommandsCount);
-        return nil;
-    }
+    if (![self sdl_choiceCellsAreUnique:choices]) { return nil; }
 
     for (NSUInteger i = 0; i < helpList.count; i++) {
         helpList[i].position = @(i + 1);
@@ -101,7 +76,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     _title = title;
     _delegate = delegate;
     _layout = layout;
-    _timeout = timeout;
+    self.timeout = timeout;
     _initialPrompt = initialPrompt;
     _timeoutPrompt = timeoutPrompt;
     _helpPrompt = helpPrompt;
@@ -120,12 +95,30 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
 #pragma mark - Getters / Setters
 
++ (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
+    _defaultTimeout = defaultTimeout;
+}
+
 + (NSTimeInterval)defaultTimeout {
+   if (_defaultTimeout < TimeoutMinCap) {
+        return TimeoutMinCap;
+    } else if (_defaultTimeout > TimeoutMaxCap) {
+        return TimeoutMaxCap;
+    }
+
     return _defaultTimeout;
 }
 
-+ (void)setDefaultTimeout:(NSTimeInterval)defaultTimeout {
-    _defaultTimeout = defaultTimeout;
+- (NSTimeInterval)timeout {
+    if (_timeout == TimeoutDefault) {
+        return SDLChoiceSet.defaultTimeout;
+    } else if (_timeout < TimeoutMinCap) {
+        return TimeoutMinCap;
+    } else if (_timeout > TimeoutMaxCap) {
+        return TimeoutMaxCap;
+    }
+
+    return _timeout;
 }
 
 + (SDLChoiceSetLayout)defaultLayout {
@@ -142,6 +135,40 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     for (NSUInteger i = 0; i < _helpList.count; i++) {
         _helpList[i].position = @(i + 1);
     }
+}
+
+#pragma mark - Helpers
+
+/**
+ Check for duplicate choices and voiceCommands
+
+ @param choices The choices you will be adding
+ @return Boolean that indicates whether choices and voice commands are unique or not
+ */
+-(BOOL)sdl_choiceCellsAreUnique:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableSet<SDLChoiceCell *> *identicalCellsCheckSet = [NSMutableSet setWithCapacity:choices.count];
+    NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
+    NSUInteger allVoiceCommandsCount = 0;
+    for (SDLChoiceCell *cell in choices) {
+        [identicalCellsCheckSet addObject:cell];
+
+        if (cell.voiceCommands == nil) { continue; }
+        [identicalVoiceCommandsCheckSet addObjectsFromArray:cell.voiceCommands];
+        allVoiceCommandsCount += cell.voiceCommands.count;
+    }
+
+    if (identicalCellsCheckSet.count < choices.count) {
+        SDLLogE(@"Attempted to create a choice set with duplicate cells. At least one property must be different between any two cells. The choice set will not be set.");
+        return NO;
+    }
+
+    // All the VR commands must be unique
+    if (identicalVoiceCommandsCheckSet.count < allVoiceCommandsCount) {
+        SDLLogE(@"Attempted to create a choice set where the cells contained duplicate voice commands. All VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)identicalVoiceCommandsCheckSet.count, (unsigned long)allVoiceCommandsCount);
+        return NO;
+    }
+
+    return YES;
 }
 
 #pragma mark - Etc.

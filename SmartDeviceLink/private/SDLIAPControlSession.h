@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  When the protocol string is received from Core, the control session is closed as a new session with Core must be established with the received protocol string. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and new attempt is made to establish a control session with Core.
  */
-@interface SDLIAPControlSession : SDLIAPSession
+@interface SDLIAPControlSession: NSObject <SDLIAPSessionDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -32,7 +32,27 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param delegate     The control session delegate
  *  @return             A SDLIAPControlSession object
  */
-- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate;
+- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory delegate:(id<SDLIAPControlSessionDelegate>)delegate forProtocol:(NSString *)protocol;
+
+/**
+ *  Closes the SDLIAPSession used by the SDLIAPControlSession
+ */
+- (void)closeSession;
+
+/**
+ *  Returns whether the session has open I/O streams.
+ */
+@property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
+
+/**
+ *  The accessory used to create the EASession.
+ */
+@property (nullable, strong, nonatomic, readonly) EAAccessory *accessory;
+
+/**
+ *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
+ */
+@property (assign, nonatomic, readonly) NSUInteger connectionID;
 
 @end
 

@@ -35,6 +35,7 @@
 @interface SDLPresentChoiceSetOperation()
 
 @property (copy, nonatomic, nullable) NSError *internalError;
+@property (assign, nonatomic) UInt16 cancelId;
 
 @end
 
@@ -48,6 +49,7 @@
 
 @property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (assign, nonatomic) UInt16 nextCancelId;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
@@ -62,7 +64,8 @@
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification;
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_displayCapabilityDidUpdate;
+- (void)sdl_addUniqueNamesToCells:(NSMutableSet<SDLChoiceCell *> *)choices;
 
 @end
 
@@ -82,6 +85,9 @@ describe(@"choice set manager tests", ^{
     __block SDLChoiceCell *testCell1 = nil;
     __block SDLChoiceCell *testCell2 = nil;
     __block SDLChoiceCell *testCell3 = nil;
+    __block SDLChoiceCell *testCellDuplicate = nil;
+    __block SDLVersion *choiceSetUniquenessActiveVersion = nil;
+    __block SDLArtwork *testArtwork = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -90,9 +96,11 @@ describe(@"choice set manager tests", ^{
 
         testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
 
+        testArtwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
         testCell1 = [[SDLChoiceCell alloc] initWithText:@"test1"];
         testCell2 = [[SDLChoiceCell alloc] initWithText:@"test2"];
         testCell3 = [[SDLChoiceCell alloc] initWithText:@"test3"];
+        testCellDuplicate = [[SDLChoiceCell alloc] initWithText:@"test1" artwork:nil voiceCommands:nil];
 
         enabledWindowCapability = [[SDLWindowCapability alloc] init];
         enabledWindowCapability.textFields = @[[[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1]];
@@ -100,12 +108,13 @@ describe(@"choice set manager tests", ^{
         disabledWindowCapability.textFields = @[];
         blankWindowCapability = [[SDLWindowCapability alloc] init];
         blankWindowCapability.textFields = @[];
+        choiceSetUniquenessActiveVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     });
 
     it(@"should be in the correct startup state", ^{
         expect(testManager.currentState).to(equal(SDLChoiceManagerStateShutdown));
 
-        SDLKeyboardProperties *defaultProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs keyboardLayout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil];
+        SDLKeyboardProperties *defaultProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs keyboardLayout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
         expect(testManager.keyboardConfiguration).to(equal(defaultProperties));
     });
 
@@ -134,9 +143,8 @@ describe(@"choice set manager tests", ^{
 
             it(@"should enable the queue when receiving a good window capability", ^{
                 testManager.currentWindowCapability = disabledWindowCapability;
-
-                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[enabledWindowCapability] windowTypeSupported:nil];
-                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(enabledWindowCapability);
+                [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beFalse());
             });
@@ -158,15 +166,15 @@ describe(@"choice set manager tests", ^{
             });
 
             it(@"should suspend the queue when receiving a bad display capability", ^{
-                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[disabledWindowCapability] windowTypeSupported:nil];
-                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(disabledWindowCapability);
+                [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
             });
 
             it(@"should not suspend the queue when receiving an empty display capability", ^{
-                SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[blankWindowCapability] windowTypeSupported:nil];
-                [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(blankWindowCapability);
+                [testManager sdl_displayCapabilityDidUpdate];
 
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
             });
@@ -252,6 +260,46 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.preloadedChoices).to(contain(testCell2));
                     expect(testManager.preloadedChoices).to(contain(testCell3));
                     expect(testManager.pendingPreloadChoices).to(haveCount(0));
+                });
+            });
+
+            context(@"when some choices are already uploaded with duplicate titles version >= 7.1.0", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = choiceSetUniquenessActiveVersion;
+                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) { }];
+                });
+
+                it(@"should not update the choiceCells' unique title", ^{
+                    SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
+                    testOp.completionBlock();
+                    NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
+                    for (SDLChoiceCell *choiceCell in testArrays) {
+                        expect(choiceCell.uniqueText).to(equal("test1"));
+                    }
+                    expect(testManager.preloadedChoices).to(contain(testCell1));
+                    expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
+                });
+            });
+
+            context(@"when some choices are already uploaded with duplicate titles version <= 7.1.0", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
+                    [testManager preloadChoices:@[testCell1, testCellDuplicate] withCompletionHandler:^(NSError * _Nullable error) { }];
+                });
+
+                it(@"append a number to the unique text for choice set cells", ^{
+                    SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
+                    testOp.completionBlock();
+                    NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
+                    for (SDLChoiceCell *choiceCell in testArrays) {
+                        if (choiceCell.artwork) {
+                            expect(choiceCell.uniqueText).to(equal("test1 (2)"));
+                        } else {
+                            expect(choiceCell.uniqueText).to(equal("test1"));
+                        }
+                    }
+                    expect(testManager.preloadedChoices).to(contain(testCell1));
+                    expect(testManager.preloadedChoices).to(contain(testCellDuplicate));
                 });
             });
 
@@ -523,6 +571,45 @@ describe(@"choice set manager tests", ^{
                 OCMReject([pendingPresentOp cancel]);
                 expect(testManager.transactionQueue.operations).to(haveCount(0));
                 expect(testManager.pendingPresentOperation).toNot(beAnInstanceOf([SDLPresentKeyboardOperation class]));
+            });
+        });
+
+        describe(@"generating a cancel id", ^{
+            __block SDLChoiceSet *testChoiceSet = nil;
+            __block id<SDLChoiceSetDelegate> testChoiceDelegate = nil;
+
+            beforeEach(^{
+                testChoiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
+                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"tests" delegate:testChoiceDelegate choices:@[testCell1]];
+                testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
+                [testManager.stateMachine setToState:SDLChoiceManagerStateReady fromOldState:SDLChoiceManagerStateCheckingVoiceOptional callEnterTransition:NO];
+            });
+
+            it(@"should set the first cancelID correctly", ^{
+                [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
+
+                expect(testManager.transactionQueue.operations.count).to(equal(2));
+                expect(testManager.transactionQueue.operations[0]).to(beAKindOf([SDLPreloadChoicesOperation class]));
+                SDLPresentChoiceSetOperation *testPresentOp = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[1];
+                expect(@(testPresentOp.cancelId)).to(equal(101));
+            });
+
+            it(@"should reset the cancelID correctly once the max has been reached", ^{
+                testManager.nextCancelId = 200;
+                [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
+
+                expect(testManager.transactionQueue.operations.count).to(equal(2));
+
+                expect(testManager.transactionQueue.operations[0]).to(beAKindOf([SDLPreloadChoicesOperation class]));
+                SDLPresentChoiceSetOperation *testPresentOp = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[1];
+                expect(@(testPresentOp.cancelId)).to(equal(200));
+
+                [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
+
+                expect(testManager.transactionQueue.operations.count).to(equal(3));
+
+                SDLPresentChoiceSetOperation *testPresentOp2 = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[2];
+                expect(@(testPresentOp2.cancelId)).to(equal(101));
             });
         });
 

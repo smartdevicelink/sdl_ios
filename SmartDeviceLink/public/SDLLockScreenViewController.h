@@ -32,7 +32,7 @@ typedef void (^SwipeGestureCallbackBlock)(void);
 @property (copy, nonatomic, nullable) UIColor *backgroundColor;
 
 /**
- *  The locked label string. This will be set by the lock screen manager to inform the user about the dismissable state.
+ *  The locked label string. This will be set by the lock screen manager to inform the user about the dismissible state.
  */
 @property (copy, nonatomic, nullable) NSString *lockedLabelText;
 

@@ -21,7 +21,7 @@
  *  2. Choices having only SDLMenuParams definitions, but no VR synonym definitions
  *  3. Choices having both SDLMenuParams and VR synonym definitions
  *
- *  HMILevel needs to be FULL, LIMITED or BACKGROUD
+ *  HMILevel needs to be FULL, LIMITED or BACKGROUND
  *  @since SDL 1.0
  *  @see SDLDeleteCommand, SDLAddSubMenu, SDLDeleteSubMenu
  */
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A SDLAddCommand object
  */
-- (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdID:menuParams:vrCommands:cmdIcon:secondaryImage: instead");
 
 /**
  *  Convenience init for creating a voice command menu item.
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param handler     Called when the VR system recognizes a phrase in `vrCommands`
  *  @return            A SDLAddCommand object
  */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdID:menuParams:vrCommands:cmdIcon:secondaryImage: instead");
 
 /**
  *  Convenience init for creating a menu item with text.
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param handler     Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
  *  @return            A SDLAddCommand object
  */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdID:menuParams:vrCommands:cmdIcon:secondaryImage: instead");
 
 /**
  *  Convenience init for creating a menu item with text and a custom icon.
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param handler         Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
  *  @return                A SDLAddCommand object
  */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(nullable NSString *)iconValue iconType:(nullable SDLImageType)iconType iconIsTemplate:(BOOL)iconIsTemplate handler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(nullable NSString *)iconValue iconType:(nullable SDLImageType)iconType iconIsTemplate:(BOOL)iconIsTemplate handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdID:menuParams:vrCommands:cmdIcon:secondaryImage: instead");
 
 /**
  *  Convenience init for creating a menu item with text and a custom icon.
@@ -94,7 +94,23 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param handler     Called when the menu item is selected and/or when the VR system recognizes a phrase in `vrCommands`
  *  @return            A SDLAddCommand object
  */
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position icon:(nullable SDLImage *)icon handler:(nullable SDLRPCCommandNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position icon:(nullable SDLImage *)icon handler:(nullable SDLRPCCommandNotificationHandler)handler __deprecated_msg("Use initWithCmdID:menuParams:vrCommands:cmdIcon:secondaryImage: instead");
+
+/**
+ * @param cmdID - @(cmdID)
+ * @return A SDLAddCommand object
+ */
+- (instancetype)initWithCmdID:(UInt32)cmdID;
+
+/**
+ * @param cmdID - @(cmdID)
+ * @param menuParams - menuParams
+ * @param vrCommands - vrCommands
+ * @param cmdIcon - cmdIcon
+ * @param secondaryImage - secondaryImage
+ * @return A SDLAddCommand object
+ */
+- (instancetype)initWithCmdID:(UInt32)cmdID menuParams:(nullable SDLMenuParams *)menuParams vrCommands:(nullable NSArray<NSString *> *)vrCommands cmdIcon:(nullable SDLImage *)cmdIcon secondaryImage:(nullable SDLImage *)secondaryImage;
 
 /**
  *  A handler that will let you know when the button you created is subscribed.
@@ -138,6 +154,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  Optional
  */
 @property (nullable, strong, nonatomic) SDLImage *cmdIcon;
+
+/**
+ * Optional secondary image struct for menu cell
+ *
+ * @added in SmartDeviceLink 7.1.0
+ */
+@property (nullable, strong, nonatomic) SDLImage *secondaryImage;
 
 @end
 

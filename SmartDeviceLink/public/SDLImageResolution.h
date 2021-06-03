@@ -1,7 +1,6 @@
 //  SDLImageResolution.h
 //
 
-
 #import "SDLRPCMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -9,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The resolution of an image
  */
-@interface SDLImageResolution : SDLRPCStruct
+@interface SDLImageResolution : SDLRPCStruct <NSCopying>
 
 /**
  Resolution width
@@ -25,11 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *resolutionHeight;
 
-/// Convenience init with all parameters
-///
-/// @param width Resolution width
-/// @param height Resolution height
-/// @return An SDLImageResolution object
+/**
+ * Convenience init with all parameters
+ * @param width Resolution width
+ * @param height Resolution height
+ * @return An SDLImageResolution object
+ */
 - (instancetype)initWithWidth:(uint16_t)width height:(uint16_t)height;
 
 @end

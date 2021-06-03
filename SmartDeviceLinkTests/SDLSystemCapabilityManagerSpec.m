@@ -1,43 +1,12 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLAppServiceCapability.h"
-#import "SDLAppServiceManifest.h"
-#import "SDLAppServiceRecord.h"
-#import "SDLAppServicesCapabilities.h"
-#import "SDLAudioPassThruCapabilities.h"
-#import "SDLButtonCapabilities.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayCapability.h"
-#import "SDLGetSystemCapability.h"
-#import "SDLGetSystemCapabilityResponse.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLGlobals.h"
-#import "SDLHMICapabilities.h"
-#import "SDLImageField.h"
-#import "SDLImageResolution.h"
-#import "SDLMediaServiceManifest.h"
-#import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLOnSystemCapabilityUpdated.h"
-#import "SDLPhoneCapability.h"
-#import "SDLPredefinedWindows.h"
-#import "SDLPresetBankCapabilities.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLRemoteControlCapabilities.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLRPCResponseNotification.h"
-#import "SDLScreenParams.h"
-#import "SDLSetDisplayLayoutResponse.h"
-#import "SDLSoftButtonCapabilities.h"
-#import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityObserver.h"
-#import "SDLSystemCapabilityManager.h"
-#import "SDLTextField.h"
-#import "SDLVersion.h"
-#import "SDLVideoStreamingCapability.h"
-#import "SDLWindowCapability.h"
-#import "SDLWindowTypeCapabilities.h"
 #import "TestConnectionManager.h"
 #import "TestSystemCapabilityObserver.h"
 
@@ -51,6 +20,9 @@ typedef NSString * SDLServiceID;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
+
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *initialMediaCapabilities;
+@property (nullable, strong, nonatomic) NSString *lastDisplayLayoutRequestTemplate;
 #pragma clang diagnostic pop
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
@@ -85,7 +57,7 @@ typedef NSString * SDLServiceID;
 
 QuickSpecBegin(SDLSystemCapabilityManagerSpec)
 
-describe(@"System capability manager", ^{
+describe(@"a system capability manager", ^{
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
     __block TestConnectionManager *testConnectionManager = nil;
 
@@ -93,6 +65,7 @@ describe(@"System capability manager", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
+    __block SDLDisplayCapabilities *testDisplayCapabilities2 = nil;
 #pragma clang diagnostic pop
     __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
     __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
@@ -125,6 +98,11 @@ describe(@"System capability manager", ^{
         testDisplayCapabilities.mediaClockFormats = @[];
         testDisplayCapabilities.templatesAvailable = @[@"DEFAULT", @"MEDIA"];
         testDisplayCapabilities.numCustomPresetsAvailable = @(8);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        testDisplayCapabilities2 = [[SDLDisplayCapabilities alloc] init];
+#pragma clang diagnostic pop
 
         SDLSoftButtonCapabilities *softButtonCapability = [[SDLSoftButtonCapabilities alloc] init];
         softButtonCapability.shortPressAvailable = @YES;
@@ -159,6 +137,15 @@ describe(@"System capability manager", ^{
         testDisplayCapabilityList = @[displayCapability];
     });
 
+    afterEach(^{
+        if (testSystemCapabilityManager) {
+            // just in case unsubscribe from notifications and dealloc the manager
+            [[NSNotificationCenter defaultCenter] removeObserver:testSystemCapabilityManager];
+            testSystemCapabilityManager = nil;
+        }
+    });
+
+    // should initialize the system capability manager properties correctly
     it(@"should initialize the system capability manager properties correctly", ^{
         expect(testSystemCapabilityManager.displays).to(beNil());
         expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
@@ -183,8 +170,11 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.seatLocationCapability).to(beNil());
         expect(testSystemCapabilityManager.driverDistractionCapability).to(beNil());
         expect(testSystemCapabilityManager.currentHMILevel).to(equal(SDLHMILevelNone));
+        expect(testSystemCapabilityManager.initialMediaCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.lastDisplayLayoutRequestTemplate).to(beNil());
     });
 
+    // isCapabilitySupported method should work correctly
     describe(@"isCapabilitySupported method should work correctly", ^{
         __block SDLHMICapabilities *hmiCapabilities = nil;
 
@@ -192,6 +182,7 @@ describe(@"System capability manager", ^{
             hmiCapabilities = [[SDLHMICapabilities alloc] init];
         });
 
+        // when there's a cached phone capability and hmiCapabilities is nil
         context(@"when there's a cached phone capability and hmiCapabilities is nil", ^{
             beforeEach(^{
                 testSystemCapabilityManager.phoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
@@ -202,7 +193,9 @@ describe(@"System capability manager", ^{
             });
         });
 
+        // when there's no cached capability
         context(@"when there's no cached capability", ^{
+            // pulling a phone capability when HMICapabilites.phoneCapability is false
             describe(@"pulling a phone capability when HMICapabilites.phoneCapability is false", ^{
                 beforeEach(^{
                     hmiCapabilities.phoneCall = @NO;
@@ -214,24 +207,28 @@ describe(@"System capability manager", ^{
                 });
             });
 
+            // pulling a phone capability when HMICapabilites.phoneCapability is true
             describe(@"pulling a phone capability when HMICapabilites.phoneCapability is true", ^{
                 beforeEach(^{
                     hmiCapabilities.phoneCall = @YES;
                     testSystemCapabilityManager.hmiCapabilities = hmiCapabilities;
                 });
 
-                it(@"should return NO", ^{
+                it(@"should return YES", ^{
                     expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypePhoneCall]).to(beTrue());
                 });
             });
 
+            // pulling a phone capability when HMICapabilites.phoneCapability is nil
             describe(@"pulling a phone capability when HMICapabilites.phoneCapability is nil", ^{
                 it(@"should return NO", ^{
                     expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypePhoneCall]).to(beFalse());
                 });
             });
 
+            // pulling an app services capability
             describe(@"pulling an app services capability", ^{
+                // on RPC connection version 5.1.0 and HMICapabilities.appServices is false
                 context(@"on RPC connection version 5.1.0 and HMICapabilities.appServices is false", ^{
                     beforeEach(^{
                         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"];
@@ -244,6 +241,7 @@ describe(@"System capability manager", ^{
                     });
                 });
 
+                // on RPC connection version 5.2.0 and HMICapabilities.appServices is false
                 context(@"on RPC connection version 5.2.0 and HMICapabilities.appServices is false", ^{
                     beforeEach(^{
                         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.2.0"];
@@ -257,7 +255,9 @@ describe(@"System capability manager", ^{
                 });
             });
 
+            // pulling a video streaming capability
             describe(@"pulling a video streaming capability", ^{
+                // on RPC connection version 2.0.0 and HMICapabilities is nil
                 context(@"on RPC connection version 2.0.0 and HMICapabilities is nil", ^{
                     beforeEach(^{
                         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"2.0.0"];
@@ -268,11 +268,13 @@ describe(@"System capability manager", ^{
                     });
                 });
 
+                // on RPC connection version 3.0.0 and HMICapabilities is nil
                 context(@"on RPC connection version 3.0.0 and HMICapabilities is nil", ^{
                     beforeEach(^{
                         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"3.0.0"];
                     });
 
+                    // when displayCapabilities.graphicSupported is true
                     context(@"when displayCapabilities.graphicSupported is true", ^{
                         beforeEach(^{
 #pragma clang diagnostic push
@@ -287,6 +289,7 @@ describe(@"System capability manager", ^{
                         });
                     });
 
+                    // when displayCapabilities.graphicSupported is false
                     context(@"when displayCapabilities.graphicSupported is false", ^{
                         beforeEach(^{
                             testSystemCapabilityManager.displayCapabilities.graphicSupported = @NO;
@@ -298,11 +301,13 @@ describe(@"System capability manager", ^{
                     });
                 });
 
+                // on RPC connection version 5.1.0
                 context(@"on RPC connection version 5.1.0", ^{
                     beforeEach(^{
                         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.1.0"];
                     });
 
+                    // when HMICapabilites.videoStreaming is false
                     context(@"when HMICapabilites.videoStreaming is false", ^{
                         beforeEach(^{
                             hmiCapabilities.videoStreaming = @NO;
@@ -314,6 +319,7 @@ describe(@"System capability manager", ^{
                         });
                     });
 
+                    // when HMICapabilites.videoStreaming is true
                     context(@"when HMICapabilites.videoStreaming is true", ^{
                         beforeEach(^{
                             hmiCapabilities.videoStreaming = @YES;
@@ -325,6 +331,7 @@ describe(@"System capability manager", ^{
                         });
                     });
 
+                    // when HMICapabilites.videoStreaming is nil
                     context(@"when HMICapabilites.videoStreaming is nil", ^{
                         it(@"should return false", ^{
                             expect([testSystemCapabilityManager isCapabilitySupported:SDLSystemCapabilityTypeVideoStreaming]).to(beFalse());
@@ -335,7 +342,8 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When notified of a register app interface response", ^{
+    // When notified of a register app interface response
+    describe(@"when notified of a register app interface response", ^{
         __block SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = nil;
         __block SDLHMICapabilities *testHMICapabilities = nil;
         __block NSArray<SDLHMIZoneCapabilities> *testHMIZoneCapabilities = nil;
@@ -380,72 +388,122 @@ describe(@"System capability manager", ^{
             testRegisterAppInterfaceResponse.pcmStreamCapabilities = testPCMStreamCapability;
         });
 
-        describe(@"If the Register App Interface request fails", ^{
-            beforeEach(^{
-                testRegisterAppInterfaceResponse.success = @NO;
-                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
+        context(@"if the appType = DEFAULT", ^{
+            // if the Register App Interface request fails
+            context(@"if the Register App Interface request fails", ^{
+                beforeEach(^{
+                    testRegisterAppInterfaceResponse.success = @NO;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                // should not save any of the RAIR capabilities
+                it(@"should not save any of the RAIR capabilities", ^{
+                    expect(testSystemCapabilityManager.displays).to(beNil());
+                    expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated"
+                    expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+    #pragma clang diagnostic pop
+                    expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+                    expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+
+                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                    expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                    expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                    expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                    expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.initialMediaCapabilities).to(beNil());
+                });
             });
 
-            it(@"should not save any of the RAIR capabilities", ^{
-                expect(testSystemCapabilityManager.displays).to(beNil());
-                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
-#pragma clang diagnostic pop
-                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
-                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+            // if the Register App Interface request succeeds
+            context(@"if the Register App Interface request succeeds", ^{
+                beforeEach(^{
+                    testRegisterAppInterfaceResponse.success = @YES;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
 
-                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
-                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
-                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
-                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                it(@"should should save the RAIR capabilities", ^{
+                    expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
+                    expect(testSystemCapabilityManager.hmiCapabilities).to(equal(testHMICapabilities));
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated"
+                    expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+                    expect(testSystemCapabilityManager.initialMediaCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
+                    expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
+                    expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
+    #pragma clang diagnostic pop
+                    expect(testSystemCapabilityManager.hmiZoneCapabilities).to(equal(testHMIZoneCapabilities));
+                    expect(testSystemCapabilityManager.speechCapabilities).to(equal(testSpeechCapabilities));
+                    expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(equal(testPrerecordedSpeechCapabilities));
+                    expect(testSystemCapabilityManager.vrCapability).to(beTrue());
+                    expect(testSystemCapabilityManager.audioPassThruCapabilities).to(equal(testAudioPassThruCapabilities));
+                    expect(testSystemCapabilityManager.pcmStreamCapability).to(equal(testPCMStreamCapability));
+
+                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                    expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                    expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                    expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                    expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                });
             });
         });
 
-        describe(@"If the Register App Interface request succeeds", ^{
+        // if the app has apptype = MEDIA and the RAIR succeeds
+        context(@"if the app has apptype = MEDIA", ^{
             beforeEach(^{
-                testRegisterAppInterfaceResponse.success = @YES;
-                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"TestApp" fullAppId:@"12345"];
+                lifecycleConfig.appType = SDLAppHMITypeMedia;
+                testConnectionManager.configuration = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil encryption:nil];
             });
 
-            it(@"should should save the RAIR capabilities", ^{
-                expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
-                expect(testSystemCapabilityManager.hmiCapabilities).to(equal(testHMICapabilities));
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-                expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
-                expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
-                expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
-                expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
-#pragma clang diagnostic pop
-                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(equal(testHMIZoneCapabilities));
-                expect(testSystemCapabilityManager.speechCapabilities).to(equal(testSpeechCapabilities));
-                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(equal(testPrerecordedSpeechCapabilities));
-                expect(testSystemCapabilityManager.vrCapability).to(beTrue());
-                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(equal(testAudioPassThruCapabilities));
-                expect(testSystemCapabilityManager.pcmStreamCapability).to(equal(testPCMStreamCapability));
+            describe(@"when the RAIR succeeds", ^{
+                beforeEach(^{
+                    testRegisterAppInterfaceResponse.success = @YES;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
 
-                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
-                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
-                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
-                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                it(@"should store the display capabilities into the initialMediaCapabilities", ^{
+                    expect(testSystemCapabilityManager.initialMediaCapabilities).toNot(beNil());
+                });
+            });
+        });
+
+        // if the app has additionalAppTypes include MEDIA and the RAIR succeeds
+        context(@"if the app has additionalAppTypes include MEDIA", ^{
+            beforeEach(^{
+                SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"TestApp" fullAppId:@"12345"];
+                lifecycleConfig.additionalAppTypes = @[SDLAppHMITypeMedia];
+                testConnectionManager.configuration = [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfig lockScreen:nil logging:nil fileManager:nil encryption:nil];
+            });
+
+            describe(@"when the RAIR succeeds", ^{
+                beforeEach(^{
+                    testRegisterAppInterfaceResponse.success = @YES;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should store the display capabilities into the initialMediaCapabilities", ^{
+                    expect(testSystemCapabilityManager.initialMediaCapabilities).toNot(beNil());
+                });
             });
         });
     });
 
-    context(@"When notified of a SetDisplayLayout Response", ^ {
+    // when notified of a SetDisplayLayout Response
+    context(@"when notified of a SetDisplayLayout Response", ^ {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
@@ -462,71 +520,117 @@ describe(@"System capability manager", ^{
             testSetDisplayLayoutResponse.presetBankCapabilities = testPresetBankCapabilities;
         });
 
-        describe(@"If the SetDisplayLayout request fails", ^{
+        context(@"if there are initialMediaCapabilities", ^{
             beforeEach(^{
-                testSetDisplayLayoutResponse.success = @NO;
-                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                testSystemCapabilityManager.initialMediaCapabilities = testDisplayCapabilities2;
             });
 
-            it(@"should not save any capabilities", ^{
-                expect(testSystemCapabilityManager.displays).to(beNil());
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
-#pragma clang diagnostic pop
+            context(@"if switching to a MEDIA template", ^{
+                beforeEach(^{
+                    testSystemCapabilityManager.lastDisplayLayoutRequestTemplate = SDLPredefinedLayoutMedia;
 
-                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
-                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
-                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
-                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
-                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
-                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                    testSetDisplayLayoutResponse.success = @YES;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should use the initialMediaCapabilities, not the SetDisplayLayoutResponse displayCapabilities", ^{
+                    expect(testSystemCapabilityManager.displayCapabilities).toNot(equal(testSetDisplayLayoutResponse.displayCapabilities));
+                    expect(testSystemCapabilityManager.displayCapabilities).to(equal(testSystemCapabilityManager.initialMediaCapabilities));
+                });
+            });
+
+            context(@"if switching to a NON-MEDIA template", ^{
+                beforeEach(^{
+                    testSystemCapabilityManager.lastDisplayLayoutRequestTemplate = SDLPredefinedLayoutNonMedia;
+
+                    testSetDisplayLayoutResponse.success = @YES;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should use the SetDisplayLayoutResponse displayCapabilities, not the initialMediaCapabilities", ^{
+                    expect(testSystemCapabilityManager.displayCapabilities).to(equal(testSetDisplayLayoutResponse.displayCapabilities));
+                    expect(testSystemCapabilityManager.displayCapabilities).toNot(equal(testSystemCapabilityManager.initialMediaCapabilities));
+                });
             });
         });
 
-        describe(@"If the SetDisplayLayout request succeeds", ^{
+        context(@"if there are no initialMediaCapabilities", ^{
             beforeEach(^{
-                testSetDisplayLayoutResponse.success = @YES;
-                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                testSystemCapabilityManager.initialMediaCapabilities = nil;
             });
 
-            it(@"should should save the capabilities", ^{
-                expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-                expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
-                expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
-                expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
-                expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
-#pragma clang diagnostic pop
+            // if the SetDisplayLayout request fails
+            context(@"if the SetDisplayLayout request fails", ^{
+                beforeEach(^{
+                    testSetDisplayLayoutResponse.success = @NO;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
 
-                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
-                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
-                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
-                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
-                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
-                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                it(@"should not save any capabilities", ^{
+                    expect(testSystemCapabilityManager.displays).to(beNil());
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated"
+                    expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.initialMediaCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+    #pragma clang diagnostic pop
+
+                    expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+                    expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                    expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                    expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                    expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                    expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                });
+            });
+
+            // if the SetDisplayLayout request succeeds
+            context(@"if the SetDisplayLayout request succeeds", ^{
+                beforeEach(^{
+                    testSetDisplayLayoutResponse.success = @YES;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should should save the capabilities", ^{
+                    expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated"
+                    expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+                    expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
+                    expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
+                    expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
+    #pragma clang diagnostic pop
+
+                    expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+                    expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+                    expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                    expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                    expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                    expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                    expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
+                });
             });
         });
 
-        describe(@"if the setdisplaylayout has nil displaycapabilities", ^{
+        // if the SetDisplayLayout has nil DisplayCapabilities
+        context(@"if the SetDisplayLayout has nil DisplayCapabilities", ^{
             beforeEach(^{
                 testSetDisplayLayoutResponse.success = @YES;
                 testSetDisplayLayoutResponse.displayCapabilities = nil;
@@ -536,13 +640,14 @@ describe(@"System capability manager", ^{
 
             it(@"should should save the capabilities", ^{
                 // All the text fields and image fields should be available
-                expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(29));
+                expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(31));
                 expect(testSystemCapabilityManager.defaultMainWindowCapability.imageFields).to(haveCount(14));
             });
         });
     });
-    
-    context(@"when updating display capabilities with OnSystemCapabilityUpdated", ^{
+
+    // when updating display capabilities with OnSystemCapabilityUpdated
+    describe(@"when updating display capabilities with OnSystemCapabilityUpdated", ^{
         it(@"should properly update display capability including conversion two times", ^{
             // two times because capabilities are just saved in first run but merged/updated in subsequent runs
             for (int i = 0; i < 2; i++) {
@@ -582,7 +687,8 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When sending a updateCapabilityType request in HMI FULL", ^{
+    // when sending a updateCapabilityType request in HMI FULL
+    context(@"when sending a updateCapabilityType request in HMI FULL", ^{
         __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse = nil;
         __block SDLPhoneCapability *testPhoneCapability = nil;
 
@@ -607,12 +713,11 @@ describe(@"System capability manager", ^{
 
             it(@"should should not save the capabilities", ^{
                 [testSystemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                    expect(error).toEventually(equal(testConnectionManager.defaultError));
-                    expect(systemCapabilityManager.phoneCapability).toEventually(beNil());
+                    expect(error).to(equal(testConnectionManager.defaultError));
+                    expect(systemCapabilityManager.phoneCapability).to(beNil());
                 }];
 
-                [NSThread sleepForTimeInterval:0.1];
-
+                [NSThread sleepForTimeInterval:0.1]; // This still needs to be here to ensure request is sent first
                 [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
@@ -624,18 +729,17 @@ describe(@"System capability manager", ^{
 
             it(@"should save the capabilitity", ^{
                 [testSystemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                    expect(testSystemCapabilityManager.phoneCapability).toEventually(equal(testPhoneCapability));
-                    expect(error).toEventually(beNil());
+                    expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
+                    expect(error).to(beNil());
                 }];
 
-                [NSThread sleepForTimeInterval:0.1];
-
+                [NSThread sleepForTimeInterval:0.1]; // This still needs to be here to ensure request is sent first
                 [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
             });
         });
 
         afterEach(^{
-            // Make sure the RAIR properties and other system capabilities were not inadverdently set
+            // Make sure the RAIR properties and other system capabilities were not inadvertently set
             expect(testSystemCapabilityManager.displays).to(beNil());
             expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
 #pragma clang diagnostic push
@@ -658,6 +762,7 @@ describe(@"System capability manager", ^{
         });
     });
 
+    // updating the SCM through OnSystemCapability in HMI Full
     describe(@"updating the SCM through OnSystemCapability in HMI Full", ^{
         __block SDLPhoneCapability *phoneCapability = nil;
 
@@ -677,6 +782,7 @@ describe(@"System capability manager", ^{
         });
     });
 
+    // subscribing to capability types when HMI is full
     describe(@"subscribing to capability types when HMI is full", ^{
         __block TestSystemCapabilityObserver *phoneObserver = nil;
         __block TestSystemCapabilityObserver *navigationObserver = nil;
@@ -818,6 +924,7 @@ describe(@"System capability manager", ^{
         });
     });
 
+    // merging app services capability changes
     describe(@"merging app services capability changes", ^{
         __block SDLAppServicesCapabilities *baseAppServices = nil;
         __block SDLAppServiceCapability *deleteCapability = nil;
@@ -879,6 +986,7 @@ describe(@"System capability manager", ^{
         });
     });
 
+    // when the system capability manager is stopped after being started
     describe(@"when the system capability manager is stopped after being started", ^{
         beforeEach(^{
             [testSystemCapabilityManager stop];

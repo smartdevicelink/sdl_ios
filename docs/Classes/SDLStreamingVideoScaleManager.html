@@ -10,7 +10,9 @@
   <li><a href="#section--initWithScale:displayViewportResolution:">-initWithScale:displayViewportResolution:</a></li>
   <li><a href="#section--scaleTouchEventCoordinates:">-scaleTouchEventCoordinates:</a></li>
   <li><a href="#section--scaleHapticRect:">-scaleHapticRect:</a></li>
+  <li><a href="#section--makeScaledResolution">-makeScaledResolution</a></li>
   <li><a href="#section--stop">-stop</a></li>
+  <li><a href="#section-+scale:size:">+scale:size:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -183,6 +185,28 @@ The scale value will be set to 1.0 and the displayViewportResolution will be set
     <p>The position of the haptic rectangle in the display&rsquo;s coordinate system</p>
   </div>
   
+  <h3 id="section--makeScaledResolution">
+      -makeScaledResolution
+  </h3>
+  
+  <p>Create and return the current display resolution respecting the scale factor</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="n">makeScaledResolution</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">makeScaledResolution</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A new created object of type SDLImageResolution</p>
+  </div>
+  
   <h3 id="section--stop">
       -stop
   </h3>
@@ -200,5 +224,34 @@ The scale value will be set to 1.0 and the displayViewportResolution will be set
 
   
   
+  
+  <h3 id="section-+scale:size:">
+      +scale:size:
+  </h3>
+  
+  <p>Calculate a new size based on the given size and the scale factor</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nf">scale</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">scale</span> <span class="nf">size</span><span class="p">:(</span><span class="n">CGSize</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">scale</span><span class="p">(</span><span class="n">_</span> <span class="nv">scale</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="nv">size</span><span class="p">:</span> <span class="kt">CGSize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">CGSize</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>scale</dt>
+      <dd><p>The scale factor to apply</p></dd>
+      <dt>size</dt>
+      <dd><p>The size struct to apply the scale to</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A new created and inited struct of type CGSize</p>
+  </div>
   
 </section>

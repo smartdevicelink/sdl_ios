@@ -21,27 +21,27 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCRequest.h"
 #import "SDLVoiceCommand.h"
+#import "SDLVoiceCommandUpdateOperation.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLVoiceCommand()
 
 @property (assign, nonatomic) UInt32 commandId;
+@property (copy, nonatomic, readwrite) NSArray<NSString *> *voiceCommands;
 
 @end
 
 @interface SDLVoiceCommandManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
-@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
-@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-
-@property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
-@property (assign, nonatomic) BOOL hasQueuedUpdate;
+@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
-@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *oldVoiceCommands;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *currentVoiceCommands;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *originalVoiceCommands;
 
 @end
 
@@ -54,8 +54,9 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     if (!self) { return nil; }
 
     _lastVoiceCommandId = VoiceCommandIdMin;
+    _transactionQueue = [self sdl_newTransactionQueue];
     _voiceCommands = @[];
-    _oldVoiceCommands = @[];
+    _currentVoiceCommands = @[];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_commandNotification:) name:SDLDidReceiveCommandNotification object:nil];
@@ -75,120 +76,83 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 - (void)stop {
     _lastVoiceCommandId = VoiceCommandIdMin;
     _voiceCommands = @[];
-    _oldVoiceCommands = @[];
+    _currentVoiceCommands = @[];
+    _transactionQueue = [self sdl_newTransactionQueue];
 
-    _waitingOnHMIUpdate = NO;
-    _currentHMILevel = nil;
-    _inProgressUpdate = nil;
-    _hasQueuedUpdate = NO;
+    _currentLevel = nil;
+}
+
+- (NSOperationQueue *)sdl_newTransactionQueue {
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    queue.name = @"SDLVoiceCommandManager Transaction Queue";
+    queue.maxConcurrentOperationCount = 1;
+    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.suspended = YES;
+
+    return queue;
+}
+
+/// Suspend the queue if the HMI level is NONE since we want to delay sending RPCs until we're in non-NONE
+- (void)sdl_updateTransactionQueueSuspended {
+    if ([self.currentLevel isEqualToEnum:SDLHMILevelNone]) {
+        SDLLogD(@"Suspending the transaction queue. Current HMI level is NONE: %@", ([self.currentLevel isEqualToEnum:SDLHMILevelNone] ? @"YES" : @"NO"));
+        self.transactionQueue.suspended = YES;
+    } else {
+        SDLLogD(@"Starting the transaction queue");
+        self.transactionQueue.suspended = NO;
+    }
 }
 
 #pragma mark - Setters
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.waitingOnHMIUpdate = YES;
+    if (voiceCommands == self.originalVoiceCommands) {
+        SDLLogD(@"New voice commands are equal to the existing voice commands, skipping...");
         return;
     }
 
-    self.waitingOnHMIUpdate = NO;
+    // Validate the voiceCommand's strings. In the rare case that the user has set only empty whitespace strings, abort the update operation.
+    NSArray<SDLVoiceCommand *> *validatedVoiceCommands = [self sdl_removeEmptyVoiceCommands:voiceCommands];
+    if (validatedVoiceCommands.count == 0 && voiceCommands.count > 0) {
+        SDLLogE(@"New voice commands are invalid, skipping...");
+        return;
+    }
 
+    // Check if all new voice commands have unique strings
+    if (![self.class sdl_arePendingVoiceCommandsUnique:voiceCommands]) {
+        SDLLogE(@"Not all voice command strings are unique across all voice commands. Voice commands will not be set.");
+        return;
+    }
+
+    // Set the new voice commands internally
+    _originalVoiceCommands = voiceCommands;
+    _voiceCommands = validatedVoiceCommands;
     // Set the ids
-    self.lastVoiceCommandId = VoiceCommandIdMin;
-    [self sdl_updateIdsOnVoiceCommands:voiceCommands];
+    [self sdl_updateIdsOnVoiceCommands:self.voiceCommands];
 
-    _oldVoiceCommands = _voiceCommands;
-    _voiceCommands = voiceCommands;
-
-    [self sdl_updateWithCompletionHandler:nil];
-}
-
-#pragma mark - Updating System
-
-- (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        self.waitingOnHMIUpdate = YES;
-        return;
-    }
-
-    if (self.inProgressUpdate != nil) {
-        // There's an in progress update, we need to put this on hold
-        self.hasQueuedUpdate = YES;
-        return;
-    }
-
-    __weak typeof(self) weakself = self;
-    [self sdl_sendDeleteCurrentVoiceCommands:^(NSError * _Nullable error) {
-        [weakself sdl_sendCurrentVoiceCommands:^(NSError * _Nullable error) {
-            weakself.inProgressUpdate = nil;
-
-            if (completionHandler != nil) {
-                completionHandler(error);
-            }
-
-            if (weakself.hasQueuedUpdate) {
-                [weakself sdl_updateWithCompletionHandler:nil];
-                weakself.hasQueuedUpdate = NO;
-            }
-        }];
-    }];
-}
-
-#pragma mark Delete Old Menu Items
-
-- (void)sdl_sendDeleteCurrentVoiceCommands:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.oldVoiceCommands.count == 0) {
-        completionHandler(nil);
-
-        return;
-    }
-
-    NSArray<SDLRPCRequest *> *deleteVoiceCommands = [self sdl_deleteCommandsForVoiceCommands:self.oldVoiceCommands];
-    self.oldVoiceCommands = @[];
-    [self.connectionManager sendRequests:deleteVoiceCommands progressHandler:nil completionHandler:^(BOOL success) {
-        if (!success) {
-            SDLLogE(@"Error deleting old voice commands");
-        } else {
-            SDLLogD(@"Finished deleting old voice commands");
-        }
-
-        completionHandler(nil);
-    }];
-}
-
-#pragma mark Send New Menu Items
-
-- (void)sdl_sendCurrentVoiceCommands:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.voiceCommands.count == 0) {
-        SDLLogD(@"No voice commands to send");
-        completionHandler(nil);
-
-        return;
-    }
-
-    self.inProgressUpdate = [self sdl_addCommandsForVoiceCommands:self.voiceCommands];
-
-    __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
+    // Create the operation, cancel previous ones and set this one
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendRequests:self.inProgressUpdate progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-        if (error != nil) {
-            errors[request] = error;
-        }
-    } completionHandler:^(BOOL success) {
-        if (!success) {
-            SDLLogE(@"Failed to send main menu commands: %@", errors);
-            completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-            return;
-        }
-
-        SDLLogD(@"Finished updating voice commands");
-        weakSelf.oldVoiceCommands = weakSelf.voiceCommands;
-        completionHandler(nil);
+    SDLVoiceCommandUpdateOperation *updateOperation = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:self.connectionManager pendingVoiceCommands:self.voiceCommands oldVoiceCommands:_currentVoiceCommands updateCompletionHandler:^(NSArray<SDLVoiceCommand *> *newCurrentVoiceCommands, NSError * _Nullable error) {
+        weakSelf.currentVoiceCommands = newCurrentVoiceCommands;
+        [weakSelf sdl_updatePendingOperationsWithNewCurrentVoiceCommands:newCurrentVoiceCommands];
     }];
+
+    [self.transactionQueue cancelAllOperations];
+    [self.transactionQueue addOperation:updateOperation];
+}
+
+/// Update currently pending operations with a new set of "current" voice commands (the current state of the head unit) based on a previous completed operation
+/// @param currentVoiceCommands The new current voice commands
+- (void)sdl_updatePendingOperationsWithNewCurrentVoiceCommands:(NSArray<SDLVoiceCommand *> *)currentVoiceCommands {
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if (operation.isExecuting) { continue; }
+
+        SDLVoiceCommandUpdateOperation *updateOp = (SDLVoiceCommandUpdateOperation *)operation;
+        updateOp.oldVoiceCommands = currentVoiceCommands;
+    }
 }
 
 #pragma mark - Helpers
-
 #pragma mark IDs
 
 - (void)sdl_updateIdsOnVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
@@ -197,35 +161,38 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     }
 }
 
-#pragma mark Deletes
-
-- (NSArray<SDLDeleteCommand *> *)sdl_deleteCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    NSMutableArray<SDLDeleteCommand *> *mutableDeletes = [NSMutableArray array];
-    for (SDLVoiceCommand *command in voiceCommands) {
-        SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:command.commandId];
-        [mutableDeletes addObject:delete];
+/// Remove all voice command strings consisting of just whitespace characters as the module will reject any "empty" strings.
+/// @param voiceCommands - array of SDLVoiceCommands that are to be uploaded
+/// @return A list of voice commands with the empty voice commands removed
+- (NSArray<SDLVoiceCommand *> *)sdl_removeEmptyVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
+    NSMutableArray<SDLVoiceCommand *> *validatedVoiceCommands = [[NSMutableArray alloc] init];
+    for (SDLVoiceCommand *voiceCommand in voiceCommands) {
+        NSMutableArray<NSString *> *voiceCommandStrings = [[NSMutableArray alloc] init];
+        for (NSString *voiceCommandString in voiceCommand.voiceCommands) {
+            NSString *trimmedString = [voiceCommandString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            // Updates voice command strings array by only adding ones that are not empty(e.g. "", " ", ...)
+            if (trimmedString.length > 0) {
+                [voiceCommandStrings addObject:voiceCommandString];
+            }
+        }
+        if (voiceCommandStrings.count > 0) {
+            voiceCommand.voiceCommands = voiceCommandStrings;
+            [validatedVoiceCommands addObject:voiceCommand];
+        }
     }
-
-    return [mutableDeletes copy];
+    return [validatedVoiceCommands copy];
 }
 
-#pragma mark Commands
-
-- (NSArray<SDLAddCommand *> *)sdl_addCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    NSMutableArray<SDLAddCommand *> *mutableCommands = [NSMutableArray array];
-    for (SDLVoiceCommand *command in voiceCommands) {
-        [mutableCommands addObject:[self sdl_commandForVoiceCommand:command]];
+/// Evaluate the pendingVoiceCommands to check if there is two or more voiceCommands with the same string
++ (BOOL)sdl_arePendingVoiceCommandsUnique:(NSArray<SDLVoiceCommand *> *)voiceCommands {
+    NSUInteger voiceCommandCount = 0;
+    NSMutableSet<NSString *> *voiceCommandsSet = [[NSMutableSet alloc] init];
+    for (SDLVoiceCommand *voiceCommand in voiceCommands) {
+        [voiceCommandsSet addObjectsFromArray:voiceCommand.voiceCommands];
+        voiceCommandCount += voiceCommand.voiceCommands.count;
     }
 
-    return [mutableCommands copy];
-}
-
-- (SDLAddCommand *)sdl_commandForVoiceCommand:(SDLVoiceCommand *)voiceCommand {
-    SDLAddCommand *command = [[SDLAddCommand alloc] init];
-    command.vrCommands = voiceCommand.voiceCommands;
-    command.cmdID = @(voiceCommand.commandId);
-
-    return command;
+    return (voiceCommandsSet.count == voiceCommandCount);
 }
 
 #pragma mark - Observers
@@ -243,22 +210,12 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-    
     if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
         return;
     }
-    
-    SDLHMILevel oldHMILevel = self.currentHMILevel;
-    self.currentHMILevel = hmiStatus.hmiLevel;
 
-    // Auto-send an updated show if we were in NONE and now we are not
-    if ([oldHMILevel isEqualToEnum:SDLHMILevelNone] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
-        if (self.waitingOnHMIUpdate) {
-            [self setVoiceCommands:_voiceCommands];
-        } else {
-            [self sdl_updateWithCompletionHandler:nil];
-        }
-    }
+    self.currentLevel = hmiStatus.hmiLevel;
+    [self sdl_updateTransactionQueueSuspended];
 }
 
 @end

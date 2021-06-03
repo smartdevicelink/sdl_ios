@@ -46,7 +46,8 @@ extension ProxyManager {
     /// - Parameter connectionType: The type of transport layer to use.
     func start(with proxyTransportType: ProxyTransportType) {
         delegate?.didChangeProxyState(ProxyState.searching)
-        sdlManager = SDLManager(configuration: proxyTransportType == .iap ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
+
+        sdlManager = SDLManager(configuration: (proxyTransportType == .iap) ? ProxyManager.iapConfiguration : ProxyManager.tcpConfiguration, delegate: self)
         startManager()
     }
 
@@ -71,7 +72,7 @@ private extension ProxyManager {
     /// Configures an iAP transport layer.
     ///
     /// - Returns: A SDLConfiguration object
-    class func connectIAP() -> SDLConfiguration {
+    class var iapConfiguration: SDLConfiguration {
         let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, fullAppId: ExampleFullAppId)
         return setupManagerConfiguration(with: lifecycleConfiguration)
     }
@@ -79,7 +80,7 @@ private extension ProxyManager {
     /// Configures a TCP transport layer with the IP address and port of the remote SDL Core instance.
     ///
     /// - Returns: A SDLConfiguration object
-    class func connectTCP() -> SDLConfiguration {
+    class var tcpConfiguration: SDLConfiguration {
         let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, fullAppId: ExampleFullAppId, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!)
         return setupManagerConfiguration(with: lifecycleConfiguration)
     }
@@ -146,8 +147,8 @@ private extension ProxyManager {
 // MARK: - SDLManagerDelegate
 
 extension ProxyManager: SDLManagerDelegate {
-    /// Called when the connection beween this app and the module has closed.
-    func managerDidDisconnect() {        
+    /// Called when the connection between this app and the module has closed.
+    func managerDidDisconnect() {
         if delegate?.proxyState != .some(.stopped) {
             delegate?.didChangeProxyState(ProxyState.searching)
         }
@@ -178,7 +179,10 @@ extension ProxyManager: SDLManagerDelegate {
             subscribeButtonManager.subscribeToPresetButtons()
         case .limited: break // An active NAV or MEDIA SDL app is in the background
         case .background: break // The SDL app is not in the foreground
-        case .none: break // The SDL app is not yet running
+        case .none:
+            // The SDL app is not yet running or is terminated
+            firstHMILevelState = .none
+            break
         default: break
         }
     }
@@ -234,6 +238,14 @@ extension ProxyManager: SDLManagerDelegate {
         
         return update
     }
+
+    /// Called when connected module information becomes available
+    /// - Parameter systemInfo: The connected module's information
+    /// - Returns: True to continue connecting, false to disconnect immediately
+    func didReceiveSystemInfo(_ systemInfo: SDLSystemInfo) -> Bool {
+        SDLLog.d("Example app got system info: \(systemInfo)")
+        return true
+    }
 }
 
 // MARK: - SDL UI
@@ -276,12 +288,12 @@ private extension ProxyManager {
 
         // Primary graphic
         if imageFieldSupported(imageFieldName: .graphic) {
-            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
+            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: true, as: .PNG) : nil
         }
         
         // Secondary graphic
         if imageFieldSupported(imageFieldName: .secondaryGraphic) {
-            screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG) : nil
+            screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: true, as: .PNG) : nil
         }
         
         screenManager.endUpdates(completionHandler: { (error) in

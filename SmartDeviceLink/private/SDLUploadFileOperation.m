@@ -13,14 +13,22 @@
 #import "SDLFile.h"
 #import "SDLFileWrapper.h"
 #import "SDLGlobals.h"
+#import "SDLLogMacros.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
+#import "SDLProtocolHeader.h"
 #import "SDLRPCResponse.h"
+#import "SDLVersion.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLUploadFileOperation
+
+/// The size of the binary header, in bytes, for protocol version 2 and greater
+static NSUInteger const BinaryHeaderByteSize = 12;
+/// The maximum value that can be set for the PutFile's crc property
+static NSUInteger const MaxCRCValue = UINT32_MAX;
 
 @interface SDLUploadFileOperation ()
 
@@ -111,13 +119,14 @@ NS_ASSUME_NONNULL_BEGIN
     });
 
     // Break the data into small pieces, each of which will be sent in a separate putfile
+    NSUInteger maxBulkDataSize = [self.class sdl_getMaxBulkDataSizeForFile:file mtuSize:mtuSize];
     NSUInteger currentOffset = 0;
-    for (int i = 0; i < (((file.fileSize - 1) / mtuSize) + 1); i++) {
+    for (int i = 0; i < (((file.fileSize - 1) / maxBulkDataSize) + 1); i++) {
         dispatch_group_enter(putFileGroup);
 
         // Get a chunk of data from the input stream
-        UInt32 putFileLength = (UInt32)[self.class sdl_getPutFileLengthForOffset:currentOffset fileSize:(NSUInteger)file.fileSize mtuSize:mtuSize];
-        NSUInteger putFileBulkDataSize = [self.class sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
+        UInt32 putFileLength = (UInt32)[self.class sdl_getPutFileLengthForOffset:currentOffset fileSize:(NSUInteger)file.fileSize bulkDataSize:maxBulkDataSize];
+        NSUInteger putFileBulkDataSize = [self.class sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize bulkDataSize:maxBulkDataSize];
         NSData *putFileBulkData = [self.class sdl_getDataChunkWithSize:putFileBulkDataSize inputStream:self.inputStream];
 
         SDLPutFile *putFile = [[SDLPutFile alloc]
@@ -144,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             // If the SDL Core returned an error, cancel the upload the process in the future
-            if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
+            if (error != nil || response == nil || !response.success.boolValue || strongself.isCancelled) {
                 [strongself cancel];
                 streamError = error;
                 dispatch_group_leave(putFileGroup);
@@ -183,25 +192,57 @@ NS_ASSUME_NONNULL_BEGIN
     [self.inputStream close];
 }
 
+/// Calculates the max size of the data that can be set in the bulk data field for a PutFile to ensure that if the file data must be broken into chunks and sent in separate PutFiles, each of the PutFiles is sent as a single frame packet. The size of the binary header, JSON, and frame header must be taken into account in order to make sure the packet size does not exceed the max MTU size allowed by SDL Core.
+/// 
+/// Each RPC packet contains: frame header + payload(binary header + JSON data + bulk data)
+/// This means the bulk data size for each packet should not exceed: mtuSize - (binary header size + maximum possible JSON data size + frame header size)
+/// @param file The file containing the data to be sent to the SDL Core
+/// @param mtuSize The maximum packet size allowed
+/// @return The max size of the data that can be set in the bulk data field
++ (NSUInteger)sdl_getMaxBulkDataSizeForFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize {
+    NSUInteger frameHeaderSize = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].protocolVersion.major].size;
+    NSUInteger binaryHeaderSize = BinaryHeaderByteSize;
+    NSUInteger maxJSONSize = [self sdl_getMaxJSONSizeForFile:file];
+
+    return mtuSize - (binaryHeaderSize + maxJSONSize + frameHeaderSize);
+}
+
+/// Calculates the max possible (i.e. it may be larger than the actual JSON data generated) size of the JSON data generated for a PutFile request.
+/// @param file The file to be sent to the module
+/// @return The max possible size of the JSON data
++ (NSUInteger)sdl_getMaxJSONSizeForFile:(SDLFile *)file {
+    SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.persistent systemFile:NO offset:(UInt32)file.fileSize length:(UInt32)file.fileSize bulkData:file.data];
+    putFile.crc = @(MaxCRCValue);
+
+    NSError *JSONSerializationError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[putFile serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&JSONSerializationError];
+    if (JSONSerializationError != nil) {
+        SDLLogW(@"Error attempting to get JSON data for PutFile: %@", putFile);
+        return 0;
+    }
+
+    return jsonData.length;
+}
+
 /**
  Returns the length of the data being sent in the putfile. The first putfile's length is unique in that it sends the full size of the data. For the rest of the putfiles, the length parameter is equal to the size of the chunk of data being sent in the putfile.
 
  @param currentOffset The current position in the file
  @param fileSize The size of the file
- @param mtuSize The maximum packet size allowed
+ @param bulkDataSize The maximum size of the bulk data that can be sent in the PutFile
  @return The the length of the data being sent in the putfile
  */
-+ (NSUInteger)sdl_getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(NSUInteger)fileSize mtuSize:(NSUInteger)mtuSize {
++ (NSUInteger)sdl_getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(NSUInteger)fileSize bulkDataSize:(NSUInteger)bulkDataSize {
     NSUInteger putFileLength = 0;
     if (currentOffset == 0) {
         // The first putfile sends the full file size
         putFileLength = fileSize;
-    } else if ((fileSize - currentOffset) < mtuSize) {
+    } else if ((fileSize - currentOffset) < bulkDataSize) {
         // The last putfile sends the size of the remaining data
         putFileLength = fileSize - currentOffset;
     } else {
         // All other putfiles send the maximum allowed packet size
-        putFileLength = mtuSize;
+        putFileLength = bulkDataSize;
     }
     return putFileLength;
 }
@@ -211,16 +252,16 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param currentOffset The position in the file where to start reading data
  @param fileSize The size of the file
- @param mtuSize The maximum packet size allowed
+ @param bulkDataSize The maximum size of the bulk data that can be sent in the putfile
  @return The size of the data to be sent in the packet.
  */
-+ (NSUInteger)sdl_getDataSizeForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
++ (NSUInteger)sdl_getDataSizeForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize bulkDataSize:(NSUInteger)bulkDataSize {
     NSUInteger dataSize = 0;
     NSUInteger fileSizeRemaining = (NSUInteger)(fileSize - currentOffset);
-    if (fileSizeRemaining < mtuSize) {
+    if (fileSizeRemaining < bulkDataSize) {
         dataSize = fileSizeRemaining;
     } else {
-        dataSize = mtuSize;
+        dataSize = bulkDataSize;
     }
     return dataSize;
 }

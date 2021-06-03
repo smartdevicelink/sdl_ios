@@ -129,12 +129,24 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler NS_SWIFT_NAME(upload(files:progressHandler:completionHandler:));
 
 /**
- *  Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
+ *  Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once an upload request is sent to Core, the queue waits until a response is received from Core before the next upload request is sent.
  *
  *  @param files                An array of SDLFiles to be sent
  *  @param completionHandler    An optional SDLFileManagerMultiUploadCompletionHandler
  */
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler NS_SWIFT_NAME(upload(files:completionHandler:));
+
+/**
+ * Check if an SDLFile needs to be uploaded to Core or not. This method differs from hasUploadedFile() because it takes the `isStaticIcon` and `overwrite` properties into consideration.
+ *
+ * For example, if the file is static icon, the method always returns false.
+ *
+ * If the file is dynamic, it returns true in one of these situations: 1) the file has the overwrite property set to true, 2) the file hasn't been uploaded to Core before.
+ *
+ * @param file the SDLFile that needs to be checked
+ * @return BOOL that tells whether file needs to be uploaded to Core or not
+ */
+- (BOOL)fileNeedsUpload:(nullable SDLFile *)file;
 
 /**
  *  Uploads an artwork file to the remote file system and returns the name of the uploaded artwork once completed. If an artwork with the same name is already on the remote system, the artwork is not uploaded and the artwork name is simply returned.
@@ -145,7 +157,7 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion NS_SWIFT_NAME(upload(artwork:completionHandler:));
 
 /**
- *  Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
+ *  Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once an upload request is sent to Core, the queue waits until a response is received from Core before the next upload request is sent.
  *
  *  @param artworks     An array of SDLArtworks to be sent
  *  @param completion   An optional SDLFileManagerMultiUploadArtworkCompletionHandler
@@ -153,9 +165,9 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)uploadArtworks:(NSArray<SDLArtwork *> *)artworks completionHandler:(nullable SDLFileManagerMultiUploadArtworkCompletionHandler)completion NS_SWIFT_NAME(upload(artworks:completionHandler:));
 
 /**
- *  Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
+ *  Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once an upload request is sent to Core, the queue waits until a response is received from Core before the next upload request is sent.
  *
- *  The optional progress handler can be used to keep track of the upload progress. After each artwork upload, the progress handler returns the artwork name, the upload percentage and an error, if one occured during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.
+ *  The optional progress handler can be used to keep track of the upload progress. After each artwork upload, the progress handler returns the artwork name, the upload percentage and an error, if one occurred during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.
  *
  *  @param artworks         An array of SDLArtworks to be sent
  *  @param progressHandler  An optional SDLFileManagerMultiUploadArtworkProgressHandler

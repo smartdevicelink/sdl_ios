@@ -8,38 +8,44 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol SDLIAPSessionDelegate <NSObject>
 
+- (void)streamsDidOpen;
+- (void)streamsDidEnd;
+- (void)streamHasSpaceToWrite;
+- (void)streamDidError;
+- (void)streamHasBytesAvailable:(NSInputStream *)inputStream;
+
+@end
+/**
+ * Responsible for opening a connection with the accessory and transmitting data to and from the accessory. When the accessory disconnects, the connection is closed.
+ * Once the connection with the accessory is closed, the connection can not be reopened; instead, a new `SDLIAPSession` must be created.
+ */
 @interface SDLIAPSession : NSObject <NSStreamDelegate>
 
 /**
- *  The accessory with which to open a session.
+ *  Starts a session with the accessory.
+ *
+ *  @param accessory    The accessory with which to open a session
+ *  @param protocol     The unique protocol string used to create the session with the accessory
+ *  @return             A SDLIAPSession object
+ */
+- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory forProtocol:(NSString *)protocol iAPSessionDelegate:(id<SDLIAPSessionDelegate>)iAPSessionDelegate;
+
+/**
+ *  The accessory that was used when creating a SLDLIAPSession instance.
  */
 @property (nullable, strong, nonatomic, readonly) EAAccessory *accessory;
 
 /**
- *  The session created between the app and the accessory.
+ *  @returns True if both inputStream and outputStream are open
  */
-@property (nullable, strong, nonatomic, readonly) EASession *eaSession;
+@property(nonatomic, assign, readonly) BOOL bothStreamsOpen;
 
 /**
- *  The unique protocol string used to create the session with the accessory.
+ *  Closes the session's input and output streams. Once closed, the session can not be reopened.
  */
-@property (nullable, strong, nonatomic, readonly) NSString *protocolString;
-
-/**
- *  Returns whether or not both the input and output streams for the session are closed.
- */
-@property (assign, readonly, getter=isStopped) BOOL stopped;
-
-/**
- * The input stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the input stream. The input stream is closed when the stream status is `NSStreamStatusClosed`.
- */
-@property (nonatomic, assign) BOOL isInputStreamOpen;
-
-/**
- * The output stream for the session is open when a `NSStreamEventOpenCompleted` event is received for the output stream. The output stream has been closed when the stream status is `NSStreamStatusClosed`.
- */
-@property (nonatomic, assign) BOOL isOutputStreamOpen;
+- (void)closeSession;
 
 /**
  *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
@@ -47,55 +53,34 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) NSUInteger connectionID;
 
 /**
- *  Returns whether the session has open I/O streams.
+ *  @returns True if the outputStream has space available to write data
+ */
+@property(nonatomic, assign, readonly) BOOL hasSpaceAvailable;
+
+/**
+ *  @returns True if the sessions EAAccessory is connected
+ */
+@property(nonatomic, assign, readonly) BOOL isConnected;
+
+/**
+ *  @returns True if either the inputStream or the outputStream is open
  */
 @property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
 
 /**
- *  Convenience initializer for setting an accessory and protocol string.
+ *  The unique protocol string used to create the session with the accessory.
+ */
+@property (nullable, strong, nonatomic, readonly) NSString *protocolString;
+
+/**
  *
- *  @param accessory    The accessory with which to open a session
- *  @param protocol     The unique protocol string used to create the session with the accessory
- *  @return             A SDLIAPSession object
+ *  @param data  The data written to the EASession outputStream
+ *  @param length The number of data bytes to write
+ *  @param completionHandler  The number of data bytes actually written
  */
-- (instancetype)initWithAccessory:(nullable EAAccessory *)accessory forProtocol:(NSString *)protocol;
-
-/**
- *  Starts a session.
- */
-- (void)startSession;
-
-/// Stops the current session.
-/// @param disconnectCompletionHandler Handler called when the session has been closed
-- (void)destroySessionWithCompletionHandler:(void (^)(void))disconnectCompletionHandler;
-
-/**
- *  Creates a session with the accessory.
- *
- *  @return Whether or not the session was created successfully
- */
-- (BOOL)createSession;
-
-/**
- *  Starts a session input or output stream.
- *
- *  @param stream The stream to be started.
- */
-- (void)startStream:(NSStream *)stream;
-
-/**
- *  Stops a session input or output stream.
- *
- *  @param stream The stream to be stopped.
- */
-- (void)stopStream:(NSStream *)stream;
-
-/**
- *  Cleans up a closed session
- */
-- (void)cleanupClosedSession;
-
+- (void)write:(NSMutableData *)data length:(NSUInteger)length withCompletionHandler:(void (^)(NSInteger bytesWritten))completionHandler;
 
 @end
 
 NS_ASSUME_NONNULL_END
+

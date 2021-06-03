@@ -14,6 +14,7 @@
   <li><a href="#section-helpList">helpList</a></li>
   <li><a href="#section-delegate">delegate</a></li>
   <li><a href="#section-choices">choices</a></li>
+  <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithTitle:delegate:choices:">-initWithTitle:delegate:choices:</a></li>
   <li><a href="#section--initWithTitle:delegate:layout:timeout:initialPromptString:timeoutPromptString:helpPromptString:vrHelpList:choices:">-initWithTitle:delegate:layout:timeout:initialPromptString:timeoutPromptString:helpPromptString:vrHelpList:choices:</a></li>
   <li><a href="#section--initWithTitle:delegate:layout:timeout:initialPrompt:timeoutPrompt:helpPrompt:vrHelpList:choices:">-initWithTitle:delegate:layout:timeout:initialPrompt:timeoutPrompt:helpPrompt:vrHelpList:choices:</a></li>
@@ -30,7 +31,7 @@
       defaultTimeout
   </h3>
   
-  <p>Set this to change the default timeout for all choice sets. If a timeout is not set on an individual choice set object (or if it is set to 0.0), then it will use this timeout instead. See <code><a href="../Classes/SDLChoiceSet.html#/c:objc(cs)SDLChoiceSet(py)timeout">timeout</a></code> for more details. If this is not set by you, it will default to 10 seconds.</p>
+  <p>Set this to change the default timeout for all choice sets. If a timeout is not set on an individual choice set object (or if it is set to 0.0), then it will use this timeout instead. See <code><a href="../Classes/SDLChoiceSet.html#/c:objc(cs)SDLChoiceSet(py)timeout">timeout</a></code> for more details. If this is not set by you, it will default to 10 seconds. The minimum is 5 seconds, the maximum is 100 seconds. If this is set below the minimum, it will be capped at 5 seconds. If this is set above the maximum, it will be capped at 100 seconds.</p>
 
   
   
@@ -120,7 +121,12 @@
       timeout
   </h3>
   
-  <p>Maps to PerformInteraction.timeout. This applies only to a manual selection (not a voice selection, which has its timeout handled by the system). Defaults to <code><a href="../Classes/SDLChoiceSet.html#/c:objc(cs)SDLChoiceSet(cpy)defaultTimeout">defaultTimeout</a></code>.</p>
+  <p>Maps to PerformInteraction.timeout. Timeout in seconds. Defaults to 0, which will use <code><a href="../Classes/SDLChoiceSet.html#/c:objc(cs)SDLChoiceSet(cpy)defaultTimeout">defaultTimeout</a></code>. If this is set below the minimum, it will be capped at 5 seconds. Minimum 5 seconds, maximum 100 seconds. If this is set above the maximum, it will be capped at 100 seconds. Defaults to 0.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This applies only to a manual selection (not a voice selection, which has its timeout handled by the system).
+
+</div>
 
   
   
@@ -228,11 +234,37 @@
   
   
   
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be <code>nil</code>.</p>
+
+<p>WARNING: If you display multiple cells with the same <code>text</code> with the only uniquing property between cells being different <code>vrCommands</code> or a feature that is not displayed on the head unit (e.g. if the head unit doesn&rsquo;t display <code>secondaryArtwork</code> and that&rsquo;s the only uniquing property between two cells) then the cells may appear to be the same to the user in <code>Manual</code> mode. This only applies to RPC connections &gt;= 7.1.0.</p>
+
+<p>WARNING: On &lt; 7.1.0 connections, the <code>text</code> cell will be automatically modified among cells that have the same <code>text</code> when they are preloaded, so they will always appear differently on-screen when they are displayed. <code>cell.uniqueText</code> will be created by appending <code>(2)</code>, <code>(3)</code>, etc.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">()</span></code></pre>
+
+  
+  
+  
   <h3 id="section--initWithTitle:delegate:choices:">
       -initWithTitle:delegate:choices:
   </h3>
   
   <p>Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be <code>nil</code>.</p>
+
+<p>WARNING: If you display multiple cells with the same <code>text</code> with the only uniquing property between cells being different <code>vrCommands</code> or a feature that is not displayed on the head unit (e.g. if the head unit doesn&rsquo;t display <code>secondaryArtwork</code> and that&rsquo;s the only uniquing property between two cells) then the cells may appear to be the same to the user in <code>Manual</code> mode. This only applies to RPC connections &gt;= 7.1.0.</p>
+
+<p>WARNING: On &lt; 7.1.0 connections, the <code>text</code> cell will be automatically modified among cells that have the same <code>text</code> when they are preloaded, so they will always appear differently on-screen when they are displayed. <code>cell.uniqueText</code> will be created by appending <code>(2)</code>, <code>(3)</code>, etc.</p>
 
   
   
@@ -265,6 +297,10 @@
   
   <p>Initializer with all possible properties.</p>
 
+<p>WARNING: If you display multiple cells with the same <code>text</code> with the only uniquing property between cells being different <code>vrCommands</code> or a feature that is not displayed on the head unit (e.g. if the head unit doesn&rsquo;t display <code>secondaryArtwork</code> and that&rsquo;s the only uniquing property between two cells) then the cells may appear to be the same to the user in <code>Manual</code> mode. This only applies to RPC connections &gt;= 7.1.0.</p>
+
+<p>WARNING: On &lt; 7.1.0 connections, the <code>text</code> cell will be automatically modified among cells that have the same <code>text</code> when they are preloaded, so they will always appear differently on-screen when they are displayed. <code>cell.uniqueText</code> will be created by appending <code>(2)</code>, <code>(3)</code>, etc.</p>
+
   
   
   <h4>Objective-C</h4>
@@ -291,7 +327,7 @@
       <dt>layout</dt>
       <dd><p>The layout of choice options (Manual/touch only)</p></dd>
       <dt>timeout</dt>
-      <dd><p>The timeout of a touch interaction (Manual/touch only)</p></dd>
+      <dd><p>The timeout of a touch interaction in seconds (Manual/touch only)</p></dd>
       <dt>initialPrompt</dt>
       <dd><p>A voice prompt spoken to the user when this set is displayed</p></dd>
       <dt>timeoutPrompt</dt>
@@ -313,6 +349,10 @@
   </h3>
   
   <p>Initializer with all possible properties.</p>
+
+<p>WARNING: If you display multiple cells with the same <code>text</code> with the only uniquing property between cells being different <code>vrCommands</code> or a feature that is not displayed on the head unit (e.g. if the head unit doesn&rsquo;t display <code>secondaryArtwork</code> and that&rsquo;s the only uniquing property between two cells) then the cells may appear to be the same to the user in <code>Manual</code> mode. This only applies to RPC connections &gt;= 7.1.0.</p>
+
+<p>WARNING: On &lt; 7.1.0 connections, the <code>text</code> cell will be automatically modified among cells that have the same <code>text</code> when they are preloaded, so they will always appear differently on-screen when they are displayed. <code>cell.uniqueText</code> will be created by appending <code>(2)</code>, <code>(3)</code>, etc.</p>
 
   
   
@@ -340,7 +380,7 @@
       <dt>layout</dt>
       <dd><p>The layout of choice options (Manual/touch only)</p></dd>
       <dt>timeout</dt>
-      <dd><p>The timeout of a touch interaction (Manual/touch only)</p></dd>
+      <dd><p>The timeout of a touch interaction in seconds (Manual/touch only)</p></dd>
       <dt>initialPrompt</dt>
       <dd><p>A voice prompt spoken to the user when this set is displayed</p></dd>
       <dt>timeoutPrompt</dt>

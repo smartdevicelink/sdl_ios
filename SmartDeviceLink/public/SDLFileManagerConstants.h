@@ -16,11 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString SDLFileName;
 
 /**
- *  A completion handler called after a response from Core to a upload request.
+ *  A completion handler called after a response from Core to an upload request.
  *
  *  @param success              Whether or not the upload was successful
  *  @param bytesAvailable       The amount of space left for files on Core
- *  @param error                The error that occurred during the request if one occurred, nil if no error occured
+ *  @param error                The error that occurred during the request if one occurred, nil if no error occurred
  */
 typedef void (^SDLFileManagerUploadCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 
@@ -36,7 +36,7 @@ typedef void(^SDLFileManagerMultiUploadCompletionHandler)(NSError *__nullable er
  *
  *  @param fileName             The name of the file that received a response from SDL Core
  *  @param uploadPercentage     The percentage of uploaded data. The upload percentage is calculated as the total file size of all attempted file uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
- *  @param error                The error that occurred during the request if one occurred, nil if no error occured
+ *  @param error                The error that occurred during the request if one occurred, nil if no error occurred
  *  @return                     Return NO to cancel any requests that have not yet been sent. Return YES to continue sending requests
  */
 typedef BOOL (^SDLFileManagerMultiUploadProgressHandler)(SDLFileName *fileName, float uploadPercentage, NSError *__nullable error);
@@ -46,7 +46,7 @@ typedef BOOL (^SDLFileManagerMultiUploadProgressHandler)(SDLFileName *fileName, 
  *
  *  @param success              Whether or not the delete was successful
  *  @param bytesAvailable       The amount of space left for files on Core
- *  @param error                The error that occurred during the request if one occurred, nil if no error occured
+ *  @param error                The error that occurred during the request if one occurred, nil if no error occurred
  */
 typedef void (^SDLFileManagerDeleteCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 
@@ -63,12 +63,12 @@ typedef void(^SDLFileManagerMultiDeleteCompletionHandler)(NSError *__nullable er
  *  @param success              Whether or not the list files request was successful
  *  @param bytesAvailable       The amount of space available for files on Core
  *  @param fileNames            The names of the files stored on SDL Core
- *  @param error                The error that occurred during the request if one occurred, nil if no error occured
+ *  @param error                The error that occurred during the request if one occurred, nil if no error occurred
  */
 typedef void (^SDLFileManagerListFilesCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *fileNames, NSError *__nullable error);
 
 /**
- *  A completion handler called after a response from Core to a artwork upload request.
+ *  A completion handler called after a response from Core to an artwork upload request.
  *
  *  @param success             Whether or not the upload was successful
  *  @param artworkName         The unique identifier for the uploaded file.
@@ -90,7 +90,7 @@ typedef void (^SDLFileManagerMultiUploadArtworkCompletionHandler)(NSArray<NSStri
  *
  *  @param artworkName      The unique identifier for the uploaded file
  *  @param uploadPercentage The percentage of uploaded data. The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
- *  @param error            The error that occurred during the upload request if one occurred, nil if no error occured
+ *  @param error            The error that occurred during the upload request if one occurred, nil if no error occurred
  *
  *  @return                 Return NO to cancel any artworks that have not yet been sent. Return YES to continue sending artworks
  */

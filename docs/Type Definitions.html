@@ -3,7 +3,9 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section-SDLAlertCanceledHandler">SDLAlertCanceledHandler</a></li>
   <li><a href="#section-SDLAmbientLightStatus">SDLAmbientLightStatus</a></li>
+  <li><a href="#section-SDLAppCapabilityType">SDLAppCapabilityType</a></li>
   <li><a href="#section-SDLAppHMIType">SDLAppHMIType</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></li>
   <li><a href="#section-SDLAppServiceType">SDLAppServiceType</a></li>
@@ -28,6 +30,7 @@
   <li><a href="#section-SDLDisplayMode">SDLDisplayMode</a></li>
   <li><a href="#section-SDLDisplayType">SDLDisplayType</a></li>
   <li><a href="#section-SDLDistanceUnit">SDLDistanceUnit</a></li>
+  <li><a href="#section-SDLDoorStatusType">SDLDoorStatusType</a></li>
   <li><a href="#section-SDLDriverDistractionState">SDLDriverDistractionState</a></li>
   <li><a href="#section-SDLECallConfirmationStatus">SDLECallConfirmationStatus</a></li>
   <li><a href="#section-SDLElectronicParkBrakeStatus">SDLElectronicParkBrakeStatus</a></li>
@@ -61,6 +64,7 @@
   <li><a href="#section-SDLKeyboardAutoCompleteResultsHandler">SDLKeyboardAutoCompleteResultsHandler</a></li>
   <li><a href="#section-SDLKeyboardCharacterSetCompletionHandler">SDLKeyboardCharacterSetCompletionHandler</a></li>
   <li><a href="#section-SDLKeyboardEvent">SDLKeyboardEvent</a></li>
+  <li><a href="#section-SDLKeyboardInputMask">SDLKeyboardInputMask</a></li>
   <li><a href="#section-SDLKeyboardLayout">SDLKeyboardLayout</a></li>
   <li><a href="#section-SDLKeypressMode">SDLKeypressMode</a></li>
   <li><a href="#section-SDLLanguage">SDLLanguage</a></li>
@@ -114,6 +118,7 @@
   <li><a href="#section-SDLPreloadChoiceCompletionHandler">SDLPreloadChoiceCompletionHandler</a></li>
   <li><a href="#section-SDLSubscribeButtonHandler">SDLSubscribeButtonHandler</a></li>
   <li><a href="#section-SDLSeatMemoryActionType">SDLSeatMemoryActionType</a></li>
+  <li><a href="#section-SDLSeekIndicatorType">SDLSeekIndicatorType</a></li>
   <li><a href="#section-SDLServiceUpdateReason">SDLServiceUpdateReason</a></li>
   <li><a href="#section-SDLSoftButtonType">SDLSoftButtonType</a></li>
   <li><a href="#section-SDLSpeechCapabilities">SDLSpeechCapabilities</a></li>
@@ -164,6 +169,24 @@
 
 
 <section class="section task-group-section">
+  <h3 id="section-SDLAlertCanceledHandler">
+      SDLAlertCanceledHandler
+  </h3>
+  
+  <p>Notifies the subscriber that the alert should be cancelled.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLAlertCanceledHandler</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLAlertCanceledHandler</span> <span class="o">=</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLAmbientLightStatus">
       SDLAmbientLightStatus
   </h3>
@@ -180,6 +203,26 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAmbientLightStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppCapabilityType">
+      SDLAppCapabilityType
+  </h3>
+  
+  <p>Enumerations of all available app capability types</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLAppCapabilityType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAppCapabilityType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -664,6 +707,24 @@
   
   
   
+  <h3 id="section-SDLDoorStatusType">
+      SDLDoorStatusType
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLDoorStatusType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDoorStatusType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDriverDistractionState">
       SDLDriverDistractionState
   </h3>
@@ -820,7 +881,7 @@ This is for internal use only.</p>
       SDLFileManagerUploadCompletionHandler
   </h3>
   
-  <p>A completion handler called after a response from Core to a upload request.</p>
+  <p>A completion handler called after a response from Core to an upload request.</p>
 
   
   
@@ -841,7 +902,7 @@ This is for internal use only.</p>
       <dt>bytesAvailable</dt>
       <dd><p>The amount of space left for files on Core</p></dd>
       <dt>error</dt>
-      <dd><p>The error that occurred during the request if one occurred, nil if no error occured</p></dd>
+      <dd><p>The error that occurred during the request if one occurred, nil if no error occurred</p></dd>
   </dl>
   
   <h3 id="section-SDLFileManagerMultiUploadCompletionHandler">
@@ -893,7 +954,7 @@ This is for internal use only.</p>
       <dt>uploadPercentage</dt>
       <dd><p>The percentage of uploaded data. The upload percentage is calculated as the total file size of all attempted file uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files</p></dd>
       <dt>error</dt>
-      <dd><p>The error that occurred during the request if one occurred, nil if no error occured</p></dd>
+      <dd><p>The error that occurred during the request if one occurred, nil if no error occurred</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -925,7 +986,7 @@ This is for internal use only.</p>
       <dt>bytesAvailable</dt>
       <dd><p>The amount of space left for files on Core</p></dd>
       <dt>error</dt>
-      <dd><p>The error that occurred during the request if one occurred, nil if no error occured</p></dd>
+      <dd><p>The error that occurred during the request if one occurred, nil if no error occurred</p></dd>
   </dl>
   
   <h3 id="section-SDLFileManagerMultiDeleteCompletionHandler">
@@ -978,14 +1039,14 @@ This is for internal use only.</p>
       <dt>fileNames</dt>
       <dd><p>The names of the files stored on SDL Core</p></dd>
       <dt>error</dt>
-      <dd><p>The error that occurred during the request if one occurred, nil if no error occured</p></dd>
+      <dd><p>The error that occurred during the request if one occurred, nil if no error occurred</p></dd>
   </dl>
   
   <h3 id="section-SDLFileManagerUploadArtworkCompletionHandler">
       SDLFileManagerUploadArtworkCompletionHandler
   </h3>
   
-  <p>A completion handler called after a response from Core to a artwork upload request.</p>
+  <p>A completion handler called after a response from Core to an artwork upload request.</p>
 
   
   
@@ -1064,7 +1125,7 @@ This is for internal use only.</p>
       <dt>uploadPercentage</dt>
       <dd><p>The percentage of uploaded data. The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files</p></dd>
       <dt>error</dt>
-      <dd><p>The error that occurred during the upload request if one occurred, nil if no error occured</p></dd>
+      <dd><p>The error that occurred during the upload request if one occurred, nil if no error occurred</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
@@ -1398,6 +1459,26 @@ This is for internal use only.</p>
   
   
   
+  <h3 id="section-SDLKeyboardInputMask">
+      SDLKeyboardInputMask
+  </h3>
+  
+  <p>Enumeration listing possible input character masking.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLKeyboardInputMask</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLKeyboardInputMask</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLKeyboardLayout">
       SDLKeyboardLayout
   </h3>
@@ -1567,7 +1648,7 @@ This is for internal use only.</p>
       SDLMaintenanceModeStatus
   </h3>
   
-  <p>Describes the maintenence mode. Used in nothing.</p>
+  <p>Describes the maintenance mode. Used in nothing.</p>
 
   
   
@@ -2528,6 +2609,24 @@ c = character <br></p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSeatMemoryActionType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeekIndicatorType">
+      SDLSeekIndicatorType
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLSeekIndicatorType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSeekIndicatorType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   

@@ -108,7 +108,6 @@ extern NSString * const ACElectronicParkBrakeStatus;
 extern NSString * const ACEmergencyEventMenuName;
 extern NSString * const ACEngineOilLifeMenuName;
 extern NSString * const ACEngineTorqueMenuName;
-extern NSString * const ACExternalTemperatureMenuName;
 extern NSString * const ACFuelLevelMenuName;
 extern NSString * const ACFuelLevelStateMenuName;
 extern NSString * const ACFuelRangeMenuName;

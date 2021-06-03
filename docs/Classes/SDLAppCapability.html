@@ -1,0 +1,112 @@
+<h1>SDLAppCapability Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithAppCapabilityType:">-initWithAppCapabilityType:</a></li>
+  <li><a href="#section--initWithAppCapabilityType:videoStreamingCapability:">-initWithAppCapabilityType:videoStreamingCapability:</a></li>
+  <li><a href="#section-appCapabilityType">appCapabilityType</a></li>
+  <li><a href="#section-videoStreamingCapability">videoStreamingCapability</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithAppCapabilityType:">
+      -initWithAppCapabilityType:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppCapabilityType</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span><span class="p">)</span><span class="nv">appCapabilityType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appCapabilityType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appCapabilityType</dt>
+      <dd><p>- appCapabilityType</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppCapability object</p>
+  </div>
+  
+  <h3 id="section--initWithAppCapabilityType:videoStreamingCapability:">
+      -initWithAppCapabilityType:videoStreamingCapability:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithAppCapabilityType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span><span class="p">)</span><span class="nv">appCapabilityType</span>
+     <span class="nf">videoStreamingCapability</span><span class="p">:</span>
+         <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">videoStreamingCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appCapabilityType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span><span class="p">,</span> <span class="nv">videoStreamingCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appCapabilityType</dt>
+      <dd><p>- appCapabilityType</p></dd>
+      <dt>videoStreamingCapability</dt>
+      <dd><p>- videoStreamingCapability</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppCapability object</p>
+  </div>
+  
+  <h3 id="section-appCapabilityType">
+      appCapabilityType
+  </h3>
+  
+  <p>Used as a descriptor of what data to expect in this struct. The corresponding param to this enum should be included and the only other param included.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span> <span class="n">_Nonnull</span> <span class="n">appCapabilityType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appCapabilityType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-videoStreamingCapability">
+      videoStreamingCapability
+  </h3>
+  
+  <p>Describes supported capabilities for video streaming</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="n">videoStreamingCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">videoStreamingCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

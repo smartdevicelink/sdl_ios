@@ -22,6 +22,7 @@
 #import "SDLPutFile.h"
 #import "SDLStateMachine.h"
 #import "SDLUploadFileOperation.h"
+#import "SDLVersion.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -177,9 +178,14 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
         // If there was an error, we'll pass the error to the startup handler and cancel out
         if (error != nil) {
-            // HAX: In the case we are DISALLOWED we still want to transition to a ready state. Some head units return DISALLOWED for this RPC but otherwise work.
-            if([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
+            if ([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultDisallowed]) {
+                // HAX: In the case we are DISALLOWED we still want to transition to a ready state. Some head units return DISALLOWED for this RPC but otherwise work.
                 SDLLogW(@"ListFiles is disallowed. Certain file manager APIs may not work properly.");
+                [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
+                BLOCK_RETURN;
+            } else if ([error.userInfo[@"resultCode"] isEqualToEnum:SDLResultEncryptionNeeded]) {
+                // If the module rejects the ListFiles request because it requires that the request be encrypted, we still want to transition to a ready state. Unfortunately, since we do not know what files are on the module already, we may end up doing unnecessary duplicate file uploads.
+                SDLLogE(@"ListFiles must be encrypted but was not when the file manager started. We do not know which files have already been uploaded to the module. All files will need to be re-uploaded. Certain file manager APIs may not work properly.");
                 [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
                 BLOCK_RETURN;
             }
@@ -282,15 +288,20 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (BOOL)hasUploadedFile:(SDLFile *)file {
     // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly.
-    if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
-        // If it's a persistant file, the bug won't present itself; just check if it's on the remote system
-        return true;
-    } else if (!file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
-        // If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
-        return true;
+    if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
+        if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
+            // HAX: If it's a persistent file, the bug won't present itself; just check if it's on the remote system
+            return YES;
+        } else if (!file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
+            // HAX: If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
+            return YES;
+        }
+    } else if ([self.remoteFileNames containsObject:file.name]) {
+        // If not connected to a system where the bug presents itself, we can trust the `remoteFileNames`
+        return YES;
     }
 
-    return false;
+    return NO;
 }
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
@@ -377,9 +388,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return;
     }
 
-    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not.
-    if (!file.persistent && ![self hasUploadedFile:file]) {
-        file.overwrite = true;
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not. This is only needed if connecting to Core v4.3.1 or less which corresponds to RPC v4.3.1 or less
+    if (!file.persistent && ![self hasUploadedFile:file] && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
+        file.overwrite = YES;
     }
 
     // Check our overwrite settings and error out if it would overwrite
@@ -425,6 +436,12 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 #pragma mark Artworks
+
+- (BOOL)fileNeedsUpload:(nullable SDLFile *)file {
+    if (file == nil || file.isStaticIcon) { return NO; }
+
+    return (file.overwrite || ![self hasUploadedFile:file]);
+}
 
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
     __weak typeof(self) weakself = self;
