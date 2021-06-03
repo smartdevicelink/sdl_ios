@@ -322,10 +322,6 @@ describe(@"a preload choices operation", ^{
 
             describe(@"if a choice item is removed", ^{
                 it(@"should be removed if the removal is attempted while the operation is pending", ^{
-                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
-                    primaryTextField.name = SDLTextFieldNameMenuName;
-                    windowCapability.textFields = @[primaryTextField];
-
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp removeChoicesFromUpload:[NSSet setWithArray:@[testCell1]]];
                     [testOp start];
@@ -379,10 +375,6 @@ describe(@"a preload choices operation", ^{
 
             context(@"when a bad response comes back", ^{
                  it(@"should add the choiceID of the failed choice item to the failedChoiceUploadIDs array", ^{
-                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
-                    primaryTextField.name = SDLTextFieldNameMenuName;
-                    windowCapability.textFields = @[primaryTextField];
-
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
@@ -403,10 +395,6 @@ describe(@"a preload choices operation", ^{
 
             context(@"when only good responses comes back", ^{
                 it(@"should leave the failedChoiceUploadIDs array empty", ^{
-                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
-                    primaryTextField.name = SDLTextFieldNameMenuName;
-                    windowCapability.textFields = @[primaryTextField];
-
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {}];
                     [testOp start];
 
