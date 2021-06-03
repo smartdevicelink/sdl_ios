@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (error != nil) {
             errors[request] = error;
             SDLCreateInteractionChoiceSet *sentRequest = (SDLCreateInteractionChoiceSet *)request;
-            [self.failedChoiceUploadIDs insertObject:sentRequest.choiceSet.firstObject.choiceID atIndex:0];
+            [self.failedChoiceUploadIDs addObject:sentRequest.choiceSet.firstObject.choiceID];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
