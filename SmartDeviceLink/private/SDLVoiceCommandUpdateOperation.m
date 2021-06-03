@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommand()
 
 @property (assign, nonatomic) UInt32 commandId;
+@property (copy, nonatomic, readwrite, nullable) SDLVoiceCommandSelectionHandler handler;
 
 @end
 
@@ -56,6 +57,14 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    // Check if a voiceCommand has already been uploaded and update its handler to prevent calling the wrong listener in a case where a voice command was uploaded and then its handler was updated without any changes to the voice command strings in a later update.
+    for (SDLVoiceCommand *voiceCommand in self.pendingVoiceCommands) {
+        NSUInteger index = [self.currentVoiceCommands indexOfObject:voiceCommand];
+        if (index != NSNotFound) {
+            self.currentVoiceCommands[index].handler = voiceCommand.handler;
+        }
+    }
+
     __weak typeof(self) weakSelf = self;
     [self sdl_sendDeleteCurrentVoiceCommands:^{
         // If the operation has been canceled, then don't send the new commands and finish the operation
@@ -71,17 +80,25 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+#pragma mark - Setters
+
+- (void)setOldVoiceCommands:(nullable NSArray<SDLVoiceCommand *> *)oldVoiceCommands {
+    _oldVoiceCommands = oldVoiceCommands;
+    _currentVoiceCommands = [oldVoiceCommands mutableCopy];
+}
+
 #pragma mark - Sending RPCs
 
 /// Send DeleteCommand RPCs for voice commands that should be deleted
 /// @param completionHandler A handler called when all DeleteCommands have completed
 - (void)sdl_sendDeleteCurrentVoiceCommands:(void(^)(void))completionHandler {
-    if (self.oldVoiceCommands.count == 0) {
+    NSArray *voiceCommandsToDelete = [self.class sdl_voiceCommandsInArray:self.oldVoiceCommands notInSecondArray:self.pendingVoiceCommands];
+    if (voiceCommandsToDelete.count == 0) {
         SDLLogD(@"No voice commands to delete");
         return completionHandler();
     }
 
-    NSArray<SDLDeleteCommand *> *deleteVoiceCommands = [self sdl_deleteCommandsForVoiceCommands:self.oldVoiceCommands];
+    NSArray<SDLDeleteCommand *> *deleteVoiceCommands = [self sdl_deleteCommandsForVoiceCommands:voiceCommandsToDelete];
     __block NSMutableDictionary<SDLDeleteCommand *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequests:deleteVoiceCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -109,12 +126,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// Send AddCommand RPCs for voice commands that should be added
 /// @param completionHandler A handler called when all AddCommands have completed
 - (void)sdl_sendCurrentVoiceCommands:(void(^)(void))completionHandler {
-    if (self.pendingVoiceCommands.count == 0) {
+    NSArray *voiceCommandsToAdd = [self.class sdl_voiceCommandsInArray:self.pendingVoiceCommands notInSecondArray:self.oldVoiceCommands];
+    if (voiceCommandsToAdd.count == 0) {
         SDLLogD(@"No voice commands to send");
         return completionHandler();
     }
 
-    NSArray<SDLAddCommand *> *addCommandsToSend = [self sdl_addCommandsForVoiceCommands:self.pendingVoiceCommands];
+    NSArray<SDLAddCommand *> *addCommandsToSend = [self sdl_addCommandsForVoiceCommands:voiceCommandsToAdd];
     __block NSMutableDictionary<SDLAddCommand *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequests:addCommandsToSend progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -171,6 +189,18 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return [mutableCommands copy];
+}
+
+/// Create array of SDLVoiceCommands that exist in the first array but not in the second array. Items in the second array that are not in the first array will not be included. For example, if the arrays [A, B, C] and [A, B, D] are passed, the array [C] will be returned.
+/// @param firstArray voiceCommands that will be compared with
+/// @param secondArray voiceCommands that need to be compared
+/// @return unique voiceCommands to be used either in deleteVoiceCommands or sendVoiceCommands
++ (NSArray<SDLVoiceCommand *> *)sdl_voiceCommandsInArray:(NSArray<SDLVoiceCommand *> *)firstArray notInSecondArray:(NSArray<SDLVoiceCommand *> *)secondArray {
+    if (secondArray.count == 0) { return firstArray; }
+
+    NSMutableArray<SDLVoiceCommand *> *differenceArray = [firstArray mutableCopy];
+    [differenceArray removeObjectsInArray:secondArray];
+    return [differenceArray copy];
 }
 
 #pragma mark - Managing list of commands on head unit
