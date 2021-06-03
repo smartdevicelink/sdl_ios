@@ -287,10 +287,11 @@ UInt16 const ChoiceCellCancelIdMax = 200;
                 [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
                 [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
             } else {
-                NSMutableSet *successfulChoiceUploads = [NSMutableSet setWithSet:choicesToUpload.set];
+                // If some choices failed, remove the failed choices from the successful ones, then update the preloaded choices and pending choices
+                NSMutableSet<SDLChoiceCell *> *successfulChoiceUploads = [NSMutableSet setWithSet:choicesToUpload.set];
                 [successfulChoiceUploads minusSet:failedChoiceUploadSet];
 
-                [strongSelf.preloadedMutableChoices unionSet:[successfulChoiceUploads copy]];
+                [strongSelf.preloadedMutableChoices unionSet:successfulChoiceUploads];
                 [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
             }
         }];
@@ -398,7 +399,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:^(NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
-            SDLLogE(@"Error preloading choice cells. Aborting presentation.");
+            SDLLogE(@"Error preloading choice cells for choice set presentation; aborting. Error: %@", error);
             [choiceSet.delegate choiceSet:choiceSet didReceiveError:error];
             return;
         }
@@ -408,6 +409,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             return;
         }
 
+        // The cells necessary for this presentation are now preloaded, so we will enqueue a presentation
         [strongSelf sdl_presentChoiceSetWithMode:mode keyboardDelegate:delegate];
     }];
 }

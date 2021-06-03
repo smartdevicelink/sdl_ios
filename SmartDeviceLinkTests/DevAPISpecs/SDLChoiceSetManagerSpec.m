@@ -626,7 +626,7 @@ describe(@"choice set manager tests", ^{
                 });
             });
 
-            it(@"It should skip preloading the choices if all choice items have already been uploaded", ^{
+            it(@"should skip preloading the choices if all choice items have already been uploaded", ^{
                 OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
                     SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
                     expect(testManager.pendingMutablePreloadChoices.count).to(equal(3));
@@ -677,7 +677,7 @@ describe(@"choice set manager tests", ^{
                 OCMVerifyAllWithDelay(choiceDelegate, 0.5);
             });
 
-            it(@"It should upload choices that failed to upload in previous presentations", ^{
+            it(@"should upload choices that failed to upload in previous presentations", ^{
                 NSMutableDictionary<SDLRPCRequest *, NSError *> *testErrors = [NSMutableDictionary dictionary];
                 SDLCreateInteractionChoiceSet *failedChoiceSet = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:1 menuName:@"1" vrCommands:nil]]];
                 testErrors[failedChoiceSet] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];

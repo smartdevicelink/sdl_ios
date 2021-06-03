@@ -320,7 +320,7 @@ describe(@"a preload choices operation", ^{
                 testCells = [[NSOrderedSet alloc] initWithArray:@[testCell1, testCell2]];
             });
 
-            context(@"if a choice item is removed", ^{
+            describe(@"if a choice item is removed", ^{
                 it(@"should be removed if the removal is attempted while the operation is pending", ^{
                     SDLTextField *primaryTextField = [[SDLTextField alloc] init];
                     primaryTextField.name = SDLTextFieldNameMenuName;
@@ -354,7 +354,7 @@ describe(@"a preload choices operation", ^{
             });
         });
 
-        context(@"the module's response to choice uploads", ^{
+        describe(@"the module's response to choice uploads", ^{
             __block SDLChoiceCell *testCell1 = nil;
             __block SDLChoiceCell *testCell2 = nil;
             __block NSOrderedSet<SDLChoiceCell *> *testCells = nil;

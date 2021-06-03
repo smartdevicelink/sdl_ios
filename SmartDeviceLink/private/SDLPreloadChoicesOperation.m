@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (copy, nonatomic, nullable) NSError *internalError;
-@property (strong, nonatomic, nullable) NSMutableArray<NSNumber *> *failedChoiceUploadIDs;
+@property (strong, nonatomic) NSMutableArray<NSNumber *> *failedChoiceUploadIDs;
 
 @end
 
