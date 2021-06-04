@@ -8,38 +8,19 @@
 
 #import "SDLChoiceSetManager.h"
 
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLCheckChoiceVROptionalOperation.h"
-#import "SDLChoice.h"
-#import "SDLChoiceCell.h"
-#import "SDLChoiceSet.h"
-#import "SDLChoiceSetDelegate.h"
-#import "SDLConnectionManagerType.h"
-#import "SDLCreateInteractionChoiceSet.h"
-#import "SDLCreateInteractionChoiceSetResponse.h"
 #import "SDLDeleteChoicesOperation.h"
-#import "SDLDisplayCapability.h"
 #import "SDLError.h"
-#import "SDLFileManager.h"
 #import "SDLGlobals.h"
-#import "SDLHMILevel.h"
-#import "SDLKeyboardProperties.h"
-#import "SDLLogMacros.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLPerformInteraction.h"
-#import "SDLPerformInteractionResponse.h"
-#import "SDLPredefinedWindows.h"
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
 #import "SDLPresentKeyboardOperation.h"
-#import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
-#import "SDLSetDisplayLayoutResponse.h"
 #import "SDLStateMachine.h"
-#import "SDLSystemCapability.h"
-#import "SDLSystemCapabilityManager.h"
 #import "SDLVersion.h"
-#import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -55,6 +36,11 @@ typedef NSNumber * SDLChoiceId;
 
 @property (assign, nonatomic) UInt16 choiceId;
 @property (strong, nonatomic, readwrite) NSString *uniqueText;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *artwork;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
 
 @end
 
@@ -491,16 +477,65 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 /// @param choices The choices to be uploaded
 /// @return The choices that have not yet been uploaded to the module
 - (NSMutableOrderedSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableOrderedSet<SDLChoiceCell *> *choicesSet = [[NSMutableOrderedSet alloc] initWithArray:choices];
+    NSMutableOrderedSet<SDLChoiceCell *> *choicesCopy = [[NSMutableOrderedSet alloc] initWithArray:choices copyItems:YES];
 
-    // If we're running on a connection < RPC 7.1, we need to de-duplicate cells because presenting them will fail if we have the same cell primary text.
     SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:choiceUniquenessSupportedVersion]) {
-        [self sdl_addUniqueNamesToCells:choicesSet];
+        // If we're on < RPC 7.1, all primary texts need to be unique, so we don't need to check removed properties and duplicate cells
+        [self sdl_addUniqueNamesToCells:choicesCopy];
+    } else {
+        // On > RPC 7.1, at this point all cells are unique when considering all properties, but we also need to check if any cells will _appear_ as duplicates when displayed on the screen. To check that, we'll remove properties from the set cells based on the system capabilities (we probably don't need to consider them changing between now and when they're actually sent to the HU) and check for uniqueness again. Then we'll add unique identifiers to primary text if there are duplicates. Then we transfer the primary text identifiers back to the main cells and add those to an operation to be sent.
+        NSMutableOrderedSet<SDLChoiceCell *> *strippedCellsCopy = [self sdl_removeUnusedProperties:choicesCopy];
+        [self sdl_addUniqueNamesBasedOnStrippedCells:strippedCellsCopy toUnstrippedCells:choicesCopy];
     }
-    [choicesSet minusSet:self.preloadedChoices];
+    [choicesCopy minusSet:self.preloadedChoices];
 
-    return choicesSet;
+    return choicesCopy;
+}
+
+- (NSMutableOrderedSet<SDLChoiceCell *> *)sdl_removeUnusedProperties:(NSMutableOrderedSet<SDLChoiceCell *> *)choiceCells {
+    NSMutableOrderedSet<SDLChoiceCell *> *strippedCellsCopy = [[NSMutableOrderedSet alloc] initWithOrderedSet:choiceCells copyItems:YES];
+    for (SDLChoiceCell *cell in strippedCellsCopy) {
+        // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
+        cell.voiceCommands = nil;
+
+        // Don't check SDLImageFieldNameSubMenuIcon because it was added in 7.0 when the feature was added in 5.0. Just assume that if CommandIcon is not available, the submenu icon is not either.
+        if (![self.currentWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
+            cell.artwork = nil;
+        }
+        if (![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText]) {
+            cell.secondaryText = nil;
+        }
+        if (![self.currentWindowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText]) {
+            cell.tertiaryText = nil;
+        }
+        if (![self.currentWindowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]) {
+            cell.secondaryArtwork = nil;
+        }
+    }
+
+    return strippedCellsCopy;
+}
+
+- (void)sdl_addUniqueNamesBasedOnStrippedCells:(NSMutableOrderedSet<SDLChoiceCell *> *)strippedCells toUnstrippedCells:(NSMutableOrderedSet<SDLChoiceCell *> *)unstrippedCells {
+    NSParameterAssert(strippedCells.count == unstrippedCells.count);
+    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
+    NSMutableDictionary<SDLChoiceCell *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    for (NSUInteger i = 0; i < strippedCells.count; i++) {
+        SDLChoiceCell *cell = strippedCells[i];
+        NSNumber *counter = dictCounter[cell];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[cell] = counter;
+        } else {
+            dictCounter[cell] = @1;
+        }
+
+        counter = dictCounter[cell];
+        if (counter.intValue > 1) {
+            unstrippedCells[i].uniqueText = [NSString stringWithFormat: @"%@ (%d)", unstrippedCells[i].text, counter.intValue];
+        }
+    }
 }
 
 /// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".

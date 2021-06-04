@@ -19,6 +19,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 cellId;
 @property (strong, nonatomic, readwrite) NSString *uniqueTitle;
 
+@property (copy, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *icon;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+@property (copy, nonatomic, readwrite, nullable) SDLMenuCellSelectionHandler handler;
+
 @end
 
 @implementation SDLMenuCell
@@ -73,10 +82,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", unique title: %@, artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, ([_title isEqualToString:_uniqueTitle] ? @"NO" : _uniqueTitle),  _icon.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
+    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\" | \"%@\" | \"%@\", unique title: %@, artworkNames: %@ | %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, _secondaryText, _tertiaryText, ([_title isEqualToString:_uniqueTitle] ? @"NO" : _uniqueTitle), _icon.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO"), _submenuLayout];
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\" | \"%@\" | \"%@\", unique title: %@, artworkNames: %@ | %@, voice commands: %@, parentCellId: %@, subcells: %@, submenuLayout: %@", (unsigned int)_cellId, _title, _secondaryText, _tertiaryText, ([_title isEqualToString:_uniqueTitle] ? @"NO" : _uniqueTitle), _icon.name, _secondaryArtwork.name, _voiceCommands, (_parentCellId != UINT32_MAX ? @(_parentCellId) : @"NO"), _subCells, _submenuLayout];
 }
 
 #pragma mark - Object Equality
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLMenuCell *newCell = [[SDLMenuCell allocWithZone:zone] initWithTitle:_title secondaryText:_secondaryText tertiaryText:_tertiaryText icon:_icon secondaryArtwork:_secondaryArtwork voiceCommands:_voiceCommands handler:_handler];
+
+    if (_subCells.count > 0) {
+        newCell.subCells = [[NSArray alloc] initWithArray:_subCells copyItems:YES];
+    }
+
+    return newCell;
+}
 
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)

@@ -50,6 +50,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt32 cellId;
 @property (strong, nonatomic, readwrite) NSString *uniqueTitle;
 
+@property (copy, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *icon;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+@property (copy, nonatomic, readwrite, nullable) SDLMenuCellSelectionHandler handler;
+
 @end
 
 @interface SDLMenuManager()
@@ -161,8 +170,9 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
+    NSArray<SDLMenuCell *> *menuCellsCopy = [[NSArray alloc] initWithArray:menuCells copyItems:YES];
     // Check for cell lists with completely duplicate information, or any duplicate voiceCommands and return if it fails (logs are in the called method).
-    if (![self sdl_menuCellsAreUnique:menuCells allVoiceCommands:[NSMutableArray array]]) { return; }
+    if (![self sdl_menuCellsAreUnique:menuCellsCopy allVoiceCommands:[NSMutableArray array]]) { return; }
 
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
@@ -172,17 +182,20 @@ UInt32 const MenuCellIdMin = 1;
         self.waitingUpdateMenuCells = menuCells;
         return;
     }
-
     self.waitingOnHMIUpdate = NO;
 
-    // If connected over RPC < 7.1, append unique identifiers to cell titles that are duplicates even if other properties are identical
     SDLVersion *menuUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:menuUniquenessSupportedVersion]) {
-        [self sdl_addUniqueNamesToCells:menuCells];
+        // If we're on < RPC 7.1, all primary texts need to be unique, so we don't need to check removed properties and duplicate cells
+        [self sdl_addUniqueNamesToCellsWithDuplicatePrimaryText:menuCellsCopy];
+    } else {
+        // On > RPC 7.1, at this point all cells are unique when considering all properties, but we also need to check if any cells will _appear_ as duplicates when displayed on the screen. To check that, we'll remove properties from the set cells based on the system capabilities (we probably don't need to consider them changing between now and when they're actually sent to the HU unless the menu layout changes) and check for uniqueness again. Then we'll add unique identifiers to primary text if there are duplicates. Then we transfer the primary text identifiers back to the main cells and add those to an operation to be sent.
+        NSArray<SDLMenuCell *> *strippedCellsCopy = [self sdl_removeUnusedProperties:menuCellsCopy];
+        [self sdl_addUniqueNamesBasedOnStrippedCells:strippedCellsCopy toUnstrippedCells:menuCellsCopy];
     }
 
     _oldMenuCells = _menuCells;
-    _menuCells = menuCells;
+    _menuCells = menuCellsCopy;
 
     if ([self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) {
         [self sdl_startDynamicMenuUpdate];
@@ -519,10 +532,48 @@ UInt32 const MenuCellIdMin = 1;
     }
 }
 
+- (NSArray<SDLMenuCell *> *)sdl_removeUnusedProperties:(NSArray<SDLMenuCell *> *)menuCells {
+    NSArray<SDLMenuCell *> *removePropertiesCopy = [[NSArray alloc] initWithArray:menuCells copyItems:YES];
+    for (SDLMenuCell *cell in removePropertiesCopy) {
+        // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
+        cell.voiceCommands = nil;
+
+        // Don't check SDLImageFieldNameSubMenuIcon because it was added in 7.0 when the feature was added in 5.0. Just assume that if CommandIcon is not available, the submenu icon is not either.
+        if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+            cell.icon = nil;
+        }
+
+        if (cell.subCells != nil) {
+            if (![self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuSecondaryText]) {
+                cell.secondaryText = nil;
+            }
+            if (![self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuTertiaryText]) {
+                cell.tertiaryText = nil;
+            }
+            if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+                cell.secondaryArtwork = nil;
+            }
+            cell.subCells = [self sdl_removeUnusedProperties:cell.subCells];
+        } else {
+            if (![self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText]) {
+                cell.secondaryText = nil;
+            }
+            if (![self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]) {
+                cell.tertiaryText = nil;
+            }
+            if (![self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
+                cell.secondaryArtwork = nil;
+            }
+        }
+    }
+
+    return removePropertiesCopy;
+}
+
 /// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
 /// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
 /// @param choices The choices to be uploaded.
-- (void)sdl_addUniqueNamesToCells:(nullable NSArray<SDLMenuCell *> *)choices {
+- (void)sdl_addUniqueNamesToCellsWithDuplicatePrimaryText:(nullable NSArray<SDLMenuCell *> *)choices {
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
     for (SDLMenuCell *cell in choices) {
@@ -541,7 +592,32 @@ UInt32 const MenuCellIdMin = 1;
         }
 
         if (cell.subCells.count > 0) {
-            [self sdl_addUniqueNamesToCells:cell.subCells];
+            [self sdl_addUniqueNamesToCellsWithDuplicatePrimaryText:cell.subCells];
+        }
+    }
+}
+
+- (void)sdl_addUniqueNamesBasedOnStrippedCells:(NSArray<SDLMenuCell *> *)strippedCells toUnstrippedCells:(NSArray<SDLMenuCell *> *)unstrippedCells {
+    NSParameterAssert(strippedCells.count == unstrippedCells.count);
+    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
+    NSMutableDictionary<SDLMenuCell *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    for (NSUInteger i = 0; i < strippedCells.count; i++) {
+        SDLMenuCell *cell = strippedCells[i];
+        NSNumber *counter = dictCounter[cell];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[cell] = counter;
+        } else {
+            dictCounter[cell] = @1;
+        }
+
+        counter = dictCounter[cell];
+        if (counter.intValue > 1) {
+            unstrippedCells[i].uniqueTitle = [NSString stringWithFormat: @"%@ (%d)", unstrippedCells[i].title, counter.intValue];
+        }
+
+        if (cell.subCells.count > 0) {
+            [self sdl_addUniqueNamesBasedOnStrippedCells:cell.subCells toUnstrippedCells:unstrippedCells[i].subCells];
         }
     }
 }
