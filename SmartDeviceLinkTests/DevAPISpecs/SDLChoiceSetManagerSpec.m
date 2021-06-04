@@ -793,8 +793,8 @@ describe(@"choice set manager tests", ^{
 
                 OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
 
-                expect(testManager.pendingPresentOperation).to(beNil());
-                expect(testManager.pendingPresentationSet).to(beNil());
+                expect(testManager.pendingPresentOperation).toEventually(beNil());
+                expect(testManager.pendingPresentationSet).toEventually(beNil());
             });
 
             context(@"non-searchable", ^{
