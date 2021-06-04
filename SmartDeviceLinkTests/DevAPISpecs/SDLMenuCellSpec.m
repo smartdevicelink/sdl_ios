@@ -93,19 +93,19 @@ describe(@"a menu cell", ^{
         });
     });
 
-    describe(@"check cell eqality", ^{
+    describe(@"check cell equality", ^{
         it(@"should compare cells and return true if cells equal", ^{
             testCell = [[SDLMenuCell alloc] initWithTitle:someTitle secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:nil secondaryArtwork:someSecondaryArtwork submenuLayout:testLayout subCells:@[]];
             testCell2 = [[SDLMenuCell alloc] initWithTitle:someTitle secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:nil secondaryArtwork:someSecondaryArtwork submenuLayout:testLayout subCells:@[]];
 
-            expect([testCell isEqual:testCell2]).to(equal(true));
+            expect([testCell isEqual:testCell2]).to(beTrue());
         });
 
         it(@"should compare cells and return false if not equal ", ^{
             testCell = [[SDLMenuCell alloc] initWithTitle:@"True" secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:nil secondaryArtwork:someSecondaryArtwork submenuLayout:testLayout subCells:@[]];
             testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:testLayout subCells:@[]];
 
-            expect([testCell isEqual:testCell2]).to(equal(false));
+            expect([testCell isEqual:testCell2]).to(beFalse());
         });
 
         it(@"should compare cells and return true if cells equal", ^{
@@ -115,7 +115,7 @@ describe(@"a menu cell", ^{
             testCell2 = [[SDLMenuCell alloc] initWithTitle:someTitle icon:nil submenuLayout:testLayout subCells:@[]];
 #pragma clang diagnostic pop
 
-            expect([testCell isEqual:testCell2]).to(equal(true));
+            expect([testCell isEqual:testCell2]).to(beTrue());
         });
 
         it(@"should compare cells and return false if not equal ", ^{
@@ -125,7 +125,7 @@ describe(@"a menu cell", ^{
             testCell2 = [[SDLMenuCell alloc] initWithTitle:@"False" icon:nil submenuLayout:testLayout subCells:@[]];
 #pragma clang diagnostic pop
 
-            expect([testCell isEqual:testCell2]).to(equal(false));
+            expect([testCell isEqual:testCell2]).to(beFalse());
         });
     });
 });

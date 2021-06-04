@@ -9,6 +9,7 @@
 #import "SDLNotificationConstants.h"
 #import <Foundation/Foundation.h>
 
+@class SDLConfiguration;
 @class SDLRPCRequest;
 @class SDLRPCMessage;
 @class SDLRegisterAppInterfaceResponse;
@@ -18,8 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLConnectionManagerType <NSObject>
 
+/// The configuration properties provided by the app to the SDL manager
+@property (copy, nonatomic, readonly) SDLConfiguration *configuration;
+
 /// An object describing the properties of the connected module
-@property (strong, nonatomic, nullable) SDLSystemInfo *systemInfo;
+@property (strong, nonatomic, readonly, nullable) SDLSystemInfo *systemInfo;
 
 /**
  *  A special method on the connection manager which is used by managers that must bypass the default block on RPC sends before managers complete setup.

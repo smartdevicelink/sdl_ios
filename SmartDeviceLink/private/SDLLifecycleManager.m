@@ -10,60 +10,33 @@
 
 #import "SDLLifecycleManager.h"
 
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "NSMapTable+Subscripting.h"
-#import "SDLLifecycleRPCAdapter.h"
 #import "SDLAsynchronousRPCOperation.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
-#import "SDLChangeRegistration.h"
-#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLEncryptionConfiguration.h"
-#import "SDLLogMacros.h"
 #import "SDLError.h"
 #import "SDLEncryptionLifecycleManager.h"
-#import "SDLFile.h"
-#import "SDLFileManager.h"
-#import "SDLFileManagerConfiguration.h"
 #import "SDLGlobals.h"
 #import "SDLIAPTransport.h"
-#import "SDLLifecycleConfiguration.h"
-#import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLifecycleMobileHMIStateHandler.h"
+#import "SDLLifecycleRPCAdapter.h"
 #import "SDLLifecycleSyncPDataHandler.h"
 #import "SDLLifecycleSystemRequestHandler.h"
-#import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLLockScreenPresenter.h"
-#import "SDLLogConfiguration.h"
 #import "SDLLogFileModuleMap.h"
 #import "SDLLogManager.h"
-#import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
-#import "SDLOnAppInterfaceUnregistered.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLOnHashChange.h"
-#import "SDLPermissionManager.h"
-#import "SDLPredefinedWindows.h"
 #import "SDLProtocol.h"
 #import "SDLLifecycleProtocolHandler.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLRegisterAppInterface.h"
-#import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
-#import "SDLResult.h"
-#import "SDLScreenManager.h"
 #import "SDLSecondaryTransportManager.h"
 #import "SDLSequentialRPCRequestOperation.h"
-#import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
-#import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaManager.h"
-#import "SDLSystemCapabilityManager.h"
-#import "SDLSystemInfo.h"
 #import "SDLTCPTransport.h"
-#import "SDLUnregisterAppInterface.h"
-#import "SDLVersion.h"
-#import "SDLWindowCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -88,6 +61,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 
 @end
 
+@interface SDLSystemCapabilityManager ()
+
+@property (nullable, strong, nonatomic) NSString *lastDisplayLayoutRequestTemplate;
+
+@end
+
 #pragma mark - SDLLifecycleManager Private Interface
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
@@ -98,6 +77,12 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
+@property (copy, nonatomic, readwrite, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLAudioStreamingState audioStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLVideoStreamingState videoStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLSystemContext systemContext;
+@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
 
 // Private Managers
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
@@ -782,6 +767,16 @@ NSString *const BackgroundTaskTransportName = @"com.sdl.transport.backgroundTask
         }
         return;
     }
+
+    // HAX: Issue #1152, Ford Sync bug returning incorrect display capabilities (https://github.com/smartdevicelink/sdl_ios/issues/1152).
+    // Inform the system capability manager of the next SetDisplayLayout type
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    if ([request.name isEqualToString:SDLRPCFunctionNameSetDisplayLayout]) {
+        SDLSetDisplayLayout *setDisplayLayoutRequest = (SDLSetDisplayLayout *)request;
+        self.systemCapabilityManager.lastDisplayLayoutRequestTemplate = setDisplayLayoutRequest.displayLayout;
+    }
+#pragma clang diagnostic pop
 
     // Before we send a message, we have to check if we need to adapt the RPC. When adapting the RPC, there could be multiple RPCs that need to be sent.
     NSError *error = nil;

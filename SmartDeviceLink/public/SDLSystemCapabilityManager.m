@@ -8,41 +8,16 @@
 
 #import "SDLSystemCapabilityManager.h"
 
-#import "SDLAppServiceCapability.h"
-#import "SDLAppServiceRecord.h"
-#import "SDLAppServicesCapabilities.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLConnectionManagerType.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLDisplayCapability.h"
-#import "SDLDriverDistractionCapability.h"
 #import "SDLError.h"
-#import "SDLGenericResponse.h"
-#import "SDLGetSystemCapability.h"
-#import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
-#import "SDLHMICapabilities.h"
 #import "SDLImageField+ScreenManagerExtensions.h"
-#import "SDLLogMacros.h"
-#import "SDLNavigationCapability.h"
-#import "SDLNotificationConstants.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLOnSystemCapabilityUpdated.h"
-#import "SDLPhoneCapability.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLPredefinedWindows.h"
-#import "SDLRemoteControlCapabilities.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
-#import "SDLSeatLocationCapability.h"
-#import "SDLSetDisplayLayoutResponse.h"
-#import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityObserver.h"
 #import "SDLTextField+ScreenManagerExtensions.h"
-#import "SDLTextFieldName.h"
-#import "SDLVersion.h"
-#import "SDLVideoStreamingCapability.h"
-#import "SDLWindowCapability.h"
-#import "SDLWindowTypeCapabilities.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,7 +31,12 @@ typedef NSString * SDLServiceID;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
+
+// HAX: Issue #1152, Ford Sync bug returning incorrect display capabilities (https://github.com/smartdevicelink/sdl_ios/issues/1152)
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *initialMediaCapabilities;
+@property (nullable, strong, nonatomic) NSString *lastDisplayLayoutRequestTemplate;
 #pragma clang diagnostic pop
+
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
@@ -138,6 +118,8 @@ typedef NSString * SDLServiceID;
         self.remoteControlCapability = nil;
         self.seatLocationCapability = nil;
         self.driverDistractionCapability = nil;
+        self.initialMediaCapabilities = nil;
+        self.lastDisplayLayoutRequestTemplate = nil;
 
         self.supportsSubscriptions = NO;
 
@@ -187,32 +169,19 @@ typedef NSString * SDLServiceID;
 
 #pragma mark Convert Deprecated to New
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-/// Convert the capabilities from a `RegisterAppInterfaceResponse` into a new-style `DisplayCapability` for the main display.
-/// @param rpc The `RegisterAppInterfaceResponse` RPC
-- (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromRegisterResponse:(SDLRegisterAppInterfaceResponse *)rpc {
-    return [self sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities:rpc.displayCapabilities buttons:rpc.buttonCapabilities softButtons:rpc.softButtonCapabilities];
-}
-
-- (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)rpc {
-    return [self sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities:rpc.displayCapabilities buttons:rpc.buttonCapabilities softButtons:rpc.softButtonCapabilities];
-}
-#pragma clang diagnostic pop
-
 /// Creates a "new-style" display capability from the "old-style" `SDLDisplayCapabilities` object and other "old-style" objects that were returned in `RegisterAppInterfaceResponse` and `SetDisplayLayoutResponse`
 /// @param display The old-style `SDLDisplayCapabilities` object to convert
 /// @param buttons The old-style `SDLButtonCapabilities` object to convert
 /// @param softButtons The old-style `SDLSoftButtonCapabilities` to convert
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities:(SDLDisplayCapabilities *)display buttons:(NSArray<SDLButtonCapabilities *> *)buttons softButtons:(NSArray<SDLSoftButtonCapabilities *> *)softButtons {
+- (NSArray<SDLDisplayCapability *> *)sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities {
     SDLLogV(@"Creating display capability from deprecated display capabilities");
     // Based on deprecated Display capabilities we don't know if widgets are supported. The default MAIN window is the only window we know is supported, so it's the only one we will expose.
     SDLWindowTypeCapabilities *windowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:1];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    NSString *displayName = display.displayName ?: display.displayType;
+    NSString *displayName = self.displayCapabilities.displayName ?: self.displayCapabilities.displayType;
 #pragma clang diagnostic pop
     SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:displayName];
     displayCapability.windowTypeSupported = @[windowTypeCapabilities];
@@ -220,29 +189,38 @@ typedef NSString * SDLServiceID;
     // Create a window capability object for the default MAIN window
     SDLWindowCapability *defaultWindowCapability = [[SDLWindowCapability alloc] init];
     defaultWindowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
-    defaultWindowCapability.buttonCapabilities = [buttons copy];
-    defaultWindowCapability.softButtonCapabilities = [softButtons copy];
+    defaultWindowCapability.buttonCapabilities = [self.buttonCapabilities copy];
+    defaultWindowCapability.softButtonCapabilities = [self.softButtonCapabilities copy];
 
     // return if display capabilities don't exist.
-    if (display == nil) {
+    if (self.displayCapabilities == nil) {
         defaultWindowCapability.textFields = [SDLTextField allTextFields];
         defaultWindowCapability.imageFields = [SDLImageField allImageFields];
         displayCapability.windowCapabilities = @[defaultWindowCapability];
         return @[displayCapability];
     }
 
+    // HAX: Issue #1999, Ford Sync bug returning incorrect template name for "NON-MEDIA" (https://github.com/smartdevicelink/sdl_ios/issues/1999).
+    NSMutableArray<NSString *> *mutableTemplatesAvailable = [self.displayCapabilities.templatesAvailable mutableCopy];
+    for (NSUInteger i = 0; i < mutableTemplatesAvailable.count; i++) {
+        if ([mutableTemplatesAvailable[i] isEqualToString:@"NON_MEDIA"]) {
+            mutableTemplatesAvailable[i] = @"NON-MEDIA";
+            break;
+        }
+    }
+    
     // Copy all available display capability properties
-    defaultWindowCapability.templatesAvailable = [display.templatesAvailable copy];
-    defaultWindowCapability.numCustomPresetsAvailable = [display.numCustomPresetsAvailable copy];
-    defaultWindowCapability.textFields = [display.textFields copy];
-    defaultWindowCapability.imageFields = [display.imageFields copy];
+    defaultWindowCapability.templatesAvailable = [mutableTemplatesAvailable copy];
+    defaultWindowCapability.numCustomPresetsAvailable = [self.displayCapabilities.numCustomPresetsAvailable copy];
+    defaultWindowCapability.textFields = [self.displayCapabilities.textFields copy];
+    defaultWindowCapability.imageFields = [self.displayCapabilities.imageFields copy];
 
     /*
      The description from the mobile API to "graphicSupported:
      > The display's persistent screen supports referencing a static or dynamic image.
      For backward compatibility (AppLink 2.0) static image type is always presented
      */
-    if (display.graphicSupported.boolValue) {
+    if (self.displayCapabilities.graphicSupported.boolValue) {
         defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic, SDLImageTypeDynamic];
     } else {
         defaultWindowCapability.imageTypeSupported = @[SDLImageTypeStatic];
@@ -731,6 +709,12 @@ typedef NSString * SDLServiceID;
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.buttonCapabilities = response.buttonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
+
+    // HAX: Issue #1152, Ford Sync bug returning incorrect display capabilities (https://github.com/smartdevicelink/sdl_ios/issues/1152). Store the initial capabilities if we are a media app so that we can use them in the future.
+    SDLLifecycleConfiguration *lifecycleConfig = self.connectionManager.configuration.lifecycleConfig;
+    if (lifecycleConfig.appType == SDLAppHMITypeMedia || [lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeMedia]) {
+        self.initialMediaCapabilities = self.displayCapabilities;
+    }
 #pragma clang diagnostic pop
 
     self.hmiCapabilities = response.hmiCapabilities;
@@ -742,7 +726,7 @@ typedef NSString * SDLServiceID;
     self.pcmStreamCapability = response.pcmStreamCapabilities;
 
     self.shouldConvertDeprecatedDisplayCapabilities = YES;
-    self.displays = [self sdl_createDisplayCapabilityListFromRegisterResponse:response];
+    self.displays = [self sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities];
 
     SDLLogV(@"Received RegisterAppInterface response, filled out display and other capabilities");
 
@@ -766,12 +750,17 @@ typedef NSString * SDLServiceID;
     // If we've received a display capability update then we should not convert our deprecated display capabilities and we should just return
     if (!self.shouldConvertDeprecatedDisplayCapabilities) { return; }
 
-    self.displayCapabilities = response.displayCapabilities;
+    if (self.initialMediaCapabilities != nil && [self.lastDisplayLayoutRequestTemplate isEqualToString:SDLPredefinedLayoutMedia]) {
+        self.displayCapabilities = self.initialMediaCapabilities;
+    } else {
+        self.displayCapabilities = response.displayCapabilities;
+    }
+
     self.buttonCapabilities = response.buttonCapabilities;
     self.softButtonCapabilities = response.softButtonCapabilities;
     self.presetBankCapabilities = response.presetBankCapabilities;
 
-    self.displays = [self sdl_createDisplayCapabilityListFromSetDisplayLayoutResponse:response];
+    self.displays = [self sdl_createDisplayCapabilityListFromDeprecatedDisplayCapabilities];
 
     SDLLogV(@"Received SetDisplayLayout response, filled out display and other capabilities");
 

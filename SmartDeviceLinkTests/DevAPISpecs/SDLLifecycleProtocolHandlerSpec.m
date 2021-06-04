@@ -27,7 +27,6 @@
 @interface SDLLifecycleProtocolHandler ()
 
 @property (weak, nonatomic) SDLNotificationDispatcher *notificationDispatcher;
-@property (strong, nonatomic) SDLTimer *rpcStartServiceTimeoutTimer;
 @property (copy, nonatomic) NSString *appId;
 
 @end
@@ -49,7 +48,6 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
         SDLConfiguration *testConfig = [[SDLConfiguration alloc] initWithLifecycle:testLifecycleConfig lockScreen:nil logging:nil fileManager:nil encryption:nil];
 
         testHandler = [[SDLLifecycleProtocolHandler alloc] initWithProtocol:mockProtocol notificationDispatcher:mockNotificationDispatcher configuration:testConfig];
-        testHandler.rpcStartServiceTimeoutTimer = mockTimer;
     });
 
     describe(@"when started", ^{
@@ -79,14 +77,12 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
             beforeEach(^{
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLTransportDidConnect] infoObject:[OCMArg isNil]]);
                 OCMExpect([mockProtocol startServiceWithType:0 payload:[OCMArg any]]).ignoringNonObjectArgs();
-                OCMExpect([(SDLTimer *)mockTimer start]);
                 [testHandler protocolDidOpen:mockProtocol];
             });
 
             it(@"should set everything up", ^{
                 OCMVerifyAll(mockNotificationDispatcher);
                 OCMVerifyAll(mockProtocol);
-                OCMVerifyAll(mockTimer);
             });
         });
 
@@ -120,14 +116,12 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceDidConnect] infoObject:[OCMArg isNil]]);
-                OCMExpect([(SDLTimer *)mockTimer cancel]);
 
                 [testHandler protocol:mockProtocol didReceiveStartServiceACK:message];
             });
 
             it(@"should stop the timer and send a notification", ^{
                 OCMVerifyAll(mockNotificationDispatcher);
-                OCMVerifyAll(mockTimer);
             });
         });
 
@@ -139,24 +133,18 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceConnectionDidError] infoObject:[OCMArg isNil]]);
-                OCMExpect([(SDLTimer *)mockTimer cancel]);
 
                 [testHandler protocol:mockProtocol didReceiveStartServiceNAK:message];
             });
 
             it(@"should stop the timer and send a notification", ^{
                 OCMVerifyAll(mockNotificationDispatcher);
-                OCMVerifyAll(mockTimer);
             });
         });
 
-        context(@"no response from the module to the RPC Start Service", ^{
-            beforeEach(^{
-                testHandler.rpcStartServiceTimeoutTimer = nil;
-            });
-
-            it(@"should send a transport disconnected notification when the timer elapses", ^{
-                OCMExpect([mockProtocol stopWithCompletionHandler:[OCMArg any]]);
+        context(@"and there is no response from the module to the RPC Start Service", ^{
+            it(@"should not send a transport disconnected notification", ^{
+                OCMReject([mockProtocol stopWithCompletionHandler:[OCMArg any]]);
 
                 [testHandler protocolDidOpen:mockProtocol];
 
@@ -172,14 +160,12 @@ describe(@"SDLLifecycleProtocolHandler tests", ^{
                 SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 
                 OCMExpect([mockNotificationDispatcher postNotificationName:[OCMArg isEqual:SDLRPCServiceDidDisconnect] infoObject:[OCMArg isNil]]);
-                OCMExpect([(SDLTimer *)mockTimer cancel]);
 
                 [testHandler protocol:mockProtocol didReceiveEndServiceACK:message];
             });
 
             it(@"should stop the timer and send a notification", ^{
                 OCMVerifyAll(mockNotificationDispatcher);
-                OCMVerifyAll(mockTimer);
             });
         });
 

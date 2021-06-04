@@ -178,14 +178,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload tlsInitializationHandler:(void (^)(BOOL success, NSError *error))tlsInitializationHandler {
     SDLLogD(@"Attempting to start TLS for service type: %hhu", serviceType);
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
+        tlsInitializationHandler(success, error);
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
-            tlsInitializationHandler(success, error);
             BLOCK_RETURN;
         }
 
         // TLS initialization succeeded. Build and send the message.
-        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:nil];
+        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:payload];
         SDLLogD(@"TLS initialized, sending start service with encryption for message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:serviceType];
     }];
@@ -306,8 +306,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSError *jsonError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].protocolVersion.major] options:kNilOptions error:&jsonError];
     if (jsonError != nil) {
+        if (error != nil) {
+            *error = jsonError;
+        }
         SDLLogE(@"Error encoding JSON data: %@", jsonError);
-        *error = jsonError;
         return NO;
     }
 
@@ -411,10 +413,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         // If the encryption failed, pass back the error and return false
         if (encryptedMessagePayload.length == 0 || encryptError != nil) {
-            if (encryptError != nil) {
-                *error = encryptError;
-            } else {
-                *error = [NSError sdl_encryption_unknown];
+            if (error != nil) {
+                if (encryptError != nil) {
+                    *error = encryptError;
+                } else {
+                    *error = [NSError sdl_encryption_unknown];
+                }
             }
 
             return NO;
@@ -466,13 +470,14 @@ NS_ASSUME_NONNULL_BEGIN
         NSError *encryptError = nil;
         data = [self.securityManager encryptData:data withError:&encryptError];
 
-        if (encryptError) {
+        // If the data fails to encrypt, fail out of sending this chunk of data.
+        if ((data.length == 0) || (encryptError != nil)) {
             SDLLogE(@"Error attempting to encrypt raw data for service: %@, error: %@", @(service), encryptError);
+            return;
         }
     }
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
-
     if (message.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]) {
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
@@ -527,7 +532,7 @@ NS_ASSUME_NONNULL_BEGIN
             NSError *decryptError = nil;
             payload = [self.securityManager decryptData:payload withError:&decryptError];
 
-            if (decryptError) {
+            if (decryptError != nil) {
                 SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
                 return;
             }
