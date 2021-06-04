@@ -7,6 +7,7 @@
 
 #import "SDLCheckChoiceVROptionalOperation.h"
 #import "SDLDeleteChoicesOperation.h"
+#import "SDLError.h"
 #import "SDLGlobals.h"
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
@@ -18,11 +19,26 @@
 
 #import "TestConnectionManager.h"
 
+@interface SDLPreloadChoicesOperation()
+
+@property (copy, nonatomic, nullable) NSError *internalError;
+@property (strong, nonatomic, nullable) NSMutableArray<NSNumber *> *failedChoiceUploadIDs;
+
+@end
+
+@interface SDLChoiceCell()
+
+@property (assign, nonatomic) UInt16 choiceId;
+
+@end
 
 @interface SDLPresentChoiceSetOperation()
 
 @property (copy, nonatomic, nullable) NSError *internalError;
 @property (assign, nonatomic) UInt16 cancelId;
+@property (strong, nonatomic, readwrite, nullable) SDLChoiceCell *selectedCell;
+@property (strong, nonatomic, readwrite, nullable) SDLTriggerSource selectedTriggerSource;
+@property (assign, nonatomic, readwrite) NSUInteger selectedCellRow;
 
 @end
 
@@ -72,6 +88,7 @@ describe(@"choice set manager tests", ^{
     __block SDLChoiceCell *testCell1 = nil;
     __block SDLChoiceCell *testCell2 = nil;
     __block SDLChoiceCell *testCell3 = nil;
+    __block SDLChoiceCell *testCell4 = nil;
     __block SDLChoiceCell *testCell1Duplicate = nil;
     __block SDLChoiceCell *testCell1Similar = nil;
     __block SDLVersion *choiceSetUniquenessActiveVersion = nil;
@@ -88,6 +105,7 @@ describe(@"choice set manager tests", ^{
         testCell1 = [[SDLChoiceCell alloc] initWithText:@"test1"];
         testCell2 = [[SDLChoiceCell alloc] initWithText:@"test2"];
         testCell3 = [[SDLChoiceCell alloc] initWithText:@"test3"];
+        testCell4 = [[SDLChoiceCell alloc] initWithText:@"test4"];
         testCell1Duplicate = [[SDLChoiceCell alloc] initWithText:@"test1"];
         testCell1Similar = [[SDLChoiceCell alloc] initWithText:@"test1" secondaryText:@"secondary" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
 
@@ -253,7 +271,7 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
 
                     SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                    testOp.completionBlock();
+                    [testOp finishOperation];
 
                     expect(testManager.preloadedChoices).to(contain(testCell1));
                     expect(testManager.preloadedChoices).to(contain(testCell2));
@@ -275,7 +293,7 @@ describe(@"choice set manager tests", ^{
 
                     it(@"should update the choiceCells' unique title", ^{
                         SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                        testOp.completionBlock();
+                        [testOp finishOperation];
                         NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
                         for (SDLChoiceCell *choiceCell in testArrays) {
                             if (choiceCell.secondaryText) {
@@ -298,7 +316,7 @@ describe(@"choice set manager tests", ^{
 
                     it(@"should not update the choiceCells' unique title", ^{
                         SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                        testOp.completionBlock();
+                        [testOp finishOperation];
                         NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
                         for (SDLChoiceCell *choiceCell in testArrays) {
                             expect(choiceCell.uniqueText).to(equal("test1"));
@@ -318,7 +336,7 @@ describe(@"choice set manager tests", ^{
 
                 it(@"append a number to the unique text for choice set cells", ^{
                     SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                    testOp.completionBlock();
+                    [testOp finishOperation];
                     NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
                     for (SDLChoiceCell *choiceCell in testArrays) {
                         if (choiceCell.secondaryText) {
@@ -348,7 +366,7 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
 
                     SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                    testOp.completionBlock();
+                    [testOp finishOperation];
 
                     expect(testManager.preloadedChoices).toNot(contain(testCell1));
                     expect(testManager.preloadedChoices).to(contain(testCell2));
@@ -361,8 +379,7 @@ describe(@"choice set manager tests", ^{
                 beforeEach(^{
                     testManager.pendingMutablePreloadChoices = [NSMutableSet setWithArray:@[testCell1]];
 
-                    [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
-                    }];
+                    [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {}];
                 });
 
                 it(@"should leave the list of pending and uploaded choice items empty when the operation finishes", ^{
@@ -376,7 +393,7 @@ describe(@"choice set manager tests", ^{
                     testManager.preloadedMutableChoices = [NSMutableSet set];
 
                     SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                    testOp.completionBlock();
+                    [testOp finishOperation];
 
                     expect(testManager.preloadedMutableChoices).to(beEmpty());
                     expect(testManager.preloadedChoices).to(beEmpty());
@@ -470,104 +487,402 @@ describe(@"choice set manager tests", ^{
 
         describe(@"presenting a choice set", ^{
             __block SDLChoiceSet *testChoiceSet = nil;
+            __block SDLChoiceSet *testFailedChoiceSet = nil;
             __block NSString *testTitle = @"test title";
             __block id<SDLChoiceSetDelegate> choiceDelegate = nil;
             __block id<SDLKeyboardDelegate> keyboardDelegate = nil;
             __block SDLInteractionMode testMode = SDLInteractionModeBoth;
             __block SDLPresentKeyboardOperation *pendingPresentOp = nil;
+            __block id strickMockOperationQueue = nil;
+            __block SDLChoiceCell *testSelectedCell = nil;
+            __block NSError *testError = nil;
+            NSUInteger testSelectedCellRow = 1;
 
             beforeEach(^{
                 keyboardDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
                 choiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:choiceDelegate choices:@[testCell1, testCell2, testCell3]];
+                testFailedChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:choiceDelegate choices:@[testCell1, testCell2, testCell3, testCell4]];
+                testSelectedCell = testChoiceSet.choices[1];
+                testError = [NSError sdl_choiceSetManager_failedToCreateMenuItems];
 
                 pendingPresentOp = OCMClassMock([SDLPresentKeyboardOperation class]);
                 testManager.pendingPresentOperation = pendingPresentOp;
                 testManager.pendingPresentationSet = [[SDLChoiceSet alloc] init];
+
+                strickMockOperationQueue = OCMStrictClassMock([NSOperationQueue class]);
+                [strickMockOperationQueue setExpectationOrderMatters:YES];
+                testManager.transactionQueue = strickMockOperationQueue;
             });
 
             context(@"searchable", ^{
-                beforeEach(^{
+                it(@"should notify the choice delegate when a choice item is selected", ^{
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                        [preloadChoicesOperation finishOperation];
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.selectedCell = testSelectedCell;
+                        presentChoicesOperation.selectedTriggerSource = testMode;
+                        presentChoicesOperation.selectedCellRow = testSelectedCellRow;
+                        presentChoicesOperation.internalError = nil;
+                        presentChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                    }]]);
+                    OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
+
                     [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                    expect(testManager.pendingPresentationSet).to(beNil());
+                    expect(testManager.pendingPresentOperation).to(beNil());
+
+                    expect(testManager.preloadedMutableChoices.count).to(equal(3));
+                    expect(testManager.preloadedMutableChoices).to(contain(testChoiceSet.choices[0]));
+                    expect(testManager.preloadedMutableChoices).to(contain(testChoiceSet.choices[1]));
+                    expect(testManager.preloadedMutableChoices).to(contain(testChoiceSet.choices[2]));
+                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
                 });
 
-                it(@"should properly start the presentation", ^{
-                    OCMVerify([pendingPresentOp cancel]);
-                    expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
-                    expect(testManager.transactionQueue.operations).to(haveCount(2));
-                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
-                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
+                it(@"should notify the choice delegate if an error occured during presentation", ^{
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                        [preloadChoicesOperation finishOperation];
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.internalError = testError;
+                        presentChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                    }]]);
+                    OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testError]);
+
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                    expect(testManager.pendingPresentationSet).to(beNil());
+                    expect(testManager.pendingPresentOperation).to(beNil());
+
+                    expect(testManager.preloadedMutableChoices.count).to(equal(3));
+                    expect(testManager.preloadedMutableChoices).to(contain(testChoiceSet.choices[0]));
+                    expect(testManager.preloadedMutableChoices).to(contain(testChoiceSet.choices[1]));
+                    expect(testManager.preloadedMutableChoices).to(contain(testChoiceSet.choices[2]));
+                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
                 });
 
-                describe(@"after the completion handler is called", ^{
-                    context(@"with an error", ^{
-                        beforeEach(^{
-                            SDLPresentChoiceSetOperation *op = testManager.transactionQueue.operations.lastObject;
-                            op.internalError = [[NSError alloc] init];
-                            op.completionBlock();
-                        });
+                it(@"should not add a choice item that fails to the list of preloaded choices", ^{
+                    NSMutableDictionary<SDLRPCRequest *, NSError *> *testErrors = [NSMutableDictionary dictionary];
+                    SDLCreateInteractionChoiceSet *failedChoiceSet = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:1 menuName:@"1" vrCommands:nil]]];
+                    testErrors[failedChoiceSet] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
+                    NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
 
-                        it(@"should call the error handler", ^{
-                            OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg isNotNil]]);
-                            expect(testManager.pendingPresentationSet).to(beNil());
-                            expect(testManager.pendingPresentOperation).to(beNil());
-                        });
-                    });
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
+                        expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[0]));
+                        expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[1]));
+                        expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[2]));
+                        expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[3]));
+                        preloadChoicesOperation.internalError = testInternalError;
+                        preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:(@[@1])];
+                        [preloadChoicesOperation finishOperation];
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+                    OCMReject([strickMockOperationQueue addOperation:[OCMArg isKindOfClass:SDLPresentChoiceSetOperation.class]]);
+                    OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testInternalError]);
+
+                    [testManager presentChoiceSet:testFailedChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                    expect(testManager.pendingPresentationSet).toNot(beNil());
+                    expect(testManager.pendingPresentOperation).toNot(beNil());
+
+                    expect(testManager.preloadedMutableChoices.count).to(equal(3));
+                    expect(testManager.preloadedMutableChoices).toNot(contain(testFailedChoiceSet.choices[0]));
+                    expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[1]));
+                    expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[2]));
+                    expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[3]));
+
+                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+                });
+
+                it(@"should not add any of choice items if they all fail to upload to the list of preloaded choices", ^{
+                    NSMutableDictionary<SDLRPCRequest *, NSError *> *testErrors = [NSMutableDictionary dictionary];
+                    SDLCreateInteractionChoiceSet *failedChoiceSet1 = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:1 menuName:@"1" vrCommands:nil]]];
+                    SDLCreateInteractionChoiceSet *failedChoiceSet2 = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:2 menuName:@"2" vrCommands:nil]]];
+                    SDLCreateInteractionChoiceSet *failedChoiceSet3 = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:3 menuName:@"3" vrCommands:nil]]];
+                    SDLCreateInteractionChoiceSet *failedChoiceSet4 = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:4 menuName:@"4" vrCommands:nil]]];
+                    testErrors[failedChoiceSet1] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
+                    testErrors[failedChoiceSet2] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
+                    testErrors[failedChoiceSet3] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
+                    testErrors[failedChoiceSet4] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
+                    NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
+
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
+                        expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[0]));
+                        expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[1]));
+                        expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[2]));
+                        expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[3]));
+                        preloadChoicesOperation.internalError = testInternalError;
+                        preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:(@[@1, @2, @3, @4])];
+                        [preloadChoicesOperation finishOperation];
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+                    OCMReject([strickMockOperationQueue addOperation:[OCMArg isKindOfClass:SDLPresentChoiceSetOperation.class]]);
+                    OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testInternalError]);
+
+                    [testManager presentChoiceSet:testFailedChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 1.0);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                    expect(testManager.pendingPresentationSet).toNot(beNil());
+                    expect(testManager.pendingPresentOperation).toNot(beNil());
+
+                    expect(testManager.preloadedMutableChoices).to(beEmpty());
+                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
                 });
             });
 
-            context(@"non-searchable", ^{
-                beforeEach(^{
-                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:nil];
-                });
+            it(@"should skip preloading the choices if all choice items have already been uploaded", ^{
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    expect(testManager.pendingMutablePreloadChoices.count).to(equal(3));
+                    expect(testManager.pendingMutablePreloadChoices).to(contain(testChoiceSet.choices[0]));
+                    expect(testManager.pendingMutablePreloadChoices).to(contain(testChoiceSet.choices[1]));
+                    expect(testManager.pendingMutablePreloadChoices).to(contain(testChoiceSet.choices[2]));
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    presentChoicesOperation.selectedCell = testSelectedCell;
+                    presentChoicesOperation.selectedTriggerSource = testMode;
+                    presentChoicesOperation.selectedCellRow = testSelectedCellRow;
+                    presentChoicesOperation.internalError = nil;
+                    presentChoicesOperation.completionBlock();
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
+                OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
 
-                it(@"should properly start the presentation", ^{
-                    OCMVerify([pendingPresentOp cancel]);
+                [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                expect(testManager.pendingPresentationSet).to(beNil());
+                expect(testManager.pendingPresentOperation).to(beNil());
+
+                expect(testManager.preloadedMutableChoices.count).to(equal(3));
+                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+
+                // Present the exact same choices again
+                OCMReject([strickMockOperationQueue addOperation:[OCMArg isKindOfClass:SDLPreloadChoicesOperation.class]]);
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    presentChoicesOperation.selectedCell = testSelectedCell;
+                    presentChoicesOperation.selectedTriggerSource = testMode;
+                    presentChoicesOperation.selectedCellRow = testSelectedCellRow;
+                    presentChoicesOperation.internalError = nil;
+                    presentChoicesOperation.completionBlock();
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
+                OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
+
+                [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+            });
+
+            it(@"should upload choices that failed to upload in previous presentations", ^{
+                NSMutableDictionary<SDLRPCRequest *, NSError *> *testErrors = [NSMutableDictionary dictionary];
+                SDLCreateInteractionChoiceSet *failedChoiceSet = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:1 menuName:@"1" vrCommands:nil]]];
+                testErrors[failedChoiceSet] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
+                NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
+
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
+                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[0]));
+                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[1]));
+                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[2]));
+                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[3]));
+                    expect(testManager.pendingPresentationSet).to(equal(testFailedChoiceSet));
+                    preloadChoicesOperation.internalError = testInternalError;
+                    preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:(@[@1])];
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testInternalError]);
+
+                [testManager presentChoiceSet:testFailedChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 1.0);
+                OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                expect(testManager.pendingPresentationSet).toNot(beNil());
+                expect(testManager.pendingPresentOperation).toNot(beNil());
+
+                expect(testManager.preloadedMutableChoices.count).to(equal(3));
+                expect(testManager.preloadedMutableChoices).toNot(contain(testFailedChoiceSet.choices[0]));
+                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[1]));
+                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[2]));
+                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[3]));
+                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+
+                // Present the exact same choices again
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    expect(testManager.pendingMutablePreloadChoices.count).to(equal(1));
+                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[0]));
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    presentChoicesOperation.selectedCell = testSelectedCell;
+                    presentChoicesOperation.selectedTriggerSource = testMode;
+                    presentChoicesOperation.selectedCellRow = testSelectedCellRow;
+                    presentChoicesOperation.internalError = nil;
+                    presentChoicesOperation.completionBlock();
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
+                OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
+
+                [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                expect(testManager.pendingPresentationSet).to(beNil());
+                expect(testManager.pendingPresentOperation).to(beNil());
+
+                expect(testManager.preloadedMutableChoices.count).to(equal(4));
+                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[0]));
+                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[1]));
+                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[2]));
+                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[3]));
+                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+            });
+
+            it(@"should not present choices if the manager shuts down after the choices are uploaded but before presentation", ^{
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
                     expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
-                    expect(testManager.transactionQueue.operations).to(haveCount(2));
-                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
-                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
+                    [preloadChoicesOperation finishOperation];
+                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMReject([strickMockOperationQueue addOperation:[OCMArg isKindOfClass:SDLPresentChoiceSetOperation.class]]);
+
+                [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:nil];
+
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+
+                expect(testManager.pendingPresentOperation).to(beNil());
+                expect(testManager.pendingPresentationSet).to(beNil());
+            });
+
+            context(@"non-searchable", ^{
+                it(@"should notify the choice delegate when a choice item is selected", ^{
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                        [preloadChoicesOperation finishOperation];
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.selectedCell = testSelectedCell;
+                        presentChoicesOperation.selectedTriggerSource = testMode;
+                        presentChoicesOperation.selectedCellRow = testSelectedCellRow;
+                        presentChoicesOperation.internalError = nil;
+                        presentChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                    }]]);
+                    OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
+
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:nil];
+
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                    expect(testManager.pendingPresentationSet).to(beNil());
+                    expect(testManager.pendingPresentOperation).to(beNil());
                 });
 
-                describe(@"after the completion handler is called", ^{
-                    context(@"with an error", ^{
-                        beforeEach(^{
-                            SDLPresentChoiceSetOperation *op = testManager.transactionQueue.operations.lastObject;
-                            op.internalError = [[NSError alloc] init];
-                            op.completionBlock();
-                        });
+                it(@"should notify the choice delegate if an error occured during presentation", ^{
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                        [preloadChoicesOperation finishOperation];
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.internalError = testError;
+                        presentChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                    }]]);
+                    OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testError]);
 
-                        it(@"should call the error handler", ^{
-                            OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg isNotNil]]);
-                            expect(testManager.pendingPresentationSet).to(beNil());
-                            expect(testManager.pendingPresentOperation).to(beNil());
-                        });
-                    });
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:nil];
+
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+                    OCMVerifyAllWithDelay(choiceDelegate, 0.5);
+
+                    expect(testManager.pendingPresentationSet).to(beNil());
+                    expect(testManager.pendingPresentOperation).to(beNil());
                 });
             });
 
             describe(@"when the manager shuts down during presentation", ^{
-                beforeEach(^{
-                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
-                });
+                __block SDLPresentChoiceSetOperation *presentChoicesOperation = nil;
 
                 it(@"should leave the list of pending and uploaded choice items empty when the operation finishes", ^{
-                    expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
-                    expect(testManager.transactionQueue.operations).to(haveCount(2));
-                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
-                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                        expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                        [preloadChoicesOperation finishOperation];
+                        return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                    }]]);
+                    OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                        presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                        presentChoicesOperation.internalError = nil;
+                        testManager.pendingMutablePreloadChoices = [NSMutableSet set];
+                        testManager.preloadedMutableChoices = [NSMutableSet set];
 
-                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet set];
-                    testManager.preloadedMutableChoices = [NSMutableSet set];
+                        [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
+                        presentChoicesOperation.completionBlock();
+                        return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                    }]]);
 
-                    testManager.transactionQueue.operations.lastObject.completionBlock();
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+                    OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
 
                     expect(testManager.preloadedMutableChoices).to(beEmpty());
                     expect(testManager.preloadedChoices).to(beEmpty());
                     expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
                     expect(testManager.pendingPreloadChoices).to(beEmpty());
                 });
+            });
+
+            afterEach(^{
+                [strickMockOperationQueue stopMocking];
             });
         });
 
@@ -606,54 +921,91 @@ describe(@"choice set manager tests", ^{
 
         describe(@"generating a cancel id", ^{
             __block SDLChoiceSet *testChoiceSet = nil;
+            __block SDLChoiceSet *testChoiceSet2 = nil;
             __block id<SDLChoiceSetDelegate> testChoiceDelegate = nil;
+            __block id strickMockOperationQueue = nil;
 
             beforeEach(^{
                 testChoiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
-                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"tests" delegate:testChoiceDelegate choices:@[testCell1]];
+                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"choice set 1" delegate:testChoiceDelegate choices:@[testCell1]];
+                testChoiceSet2 = [[SDLChoiceSet alloc] initWithTitle:@"choice set 2" delegate:testChoiceDelegate choices:@[testCell2]];
                 testManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
                 [testManager.stateMachine setToState:SDLChoiceManagerStateReady fromOldState:SDLChoiceManagerStateCheckingVoiceOptional callEnterTransition:NO];
+                strickMockOperationQueue = OCMStrictClassMock([NSOperationQueue class]);
+                testManager.transactionQueue = strickMockOperationQueue;
             });
 
             it(@"should set the first cancelID correctly", ^{
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    expect(@(presentChoicesOperation.cancelId)).to(equal(101));
+                    presentChoicesOperation.completionBlock();
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
+
                 [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
 
-                expect(testManager.transactionQueue.operations.count).to(equal(2));
-                expect(testManager.transactionQueue.operations[0]).to(beAKindOf([SDLPreloadChoicesOperation class]));
-                SDLPresentChoiceSetOperation *testPresentOp = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[1];
-                expect(@(testPresentOp.cancelId)).to(equal(101));
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
             });
 
             it(@"should reset the cancelID correctly once the max has been reached", ^{
-                testManager.nextCancelId = 200;
+                testManager.nextCancelId = 200;  // set the max cancelID
+
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    expect(@(presentChoicesOperation.cancelId)).to(equal(200));
+                    presentChoicesOperation.completionBlock();
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
+
                 [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
 
-                expect(testManager.transactionQueue.operations.count).to(equal(2));
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
 
-                expect(testManager.transactionQueue.operations[0]).to(beAKindOf([SDLPreloadChoicesOperation class]));
-                SDLPresentChoiceSetOperation *testPresentOp = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[1];
-                expect(@(testPresentOp.cancelId)).to(equal(200));
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    [preloadChoicesOperation finishOperation];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)value;
+                    expect(@(presentChoicesOperation.cancelId)).to(equal(101));
+                    presentChoicesOperation.completionBlock();
+                    return [value isKindOfClass:[SDLPresentChoiceSetOperation class]];
+                }]]);
 
-                [testManager presentChoiceSet:testChoiceSet mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
+                [testManager presentChoiceSet:testChoiceSet2 mode:SDLInteractionModeBoth withKeyboardDelegate:nil];
 
-                expect(testManager.transactionQueue.operations.count).to(equal(3));
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+            });
 
-                SDLPresentChoiceSetOperation *testPresentOp2 = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[2];
-                expect(@(testPresentOp2.cancelId)).to(equal(101));
+            afterEach(^{
+                [strickMockOperationQueue stopMocking];
             });
         });
 
        describe(@"dismissing the keyboard", ^{
-           __block SDLPresentKeyboardOperation *mockKeyboardOp1 = nil;
-           __block SDLPresentKeyboardOperation *mockKeyboardOp2 = nil;
+           __block id mockKeyboardOp1 = nil;
+           __block id mockKeyboardOp2 = nil;
            __block NSOperationQueue *mockQueue = nil;
            __block UInt16 testCancelId = 387;
 
             beforeEach(^{
-                mockKeyboardOp1 = OCMPartialMock([[SDLPresentKeyboardOperation alloc] init]);
+                mockKeyboardOp1 = OCMStrictClassMock([SDLPresentKeyboardOperation class]);
                 OCMStub([mockKeyboardOp1 cancelId]).andReturn(88);
 
-                mockKeyboardOp2 = OCMPartialMock([[SDLPresentKeyboardOperation alloc] init]);
+                mockKeyboardOp2 = OCMStrictClassMock([SDLPresentKeyboardOperation class]);
                 OCMStub([mockKeyboardOp2 cancelId]).andReturn(testCancelId);
 
                 mockQueue = OCMPartialMock([[NSOperationQueue alloc] init]);
@@ -664,19 +1016,29 @@ describe(@"choice set manager tests", ^{
             });
 
            it(@"should dismiss the keyboard operation with the matching cancelID if it is executing", ^{
+               OCMStub([mockKeyboardOp1 isExecuting]).andReturn(true);
                OCMStub([mockKeyboardOp2 isExecuting]).andReturn(true);
-               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
 
                OCMReject([mockKeyboardOp1 dismissKeyboard]);
-               OCMVerify([mockKeyboardOp2 dismissKeyboard]);
+               OCMExpect([mockKeyboardOp2 dismissKeyboard]);
+
+               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
+
+               OCMVerifyAllWithDelay(mockKeyboardOp1, 0.5);
+               OCMVerifyAllWithDelay(mockKeyboardOp2, 0.5);
            });
 
            it(@"should dismiss the keyboard operation with the matching cancelID if it is not executing", ^{
+               OCMStub([mockKeyboardOp1 isExecuting]).andReturn(false);
                OCMStub([mockKeyboardOp2 isExecuting]).andReturn(false);
-               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
 
                OCMReject([mockKeyboardOp1 dismissKeyboard]);
-               OCMVerify([mockKeyboardOp2 dismissKeyboard]);
+               OCMExpect([mockKeyboardOp2 dismissKeyboard]);
+
+               [testManager dismissKeyboardWithCancelID:@(testCancelId)];
+
+               OCMVerifyAllWithDelay(mockKeyboardOp1, 0.5);
+               OCMVerifyAllWithDelay(mockKeyboardOp2, 0.5);
            });
         });
     });

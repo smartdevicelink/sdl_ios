@@ -7,6 +7,7 @@
 //
 
 #import "SDLVoiceCommand.h"
+#import "NSArray+Extensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 commandId;
 @property (copy, nonatomic, readwrite) NSArray<NSString *> *voiceCommands;
+@property (copy, nonatomic, readwrite, nullable) SDLVoiceCommandSelectionHandler handler;
 
 @end
 
@@ -35,6 +37,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"SDLVoiceCommand: %u-\"%@\", voice commands: %lu", (unsigned int)_commandId, _voiceCommands.firstObject, (unsigned long)_voiceCommands.count];
+}
+
+#pragma mark - Object Equality
+
+- (NSUInteger)hash {
+    return NSUIntRotateCell(self.voiceCommands.dynamicHash, NSUIntBitCell / 2);
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) { return YES; }
+    if (![object isMemberOfClass:[self class]]) { return NO; }
+
+    return [self isEqualToVoiceCommand:(SDLVoiceCommand *)object];
+}
+
+- (BOOL)isEqualToVoiceCommand:(SDLVoiceCommand *)voiceCommand {
+    if (voiceCommand == nil) { return NO; }
+
+    return (self.hash == voiceCommand.hash);
 }
 
 @end

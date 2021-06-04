@@ -200,7 +200,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 - (void)sdl_commandNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnCommand *onCommand = (SDLOnCommand *)notification.notification;
 
-    for (SDLVoiceCommand *voiceCommand in self.voiceCommands) {
+    for (SDLVoiceCommand *voiceCommand in self.currentVoiceCommands) {
         if (onCommand.cmdID.unsignedIntegerValue != voiceCommand.commandId) { continue; }
 
         voiceCommand.handler();
