@@ -105,7 +105,7 @@ describe(@"voice command manager", ^{
     });
 
     // updating voice commands
-    describe(@"when voice commands are set", ^{
+    describe(@"when the hmi is ready", ^{
         beforeEach(^{
             newHMIStatus.hmiLevel = SDLHMILevelFull;
             newHMIStatus.windowID = @(SDLPredefinedWindowsDefaultWindow);
@@ -113,86 +113,101 @@ describe(@"voice command manager", ^{
             SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:newHMIStatus];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
 
-            testManager.voiceCommands = testVCArray;
         });
 
         // should properly update a command
         it(@"should properly update a command", ^{
-            expect(testManager.voiceCommands.firstObject.commandId).to(equal(VoiceCommandIdMin));
             expect(testManager.transactionQueue.isSuspended).to(beFalse());
-            expect(testManager.transactionQueue.operations).to(haveCount(1));
         });
 
-        // when new voice commands is identical to the existing ones
-        describe(@"when new voice commands is identical to the existing ones", ^{
+        // when setting voiceCommands
+        describe(@"when setting voiceCommands", ^{
             beforeEach(^{
+                testManager.transactionQueue.suspended = YES;
                 testManager.voiceCommands = testVCArray;
             });
 
-            // should only have one operation
-            it(@"should only have one operation", ^{
+            // should properly update a command
+            it(@"should properly update a command", ^{
+                expect(testManager.voiceCommands.firstObject.commandId).to(equal(VoiceCommandIdMin));
                 expect(testManager.transactionQueue.operations).to(haveCount(1));
-            });
-        });
-
-        // when new voice commands are set
-        describe(@"when new voice commands are set", ^{
-            beforeEach(^{
-                testManager.voiceCommands = @[testVoiceCommand2];
+                expect(testManager.transactionQueue.operations.firstObject.isExecuting).to(equal(false));
             });
 
-            // should queue another operation
-            it(@"should queue another operation", ^{
-                expect(testManager.transactionQueue.operations).to(haveCount(2));
-            });
-
-            // when the first operation finishes and updates the current voice commands
-            describe(@"when the first operation finishes and updates the current voice commands", ^{
+            // when new voice commands is identical to the existing ones
+            describe(@"when new voice commands are identical to the existing ones", ^{
                 beforeEach(^{
-                    SDLVoiceCommandUpdateOperation *firstOp = testManager.transactionQueue.operations[0];
-                    firstOp.currentVoiceCommands = [@[testVoiceCommand2] mutableCopy];
-                    [firstOp finishOperation];
-
-                    [NSThread sleepForTimeInterval:0.5];
+                    testManager.voiceCommands = testVCArray;
                 });
 
-                it(@"should update the second operation", ^{
-                    expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).withTimeout(3.0).toEventually(equal(testVoiceCommand2));
+                // should only have one operation
+                it(@"should only have one operation", ^{
+                    expect(testManager.transactionQueue.operations).to(haveCount(1));
                 });
             });
-        });
 
-        context(@"if any of the voice commands contains an empty string", ^{
-            // should remove the empty strings and queue another operation
-            it(@"should remove the empty strings and queue another operation", ^{
-                testManager.voiceCommands = @[testVoiceCommand2, testVoiceCommand3, testVoiceCommand4, testVoiceCommand5, testVoiceCommand6];
-                expect(testManager.transactionQueue.operations).to(haveCount(2));
-                expect(testManager.voiceCommands).to(haveCount(2));
-                expect(testManager.voiceCommands[0].voiceCommands).to(haveCount(1));
-                expect(testManager.voiceCommands[0].voiceCommands).to(equal(@[@"Test 2"]));
-                expect(testManager.voiceCommands[1].voiceCommands).to(haveCount(2));
-                expect(testManager.voiceCommands[1].voiceCommands).to(equal(@[@"Test 3", @"Test 4"]));
+            // when new voice commands are set
+            describe(@"when new voice commands are different from the existing ones", ^{
+                beforeEach(^{
+                    testManager.voiceCommands = @[testVoiceCommand2];
+                    testManager.transactionQueue.suspended = NO;
+                });
+
+                // should queue another operation
+                it(@"should queue another operation", ^{
+                    expect(testManager.transactionQueue.operations).to(haveCount(2));
+                });
+
+                // when the first operation finishes and updates the current voice commands
+                describe(@"when the first operation finishes and updates the current voice commands", ^{
+                    beforeEach(^{
+                        SDLVoiceCommandUpdateOperation *firstOp = testManager.transactionQueue.operations[0];
+                        firstOp.currentVoiceCommands = [@[testVoiceCommand2] mutableCopy];
+                        [firstOp finishOperation];
+
+                        [NSThread sleepForTimeInterval:0.5];
+                    });
+
+                    // should update the second operation
+                    it(@"should update the second operation", ^{
+                        expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).withTimeout(3.0).toEventually(equal(testVoiceCommand2));
+                    });
+                });
             });
 
-            // should not queue another operation if all the voice command strings are empty strings
-            it(@"should not queue another operation if all the voice command strings are empty strings", ^{
-                testManager.voiceCommands = @[testVoiceCommand4, testVoiceCommand5];
-                expect(testManager.transactionQueue.operations).to(haveCount(1));
-                expect(testManager.voiceCommands).to(haveCount(1));
-                expect(testManager.voiceCommands.firstObject.voiceCommands).to(haveCount(1));
-                expect(testManager.voiceCommands.firstObject.voiceCommands).to(equal(@[@"Test 1"]));
-            });
-        });
+            // if any of the voice commands contains an empty string
+            context(@"if any of the voice commands contains an empty string", ^{
+                // should remove the empty strings and queue another operation
+                it(@"should remove the empty strings and queue another operation", ^{
+                    testManager.voiceCommands = @[testVoiceCommand2, testVoiceCommand3, testVoiceCommand4, testVoiceCommand5, testVoiceCommand6];
+                    expect(testManager.transactionQueue.operations).to(haveCount(2));
+                    expect(testManager.voiceCommands).to(haveCount(2));
+                    expect(testManager.voiceCommands[0].voiceCommands).to(haveCount(1));
+                    expect(testManager.voiceCommands[0].voiceCommands).to(equal(@[@"Test 2"]));
+                    expect(testManager.voiceCommands[1].voiceCommands).to(haveCount(2));
+                    expect(testManager.voiceCommands[1].voiceCommands).to(equal(@[@"Test 3", @"Test 4"]));
+                });
 
-        // updating voice commands with duplicate string in different voice commands
-        describe(@"when new voice commands are set and have duplicate strings in different voice commands", ^{
-            beforeEach(^{
-                testManager.voiceCommands = @[testVoiceCommand2, testVoiceCommand7];
+                // should not queue another operation if all the voice command strings are empty strings
+                it(@"should not queue another operation if all the voice command strings are empty strings", ^{
+                    testManager.voiceCommands = @[testVoiceCommand4, testVoiceCommand5];
+                    expect(testManager.transactionQueue.operations).to(haveCount(1));
+                    expect(testManager.voiceCommands).to(haveCount(1));
+                    expect(testManager.voiceCommands.firstObject.voiceCommands).to(haveCount(1));
+                    expect(testManager.voiceCommands.firstObject.voiceCommands).to(equal(@[@"Test 1"]));
+                });
             });
 
-            it(@"should only have one operation", ^{
-                expect(testManager.transactionQueue.operations).to(haveCount(1));
-                expect([testManager.class sdl_arePendingVoiceCommandsUnique:@[testVoiceCommand2, testVoiceCommand7]]).to(equal(NO));
+            // updating voice commands with duplicate string in different voice commands
+            describe(@"when new voice commands are set and have duplicate strings in different voice commands", ^{
+                beforeEach(^{
+                    testManager.voiceCommands = @[testVoiceCommand2, testVoiceCommand7];
+                });
+
+                it(@"should only have one operation", ^{
+                    expect(testManager.transactionQueue.operations).to(haveCount(1));
+                    expect([testManager.class sdl_arePendingVoiceCommandsUnique:@[testVoiceCommand2, testVoiceCommand7]]).to(equal(NO));
+                });
             });
         });
     });
@@ -203,6 +218,7 @@ describe(@"voice command manager", ^{
             [testManager stop];
         });
 
+        // should reset correctly
         it(@"should reset correctly", ^{
             expect(testManager.connectionManager).to(equal(mockConnectionManager));
             expect(testManager.voiceCommands).to(beEmpty());
