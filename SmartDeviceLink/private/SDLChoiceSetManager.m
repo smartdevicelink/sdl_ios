@@ -231,7 +231,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-
     NSMutableOrderedSet<SDLChoiceCell *> *mutableChoicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         [mutableChoicesToUpload minusSet:self.preloadedMutableChoices];
@@ -260,16 +259,19 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     SDLLogD(@"Preloading choices");
     SDLLogV(@"Choices to be uploaded: %@", choicesToUpload);
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload];
 
     __weak typeof(self) weakSelf = self;
-    __weak typeof(preloadOp) weakPreloadOp = preloadOp;
-    preloadOp.completionBlock = ^{
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogD(@"Choices finished preloading");
 
-        if (handler != nil) {
-            handler(weakPreloadOp.error);
+        // Find the `SDLChoiceCell`s that failed to upload using the `choiceId`s
+        NSMutableSet<SDLChoiceCell *> *failedChoiceUploadSet = [NSMutableSet set];
+        for (NSNumber *failedChoiceUploadID in failedChoiceUploadIDs) {
+            NSUInteger failedChoiceUploadIndex = [choicesToUpload indexOfObjectPassingTest:^BOOL(SDLChoiceCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                return obj.choiceId == failedChoiceUploadID.intValue;
+            }];
+            if (failedChoiceUploadIndex == NSNotFound) { continue; }
+            [failedChoiceUploadSet addObject:choicesToUpload[failedChoiceUploadIndex]];
         }
 
         // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
@@ -278,12 +280,32 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             return;
         }
 
+        // Update the list of `preloadedMutableChoices` and `pendingMutablePreloadChoices` with the successful choice uploads
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
-            [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
+            if (failedChoiceUploadSet.count == 0) {
+                [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
+                [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
+            } else {
+                // If some choices failed, remove the failed choices from the successful ones, then update the preloaded choices and pending choices
+                NSMutableSet<SDLChoiceCell *> *successfulChoiceUploads = [NSMutableSet setWithSet:choicesToUpload.set];
+                [successfulChoiceUploads minusSet:failedChoiceUploadSet];
+
+                [strongSelf.preloadedMutableChoices unionSet:successfulChoiceUploads];
+                [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
+            }
         }];
+    }];
+
+    __weak typeof(preloadOp) weakPreloadOp = preloadOp;
+    preloadOp.completionBlock = ^{
+        SDLLogD(@"Choices finished preloading");
+
+        if (handler != nil) {
+            handler(weakPreloadOp.error);
+        }
     };
+
     [self.transactionQueue addOperation:preloadOp];
 }
 
@@ -373,13 +395,31 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
     self.pendingPresentationSet = choiceSet;
 
+    __weak typeof(self) weakSelf = self;
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:^(NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
+            SDLLogE(@"Error preloading choice cells for choice set presentation; aborting. Error: %@", error);
             [choiceSet.delegate choiceSet:choiceSet didReceiveError:error];
             return;
         }
-    }];
 
+        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+            SDLLogD(@"Cancelling presenting choices because the manager has shut down");
+            strongSelf.pendingPresentOperation = nil;
+            strongSelf.pendingPresentationSet = nil;
+            return;
+        }
+
+        // The cells necessary for this presentation are now preloaded, so we will enqueue a presentation 
+        [strongSelf sdl_presentChoiceSetWithMode:mode keyboardDelegate:delegate];
+    }];
+}
+
+/// Helper method for presenting a choice set.
+/// @param mode If the set should be presented for the user to interact via voice, touch, or both
+/// @param delegate The keyboard delegate called when the user interacts with the search field of the choice set, if not set, a non-searchable choice set will be used
+- (void)sdl_presentChoiceSetWithMode:(SDLInteractionMode)mode keyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     [self sdl_findIdsOnChoiceSet:self.pendingPresentationSet];
 
     SDLPresentChoiceSetOperation *presentOp = nil;

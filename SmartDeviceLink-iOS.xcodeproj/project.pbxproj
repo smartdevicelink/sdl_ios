@@ -1623,6 +1623,7 @@
 		88A4A0FA22242AB400C6F01D /* SDLNavigationServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */; };
 		88A5E7F4220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A5E7F3220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m */; };
 		88A5E7FA220B60EC00495E8A /* SDLGetAppServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A5E7F9220B60EC00495E8A /* SDLGetAppServiceDataSpec.m */; };
+		88A670DF266136EE002541F0 /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		88A795D5210678E000056542 /* SDLStaticIconNameSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A795D4210678E000056542 /* SDLStaticIconNameSpec.m */; };
 		88A81F6C2200FD4A00A691A9 /* SDLAppServiceRecordSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A81F6B2200FD4A00A691A9 /* SDLAppServiceRecordSpec.m */; };
 		88AAD4C02211B7E200F1E6D7 /* SDLMediaServiceManifestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AAD4BF2211B7E200F1E6D7 /* SDLMediaServiceManifestSpec.m */; };
@@ -8911,6 +8912,7 @@
 				B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */,
 				5D60DF26202B7A97001EDA01 /* SDLSequentialRPCRequestOperationSpec.m in Sources */,
 				162E832C1A9BDE8B00906325 /* SDLDiagnosticMessageSpec.m in Sources */,
+				88A670DF266136EE002541F0 /* SDLVoiceCommandManagerSpec.m in Sources */,
 				162E83381A9BDE8B00906325 /* SDLScrollableMessageSpec.m in Sources */,
 				889D0B9624D065EE008AD494 /* SDLSubtleAlertResponseSpec.m in Sources */,
 				162E82E81A9BDE8B00906325 /* SDLKeyboardLayoutSpec.m in Sources */,
