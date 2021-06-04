@@ -406,10 +406,12 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
         if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
             SDLLogD(@"Cancelling presenting choices because the manager has shut down");
+            strongSelf.pendingPresentOperation = nil;
+            strongSelf.pendingPresentationSet = nil;
             return;
         }
 
-        // The cells necessary for this presentation are now preloaded, so we will enqueue a presentation
+        // The cells necessary for this presentation are now preloaded, so we will enqueue a presentation 
         [strongSelf sdl_presentChoiceSetWithMode:mode keyboardDelegate:delegate];
     }];
 }

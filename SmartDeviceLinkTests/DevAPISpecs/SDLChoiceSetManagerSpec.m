@@ -749,6 +749,24 @@ describe(@"choice set manager tests", ^{
                 expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
             });
 
+            it(@"should not present choices if the manager shuts down after the choices are uploaded but before presentation", ^{
+                OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
+                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)value;
+                    expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                    [preloadChoicesOperation finishOperation];
+                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
+                    return [value isKindOfClass:[SDLPreloadChoicesOperation class]];
+                }]]);
+                OCMReject([strickMockOperationQueue addOperation:[OCMArg isKindOfClass:SDLPresentChoiceSetOperation.class]]);
+
+                [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:nil];
+
+                OCMVerifyAllWithDelay(strickMockOperationQueue, 0.5);
+
+                expect(testManager.pendingPresentOperation).to(beNil());
+                expect(testManager.pendingPresentationSet).to(beNil());
+            });
+
             context(@"non-searchable", ^{
                 it(@"should notify the choice delegate when a choice item is selected", ^{
                     OCMExpect([strickMockOperationQueue addOperation:[OCMArg checkWithBlock:^BOOL(id value) {
