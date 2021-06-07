@@ -150,7 +150,6 @@ describe(@"voice command manager", ^{
             describe(@"when new voice commands are different from the existing ones", ^{
                 beforeEach(^{
                     testManager.voiceCommands = @[testVoiceCommand2];
-                    testManager.transactionQueue.suspended = NO;
                 });
 
                 // should queue another operation
@@ -161,6 +160,8 @@ describe(@"voice command manager", ^{
                 // when the first operation finishes and updates the current voice commands
                 describe(@"when the first operation finishes and updates the current voice commands", ^{
                     beforeEach(^{
+                        testManager.transactionQueue.suspended = NO;
+
                         SDLVoiceCommandUpdateOperation *firstOp = testManager.transactionQueue.operations[0];
                         firstOp.currentVoiceCommands = [@[testVoiceCommand2] mutableCopy];
                         [firstOp finishOperation];
