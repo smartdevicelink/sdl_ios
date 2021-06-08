@@ -1,4 +1,37 @@
 # Changelog
+## 7.2.0 RC 1
+* Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
+
+### Testing
+* Xcode 12.5
+* iOS 14.6
+* Core:
+    * Manticore (Core v7.1.1, Generic HMI v0.10.0)
+    * Ford Sync 3.4 (19353_DEVTEST)
+    * Ford Sync 3.0 (17276_DEVTEST)
+    * Ford Sync 4.0 (20016_DEVTEST)
+    * Core v6.1.2 with sdl_hmi v5.3.0 and generic_hmi v0.8.1
+    
+### Bug Fixes
+* Added a workaround for Ford Sync 3.0 not properly sending back `MEDIA` template capabilities when set with `SetDisplayLayout` (https://github.com/smartdevicelink/sdl_ios/issues/1152)
+* Video data that fails to encrypt is now properly handled (https://github.com/smartdevicelink/sdl_ios/issues/1830)
+* When updating voice commands, any voice commands that are identical will have their handlers updated, but will no longer be deleted and re-uploaded (https://github.com/smartdevicelink/sdl_ios/issues/1855)
+* Updating the main menu or choice sets now add unique identifiers to primary text based on which text fields and image fields will be displayed on the module (https://github.com/smartdevicelink/sdl_ios/issues/1940)
+* Fixed preloading choices not properly marking which choices successfully loaded and which failed (https://github.com/smartdevicelink/sdl_ios/issues/1941)
+* Voice commands with duplicate strings in an individual command will strip the duplicates (https://github.com/smartdevicelink/sdl_ios/issues/1961)
+* Voice commands that contain duplicates between different commands will now fail early (https://github.com/smartdevicelink/sdl_ios/issues/1959)
+* Voice commands that contain no strings will be stripped (https://github.com/smartdevicelink/sdl_ios/issues/1964)
+* Fix file manager returning that files are not uploaded when they are on Core v4.5.0+ (https://github.com/smartdevicelink/sdl_ios/issues/1978)
+* Fix displayed warnings (https://github.com/smartdevicelink/sdl_ios/issues/1988)
+* Fix race condition in mutable dictionary (https://github.com/smartdevicelink/sdl_ios/issues/1996)
+* Fix Ford Sync not properly returning `NON-MEDIA` template name in `RegisterAppInterfaceResponse` (https://github.com/smartdevicelink/sdl_ios/issues/1999)
+
+### Other
+* Fix failing haptic manager tests on Xcode 12.5 (https://github.com/smartdevicelink/sdl_ios/issues/1982)
+* Fixed Obj-C example app not restarting properly when Core is shut down (https://github.com/smartdevicelink/sdl_ios/issues/1984)
+* Fix missing test files (https://github.com/smartdevicelink/sdl_ios/issues/1985)
+* Fix example apps button state not matching the image / text state when the app is reopened after exiting (https://github.com/smartdevicelink/sdl_ios/issues/1991)
+
 ## 7.1.1
 ### Versions
 * Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
