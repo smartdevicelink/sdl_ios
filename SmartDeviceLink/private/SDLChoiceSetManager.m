@@ -8,7 +8,7 @@
 
 #import "SDLChoiceSetManager.h"
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SmartDeviceLink.h"
 
 #import "SDLCheckChoiceVROptionalOperation.h"
 #import "SDLDeleteChoicesOperation.h"
