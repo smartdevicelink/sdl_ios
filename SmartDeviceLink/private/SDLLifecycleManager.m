@@ -10,7 +10,7 @@
 
 #import "SDLLifecycleManager.h"
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SmartDeviceLink.h"
 
 #import "NSMapTable+Subscripting.h"
 #import "SDLAsynchronousRPCOperation.h"
