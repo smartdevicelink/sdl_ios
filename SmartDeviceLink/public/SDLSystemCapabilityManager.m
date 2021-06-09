@@ -8,7 +8,7 @@
 
 #import "SDLSystemCapabilityManager.h"
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SmartDeviceLink.h"
 
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
