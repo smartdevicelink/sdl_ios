@@ -9,48 +9,77 @@
 #import "SDLImageResolution+StreamingVideoExtensions.h"
 #import "SDLLogMacros.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLVideoStreamingRange
 
-- (instancetype)initWithMinimumResolution:(SDLImageResolution *)minResolution maximumResolution:(SDLImageResolution *)maxResolution {
-    if ((self = [super init])) {
-        if (minResolution && maxResolution) {
-            // if both min and max present then min must be below max
-            if ((minResolution.resolutionWidth.floatValue > maxResolution.resolutionWidth.floatValue) ||
-                (minResolution.resolutionHeight.floatValue > maxResolution.resolutionHeight.floatValue)) {
-                SDLLogD(@"minResolution is bigger than maxResolution (%@ <> %@)", minResolution, maxResolution);
-            }
-        }
-        _minimumResolution = minResolution;
-        _maximumResolution = maxResolution;
+- (instancetype)initWithMinimumResolution:(nullable SDLImageResolution *)minResolution maximumResolution:(nullable SDLImageResolution *)maxResolution {
+    return [self initWithMinimumResolution:minResolution maximumResolution:maxResolution minimumAspectRatio:1.0 maximumAspectRatio:9999.0 minimumDiagonal:0.0];
+}
+
+- (instancetype)initWithMinimumResolution:(nullable SDLImageResolution *)minResolution maximumResolution:(nullable SDLImageResolution *)maxResolution minimumAspectRatio:(float)minimumAspectRatio maximumAspectRatio:(float)maximumAspectRatio minimumDiagonal:(float)minimumDiagonal {
+    self = [super init];
+    if (!self) { return nil; }
+
+    // Min must be below max
+    if ((minResolution != nil && maxResolution != nil) &&
+        ((minResolution.resolutionWidth.floatValue > maxResolution.resolutionWidth.floatValue) ||
+        (minResolution.resolutionHeight.floatValue > maxResolution.resolutionHeight.floatValue))) {
+        SDLLogE(@"VideoStreamingRange minResolution is bigger than maxResolution (%@ <> %@)", minResolution, maxResolution);
+        return nil;
     }
+
+    _minimumResolution = minResolution;
+    _maximumResolution = maxResolution;
+    _minimumDiagonal = minimumDiagonal;
+    _minimumAspectRatio = minimumAspectRatio;
+    _maximumAspectRatio = maximumAspectRatio;
+
     return self;
 }
 
-- (instancetype)copyWithZone:(nullable NSZone *)zone {
-    typeof(self) aCopy = [[self.class allocWithZone:zone] init];
-    // create a deep copy to prevent resolutions from outside update
-    aCopy.minimumResolution = [self.minimumResolution copyWithZone:zone];
-    aCopy.maximumResolution = [self.maximumResolution copyWithZone:zone];
-    aCopy->_minimumAspectRatio = self->_minimumAspectRatio;
-    aCopy->_maximumAspectRatio = self->_maximumAspectRatio;
-    aCopy->_minimumDiagonal = self->_minimumDiagonal;
-    return aCopy;
-}
-
 + (instancetype)disabled {
-    SDLImageResolution *disabledResolution = [[SDLImageResolution alloc] initWithWidth:0 height:0];
+    SDLImageResolution *disabledResolution = [[SDLImageResolution alloc] initWithWidth:0.0 height:0.0];
     return [[self alloc] initWithMinimumResolution:disabledResolution maximumResolution:disabledResolution];
 }
 
-- (BOOL)isImageResolutionRangeValid {
-    return (self.minimumResolution || self.maximumResolution);
+#pragma mark - Setters
+
+- (void)setMinimumAspectRatio:(float)minimumAspectRatio {
+    if (minimumAspectRatio < 1.0) {
+        _minimumAspectRatio = 1.0;
+    } else {
+        _minimumAspectRatio = minimumAspectRatio;
+    }
+}
+
+- (void)setMaximumAspectRatio:(float)maximumAspectRatio {
+    if (maximumAspectRatio < 1.0) {
+        _maximumAspectRatio = 1.0;
+    } else {
+        _maximumAspectRatio = maximumAspectRatio;
+    }
+}
+
+- (void)setMinimumDiagonal:(float)minimumDiagonal {
+    if (minimumDiagonal < 0.0) {
+        _minimumDiagonal = 0.0;
+    } else {
+        _minimumDiagonal = minimumDiagonal;
+    }
+}
+
+#pragma mark - Instance Methods
+
+- (BOOL)sdl_isImageResolutionRangeValid {
+    return ((self.minimumResolution != nil) || (self.maximumResolution != nil));
 }
 
 - (BOOL)isImageResolutionInRange:(SDLImageResolution *)imageResolution {
     if (!imageResolution) {
         return NO;
     }
-    if (![self isImageResolutionRangeValid]) {
+    if (![self sdl_isImageResolutionRangeValid]) {
         // no min & max resolutions - no restriction, no resolution pass
         return NO;
     }
@@ -94,4 +123,19 @@
     return [NSString stringWithFormat:@"%@: {%@, %@, %@}", strClass, strRatio, strDiagonal, strResolution];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    typeof(self) aCopy = [[self.class allocWithZone:zone] init];
+    // create a deep copy to prevent resolutions from outside update
+    aCopy.minimumResolution = [self.minimumResolution copyWithZone:zone];
+    aCopy.maximumResolution = [self.maximumResolution copyWithZone:zone];
+    aCopy->_minimumAspectRatio = self->_minimumAspectRatio;
+    aCopy->_maximumAspectRatio = self->_maximumAspectRatio;
+    aCopy->_minimumDiagonal = self->_minimumDiagonal;
+    return aCopy;
+}
+
 @end
+
+NS_ASSUME_NONNULL_END
