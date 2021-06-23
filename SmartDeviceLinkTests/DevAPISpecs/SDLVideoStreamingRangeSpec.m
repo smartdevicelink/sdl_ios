@@ -184,7 +184,7 @@ describe(@"video streaming range", ^{
             });
 
             it(@"should return NO", ^{
-                expect([testRange isAspectRatioInRange:10.0]);
+                expect([testRange isAspectRatioInRange:10.0]).to(beTrue());
             });
         });
 
@@ -194,25 +194,25 @@ describe(@"video streaming range", ^{
             });
 
             it(@"should return NO", ^{
-                expect([testRange isAspectRatioInRange:10.0]);
+                expect([testRange isAspectRatioInRange:10.0]).to(beTrue());
             });
         });
 
         context(@"when the aspect ratio is below the range", ^{
             it(@"should return NO", ^{
-                expect([testRange isAspectRatioInRange:2.0]);
+                expect([testRange isAspectRatioInRange:2.0]).to(beFalse());
             });
         });
 
         context(@"when the aspect ratio is above the range", ^{
             it(@"should return NO", ^{
-                expect([testRange isAspectRatioInRange:99.0]);
+                expect([testRange isAspectRatioInRange:99.0]).to(beFalse());
             });
         });
 
         context(@"when the aspect ratio is in the range", ^{
             it(@"should return NO", ^{
-                expect([testRange isAspectRatioInRange:10.0]);
+                expect([testRange isAspectRatioInRange:10.0]).to(beTrue());
             });
         });
     });
