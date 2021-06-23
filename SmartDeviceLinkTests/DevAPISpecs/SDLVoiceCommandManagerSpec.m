@@ -114,8 +114,8 @@ describe(@"voice command manager", ^{
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         });
 
-        // should properly update the transactionQueue to not be suspended
-        it(@"should properly update the transactionQueue to not be suspended", ^{
+        // should update the transactionQueue's suspension to false
+        it(@"should update the transactionQueue's suspension to false", ^{
             expect(testManager.transactionQueue.isSuspended).to(beFalse());
         });
 
