@@ -1047,27 +1047,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 }
 
-- (void)sdl_requestVideoCapabilities:(SDLVideoCapabilityResponseHandler)responseHandler {
-    SDLLogD(@"Requesting video capabilities");
-    SDLGetSystemCapability *getVideoCapabilityRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
-
-    typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionManagerRequest:getVideoCapabilityRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (!response.success || [response isMemberOfClass:SDLGenericResponse.class]) {
-            SDLLogW(@"Video capabilities response failed: %@", error);
-            responseHandler(nil);
-            BLOCK_RETURN;
-        }
-
-        SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
-        SDLLogD(@"Video capabilities response received: %@", videoCapability);
-
-        weakSelf.videoScaleManager.scale = (videoCapability != nil && videoCapability.scale != nil) ? videoCapability.scale.floatValue : (float)0.0;
-
-        responseHandler(videoCapability);
-    }];
-}
-
 /**
  Pull the current format / resolution out of our preferred resolutions and craft a start video service payload out of it, then send a start service. If the format isn't one that we support, we're going to try the next format.
  */
