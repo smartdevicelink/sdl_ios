@@ -511,6 +511,12 @@ NS_ASSUME_NONNULL_BEGIN
                                  userInfo:nil];
 }
 
++ (NSException *)sdl_invalidVideoStreamingRange {
+    return [NSException exceptionWithName:@"com.sdl.videostreamingrange.rangeException"
+                                   reason:[NSString stringWithFormat:@"A video streaming resolution range was created with an invalid range. The minimum was probably greater than the maximum."]
+                                 userInfo:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
