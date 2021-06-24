@@ -6,12 +6,18 @@
 //
 
 #import "SDLVideoStreamingRange.h"
+
+#import "SDLError.h"
 #import "SDLImageResolution+StreamingVideoExtensions.h"
 #import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingRange
+
+- (instancetype)init {
+    return [self initWithMinimumResolution:[[SDLImageResolution alloc] initWithWidth:0.0 height:0.0] maximumResolution:[[SDLImageResolution alloc] initWithWidth:0.0 height:0.0]];
+}
 
 - (instancetype)initWithMinimumResolution:(nullable SDLImageResolution *)minResolution maximumResolution:(nullable SDLImageResolution *)maxResolution {
     return [self initWithMinimumResolution:minResolution maximumResolution:maxResolution minimumAspectRatio:1.0 maximumAspectRatio:9999.0 minimumDiagonal:0.0];
@@ -21,12 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    // Min must be below max
+    // Min must be below max, if this `if` passes, this is an invalid check, throw an exception.
     if ((minResolution != nil && maxResolution != nil) &&
         ((minResolution.resolutionWidth.floatValue > maxResolution.resolutionWidth.floatValue) ||
         (minResolution.resolutionHeight.floatValue > maxResolution.resolutionHeight.floatValue))) {
         SDLLogE(@"VideoStreamingRange minResolution is bigger than maxResolution (%@ <> %@)", minResolution, maxResolution);
-        return nil;
+        @throw [NSException sdl_invalidVideoStreamingRange];
     }
 
     _minimumResolution = minResolution;
@@ -39,8 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (instancetype)disabled {
-    SDLImageResolution *disabledResolution = [[SDLImageResolution alloc] initWithWidth:0.0 height:0.0];
-    return [[self alloc] initWithMinimumResolution:disabledResolution maximumResolution:disabledResolution];
+    return [[self alloc] init];
 }
 
 #pragma mark - Setters

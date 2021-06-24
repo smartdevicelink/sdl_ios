@@ -112,6 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSException *)sdl_invalidLockscreenSetupException;
 + (NSException *)sdl_invalidSystemCapabilitySelectorExceptionWithSelector:(SEL)selector;
 + (NSException *)sdl_invalidSubscribeButtonSelectorExceptionWithSelector:(SEL)selector;
++ (NSException *)sdl_invalidVideoStreamingRange;
 
 @end
 
