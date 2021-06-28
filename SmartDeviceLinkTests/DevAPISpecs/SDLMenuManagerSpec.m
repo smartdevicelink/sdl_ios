@@ -209,8 +209,8 @@ describe(@"menu manager", ^{
             testManager.currentSystemContext = SDLSystemContextMain;
         });
 
-        // hmi does not support menuCommandSecondaryImage
-        context(@"hmi does not support menuCommandSecondaryImage", ^{
+        // HMI does not support a command secondary image
+        context(@"HMI does not support a command secondary image", ^{
             SDLArtwork *staticArtwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
 
             beforeEach(^{
@@ -229,8 +229,8 @@ describe(@"menu manager", ^{
             });
         });
 
-        // hmi does not support menuSubMenuSecondaryImage
-        context(@"hmi does not support menuSubMenuSecondaryImage", ^{
+        // HMI does not support a submenu secondary image
+        context(@"HMI does not support a submenu secondary image", ^{
             SDLArtwork *staticArtwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
 
             beforeEach(^{
