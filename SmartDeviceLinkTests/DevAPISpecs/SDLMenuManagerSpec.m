@@ -60,6 +60,11 @@ describe(@"menu manager", ^{
 
     __block SDLMenuConfiguration *testMenuConfiguration = nil;
 
+    __block SDLImageField *commandIconField = nil;
+    __block SDLImageField *commandSecondaryArtworkField = nil;
+    __block SDLImageField *submenuIconField = nil;
+    __block SDLImageField *subMenuSecondaryArtworkField = nil;
+
     __block SDLVersion *menuUniquenessActiveVersion = nil;
 
     beforeEach(^{
@@ -83,10 +88,10 @@ describe(@"menu manager", ^{
         mockSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
         testManager = [[SDLMenuManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager];
 
-        SDLImageField *commandIconField = [[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
-        SDLImageField *commandSecondaryArtworkField = [[SDLImageField alloc] initWithName:SDLImageFieldNameMenuCommandSecondaryImage imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
-        SDLImageField *submenuIconField = [[SDLImageField alloc] initWithName:SDLImageFieldNameSubMenuIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
-        SDLImageField *subMenuSecondaryArtworkField = [[SDLImageField alloc] initWithName:SDLImageFieldNameMenuSubMenuSecondaryImage imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+        commandIconField = [[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+        commandSecondaryArtworkField = [[SDLImageField alloc] initWithName:SDLImageFieldNameMenuCommandSecondaryImage imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+        submenuIconField = [[SDLImageField alloc] initWithName:SDLImageFieldNameSubMenuIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+        subMenuSecondaryArtworkField = [[SDLImageField alloc] initWithName:SDLImageFieldNameMenuSubMenuSecondaryImage imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
         SDLTextField *commandSecondaryTextField = [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuCommandSecondaryText characterSet:SDLCharacterSetAscii width:100 rows:1];
         SDLTextField *commandTertiaryTextField = [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuCommandTertiaryText characterSet:SDLCharacterSetAscii width:100 rows:1];
         SDLTextField *submenuSecondaryTextField = [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuSubMenuSecondaryText characterSet:SDLCharacterSetAscii width:100 rows:1];
@@ -202,6 +207,46 @@ describe(@"menu manager", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
+        });
+
+        // hmi does not support menuCommandSecondaryImage
+        context(@"hmi does not support menuCommandSecondaryImage", ^{
+            SDLArtwork *staticArtwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
+
+            beforeEach(^{
+                testManager.windowCapability.imageFields = @[commandIconField, submenuIconField, subMenuSecondaryArtworkField];
+                textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:staticArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                textAndImageCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:staticArtwork submenuLayout:SDLMenuLayoutList subCells:@[textOnlyCell]];
+                testManager.menuCells = @[textAndImageCell, textAndImageCell2];
+            });
+
+            it(@"should not send secondaryArtwork in our request for addCommand but send it with addSubMenu", ^{
+                SDLAddCommand *cellCommand = (SDLAddCommand *)testManager.inProgressUpdate.firstObject;
+                SDLAddSubMenu *cellSubMenu = (SDLAddSubMenu *)testManager.inProgressUpdate[1];
+                expect(cellCommand.menuParams.menuName).to(equal(@"Test 2"));
+                expect(cellCommand.secondaryImage).to(beNil());
+                expect(cellSubMenu.secondaryImage).toNot(beNil());
+            });
+        });
+
+        // hmi does not support menuSubMenuSecondaryImage
+        context(@"hmi does not support menuSubMenuSecondaryImage", ^{
+            SDLArtwork *staticArtwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
+
+            beforeEach(^{
+                testManager.windowCapability.imageFields = @[commandIconField, submenuIconField, commandSecondaryArtworkField];
+                textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:staticArtwork submenuLayout:SDLMenuLayoutList subCells:@[textOnlyCell]];
+                textAndImageCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:staticArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                testManager.menuCells = @[textAndImageCell, textAndImageCell2];
+            });
+
+            it(@"should not send secondaryArtwork in our request for addSubMenu but send it with addCommand", ^{
+                SDLAddSubMenu *cellSubMenu = (SDLAddSubMenu *)testManager.inProgressUpdate.firstObject;
+                SDLAddCommand *cellCommand = (SDLAddCommand *)testManager.inProgressUpdate[1];
+                expect(cellSubMenu.menuName).to(equal(@"Test 2"));
+                expect(cellSubMenu.secondaryImage).to(beNil());
+                expect(cellCommand.secondaryImage).toNot(beNil());
+            });
         });
 
         // duplicate titles version >= 7.1.0
