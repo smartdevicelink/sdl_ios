@@ -837,7 +837,7 @@ UInt32 const MenuCellIdMin = 1;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
     command.cmdIcon = (cell.icon && shouldHaveArtwork) ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
-    command.secondaryImage = (cell.secondaryArtwork && shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork]) ? cell.secondaryArtwork.imageRPC : nil;
+    command.secondaryImage = (cell.secondaryArtwork && shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork] && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) ? cell.secondaryArtwork.imageRPC : nil;
 
     return command;
 }
@@ -849,7 +849,7 @@ UInt32 const MenuCellIdMin = 1;
 /// @returns The SDLAddSubMenu RPC
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
-    SDLImage *secondaryImage = (shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork] && (cell.secondaryArtwork.name != nil)) ? cell.secondaryArtwork.imageRPC : nil;
+    SDLImage *secondaryImage = (shouldHaveArtwork && ![self.fileManager fileNeedsUpload:cell.secondaryArtwork] && (cell.secondaryArtwork.name != nil)  && [self.windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
     if (cell.submenuLayout && [self.systemCapabilityManager.defaultMainWindowCapability.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
