@@ -1529,24 +1529,16 @@ describe(@"supported video capabilities and formats", ^{
     });
          
     context(@"portrait restricted and wrong landscape", ^{
-        SDLImageResolution *resMinP = [[SDLImageResolution alloc] initWithWidth:200 height:320];
-        SDLImageResolution *resMaxP = [[SDLImageResolution alloc] initWithWidth:300 height:420];
-        SDLVideoStreamingRange *portRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMinP maximumResolution:resMaxP];
-
-        // wrong range: max < min, nothing will pass in landscape
-        SDLImageResolution *resMaxL = [[SDLImageResolution alloc] initWithWidth:320 height:200];
-        SDLImageResolution *resMinL = [[SDLImageResolution alloc] initWithWidth:350 height:220];
-        SDLVideoStreamingRange *landRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMinL maximumResolution:resMaxL];
-
         it(@"should filter portrait small", ^{
-            streamingLifecycleManager.supportedLandscapeStreamingRange = landRange;
-            streamingLifecycleManager.supportedPortraitStreamingRange = portRange;
+            // wrong range: max < min, will throw an exception
+            SDLImageResolution *resMaxL = [[SDLImageResolution alloc] initWithWidth:320 height:200];
+            SDLImageResolution *resMinL = [[SDLImageResolution alloc] initWithWidth:350 height:220];
 
-            expect(streamingLifecycleManager.supportedLandscapeStreamingRange).to(equal(landRange));
-            expect(streamingLifecycleManager.supportedPortraitStreamingRange).to(equal(portRange));
-            NSArray *expectedArray = @[capability8];
-            NSArray *matchArray = [streamingLifecycleManager matchVideoCapability:capability0];
-            expect(matchArray).to(equal(expectedArray));
+            expectAction(^{
+                SDLVideoStreamingRange *landRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:resMinL maximumResolution:resMaxL];
+                expect(landRange).to(beNil());
+            }).to(raiseException());
+
         });
     });
 

@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// A selectable item within an SDLChoiceSet
-@interface SDLChoiceCell: NSObject
+@interface SDLChoiceCell: NSObject <NSCopying>
 
 /**
  Maps to Choice.menuName. The primary text of the cell. Duplicates within an `SDLChoiceSet` are not permitted and will result in the `SDLChoiceSet` failing to initialize.

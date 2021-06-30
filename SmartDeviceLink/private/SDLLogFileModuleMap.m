@@ -99,7 +99,7 @@
 }
 
 + (SDLLogFileModule *)sdl_videoStreamingMediaManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow", @"SDLFocusableItemLocator"]]];
+    return [SDLLogFileModule moduleWithName:@"Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow", @"SDLFocusableItemLocator", @"SDLVideoStreamingRange"]]];
 }
 
 + (SDLLogFileModule *)sdl_videoStreamingMediaTranscoderModule {

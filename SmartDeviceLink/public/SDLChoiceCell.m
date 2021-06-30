@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt16 choiceId;
 @property (nonatomic, readwrite) NSString *uniqueText;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *artwork;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
 
 @end
 
@@ -85,6 +90,10 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
 }
 
 #pragma mark - Etc.
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    return [[SDLChoiceCell allocWithZone:zone] initWithText:_text secondaryText:_secondaryText tertiaryText:_tertiaryText voiceCommands:_voiceCommands artwork:_artwork secondaryArtwork:_secondaryArtwork];
+}
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu, uniqueText: %@", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, ([_text isEqualToString:_uniqueText] ? @"NO" : _uniqueText)];

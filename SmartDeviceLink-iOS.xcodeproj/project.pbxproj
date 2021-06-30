@@ -300,6 +300,7 @@
 		4A457DD524A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */; };
 		4A457DD724A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD624A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m */; };
 		4A457DD924A5137100386CBA /* SDLLifecycleProtocolHandlerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A457DD824A5137100386CBA /* SDLLifecycleProtocolHandlerSpec.m */; };
+		4A55BBB5268119C200BAEBEA /* SDLVideoStreamingRangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A55BBB4268119C200BAEBEA /* SDLVideoStreamingRangeSpec.m */; };
 		4A5822C225E40BB5002822F1 /* NSArray+ExtensionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5822C125E40BB5002822F1 /* NSArray+ExtensionsSpec.m */; };
 		4A8BD23B24F93135000945E3 /* SDLMassageCushionFirmness.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A8BD22324F93131000945E3 /* SDLMassageCushionFirmness.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A8BD23C24F93135000945E3 /* SDLMediaServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8BD22424F93131000945E3 /* SDLMediaServiceData.m */; };
@@ -1739,8 +1740,12 @@
 		C9707D1925DEE786009D00F2 /* NSArray+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D1725DEE786009D00F2 /* NSArray+Extensions.m */; };
 		C9707D3025E0444D009D00F2 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = C9707D2E25E0444D009D00F2 /* SDLMacros.h */; };
 		C9707D3125E0444D009D00F2 /* SDLMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D2F25E0444D009D00F2 /* SDLMacros.m */; };
+		C971E3EE2649BD8700FC24D6 /* SDLOnSystemRequestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82371A9BDE8A00906325 /* SDLOnSystemRequestSpec.m */; };
+		C971E3EF2649C52000FC24D6 /* SDLResponseDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */; };
+		C971E3F02649D12D00FC24D6 /* NSMutableDictionary+StoreSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */; };
 		C975877F257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */; };
 		C9758785257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */; };
+		C9AA62C4261E5035000F49BC /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		C9DFFE78257ACE0000F7D57A /* SDLSeekStreamingIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9DFFE79257ACE0000F7D57A /* SDLSeekStreamingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DFFE77257ACE0000F7D57A /* SDLSeekStreamingIndicator.m */; };
 		C9DFFE7E257AD07E00F7D57A /* SDLSeekIndicatorType.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE7C257AD07E00F7D57A /* SDLSeekIndicatorType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2155,6 +2160,7 @@
 		4A457DD424A3C16E00386CBA /* SDLLifecycleMobileHMIStateHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleMobileHMIStateHandlerSpec.m; path = DevAPISpecs/SDLLifecycleMobileHMIStateHandlerSpec.m; sourceTree = "<group>"; };
 		4A457DD624A3CCED00386CBA /* SDLLifecycleSystemRequestHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleSystemRequestHandlerSpec.m; path = DevAPISpecs/SDLLifecycleSystemRequestHandlerSpec.m; sourceTree = "<group>"; };
 		4A457DD824A5137100386CBA /* SDLLifecycleProtocolHandlerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleProtocolHandlerSpec.m; path = DevAPISpecs/SDLLifecycleProtocolHandlerSpec.m; sourceTree = "<group>"; };
+		4A55BBB4268119C200BAEBEA /* SDLVideoStreamingRangeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVideoStreamingRangeSpec.m; path = DevAPISpecs/SDLVideoStreamingRangeSpec.m; sourceTree = "<group>"; };
 		4A5822C125E40BB5002822F1 /* NSArray+ExtensionsSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSArray+ExtensionsSpec.m"; path = "DevAPISpecs/NSArray+ExtensionsSpec.m"; sourceTree = "<group>"; };
 		4A680F192513E1F4004A2C31 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = SOURCE_ROOT; };
 		4A8BD22324F93131000945E3 /* SDLMassageCushionFirmness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMassageCushionFirmness.h; path = public/SDLMassageCushionFirmness.h; sourceTree = "<group>"; };
@@ -7100,6 +7106,7 @@
 				5DEF69621FD6FEB6004B8C2F /* Video */,
 				EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */,
 				DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */,
+				4A55BBB4268119C200BAEBEA /* SDLVideoStreamingRangeSpec.m */,
 			);
 			name = Streaming;
 			sourceTree = "<group>";
@@ -7899,7 +7906,7 @@
 			attributes = {
 				CLASSPREFIX = SDL;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = smartdevicelink;
 				TargetAttributes = {
 					5D4019AE1A76EC350006B0C2 = {
@@ -8684,6 +8691,7 @@
 				162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */,
 				DABB62171E4A900C0034C567 /* SDLH264VideoEncoderSpec.m in Sources */,
 				000DD57022EF038C005AB7A7 /* SDLGetInteriorVehicleDataConsentSpec.m in Sources */,
+				C971E3EF2649C52000FC24D6 /* SDLResponseDispatcherSpec.m in Sources */,
 				5DBEFA581F436132009EE295 /* SDLFakeSecurityManager.m in Sources */,
 				9FA0D00022DF06A0009CF344 /* SDLWindowCapabilitySpec.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,
@@ -8865,6 +8873,7 @@
 				DA9F7EA21DCC05E100ACAE48 /* SDLGetWaypointsSpec.m in Sources */,
 				162E82D71A9BDE8A00906325 /* SDLDeviceLevelStatusSpec.m in Sources */,
 				162E83841A9BDE8B00906325 /* SDLMenuParamsSpec.m in Sources */,
+				C9AA62C4261E5035000F49BC /* SDLVoiceCommandManagerSpec.m in Sources */,
 				5DB1BCE11D243DDE002FFC37 /* SDLConfigurationSpec.m in Sources */,
 				B3DF19ED251225300090D7BA /* TestSmartConnectionManager.m in Sources */,
 				162E83071A9BDE8B00906325 /* SDLVehicleDataNotificationStatusSpec.m in Sources */,
@@ -8915,6 +8924,7 @@
 				162E83541A9BDE8B00906325 /* SDLEncodedSyncPDataResponseSpec.m in Sources */,
 				1EAA47582035AFD9000FE74B /* SDLHMISettingsControlDataSpec.m in Sources */,
 				162E83161A9BDE8B00906325 /* SDLOnHashChangeSpec.m in Sources */,
+				C971E3F02649D12D00FC24D6 /* NSMutableDictionary+StoreSpec.m in Sources */,
 				8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */,
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
 				5DB1BCD41D243A8E002FFC37 /* SDLListFilesOperationSpec.m in Sources */,
@@ -8989,6 +8999,7 @@
 				162E835E1A9BDE8B00906325 /* SDLRegisterAppInterfaceResponseSpec.m in Sources */,
 				162E835A1A9BDE8B00906325 /* SDLPerformAudioPassThruResponseSpec.m in Sources */,
 				883468FA234BBBE1003F51E5 /* SDLStreamingVideoScaleManagerSpec.m in Sources */,
+				C971E3EE2649BD8700FC24D6 /* SDLOnSystemRequestSpec.m in Sources */,
 				162E83501A9BDE8B00906325 /* SDLDeleteFileResponseSpec.m in Sources */,
 				162E83601A9BDE8B00906325 /* SDLScrollableMessageResponseSpec.m in Sources */,
 				88B3BFA220DA911E00943565 /* SDLFuelRangeSpec.m in Sources */,
@@ -9102,6 +9113,7 @@
 				B3838A01257C47FD00420C11 /* SDLDoorStatusTypeSpec.m in Sources */,
 				88A5E7F4220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m in Sources */,
 				5DCF76FC1ACDDB4200BB647B /* SDLSendLocationSpec.m in Sources */,
+				4A55BBB5268119C200BAEBEA /* SDLVideoStreamingRangeSpec.m in Sources */,
 				5DB1BCD81D243AA6002FFC37 /* SDLPermissionFilterSpec.m in Sources */,
 				88EEC5B8220A2144005AA2F9 /* SDLPublishAppServiceSpec.m in Sources */,
 				162E83561A9BDE8B00906325 /* SDLGenericResponseSpec.m in Sources */,
@@ -9384,7 +9396,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.1.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9402,7 +9414,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.1.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9427,7 +9439,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -9450,7 +9462,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.1.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9483,7 +9495,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -9502,7 +9514,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.1.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9600,7 +9612,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.1.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9622,7 +9634,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.1.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9669,7 +9681,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.1.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -9720,7 +9732,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.1.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
