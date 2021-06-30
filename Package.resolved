@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "BiSON",
+        "repositoryURL": "https://github.com/smartdevicelink/bson_c_lib.git",
+        "state": {
+          "branch": null,
+          "revision": "48d38d5b7a9b6cffc8171087b68bee5f4649e67d",
+          "version": "1.2.5"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

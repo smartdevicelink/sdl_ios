@@ -1202,11 +1202,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLChoiceCell</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLChoiceCell</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLChoiceCell</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLChoiceCell</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
   
   
@@ -3418,11 +3418,11 @@ cases the language of the head unit changes or does not match the app language.<
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLMenuCell</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLMenuCell</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMenuCell</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMenuCell</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
   
   
@@ -7227,31 +7227,42 @@ See SDLSubscribeButton</p>
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLVideoStreamingRange</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
 
-<span class="c1">// The minimum supported normalized aspect ratio, Min value is 1</span>
+<span class="c1">/// The minimum supported normalized aspect ratio, min value is 1.0, defaults to 1.0</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="kt">float</span> <span class="n">minimumAspectRatio</span><span class="p">;</span>
 
-<span class="c1">// The maximum supported normalized aspect ratio, Min value is 1</span>
+<span class="c1">/// The maximum supported normalized aspect ratio, min value is 1.0, defaults to 9999.0</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="kt">float</span> <span class="n">maximumAspectRatio</span><span class="p">;</span>
 
-<span class="c1">// The minimum supported diagonal screen size in inches, defaults to 0 (0 matches any size)</span>
+<span class="c1">/// The minimum supported diagonal screen size in inches, defaults to 0.0 (matches any size)</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="kt">float</span> <span class="n">minimumDiagonal</span><span class="p">;</span>
 
-<span class="c1">// The minimum resolution to support, it overrides .minimumAspectRatio</span>
+<span class="c1">/// The minimum resolution to support, it overrides .minimumAspectRatio</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="n">minimumResolution</span><span class="p">;</span>
 
-<span class="c1">// The maximum resolution to support, it overrides .maximumAspectRatio</span>
+<span class="c1">/// The maximum resolution to support, it overrides .maximumAspectRatio</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="n">maximumResolution</span><span class="p">;</span>
 
-<span class="c1">// Check if the argument is within the [.minimumResolution, .maximumResolution] range</span>
+<span class="c1">/// Create a video streaming range based on a minimum and maximum resolution</span>
+<span class="c1">/// @param minResolution The minimum supported height / width resolution</span>
+<span class="c1">/// @param maxResolution The maximum supported height / width resolution</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinimumResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">minResolution</span> <span class="nf">maximumResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">maxResolution</span><span class="p">;</span>
+
+<span class="c1">/// Create a video streaming range with all supported options</span>
+<span class="c1">/// @param minResolution The minimum supported height / width resolution</span>
+<span class="c1">/// @param maxResolution The maximum supported height / width resolution</span>
+<span class="c1">/// @param minimumAspectRatio The minimum supported normalized aspect ratio, min value is 1.0, defaults to 1.0</span>
+<span class="c1">/// @param maximumAspectRatio The maximum supported normalized aspect ratio, min value is 1.0, defaults to 9999.0</span>
+<span class="c1">/// @param minimumDiagonal The minimum supported diagonal screen size in inches, defaults to 0 (0 matches any size)</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinimumResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">minResolution</span> <span class="nf">maximumResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">maxResolution</span> <span class="nf">minimumAspectRatio</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">minimumAspectRatio</span> <span class="nf">maximumAspectRatio</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">maximumAspectRatio</span> <span class="nf">minimumDiagonal</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">minimumDiagonal</span><span class="p">;</span>
+
+<span class="c1">/// A convenience method to create a disabled range with the min and max resolutions equal to zero</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">disabled</span><span class="p">;</span>
+
+<span class="c1">/// Check if the argument is within the [.minimumResolution, .maximumResolution] range</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isImageResolutionInRange</span><span class="p">:(</span><span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">imageResolution</span><span class="p">;</span>
 
-<span class="c1">// Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range</span>
+<span class="c1">/// Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isAspectRatioInRange</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">aspectRatio</span><span class="p">;</span>
-
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinimumResolution</span><span class="p">:(</span><span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">minResolution</span> <span class="nf">maximumResolution</span><span class="p">:(</span><span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">maxResolution</span><span class="p">;</span>
-
-<span class="c1">// A convenience method to create a disabled range with the min and max resolutions equal to zero</span>
-<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">disabled</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 

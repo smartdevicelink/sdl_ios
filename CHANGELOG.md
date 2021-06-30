@@ -1,4 +1,25 @@
 # Changelog
+## 7.2.0 (Since RC 1)
+* Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
+
+### Testing
+* Xcode 12.5
+* iOS 14.6
+* Core:
+    * Manticore (Core v7.1.1, Generic HMI v0.10.0)
+    * Ford Sync 3.4 (19353_DEVTEST)
+    * Ford Sync 3.0 (17276_DEVTEST)
+    * Ford Sync 4.0 (20016_DEVTEST)
+    * Core v6.1.2 with sdl_hmi v5.3.0 and generic_hmi v0.8.1
+    
+### Bug Fixes
+* Fix incompatibility with some other 3rd-party libraries using math.h (https://github.com/smartdevicelink/sdl_ios/issues/1995)
+* Numerous fixes to SDLVideoStreamingRange (https://github.com/smartdevicelink/sdl_ios/issues/2012)
+* Fixed menu manager sending secondary image with menuCells when secondary images are not supported (https://github.com/smartdevicelink/sdl_ios/issues/2014)
+
+### Other
+* Fixed random failures in SDLVoiceCommandManagerSpec due to operations being canceled (https://github.com/smartdevicelink/sdl_ios/issues/2002)
+
 ## 7.2.0 RC 1
 * Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
 
