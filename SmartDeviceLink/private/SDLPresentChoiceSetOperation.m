@@ -153,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogE(@"Presenting choice set failed with response: %@, error: %@", response, error);
+            SDLLogE(@"Presenting choice set request: %@, failed with response: %@, error: %@", request, response, error);
             weakself.internalError = error;
 
             [weakself finishOperation];

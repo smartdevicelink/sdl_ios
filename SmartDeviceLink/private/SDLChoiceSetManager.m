@@ -60,8 +60,6 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
-@property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
-@property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
 @property (assign, nonatomic) UInt16 nextChoiceId;
 @property (assign, nonatomic) UInt16 nextCancelId;
@@ -171,7 +169,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     self.transactionQueue = [self sdl_newTransactionQueue];
     _preloadedMutableChoices = [NSMutableSet set];
     _pendingMutablePreloadChoices = [NSMutableSet set];
-    _pendingPresentationSet = nil;
 
     _vrOptional = YES;
     _nextChoiceId = ChoiceCellIdMin;
@@ -307,14 +304,17 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     NSSet<SDLChoiceCell *> *cellsToBeRemovedFromPending = [self sdl_choicesToBeRemovedFromPendingWithArray:choices];
 
     // If choices are deleted that are already uploaded or pending and are used by a pending presentation, cancel it and send an error
-    NSSet<SDLChoiceCell *> *pendingPresentationChoices = [NSSet setWithArray:self.pendingPresentationSet.choices];
-    if ((!self.pendingPresentOperation.isCancelled && !self.pendingPresentOperation.isFinished)
-        && ([cellsToBeDeleted intersectsSet:pendingPresentationChoices] || [cellsToBeRemovedFromPending intersectsSet:pendingPresentationChoices])) {
-        [self.pendingPresentOperation cancel];
-        if (self.pendingPresentationSet.delegate != nil) {
-            [self.pendingPresentationSet.delegate choiceSet:self.pendingPresentationSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if ([operation isMemberOfClass:SDLPresentChoiceSetOperation.class] && !operation.isCancelled && !operation.isFinished) {
+            SDLPresentChoiceSetOperation *presentOp = (SDLPresentChoiceSetOperation *)operation;
+            NSSet<SDLChoiceCell *> *presentOpChoicesSet = [NSSet setWithArray:presentOp.choiceSet.choices];
+            if ([presentOpChoicesSet intersectsSet:cellsToBeDeleted] || [presentOpChoicesSet intersectsSet:cellsToBeRemovedFromPending]) {
+                [presentOp cancel];
+                if (presentOp.choiceSet.delegate != nil) {
+                    [presentOp.choiceSet.delegate choiceSet:presentOp.choiceSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
+                }
+            }
         }
-        self.pendingPresentationSet = nil;
     }
 
     // Remove the cells from pending and delete choices
@@ -373,16 +373,10 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-    if (self.pendingPresentationSet != nil && !self.pendingPresentOperation.isFinished) {
-        SDLLogW(@"A choice set is pending: %@. We will try to cancel it in favor of presenting a different choice set: %@. If it's already on screen it cannot be cancelled", self.pendingPresentationSet, choiceSet);
-        [self.pendingPresentOperation cancel];
-    }
-
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
-    self.pendingPresentationSet = choiceSet;
 
     __weak typeof(self) weakSelf = self;
-    [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:^(NSError * _Nullable error) {
+    [self preloadChoices:choiceSet.choices withCompletionHandler:^(NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error != nil) {
             SDLLogE(@"Error preloading choice cells for choice set presentation; aborting. Error: %@", error);
@@ -390,38 +384,28 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             return;
         }
 
-        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-            SDLLogD(@"Cancelling presenting choices because the manager has shut down");
-            strongSelf.pendingPresentOperation = nil;
-            strongSelf.pendingPresentationSet = nil;
-            return;
-        }
-
         // The cells necessary for this presentation are now preloaded, so we will enqueue a presentation 
-        [strongSelf sdl_presentChoiceSetWithMode:mode keyboardDelegate:delegate];
+        [strongSelf sdl_presentChoiceSet:choiceSet withMode:mode keyboardDelegate:delegate];
     }];
 }
 
 /// Helper method for presenting a choice set.
 /// @param mode If the set should be presented for the user to interact via voice, touch, or both
 /// @param delegate The keyboard delegate called when the user interacts with the search field of the choice set, if not set, a non-searchable choice set will be used
-- (void)sdl_presentChoiceSetWithMode:(SDLInteractionMode)mode keyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
-    [self sdl_findIdsOnChoiceSet:self.pendingPresentationSet];
+- (void)sdl_presentChoiceSet:(SDLChoiceSet *)choiceSet withMode:(SDLInteractionMode)mode keyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
+    [self sdl_findIdsOnChoiceSet:choiceSet];
 
     SDLPresentChoiceSetOperation *presentOp = nil;
     if (delegate == nil) {
         // Non-searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:choiceSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
     } else {
         // Searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:choiceSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
     }
-    self.pendingPresentOperation = presentOp;
 
-    __weak typeof(self) weakSelf = self;
     __weak typeof(presentOp) weakOp = presentOp;
-    self.pendingPresentOperation.completionBlock = ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
+    presentOp.completionBlock = ^{
         __strong typeof(weakOp) strongOp = weakOp;
 
         SDLLogD(@"Finished presenting choice set: %@", strongOp.choiceSet);
@@ -430,10 +414,15 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         } else if (strongOp.selectedCell != nil && strongOp.choiceSet.delegate != nil) {
             [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didSelectChoice:strongOp.selectedCell withSource:strongOp.selectedTriggerSource atRowIndex:strongOp.selectedCellRow];
         }
-
-        strongSelf.pendingPresentOperation = nil;
-        strongSelf.pendingPresentationSet = nil;
     };
+
+    // TODO: Cancel non-executing presentations
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if (!operation.isExecuting
+            && ([operation isMemberOfClass:SDLPresentChoiceSetOperation.class] || [operation isMemberOfClass:SDLPresentKeyboardOperation.class])) {
+            [operation cancel];
+        }
+    }
 
     [self.transactionQueue addOperation:presentOp];
 }
@@ -444,17 +433,11 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return nil;
     }
 
-    if (self.pendingPresentationSet != nil) {
-        SDLLogW(@"There's already a pending presentation set, cancelling it in favor of a keyboard");
-        [self.pendingPresentOperation cancel];
-        self.pendingPresentationSet = nil;
-    }
-
     SDLLogD(@"Presenting keyboard with initial text: %@", initialText);
     // Present a keyboard with the choice set that we used to test VR's optional state
     UInt16 keyboardCancelId = self.nextCancelId;
-    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId windowCapability:self.currentWindowCapability];
-    [self.transactionQueue addOperation:self.pendingPresentOperation];
+    SDLPresentKeyboardOperation *keyboardOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate cancelID:keyboardCancelId windowCapability:self.currentWindowCapability];
+    [self.transactionQueue addOperation:keyboardOperation];
     return @(keyboardCancelId);
 }
 
