@@ -11,65 +11,65 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTireStatus
 
-- (void)setPressureTelltale:(SDLWarningLightStatus)pressureTelltale {
+- (void)setPressureTelltale:(SDLWarningLightStatus __nullable)pressureTelltale {
     [self.store sdl_setObject:pressureTelltale forName:SDLRPCParameterNamePressureTelltale];
 }
 
-- (SDLWarningLightStatus)pressureTelltale {
+- (SDLWarningLightStatus __nullable)pressureTelltale {
     NSError *error = nil;
     return [self.store sdl_enumForName:SDLRPCParameterNamePressureTelltale error:&error];
 }
 
-- (void)setLeftFront:(SDLSingleTireStatus *)leftFront {
+- (void)setLeftFront:(SDLSingleTireStatus * __nullable)leftFront {
     [self.store sdl_setObject:leftFront forName:SDLRPCParameterNameLeftFront];
 }
 
-- (SDLSingleTireStatus *)leftFront {
+- (SDLSingleTireStatus * __nullable)leftFront {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameLeftFront ofClass:SDLSingleTireStatus.class error:&error];
 }
 
-- (void)setRightFront:(SDLSingleTireStatus *)rightFront {
+- (void)setRightFront:(SDLSingleTireStatus * __nullable)rightFront {
     [self.store sdl_setObject:rightFront forName:SDLRPCParameterNameRightFront];
 }
 
-- (SDLSingleTireStatus *)rightFront {
+- (SDLSingleTireStatus * __nullable)rightFront {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameRightFront ofClass:SDLSingleTireStatus.class error:&error];
 }
 
-- (void)setLeftRear:(SDLSingleTireStatus *)leftRear {
+- (void)setLeftRear:(SDLSingleTireStatus * __nullable)leftRear {
     [self.store sdl_setObject:leftRear forName:SDLRPCParameterNameLeftRear];
 }
 
-- (SDLSingleTireStatus *)leftRear {
+- (SDLSingleTireStatus * __nullable)leftRear {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameLeftRear ofClass:SDLSingleTireStatus.class error:&error];
 }
 
-- (void)setRightRear:(SDLSingleTireStatus *)rightRear {
+- (void)setRightRear:(SDLSingleTireStatus * __nullable)rightRear {
     [self.store sdl_setObject:rightRear forName:SDLRPCParameterNameRightRear];
 }
 
-- (SDLSingleTireStatus *)rightRear {
+- (SDLSingleTireStatus * __nullable)rightRear {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameRightRear ofClass:SDLSingleTireStatus.class error:&error];
 }
 
-- (void)setInnerLeftRear:(SDLSingleTireStatus *)innerLeftRear {
+- (void)setInnerLeftRear:(SDLSingleTireStatus * __nullable)innerLeftRear {
     [self.store sdl_setObject:innerLeftRear forName:SDLRPCParameterNameInnerLeftRear];
 }
 
-- (SDLSingleTireStatus *)innerLeftRear {
+- (SDLSingleTireStatus * __nullable)innerLeftRear {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameInnerLeftRear ofClass:SDLSingleTireStatus.class error:&error];
 }
 
-- (void)setInnerRightRear:(SDLSingleTireStatus *)innerRightRear {
+- (void)setInnerRightRear:(SDLSingleTireStatus * __nullable)innerRightRear {
     [self.store sdl_setObject:innerRightRear forName:SDLRPCParameterNameInnerRightRear];
 }
 
-- (SDLSingleTireStatus *)innerRightRear {
+- (SDLSingleTireStatus * __nullable)innerRightRear {
     NSError *error = nil;
     return [self.store sdl_objectForName:SDLRPCParameterNameInnerRightRear ofClass:SDLSingleTireStatus.class error:&error];
 }
