@@ -267,6 +267,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (failedChoiceUploadSet.count == 0) {
+                // No choices failed
                 [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
                 [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
             } else {
@@ -285,7 +286,11 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         SDLLogD(@"Choices finished preloading");
 
         if (handler != nil) {
-            handler(weakPreloadOp.error);
+            if ([weakSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+                handler([NSError sdl_choiceSetManager_incorrectState:SDLChoiceManagerStateShutdown]);
+            } else {
+                handler(weakPreloadOp.error);
+            }
         }
     };
 
@@ -299,39 +304,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-    // Find cells to be deleted that are already uploaded or are pending upload
-    NSSet<SDLChoiceCell *> *cellsToBeDeleted = [self sdl_choicesToBeDeletedWithArray:choices];
-    NSSet<SDLChoiceCell *> *cellsToBeRemovedFromPending = [self sdl_choicesToBeRemovedFromPendingWithArray:choices];
-
-    // If choices are deleted that are already uploaded or pending and are used by a pending presentation, cancel it and send an error
-    for (NSOperation *operation in self.transactionQueue.operations) {
-        if ([operation isMemberOfClass:SDLPresentChoiceSetOperation.class] && !operation.isCancelled && !operation.isFinished) {
-            SDLPresentChoiceSetOperation *presentOp = (SDLPresentChoiceSetOperation *)operation;
-            NSSet<SDLChoiceCell *> *presentOpChoicesSet = [NSSet setWithArray:presentOp.choiceSet.choices];
-            if ([presentOpChoicesSet intersectsSet:cellsToBeDeleted] || [presentOpChoicesSet intersectsSet:cellsToBeRemovedFromPending]) {
-                [presentOp cancel];
-                if (presentOp.choiceSet.delegate != nil) {
-                    [presentOp.choiceSet.delegate choiceSet:presentOp.choiceSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
-                }
-            }
-        }
-    }
-
-    // Remove the cells from pending and delete choices
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
-    }];
-
-    for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
-        if (![op isMemberOfClass:[SDLPreloadChoicesOperation class]]) { continue; }
-
-        SDLPreloadChoicesOperation *preloadOp = (SDLPreloadChoicesOperation *)op;
-        [preloadOp removeChoicesFromUpload:cellsToBeRemovedFromPending];
-    }
-
-    // Find choices to delete
-    if (cellsToBeDeleted.count == 0) { return; }
-
+    // TODO: Do in operation
     [self sdl_findIdsOnChoices:cellsToBeDeleted];
     SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted];
 
@@ -374,7 +347,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     }
 
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
-
     __weak typeof(self) weakSelf = self;
     [self preloadChoices:choiceSet.choices withCompletionHandler:^(NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -407,8 +379,8 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     __weak typeof(presentOp) weakOp = presentOp;
     presentOp.completionBlock = ^{
         __strong typeof(weakOp) strongOp = weakOp;
-
         SDLLogD(@"Finished presenting choice set: %@", strongOp.choiceSet);
+
         if (strongOp.error != nil && strongOp.choiceSet.delegate != nil) {
             [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didReceiveError:strongOp.error];
         } else if (strongOp.selectedCell != nil && strongOp.choiceSet.delegate != nil) {

@@ -18,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeleteChoicesOperation : SDLAsynchronousOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells loadedCells:(NSSet<SDLChoiceCell *> *)cells;
+
+- (void)updateLoadedCells:(NSSet<SDLChoiceCell *> *)updatedLoadedCells;
 
 @end
 
