@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentChoiceSetOperation : SDLAsynchronousOperation
 
+typedef void(^SDLPresentChoiceSetCompletionHandler)(BOOL success);
+
 /**
  The choice set to be displayed.
  */
@@ -44,6 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly) NSUInteger selectedCellRow;
 
+/// The cells that are loaded on the head unit
+@property (strong, nonatomic) NSSet<SDLChoiceCell *> *loadedCells;
+
 /**
  An operation to present a choice set.
 
@@ -53,9 +58,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param originalKeyboardProperties The keyboard configuration
  @param keyboardDelegate The keyboard delegate called when the user interacts with the keyboard
  @param cancelID A unique ID for this specific choice set that allows cancellation through the `CancelInteraction` RPC.
+ @param loadedCells The cells that are loaded on the head unit
  @return A SDLPresentChoiceSetOperation object
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells completionHandler:(SDLPresentChoiceSetCompletionHandler)completionHandler;
 
 @end
 

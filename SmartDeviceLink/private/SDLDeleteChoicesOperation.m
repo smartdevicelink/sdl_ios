@@ -27,20 +27,23 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSSet<SDLChoiceCell *> *cellsToDelete;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (copy, nonatomic, nullable) NSError *internalError;
-@property (strong, nonatomic) NSSet<SDLChoiceCell *> *loadedCells;
+@property (copy, nonatomic) SDLDeleteChoicesCompletionHandler completionHandler;
+
+@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *mutableLoadedCells;
 
 @end
 
 @implementation SDLDeleteChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells loadedCells:(NSSet<SDLChoiceCell *> *)cells {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cellsToDelete loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells completionHandler:(SDLDeleteChoicesCompletionHandler)completionHandler {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
-    _cellsToDelete = cells;
-    _loadedCells = cells;
+    _cellsToDelete = cellsToDelete;
+    _mutableLoadedCells = [loadedCells mutableCopy];
     _operationId = [NSUUID UUID];
+    _completionHandler = completionHandler;
 
     return self;
 }
@@ -49,11 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
-    [self sdl_sendDeletions];
-}
+    [self sdl_updateCellsToDelete];
+    if (self.cellsToDelete.count == 0) { [self finishOperation]; }
 
-- (void)updateLoadedCells:(NSSet<SDLChoiceCell *> *)updatedLoadedCells {
-    _loadedCells = updatedLoadedCells;
+    [self sdl_sendDeletions];
 }
 
 - (void)sdl_sendDeletions {
@@ -65,8 +67,11 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     [self.connectionManager sendRequests:deleteChoices progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        SDLDeleteInteractionChoiceSet *sentRequest = (SDLDeleteInteractionChoiceSet *)request;
         if (error != nil) {
             errors[request] = error;
+        } else {
+            [self.mutableLoadedCells removeObject:[self sdl_cellFromChoiceId:(UInt16)sentRequest.interactionChoiceSetID.unsignedIntValue]];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -77,7 +82,39 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+#pragma mark - Getters / Setters
+
+- (void)setLoadedCells:(NSSet<SDLChoiceCell *> *)loadedCells {
+    _mutableLoadedCells = [loadedCells mutableCopy];
+}
+
+- (NSSet<SDLChoiceCell *> *)loadedCells {
+    return [_mutableLoadedCells copy];
+}
+
+#pragma mark - Helpers
+
+- (void)sdl_updateCellsToDelete {
+    NSMutableSet<SDLChoiceCell *> *updatedCellsToDelete = [self.cellsToDelete mutableCopy];
+    [updatedCellsToDelete intersectSet:self.loadedCells];
+
+    self.cellsToDelete = [updatedCellsToDelete copy];
+}
+
+- (nullable SDLChoiceCell *)sdl_cellFromChoiceId:(UInt16)choiceId {
+    for (SDLChoiceCell *cell in self.loadedCells) {
+        if (cell.choiceId == choiceId) { return cell; }
+    }
+
+    return nil;
+}
+
 #pragma mark - Property Overrides
+
+- (void)finishOperation {
+    self.completionHandler((self.internalError == nil), self.loadedCells);
+    [super finishOperation];
+}
 
 - (nullable NSString *)name {
     return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];

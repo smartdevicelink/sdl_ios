@@ -13,6 +13,7 @@
 #import "SDLChoiceSet.h"
 #import "SDLChoiceSetDelegate.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLError.h"
 #import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
@@ -57,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt16 cancelId;
 @property (assign, nonatomic) BOOL updatedKeyboardProperties;
 
+@property (copy, nonatomic) SDLPresentChoiceSetCompletionHandler completionHandler;
 @property (copy, nonatomic, nullable) NSError *internalError;
 @property (strong, nonatomic, readwrite, nullable) SDLChoiceCell *selectedCell;
 @property (strong, nonatomic, readwrite, nullable) SDLTriggerSource selectedTriggerSource;
@@ -67,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresentChoiceSetOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells completionHandler:(SDLPresentChoiceSetCompletionHandler)completionHandler {
     self = [super init];
     if (!self) { return self; }
 
@@ -86,9 +88,11 @@ NS_ASSUME_NONNULL_BEGIN
     _keyboardProperties = originalKeyboardProperties;
     _keyboardDelegate = keyboardDelegate;
     _cancelId = cancelID;
+    _completionHandler = completionHandler;
 
     _selectedCellRow = NSNotFound;
     _windowCapability = windowCapability;
+    _loadedCells = loadedCells;
 
     return self;
 }
@@ -98,6 +102,12 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isCancelled) { return; }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
+
+    NSSet<SDLChoiceCell *> *choiceSetCells = [NSSet setWithArray:self.choiceSet.choices];
+    if (![choiceSetCells isSubsetOfSet:self.loadedCells]) {
+        self.internalError = [NSError ]
+        [self finishOperation];
+    }
 
     [self sdl_start];
 }
@@ -314,6 +324,7 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     if (self.keyboardProperties == nil) {
+        self.completionHandler((self.internalError == nil));
         [super finishOperation];
         return;
     }
@@ -327,6 +338,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
         }
 
+        self.completionHandler((self.internalError == nil));
         [super finishOperation];
     }];
 }

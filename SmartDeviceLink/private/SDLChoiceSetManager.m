@@ -58,8 +58,6 @@ typedef NSNumber * SDLChoiceId;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
-@property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
 
 @property (assign, nonatomic) UInt16 nextChoiceId;
 @property (assign, nonatomic) UInt16 nextCancelId;
@@ -217,7 +215,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     NSMutableOrderedSet<SDLChoiceCell *> *mutableChoicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         [mutableChoicesToUpload minusSet:self.preloadedMutableChoices];
-        [mutableChoicesToUpload minusSet:self.pendingMutablePreloadChoices];
     }];
 
     NSOrderedSet<SDLChoiceCell *> *choicesToUpload = [mutableChoicesToUpload copy];
@@ -244,18 +241,8 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
     __weak typeof(self) weakSelf = self;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload updateCompletionHandler:^(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs) {
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload completionHandler:^(BOOL success, NSSet<SDLChoiceCell *> *updatedLoadedCells) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        // Find the `SDLChoiceCell`s that failed to upload using the `choiceId`s
-        NSMutableSet<SDLChoiceCell *> *failedChoiceUploadSet = [NSMutableSet set];
-        for (NSNumber *failedChoiceUploadID in failedChoiceUploadIDs) {
-            NSUInteger failedChoiceUploadIndex = [choicesToUpload indexOfObjectPassingTest:^BOOL(SDLChoiceCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                return obj.choiceId == failedChoiceUploadID.intValue;
-            }];
-            if (failedChoiceUploadIndex == NSNotFound) { continue; }
-            [failedChoiceUploadSet addObject:choicesToUpload[failedChoiceUploadIndex]];
-        }
 
         // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
         if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
@@ -263,21 +250,9 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             return;
         }
 
-        // Update the list of `preloadedMutableChoices` and `pendingMutablePreloadChoices` with the successful choice uploads
+        // Update the list of `preloadedMutableChoices`
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (failedChoiceUploadSet.count == 0) {
-                // No choices failed
-                [strongSelf.preloadedMutableChoices unionSet:choicesToUpload.set];
-                [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
-            } else {
-                // If some choices failed, remove the failed choices from the successful ones, then update the preloaded choices and pending choices
-                NSMutableSet<SDLChoiceCell *> *successfulChoiceUploads = [NSMutableSet setWithSet:choicesToUpload.set];
-                [successfulChoiceUploads minusSet:failedChoiceUploadSet];
-
-                [strongSelf.preloadedMutableChoices unionSet:successfulChoiceUploads];
-                [strongSelf.pendingMutablePreloadChoices minusSet:choicesToUpload.set];
-            }
+            strongSelf.preloadedChoices = updatedLoadedCells;
         }];
     }];
 

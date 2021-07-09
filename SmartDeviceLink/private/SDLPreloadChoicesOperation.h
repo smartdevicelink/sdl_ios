@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// A handler run when the operation completes, containing the failed choice uploads.
 ///
 /// @param failedChoiceUploadIDs The IDs of failed choice uploads
-typedef void(^SDLPreloadChoicesCompletionHandler)(NSArray<NSNumber *> * _Nullable failedChoiceUploadIDs);
+typedef void(^SDLPreloadChoicesCompletionHandler)(BOOL success, NSSet<SDLChoiceCell *> *updatedLoadedCells);
 
 typedef NS_ENUM(NSUInteger, SDLPreloadChoicesOperationState) {
     SDLPreloadChoicesOperationStateWaitingToStart,
@@ -34,7 +34,10 @@ typedef NS_ENUM(NSUInteger, SDLPreloadChoicesOperationState) {
 
 @property (assign, nonatomic) SDLPreloadChoicesOperationState currentState;
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells updateCompletionHandler:(SDLPreloadChoicesCompletionHandler)completionHandler;
+/// The cells that are loaded on the head unit
+@property (strong, nonatomic) NSSet<SDLChoiceCell *> *loadedCells;
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cellsToPreload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells completionHandler:(SDLPreloadChoicesCompletionHandler)completionHandler;
 
 - (BOOL)removeChoicesFromUpload:(NSSet<SDLChoiceCell *> *)choices;
 
