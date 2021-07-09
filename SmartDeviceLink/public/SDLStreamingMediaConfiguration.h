@@ -84,7 +84,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 @property (assign, nonatomic) BOOL allowMultipleViewControllerOrientations;
 
 /**
- Set a landscape image dimension range and/or aspect ratio range that your rootViewController supports. If the module's screen size for your app changes during streaming (i.e. to a collapsed view, split screen, preview mode or picture-in-picture), your rootViewController will be resized to the new screen size. If left unset or set to `nil`, the default is to support all lanscape streaming ranges. If you wish to disable support for streaming in landscape mode, set a `disabled` video streaming range.
+ Set a landscape image dimension range and/or aspect ratio range that your rootViewController supports. If the module's screen size for your app changes during streaming (i.e. to a collapsed view, split screen, preview mode or picture-in-picture), your rootViewController will be resized to the new screen size. If left unset or set to `nil`, the default is to support all landscape streaming ranges. If you wish to disable support for streaming in landscape mode, set a `disabled` video streaming range.
  If desired, you can subscribe to screen size updates via the SDLStreamingVideoDelegate.
  @warning If you disable both the supportedLandscapeStreamingRange and supportedPortraitStreamingRange, video will not stream
  */
