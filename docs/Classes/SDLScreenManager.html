@@ -1035,7 +1035,7 @@
 
 <p>If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.</p>
 
-<p>The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The <code>userInfo</code> object on the error contais an <code>error</code> key with more information about the error. If the alert failed to present, the <code>userInfo</code> object will contain a <code>tryAgainTime</code> key with information on how long to wait before trying to send another alert. The value for <code>tryAgainTime</code> may be <code>nil</code> if the module did not return a value in its response.</p>
+<p>The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The <code>userInfo</code> object on the error contains an <code>error</code> key with more information about the error. If the alert failed to present, the <code>userInfo</code> object will contain a <code>tryAgainTime</code> key with information on how long to wait before trying to send another alert. The value for <code>tryAgainTime</code> may be <code>nil</code> if the module did not return a value in its response.</p>
 
   
   

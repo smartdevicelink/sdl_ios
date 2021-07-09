@@ -102,7 +102,7 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completion NS_SWIFT_NAME(delete(fileName:completionHandler:));
 
 /**
- *  Deletes an array of files on the remote file system. The files are deleted in the order in which they are added to the array, with the first file to be deleted at index 0. The delete queue is sequential, meaning that once a delete request is sent to Core, the queue waits until a response is received from Core before the next the next delete request is sent.
+ *  Deletes an array of files on the remote file system. The files are deleted in the order in which they are added to the array, with the first file to be deleted at index 0. The delete queue is sequential, meaning that once a delete request is sent to Core, the queue waits until a response is received from Core before the next delete request is sent.
  *
  *  @param names  The names of the files to be deleted
  *  @param completionHandler  an optional SDLFileManagerMultiDeleteCompletionHandler
@@ -120,7 +120,7 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 /**
  *  Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
  *
- *  The optional progress handler can be used to keep track of the upload progress. After each file upload, the progress handler returns the upload percentage and an error, if one occured during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.
+ *  The optional progress handler can be used to keep track of the upload progress. After each file upload, the progress handler returns the upload percentage and an error, if one occurred during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.
  *
  *  @param files  An array of SDLFiles to be sent
  *  @param progressHandler an optional SDLFileManagerMultiUploadProgressHandler
