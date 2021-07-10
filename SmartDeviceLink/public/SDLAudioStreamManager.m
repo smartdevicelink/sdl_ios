@@ -17,6 +17,7 @@
 #import "SDLManager.h"
 #import "SDLPCMAudioConverter.h"
 #import "SDLStreamingAudioManagerType.h"
+#import "dispatch_timer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,10 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite, getter=isPlaying) BOOL playing;
 
 @property (assign, nonatomic) BOOL shouldPlayWhenReady;
+@property (nonatomic, strong, nullable) dispatch_source_t audioStreamTimer;
+@property (nonatomic) NSTimeInterval streamingEndTimeOfHU;
 
 @end
 
 @implementation SDLAudioStreamManager
+
+// Byte length of voice data per second
+static const NSInteger PerSecondVoiceData = 32000;
+
+// How many seconds the handset can precede the head unit
+static const NSTimeInterval ThresholdPrecedeSec = 3.0f;
 
 - (instancetype)initWithManager:(id<SDLStreamingAudioManagerType>)streamManager {
     self = [super init];
@@ -47,9 +56,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     dispatch_async(_audioQueue, ^{
-        self.shouldPlayWhenReady = NO;
-        [self.mutableQueue removeAllObjects];
+        [self sdl_stop];
     });
+}
+
+- (void)sdl_stop {
+    NSError *error = nil;
+    for (SDLAudioFile *file in self.mutableQueue) {
+        if (file.outputFileURL != nil) {
+            [[NSFileManager defaultManager] removeItemAtURL:file.outputFileURL error:&error];
+        }
+    }
+    [self.mutableQueue removeAllObjects];
+
+    if (self.audioStreamTimer != nil) {
+        dispatch_stop_timer(self.audioStreamTimer);
+        self.audioStreamTimer = nil;
+    }
+    self.shouldPlayWhenReady = NO;
+    self.playing = NO;
 }
 
 #pragma mark - Getters
@@ -61,13 +86,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Pushing to the Queue
 #pragma mark Files
 
-- (void)pushWithFileURL:(NSURL *)fileURL {
-    dispatch_async(_audioQueue, ^{
-        [self sdl_pushWithContentsOfURL:fileURL];
+- (void)pushWithFileURL:(NSURL *)fileURL forceInterrupt:(BOOL)forceInterrupt {    dispatch_async(_audioQueue, ^{
+        [self sdl_pushWithContentsOfURL:fileURL forceInterrupt:forceInterrupt];
     });
 }
 
-- (void)sdl_pushWithContentsOfURL:(NSURL *)fileURL {
+- (void)sdl_pushWithContentsOfURL:(NSURL *)fileURL forceInterrupt:(BOOL)forceInterrupt {
     // Convert and store in the queue
     NSError *error = nil;
     SDLPCMAudioConverter *converter = [[SDLPCMAudioConverter alloc] initWithFileURL:fileURL];
@@ -80,6 +104,19 @@ NS_ASSUME_NONNULL_BEGIN
             [self.delegate audioStreamManager:self errorDidOccurForFile:fileURL error:error];
         }
         return;
+    }
+
+    if (self.mutableQueue.count == 0) {
+        NSTimeInterval precedeTime = self.streamingEndTimeOfHU - [[NSDate date] timeIntervalSince1970];
+        if (precedeTime > 0.0f) {
+            SDLLogD(@"Time when handset is ahead of head unit: %f", precedeTime);
+            [NSThread sleepForTimeInterval:precedeTime];
+        }
+        self.streamingEndTimeOfHU = [[NSDate date] timeIntervalSince1970];
+    }
+
+    if (forceInterrupt) {
+        [self sdl_stop];
     }
 
     SDLAudioFile *audioFile = [[SDLAudioFile alloc] initWithInputFileURL:fileURL outputFileURL:outputFileURL estimatedDuration:estimatedDuration];
@@ -126,48 +163,97 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.shouldPlayWhenReady = NO;
-    __block SDLAudioFile *file = self.mutableQueue.firstObject;
-    [self.mutableQueue removeObjectAtIndex:0];
+    if (self.playing == NO) {
+        self.playing = YES;
+        SDLAudioFile *file = self.mutableQueue.firstObject;
 
-    // Strip the first bunch of bytes (because of how Apple outputs the data) and send to the audio stream, if we don't do this, it will make a weird click sound
-    NSData *audioData = nil;
-    if (file.inputFileURL != nil) {
-        audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))];
-    } else {
-        audioData = file.data;
+        // Strip the first bunch of bytes (because of how Apple outputs the data) and send to the audio stream, if we don't do this, it will make a weird click sound
+        __block NSData *audioData = nil;
+        if (file.inputFileURL != nil) {
+            audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))];
+        } else {
+            audioData = file.data;
+        }
+
+        NSTimeInterval precedeTime = self.streamingEndTimeOfHU - [[NSDate date] timeIntervalSince1970];
+        if(precedeTime > ThresholdPrecedeSec){
+            SDLLogD(@"The time during which the handset precedes the head unit exceeds the threshold: %f", precedeTime);
+            [NSThread sleepForTimeInterval:ThresholdPrecedeSec];
+        }
+
+        // Send the audio file, which starts it playing immediately
+        SDLLogD(@"Playing audio file: %@", file);
+        BOOL success = [self sendAudioData:&audioData of:PerSecondVoiceData * 2];
+        if ((success) && (audioData.length > 0)) {
+            __weak typeof(self) weakSelf = self;
+            self.audioStreamTimer = dispatch_create_timer(1.0f, YES, ^{
+                BOOL success = [weakSelf sendAudioData:&audioData of:PerSecondVoiceData];
+                if ((success) && (audioData.length > 0)) {
+                    SDLLogD(@"sendAudioData continue: %lu", (unsigned long)audioData.length);
+                } else {
+                    SDLLogD(@"sendAudioData end");
+                    dispatch_stop_timer(weakSelf.audioStreamTimer);
+                    weakSelf.audioStreamTimer = nil;
+
+                    [weakSelf sdl_finishAudioStreaming:file success:success];
+                }
+            });
+        } else {
+            [self sdl_finishAudioStreaming:file success:success];
+        }
     }
+}
 
-    // Send the audio file, which starts it playing immediately
-    SDLLogD(@"Playing audio file: %@", file);
-    __block BOOL success = [self.streamManager sendAudioData:audioData];
-    self.playing = YES;
-
-    // Determine the length of the audio PCM data and perform a few items once the audio has finished playing
-    float audioLengthSecs = (float)audioData.length / (float)32000.0;
+- (void)sdl_finishAudioStreaming:(SDLAudioFile *)file success:(BOOL)success {
     __weak typeof(self) weakself = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
-        __strong typeof(weakself) strongSelf = weakself;
-
-        strongSelf.playing = NO;
+    dispatch_async(_audioQueue, ^{
+        weakself.playing = NO;
+        if (weakself.mutableQueue.count > 0) {
+            [weakself.mutableQueue removeObjectAtIndex:0];
+            [weakself sdl_playNextWhenReady];
+        }
+    });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
         NSError *error = nil;
-        if (strongSelf.delegate != nil) {
+        if (weakself.delegate != nil) {
             if (file.inputFileURL != nil) {
-                [strongSelf.delegate audioStreamManager:strongSelf fileDidFinishPlaying:file.inputFileURL successfully:success];
-            } else if ([strongSelf.delegate respondsToSelector:@selector(audioStreamManager:dataBufferDidFinishPlayingSuccessfully:)]) {
-                [strongSelf.delegate audioStreamManager:strongSelf dataBufferDidFinishPlayingSuccessfully:success];
+                [weakself.delegate audioStreamManager:weakself fileDidFinishPlaying:file.inputFileURL successfully:success];
+            } else if ([weakself.delegate respondsToSelector:@selector(audioStreamManager:dataBufferDidFinishPlayingSuccessfully:)]) {
+                [weakself.delegate audioStreamManager:weakself dataBufferDidFinishPlayingSuccessfully:success];
             }
         }
 
         SDLLogD(@"Ending Audio file: %@", file);
         [[NSFileManager defaultManager] removeItemAtURL:file.outputFileURL error:&error];
-        if (strongSelf.delegate != nil && error != nil) {
+        if (weakself.delegate != nil && error != nil) {
             if (file.inputFileURL != nil) {
-                [strongSelf.delegate audioStreamManager:strongSelf errorDidOccurForFile:file.inputFileURL error:error];
-            } else if ([strongSelf.delegate respondsToSelector:@selector(audioStreamManager:errorDidOccurForDataBuffer:)]) {
-                [strongSelf.delegate audioStreamManager:strongSelf errorDidOccurForDataBuffer:error];
+                [weakself.delegate audioStreamManager:weakself errorDidOccurForFile:file.inputFileURL error:error];
+            } else if ([weakself.delegate respondsToSelector:@selector(audioStreamManager:errorDidOccurForDataBuffer:)]) {
+                [weakself.delegate audioStreamManager:weakself errorDidOccurForDataBuffer:error];
             }
         }
     });
+}
+
+- (BOOL)sendAudioData:(NSData **)data of:(NSUInteger)byteLength{
+    if (self.streamManager.isAudioConnected == NO) {
+        return NO;
+    }
+
+    NSUInteger sByte = byteLength;
+    if ((*data).length < byteLength) {
+        sByte = (*data).length;
+    }
+
+    if ([self.streamManager sendAudioData:[*data subdataWithRange:NSMakeRange(0, sByte)]]) {
+        // Set remaining voice data
+        *data = [(*data) subdataWithRange:NSMakeRange(sByte, (*data).length - sByte)];
+
+        // Calculate the AudioStreaming end time on the HU side.
+        self.streamingEndTimeOfHU += (double)sByte / (double)PerSecondVoiceData;
+        return YES;
+    }
+    return NO;
 }
 
 @end
