@@ -13,6 +13,7 @@
 #import "SDLChoiceSet.h"
 #import "SDLChoiceSetDelegate.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLError.h"
 #import "SDLGlobals.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
@@ -57,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt16 cancelId;
 @property (assign, nonatomic) BOOL updatedKeyboardProperties;
 
+@property (copy, nonatomic) SDLPresentChoiceSetCompletionHandler completionHandler;
 @property (copy, nonatomic, nullable) NSError *internalError;
 @property (strong, nonatomic, readwrite, nullable) SDLChoiceCell *selectedCell;
 @property (strong, nonatomic, readwrite, nullable) SDLTriggerSource selectedTriggerSource;
@@ -67,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresentChoiceSetOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID windowCapability:(SDLWindowCapability *)windowCapability loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells completionHandler:(SDLPresentChoiceSetCompletionHandler)completionHandler {
     self = [super init];
     if (!self) { return self; }
 
@@ -86,9 +88,11 @@ NS_ASSUME_NONNULL_BEGIN
     _keyboardProperties = originalKeyboardProperties;
     _keyboardDelegate = keyboardDelegate;
     _cancelId = cancelID;
+    _completionHandler = completionHandler;
 
     _selectedCellRow = NSNotFound;
     _windowCapability = windowCapability;
+    _loadedCells = loadedCells;
 
     return self;
 }
@@ -98,6 +102,12 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isCancelled) { return; }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
+
+    NSSet<SDLChoiceCell *> *choiceSetCells = [NSSet setWithArray:self.choiceSet.choices];
+    if (![choiceSetCells isSubsetOfSet:self.loadedCells]) {
+        self.internalError = [NSError sdl_choiceSetManager_choicesNotAvailableForPresentation:choiceSetCells availableCells:self.loadedCells];
+        return [self finishOperation];
+    }
 
     [self sdl_start];
 }
@@ -112,10 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
-        if (self.isCancelled) {
-            [self finishOperation];
-            return;
-        }
+        if (self.isCancelled) { return [self finishOperation]; }
 
         [self sdl_presentChoiceSet];
     }];
@@ -153,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogE(@"Presenting choice set failed with response: %@, error: %@", response, error);
+            SDLLogE(@"Presenting choice set request: %@, failed with response: %@, error: %@", request, response, error);
             weakself.internalError = error;
 
             [weakself finishOperation];
@@ -314,6 +321,7 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     if (self.keyboardProperties == nil) {
+        self.completionHandler(self.internalError);
         [super finishOperation];
         return;
     }
@@ -327,6 +335,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
         }
 
+        self.completionHandler(self.internalError);
         [super finishOperation];
     }];
 }

@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Choice Set Manager
 
-+ (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo;
++ (NSError *)sdl_choiceSetManager_choicesNotAvailableForPresentation:(NSSet<SDLChoiceCell *> *)neededCells availableCells:(NSSet<SDLChoiceCell *> *)availableCells;
 + (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;

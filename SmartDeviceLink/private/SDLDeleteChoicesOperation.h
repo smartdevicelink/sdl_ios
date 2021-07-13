@@ -18,7 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeleteChoicesOperation : SDLAsynchronousOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells;
+typedef void(^SDLDeleteChoicesCompletionHandler)(NSSet<SDLChoiceCell *> *updatedLoadedCells, NSError *_Nullable error);
+
+/// The cells that are loaded on the head unit
+@property (strong, nonatomic) NSSet<SDLChoiceCell *> *loadedCells;
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cellsToDelete loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells completionHandler:(SDLDeleteChoicesCompletionHandler)completionHandler;
 
 @end
 

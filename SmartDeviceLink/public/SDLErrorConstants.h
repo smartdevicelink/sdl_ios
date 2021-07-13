@@ -198,8 +198,8 @@ typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
 
 /// Errors associated with Choice Set Manager class
 typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
-    /// The choice set has been deleted before it was presented
-    SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
+    /// Some needed choices for presentation are not available
+    SDLChoiceSetManagerErrorNeededChoicesUnavailable = -1,
 
     /// The choice set failed to delete
     SDLChoiceSetManagerErrorDeletionFailed = -2,
