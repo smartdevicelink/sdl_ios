@@ -74,7 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.cellsToUpload minusSet:self.loadedCells];
     [self sdl_preloadCellArtworksWithCompletionHandler:^(NSError * _Nullable error) {
         self.internalError = error;
-        
         [self sdl_preloadCells];
     }];
 }
@@ -242,7 +241,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)finishOperation {
     _currentState = SDLPreloadChoicesOperationStateFinished;
-    self.completionHandler((self.internalError == nil), self.loadedCells);
+    self.completionHandler(self.loadedCells, self.internalError);
 
     [super finishOperation];
 }

@@ -283,8 +283,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Choice Set Manager
 
-+ (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo {
-    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorPendingPresentationDeleted userInfo:userInfo];
++ (NSError *)sdl_choiceSetManager_choicesNotAvailableForPresentation:(NSSet<SDLChoiceCell *> *)neededCells availableCells:(NSSet<SDLChoiceCell *> *)availableCells {
+
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorNeededChoicesUnavailable userInfo:@{
+        NSLocalizedDescriptionKey: @"Choice Set Manager error",
+        NSLocalizedFailureReasonErrorKey: @"Not all needed choices for presentation are available on the head unit. See key 'neededChoices' and 'availableChoices'",
+        NSLocalizedRecoverySuggestionErrorKey: @"Choices may have been deleted or were not all properly uploaded for presentation. You can attempt the presentation again to retry the upload.",
+        @"neededChoices": neededCells.description,
+        @"availableChoices": availableCells.description
+    }];
 }
 
 + (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo {

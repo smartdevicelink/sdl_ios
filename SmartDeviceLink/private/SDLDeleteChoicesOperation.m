@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (void)finishOperation {
-    self.completionHandler((self.internalError == nil), self.loadedCells);
+    self.completionHandler(self.loadedCells, self.internalError);
     [super finishOperation];
 }
 

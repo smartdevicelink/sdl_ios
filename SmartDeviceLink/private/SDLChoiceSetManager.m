@@ -57,11 +57,10 @@ typedef NSNumber * SDLChoiceId;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
-
 @property (assign, nonatomic) UInt16 nextChoiceId;
 @property (assign, nonatomic) UInt16 nextCancelId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
+@property (copy, nonatomic, readwrite) NSSet<SDLChoiceCell *> *preloadedChoices;
 
 @end
 
@@ -87,8 +86,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
     _readWriteQueue = dispatch_queue_create_with_target("com.sdl.screenManager.choiceSetManager.readWriteQueue", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
 
-    _preloadedMutableChoices = [NSMutableSet set];
-    _pendingMutablePreloadChoices = [NSMutableSet set];
+    _preloadedChoices = [NSSet set];
 
     _nextChoiceId = ChoiceCellIdMin;
     _nextCancelId = ChoiceCellCancelIdMin;
@@ -165,8 +163,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
     [self.transactionQueue cancelAllOperations];
     self.transactionQueue = [self sdl_newTransactionQueue];
-    _preloadedMutableChoices = [NSMutableSet set];
-    _pendingMutablePreloadChoices = [NSMutableSet set];
+    _preloadedChoices = [NSMutableSet set];
 
     _vrOptional = YES;
     _nextChoiceId = ChoiceCellIdMin;
@@ -212,12 +209,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-    NSMutableOrderedSet<SDLChoiceCell *> *mutableChoicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [mutableChoicesToUpload minusSet:self.preloadedMutableChoices];
-    }];
-
-    NSOrderedSet<SDLChoiceCell *> *choicesToUpload = [mutableChoicesToUpload copy];
+    NSOrderedSet<SDLChoiceCell *> *choicesToUpload = [NSOrderedSet orderedSetWithArray:choices];
     if (choicesToUpload.count == 0) {
         SDLLogD(@"All choices already preloaded. No need to perform a preload");
         if (handler != nil) {
@@ -229,11 +221,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
     [self sdl_updateIdsOnChoices:choicesToUpload];
 
-    // Add the preload cells to the pending preloads
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        [self.pendingMutablePreloadChoices unionSet:choicesToUpload.set];
-    }];
-
     // Upload pending preloads
     // For backward compatibility with Gen38Inch display type head units
     SDLLogD(@"Preloading choices");
@@ -241,7 +228,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
     __weak typeof(self) weakSelf = self;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload completionHandler:^(BOOL success, NSSet<SDLChoiceCell *> *updatedLoadedCells) {
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload loadedCells:self.preloadedChoices completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError *_Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
@@ -253,21 +240,20 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         // Update the list of `preloadedMutableChoices`
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             strongSelf.preloadedChoices = updatedLoadedCells;
+            [strongSelf sdl_updatePendingTasksWithCurrentPreloads];
         }];
-    }];
 
-    __weak typeof(preloadOp) weakPreloadOp = preloadOp;
-    preloadOp.completionBlock = ^{
         SDLLogD(@"Choices finished preloading");
-
         if (handler != nil) {
             if ([weakSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
                 handler([NSError sdl_choiceSetManager_incorrectState:SDLChoiceManagerStateShutdown]);
             } else {
-                handler(weakPreloadOp.error);
+                handler(error);
             }
+
+            return;
         }
-    };
+    }];
 
     [self.transactionQueue addOperation:preloadOp];
 }
@@ -281,30 +267,20 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
     // TODO: Do in operation
     [self sdl_findIdsOnChoices:cellsToBeDeleted];
-    SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted];
 
-    __weak typeof(self) weakSelf = self;
-    __weak typeof(deleteOp) weakOp = deleteOp;
-    deleteOp.completionBlock = ^{
+    __weak typeof(self) weakself = self;
+    SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:choices loadedCells:self.preloadedChoices completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError *_Nullable error) {
+        __strong typeof(weakself) strongself = weakself;
         SDLLogD(@"Finished deleting choices");
 
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (weakOp.error != nil) {
-            SDLLogE(@"Failed to delete choices: %@", weakOp.error);
-            return;
-        }
+        strongself.preloadedChoices = updatedLoadedCells;
+        [strongself sdl_updatePendingTasksWithCurrentPreloads];
 
-        // Check if the manager has shutdown because the list of uploaded choices should not be updated
-        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-            SDLLogD(@"Cancelling deleting choices because manager is shut down");
-            return;
+        if (error != nil) {
+            SDLLogE(@"Failed to delete choices with error: %@", error);
         }
+    }];
 
-        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.preloadedMutableChoices minusSet:cellsToBeDeleted];
-        }];
-    };
     [self.transactionQueue addOperation:deleteOp];
 }
 
@@ -402,6 +378,23 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 }
 
 #pragma mark - Choice Management Helpers
+
+- (void)sdl_updatePendingTasksWithCurrentPreloads {
+    for (NSOperation *op in self.transactionQueue.operations) {
+        if (op.isExecuting || op.isCancelled) { continue; }
+
+        if ([op isMemberOfClass:SDLPreloadChoicesOperation.class]) {
+            SDLPreloadChoicesOperation *preloadOp = (SDLPreloadChoicesOperation *)op;
+            preloadOp.loadedCells = self.preloadedChoices;
+        } else if ([op isMemberOfClass:SDLPresentChoiceSetOperation.class]) {
+            SDLPresentChoiceSetOperation *presentOp = (SDLPresentChoiceSetOperation *)op;
+            presentOp.loadedCells = self.preloadedChoices;
+        } else if ([op isMemberOfClass:SDLDeleteChoicesOperation.class]) {
+            SDLDeleteChoicesOperation *deleteOp = (SDLDeleteChoicesOperation *)op;
+            deleteOp.loadedCells = self.preloadedChoices;
+        }
+    }
+}
 
 /// Checks the passed list of choices to be uploaded and returns the items that have not yet been uploaded to the module.
 /// @param choices The choices to be uploaded
@@ -557,24 +550,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 }
 
 #pragma mark - Getters
-
-- (NSSet<SDLChoiceCell *> *)preloadedChoices {
-    __block NSSet<SDLChoiceCell *> *set = nil;
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        set = [self->_preloadedMutableChoices copy];
-    }];
-
-    return set;
-}
-
-- (NSSet<SDLChoiceCell *> *)pendingPreloadChoices {
-    __block NSSet<SDLChoiceCell *> *set = nil;
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        set = [self->_pendingMutablePreloadChoices copy];
-    }];
-
-    return set;
-}
 
 - (UInt16)nextChoiceId {
     __block UInt16 choiceId = 0;

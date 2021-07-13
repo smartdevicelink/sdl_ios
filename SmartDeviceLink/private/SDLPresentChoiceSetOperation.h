@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentChoiceSetOperation : SDLAsynchronousOperation
 
-typedef void(^SDLPresentChoiceSetCompletionHandler)(BOOL success);
+typedef void(^SDLPresentChoiceSetCompletionHandler)(NSError *_Nullable error);
 
 /**
  The choice set to be displayed.

@@ -105,8 +105,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSSet<SDLChoiceCell *> *choiceSetCells = [NSSet setWithArray:self.choiceSet.choices];
     if (![choiceSetCells isSubsetOfSet:self.loadedCells]) {
-        self.internalError = [NSError ]
-        [self finishOperation];
+        self.internalError = [NSError sdl_choiceSetManager_choicesNotAvailableForPresentation:choiceSetCells availableCells:self.loadedCells];
+        return [self finishOperation];
     }
 
     [self sdl_start];
@@ -122,10 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
-        if (self.isCancelled) {
-            [self finishOperation];
-            return;
-        }
+        if (self.isCancelled) { return [self finishOperation]; }
 
         [self sdl_presentChoiceSet];
     }];
@@ -324,7 +321,7 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     if (self.keyboardProperties == nil) {
-        self.completionHandler((self.internalError == nil));
+        self.completionHandler(self.internalError);
         [super finishOperation];
         return;
     }
@@ -338,7 +335,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
         }
 
-        self.completionHandler((self.internalError == nil));
+        self.completionHandler(self.internalError);
         [super finishOperation];
     }];
 }
