@@ -14,20 +14,23 @@ describe(@"delete choices operation", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLDeleteChoicesOperation *testOp = nil;
     __block NSSet<SDLChoiceCell *> *testCellsToDelete = nil;
+    __block NSSet<SDLChoiceCell *> *testLoadedCells = nil;
 
-    __block BOOL hasCalledOperationCompletionHandler = NO;
     __block NSError *resultError = nil;
+    __block NSSet<SDLChoiceCell *> *resultLoadedCells;
 
     beforeEach(^{
-        hasCalledOperationCompletionHandler = NO;
-
         testConnectionManager = [[TestConnectionManager alloc] init];
         testCellsToDelete = [NSSet setWithArray:@[[[SDLChoiceCell alloc] initWithText:@"Text"], [[SDLChoiceCell alloc] initWithText:@"Text 2"]]];
-        testOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:testConnectionManager cellsToDelete:testCellsToDelete];
-        testOp.completionBlock = ^{
-            hasCalledOperationCompletionHandler = YES;
-            resultError = testOp.error;
-        };
+        testLoadedCells = testCellsToDelete;
+
+        resultError = nil;
+        resultLoadedCells = nil;
+
+        testOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:testConnectionManager cellsToDelete:testCellsToDelete loadedCells:testLoadedCells completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+            resultLoadedCells = updatedLoadedCells;
+            resultError = error;
+        }];
     });
 
     it(@"should have priority of 'normal'", ^{
@@ -56,7 +59,7 @@ describe(@"delete choices operation", ^{
             });
 
             it(@"should finish with success", ^{
-                expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                expect(resultLoadedCells).toEventuallyNot(beNil());
                 expect(resultError).to(beNil());
             });
         });
@@ -66,8 +69,8 @@ describe(@"delete choices operation", ^{
                 [testConnectionManager respondToLastMultipleRequestsWithSuccess:NO];
             });
 
-            it(@"should finish with success", ^{
-                expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+            it(@"should finish with a failure", ^{
+                expect(resultLoadedCells).toEventuallyNot(beNil());
                 expect(resultError).toNot(beNil());
             });
         });

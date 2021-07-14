@@ -101,8 +101,15 @@ describe(@"choice set manager tests", ^{
     __block SDLVersion *choiceSetUniquenessActiveVersion = nil;
     __block SDLArtwork *testArtwork = nil;
 
+    __block NSSet<SDLChoiceCell *> *emptyLoadedCells = [NSSet set];
+
     __block SDLPresentChoiceSetOperation *testPresentChoiceOp = nil;
     __block SDLPresentKeyboardOperation *testPresentKeyboardOp = nil;
+
+    __block SDLTriggerSource resultTriggerSource = SDLTriggerSourceMenu;
+    __block SDLChoiceCell *resultChoiceCell = nil;
+    __block NSUInteger resultChoiceRow = NSUIntegerMax;
+    __block NSError *resultError = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -142,7 +149,17 @@ describe(@"choice set manager tests", ^{
         testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:choiceDelegate choices:@[testCell1, testCell2, testCell3]];
         testFailedChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:choiceDelegate choices:@[testCell1, testCell2, testCell3, testCell4]];
 
-        testPresentChoiceOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testMode keyboardProperties:testKeyboardProperties keyboardDelegate:keyboardDelegate cancelID:testCancelID windowCapability:enabledWindowCapability];
+        resultTriggerSource = SDLTriggerSourceMenu;
+        resultChoiceCell = nil;
+        resultChoiceRow = NSUIntegerMax;
+        resultError = nil;
+
+        testPresentChoiceOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testMode keyboardProperties:testKeyboardProperties keyboardDelegate:keyboardDelegate cancelID:testCancelID windowCapability:enabledWindowCapability loadedCells:emptyLoadedCells completionHandler:^(SDLChoiceCell * _Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource  _Nonnull selectedTriggerSource, NSError * _Nullable error) {
+            resultChoiceCell = selectedCell;
+            resultChoiceRow = selectedRow;
+            resultTriggerSource = selectedTriggerSource;
+            resultError = error;
+        }];
         testPresentKeyboardOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:testConnectionManager keyboardProperties:testKeyboardProperties initialText:testTitle keyboardDelegate:keyboardDelegate cancelID:testCancelID windowCapability:enabledWindowCapability];
     });
 
@@ -429,14 +446,14 @@ describe(@"choice set manager tests", ^{
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
 
-//                fit(@"should properly start the deletion", ^{
-//                    expect(testManager.transactionQueue.operations[1]).to(beAnInstanceOf([SDLDeleteChoicesOperation class]));
-//                    expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
-//                    OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
-//
-//                    testManager.transactionQueue.operations.lastObject.completionBlock();
-//                    expect(testManager.preloadedChoices).to(beEmpty());
-//                });
+                it(@"should properly start the deletion", ^{
+                    expect(testManager.transactionQueue.operations[1]).to(beAnInstanceOf([SDLDeleteChoicesOperation class]));
+                    expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
+                    OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
+
+                    testManager.transactionQueue.operations.lastObject.completionBlock();
+                    expect(testManager.preloadedChoices).to(beEmpty());
+                });
             });
 
             context(@"used in pending preloads", ^{

@@ -39,30 +39,37 @@ describe(@"present choice operation", ^{
     __block SDLChoiceSet *testChoiceSet = nil;
     __block id<SDLChoiceSetDelegate> testChoiceDelegate = nil;
     __block NSArray<SDLChoiceCell *> *testChoices = nil;
+    __block NSSet<SDLChoiceCell *> *testLoadedChoices = nil;
     __block int testCancelID = 98;
 
     __block id<SDLKeyboardDelegate> testKeyboardDelegate = nil;
     __block SDLKeyboardProperties *testKeyboardProperties = nil;
 
-    __block BOOL hasCalledOperationCompletionHandler = NO;
+    __block SDLTriggerSource resultTriggerSource = SDLTriggerSourceMenu;
+    __block SDLChoiceCell *resultChoiceCell = nil;
+    __block NSUInteger resultChoiceRow = NSUIntegerMax;
     __block NSError *resultError = nil;
     __block SDLWindowCapability *windowCapability = nil;
 
     beforeEach(^{
         resultError = nil;
-        hasCalledOperationCompletionHandler = NO;
 
         testConnectionManager = [[TestConnectionManager alloc] init];
-
         testChoiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
         SDLChoiceCell *cell1 = [[SDLChoiceCell alloc] initWithText:@"Cell 1"];
         testChoices = @[cell1];
+        testLoadedChoices = [NSSet setWithArray:@[cell1]];
         testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"Test Title" delegate:testChoiceDelegate layout:SDLChoiceSetLayoutTiles timeout:13 initialPromptString:@"Test initial prompt" timeoutPromptString:@"Test timeout prompt" helpPromptString:@"Test help prompt" vrHelpList:nil choices:testChoices];
 
         windowCapability = [[SDLWindowCapability alloc] init];
         testKeyboardDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
         OCMStub([testKeyboardDelegate customKeyboardConfiguration]).andReturn(nil);
         testKeyboardProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
+
+        resultTriggerSource = SDLTriggerSourceMenu;
+        resultChoiceCell = nil;
+        resultChoiceRow = NSUIntegerMax;
+        resultError = nil;
     });
 
     it(@"should have a priority of 'normal'", ^{
@@ -73,10 +80,12 @@ describe(@"present choice operation", ^{
 
     describe(@"running a non-searchable choice set operation", ^{
         beforeEach(^{
-            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID windowCapability:windowCapability];
-            testOp.completionBlock = ^{
-                hasCalledOperationCompletionHandler = YES;
-            };
+            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID windowCapability:windowCapability loadedCells:testLoadedChoices completionHandler:^(SDLChoiceCell * _Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource  _Nonnull selectedTriggerSource, NSError * _Nullable error) {
+                resultChoiceCell = selectedCell;
+                resultChoiceRow = selectedRow;
+                resultTriggerSource = selectedTriggerSource;
+                resultError = error;
+            }];
             [testOp start];
         });
 
@@ -115,10 +124,9 @@ describe(@"present choice operation", ^{
 
                 it(@"should not reset the keyboard properties and should be finished", ^{
                     expect(testConnectionManager.receivedRequests.lastObject).toNot(beAnInstanceOf([SDLSetGlobalProperties class]));
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(testOp.isFinished).to(beTrue());
-                    expect(testOp.selectedCell).to(equal(testChoices.firstObject));
-                    expect(testOp.selectedTriggerSource).to(equal(responseTriggerSource));
+                    expect(resultChoiceCell).to(equal(testChoices.firstObject));
+                    expect(resultTriggerSource).to(equal(responseTriggerSource));
                 });
             });
         });
@@ -127,10 +135,12 @@ describe(@"present choice operation", ^{
             __block SDLPresentChoiceSetOperation *testCancelOp = nil;
 
             beforeEach(^{
-                testCancelOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID windowCapability:windowCapability];
-                testCancelOp.completionBlock = ^{
-                    hasCalledOperationCompletionHandler = YES;
-                };
+                testCancelOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:nil keyboardDelegate:nil cancelID:testCancelID windowCapability:windowCapability loadedCells:testLoadedChoices completionHandler:^(SDLChoiceCell * _Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource  _Nonnull selectedTriggerSource, NSError * _Nullable error) {
+                    resultChoiceCell = selectedCell;
+                    resultChoiceRow = selectedRow;
+                    resultTriggerSource = selectedTriggerSource;
+                    resultError = error;
+                }];
             });
 
             context(@"Head unit supports the `CancelInteration` RPC", ^{
@@ -170,7 +180,6 @@ describe(@"present choice operation", ^{
                          });
 
                          it(@"should not finish", ^{
-                             expect(hasCalledOperationCompletionHandler).to(beFalse());
                              expect(testCancelOp.isExecuting).to(beTrue());
                              expect(testCancelOp.isFinished).to(beFalse());
                              expect(testCancelOp.isCancelled).to(beFalse());
@@ -191,7 +200,6 @@ describe(@"present choice operation", ^{
                          });
 
                          it(@"should not finish", ^{
-                             expect(hasCalledOperationCompletionHandler).to(beFalse());
                              expect(testCancelOp.isExecuting).to(beTrue());
                              expect(testCancelOp.isFinished).to(beFalse());
                              expect(testCancelOp.isCancelled).to(beFalse());
@@ -234,7 +242,6 @@ describe(@"present choice operation", ^{
                      });
 
                      it(@"should not finish", ^{
-                         expect(hasCalledOperationCompletionHandler).toEventually(beFalse());
                          expect(testCancelOp.isExecuting).toEventually(beTrue());
                          expect(testCancelOp.isFinished).toEventually(beFalse());
                          expect(testCancelOp.isCancelled).toEventually(beTrue());
@@ -266,7 +273,6 @@ describe(@"present choice operation", ^{
                         });
 
                         it(@"should finish", ^{
-                            expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                             expect(testCancelOp.isExecuting).toEventually(beFalse());
                             expect(testCancelOp.isFinished).toEventually(beTrue());
                             expect(testCancelOp.isCancelled).toEventually(beTrue());
@@ -315,11 +321,13 @@ describe(@"present choice operation", ^{
 
     describe(@"running a searchable choice set operation", ^{
         beforeEach(^{
-            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:testKeyboardProperties keyboardDelegate:testKeyboardDelegate cancelID:testCancelID windowCapability:windowCapability];
+            testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:testKeyboardProperties keyboardDelegate:testKeyboardDelegate cancelID:testCancelID windowCapability:windowCapability loadedCells:testLoadedChoices completionHandler:^(SDLChoiceCell * _Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource  _Nonnull selectedTriggerSource, NSError * _Nullable error) {
+                resultChoiceCell = selectedCell;
+                resultChoiceRow = selectedRow;
+                resultTriggerSource = selectedTriggerSource;
+                resultError = error;
+            }];
 
-            testOp.completionBlock = ^{
-                hasCalledOperationCompletionHandler = YES;
-            };
             [testOp start];
         });
 
