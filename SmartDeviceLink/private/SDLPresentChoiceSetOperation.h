@@ -24,27 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentChoiceSetOperation : SDLAsynchronousOperation
 
-typedef void(^SDLPresentChoiceSetCompletionHandler)(NSError *_Nullable error);
-
-/**
- The choice set to be displayed.
- */
-@property (strong, nonatomic, readonly) SDLChoiceSet *choiceSet;
-
-/**
- The choice set item the user selected.
- */
-@property (strong, nonatomic, readonly, nullable) SDLChoiceCell *selectedCell;
-
-/**
- How the user selected the choice set item: either from the menu or through voice-recognition.
- */
-@property (strong, nonatomic, readonly, nullable) SDLTriggerSource selectedTriggerSource;
-
-/**
- The row number of the choice set item the user selected.
- */
-@property (assign, nonatomic, readonly) NSUInteger selectedCellRow;
+typedef void(^SDLPresentChoiceSetCompletionHandler)(SDLChoiceCell *_Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource selectedTriggerSource, NSError *_Nullable error);
 
 /// The cells that are loaded on the head unit
 @property (strong, nonatomic) NSSet<SDLChoiceCell *> *loadedCells;

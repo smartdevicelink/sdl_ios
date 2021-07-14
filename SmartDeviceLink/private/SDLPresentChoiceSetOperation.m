@@ -103,6 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
+    // Check if we have all of the cells loaded and abort if we don't
     NSSet<SDLChoiceCell *> *choiceSetCells = [NSSet setWithArray:self.choiceSet.choices];
     if (![choiceSetCells isSubsetOfSet:self.loadedCells]) {
         self.internalError = [NSError sdl_choiceSetManager_choicesNotAvailableForPresentation:choiceSetCells availableCells:self.loadedCells];
@@ -113,6 +114,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_start {
+    // Update the cells with choice ids
+    [self sdl_updateChoiceSetChoicesId];
+
     // Check if we're using a keyboard (searchable) choice set and setup keyboard properties if we need to
     if (self.keyboardDelegate != nil && [self.keyboardDelegate respondsToSelector:@selector(customKeyboardConfiguration)]) {
         SDLKeyboardProperties *customProperties = self.keyboardDelegate.customKeyboardConfiguration;
@@ -121,6 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 
+    // Update keyboard properties first if needed, then present the choice set
     [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
         if (self.isCancelled) { return [self finishOperation]; }
 
@@ -176,6 +181,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Helpers
+
+- (void)sdl_updateChoiceSetChoicesId {
+    for (SDLChoiceCell *cell in self.choiceSet.choices) {
+        SDLChoiceCell *uploadCell = [self.loadedCells member:cell];
+        if (uploadCell == nil) { continue; }
+        cell.choiceId = uploadCell.choiceId;
+    }
+}
 
 - (void)sdl_setSelectedCellWithId:(NSNumber<SDLInt> *)cellId {
     __weak typeof(self) weakself = self;
@@ -321,9 +334,8 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     if (self.keyboardProperties == nil) {
-        self.completionHandler(self.internalError);
-        [super finishOperation];
-        return;
+        self.completionHandler(self.selectedCell, self.selectedCellRow, self.selectedTriggerSource, self.internalError);
+        return [super finishOperation];
     }
 
     // We need to reset the keyboard properties
@@ -335,7 +347,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
         }
 
-        self.completionHandler(self.internalError);
+        self.completionHandler(self.selectedCell, self.selectedCellRow, self.selectedTriggerSource, self.internalError);
         [super finishOperation];
     }];
 }

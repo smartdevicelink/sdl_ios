@@ -219,6 +219,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
+    // Add ids to all the choices, ones that are already on the head unit will be removed when the preload starts
     [self sdl_updateIdsOnChoices:choicesToUpload];
 
     // Upload pending preloads
@@ -265,9 +266,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-    // TODO: Do in operation
-    [self sdl_findIdsOnChoices:cellsToBeDeleted];
-
     __weak typeof(self) weakself = self;
     SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:choices loadedCells:self.preloadedChoices completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError *_Nullable error) {
         __strong typeof(weakself) strongself = weakself;
@@ -298,53 +296,28 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     }
 
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
-    __weak typeof(self) weakSelf = self;
-    [self preloadChoices:choiceSet.choices withCompletionHandler:^(NSError * _Nullable error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (error != nil) {
-            SDLLogE(@"Error preloading choice cells for choice set presentation; aborting. Error: %@", error);
+
+    // Create an operation to preload the choices. We don't check if things are on the head unit and skip this so that if there's a delete operation in progress (etc.) we still ensure everything will be loaded right before the present. We don't check the completion handler because the present operation will take care of figuring out if it can present and returning an error.
+    [self preloadChoices:choiceSet.choices withCompletionHandler:nil];
+
+    // Add an operation to present it once the preload is complete
+    SDLPresentChoiceSetCompletionHandler presentCompletionHandler = ^void(SDLChoiceCell *_Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource selectedTriggerSource, NSError *_Nullable error) {
+        SDLLogD(@"Finished presenting choice set: %@", choiceSet);
+
+        if (error != nil && delegate != nil) {
             [choiceSet.delegate choiceSet:choiceSet didReceiveError:error];
-            return;
+        } else if (selectedCell != nil && choiceSet.delegate != nil) {
+            [choiceSet.delegate choiceSet:choiceSet didSelectChoice:selectedCell withSource:selectedTriggerSource atRowIndex:selectedRow];
         }
-
-        // The cells necessary for this presentation are now preloaded, so we will enqueue a presentation 
-        [strongSelf sdl_presentChoiceSet:choiceSet withMode:mode keyboardDelegate:delegate];
-    }];
-}
-
-/// Helper method for presenting a choice set.
-/// @param mode If the set should be presented for the user to interact via voice, touch, or both
-/// @param delegate The keyboard delegate called when the user interacts with the search field of the choice set, if not set, a non-searchable choice set will be used
-- (void)sdl_presentChoiceSet:(SDLChoiceSet *)choiceSet withMode:(SDLInteractionMode)mode keyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
-    [self sdl_findIdsOnChoiceSet:choiceSet];
+    };
 
     SDLPresentChoiceSetOperation *presentOp = nil;
     if (delegate == nil) {
         // Non-searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:choiceSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:choiceSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId windowCapability:self.currentWindowCapability loadedCells:self.preloadedChoices completionHandler:presentCompletionHandler];
     } else {
         // Searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:choiceSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId windowCapability:self.currentWindowCapability];
-    }
-
-    __weak typeof(presentOp) weakOp = presentOp;
-    presentOp.completionBlock = ^{
-        __strong typeof(weakOp) strongOp = weakOp;
-        SDLLogD(@"Finished presenting choice set: %@", strongOp.choiceSet);
-
-        if (strongOp.error != nil && strongOp.choiceSet.delegate != nil) {
-            [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didReceiveError:strongOp.error];
-        } else if (strongOp.selectedCell != nil && strongOp.choiceSet.delegate != nil) {
-            [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didSelectChoice:strongOp.selectedCell withSource:strongOp.selectedTriggerSource atRowIndex:strongOp.selectedCellRow];
-        }
-    };
-
-    // TODO: Cancel non-executing presentations
-    for (NSOperation *operation in self.transactionQueue.operations) {
-        if (!operation.isExecuting
-            && ([operation isMemberOfClass:SDLPresentChoiceSetOperation.class] || [operation isMemberOfClass:SDLPresentKeyboardOperation.class])) {
-            [operation cancel];
-        }
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:choiceSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId windowCapability:self.currentWindowCapability loadedCells:self.preloadedChoices completionHandler:presentCompletionHandler];
     }
 
     [self.transactionQueue addOperation:presentOp];
@@ -482,47 +455,11 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     }
 }
 
-/// Checks the passed list of choices to be deleted and returns the items that have been uploaded to the module.
-/// @param choices The choices to be deleted
-/// @return The choices that have been uploaded to the module
-- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeDeletedWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
-    [choicesSet intersectSet:self.preloadedChoices];
-
-    return [choicesSet copy];
-}
-
-/// Checks the passed list of choices to be deleted and returns the items that are waiting to be uploaded to the module.
-/// @param choices The choices to be deleted
-/// @return The choices that are waiting to be uploaded to the module
-- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeRemovedFromPendingWithArray:(NSArray<SDLChoiceCell *> *)choices {
-    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
-    [choicesSet intersectSet:self.pendingPreloadChoices];
-
-    return [choicesSet copy];
-}
-
 /// Assigns a unique id to each choice item.
 /// @param choices An array of choices
 - (void)sdl_updateIdsOnChoices:(NSOrderedSet<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         cell.choiceId = self.nextChoiceId;
-    }
-}
-
-/// Checks each choice item to find out if it has already been uploaded or if it is the the process of being uploaded. If so, the choice item is assigned the unique id of the uploaded item.
-/// @param choiceSet A set of choice items
-- (void)sdl_findIdsOnChoiceSet:(SDLChoiceSet *)choiceSet {
-    [self sdl_findIdsOnChoices:[NSSet setWithArray:choiceSet.choices]];
-}
-
-/// Checks each choice item to find out if it has already been uploaded or if it is the the process of being uploaded. If so, the choice item is assigned the unique id of the uploaded item.
-/// @param choices An array of choice items
-- (void)sdl_findIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
-    for (SDLChoiceCell *cell in choices) {
-        SDLChoiceCell *uploadCell = [self.pendingPreloadChoices member:cell] ?: [self.preloadedChoices member:cell];
-        if (uploadCell == nil) { continue; }
-        cell.choiceId = uploadCell.choiceId;
     }
 }
 

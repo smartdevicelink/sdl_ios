@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (error != nil) {
             errors[request] = error;
         } else {
-            [self.mutableLoadedCells removeObject:[self sdl_cellFromChoiceId:(UInt16)sentRequest.interactionChoiceSetID.unsignedIntValue]];
+            [self.mutableLoadedCells removeObject:[self sdl_loadedCellFromChoiceId:(UInt16)sentRequest.interactionChoiceSetID.unsignedIntValue]];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -95,13 +95,22 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Helpers
 
 - (void)sdl_updateCellsToDelete {
+    // Remove cells that aren't loaded
     NSMutableSet<SDLChoiceCell *> *updatedCellsToDelete = [self.cellsToDelete mutableCopy];
     [updatedCellsToDelete intersectSet:self.loadedCells];
 
+    // Update the choice ids on the cells to be deleted
+    for (SDLChoiceCell *cell in updatedCellsToDelete) {
+        SDLChoiceCell *uploadCell = [self.loadedCells member:cell];
+        if (uploadCell == nil) { continue; }
+        cell.choiceId = uploadCell.choiceId;
+    }
+
+    // Update our cells to delete
     self.cellsToDelete = [updatedCellsToDelete copy];
 }
 
-- (nullable SDLChoiceCell *)sdl_cellFromChoiceId:(UInt16)choiceId {
+- (nullable SDLChoiceCell *)sdl_loadedCellFromChoiceId:(UInt16)choiceId {
     for (SDLChoiceCell *cell in self.loadedCells) {
         if (cell.choiceId == choiceId) { return cell; }
     }
