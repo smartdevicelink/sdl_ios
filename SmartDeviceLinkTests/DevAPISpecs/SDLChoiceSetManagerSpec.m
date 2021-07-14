@@ -451,7 +451,7 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
                     OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
 
-                    testManager.transactionQueue.operations.lastObject.completionBlock();
+                    [((SDLDeleteChoicesOperation *) testManager.transactionQueue.operations.lastObject) finishOperation];
                     expect(testManager.preloadedChoices).to(beEmpty());
                 });
             });
@@ -461,10 +461,7 @@ describe(@"choice set manager tests", ^{
 
                 beforeEach(^{
                     pendingPreloadOp = [[SDLPreloadChoicesOperation alloc] init];
-
                     [testManager.transactionQueue addOperation:pendingPreloadOp];
-
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithObject:testCell1];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
@@ -478,8 +475,6 @@ describe(@"choice set manager tests", ^{
             context(@"when the manager shuts down during deletion", ^{
                 beforeEach(^{
                     [testManager.transactionQueue addOperation:testPresentChoiceOp];
-
-                    testManager.preloadedMutableChoices = [NSMutableSet setWithObject:testCell1];
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
 
@@ -531,7 +526,6 @@ describe(@"choice set manager tests", ^{
                     presentOp.selectedTriggerSource = testMode;
                     presentOp.selectedCellRow = testSelectedCellRow;
                     [presentOp finishOperation];
-                    presentOp.completionBlock();
 
                     expect(testManager.preloadedMutableChoices.count).to(equal(3));
                     expect(testManager.preloadedMutableChoices).to(contain(testChoiceSet.choices[0]));
@@ -564,185 +558,6 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.preloadedMutableChoices).to(contain(testChoiceSet.choices[2]));
                     expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
                 });
-
-                it(@"should not add a choice item that fails to the list of preloaded choices", ^{
-                    NSMutableDictionary<SDLRPCRequest *, NSError *> *testErrors = [NSMutableDictionary dictionary];
-                    SDLCreateInteractionChoiceSet *failedChoiceSet = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:1 menuName:@"1" vrCommands:nil]]];
-                    testErrors[failedChoiceSet] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
-                    NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
-
-                    OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testInternalError]);
-
-                    [testManager presentChoiceSet:testFailedChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
-
-                    expect(testManager.transactionQueue.operationCount).to(equal(1));
-                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
-
-                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)testManager.transactionQueue.operations.firstObject;
-                    expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
-                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[0]));
-                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[1]));
-                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[2]));
-                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[3]));
-                    preloadChoicesOperation.internalError = testInternalError;
-                    preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:(@[@1])];
-                    [preloadChoicesOperation finishOperation];
-
-                    [NSThread sleepForTimeInterval:0.5];
-
-                    expect(testManager.transactionQueue.operationCount).to(equal(0));
-
-                    expect(testManager.preloadedMutableChoices.count).to(equal(3));
-                    expect(testManager.preloadedMutableChoices).toNot(contain(testFailedChoiceSet.choices[0]));
-                    expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[1]));
-                    expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[2]));
-                    expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[3]));
-
-                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
-                });
-
-                it(@"should not add any of choice items if they all fail to upload to the list of preloaded choices", ^{
-                    NSMutableDictionary<SDLRPCRequest *, NSError *> *testErrors = [NSMutableDictionary dictionary];
-                    SDLCreateInteractionChoiceSet *failedChoiceSet1 = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:1 menuName:@"1" vrCommands:nil]]];
-                    SDLCreateInteractionChoiceSet *failedChoiceSet2 = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:2 menuName:@"2" vrCommands:nil]]];
-                    SDLCreateInteractionChoiceSet *failedChoiceSet3 = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:3 menuName:@"3" vrCommands:nil]]];
-                    SDLCreateInteractionChoiceSet *failedChoiceSet4 = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:4 menuName:@"4" vrCommands:nil]]];
-                    testErrors[failedChoiceSet1] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
-                    testErrors[failedChoiceSet2] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
-                    testErrors[failedChoiceSet3] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
-                    testErrors[failedChoiceSet4] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
-                    NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
-
-                    OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testInternalError]);
-
-                    [testManager presentChoiceSet:testFailedChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
-
-                    expect(testManager.transactionQueue.operationCount).to(equal(1));
-                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
-
-                    SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)testManager.transactionQueue.operations.firstObject;
-                    expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
-                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[0]));
-                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[1]));
-                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[2]));
-                    expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[3]));
-                    preloadChoicesOperation.internalError = testInternalError;
-                    preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:(@[@1, @2, @3, @4])];
-                    [preloadChoicesOperation finishOperation];
-
-                    [NSThread sleepForTimeInterval:0.5];
-
-                    expect(testManager.transactionQueue.operationCount).to(equal(0));
-                    expect(testManager.preloadedMutableChoices).to(beEmpty());
-                    expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
-                });
-            });
-
-            it(@"should skip preloading the choices if all choice items have already been uploaded", ^{
-                OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
-
-                [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
-
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
-                expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
-
-                SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)testManager.transactionQueue.operations.firstObject;
-                expect(testManager.pendingMutablePreloadChoices.count).to(equal(3));
-                expect(testManager.pendingMutablePreloadChoices).to(contain(testChoiceSet.choices[0]));
-                expect(testManager.pendingMutablePreloadChoices).to(contain(testChoiceSet.choices[1]));
-                expect(testManager.pendingMutablePreloadChoices).to(contain(testChoiceSet.choices[2]));
-                [preloadChoicesOperation finishOperation];
-
-                [NSThread sleepForTimeInterval:0.5];
-
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
-                expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
-
-                SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations.firstObject;
-                presentChoicesOperation.selectedCell = testSelectedCell;
-                presentChoicesOperation.selectedTriggerSource = testMode;
-                presentChoicesOperation.selectedCellRow = testSelectedCellRow;
-                presentChoicesOperation.internalError = nil;
-                [presentChoicesOperation finishOperation];
-                presentChoicesOperation.completionBlock();
-
-                expect(testManager.preloadedMutableChoices.count).to(equal(3));
-                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
-
-                // Present the exact same choices again
-                OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
-                [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
-
-                SDLPresentChoiceSetOperation *presentChoicesOperation2 = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations.firstObject;
-                presentChoicesOperation2.selectedCell = testSelectedCell;
-                presentChoicesOperation2.selectedTriggerSource = testMode;
-                presentChoicesOperation2.selectedCellRow = testSelectedCellRow;
-                presentChoicesOperation2.internalError = nil;
-                presentChoicesOperation2.completionBlock();
-            });
-
-            it(@"should upload choices that failed to upload in previous presentations", ^{
-                NSMutableDictionary<SDLRPCRequest *, NSError *> *testErrors = [NSMutableDictionary dictionary];
-                SDLCreateInteractionChoiceSet *failedChoiceSet = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[[[SDLChoice alloc] initWithId:1 menuName:@"1" vrCommands:nil]]];
-                testErrors[failedChoiceSet] = [NSError sdl_choiceSetManager_choiceUploadFailed:[NSDictionary dictionary]];
-                NSError *testInternalError = [NSError sdl_choiceSetManager_choiceUploadFailed:testErrors];
-
-                // Present the choices (they will error)
-                OCMExpect([choiceDelegate choiceSet:[OCMArg any] didReceiveError:testInternalError]);
-                [testManager presentChoiceSet:testFailedChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
-
-                // Ensure that the preload happens correctly
-                SDLPreloadChoicesOperation *preloadChoicesOperation = (SDLPreloadChoicesOperation *)testManager.transactionQueue.operations.firstObject;
-                expect(testManager.pendingMutablePreloadChoices.count).to(equal(4));
-                expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[0]));
-                expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[1]));
-                expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[2]));
-                expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[3]));
-                preloadChoicesOperation.internalError = testInternalError;
-                preloadChoicesOperation.failedChoiceUploadIDs = [[NSMutableArray alloc] initWithArray:(@[@1])];
-                [preloadChoicesOperation finishOperation];
-
-                // Ensure that the preload is complete and out of the queue
-                expect(testManager.transactionQueue.operationCount).to(equal(0));
-
-                // Ensure that the preloaded choices is now correct
-                expect(testManager.preloadedMutableChoices.count).to(equal(3));
-                expect(testManager.preloadedMutableChoices).toNot(contain(testFailedChoiceSet.choices[0]));
-                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[1]));
-                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[2]));
-                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[3]));
-                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
-
-                // Present the exact same choices again
-                OCMExpect([choiceDelegate choiceSet:testChoiceSet didSelectChoice:testSelectedCell withSource:testMode atRowIndex:testSelectedCellRow]);
-                [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
-
-                // Ensure that the preload happens correctly
-                SDLPreloadChoicesOperation *preloadChoicesOperation2 = (SDLPreloadChoicesOperation *)testManager.transactionQueue.operations[0];
-                expect(testManager.pendingMutablePreloadChoices.count).to(equal(1));
-                expect(testManager.pendingMutablePreloadChoices).to(contain(testFailedChoiceSet.choices[0]));
-                [preloadChoicesOperation2 finishOperation];
-
-                [NSThread sleepForTimeInterval:0.5];
-
-                // Ensure that when the preload is done, a present happens
-                SDLPresentChoiceSetOperation *presentChoicesOperation = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[0];
-                presentChoicesOperation.selectedCell = testSelectedCell;
-                presentChoicesOperation.selectedTriggerSource = testMode;
-                presentChoicesOperation.selectedCellRow = testSelectedCellRow;
-                presentChoicesOperation.internalError = nil;
-                presentChoicesOperation.completionBlock();
-
-                // Ensure the operations are out of the queue
-                expect(testManager.transactionQueue.operationCount).to(equal(1));
-
-                // Ensure that we've got all the preloads correct
-                expect(testManager.preloadedMutableChoices.count).to(equal(4));
-                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[0]));
-                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[1]));
-                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[2]));
-                expect(testManager.preloadedMutableChoices).to(contain(testFailedChoiceSet.choices[3]));
-                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
             });
 
             it(@"should not present choices if the manager shuts down after the choices are uploaded but before presentation", ^{

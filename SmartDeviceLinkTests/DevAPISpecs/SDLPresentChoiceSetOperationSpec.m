@@ -545,7 +545,7 @@ describe(@"present choice operation", ^{
                     });
 
                     it(@"should be finished", ^{
-                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                        expect(resultChoiceCell).toEventuallyNot(beNil());
                         expect(testOp.isFinished).toEventually(beTrue());
                     });
                 });
