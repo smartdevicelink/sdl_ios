@@ -177,8 +177,8 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         __strong typeof(weakself) strongself = weakself;
         if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) { return; }
 
-        strongself.isVROptional = isVROptional;
-        if (weakOp.error != nil) {
+        strongself.vrOptional = isVROptional;
+        if (error != nil) {
             [strongself.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
         } else {
             [strongself.stateMachine transitionToState:SDLChoiceManagerStateReady];
@@ -267,6 +267,11 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     __weak typeof(self) weakself = self;
     SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:[NSSet setWithArray:choices] loadedCells:self.preloadedChoices completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError *_Nullable error) {
         __strong typeof(weakself) strongself = weakself;
+        if ([strongself.currentState isEqualToEnum:SDLChoiceManagerStateShutdown]) {
+            SDLLogD(@"Cancelling deleting choices because the manager is shut down");
+            return;
+        }
+
         SDLLogD(@"Finished deleting choices");
 
         strongself.preloadedChoices = updatedLoadedCells;
@@ -299,13 +304,23 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     [self preloadChoices:choiceSet.choices withCompletionHandler:nil];
 
     // Add an operation to present it once the preload is complete
+    __weak typeof(self) weakself = self;
     SDLPresentChoiceSetCompletionHandler presentCompletionHandler = ^void(SDLChoiceCell *_Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource selectedTriggerSource, NSError *_Nullable error) {
         SDLLogD(@"Finished presenting choice set: %@", choiceSet);
 
-        if (error != nil && delegate != nil) {
+        if (choiceSet.delegate == nil) {
+            SDLLogW(@"Present finished, but no choice set delegate was available to callback.");
+            return;
+        }
+
+        if (error != nil) {
             [choiceSet.delegate choiceSet:choiceSet didReceiveError:error];
-        } else if (selectedCell != nil && choiceSet.delegate != nil) {
+        } else if ([weakself.currentState isEqualToEnum:SDLChoiceManagerStateShutdown]) {
+            [choiceSet.delegate choiceSet:choiceSet didReceiveError:[NSError sdl_choiceSetManager_incorrectState:weakself.currentState]];
+        } else if (selectedCell != nil) {
             [choiceSet.delegate choiceSet:choiceSet didSelectChoice:selectedCell withSource:selectedTriggerSource atRowIndex:selectedRow];
+        } else {
+            SDLLogE(@"Present finished, but an unhandled state occurred and callback failed");
         }
     };
 
