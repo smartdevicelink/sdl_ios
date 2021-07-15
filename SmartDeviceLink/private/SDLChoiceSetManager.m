@@ -172,20 +172,18 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
 - (void)didEnterStateCheckingVoiceOptional {
     // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
-    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager];
-
-    __weak typeof(self) weakSelf = self;
-    __weak typeof(checkOp) weakOp = checkOp;
-    checkOp.completionBlock = ^{
+    __weak typeof(self) weakself = self;
+    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager completionHandler:^(BOOL isVROptional, NSError * _Nullable error) {
+        __strong typeof(weakself) strongself = weakself;
         if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) { return; }
 
-        weakSelf.vrOptional = weakOp.isVROptional;
+        strongself.isVROptional = isVROptional;
         if (weakOp.error != nil) {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
+            [strongself.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
         } else {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
+            [strongself.stateMachine transitionToState:SDLChoiceManagerStateReady];
         }
-    };
+    }];
 
     [self.transactionQueue addOperation:checkOp];
 }
@@ -238,7 +236,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
             return;
         }
 
-        // Update the list of `preloadedMutableChoices`
+        // Update the list of `preloadedChoices`
         [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
             strongSelf.preloadedChoices = updatedLoadedCells;
             [strongSelf sdl_updatePendingTasksWithCurrentPreloads];
@@ -267,7 +265,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     }
 
     __weak typeof(self) weakself = self;
-    SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:choices loadedCells:self.preloadedChoices completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError *_Nullable error) {
+    SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:[NSSet setWithArray:choices] loadedCells:self.preloadedChoices completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError *_Nullable error) {
         __strong typeof(weakself) strongself = weakself;
         SDLLogD(@"Finished deleting choices");
 

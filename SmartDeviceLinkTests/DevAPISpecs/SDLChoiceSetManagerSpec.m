@@ -58,9 +58,7 @@
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
-@property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
+@property (copy, nonatomic, readwrite) NSSet<SDLChoiceCell *> *preloadedChoices;
 
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
@@ -278,8 +276,7 @@ describe(@"choice set manager tests", ^{
                 expect(testManager.currentState).to(equal(SDLChoiceManagerStateShutdown));
                 expect(testManager.vrOptional).to(beTrue());
                 expect(testManager.currentHMILevel).to(equal(SDLHMILevelNone));
-                expect(testManager.preloadedMutableChoices).to(beEmpty());
-                expect(testManager.pendingMutablePreloadChoices).to(beEmpty());
+                expect(testManager.preloadedChoices).to(beEmpty());
             });
         });
     });
@@ -292,7 +289,7 @@ describe(@"choice set manager tests", ^{
         describe(@"preloading choices", ^{
             context(@"when some choices are already uploaded", ^{
                 beforeEach(^{
-                    testManager.preloadedMutableChoices = [NSMutableSet setWithArray:@[testCell1]];
+                    testManager.preloadedChoices = [NSMutableSet setWithArray:@[testCell1]];
 
                     [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
                     }];
