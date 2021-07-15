@@ -17,20 +17,17 @@ describe(@"check choice VR optional operation", ^{
     __block SDLCheckChoiceVROptionalOperation *testOp = nil;
 
     __block BOOL resultVROptional = NO;
-    __block BOOL hasCalledOperationCompletionHandler = NO;
     __block NSError *resultError = nil;
 
     beforeEach(^{
         resultVROptional = NO;
-        hasCalledOperationCompletionHandler = NO;
+        resultError = nil;
 
         testConnectionManager = [[TestConnectionManager alloc] init];
-        testOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:testConnectionManager];
-        testOp.completionBlock = ^{
-            hasCalledOperationCompletionHandler = YES;
-            resultVROptional = testOp.vrOptional;
-            resultError = testOp.error;
-        };
+        testOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:testConnectionManager completionHandler:^(BOOL isVROptional, NSError * _Nullable error) {
+            resultVROptional = isVROptional;
+            resultError = error;
+        }];
     });
 
     it(@"should have priority of 'very high'", ^{
@@ -80,7 +77,6 @@ describe(@"check choice VR optional operation", ^{
                 });
 
                 it(@"should have called the completion handler with proper data and finish", ^{
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(resultVROptional).to(beTrue());
                     expect(resultError).to(beNil());
                     expect(@(testOp.finished)).to(equal(@YES));
@@ -99,8 +95,6 @@ describe(@"check choice VR optional operation", ^{
             });
 
             it(@"should have sent out a new request", ^{
-                expect(hasCalledOperationCompletionHandler).to(beFalse());
-
                 expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLCreateInteractionChoiceSet class]));
 
                 SDLCreateInteractionChoiceSet *receivedRequest = testConnectionManager.receivedRequests.lastObject;
@@ -132,7 +126,6 @@ describe(@"check choice VR optional operation", ^{
                     });
 
                     it(@"should have called the completion handler with proper data and finish", ^{
-                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                         expect(resultVROptional).to(beFalse());
                         expect(resultError).to(beNil());
                         expect(@(testOp.finished)).to(equal(@YES));
@@ -151,7 +144,6 @@ describe(@"check choice VR optional operation", ^{
                 });
 
                 it(@"should return a failure", ^{
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(resultVROptional).to(beFalse());
                     expect(resultError).toNot(beNil());
                 });

@@ -211,7 +211,10 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorFailedToCreateMenuItems = -4,
 
     /// Invalid state
-    SDLChoiceSetManagerErrorInvalidState = -5
+    SDLChoiceSetManagerErrorInvalidState = -5,
+
+    /// An operation was cancelled and may or may not have succeeded
+    SDLChoiceSetManagerErrorCancelled = -6,
 };
 
 /// Errors associated with Alert Manager class

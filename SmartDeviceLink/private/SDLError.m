@@ -321,6 +321,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
 }
 
++ (NSError *)sdl_choiceSetManager_cancelled {
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorCancelled userInfo:@{
+        NSLocalizedDescriptionKey: @"Choice set operation error cancelled",
+        NSLocalizedFailureReasonErrorKey: @"The choice operation was cancelled and may or may not have completed",
+        NSLocalizedRecoverySuggestionErrorKey: @"It may have been cancelled due to shutdown, or it may have been cancelled by the developer"
+    }];
+}
+
 #pragma mark Alert Manager
 
 + (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime {
