@@ -240,7 +240,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (void)finishOperation {
-    _currentState = SDLPreloadChoicesOperationStateFinished;
+    self.currentState = SDLPreloadChoicesOperationStateFinished;
     self.completionHandler(self.loadedCells, self.internalError);
 
     [super finishOperation];

@@ -27,6 +27,7 @@
 
 @interface SDLPreloadChoicesOperation()
 
+@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *cellsToUpload;
 @property (copy, nonatomic, nullable) NSError *internalError;
 @property (copy, nonatomic) SDLPreloadChoicesCompletionHandler completionHandler;
 
@@ -295,17 +296,16 @@ describe(@"choice set manager tests", ^{
         describe(@"preloading choices", ^{
             context(@"when some choices are already uploaded", ^{
                 beforeEach(^{
-                    testManager.preloadedChoices = [NSMutableSet setWithArray:@[testCell1]];
-
+                    testManager.preloadedChoices = [NSSet setWithArray:@[testCell1]];
                     [testManager preloadChoices:@[testCell1, testCell2, testCell3] withCompletionHandler:^(NSError * _Nullable error) {
                     }];
                 });
 
                 it(@"should properly start the preload", ^{
-                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
+                    expect(testManager.transactionQueue.operations[0]).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
 
-                    SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                    [testOp finishOperation];
+                    SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations[0];
+                    testOp.completionHandler([NSSet setWithArray:@[testCell1, testCell2, testCell3]], nil);
 
                     expect(testManager.preloadedChoices).to(contain(testCell1));
                     expect(testManager.preloadedChoices).to(contain(testCell2));
@@ -325,19 +325,19 @@ describe(@"choice set manager tests", ^{
                     });
 
                     it(@"should update the choiceCells' unique title", ^{
-                        SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                        [testOp finishOperation];
-                        NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
-                        for (SDLChoiceCell *choiceCell in testArrays) {
+                        SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations[0];
+
+                        NSArray<SDLChoiceCell *> *cellsToUpload = testOp.cellsToUpload.allObjects;
+                        for (SDLChoiceCell *choiceCell in cellsToUpload) {
                             if (choiceCell.secondaryText) {
                                 expect(choiceCell.uniqueText).to(equal("test1 (2)"));
                             } else {
                                 expect(choiceCell.uniqueText).to(equal("test1"));
                             }
                         }
-                        expect(testManager.preloadedChoices).to(haveCount(2));
-                        expect(testManager.preloadedChoices).to(contain(testCell1));
-                        expect(testManager.preloadedChoices).to(contain(testCell1Duplicate));
+                        expect(cellsToUpload).to(haveCount(2));
+                        expect(cellsToUpload).to(contain(testCell1));
+                        expect(cellsToUpload).to(contain(testCell1Duplicate));
                     });
                 });
 
@@ -348,15 +348,15 @@ describe(@"choice set manager tests", ^{
                     });
 
                     it(@"should not update the choiceCells' unique title", ^{
-                        SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                        [testOp finishOperation];
-                        NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
-                        for (SDLChoiceCell *choiceCell in testArrays) {
+                        SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations[0];
+
+                        NSArray<SDLChoiceCell *> *cellsToUpload = testOp.cellsToUpload.allObjects;
+                        for (SDLChoiceCell *choiceCell in cellsToUpload) {
                             expect(choiceCell.uniqueText).to(equal("test1"));
                         }
-                        expect(testManager.preloadedChoices).to(haveCount(2));
-                        expect(testManager.preloadedChoices).to(contain(testCell1));
-                        expect(testManager.preloadedChoices).to(contain(testCell1Duplicate));
+                        expect(cellsToUpload).to(haveCount(2));
+                        expect(cellsToUpload).to(contain(testCell1));
+                        expect(cellsToUpload).to(contain(testCell1Duplicate));
                     });
                 });
             });
@@ -369,18 +369,18 @@ describe(@"choice set manager tests", ^{
 
                 it(@"append a number to the unique text for choice set cells", ^{
                     SDLPreloadChoicesOperation *testOp = testManager.transactionQueue.operations.firstObject;
-                    [testOp finishOperation];
-                    NSArray <SDLChoiceCell *> *testArrays = testManager.preloadedChoices.allObjects;
-                    for (SDLChoiceCell *choiceCell in testArrays) {
+
+                    NSArray<SDLChoiceCell *> *cellsToUpload = testOp.cellsToUpload.allObjects;
+                    for (SDLChoiceCell *choiceCell in cellsToUpload) {
                         if (choiceCell.secondaryText) {
                             expect(choiceCell.uniqueText).to(equal("test1 (2)"));
                         } else {
                             expect(choiceCell.uniqueText).to(equal("test1"));
                         }
                     }
-                    expect(testManager.preloadedChoices).to(haveCount(2));
-                    expect(testManager.preloadedChoices).to(contain(testCell1));
-                    expect(testManager.preloadedChoices).to(contain(testCell1Duplicate));
+                    expect(cellsToUpload).to(haveCount(2));
+                    expect(cellsToUpload).to(contain(testCell1));
+                    expect(cellsToUpload).to(contain(testCell1Duplicate));
                 });
             });
 
@@ -408,7 +408,6 @@ describe(@"choice set manager tests", ^{
         describe(@"deleting choices", ^{
             context(@"used in a pending presentation", ^{
                 beforeEach(^{
-                    choiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
                     [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
@@ -425,11 +424,7 @@ describe(@"choice set manager tests", ^{
             });
 
             context(@"used in pending preloads", ^{
-                __block SDLPreloadChoicesOperation *pendingPreloadOp = nil;
-
                 beforeEach(^{
-                    pendingPreloadOp = [[SDLPreloadChoicesOperation alloc] init];
-                    [testManager.transactionQueue addOperation:pendingPreloadOp];
                     [testManager preloadChoices:@[testCell1, testCell2, testCell3, testCell4] withCompletionHandler:^(NSError * _Nullable error) {}];
 
                     [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
