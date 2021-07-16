@@ -152,7 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (error != nil) {
             errors[request] = error;
         } else {
-            [self.mutableLoadedCells addObject:[self sdl_cellFromChoiceId:(UInt16)sentRequest.interactionChoiceSetID.unsignedIntValue]];
+            [weakSelf.mutableLoadedCells addObject:[self sdl_cellFromChoiceId:(UInt16)sentRequest.interactionChoiceSetID.unsignedIntValue]];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {

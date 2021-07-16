@@ -529,6 +529,8 @@ describe(@"present choice operation", ^{
                 beforeEach(^{
                     SDLPerformInteractionResponse *response = [[SDLPerformInteractionResponse alloc] init];
                     response.success = @YES;
+                    response.choiceID = @65535;
+                    response.triggerSource = SDLTriggerSourceVoiceRecognition;
 
                     [testConnectionManager respondToLastRequestWithResponse:response];
                 });
@@ -545,8 +547,11 @@ describe(@"present choice operation", ^{
                     });
 
                     it(@"should be finished", ^{
-                        expect(resultChoiceCell).toEventuallyNot(beNil());
-                        expect(testOp.isFinished).toEventually(beTrue());
+                        expect(resultChoiceCell).toNot(beNil());
+                        expect(resultChoiceRow).to(equal(0));
+                        expect(resultTriggerSource).to(equal(SDLTriggerSourceVoiceRecognition));
+                        expect(resultError).to(beNil());
+                        expect(testOp.isFinished).to(beTrue());
                     });
                 });
             });

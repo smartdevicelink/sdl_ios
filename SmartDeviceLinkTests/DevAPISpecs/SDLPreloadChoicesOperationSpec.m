@@ -18,8 +18,6 @@
 
 @interface SDLPreloadChoicesOperation()
 
-@property (strong, nonatomic, nullable) NSMutableArray<NSNumber *> *failedChoiceUploadIDs;
-
 @end
 
 @interface SDLChoiceCell()
@@ -40,14 +38,12 @@ describe(@"a preload choices operation", ^{
     __block NSData *cellArtData = [@"testart" dataUsingEncoding:NSUTF8StringEncoding];
     __block NSData *cellArtData2 = [@"testart2" dataUsingEncoding:NSUTF8StringEncoding];
 
-    __block BOOL hasCalledOperationCompletionHandler = NO;
     __block NSSet<SDLChoiceCell *> *resultChoices = nil;
     __block NSError *resultError = nil;
 
     beforeEach(^{
         resultError = nil;
         resultChoices = nil;
-        hasCalledOperationCompletionHandler = NO;
 
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMClassMock([SDLFileManager class]);
@@ -104,7 +100,7 @@ describe(@"a preload choices operation", ^{
                         resultChoices = updatedLoadedCells;
                     }];
                     [testOp start];
-                
+
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
                     
                     expect(receivedRequests).to(haveCount(0));
@@ -379,7 +375,7 @@ describe(@"a preload choices operation", ^{
                 it(@"should not add the item to the list of loaded cells", ^{
                     // TODO
                 });
-                 it(@"should add the choiceID of the failed choice item to the failedChoiceUploadIDs array", ^{
+                it(@"should add the choiceID of the failed choice item to the failedChoiceUploadIDs array", ^{
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:windowCapability isVROptional:NO cellsToPreload:testCells loadedCells:emptyLoadedCells completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
                         resultChoices = updatedLoadedCells;
                         resultError = error;
@@ -394,10 +390,14 @@ describe(@"a preload choices operation", ^{
 
                     [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:0 error:nil];
                     [testConnectionManager respondToRequestWithResponse:testBadResponse requestNumber:1 error:[NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorUploadFailed userInfo:nil]];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:NO];
 
-                    expect(testOp.failedChoiceUploadIDs.count).to(equal(1));
-                    expect(testOp.failedChoiceUploadIDs).to(contain(@(testCell2.choiceId)));
-                    expect(testOp.failedChoiceUploadIDs).toNot(contain(@(testCell1.choiceId)));
+                    expect(testOp.loadedCells).to(haveCount(1));
+                    expect(testOp.loadedCells).to(contain(testCell1));
+                    expect(testOp.loadedCells).toNot(contain(testCell2));
+                    expect(testOp.error).toNot(beNil());
+                    expect(resultChoices).toNot(beNil());
+                    expect(resultError).toNot(beNil());
                 });
             });
 
@@ -417,8 +417,10 @@ describe(@"a preload choices operation", ^{
 
                     [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:0 error:nil];
                     [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:1 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
-                    expect(testOp.failedChoiceUploadIDs).to(beEmpty());
+                    expect(resultChoices).to(haveCount(2));
+                    expect(resultError).to(beNil());
                 });
             });
         });
