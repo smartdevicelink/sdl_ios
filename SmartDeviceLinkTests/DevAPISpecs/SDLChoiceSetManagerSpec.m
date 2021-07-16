@@ -62,6 +62,7 @@
 
 @property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (copy, nonatomic) dispatch_queue_t readWriteQueue;
 @property (assign, nonatomic) UInt16 nextCancelId;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
@@ -425,16 +426,13 @@ describe(@"choice set manager tests", ^{
                     testManager.preloadedChoices = [NSSet setWithArray:@[testCell1, testCell2, testCell3]];
                     [testManager deleteChoices:@[testCell1, testCell2]];
 
-                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:SDLChoiceManagerStateReady callEnterTransition:YES];
+                    [SDLGlobals runSyncOnSerialSubQueue:testManager.readWriteQueue block:^{
+                        [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:SDLChoiceManagerStateReady callEnterTransition:YES];
+                    }];
                 });
 
                 it(@"should leave the list of pending and uploaded choice items empty when the operation finishes", ^{
-                    expect(testManager.transactionQueue.operations[0]).to(beAnInstanceOf([SDLDeleteChoicesOperation class]));
-                    expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
-
-                    SDLDeleteChoicesOperation *delete = testManager.transactionQueue.operations[0];
-                    delete.completionHandler([NSSet setWithArray:@[testCell3]], nil);
-
+                    expect(testManager.transactionQueue.operationCount).to(equal(0));
                     expect(testManager.preloadedChoices).to(beEmpty());
                 });
             });
@@ -506,9 +504,12 @@ describe(@"choice set manager tests", ^{
                 SDLPreloadChoicesOperation *preload = (SDLPreloadChoicesOperation *)testManager.transactionQueue.operations[0];
                 preload.loadedCells = [NSSet setWithArray:testChoiceSet.choices];
 
-                [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:nil callEnterTransition:NO];
+                [SDLGlobals runSyncOnSerialSubQueue:testManager.readWriteQueue block:^{
+                    [testManager.stateMachine setToState:SDLChoiceManagerStateShutdown fromOldState:SDLChoiceManagerStateReady callEnterTransition:YES];
+                }];
                 [preload finishOperation];
 
+                expect(testManager.preloadedChoices).to(beEmpty());
                 expect(testManager.transactionQueue.operationCount).to(equal(0));
             });
 
