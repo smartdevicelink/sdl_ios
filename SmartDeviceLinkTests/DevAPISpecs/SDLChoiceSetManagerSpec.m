@@ -461,16 +461,22 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.transactionQueue.operationCount).to(equal(2));
                     expect(testManager.transactionQueue.operations[0]).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
                     expect(testManager.transactionQueue.operations[1]).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
+                    SDLPresentChoiceSetOperation *preloadPresent = testManager.transactionQueue.operations[1];
+                    expect(preloadPresent.loadedCells).to(haveCount(0));
+
                     SDLPreloadChoicesOperation *preload = testManager.transactionQueue.operations[0];
+                    preload.loadedCells = [NSSet setWithArray:testChoiceSet.choices];
                     [preload finishOperation];
+
+                    expect(testManager.preloadedChoices.count).to(equal(3));
 
                     // Now that the preload is finished, only the present should remain
                     expect(testManager.transactionQueue.operationCount).to(equal(1));
                     expect(testManager.transactionQueue.operations[0]).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
-                    SDLPresentChoiceSetOperation *present = (SDLPresentChoiceSetOperation *)testManager.transactionQueue.operations[0];
-                    present.completionHandler(testSelectedCell, testSelectedCellRow, testMode, nil);
 
-                    expect(testManager.preloadedChoices.count).to(equal(3));
+                    SDLPresentChoiceSetOperation *present = testManager.transactionQueue.operations[0];
+                    expect(present.loadedCells).to(haveCount(3));
+                    present.completionHandler(testSelectedCell, testSelectedCellRow, testMode, nil);
                 });
 
                 it(@"should notify the choice delegate if an error occurred during presentation", ^{

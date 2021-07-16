@@ -237,10 +237,8 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         }
 
         // Update the list of `preloadedChoices`
-        [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-            strongSelf.preloadedChoices = updatedLoadedCells;
-            [strongSelf sdl_updatePendingTasksWithCurrentPreloads];
-        }];
+        strongSelf.preloadedChoices = updatedLoadedCells;
+        [strongSelf sdl_updatePendingTasksWithCurrentPreloads];
 
         SDLLogD(@"Choices finished preloading");
         if (handler != nil) {
