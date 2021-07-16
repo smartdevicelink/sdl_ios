@@ -9,6 +9,7 @@
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLDisplayType.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImageField.h"
 #import "SDLImageFieldName.h"
 #import "SDLTextField.h"
@@ -17,6 +18,19 @@
 #import "TestConnectionManager.h"
 
 @interface SDLPreloadChoicesOperation()
+
+@property (strong, nonatomic) NSUUID *operationId;
+@property (strong, nonatomic) NSMutableOrderedSet<SDLChoiceCell *> *cellsToUpload;
+@property (strong, nonatomic) SDLWindowCapability *windowCapability;
+@property (strong, nonatomic) NSString *displayName;
+@property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
+@property (copy, nonatomic) SDLPreloadChoicesCompletionHandler completionHandler;
+
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
+@property (copy, nonatomic, nullable) NSError *internalError;
+
+@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *mutableLoadedCells;
 
 @end
 
@@ -33,20 +47,73 @@ describe(@"a preload choices operation", ^{
     __block SDLFileManager *testFileManager = nil;
     __block SDLPreloadChoicesOperation *testOp = nil;
     __block NSString *testDisplayName = @"SDL_GENERIC";
+    __block SDLVersion *choiceSetUniquenessActiveVersion = nil;
+
+    __block SDLWindowCapability *enabledWindowCapability = nil;
+    __block SDLWindowCapability *disabledWindowCapability = nil;
+    __block SDLWindowCapability *primaryTextOnlyCapability = nil;
 
     __block NSSet<SDLChoiceCell *> *emptyLoadedCells = [NSSet set];
     __block NSData *cellArtData = [@"testart" dataUsingEncoding:NSUTF8StringEncoding];
     __block NSData *cellArtData2 = [@"testart2" dataUsingEncoding:NSUTF8StringEncoding];
+    __block NSOrderedSet<SDLChoiceCell *> *cellsWithArtwork = nil;
+    __block NSOrderedSet<SDLChoiceCell *> *cellsWithStaticIcon = nil;
+    __block NSString *art1Name = @"Art1Name";
+    __block NSString *art2Name = @"Art2Name";
+    __block SDLArtwork *cell1Art2 = [[SDLArtwork alloc] initWithData:cellArtData2 name:art1Name fileExtension:@"png" persistent:NO];
+
+    __block SDLChoiceCell *cellBasic = nil;
+    __block SDLChoiceCell *cellBasicDuplicate = nil;
+    __block SDLChoiceCell *cellWithVR = nil;
+    __block SDLChoiceCell *cellWithAllText = nil;
+
+    __block NSOrderedSet<SDLChoiceCell *> *cellsWithoutArtwork = nil;
 
     __block NSSet<SDLChoiceCell *> *resultChoices = nil;
     __block NSError *resultError = nil;
 
     beforeEach(^{
+        choiceSetUniquenessActiveVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
+
         resultError = nil;
         resultChoices = nil;
 
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMClassMock([SDLFileManager class]);
+
+        enabledWindowCapability = [[SDLWindowCapability alloc] init];
+        enabledWindowCapability.textFields = @[
+            [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1],
+            [[SDLTextField alloc] initWithName:SDLTextFieldNameSecondaryText characterSet:SDLCharacterSetUtf8 width:500 rows:1],
+            [[SDLTextField alloc] initWithName:SDLTextFieldNameTertiaryText characterSet:SDLCharacterSetUtf8 width:500 rows:1]
+        ];
+        enabledWindowCapability.imageFields = @[
+            [[SDLImageField alloc] initWithName:SDLImageFieldNameChoiceImage imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil],
+            [[SDLImageField alloc] initWithName:SDLImageFieldNameChoiceSecondaryImage imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil]
+        ];
+        disabledWindowCapability = [[SDLWindowCapability alloc] init];
+        disabledWindowCapability.textFields = @[];
+        primaryTextOnlyCapability = [[SDLWindowCapability alloc] init];
+        primaryTextOnlyCapability.textFields = @[
+            [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1],
+        ];
+
+        SDLArtwork *cell1Art = [[SDLArtwork alloc] initWithData:cellArtData name:art1Name fileExtension:@"png" persistent:NO];
+        SDLChoiceCell *cell1WithArt = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:cell1Art voiceCommands:nil];
+        SDLArtwork *cell2Art = [[SDLArtwork alloc] initWithData:cellArtData name:art2Name fileExtension:@"png" persistent:NO];
+        SDLChoiceCell *cell2WithArtAndSecondary = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:cell2Art secondaryArtwork:cell2Art];
+
+        SDLArtwork *staticIconArt = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
+        SDLChoiceCell *cellWithStaticIcon = [[SDLChoiceCell alloc] initWithText:@"Static Icon" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:staticIconArt secondaryArtwork:nil];
+
+        cellsWithArtwork = [[NSOrderedSet alloc] initWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
+        cellsWithStaticIcon = [[NSOrderedSet alloc] initWithArray:@[cellWithStaticIcon]];
+
+        cellBasic = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
+        cellBasicDuplicate = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
+        cellWithVR = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:@[@"Cell2"] artwork:nil secondaryArtwork:nil];
+        cellWithAllText = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:@"Cell2" tertiaryText:@"Cell2" voiceCommands:nil artwork:nil secondaryArtwork:nil];
+        cellsWithoutArtwork = [[NSOrderedSet alloc] initWithArray:@[cellBasic, cellWithVR, cellWithAllText]];
     });
 
     it(@"should have a priority of 'normal'", ^{
@@ -56,39 +123,76 @@ describe(@"a preload choices operation", ^{
     });
 
     describe(@"running the operation", ^{
-        __block SDLWindowCapability *windowCapability = nil;
         beforeEach(^{
-            windowCapability = [[SDLWindowCapability alloc] init];
-            windowCapability.imageTypeSupported = @[SDLImageTypeStatic, SDLImageTypeDynamic];
-            SDLTextField *primaryTextField = [[SDLTextField alloc] init];
-            primaryTextField.name = SDLTextFieldNameMenuName;
-            windowCapability.textFields = @[primaryTextField];
-
             OCMStub([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
             OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
         });
 
-        context(@"with artworks", ^{
-            __block NSOrderedSet<SDLChoiceCell *> *cellsWithArtwork = nil;
-            __block NSOrderedSet<SDLChoiceCell *> *cellsWithStaticIcon = nil;
-            __block NSString *art1Name = @"Art1Name";
-            __block NSString *art2Name = @"Art2Name";
-            __block SDLArtwork *cell1Art2 = [[SDLArtwork alloc] initWithData:cellArtData2 name:art1Name fileExtension:@"png" persistent:NO];
+        describe(@"updating cells for uniqueness", ^{
+            context(@"when some choices are already uploaded with duplicate titles version >= 7.1.0", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = choiceSetUniquenessActiveVersion;
+                });
 
-            beforeEach(^{
-                SDLArtwork *cell1Art = [[SDLArtwork alloc] initWithData:cellArtData name:art1Name fileExtension:@"png" persistent:NO];
-                SDLChoiceCell *cell1WithArt = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:cell1Art voiceCommands:nil];
+                context(@"if there are duplicate cells once you strip unused cell properties", ^{
+                    beforeEach(^{
+                        testOp.windowCapability = primaryTextOnlyCapability;
+                    });
 
-                SDLArtwork *cell2Art = [[SDLArtwork alloc] initWithData:cellArtData name:art2Name fileExtension:@"png" persistent:NO];
-                SDLChoiceCell *cell2WithArtAndSecondary = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:cell2Art secondaryArtwork:cell2Art];
+                    fit(@"should update the choiceCells' unique title", ^{
+                        for (SDLChoiceCell *choiceCell in testOp.cellsToUpload) {
+                            if (choiceCell.secondaryText) {
+                                expect(choiceCell.uniqueText).to(equal("test1 (2)"));
+                            } else {
+                                expect(choiceCell.uniqueText).to(equal("test1"));
+                            }
+                        }
+                        expect(testOp.cellsToUpload).to(haveCount(2));
+                        expect(testOp.cellsToUpload).to(contain(cellBasic));
+                        expect(testOp.cellsToUpload).to(contain(cellBasicDuplicate));
+                    });
+                });
 
-                SDLArtwork *staticIconArt = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
-                SDLChoiceCell *cellWithStaticIcon = [[SDLChoiceCell alloc] initWithText:@"Static Icon" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:staticIconArt secondaryArtwork:nil];
+                context(@"if all cell properties are used", ^{
+                    beforeEach(^{
+                        testOp.windowCapability = enabledWindowCapability;
+                    });
 
-                cellsWithArtwork = [[NSOrderedSet alloc] initWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
-                cellsWithStaticIcon = [[NSOrderedSet alloc] initWithArray:@[cellWithStaticIcon]];
+                    it(@"should not update the choiceCells' unique title", ^{
+                        NSArray<SDLChoiceCell *> *cellsToUpload = testOp.cellsToUpload.array;
+                        for (SDLChoiceCell *choiceCell in cellsToUpload) {
+                            expect(choiceCell.uniqueText).to(equal("test1"));
+                        }
+                        expect(cellsToUpload).to(haveCount(2));
+                        expect(cellsToUpload).to(contain(cellBasic));
+                        expect(cellsToUpload).to(contain(cellBasicDuplicate));
+                    });
+                });
             });
-            
+
+            context(@"when some choices are already uploaded with duplicate titles version <= 7.1.0", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = [[SDLVersion alloc] initWithMajor:7 minor:0 patch:0];
+                    [testManager preloadChoices:@[cellBasic, cellWithVR] withCompletionHandler:^(NSError * _Nullable error) { }];
+                });
+
+                it(@"append a number to the unique text for choice set cells", ^{
+                    NSArray<SDLChoiceCell *> *cellsToUpload = testOp.cellsToUpload.allObjects;
+                    for (SDLChoiceCell *choiceCell in cellsToUpload) {
+                        if (choiceCell.secondaryText) {
+                            expect(choiceCell.uniqueText).to(equal("test1 (2)"));
+                        } else {
+                            expect(choiceCell.uniqueText).to(equal("test1"));
+                        }
+                    }
+                    expect(cellsToUpload).to(haveCount(2));
+                    expect(cellsToUpload).to(contain(cellBasic));
+                    expect(cellsToUpload).to(contain(cellBasicDuplicate));
+                });
+            });
+        });
+
+        context(@"with artworks", ^{
             context(@"if the menuName is not set", ^{
                 it(@"should not send any requests", ^{
                     SDLTextField *primaryTextField = [[SDLTextField alloc] init];
@@ -232,14 +336,6 @@ describe(@"a preload choices operation", ^{
         });
 
         context(@"without artworks", ^{
-            __block NSOrderedSet<SDLChoiceCell *> *cellsWithoutArtwork = nil;
-            beforeEach(^{
-                SDLChoiceCell *cellBasic = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
-                SDLChoiceCell *cellWithVR = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:@[@"Cell2"] artwork:nil secondaryArtwork:nil];
-                SDLChoiceCell *cellWithAllText = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:@"Cell2" tertiaryText:@"Cell2" voiceCommands:nil artwork:nil secondaryArtwork:nil];
-                cellsWithoutArtwork = [[NSOrderedSet alloc] initWithArray:@[cellBasic, cellWithVR, cellWithAllText]];
-            });
-
             it(@"should skip to preloading cells", ^{
                 expect(@(testOp.currentState)).to(equal(SDLPreloadChoicesOperationStatePreloadingChoices));
             });
