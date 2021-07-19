@@ -39,7 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) SDLChoiceSetCanceledHandler canceledHandler;
 
-
 @end
 
 @interface SDLPresentChoiceSetOperation()

@@ -599,13 +599,13 @@
 		4ABB256324F7E5AA0061BF55 /* SDLPermissionElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB256124F7E5AA0061BF55 /* SDLPermissionElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ABB256624F7E5B80061BF55 /* SDLRPCPermissionStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB256424F7E5B70061BF55 /* SDLRPCPermissionStatus.m */; };
 		4ABB256724F7E5B80061BF55 /* SDLRPCPermissionStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB256524F7E5B80061BF55 /* SDLRPCPermissionStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4ABB257024F7E5E80061BF55 /* SDLPreloadChoicesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB256824F7E5E70061BF55 /* SDLPreloadChoicesOperation.m */; };
+		4ABB257024F7E5E80061BF55 /* SDLPreloadPresentChoicesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB256824F7E5E70061BF55 /* SDLPreloadPresentChoicesOperation.m */; };
 		4ABB257124F7E5E80061BF55 /* SDLPresentChoiceSetOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB256924F7E5E70061BF55 /* SDLPresentChoiceSetOperation.m */; };
 		4ABB257224F7E5E80061BF55 /* SDLCheckChoiceVROptionalOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB256A24F7E5E70061BF55 /* SDLCheckChoiceVROptionalOperation.m */; };
 		4ABB257324F7E5E80061BF55 /* SDLCheckChoiceVROptionalOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB256B24F7E5E70061BF55 /* SDLCheckChoiceVROptionalOperation.h */; };
 		4ABB257424F7E5E80061BF55 /* SDLPresentChoiceSetOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB256C24F7E5E70061BF55 /* SDLPresentChoiceSetOperation.h */; };
 		4ABB257524F7E5E80061BF55 /* SDLDeleteChoicesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB256D24F7E5E70061BF55 /* SDLDeleteChoicesOperation.m */; };
-		4ABB257624F7E5E80061BF55 /* SDLPreloadChoicesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB256E24F7E5E80061BF55 /* SDLPreloadChoicesOperation.h */; };
+		4ABB257624F7E5E80061BF55 /* SDLPreloadPresentChoicesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB256E24F7E5E80061BF55 /* SDLPreloadPresentChoicesOperation.h */; };
 		4ABB257724F7E5E80061BF55 /* SDLDeleteChoicesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB256F24F7E5E80061BF55 /* SDLDeleteChoicesOperation.h */; };
 		4ABB257A24F7E5FF0061BF55 /* SDLPresentKeyboardOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB257824F7E5FF0061BF55 /* SDLPresentKeyboardOperation.m */; };
 		4ABB257B24F7E5FF0061BF55 /* SDLPresentKeyboardOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB257924F7E5FF0061BF55 /* SDLPresentKeyboardOperation.h */; };
@@ -2463,13 +2463,13 @@
 		4ABB256124F7E5AA0061BF55 /* SDLPermissionElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPermissionElement.h; path = public/SDLPermissionElement.h; sourceTree = "<group>"; };
 		4ABB256424F7E5B70061BF55 /* SDLRPCPermissionStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRPCPermissionStatus.m; path = public/SDLRPCPermissionStatus.m; sourceTree = "<group>"; };
 		4ABB256524F7E5B80061BF55 /* SDLRPCPermissionStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLRPCPermissionStatus.h; path = public/SDLRPCPermissionStatus.h; sourceTree = "<group>"; };
-		4ABB256824F7E5E70061BF55 /* SDLPreloadChoicesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPreloadChoicesOperation.m; path = private/SDLPreloadChoicesOperation.m; sourceTree = "<group>"; };
+		4ABB256824F7E5E70061BF55 /* SDLPreloadPresentChoicesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPreloadPresentChoicesOperation.m; path = private/SDLPreloadPresentChoicesOperation.m; sourceTree = "<group>"; };
 		4ABB256924F7E5E70061BF55 /* SDLPresentChoiceSetOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPresentChoiceSetOperation.m; path = private/SDLPresentChoiceSetOperation.m; sourceTree = "<group>"; };
 		4ABB256A24F7E5E70061BF55 /* SDLCheckChoiceVROptionalOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLCheckChoiceVROptionalOperation.m; path = private/SDLCheckChoiceVROptionalOperation.m; sourceTree = "<group>"; };
 		4ABB256B24F7E5E70061BF55 /* SDLCheckChoiceVROptionalOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLCheckChoiceVROptionalOperation.h; path = private/SDLCheckChoiceVROptionalOperation.h; sourceTree = "<group>"; };
 		4ABB256C24F7E5E70061BF55 /* SDLPresentChoiceSetOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPresentChoiceSetOperation.h; path = private/SDLPresentChoiceSetOperation.h; sourceTree = "<group>"; };
 		4ABB256D24F7E5E70061BF55 /* SDLDeleteChoicesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDeleteChoicesOperation.m; path = private/SDLDeleteChoicesOperation.m; sourceTree = "<group>"; };
-		4ABB256E24F7E5E80061BF55 /* SDLPreloadChoicesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPreloadChoicesOperation.h; path = private/SDLPreloadChoicesOperation.h; sourceTree = "<group>"; };
+		4ABB256E24F7E5E80061BF55 /* SDLPreloadPresentChoicesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPreloadPresentChoicesOperation.h; path = private/SDLPreloadPresentChoicesOperation.h; sourceTree = "<group>"; };
 		4ABB256F24F7E5E80061BF55 /* SDLDeleteChoicesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLDeleteChoicesOperation.h; path = private/SDLDeleteChoicesOperation.h; sourceTree = "<group>"; };
 		4ABB257824F7E5FF0061BF55 /* SDLPresentKeyboardOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPresentKeyboardOperation.m; path = private/SDLPresentKeyboardOperation.m; sourceTree = "<group>"; };
 		4ABB257924F7E5FF0061BF55 /* SDLPresentKeyboardOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPresentKeyboardOperation.h; path = private/SDLPresentKeyboardOperation.h; sourceTree = "<group>"; };
@@ -6122,9 +6122,9 @@
 				4ABB256A24F7E5E70061BF55 /* SDLCheckChoiceVROptionalOperation.m */,
 				4ABB256F24F7E5E80061BF55 /* SDLDeleteChoicesOperation.h */,
 				4ABB256D24F7E5E70061BF55 /* SDLDeleteChoicesOperation.m */,
-				4ABB256E24F7E5E80061BF55 /* SDLPreloadChoicesOperation.h */,
+				4ABB256E24F7E5E80061BF55 /* SDLPreloadPresentChoicesOperation.h */,
+				4ABB256824F7E5E70061BF55 /* SDLPreloadPresentChoicesOperation.m */,
 				4ABB256C24F7E5E70061BF55 /* SDLPresentChoiceSetOperation.h */,
-				4ABB256824F7E5E70061BF55 /* SDLPreloadChoicesOperation.m */,
 				4ABB256924F7E5E70061BF55 /* SDLPresentChoiceSetOperation.m */,
 				4ABB257924F7E5FF0061BF55 /* SDLPresentKeyboardOperation.h */,
 				4ABB257824F7E5FF0061BF55 /* SDLPresentKeyboardOperation.m */,
@@ -7571,7 +7571,7 @@
 				B3A9DB2825D4C3B000CDFD21 /* SDLOnAppCapabilityUpdated.h in Headers */,
 				4ABB275424F7FD9C0061BF55 /* SDLElectronicParkBrakeStatus.h in Headers */,
 				4ABB2B5524F84EF50061BF55 /* SDLDriverDistractionCapability.h in Headers */,
-				4ABB257624F7E5E80061BF55 /* SDLPreloadChoicesOperation.h in Headers */,
+				4ABB257624F7E5E80061BF55 /* SDLPreloadPresentChoicesOperation.h in Headers */,
 				4ABB28E724F82A6A0061BF55 /* SDLOnAudioPassThru.h in Headers */,
 				4ABB25AD24F7E6E10061BF55 /* SDLMenuManager.h in Headers */,
 				88EE1A452502DB3100FFEBA9 /* SDLLockScreenConstants.h in Headers */,
@@ -8305,7 +8305,7 @@
 				4ABB258224F7E61E0061BF55 /* SDLChoiceCell.m in Sources */,
 				4ABB288D24F82A340061BF55 /* SDLVideoStreamingProtocol.m in Sources */,
 				B3A9DAFD25D4943E00CDFD21 /* SDLAppCapability.m in Sources */,
-				4ABB257024F7E5E80061BF55 /* SDLPreloadChoicesOperation.m in Sources */,
+				4ABB257024F7E5E80061BF55 /* SDLPreloadPresentChoicesOperation.m in Sources */,
 				4ABB2B3F24F84EF50061BF55 /* SDLCloudAppProperties.m in Sources */,
 				4A8BD27C24F9343F000945E3 /* SDLPhoneCapability.m in Sources */,
 				4ABB269724F7F9400061BF55 /* SDLRPCFunctionNames.m in Sources */,
