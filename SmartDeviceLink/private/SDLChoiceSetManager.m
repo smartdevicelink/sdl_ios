@@ -14,8 +14,7 @@
 #import "SDLDeleteChoicesOperation.h"
 #import "SDLError.h"
 #import "SDLGlobals.h"
-#import "SDLPreloadChoicesOperation.h"
-#import "SDLPresentChoiceSetOperation.h"
+#import "SDLPreloadPresentChoicesOperation.h"
 #import "SDLPresentKeyboardOperation.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -194,66 +193,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
 #pragma mark - Choice Management
 
-#pragma mark Upload / Delete
-
-- (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
-    SDLLogV(@"Request to preload choices: %@", choices);
-    if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-        NSError *error = [NSError sdl_choiceSetManager_incorrectState:self.currentState];
-        SDLLogE(@"Attempted to preload choices but the choice set manager is shut down: %@", error);
-        if (handler != nil) {
-            handler(error);
-        }
-        return;
-    }
-
-    NSOrderedSet<SDLChoiceCell *> *choicesToUpload = [[NSOrderedSet alloc] initWithArray:choices copyItems:YES];
-    if (choicesToUpload.count == 0) {
-        SDLLogD(@"All choices already preloaded. No need to perform a preload");
-        if (handler != nil) {
-            handler(nil);
-        }
-
-        return;
-    }
-
-    // Add ids to all the choices, ones that are already on the head unit will be removed when the preload starts
-    [self sdl_updateIdsOnChoices:choicesToUpload];
-
-    // Upload pending preloads
-    // For backward compatibility with Gen38Inch display type head units
-    SDLLogD(@"Preloading choices");
-    SDLLogV(@"Choices to be uploaded: %@", choicesToUpload);
-    NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
-
-    __weak typeof(self) weakSelf = self;
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.systemCapabilityManager.defaultMainWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload loadedCells:self.preloadedChoices completionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError *_Nullable error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
-        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-            SDLLogD(@"Cancelling preloading choices because the manager is shut down");
-            return;
-        }
-
-        // Update the list of `preloadedChoices`
-        strongSelf.preloadedChoices = updatedLoadedCells;
-        [strongSelf sdl_updatePendingTasksWithCurrentPreloads];
-
-        SDLLogD(@"Choices finished preloading");
-        if (handler != nil) {
-            if ([weakSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
-                handler([NSError sdl_choiceSetManager_incorrectState:SDLChoiceManagerStateShutdown]);
-            } else {
-                handler(error);
-            }
-
-            return;
-        }
-    }];
-
-    [self.transactionQueue addOperation:preloadOp];
-}
+#pragma mark Delete
 
 - (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices {
     SDLLogV(@"Request to delete choices: %@", choices);
@@ -283,7 +223,51 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     [self.transactionQueue addOperation:deleteOp];
 }
 
-#pragma mark Present
+#pragma mark Upload / Present
+
+- (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
+    SDLLogV(@"Request to preload choices: %@", choices);
+    if (choices.count == 0) { return; }
+    if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+        NSError *error = [NSError sdl_choiceSetManager_incorrectState:self.currentState];
+        SDLLogE(@"Attempted to preload choices but the choice set manager is shut down: %@", error);
+        if (handler != nil) { handler(error); }
+        return;
+    }
+
+    // Add ids to all the choices, ones that are already on the head unit will be removed when the preload starts
+    NSOrderedSet<SDLChoiceCell *> *choicesToUpload = [[NSOrderedSet alloc] initWithArray:choices copyItems:YES];
+    [self sdl_updateIdsOnChoices:choicesToUpload];
+
+    // Upload pending preloads
+    // For backward compatibility with Gen38Inch display type head units
+    SDLLogD(@"Preloading choices");
+    SDLLogV(@"Choices to be uploaded: %@", choicesToUpload);
+    NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
+
+    __weak typeof(self) weakSelf = self;
+    SDLPreloadPresentChoicesOperation *preloadOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.currentWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload loadedCells:self.preloadedChoices preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
+        // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
+        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+            SDLLogD(@"Cancelling preloading choices because the manager is shut down");
+
+            if (handler != nil) { handler([NSError sdl_choiceSetManager_incorrectState:SDLChoiceManagerStateShutdown]); }
+            BLOCK_RETURN;
+        }
+
+        // Update the list of `preloadedChoices`
+        strongSelf.preloadedChoices = updatedLoadedCells;
+        [strongSelf sdl_updatePendingTasksWithCurrentPreloads];
+
+        SDLLogD(@"Choices finished preloading");
+
+        if (handler != nil) { handler(error); }
+    }];
+
+    [self.transactionQueue addOperation:preloadOp];
+}
 
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
@@ -296,40 +280,46 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
+    [self sdl_updateIdsOnChoiceSet:choiceSet];
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
 
-    // Create an operation to preload the choices. We don't check if things are on the head unit and skip this so that if there's a delete operation in progress (etc.) we still ensure everything will be loaded right before the present. We don't check the completion handler because the present operation will take care of figuring out if it can present and returning an error.
-    [self preloadChoices:choiceSet.choices withCompletionHandler:nil];
+    NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
     // Add an operation to present it once the preload is complete
-    __weak typeof(self) weakself = self;
-    SDLPresentChoiceSetCompletionHandler presentCompletionHandler = ^void(SDLChoiceCell *_Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource selectedTriggerSource, NSError *_Nullable error) {
+    __weak typeof(self) weakSelf = self;
+    SDLPreloadPresentChoicesOperation *presentOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager choiceSet:choiceSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId displayName:displayName windowCapability:self.currentWindowCapability isVROptional:self.isVROptional loadedCells:self.preloadedChoices preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
+        // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
+        if ([strongSelf.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+            SDLLogD(@"Cancelling preloading choices because the manager is shut down");
+            BLOCK_RETURN;
+        }
+
+        // Update the list of `preloadedChoices`
+        strongSelf.preloadedChoices = updatedLoadedCells;
+        [strongSelf sdl_updatePendingTasksWithCurrentPreloads];
+
+        SDLLogD(@"Choices finished preloading");
+    } presentCompletionHandler:^(SDLChoiceCell * _Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource  _Nonnull selectedTriggerSource, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Finished presenting choice set: %@", choiceSet);
 
         if (choiceSet.delegate == nil) {
-            SDLLogW(@"Present finished, but no choice set delegate was available to callback.");
-            return;
+            SDLLogW(@"Present finished, but no choice set delegate was available for callback");
+            BLOCK_RETURN;
         }
 
         if (error != nil) {
             [choiceSet.delegate choiceSet:choiceSet didReceiveError:error];
-        } else if ([weakself.currentState isEqualToEnum:SDLChoiceManagerStateShutdown]) {
-            [choiceSet.delegate choiceSet:choiceSet didReceiveError:[NSError sdl_choiceSetManager_incorrectState:weakself.currentState]];
+        } else if ([strongSelf.currentState isEqualToEnum:SDLChoiceManagerStateShutdown]) {
+            [choiceSet.delegate choiceSet:choiceSet didReceiveError:[NSError sdl_choiceSetManager_incorrectState:strongSelf.currentState]];
         } else if (selectedCell != nil) {
             [choiceSet.delegate choiceSet:choiceSet didSelectChoice:selectedCell withSource:selectedTriggerSource atRowIndex:selectedRow];
         } else {
             SDLLogE(@"Present finished, but an unhandled state occurred and callback failed");
         }
-    };
-
-    SDLPresentChoiceSetOperation *presentOp = nil;
-    if (delegate == nil) {
-        // Non-searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:choiceSet mode:mode keyboardProperties:nil keyboardDelegate:nil cancelID:self.nextCancelId windowCapability:self.currentWindowCapability loadedCells:self.preloadedChoices completionHandler:presentCompletionHandler];
-    } else {
-        // Searchable choice set
-        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:choiceSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId windowCapability:self.currentWindowCapability loadedCells:self.preloadedChoices completionHandler:presentCompletionHandler];
-    }
+    }];
 
     [self.transactionQueue addOperation:presentOp];
 }
@@ -367,12 +357,9 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     for (NSOperation *op in self.transactionQueue.operations) {
         if (op.isExecuting || op.isCancelled) { continue; }
 
-        if ([op isMemberOfClass:SDLPreloadChoicesOperation.class]) {
-            SDLPreloadChoicesOperation *preloadOp = (SDLPreloadChoicesOperation *)op;
-            preloadOp.loadedCells = self.preloadedChoices;
-        } else if ([op isMemberOfClass:SDLPresentChoiceSetOperation.class]) {
-            SDLPresentChoiceSetOperation *presentOp = (SDLPresentChoiceSetOperation *)op;
-            presentOp.loadedCells = self.preloadedChoices;
+        if ([op isMemberOfClass:SDLPreloadPresentChoicesOperation.class]) {
+            SDLPreloadPresentChoicesOperation *preloadPresentOp = (SDLPreloadPresentChoicesOperation *)op;
+            preloadPresentOp.loadedCells = self.preloadedChoices;
         } else if ([op isMemberOfClass:SDLDeleteChoicesOperation.class]) {
             SDLDeleteChoicesOperation *deleteOp = (SDLDeleteChoicesOperation *)op;
             deleteOp.loadedCells = self.preloadedChoices;
@@ -384,6 +371,12 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 /// @param choices An array of choices
 - (void)sdl_updateIdsOnChoices:(NSOrderedSet<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
+        cell.choiceId = self.nextChoiceId;
+    }
+}
+
+- (void)sdl_updateIdsOnChoiceSet:(SDLChoiceSet *)choiceSet {
+    for (SDLChoiceCell *cell in choiceSet.choices) {
         cell.choiceId = self.nextChoiceId;
     }
 }

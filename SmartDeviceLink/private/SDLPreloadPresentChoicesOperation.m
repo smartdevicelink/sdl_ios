@@ -8,6 +8,7 @@
 
 #import "SDLPreloadPresentChoicesOperation.h"
 
+#import "SDLCancelInteraction.h"
 #import "SDLChoice.h"
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
@@ -23,6 +24,7 @@
 #import "SDLLogMacros.h"
 #import "SDLOnKeyboardInput.h"
 #import "SDLPerformInteraction.h"
+#import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSetGlobalProperties.h"
 #import "SDLVersion.h"
@@ -60,13 +62,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableOrderedSet<SDLChoiceCell *> *cellsToUpload;
 @property (strong, nonatomic) NSString *displayName;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
-@property (copy, nonatomic) SDLPreloadChoicesCompletionHandler preloadCompletionHandler;
+@property (copy, nonatomic) SDLUploadChoicesCompletionHandler preloadCompletionHandler;
 
 // Present Dependencies
 @property (strong, nonatomic) SDLChoiceSet *choiceSet;
 @property (strong, nonatomic, nullable) SDLInteractionMode presentationMode;
 @property (strong, nonatomic, nullable) SDLKeyboardProperties *originalKeyboardProperties;
-@property (strong, nonatomic, nullable) SDLKeyboardProperties *keyboardProperties;
+@property (strong, nonatomic, nullable) SDLKeyboardProperties *customKeyboardProperties;
 @property (weak, nonatomic, nullable) id<SDLKeyboardDelegate> keyboardDelegate;
 @property (assign, nonatomic) UInt16 cancelId;
 
@@ -81,13 +83,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLChoiceCell *selectedCell;
 @property (strong, nonatomic, nullable) SDLTriggerSource selectedTriggerSource;
 @property (assign, nonatomic) NSUInteger selectedCellRow;
-@property (copy, nonatomic) SDLPresentChoiceSetCompletionHandler presentCompletionHandler;
+@property (copy, nonatomic, nullable) SDLPresentChoiceSetCompletionHandler presentCompletionHandler;
 
 @end
 
 @implementation SDLPreloadPresentChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSArray<SDLChoiceCell *> *)cellsToPreload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLPreloadChoicesCompletionHandler)preloadCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSArray<SDLChoiceCell *> *)cellsToPreload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLUploadChoicesCompletionHandler)preloadCompletionHandler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -107,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode  keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLPreloadChoicesCompletionHandler)preloadCompletionHandler presentCompletionHandler:(SDLPresentChoiceSetCompletionHandler)presentCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode  keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLUploadChoicesCompletionHandler)preloadCompletionHandler presentCompletionHandler:(SDLPresentChoiceSetCompletionHandler)presentCompletionHandler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -123,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
     };
 
     _originalKeyboardProperties = originalKeyboardProperties;
-    _keyboardProperties = originalKeyboardProperties;
+    _customKeyboardProperties = originalKeyboardProperties;
     _keyboardDelegate = keyboardDelegate;
     _cancelId = cancelID;
 
@@ -133,6 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
     _mutableLoadedCells = [loadedCells mutableCopy];
     _cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:choiceSet.choices];
     _preloadCompletionHandler = preloadCompletionHandler;
+    _presentCompletionHandler = presentCompletionHandler;
 
     _selectedCellRow = NSNotFound;
 
@@ -143,20 +146,29 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
-    [self sdl_makeCellsToUploadUnique];
-    [self sdl_preloadCellArtworksWithCompletionHandler:^(NSError * _Nullable error) {
-        // If some artworks failed to upload, we are still going to try to load the cells
-        self.internalError = error;
-        if (self.isCancelled) { return [self finishOperation]; }
+    // Enforce unique cells and remove cells that are already loaded
+    [self.class sdl_makeCellsToUploadUnique:self.cellsToUpload basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
 
-        [self sdl_preloadCellsWithCompletionHandler:^(NSError * _Nullable error) {
+    // Start uploading cell artworks, then cells themselves, then determine if we want to present, then update keyboard properties if necessary, then present the choice set, then revert keyboard properties if necessary
+    [self sdl_uploadCellArtworksWithCompletionHandler:^(NSError * _Nullable uploadArtError) {
+        // If some artworks failed to upload, we are still going to try to load the cells
+        if (self.isCancelled || uploadArtError != nil) { return [self finishOperation:uploadArtError]; }
+
+        [self sdl_uploadCellsWithCompletionHandler:^(NSError * _Nullable uploadCellsError) {
             // If this operation has been cancelled or if there was an error with loading the cells, we don't want to present, so we'll end the operation
-            if (self.isCancelled || error != nil) { return [self finishOperation]; }
+            if (self.isCancelled || uploadCellsError != nil) { return [self finishOperation:uploadCellsError]; }
 
             // If necessary, present the choice set
             if (self.choiceSet == nil) { return [self finishOperation]; }
-            [self sdl_updateKeyboardPropertiesWithCompletionHandler:^(NSError * _Nullable error) {
-                <#code#>
+            [self sdl_updateKeyboardPropertiesWithCompletionHandler:^(NSError * _Nullable updateKeyboardPropertiesError) {
+                if (self.isCancelled || updateKeyboardPropertiesError != nil) { return [self finishOperation]; }
+
+                [self sdl_presentChoiceSetWithCompletionHandler:^(NSError * _Nullable presentError) {
+                    [self sdl_resetKeyboardPropertiesWithCompletionHandler:^(NSError * _Nullable resetKeyboardPropertiesError) {
+                        if (presentError != nil) { return [self finishOperation:presentError]; }
+                        return [self finishOperation:resetKeyboardPropertiesError];
+                    }];
+                }];
             }];
         }];
     }];
@@ -175,13 +187,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Uploading Choice Data
 
 // TODO: If an artwork fails to upload, are we or should be continue through to cell preload / presentation? Remove that art from "choices to upload" or just immediately cancel?
-- (void)sdl_preloadCellArtworksWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
+- (void)sdl_uploadCellArtworksWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.choiceSet.choices.count];
     for (SDLChoiceCell *cell in self.choiceSet.choices) {
-        if ([self sdl_shouldSendChoicePrimaryImage] && [self.fileManager fileNeedsUpload:cell.artwork]) {
+        if ([self.class sdl_shouldSendChoicePrimaryImageBasedOnWindowCapability:self.windowCapability] && [self.fileManager fileNeedsUpload:cell.artwork]) {
             [artworksToUpload addObject:cell.artwork];
         }
-        if ([self sdl_shouldSendChoiceSecondaryImage] && [self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
+        if ([self.class sdl_shouldSendChoiceSecondaryImageBasedOnWindowCapability:self.windowCapability] && [self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
             [artworksToUpload addObject:cell.secondaryArtwork];
         }
     }
@@ -203,10 +215,10 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)sdl_preloadCellsWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
+- (void)sdl_uploadCellsWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     NSMutableArray<SDLCreateInteractionChoiceSet *> *choiceRPCs = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        SDLCreateInteractionChoiceSet *csCell =  [self sdl_choiceFromCell:cell];
+        SDLCreateInteractionChoiceSet *csCell =  [self.class sdl_choiceFromCell:cell windowCapability:self.windowCapability displayName:self.displayName isVROptional:self.isVROptional];
         if (csCell != nil) {
             [choiceRPCs addObject:csCell];
         }
@@ -240,6 +252,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Presenting Choice Set
 
+#pragma mark Updating Keyboard Properties
+
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
@@ -247,44 +261,61 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.keyboardDelegate != nil && [self.keyboardDelegate respondsToSelector:@selector(customKeyboardConfiguration)]) {
         SDLKeyboardProperties *customProperties = self.keyboardDelegate.customKeyboardConfiguration;
         if (customProperties != nil) {
-            self.keyboardProperties = customProperties;
+            self.customKeyboardProperties = customProperties;
         }
     }
 
     // Create the keyboard configuration based on the window capability's keyboard capabilities
-    SDLKeyboardProperties *modifiedKeyboardConfig = [self.windowCapability createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:self.keyboardProperties];
+    SDLKeyboardProperties *modifiedKeyboardConfig = [self.windowCapability createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:self.customKeyboardProperties];
     if (modifiedKeyboardConfig == nil) {
         return completionHandler(nil);
     }
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = modifiedKeyboardConfig;
 
-    __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
         }
 
-        weakself.updatedKeyboardProperties = YES;
+        return completionHandler(error);
+    }];
+}
+
+- (void)sdl_resetKeyboardPropertiesWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
+    if (self.originalKeyboardProperties == nil) { return completionHandler(nil); }
+
+    SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
+    setProperties.keyboardProperties = self.originalKeyboardProperties;
+
+    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
+        }
+
+        completionHandler(error);
+    }];
+}
+
+#pragma mark Present
+
+- (void)sdl_presentChoiceSetWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
+    __weak typeof(self) weakself = self;
+    [self.connectionManager sendConnectionRequest:[self sdl_performInteractionFromChoiceSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Presenting choice set request: %@, failed with response: %@, error: %@", request, response, error);
+            return completionHandler(error);
+        }
+
+        SDLPerformInteractionResponse *performResponse = response;
+        [weakself sdl_setSelectedCellWithId:performResponse.choiceID];
+        weakself.selectedTriggerSource = performResponse.triggerSource;
 
         return completionHandler(error);
     }];
 }
 
-- (void)sdl_presentChoiceSetWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
-
-}
-
-- (void)sdl_setSelectedCellWithId:(NSNumber<SDLInt> *)cellId {
-    __weak typeof(self) weakself = self;
-    for (int i = 0; i < self.cellsToUpload.count; i++) {
-        if (self.cellsToUpload[i].choiceId == cellId.unsignedIntValue) {
-            self.selectedCell = cell;
-            self.selectedCellRow = i;
-            break;
-        }
-    }
-}
+#pragma mark Cancel
 
 /**
  * Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be immediately dismissed. Canceling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the choice set will not be dismissed.
@@ -321,13 +352,29 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+#pragma mark Present Helpers
+
+- (void)sdl_setSelectedCellWithId:(NSNumber<SDLInt> *)cellId {
+    for (NSUInteger i = 0; i < self.cellsToUpload.count; i++) {
+        if (self.cellsToUpload[i].choiceId == cellId.unsignedIntValue) {
+            self.selectedCell = self.cellsToUpload[i];
+            self.selectedCellRow = i;
+            break;
+        }
+    }
+}
+
 - (SDLPerformInteraction *)sdl_performInteractionFromChoiceSet {
+    NSParameterAssert(self.choiceSet != nil);
+
     SDLLayoutMode layoutMode = nil;
     switch (self.choiceSet.layout) {
         case SDLChoiceSetLayoutList:
             layoutMode = self.keyboardDelegate ? SDLLayoutModeListWithSearch : SDLLayoutModeListOnly;
+            break;
         case SDLChoiceSetLayoutTiles:
             layoutMode = self.keyboardDelegate ? SDLLayoutModeIconWithSearch : SDLLayoutModeIconOnly;
+            break;
     }
 
     NSMutableArray<NSNumber<SDLInt> *> *choiceIds = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
@@ -353,17 +400,17 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Choice Uniqueness
 
 /// Checks the choices to be uploaded and returns the items that have not yet been uploaded to the module, including adding unique names and stripping unused properties. These cells are then stored in the `self.cellsToUpload`.
-- (void)sdl_makeCellsToUploadUnique {
++ (void)sdl_makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability {
     // If we're on < RPC 7.1, all primary texts need to be unique, so we don't need to check removed properties and duplicate cells
     // On > RPC 7.1, at this point all cells are unique when considering all properties, but we also need to check if any cells will _appear_ as duplicates when displayed on the screen. To check that, we'll remove properties from the set cells based on the system capabilities (we probably don't need to consider them changing between now and when they're actually sent to the HU) and check for uniqueness again. Then we'll add unique identifiers to primary text if there are duplicates. Then we transfer the primary text identifiers back to the main cells and add those to an operation to be sent.
     SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
     if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:choiceUniquenessSupportedVersion]) {
-        [self.class sdl_removeUnusedProperties:self.cellsToUpload basedOnWindowCapability:self.windowCapability];
+        [self sdl_removeUnusedProperties:cellsToUpload basedOnWindowCapability:windowCapability];
     }
 
     // We may have removed unused properties, now we need to add unique names, then remove ones to upload from the loaded cells
-    [self.class sdl_addUniqueNamesToCells:self.cellsToUpload];
-    [self.cellsToUpload minusSet:self.loadedCells];
+    [self sdl_addUniqueNamesToCells:cellsToUpload];
+    [cellsToUpload minusSet:loadedCells];
 }
 
 + (void)sdl_removeUnusedProperties:(NSMutableOrderedSet<SDLChoiceCell *> *)choiceCells basedOnWindowCapability:(SDLWindowCapability *)windowCapability {
@@ -420,16 +467,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Assembling Choice RPCs
 
-- (nullable SDLCreateInteractionChoiceSet *)sdl_choiceFromCell:(SDLChoiceCell *)cell {
++ (nullable SDLCreateInteractionChoiceSet *)sdl_choiceFromCell:(SDLChoiceCell *)cell windowCapability:(SDLWindowCapability *)windowCapability displayName:(NSString *)displayName isVROptional:(BOOL)isVROptional {
     NSArray<NSString *> *vrCommands = nil;
     if (cell.voiceCommands == nil) {
-        vrCommands = self.isVROptional ? nil : @[[NSString stringWithFormat:@"%hu", cell.choiceId]];
+        vrCommands = isVROptional ? nil : @[[NSString stringWithFormat:@"%hu", cell.choiceId]];
     } else {
         vrCommands = cell.voiceCommands;
     }
 
     NSString *menuName = nil;
-    if ([self sdl_shouldSendChoiceText]) {
+    if ([self sdl_shouldSendChoiceTextBasedOnWindowCapability:windowCapability displayName:displayName]) {
         menuName = cell.uniqueText;
     }
 
@@ -438,11 +485,11 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    NSString *secondaryText = [self sdl_shouldSendChoiceSecondaryText] ? cell.secondaryText : nil;
-    NSString *tertiaryText = [self sdl_shouldSendChoiceTertiaryText] ? cell.tertiaryText : nil;
+    NSString *secondaryText = [self sdl_shouldSendChoiceSecondaryTextBasedOnWindowCapability:windowCapability] ? cell.secondaryText : nil;
+    NSString *tertiaryText = [self sdl_shouldSendChoiceTertiaryTextBasedOnWindowCapability:windowCapability] ? cell.tertiaryText : nil;
 
-    SDLImage *image = [self sdl_shouldSendChoicePrimaryImage] ? cell.artwork.imageRPC : nil;
-    SDLImage *secondaryImage = [self sdl_shouldSendChoiceSecondaryImage] ? cell.secondaryArtwork.imageRPC : nil;
+    SDLImage *image = [self sdl_shouldSendChoicePrimaryImageBasedOnWindowCapability:windowCapability] ? cell.artwork.imageRPC : nil;
+    SDLImage *secondaryImage = [self sdl_shouldSendChoiceSecondaryImageBasedOnWindowCapability:windowCapability] ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:(NSString *_Nonnull)menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
 
@@ -450,35 +497,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /// Determine if we should send primary text. If textFields is nil, we don't know the capabilities and we will send everything.
-- (BOOL)sdl_shouldSendChoiceText {
++ (BOOL)sdl_shouldSendChoiceTextBasedOnWindowCapability:(SDLWindowCapability *)windowCapability displayName:(NSString *)displayName {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if ([self.displayName isEqualToString:SDLDisplayTypeGen38Inch]) {
+    if ([displayName isEqualToString:SDLDisplayTypeGen38Inch]) {
         return YES;
     }
 #pragma clang diagnostic pop
 
-    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName];
+    return [windowCapability hasTextFieldOfName:SDLTextFieldNameMenuName];
 }
 
 /// Determine if we should send secondary text. If textFields is nil, we don't know the capabilities and we will send everything.
-- (BOOL)sdl_shouldSendChoiceSecondaryText {
-    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText];
++ (BOOL)sdl_shouldSendChoiceSecondaryTextBasedOnWindowCapability:(SDLWindowCapability *)windowCapability {
+    return [windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText];
 }
 
 /// Determine if we should send tertiary text. If textFields is nil, we don't know the capabilities and we will send everything.
-- (BOOL)sdl_shouldSendChoiceTertiaryText {
-    return [self.windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText];
++ (BOOL)sdl_shouldSendChoiceTertiaryTextBasedOnWindowCapability:(SDLWindowCapability *)windowCapability {
+    return [windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText];
 }
 
 /// Determine if we should send the primary image. If imageFields is nil, we don't know the capabilities and we will send everything.
-- (BOOL)sdl_shouldSendChoicePrimaryImage {
-    return [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage];
++ (BOOL)sdl_shouldSendChoicePrimaryImageBasedOnWindowCapability:(SDLWindowCapability *)windowCapability {
+    return [windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage];
 }
 
 /// Determine if we should send the secondary image. If imageFields is nil, we don't know the capabilities and we will send everything.
-- (BOOL)sdl_shouldSendChoiceSecondaryImage {
-    return [self.windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage];
++ (BOOL)sdl_shouldSendChoiceSecondaryImageBasedOnWindowCapability:(SDLWindowCapability *)windowCapability {
+    return [windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage];
 }
 
 #pragma mark - SDL Notifications
@@ -501,6 +548,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Notify of keypress
         if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:autoCompleteResultsHandler:)]) {
             [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data autoCompleteResultsHandler:^(NSArray<NSString *> * _Nullable updatedAutoCompleteList) {
+                __strong typeof(self) strongself = weakself;
                 NSArray<NSString *> *newList = nil;
                 if (updatedAutoCompleteList.count > 100) {
                     newList = [updatedAutoCompleteList subarrayWithRange:NSMakeRange(0, 100)];
@@ -508,19 +556,20 @@ NS_ASSUME_NONNULL_BEGIN
                     newList = updatedAutoCompleteList;
                 }
 
-                weakself.keyboardProperties.autoCompleteList = (newList.count > 0) ? newList : @[];
+                strongself.customKeyboardProperties.autoCompleteList = (newList.count > 0) ? newList : @[];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                weakself.keyboardProperties.autoCompleteText = (newList.count > 0) ? newList.firstObject : nil;
+                strongself.customKeyboardProperties.autoCompleteText = (newList.count > 0) ? newList.firstObject : nil;
 #pragma clang diagnostic pop
-                [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+                [strongself sdl_updateKeyboardPropertiesWithCompletionHandler:^(NSError * _Nullable error) {}];
             }];
         }
 
         if ([self.keyboardDelegate respondsToSelector:@selector(updateCharacterSetWithInput:completionHandler:)]) {
             [self.keyboardDelegate updateCharacterSetWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> *updatedCharacterSet) {
-                weakself.keyboardProperties.limitedCharacterList = updatedCharacterSet;
-                [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+                __strong typeof(self) strongself = weakself;
+                strongself.customKeyboardProperties.limitedCharacterList = updatedCharacterSet;
+                [strongself sdl_updateKeyboardPropertiesWithCompletionHandler:^(NSError * _Nullable error) {}];
             }];
         }
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
@@ -537,8 +586,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Property Overrides
 
-- (void)finishOperation {
-    self.completionHandler(self.loadedCells, self.internalError);
+- (void)finishOperation:(nullable NSError *)error {
+    self.internalError = error;
+    self.preloadCompletionHandler(self.loadedCells, self.internalError);
+    if (self.presentCompletionHandler != nil) {
+        self.presentCompletionHandler(self.selectedCell, self.selectedCellRow, self.selectedTriggerSource, self.internalError);
+    }
 
     [super finishOperation];
 }
