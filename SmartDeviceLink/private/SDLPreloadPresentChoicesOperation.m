@@ -33,6 +33,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
+    SDLPreloadPresentChoicesOperationStateNotStarted,
+    SDLPreloadPresentChoicesOperationStateUploadingImages,
+    SDLPreloadPresentChoicesOperationStateUploadingChoices,
+    SDLPreloadPresentChoicesOperationStateUpdatingKeyboardProperties,
+    SDLPreloadPresentChoicesOperationStatePresentingChoices,
+    SDLPreloadPresentChoicesOperationStateCancellingPresentChoices,
+    SDLPreloadPresentChoicesOperationStateResettingKeyboardProperties,
+    SDLPreloadPresentChoicesOperationStateFinishing
+};
+
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
@@ -73,6 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) UInt16 cancelId;
 
 // Internal operation properties
+@property (assign, nonatomic) SDLPreloadPresentChoicesOperationState currentState;
 @property (strong, nonatomic) NSUUID *operationId;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
@@ -93,6 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
+    _currentState = SDLPreloadPresentChoicesOperationStateNotStarted;
     _operationId = [NSUUID UUID];
 
     _connectionManager = connectionManager;
@@ -113,6 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
+    _currentState = SDLPreloadPresentChoicesOperationStateNotStarted;
     _operationId = [NSUUID UUID];
 
     _connectionManager = connectionManager;
@@ -187,6 +201,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Uploading Choice Data
 
 - (void)sdl_uploadCellArtworksWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
+    self.currentState = SDLPreloadPresentChoicesOperationStateUploadingImages;
+
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.choiceSet.choices.count];
     for (SDLChoiceCell *cell in self.choiceSet.choices) {
         if ([self.class sdl_shouldSendChoicePrimaryImageBasedOnWindowCapability:self.windowCapability] && [self.fileManager fileNeedsUpload:cell.artwork]) {
@@ -215,6 +231,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_uploadCellsWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
+    self.currentState = SDLPreloadPresentChoicesOperationStateUploadingChoices;
+
     NSMutableArray<SDLCreateInteractionChoiceSet *> *choiceRPCs = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
         SDLCreateInteractionChoiceSet *csCell =  [self.class sdl_choiceFromCell:cell windowCapability:self.windowCapability displayName:self.displayName isVROptional:self.isVROptional];
@@ -254,6 +272,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Updating Keyboard Properties
 
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
+    self.currentState = SDLPreloadPresentChoicesOperationStateUpdatingKeyboardProperties;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
     // Check if we're using a keyboard (searchable) choice set and setup keyboard properties if we need to
@@ -282,6 +301,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_resetKeyboardPropertiesWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
+    self.currentState = SDLPreloadPresentChoicesOperationStateResettingKeyboardProperties;
     if (self.originalKeyboardProperties == nil) { return completionHandler(nil); }
 
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
@@ -299,6 +319,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Present
 
 - (void)sdl_presentChoiceSetWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
+    self.currentState = SDLPreloadPresentChoicesOperationStatePresentingChoices;
+
     __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:[self sdl_performInteractionFromChoiceSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
@@ -327,16 +349,19 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogW(@"This operation has already been canceled. It will be finished at some point during the operation.");
         return;
     } else if (self.isExecuting) {
-        if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
-            SDLLogE(@"Canceling a choice set is not supported on this head unit");
-            return;
+        if (self.currentState != SDLPreloadPresentChoicesOperationStatePresentingChoices) {
+            SDLLogD(@"Canceling the operation before a present.");
+            return [self cancel];
+        } else if ([SDLGlobals.sharedGlobals.rpcVersion isLessThanVersion:[[SDLVersion alloc] initWithMajor:6 minor:0 patch:0]]) {
+            SDLLogW(@"Canceling a currently displaying choice set is not supported on this head unit. Trying to cancel the operation.");
+            return [self cancel];
         }
 
+        self.currentState = SDLPreloadPresentChoicesOperationStateCancellingPresentChoices;
         SDLLogD(@"Canceling the presented choice set interaction");
 
-        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];
-
         __weak typeof(self) weakSelf = self;
+        SDLCancelInteraction *cancelInteraction = [[SDLCancelInteraction alloc] initWithPerformInteractionCancelID:self.cancelId];
         [self.connectionManager sendConnectionRequest:cancelInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (error != nil) {
                 weakSelf.internalError = error;
@@ -586,6 +611,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (void)finishOperation:(nullable NSError *)error {
+    self.currentState = SDLPreloadPresentChoicesOperationStateFinishing;
+
     self.internalError = error;
     self.preloadCompletionHandler(self.loadedCells, self.internalError);
     if (self.presentCompletionHandler != nil) {

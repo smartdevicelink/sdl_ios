@@ -2,19 +2,11 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SDLError.h"
 #import "SDLPreloadPresentChoicesOperation.h"
 
-#import "SDLChoice.h"
-#import "SDLChoiceCell.h"
-#import "SDLCreateInteractionChoiceSet.h"
-#import "SDLDisplayType.h"
-#import "SDLFileManager.h"
 #import "SDLGlobals.h"
-#import "SDLImageField.h"
-#import "SDLImageFieldName.h"
-#import "SDLTextField.h"
-#import "SDLTextFieldName.h"
-#import "SDLWindowCapability.h"
 #import "TestConnectionManager.h"
 
 @interface SDLPreloadPresentChoicesOperation()
@@ -557,7 +549,8 @@ describe(@"a preload choices operation", ^{
                 [testOp start];
 
                 // Move us past the preload
-                testConnectionManager respondToRequestWithResponse:<#(nonnull __kindof SDLRPCResponse *)#> requestNumber:<#(NSInteger)#> error:<#(nullable NSError *)#>
+                [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:0 error:nil];
+                [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:1 error:nil];
                 [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
             });
 
@@ -565,238 +558,56 @@ describe(@"a preload choices operation", ^{
                 expect(testConnectionManager.receivedRequests.lastObject).toNot(beAnInstanceOf([SDLSetGlobalProperties class]));
             });
 
-            describe(@"presenting the choice set", ^{
-                it(@"should send the perform interaction", ^{
-                    expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLPerformInteraction class]));
-                    SDLPerformInteraction *request = testConnectionManager.receivedRequests.lastObject;
-                    expect(request.initialText).to(equal(testChoiceSet.title));
-                    expect(request.initialPrompt).to(equal(testChoiceSet.initialPrompt));
-                    expect(request.interactionMode).to(equal(testInteractionMode));
-                    expect(request.interactionLayout).to(equal(SDLLayoutModeIconOnly));
-                    expect(request.timeoutPrompt).to(equal(testChoiceSet.timeoutPrompt));
-                    expect(request.helpPrompt).to(equal(testChoiceSet.helpPrompt));
-                    expect(request.timeout).to(equal(testChoiceSet.timeout * 1000));
-                    expect(request.vrHelp).to(beNil());
-                    expect(request.interactionChoiceSetIDList).to(equal(@[@65535]));
-                    expect(request.cancelID).to(equal(testCancelID));
-                });
-
-                describe(@"after a perform interaction response", ^{
-                    __block UInt16 responseChoiceId = UINT16_MAX;
-                    __block SDLTriggerSource responseTriggerSource = SDLTriggerSourceMenu;
-
-                    beforeEach(^{
-                        SDLPerformInteractionResponse *response = [[SDLPerformInteractionResponse alloc] init];
-                        response.success = @YES;
-                        response.choiceID = @(responseChoiceId);
-                        response.triggerSource = responseTriggerSource;
-
-                        [testConnectionManager respondToLastRequestWithResponse:response];
-                    });
-
-                    it(@"should not reset the keyboard properties and should be finished", ^{
-                        expect(testConnectionManager.receivedRequests.lastObject).toNot(beAnInstanceOf([SDLSetGlobalProperties class]));
-                        expect(testOp.isFinished).to(beTrue());
-                        expect(resultChoiceCell).to(equal(testChoices.firstObject));
-                        expect(resultTriggerSource).to(equal(responseTriggerSource));
-                    });
-                });
+            it(@"should send the perform interaction", ^{
+                expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLPerformInteraction class]));
+                SDLPerformInteraction *request = testConnectionManager.receivedRequests.lastObject;
+                expect(request.initialText).to(equal(testChoiceSet.title));
+                expect(request.initialPrompt).to(equal(testChoiceSet.initialPrompt));
+                expect(request.interactionMode).to(equal(testInteractionMode));
+                expect(request.interactionLayout).to(equal(SDLLayoutModeIconOnly));
+                expect(request.timeoutPrompt).to(equal(testChoiceSet.timeoutPrompt));
+                expect(request.helpPrompt).to(equal(testChoiceSet.helpPrompt));
+                expect(request.timeout).to(equal(testChoiceSet.timeout * 1000));
+                expect(request.vrHelp).to(beNil());
+                expect(request.interactionChoiceSetIDList).to(equal(@[@65535]));
+                expect(request.cancelID).to(equal(testCancelID));
             });
 
-            describe(@"Canceling the choice set", ^{
-                context(@"if the head unit supports the `CancelInteration` RPC", ^{
-                    beforeEach(^{
-                        SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
-                        id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                        OCMStub([globalMock rpcVersion]).andReturn(supportedVersion);
-                    });
+            describe(@"after a perform interaction response", ^{
+                __block UInt16 responseChoiceId = UINT16_MAX;
+                __block SDLTriggerSource responseTriggerSource = SDLTriggerSourceMenu;
 
-                     context(@"If the operation is executing", ^{
-                         beforeEach(^{
-                             [testCancelOp start];
+                beforeEach(^{
+                    SDLPerformInteractionResponse *response = [[SDLPerformInteractionResponse alloc] init];
+                    response.success = @YES;
+                    response.choiceID = @(responseChoiceId);
+                    response.triggerSource = responseTriggerSource;
 
-                             expect(testCancelOp.isExecuting).to(beTrue());
-                             expect(testCancelOp.isFinished).to(beFalse());
-                             expect(testCancelOp.isCancelled).to(beFalse());
-
-                             [testChoiceSet cancel];
-                         });
-
-                         it(@"should attempt to send a cancel interaction", ^{
-                             SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                             expect(lastRequest).to(beAnInstanceOf([SDLCancelInteraction class]));
-                             expect(lastRequest.cancelID).to(equal(testCancelID));
-                             expect(lastRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
-                         });
-
-                         context(@"If the cancel interaction was successful", ^{
-                             beforeEach(^{
-                                 SDLCancelInteractionResponse *testCancelInteractionResponse = [[SDLCancelInteractionResponse alloc] init];
-                                 testCancelInteractionResponse.success = @YES;
-                                 [testConnectionManager respondToLastRequestWithResponse:testCancelInteractionResponse];
-                             });
-
-                             it(@"should not error", ^{
-                                 expect(testCancelOp.error).to(beNil());
-                             });
-
-                             it(@"should not finish", ^{
-                                 expect(testCancelOp.isExecuting).to(beTrue());
-                                 expect(testCancelOp.isFinished).to(beFalse());
-                                 expect(testCancelOp.isCancelled).to(beFalse());
-                             });
-                         });
-
-                         context(@"If the cancel interaction was not successful", ^{
-                             __block NSError *testError = [NSError sdl_lifecycle_notConnectedError];
-
-                             beforeEach(^{
-                                 SDLCancelInteractionResponse *testCancelInteractionResponse = [[SDLCancelInteractionResponse alloc] init];
-                                 testCancelInteractionResponse.success = @NO;
-                                 [testConnectionManager respondToLastRequestWithResponse:testCancelInteractionResponse error:testError];
-                             });
-
-                             it(@"should error", ^{
-                                 expect(testCancelOp.error).to(equal(testError));
-                             });
-
-                             it(@"should not finish", ^{
-                                 expect(testCancelOp.isExecuting).to(beTrue());
-                                 expect(testCancelOp.isFinished).to(beFalse());
-                                 expect(testCancelOp.isCancelled).to(beFalse());
-                             });
-                         });
-                     });
-
-                     context(@"If the operation has already finished", ^{
-                         beforeEach(^{
-                             [testCancelOp finishOperation];
-
-                             expect(testCancelOp.isExecuting).to(beFalse());
-                             expect(testCancelOp.isFinished).to(beTrue());
-                             expect(testCancelOp.isCancelled).to(beFalse());
-
-                             [testChoiceSet cancel];
-                         });
-
-                         it(@"should not attempt to send a cancel interaction", ^{
-                             SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                             expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
-                         });
-                     });
-
-                     context(@"If the started operation has been canceled", ^{
-                         beforeEach(^{
-                             [testCancelOp start];
-                             [testCancelOp cancel];
-
-                             expect(testCancelOp.isExecuting).to(beTrue());
-                             expect(testCancelOp.isFinished).to(beFalse());
-                             expect(testCancelOp.isCancelled).to(beTrue());
-
-                             [testChoiceSet cancel];
-                         });
-
-                         it(@"should not attempt to send a cancel interaction", ^{
-                             SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                             expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
-                         });
-
-                         it(@"should not finish", ^{
-                             expect(testCancelOp.isExecuting).toEventually(beTrue());
-                             expect(testCancelOp.isFinished).toEventually(beFalse());
-                             expect(testCancelOp.isCancelled).toEventually(beTrue());
-                         });
-                     });
-
-                    context(@"If the operation has not started", ^{
-                        beforeEach(^{
-                            expect(testCancelOp.isExecuting).to(beFalse());
-                            expect(testCancelOp.isFinished).to(beFalse());
-                            expect(testCancelOp.isCancelled).to(beFalse());
-
-                            [testChoiceSet cancel];
-                        });
-
-                        it(@"should not attempt to send a cancel interaction", ^{
-                            SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                            expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
-                        });
-
-                        context(@"Once the operation has started", ^{
-                            beforeEach(^{
-                                [testCancelOp start];
-                            });
-
-                            it(@"should not attempt to send a cancel interaction", ^{
-                                SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                                expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
-                            });
-
-                            it(@"should finish", ^{
-                                expect(testCancelOp.isExecuting).toEventually(beFalse());
-                                expect(testCancelOp.isFinished).toEventually(beTrue());
-                                expect(testCancelOp.isCancelled).toEventually(beTrue());
-                            });
-                        });
-                    });
+                    [testConnectionManager respondToLastRequestWithResponse:response];
                 });
 
-                context(@"Head unit does not support the `CancelInteration` RPC", ^{
-                    beforeEach(^{
-                        SDLVersion *unsupportedVersion = [SDLVersion versionWithMajor:5 minor:1 patch:0];
-                        id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
-                        OCMStub([globalMock rpcVersion]).andReturn(unsupportedVersion);
-                    });
-
-                    it(@"should not attempt to send a cancel interaction if the operation is executing", ^{
-                        [testCancelOp start];
-
-                        expect(testCancelOp.isExecuting).to(beTrue());
-                        expect(testCancelOp.isFinished).to(beFalse());
-                        expect(testCancelOp.isCancelled).to(beFalse());
-
-                        [testChoiceSet cancel];
-
-                        SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                        expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
-                    });
-
-                    it(@"should cancel the operation if it has not yet been run", ^{
-                        expect(testCancelOp.isExecuting).to(beFalse());
-                        expect(testCancelOp.isFinished).to(beFalse());
-                        expect(testCancelOp.isCancelled).to(beFalse());
-
-                        [testChoiceSet cancel];
-
-                        SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
-                        expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
-
-                        expect(testCancelOp.isExecuting).to(beFalse());
-                        expect(testCancelOp.isFinished).to(beFalse());
-                        expect(testCancelOp.isCancelled).to(beTrue());
-                    });
+                it(@"should not reset the keyboard properties and should be finished", ^{
+                    expect(testConnectionManager.receivedRequests.lastObject).toNot(beAnInstanceOf([SDLSetGlobalProperties class]));
+                    expect(testOp.isFinished).to(beTrue());
+                    expect(resultChoiceCell).to(equal(testChoiceSet.choices.firstObject));
+                    expect(resultTriggerSource).to(equal(responseTriggerSource));
                 });
             });
         });
 
         describe(@"running a searchable choice set operation", ^{
             beforeEach(^{
-                testOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:testConnectionManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:testKeyboardProperties keyboardDelegate:testKeyboardDelegate cancelID:testCancelID windowCapability:windowCapability loadedCells:testLoadedChoices completionHandler:^(SDLChoiceCell * _Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource  _Nonnull selectedTriggerSource, NSError * _Nullable error) {
-                    resultChoiceCell = selectedCell;
-                    resultChoiceRow = selectedRow;
-                    resultTriggerSource = selectedTriggerSource;
-                    resultError = error;
-                }];
-
                 [testOp start];
+
+                // Move us past the preload
+                [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:0 error:nil];
+                [testConnectionManager respondToRequestWithResponse:testGoodResponse requestNumber:1 error:nil];
+                [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
             });
 
             it(@"should ask for custom properties", ^{
                 OCMVerify([testKeyboardDelegate customKeyboardConfiguration]);
-            });
 
-            it(@"should update global keyboard properties", ^{
                 expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLSetGlobalProperties class]));
             });
 
@@ -1015,6 +826,152 @@ describe(@"a preload choices operation", ^{
                             expect(testOp.isFinished).to(beTrue());
                         });
                     });
+                });
+            });
+        });
+
+        describe(@"Canceling the choice set", ^{
+            context(@"if the head unit supports the `CancelInteraction` RPC", ^{
+                beforeEach(^{
+                    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
+                });
+
+                 context(@"If the operation is executing", ^{
+                     it(@"should attempt to send a cancel interaction", ^{
+                         expect(testOp.isExecuting).to(beTrue());
+                         expect(testOp.isFinished).to(beFalse());
+                         expect(testOp.isCancelled).to(beFalse());
+
+                         [testChoiceSet cancel];
+
+                         SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                         expect(lastRequest).to(beAnInstanceOf([SDLCancelInteraction class]));
+                         expect(lastRequest.cancelID).to(equal(testCancelID));
+                         expect(lastRequest.functionID).to(equal([SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNamePerformInteraction]));
+                     });
+
+                     context(@"If the cancel interaction was successful", ^{
+                         beforeEach(^{
+                             SDLCancelInteractionResponse *testCancelInteractionResponse = [[SDLCancelInteractionResponse alloc] init];
+                             testCancelInteractionResponse.success = @YES;
+                             [testConnectionManager respondToLastRequestWithResponse:testCancelInteractionResponse];
+                         });
+
+                         it(@"should not error", ^{
+                             expect(resultPresentError).to(beNil());
+                         });
+                     });
+
+                     context(@"If the cancel interaction was not successful", ^{
+                         __block NSError *testError = [NSError sdl_lifecycle_notConnectedError];
+
+                         beforeEach(^{
+                             SDLCancelInteractionResponse *testCancelInteractionResponse = [[SDLCancelInteractionResponse alloc] init];
+                             testCancelInteractionResponse.success = @NO;
+                             [testConnectionManager respondToLastRequestWithResponse:testCancelInteractionResponse error:testError];
+                         });
+
+                         it(@"should error", ^{
+                             expect(resultPresentError).to(equal(testError));
+                         });
+                     });
+                 });
+
+                 context(@"If the operation has already finished", ^{
+                     it(@"should not attempt to send a cancel interaction", ^{
+                         [testOp finishOperation];
+
+                         expect(testOp.isExecuting).to(beFalse());
+                         expect(testOp.isFinished).to(beTrue());
+                         expect(testOp.isCancelled).to(beFalse());
+
+                         [testChoiceSet cancel];
+
+                         SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                         expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+                     });
+                 });
+
+                 context(@"If the started operation has been canceled", ^{
+                     it(@"should not attempt to send a cancel interaction", ^{
+                         [testOp cancel];
+
+                         expect(testOp.isExecuting).to(beTrue());
+                         expect(testOp.isFinished).to(beFalse());
+                         expect(testOp.isCancelled).to(beTrue());
+
+                         [testChoiceSet cancel];
+
+                         expect(testConnectionManager.receivedRequests.lastObject).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+                     });
+                 });
+
+                context(@"If the operation has not started", ^{
+                    beforeEach(^{
+                        expect(testCancelOp.isExecuting).to(beFalse());
+                        expect(testCancelOp.isFinished).to(beFalse());
+                        expect(testCancelOp.isCancelled).to(beFalse());
+
+                        [testChoiceSet cancel];
+                    });
+
+                    it(@"should not attempt to send a cancel interaction", ^{
+                        SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                        expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+                    });
+
+                    context(@"Once the operation has started", ^{
+                        beforeEach(^{
+                            [testCancelOp start];
+                        });
+
+                        it(@"should not attempt to send a cancel interaction", ^{
+                            SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                            expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+                        });
+
+                        it(@"should finish", ^{
+                            expect(testCancelOp.isExecuting).toEventually(beFalse());
+                            expect(testCancelOp.isFinished).toEventually(beTrue());
+                            expect(testCancelOp.isCancelled).toEventually(beTrue());
+                        });
+                    });
+                });
+            });
+
+            context(@"Head unit does not support the `CancelInteraction` RPC", ^{
+                beforeEach(^{
+                    SDLVersion *unsupportedVersion = [SDLVersion versionWithMajor:5 minor:1 patch:0];
+                    id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                    OCMStub([globalMock rpcVersion]).andReturn(unsupportedVersion);
+                });
+
+                it(@"should not attempt to send a cancel interaction if the operation is executing", ^{
+                    [testCancelOp start];
+
+                    expect(testCancelOp.isExecuting).to(beTrue());
+                    expect(testCancelOp.isFinished).to(beFalse());
+                    expect(testCancelOp.isCancelled).to(beFalse());
+
+                    [testChoiceSet cancel];
+
+                    SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                    expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+                });
+
+                it(@"should cancel the operation if it has not yet been run", ^{
+                    expect(testCancelOp.isExecuting).to(beFalse());
+                    expect(testCancelOp.isFinished).to(beFalse());
+                    expect(testCancelOp.isCancelled).to(beFalse());
+
+                    [testChoiceSet cancel];
+
+                    SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
+                    expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
+
+                    expect(testCancelOp.isExecuting).to(beFalse());
+                    expect(testCancelOp.isFinished).to(beFalse());
+                    expect(testCancelOp.isCancelled).to(beTrue());
                 });
             });
         });
