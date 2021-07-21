@@ -186,7 +186,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Uploading Choice Data
 
-// TODO: If an artwork fails to upload, are we or should be continue through to cell preload / presentation? Remove that art from "choices to upload" or just immediately cancel?
 - (void)sdl_uploadCellArtworksWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.choiceSet.choices.count];
     for (SDLChoiceCell *cell in self.choiceSet.choices) {
