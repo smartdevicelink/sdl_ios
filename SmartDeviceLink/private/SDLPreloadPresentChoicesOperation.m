@@ -231,6 +231,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
 - (void)sdl_uploadCellsWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     self.currentState = SDLPreloadPresentChoicesOperationStateUploadingChoices;
+    if (self.cellsToUpload.count == 0) { return completionHandler(nil); }
 
     NSMutableArray<SDLCreateInteractionChoiceSet *> *choiceRPCs = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
@@ -431,9 +432,9 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
         [self sdl_removeUnusedProperties:cellsToUpload basedOnWindowCapability:windowCapability];
     }
 
-    // We may have removed unused properties, now we need to add unique names, then remove ones to upload from the loaded cells
-    [self sdl_addUniqueNamesToCells:cellsToUpload];
+    // We may have removed unused properties, now remove duplicate cells that are already on the head unit, then add unique names to the ones to upload
     [cellsToUpload minusSet:loadedCells];
+    [self sdl_addUniqueNamesToCells:cellsToUpload loadedCells:loadedCells];
 }
 
 + (void)sdl_removeUnusedProperties:(NSMutableOrderedSet<SDLChoiceCell *> *)choiceCells basedOnWindowCapability:(SDLWindowCapability *)windowCapability {
@@ -459,11 +460,26 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
 /// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
 /// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
-/// @param choices The choices to be uploaded.
-+ (void)sdl_addUniqueNamesToCells:(NSMutableOrderedSet<SDLChoiceCell *> *)choices {
+/// @param cellsToUpload The choices to be uploaded.
+/// @param loadedCells The cells already on the head unit
++ (void)sdl_addUniqueNamesToCells:(NSOrderedSet<SDLChoiceCell *> *)cellsToUpload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells {
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
-    for (SDLChoiceCell *cell in choices) {
+
+    // Include cells from loaded cells to ensure that new cells get the correct title
+    for (SDLChoiceCell *loadedCell in loadedCells) {
+        NSString *cellName = loadedCell.text;
+        NSNumber *counter = dictCounter[cellName];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[cellName] = counter;
+        } else {
+            dictCounter[cellName] = @1;
+        }
+    }
+
+    // Run through cellsToUpload and add unique text as needed
+    for (SDLChoiceCell *cell in cellsToUpload) {
         NSString *cellName = cell.text;
         NSNumber *counter = dictCounter[cellName];
         if (counter != nil) {
