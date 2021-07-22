@@ -236,17 +236,16 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     }
 
     // Add ids to all the choices, ones that are already on the head unit will be removed when the preload starts
-    NSOrderedSet<SDLChoiceCell *> *choicesToUpload = [[NSOrderedSet alloc] initWithArray:choices copyItems:YES];
-    [self sdl_updateIdsOnChoices:choicesToUpload];
+    [self sdl_updateIdsOnChoices:choices];
 
     // Upload pending preloads
     // For backward compatibility with Gen38Inch display type head units
     SDLLogD(@"Preloading choices");
-    SDLLogV(@"Choices to be uploaded: %@", choicesToUpload);
+    SDLLogV(@"Choices to be uploaded: %@", choices);
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
     __weak typeof(self) weakSelf = self;
-    SDLPreloadPresentChoicesOperation *preloadOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.currentWindowCapability isVROptional:self.isVROptional cellsToPreload:choicesToUpload loadedCells:self.preloadedChoices preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+    SDLPreloadPresentChoicesOperation *preloadOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayName:displayName windowCapability:self.currentWindowCapability isVROptional:self.isVROptional cellsToPreload:choices loadedCells:self.preloadedChoices preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         // Check if the manager has shutdown because the list of uploaded and pending choices should not be updated
@@ -351,7 +350,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
 /// Assigns a unique id to each choice item.
 /// @param choices An array of choices
-- (void)sdl_updateIdsOnChoices:(NSOrderedSet<SDLChoiceCell *> *)choices {
+- (void)sdl_updateIdsOnChoices:(NSArray<SDLChoiceCell *> *)choices {
     for (SDLChoiceCell *cell in choices) {
         cell.choiceId = self.nextChoiceId;
     }

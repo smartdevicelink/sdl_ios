@@ -464,7 +464,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 /// @param loadedCells The cells already on the head unit
 + (void)sdl_addUniqueNamesToCells:(NSOrderedSet<SDLChoiceCell *> *)cellsToUpload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells supportsChoiceUniqueness:(BOOL)supportsChoiceUniqueness {
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
-    NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<id<NSCopying>, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
 
     // Include cells from loaded cells to ensure that new cells get the correct title
     for (SDLChoiceCell *loadedCell in loadedCells) {
@@ -480,7 +480,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
     // Run through cellsToUpload and add unique text as needed
     for (SDLChoiceCell *cell in cellsToUpload) {
-        id<NSCopying> cellKey = supportsChoiceUniqueness ? loadedCell : loadedCell.text;
+        id<NSCopying> cellKey = supportsChoiceUniqueness ? cell : cell.text;
         NSNumber *counter = dictCounter[cellKey];
         if (counter != nil) {
             counter = @(counter.intValue + 1);

@@ -37,12 +37,6 @@
 // Mutable state
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *mutableLoadedCells;
 
-// Present completion handler properties
-@property (strong, nonatomic, nullable) SDLChoiceCell *selectedCell;
-@property (strong, nonatomic, nullable) SDLTriggerSource selectedTriggerSource;
-@property (assign, nonatomic) NSUInteger selectedCellRow;
-@property (copy, nonatomic, nullable) SDLPresentChoiceSetCompletionHandler presentCompletionHandler;
-
 @end
 
 @interface SDLChoiceCell()
@@ -66,10 +60,12 @@ describe(@"a preload choices operation", ^{
     __block SDLWindowCapability *primaryTextOnlyCapability = nil;
 
     __block NSSet<SDLChoiceCell *> *emptyLoadedCells = [NSSet set];
+    __block NSArray<SDLChoiceCell *> *cellsWithArtwork = nil;
+    __block NSArray<SDLChoiceCell *> *cellsWithStaticIcon = nil;
+    __block NSArray<SDLChoiceCell *> *cellsWithoutArtwork = nil;
+
     __block NSData *cellArtData = [@"testart" dataUsingEncoding:NSUTF8StringEncoding];
     __block NSData *cellArtData2 = [@"testart2" dataUsingEncoding:NSUTF8StringEncoding];
-    __block NSMutableOrderedSet<SDLChoiceCell *> *cellsWithArtwork = nil;
-    __block NSMutableOrderedSet<SDLChoiceCell *> *cellsWithStaticIcon = nil;
     __block NSString *art1Name = @"Art1Name";
     __block NSString *art2Name = @"Art2Name";
     __block SDLArtwork *cell1Art2 = [[SDLArtwork alloc] initWithData:cellArtData2 name:art1Name fileExtension:@"png" persistent:NO];
@@ -79,17 +75,11 @@ describe(@"a preload choices operation", ^{
     __block SDLChoiceCell *cellWithVR = nil;
     __block SDLChoiceCell *cellWithAllText = nil;
 
-    __block NSMutableOrderedSet<SDLChoiceCell *> *cellsWithoutArtwork = nil;
-
     __block SDLCreateInteractionChoiceSetResponse *testBadResponse = nil;
     __block SDLCreateInteractionChoiceSetResponse *testGoodResponse = nil;
 
     __block NSSet<SDLChoiceCell *> *resultChoices = nil;
     __block NSError *resultPreloadError = nil;
-    __block SDLTriggerSource resultTriggerSource = SDLTriggerSourceMenu;
-    __block SDLChoiceCell *resultChoiceCell = nil;
-    __block NSUInteger resultChoiceRow = NSUIntegerMax;
-    __block NSError *resultPresentError = nil;
 
     __block SDLChoiceSet *testChoiceSet = nil;
     __block int testCancelID = 98;
@@ -132,14 +122,14 @@ describe(@"a preload choices operation", ^{
         SDLArtwork *staticIconArt = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
         SDLChoiceCell *cellWithStaticIcon = [[SDLChoiceCell alloc] initWithText:@"Static Icon" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:staticIconArt secondaryArtwork:nil];
 
-        cellsWithArtwork = [[NSMutableOrderedSet alloc] initWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
-        cellsWithStaticIcon = [[NSMutableOrderedSet alloc] initWithArray:@[cellWithStaticIcon]];
+        cellsWithArtwork = @[cell1WithArt, cell2WithArtAndSecondary];
+        cellsWithStaticIcon = @[cellWithStaticIcon];
 
         cellBasic = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
         cellBasicDuplicate = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
         cellWithVR = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:@[@"Cell2"] artwork:nil secondaryArtwork:nil];
         cellWithAllText = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:@"Cell2" tertiaryText:@"Cell2" voiceCommands:nil artwork:nil secondaryArtwork:nil];
-        cellsWithoutArtwork = [[NSMutableOrderedSet alloc] initWithArray:@[cellBasic, cellWithVR, cellWithAllText]];
+        cellsWithoutArtwork = @[cellBasic, cellWithVR, cellWithAllText];
 
         testBadResponse = [[SDLCreateInteractionChoiceSetResponse alloc] init];
         testBadResponse.success = @NO;
@@ -154,11 +144,6 @@ describe(@"a preload choices operation", ^{
         OCMStub([testKeyboardDelegate customKeyboardConfiguration]).andReturn(nil);
         testKeyboardProperties = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageArSa keyboardLayout:SDLKeyboardLayoutAZERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteList:nil maskInputCharacters:nil customKeys:nil];
         testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:@"Choice Set" delegate:testChoiceDelegate choices:@[cellBasic, cellWithAllText]];
-
-        resultTriggerSource = SDLTriggerSourceMenu;
-        resultChoiceCell = nil;
-        resultChoiceRow = NSUIntegerMax;
-        resultPresentError = nil;
     });
 
     it(@"should have a priority of 'normal'", ^{
@@ -170,7 +155,7 @@ describe(@"a preload choices operation", ^{
     context(@"running a preload only operation", ^{
         describe(@"updating cells for uniqueness", ^{
             beforeEach(^{
-                testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:enabledWindowCapability isVROptional:YES cellsToPreload:[NSOrderedSet orderedSetWithArray:@[cellWithVR]] loadedCells:[NSSet setWithArray:@[cellWithAllText]] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {}];
+                testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:enabledWindowCapability isVROptional:YES cellsToPreload:@[cellWithVR] loadedCells:[NSSet setWithArray:@[cellWithAllText]] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {}];
             });
 
             context(@"when some choices are already uploaded with duplicate titles version >= 7.1.0", ^{
@@ -181,36 +166,25 @@ describe(@"a preload choices operation", ^{
                 context(@"if there are duplicate cells once you strip unused cell properties", ^{
                     beforeEach(^{
                         testOp.windowCapability = primaryTextOnlyCapability;
+                        testOp.loadedCells = [NSSet setWithObject:[[SDLChoiceCell alloc] initWithText:@"Cell2"]];
                         [testOp start];
                     });
 
                     it(@"should update the choiceCells' unique title", ^{
-                        for (SDLChoiceCell *choiceCell in testOp.cellsToUpload) {
-                            if (choiceCell.secondaryText) {
-                                expect(choiceCell.uniqueText).to(equal("test1 (2)"));
-                            } else {
-                                expect(choiceCell.uniqueText).to(equal("test1"));
-                            }
-                        }
-                        expect(testOp.cellsToUpload).to(haveCount(2));
-                        expect(testOp.cellsToUpload).to(contain(cellBasic));
-                        expect(testOp.cellsToUpload).to(contain(cellBasicDuplicate));
+                        expect(testOp.cellsToUpload.count).to(equal(1));
+                        expect(testOp.cellsToUpload[0].uniqueText).to(equal(@"Cell2 (2)"));
                     });
                 });
 
                 context(@"if all cell properties are used", ^{
                     beforeEach(^{
                         testOp.windowCapability = enabledWindowCapability;
+                        [testOp start];
                     });
 
                     it(@"should not update the choiceCells' unique title", ^{
-                        NSArray<SDLChoiceCell *> *cellsToUpload = testOp.cellsToUpload.array;
-                        for (SDLChoiceCell *choiceCell in cellsToUpload) {
-                            expect(choiceCell.uniqueText).to(equal("test1"));
-                        }
-                        expect(cellsToUpload).to(haveCount(2));
-                        expect(cellsToUpload).to(contain(cellBasic));
-                        expect(cellsToUpload).to(contain(cellBasicDuplicate));
+                        expect(testOp.cellsToUpload[0].uniqueText).to(equal("Cell2"));
+                        expect(testOp.cellsToUpload.count).to(equal(1));
                     });
                 });
             });
@@ -218,21 +192,18 @@ describe(@"a preload choices operation", ^{
             context(@"when some choices are already uploaded with duplicate titles version <= 7.1.0", ^{
                 beforeEach(^{
                     [SDLGlobals sharedGlobals].rpcVersion = choiceSetUniquenessInactiveVersion;
-                    [testOp start];
                 });
 
-                it(@"append a number to the unique text for choice set cells", ^{
-                    NSArray<SDLChoiceCell *> *cellsToUpload = testOp.cellsToUpload.array;
-                    for (SDLChoiceCell *choiceCell in cellsToUpload) {
-                        if (choiceCell.secondaryText) {
-                            expect(choiceCell.uniqueText).to(equal("test1 (2)"));
-                        } else {
-                            expect(choiceCell.uniqueText).to(equal("test1"));
-                        }
-                    }
-                    expect(cellsToUpload).to(haveCount(2));
-                    expect(cellsToUpload).to(contain(cellBasic));
-                    expect(cellsToUpload).to(contain(cellBasicDuplicate));
+                context(@"if all cell properties are used", ^{
+                    beforeEach(^{
+                        testOp.windowCapability = enabledWindowCapability;
+                        [testOp start];
+                    });
+
+                    it(@"should update the choiceCells' unique title", ^{
+                        expect(testOp.cellsToUpload[0].uniqueText).to(equal("Cell2 (2)"));
+                        expect(testOp.cellsToUpload.count).to(equal(1));
+                    });
                 });
             });
         });
@@ -240,19 +211,19 @@ describe(@"a preload choices operation", ^{
         context(@"with artworks", ^{
             context(@"if the menuName is not set", ^{
                 it(@"should not send any requests", ^{;
-                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:disabledWindowCapability isVROptional:YES cellsToPreload:[NSOrderedSet orderedSet] loadedCells:[cellsWithArtwork set] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:disabledWindowCapability isVROptional:YES cellsToPreload:@[] loadedCells:[NSSet setWithArray:cellsWithArtwork] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
                         resultPreloadError = error;
                         resultChoices = updatedLoadedCells;
                     }];
                     [testOp start];
 
-                    expect(testOp.cellsToUpload).to(haveCount(0));
+                    expect(testOp.cellsToUpload.count).to(equal(0));
                 });
             });
 
             context(@"only main text capabilities", ^{
                 it(@"should skip to preloading cells", ^{
-                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:primaryTextOnlyCapability isVROptional:YES cellsToPreload:[NSOrderedSet orderedSet] loadedCells:[cellsWithArtwork set] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:primaryTextOnlyCapability isVROptional:YES cellsToPreload:@[] loadedCells:[NSSet setWithArray:cellsWithArtwork] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
                         resultPreloadError = error;
                         resultChoices = updatedLoadedCells;
                     }];
@@ -263,14 +234,16 @@ describe(@"a preload choices operation", ^{
             });
 
             context(@"all text and image display capabilities", ^{
+                beforeEach(^{
+                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:enabledWindowCapability isVROptional:YES cellsToPreload:cellsWithArtwork loadedCells:[NSSet setWithArray:cellsWithArtwork] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+                        resultPreloadError = error;
+                        resultChoices = updatedLoadedCells;
+                    }];
+                });
+
                 context(@"when artworks are already on the system", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
-
-                        testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:enabledWindowCapability isVROptional:YES cellsToPreload:cellsWithArtwork loadedCells:[cellsWithArtwork set] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
-                            resultPreloadError = error;
-                            resultChoices = updatedLoadedCells;
-                        }];
                     });
 
                     it(@"should not upload artworks", ^{
@@ -302,7 +275,7 @@ describe(@"a preload choices operation", ^{
 
                 context(@"when artworks are static icons", ^{
                     beforeEach(^{
-                        testOp.cellsToUpload = cellsWithStaticIcon;
+                        testOp.cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:cellsWithStaticIcon];
                         [testOp start];
                     });
 
@@ -315,7 +288,7 @@ describe(@"a preload choices operation", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
 
-                        testOp.cellsToUpload = cellsWithArtwork;
+                        testOp.cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:cellsWithArtwork];
                         testOp.loadedCells = [NSSet set];
                     });
 
@@ -342,7 +315,7 @@ describe(@"a preload choices operation", ^{
                 });
 
                 it(@"should skip preloading the choices if all choice items have already been uploaded", ^{
-                    testOp.loadedCells = cellsWithoutArtwork.set;
+                    testOp.loadedCells = [NSSet setWithArray:cellsWithoutArtwork];
                     [testOp start];
 
                     expect(testConnectionManager.receivedRequests).to(haveCount(0));
@@ -470,11 +443,6 @@ describe(@"a preload choices operation", ^{
             testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager choiceSet:testChoiceSet mode:testInteractionMode keyboardProperties:testKeyboardProperties keyboardDelegate:testKeyboardDelegate cancelID:testCancelID displayName:testDisplayName windowCapability:enabledWindowCapability isVROptional:YES loadedCells:emptyLoadedCells preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
                 resultChoices = updatedLoadedCells;
                 resultPreloadError = error;
-            } presentCompletionHandler:^(SDLChoiceCell * _Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource  _Nonnull selectedTriggerSource, NSError * _Nullable error) {
-                resultChoiceCell = selectedCell;
-                resultTriggerSource = selectedTriggerSource;
-                resultChoiceRow = selectedRow;
-                resultPresentError = error;
             }];
         });
 
@@ -555,7 +523,9 @@ describe(@"a preload choices operation", ^{
             });
 
             it(@"should not update global keyboard properties", ^{
-                expect(testConnectionManager.receivedRequests.lastObject).toNot(beAnInstanceOf([SDLSetGlobalProperties class]));
+                for (SDLRPCRequest *req in testConnectionManager.receivedRequests) {
+                    expect(req).toNot(beAnInstanceOf([SDLSetGlobalProperties class]));
+                }
             });
 
             it(@"should send the perform interaction", ^{
@@ -589,8 +559,6 @@ describe(@"a preload choices operation", ^{
                 it(@"should not reset the keyboard properties and should be finished", ^{
                     expect(testConnectionManager.receivedRequests.lastObject).toNot(beAnInstanceOf([SDLSetGlobalProperties class]));
                     expect(testOp.isFinished).to(beTrue());
-                    expect(resultChoiceCell).to(equal(testChoiceSet.choices.firstObject));
-                    expect(resultTriggerSource).to(equal(responseTriggerSource));
                 });
             });
         });
@@ -812,17 +780,17 @@ describe(@"a preload choices operation", ^{
                     });
 
                     describe(@"after the reset response", ^{
+                        __block SDLSetGlobalPropertiesResponse *response = [[SDLSetGlobalPropertiesResponse alloc] init];
                         beforeEach(^{
-                            SDLSetGlobalPropertiesResponse *response = [[SDLSetGlobalPropertiesResponse alloc] init];
                             response.success = @YES;
-                            [testConnectionManager respondToLastRequestWithResponse:response];
                         });
 
                         it(@"should be finished", ^{
-                            expect(resultChoiceCell).toNot(beNil());
-                            expect(resultChoiceRow).to(equal(0));
-                            expect(resultTriggerSource).to(equal(SDLTriggerSourceVoiceRecognition));
-                            expect(resultError).to(beNil());
+                            OCMExpect([testChoiceDelegate choiceSet:[OCMArg isEqual:testChoiceSet] didSelectChoice:[OCMArg isNotNil] withSource:[OCMArg isEqual:SDLTriggerSourceVoiceRecognition] atRowIndex:0]);
+                            OCMReject([testChoiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
+
+                            [testConnectionManager respondToLastRequestWithResponse:response];
+
                             expect(testOp.isFinished).to(beTrue());
                         });
                     });
@@ -851,28 +819,31 @@ describe(@"a preload choices operation", ^{
                      });
 
                      context(@"If the cancel interaction was successful", ^{
+                         __block SDLCancelInteractionResponse *testCancelInteractionResponse = [[SDLCancelInteractionResponse alloc] init];
                          beforeEach(^{
-                             SDLCancelInteractionResponse *testCancelInteractionResponse = [[SDLCancelInteractionResponse alloc] init];
                              testCancelInteractionResponse.success = @YES;
-                             [testConnectionManager respondToLastRequestWithResponse:testCancelInteractionResponse];
                          });
 
                          it(@"should not error", ^{
-                             expect(resultPresentError).to(beNil());
+                             OCMExpect([testChoiceDelegate choiceSet:[OCMArg isEqual:testChoiceSet] didSelectChoice:[OCMArg isNotNil] withSource:[OCMArg isEqual:SDLTriggerSourceVoiceRecognition] atRowIndex:0]);
+                             OCMReject([testChoiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
+
+                             [testConnectionManager respondToLastRequestWithResponse:testCancelInteractionResponse];
                          });
                      });
 
                      context(@"If the cancel interaction was not successful", ^{
                          __block NSError *testError = [NSError sdl_lifecycle_notConnectedError];
+                         __block SDLCancelInteractionResponse *testCancelInteractionResponse = [[SDLCancelInteractionResponse alloc] init];
 
                          beforeEach(^{
-                             SDLCancelInteractionResponse *testCancelInteractionResponse = [[SDLCancelInteractionResponse alloc] init];
                              testCancelInteractionResponse.success = @NO;
-                             [testConnectionManager respondToLastRequestWithResponse:testCancelInteractionResponse error:testError];
                          });
 
                          it(@"should error", ^{
-                             expect(resultPresentError).to(equal(testError));
+                             OCMExpect([testChoiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg any]]);
+                             OCMReject([testChoiceDelegate choiceSet:[OCMArg isEqual:testChoiceSet] didSelectChoice:[OCMArg isNotNil] withSource:[OCMArg isEqual:SDLTriggerSourceVoiceRecognition] atRowIndex:0]);
+                             [testConnectionManager respondToLastRequestWithResponse:testCancelInteractionResponse error:testError];
                          });
                      });
                  });
@@ -908,9 +879,9 @@ describe(@"a preload choices operation", ^{
 
                 context(@"If the operation has not started", ^{
                     beforeEach(^{
-                        expect(testCancelOp.isExecuting).to(beFalse());
-                        expect(testCancelOp.isFinished).to(beFalse());
-                        expect(testCancelOp.isCancelled).to(beFalse());
+                        expect(testOp.isExecuting).to(beFalse());
+                        expect(testOp.isFinished).to(beFalse());
+                        expect(testOp.isCancelled).to(beFalse());
 
                         [testChoiceSet cancel];
                     });
@@ -922,7 +893,7 @@ describe(@"a preload choices operation", ^{
 
                     context(@"Once the operation has started", ^{
                         beforeEach(^{
-                            [testCancelOp start];
+                            [testOp start];
                         });
 
                         it(@"should not attempt to send a cancel interaction", ^{
@@ -931,9 +902,9 @@ describe(@"a preload choices operation", ^{
                         });
 
                         it(@"should finish", ^{
-                            expect(testCancelOp.isExecuting).toEventually(beFalse());
-                            expect(testCancelOp.isFinished).toEventually(beTrue());
-                            expect(testCancelOp.isCancelled).toEventually(beTrue());
+                            expect(testOp.isExecuting).toEventually(beFalse());
+                            expect(testOp.isFinished).toEventually(beTrue());
+                            expect(testOp.isCancelled).toEventually(beTrue());
                         });
                     });
                 });
@@ -947,11 +918,11 @@ describe(@"a preload choices operation", ^{
                 });
 
                 it(@"should not attempt to send a cancel interaction if the operation is executing", ^{
-                    [testCancelOp start];
+                    [testOp start];
 
-                    expect(testCancelOp.isExecuting).to(beTrue());
-                    expect(testCancelOp.isFinished).to(beFalse());
-                    expect(testCancelOp.isCancelled).to(beFalse());
+                    expect(testOp.isExecuting).to(beTrue());
+                    expect(testOp.isFinished).to(beFalse());
+                    expect(testOp.isCancelled).to(beFalse());
 
                     [testChoiceSet cancel];
 
@@ -960,18 +931,18 @@ describe(@"a preload choices operation", ^{
                 });
 
                 it(@"should cancel the operation if it has not yet been run", ^{
-                    expect(testCancelOp.isExecuting).to(beFalse());
-                    expect(testCancelOp.isFinished).to(beFalse());
-                    expect(testCancelOp.isCancelled).to(beFalse());
+                    expect(testOp.isExecuting).to(beFalse());
+                    expect(testOp.isFinished).to(beFalse());
+                    expect(testOp.isCancelled).to(beFalse());
 
                     [testChoiceSet cancel];
 
                     SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
                     expect(lastRequest).toNot(beAnInstanceOf([SDLCancelInteraction class]));
 
-                    expect(testCancelOp.isExecuting).to(beFalse());
-                    expect(testCancelOp.isFinished).to(beFalse());
-                    expect(testCancelOp.isCancelled).to(beTrue());
+                    expect(testOp.isExecuting).to(beFalse());
+                    expect(testOp.isFinished).to(beFalse());
+                    expect(testOp.isCancelled).to(beTrue());
                 });
             });
         });
