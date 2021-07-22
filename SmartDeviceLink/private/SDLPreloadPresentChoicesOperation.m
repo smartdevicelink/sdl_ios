@@ -427,14 +427,14 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 + (void)sdl_makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability {
     // If we're on < RPC 7.1, all primary texts need to be unique, so we don't need to check removed properties and duplicate cells
     // On > RPC 7.1, at this point all cells are unique when considering all properties, but we also need to check if any cells will _appear_ as duplicates when displayed on the screen. To check that, we'll remove properties from the set cells based on the system capabilities (we probably don't need to consider them changing between now and when they're actually sent to the HU) and check for uniqueness again. Then we'll add unique identifiers to primary text if there are duplicates. Then we transfer the primary text identifiers back to the main cells and add those to an operation to be sent.
-    SDLVersion *choiceUniquenessSupportedVersion = [[SDLVersion alloc] initWithMajor:7 minor:1 patch:0];
-    if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:choiceUniquenessSupportedVersion]) {
+    BOOL supportsChoiceUniqueness = [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]];
+    if (supportsChoiceUniqueness) {
         [self sdl_removeUnusedProperties:cellsToUpload basedOnWindowCapability:windowCapability];
     }
 
     // We may have removed unused properties, now remove duplicate cells that are already on the head unit, then add unique names to the ones to upload
     [cellsToUpload minusSet:loadedCells];
-    [self sdl_addUniqueNamesToCells:cellsToUpload loadedCells:loadedCells];
+    [self sdl_addUniqueNamesToCells:cellsToUpload loadedCells:loadedCells supportsChoiceUniqueness:supportsChoiceUniqueness];
 }
 
 + (void)sdl_removeUnusedProperties:(NSMutableOrderedSet<SDLChoiceCell *> *)choiceCells basedOnWindowCapability:(SDLWindowCapability *)windowCapability {
@@ -462,31 +462,31 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 /// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
 /// @param cellsToUpload The choices to be uploaded.
 /// @param loadedCells The cells already on the head unit
-+ (void)sdl_addUniqueNamesToCells:(NSOrderedSet<SDLChoiceCell *> *)cellsToUpload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells {
++ (void)sdl_addUniqueNamesToCells:(NSOrderedSet<SDLChoiceCell *> *)cellsToUpload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells supportsChoiceUniqueness:(BOOL)supportsChoiceUniqueness {
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<NSString *, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
 
     // Include cells from loaded cells to ensure that new cells get the correct title
     for (SDLChoiceCell *loadedCell in loadedCells) {
-        NSString *cellName = loadedCell.text;
-        NSNumber *counter = dictCounter[cellName];
+        id<NSCopying> cellKey = supportsChoiceUniqueness ? loadedCell : loadedCell.text;
+        NSNumber *counter = dictCounter[cellKey];
         if (counter != nil) {
             counter = @(counter.intValue + 1);
-            dictCounter[cellName] = counter;
+            dictCounter[cellKey] = counter;
         } else {
-            dictCounter[cellName] = @1;
+            dictCounter[cellKey] = @1;
         }
     }
 
     // Run through cellsToUpload and add unique text as needed
     for (SDLChoiceCell *cell in cellsToUpload) {
-        NSString *cellName = cell.text;
-        NSNumber *counter = dictCounter[cellName];
+        id<NSCopying> cellKey = supportsChoiceUniqueness ? loadedCell : loadedCell.text;
+        NSNumber *counter = dictCounter[cellKey];
         if (counter != nil) {
             counter = @(counter.intValue + 1);
-            dictCounter[cellName] = counter;
+            dictCounter[cellKey] = counter;
         } else {
-            dictCounter[cellName] = @1;
+            dictCounter[cellKey] = @1;
         }
         if (counter.intValue > 1) {
             cell.uniqueText = [NSString stringWithFormat: @"%@ (%d)", cell.text, counter.intValue];
