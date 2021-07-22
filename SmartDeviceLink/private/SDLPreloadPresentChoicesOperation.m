@@ -12,6 +12,7 @@
 #import "SDLChoice.h"
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
+#import "SDLChoiceSetDelegate.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLCreateInteractionChoiceSetResponse.h"
@@ -95,7 +96,6 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 @property (strong, nonatomic, nullable) SDLChoiceCell *selectedCell;
 @property (strong, nonatomic, nullable) SDLTriggerSource selectedTriggerSource;
 @property (assign, nonatomic) NSUInteger selectedCellRow;
-@property (copy, nonatomic, nullable) SDLPresentChoiceSetCompletionHandler presentCompletionHandler;
 
 @end
 
@@ -122,7 +122,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode  keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLUploadChoicesCompletionHandler)preloadCompletionHandler presentCompletionHandler:(SDLPresentChoiceSetCompletionHandler)presentCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode  keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLUploadChoicesCompletionHandler)preloadCompletionHandler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -149,7 +149,6 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     _mutableLoadedCells = [loadedCells mutableCopy];
     _cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:choiceSet.choices];
     _preloadCompletionHandler = preloadCompletionHandler;
-    _presentCompletionHandler = presentCompletionHandler;
 
     _selectedCellRow = NSNotFound;
 
@@ -615,8 +614,15 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
     self.internalError = error;
     self.preloadCompletionHandler(self.loadedCells, self.internalError);
-    if (self.presentCompletionHandler != nil) {
-        self.presentCompletionHandler(self.selectedCell, self.selectedCellRow, self.selectedTriggerSource, self.internalError);
+
+    if (self.choiceSet.delegate == nil) {
+        SDLLogW(@"Present finished, but no choice set delegate was available for callback");
+    } else if (error != nil) {
+        [self.choiceSet.delegate choiceSet:self.choiceSet didReceiveError:self.internalError];
+    } else if (self.selectedCell != nil) {
+        [self.choiceSet.delegate choiceSet:self.choiceSet didSelectChoice:self.selectedCell withSource:self.selectedTriggerSource atRowIndex:self.selectedCellRow];
+    } else {
+        SDLLogE(@"Present finished, but an unhandled state occurred and callback failed");
     }
 
     [super finishOperation];

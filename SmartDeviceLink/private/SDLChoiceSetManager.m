@@ -301,24 +301,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         [strongSelf sdl_updatePendingTasksWithCurrentPreloads];
 
         SDLLogD(@"Choices finished preloading");
-    } presentCompletionHandler:^(SDLChoiceCell * _Nullable selectedCell, NSUInteger selectedRow, SDLTriggerSource  _Nonnull selectedTriggerSource, NSError * _Nullable error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogD(@"Finished presenting choice set: %@", choiceSet);
-
-        if (choiceSet.delegate == nil) {
-            SDLLogW(@"Present finished, but no choice set delegate was available for callback");
-            BLOCK_RETURN;
-        }
-
-        if (error != nil) {
-            [choiceSet.delegate choiceSet:choiceSet didReceiveError:error];
-        } else if ([strongSelf.currentState isEqualToEnum:SDLChoiceManagerStateShutdown]) {
-            [choiceSet.delegate choiceSet:choiceSet didReceiveError:[NSError sdl_choiceSetManager_incorrectState:strongSelf.currentState]];
-        } else if (selectedCell != nil) {
-            [choiceSet.delegate choiceSet:choiceSet didSelectChoice:selectedCell withSource:selectedTriggerSource atRowIndex:selectedRow];
-        } else {
-            SDLLogE(@"Present finished, but an unhandled state occurred and callback failed");
-        }
     }];
 
     [self.transactionQueue addOperation:presentOp];

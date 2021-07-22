@@ -1545,7 +1545,6 @@
 		5DE35E4C20CB1C1C0034BE5A /* SDLCheckChoiceVROptionalOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E4B20CB1C1C0034BE5A /* SDLCheckChoiceVROptionalOperationSpec.m */; };
 		5DE35E4E20CB1C2C0034BE5A /* SDLDeleteChoicesOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E4D20CB1C2C0034BE5A /* SDLDeleteChoicesOperationSpec.m */; };
 		5DE35E5220CB1C490034BE5A /* SDLPreloadPresentChoicesOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E5120CB1C490034BE5A /* SDLPreloadPresentChoicesOperationSpec.m */; };
-		5DE35E5420CB1C590034BE5A /* SDLPresentChoiceSetOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E5320CB1C590034BE5A /* SDLPresentChoiceSetOperationSpec.m */; };
 		5DE35E5620CB1C680034BE5A /* SDLPresentKeyboardOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E5520CB1C680034BE5A /* SDLPresentKeyboardOperationSpec.m */; };
 		5DE372A41ACB336600849FAA /* SDLHMICapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */; };
 		5DEF695D1FD6FA01004B8C2F /* testAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5DEF695C1FD6FA01004B8C2F /* testAudio.mp3 */; };
@@ -3453,7 +3452,6 @@
 		5DE35E4B20CB1C1C0034BE5A /* SDLCheckChoiceVROptionalOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLCheckChoiceVROptionalOperationSpec.m; path = DevAPISpecs/SDLCheckChoiceVROptionalOperationSpec.m; sourceTree = "<group>"; };
 		5DE35E4D20CB1C2C0034BE5A /* SDLDeleteChoicesOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLDeleteChoicesOperationSpec.m; path = DevAPISpecs/SDLDeleteChoicesOperationSpec.m; sourceTree = "<group>"; };
 		5DE35E5120CB1C490034BE5A /* SDLPreloadPresentChoicesOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLPreloadPresentChoicesOperationSpec.m; path = DevAPISpecs/SDLPreloadPresentChoicesOperationSpec.m; sourceTree = "<group>"; };
-		5DE35E5320CB1C590034BE5A /* SDLPresentChoiceSetOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLPresentChoiceSetOperationSpec.m; path = DevAPISpecs/SDLPresentChoiceSetOperationSpec.m; sourceTree = "<group>"; };
 		5DE35E5520CB1C680034BE5A /* SDLPresentKeyboardOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLPresentKeyboardOperationSpec.m; path = DevAPISpecs/SDLPresentKeyboardOperationSpec.m; sourceTree = "<group>"; };
 		5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilitiesSpec.m; sourceTree = "<group>"; };
 		5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLRequestTaskSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLRequestTaskSpec.m"; sourceTree = "<group>"; };
@@ -6676,7 +6674,6 @@
 				5DE35E4B20CB1C1C0034BE5A /* SDLCheckChoiceVROptionalOperationSpec.m */,
 				5DE35E4D20CB1C2C0034BE5A /* SDLDeleteChoicesOperationSpec.m */,
 				5DE35E5120CB1C490034BE5A /* SDLPreloadPresentChoicesOperationSpec.m */,
-				5DE35E5320CB1C590034BE5A /* SDLPresentChoiceSetOperationSpec.m */,
 				5DE35E5520CB1C680034BE5A /* SDLPresentKeyboardOperationSpec.m */,
 			);
 			name = Operations;
@@ -8954,7 +8951,6 @@
 				162E83131A9BDE8B00906325 /* SDLOnCommandSpec.m in Sources */,
 				162E833A1A9BDE8B00906325 /* SDLSetDisplayLayoutSpec.m in Sources */,
 				1EE8C4401F348D3200FDC2CF /* SDLClimateControlCapabilitiesSpec.m in Sources */,
-				5DE35E5420CB1C590034BE5A /* SDLPresentChoiceSetOperationSpec.m in Sources */,
 				162E838F1A9BDE8B00906325 /* SDLTextFieldSpec.m in Sources */,
 				8818ADDD2100FE0C007D6F19 /* SDLTurnSignalSpec.m in Sources */,
 				162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */,
