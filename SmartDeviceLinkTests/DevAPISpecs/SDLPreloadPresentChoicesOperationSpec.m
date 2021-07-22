@@ -209,33 +209,9 @@ describe(@"a preload choices operation", ^{
         });
 
         context(@"with artworks", ^{
-            context(@"if the menuName is not set", ^{
-                it(@"should not send any requests", ^{;
-                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:disabledWindowCapability isVROptional:YES cellsToPreload:@[] loadedCells:[NSSet setWithArray:cellsWithArtwork] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
-                        resultPreloadError = error;
-                        resultChoices = updatedLoadedCells;
-                    }];
-                    [testOp start];
-
-                    expect(testOp.cellsToUpload.count).to(equal(0));
-                });
-            });
-
-            context(@"only main text capabilities", ^{
-                it(@"should skip to preloading cells", ^{
-                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:primaryTextOnlyCapability isVROptional:YES cellsToPreload:@[] loadedCells:[NSSet setWithArray:cellsWithArtwork] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
-                        resultPreloadError = error;
-                        resultChoices = updatedLoadedCells;
-                    }];
-                    [testOp start];
-
-                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
-                });
-            });
-
             context(@"all text and image display capabilities", ^{
                 beforeEach(^{
-                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:enabledWindowCapability isVROptional:YES cellsToPreload:cellsWithArtwork loadedCells:[NSSet setWithArray:cellsWithArtwork] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:enabledWindowCapability isVROptional:YES cellsToPreload:cellsWithArtwork loadedCells:emptyLoadedCells preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
                         resultPreloadError = error;
                         resultChoices = updatedLoadedCells;
                     }];
@@ -257,16 +233,13 @@ describe(@"a preload choices operation", ^{
                         OCMVerifyAll(testFileManager);
                     });
 
-                    it(@"should properly overwrite artwork", ^{
+                    fit(@"should properly overwrite artwork", ^{
                         OCMExpect([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
 
                         cell1Art2.overwrite = YES;
-                        SDLChoiceCell *cell1WithArt = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:cell1Art2 voiceCommands:nil];
+                        SDLChoiceCell *cellOverwriteArt = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:cell1Art2 voiceCommands:nil];
 
-                        SDLArtwork *cell2Art = [[SDLArtwork alloc] initWithData:cellArtData name:art2Name fileExtension:@"png" persistent:NO];
-                        SDLChoiceCell *cell2WithArtAndSecondary = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:cell2Art secondaryArtwork:cell2Art];
-
-                        testOp.cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
+                        testOp.cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:@[cellOverwriteArt]];
                         [testOp start];
 
                         OCMVerifyAll(testFileManager);
@@ -306,6 +279,21 @@ describe(@"a preload choices operation", ^{
         });
 
         context(@"without artworks", ^{
+            describe(@"only main text capabilities", ^{
+                it(@"should skip loading artworks to preloading cells", ^{
+                    testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:primaryTextOnlyCapability isVROptional:YES cellsToPreload:cellsWithArtwork loadedCells:[NSSet setWithArray:cellsWithArtwork] preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
+                        resultPreloadError = error;
+                        resultChoices = updatedLoadedCells;
+                    }];
+                    [testOp start];
+
+                    for (SDLRPCRequest *request in testConnectionManager.receivedRequests) {
+                        expect(request).toNot(beAnInstanceOf(SDLPutFile.class));
+                    }
+                    expect(testConnectionManager.receivedRequests).to(haveCount(2));
+                });
+            });
+
             describe(@"assembling choices", ^{
                 beforeEach(^{
                     testOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayName:testDisplayName windowCapability:enabledWindowCapability isVROptional:YES cellsToPreload:cellsWithoutArtwork loadedCells:emptyLoadedCells preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
