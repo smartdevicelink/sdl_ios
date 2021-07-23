@@ -132,6 +132,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _choiceSet = choiceSet;
+    _presentationMode = mode;
 
     __weak typeof(self) weakSelf = self;
     _choiceSet.canceledHandler = ^{
@@ -202,8 +203,8 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 - (void)sdl_uploadCellArtworksWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     self.currentState = SDLPreloadPresentChoicesOperationStateUploadingImages;
 
-    NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.choiceSet.choices.count];
-    for (SDLChoiceCell *cell in self.choiceSet.choices) {
+    NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
+    for (SDLChoiceCell *cell in self.cellsToUpload) {
         if ([self.class sdl_shouldSendChoicePrimaryImageBasedOnWindowCapability:self.windowCapability] && [self.fileManager fileNeedsUpload:cell.artwork]) {
             [artworksToUpload addObject:cell.artwork];
         }
@@ -273,6 +274,8 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
     self.currentState = SDLPreloadPresentChoicesOperationStateUpdatingKeyboardProperties;
+    if (self.keyboardDelegate == nil) { return completionHandler(nil); }
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
     // Check if we're using a keyboard (searchable) choice set and setup keyboard properties if we need to
@@ -285,9 +288,8 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
     // Create the keyboard configuration based on the window capability's keyboard capabilities
     SDLKeyboardProperties *modifiedKeyboardConfig = [self.windowCapability createValidKeyboardConfigurationBasedOnKeyboardCapabilitiesFromConfiguration:self.customKeyboardProperties];
-    if (modifiedKeyboardConfig == nil) {
-        return completionHandler(nil);
-    }
+    if (modifiedKeyboardConfig == nil) { return completionHandler(nil); }
+
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = modifiedKeyboardConfig;
 
@@ -302,7 +304,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
 - (void)sdl_resetKeyboardPropertiesWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
     self.currentState = SDLPreloadPresentChoicesOperationStateResettingKeyboardProperties;
-    if (self.originalKeyboardProperties == nil) { return completionHandler(nil); }
+    if (self.keyboardDelegate == nil || self.originalKeyboardProperties == nil) { return completionHandler(nil); }
 
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = self.originalKeyboardProperties;
