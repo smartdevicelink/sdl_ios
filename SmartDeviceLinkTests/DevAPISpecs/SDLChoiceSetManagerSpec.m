@@ -39,7 +39,7 @@
 
 @interface SDLDeleteChoicesOperation()
 
-@property (copy, nonatomic) SDLDeleteChoicesCompletionHandler completionHandler;
+@property (copy, nonatomic) SDLDeleteChoicesCompletionHandler deleteCompletionHandler;
 
 @end
 
@@ -47,7 +47,7 @@
 
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 @property (copy, nonatomic, nullable) NSError *internalError;
-@property (copy, nonatomic) SDLCheckChoiceVROptionalCompletionHandler completionHandler;
+@property (copy, nonatomic) SDLCheckChoiceVROptionalCompletionHandler vrOptionalCompletionHandler;
 
 @end
 
@@ -227,7 +227,7 @@ describe(@"choice set manager tests", ^{
         describe(@"after the bad vr optional response", ^{
             beforeEach(^{
                 SDLCheckChoiceVROptionalOperation *vrOptionalOp = testManager.transactionQueue.operations.lastObject;
-                vrOptionalOp.completionHandler(NO, [NSError errorWithDomain:@"test" code:0 userInfo:nil]);
+                vrOptionalOp.vrOptionalCompletionHandler(NO, [NSError errorWithDomain:@"test" code:0 userInfo:nil]);
             });
 
             it(@"should be in startup error", ^{
@@ -238,7 +238,7 @@ describe(@"choice set manager tests", ^{
         describe(@"after the vr optional response", ^{
             beforeEach(^{
                 SDLCheckChoiceVROptionalOperation *vrOptionalOp = testManager.transactionQueue.operations.lastObject;
-                vrOptionalOp.completionHandler(YES, nil);
+                vrOptionalOp.vrOptionalCompletionHandler(YES, nil);
             });
 
             it(@"should be ready", ^{
