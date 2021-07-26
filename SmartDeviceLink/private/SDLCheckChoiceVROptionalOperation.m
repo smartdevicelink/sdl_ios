@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 @property (copy, nonatomic, nullable) NSError *internalError;
-@property (copy, nonatomic) SDLCheckChoiceVROptionalCompletionHandler completionHandler;
+@property (copy, nonatomic) SDLCheckChoiceVROptionalCompletionHandler vrOptionalCompletionHandler;
 
 @end
 
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _operationId = [NSUUID UUID];
-    _completionHandler = completionHandler;
+    _vrOptionalCompletionHandler = completionHandler;
 
     return self;
 }
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (void)finishOperation {
-    self.completionHandler(self.isVROptional, self.internalError);
+    self.vrOptionalCompletionHandler(self.isVROptional, self.internalError);
 
     [super finishOperation];
 }

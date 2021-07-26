@@ -452,6 +452,7 @@ describe(@"a preload choices operation", ^{
                     expect(testOp.loadedCells).to(contain(cellsWithoutArtwork[1]));
                     expect(testOp.loadedCells).to(contain(cellsWithoutArtwork[2]));
                     expect(resultPreloadError).to(beNil());
+                    expect(resultChoices).to(haveCount(3));
                 });
             });
         });

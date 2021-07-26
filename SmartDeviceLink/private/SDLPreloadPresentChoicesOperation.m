@@ -627,6 +627,10 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
 #pragma mark - Property Overrides
 
+- (void)finishOperation {
+    [self finishOperation:nil];
+}
+
 - (void)finishOperation:(nullable NSError *)error {
     self.currentState = SDLPreloadPresentChoicesOperationStateFinishing;
 
