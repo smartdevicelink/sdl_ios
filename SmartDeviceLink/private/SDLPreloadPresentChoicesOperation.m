@@ -122,7 +122,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode  keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLUploadChoicesCompletionHandler)preloadCompletionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate cancelID:(UInt16)cancelID displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLUploadChoicesCompletionHandler)preloadCompletionHandler {
     self = [super init];
     if (!self) { return nil; }
 

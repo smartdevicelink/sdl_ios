@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSSet<SDLChoiceCell *> *cellsToDelete;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (copy, nonatomic, nullable) NSError *internalError;
-@property (copy, nonatomic) SDLDeleteChoicesCompletionHandler completionHandler;
+@property (copy, nonatomic) SDLDeleteChoicesCompletionHandler deleteCompletionHandler;
 
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *mutableLoadedCells;
 
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     _cellsToDelete = cellsToDelete;
     _mutableLoadedCells = [loadedCells mutableCopy];
     _operationId = [NSUUID UUID];
-    _completionHandler = completionHandler;
+    _deleteCompletionHandler = completionHandler;
 
     return self;
 }
@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Property Overrides
 
 - (void)finishOperation {
-    self.completionHandler(self.loadedCells, self.internalError);
+    self.deleteCompletionHandler(self.loadedCells, self.internalError);
     [super finishOperation];
 }
 
