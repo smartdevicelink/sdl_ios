@@ -403,8 +403,8 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
             break;
     }
 
-    NSMutableArray<NSNumber<SDLInt> *> *choiceIds = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
-    for (SDLChoiceCell *cell in self.cellsToUpload) {
+    NSMutableArray<NSNumber<SDLInt> *> *choiceIds = [NSMutableArray arrayWithCapacity:self.choiceSet.choices.count];
+    for (SDLChoiceCell *cell in self.choiceSet.choices) {
         [choiceIds addObject:@(cell.choiceId)];
     }
 
@@ -426,12 +426,23 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 #pragma mark - Choice Uniqueness
 
 /// Checks the choices to be uploaded and returns the items that have not yet been uploaded to the module, including adding unique names and stripping unused properties. These cells are then stored in the `self.cellsToUpload`.
-+ (void)sdl_makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability {
++ (void)sdl_makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload choiceSet:(nullable SDLChoiceSet *)choiceSet basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability {
     // If we're on < RPC 7.1, all primary texts need to be unique, so we don't need to check removed properties and duplicate cells
     // On > RPC 7.1, at this point all cells are unique when considering all properties, but we also need to check if any cells will _appear_ as duplicates when displayed on the screen. To check that, we'll remove properties from the set cells based on the system capabilities (we probably don't need to consider them changing between now and when they're actually sent to the HU) and check for uniqueness again. Then we'll add unique identifiers to primary text if there are duplicates. Then we transfer the primary text identifiers back to the main cells and add those to an operation to be sent.
     BOOL supportsChoiceUniqueness = [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]];
     if (supportsChoiceUniqueness) {
         [self sdl_removeUnusedProperties:cellsToUpload basedOnWindowCapability:windowCapability];
+    }
+
+    // Still has all cells to upload, which is what we need for the presentation
+    if (choiceSet != nil) {
+        NSMutableArray<SDLChoiceCell *> *choiceSetCells = [NSMutableArray array];
+        for (SDLChoiceCell *cell in cellsToUpload) {
+            // Either add the loaded cell (with the correct loaded id), or the new cell (with a new id that will be correct)
+            [choiceSetCells addObject:([loadedCells member:cell] ?: cell)];
+        }
+
+        choiceSet.choices = [choiceSetCells copy];
     }
 
     // We may have removed unused properties, now remove duplicate cells that are already on the head unit, then add unique names to the ones to upload
