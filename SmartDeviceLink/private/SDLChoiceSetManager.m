@@ -279,7 +279,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-    [self sdl_updateIdsOnChoiceSet:choiceSet];
+    [self sdl_updateIdsOnChoices:choiceSet.choices];
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
 
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
@@ -351,15 +351,7 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 /// Assigns a unique id to each choice item.
 /// @param choices An array of choices
 - (void)sdl_updateIdsOnChoices:(NSArray<SDLChoiceCell *> *)choices {
-    for (SDLChoiceCell *cell in choices) {
-        cell.choiceId = self.nextChoiceId;
-    }
-}
-
-- (void)sdl_updateIdsOnChoiceSet:(SDLChoiceSet *)choiceSet {
-    for (SDLChoiceCell *cell in choiceSet.choices) {
-        cell.choiceId = self.nextChoiceId;
-    }
+    for (SDLChoiceCell *cell in choices) { cell.choiceId = self.nextChoiceId; }
 }
 
 #pragma mark - Keyboard Configuration
