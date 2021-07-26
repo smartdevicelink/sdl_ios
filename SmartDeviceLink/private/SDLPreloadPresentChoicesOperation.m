@@ -161,7 +161,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     if (self.isCancelled) { return; }
 
     // Enforce unique cells and remove cells that are already loaded
-    [self.class sdl_makeCellsToUploadUnique:self.cellsToUpload basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
+    [self.class sdl_makeCellsToUploadUnique:self.cellsToUpload choiceSet:self.choiceSet basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
 
     // Start uploading cell artworks, then cells themselves, then determine if we want to present, then update keyboard properties if necessary, then present the choice set, then revert keyboard properties if necessary
     [self sdl_uploadCellArtworksWithCompletionHandler:^(NSError * _Nullable uploadArtError) {
