@@ -73,7 +73,8 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
     ^ NSUIntRotate(self.tertiaryText.hash, NSUIntBit / 4)
     ^ NSUIntRotate(self.artwork.name.hash, NSUIntBit / 5)
     ^ NSUIntRotate(self.secondaryArtwork.name.hash, NSUIntBit / 6)
-    ^ NSUIntRotate(self.voiceCommands.dynamicHash, NSUIntBit / 7);
+    ^ NSUIntRotate(self.voiceCommands.dynamicHash, NSUIntBit / 7)
+    ^ NSUIntRotate(self.uniqueText.hash, NSUIntBit / 8);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -92,7 +93,11 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
 #pragma mark - Etc.
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    return [[SDLChoiceCell allocWithZone:zone] initWithText:_text secondaryText:_secondaryText tertiaryText:_tertiaryText voiceCommands:_voiceCommands artwork:_artwork secondaryArtwork:_secondaryArtwork];
+    SDLChoiceCell *newCell = [[SDLChoiceCell allocWithZone:zone] initWithText:_text secondaryText:_secondaryText tertiaryText:_tertiaryText voiceCommands:_voiceCommands artwork:_artwork secondaryArtwork:_secondaryArtwork];
+    newCell.choiceId = _choiceId;
+    newCell.uniqueText = _uniqueText;
+
+    return newCell;
 }
 
 - (NSString *)description {
