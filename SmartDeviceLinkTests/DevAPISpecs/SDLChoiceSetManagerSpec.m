@@ -28,7 +28,7 @@
 
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *cellsToUpload;
 @property (copy, nonatomic, nullable) NSError *internalError;
-@property (copy, nonatomic) SDLUploadChoicesCompletionHandler uploadCompletionHandler;
+@property (copy, nonatomic) SDLUploadChoicesCompletionHandler preloadCompletionHandler;
 
 @property (assign, nonatomic) UInt16 cancelId;
 @property (strong, nonatomic, readwrite, nullable) SDLChoiceCell *selectedCell;
@@ -83,12 +83,10 @@ describe(@"choice set manager tests", ^{
 
     __block SDLWindowCapability *enabledWindowCapability = nil;
     __block SDLWindowCapability *disabledWindowCapability = nil;
-    __block SDLKeyboardProperties *testKeyboardProperties = [[SDLKeyboardProperties alloc] init];
 
     __block SDLChoiceSet *testChoiceSet = nil;
     __block SDLChoiceSet *testFailedChoiceSet = nil;
     __block NSString *testTitle = @"test title";
-    __block UInt16 testCancelID = 0;
     __block id<SDLChoiceSetDelegate> choiceDelegate = nil;
     __block id<SDLKeyboardDelegate> keyboardDelegate = nil;
     __block SDLInteractionMode testMode = SDLInteractionModeBoth;
@@ -279,7 +277,7 @@ describe(@"choice set manager tests", ^{
                     expect(testManager.transactionQueue.operations[0]).to(beAnInstanceOf([SDLPreloadPresentChoicesOperation class]));
 
                     SDLPreloadPresentChoicesOperation *testOp = testManager.transactionQueue.operations[0];
-                    testOp.uploadCompletionHandler([NSSet setWithArray:@[testCell1, testCell2, testCell3]], nil);
+                    testOp.preloadCompletionHandler([NSSet setWithArray:@[testCell1, testCell2, testCell3]], nil);
 
                     expect(testManager.preloadedChoices).to(contain(testCell1));
                     expect(testManager.preloadedChoices).to(contain(testCell2));
