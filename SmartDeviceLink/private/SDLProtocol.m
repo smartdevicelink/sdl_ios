@@ -25,6 +25,7 @@
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLRPCNotification.h"
 #import "SDLRPCPayload.h"
+#import "SDLSecurityQueryPayload.h"
 #import "SDLRPCRequest.h"
 #import "SDLRPCResponse.h"
 #import "SDLSecurityType.h"
@@ -784,11 +785,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLV2ProtocolHeader *clientProtocolHeader = (SDLV2ProtocolHeader *)clientHandshakeMessage.header;
     NSData *clientHandshakeHeaderData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(0, 12)];
-    SDLRPCPayload *payl = [SDLRPCPayload rpcPayloadWithData:clientHandshakeHeaderData];
+    SDLSecurityQueryPayload *payl = [SDLSecurityQueryPayload rpcPayloadWithData:clientHandshakeHeaderData];
 
-    if (payl.rpcType == SDLRPCMessageTypeNotification) {
-        NSLog(@"## client header functionID: %hhu", payl.functionID);
-    }
+//    if (payl.rpcType == SDLRPCMessageTypeNotification) {
+        NSLog(@"## client header rpcType: %u", (unsigned int)payl.rpcType);
+        NSLog(@"## client header functionID: %u", (unsigned int)payl.functionID);
+//    }
 
     // Ask the security manager for server data based on the client data sent
     NSError *handshakeError = nil;
@@ -821,7 +823,7 @@ NS_ASSUME_NONNULL_BEGIN
     serverMessageHeader.messageID = messageId;
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
-    SDLRPCPayload *serverTLSPayload = [[SDLRPCPayload alloc] init];
+    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
     serverTLSPayload.functionID = 0x01; // TLS Handshake message
     serverTLSPayload.rpcType = 0x00;
     serverTLSPayload.correlationID = 0x00;
@@ -843,7 +845,7 @@ NS_ASSUME_NONNULL_BEGIN
     serverMessageHeader.messageID = messageId;
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
-    SDLRPCPayload *serverTLSPayload = [[SDLRPCPayload alloc] init];
+    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
     serverTLSPayload.functionID = 0x02; // TLS Error message
     serverTLSPayload.rpcType = 0x02;
     serverTLSPayload.correlationID = 0x00;
