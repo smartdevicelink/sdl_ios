@@ -92,16 +92,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Object Equality
 
-- (id)copyWithZone:(nullable NSZone *)zone {
-    SDLMenuCell *newCell = [[SDLMenuCell allocWithZone:zone] initWithTitle:_title secondaryText:_secondaryText tertiaryText:_tertiaryText icon:_icon secondaryArtwork:_secondaryArtwork voiceCommands:_voiceCommands handler:_handler];
-
-    if (_subCells.count > 0) {
-        newCell.subCells = [[NSArray alloc] initWithArray:_subCells copyItems:YES];
-    }
-
-    return newCell;
-}
-
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
@@ -129,13 +119,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Copying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLMenuCell *copy = [[SDLMenuCell allocWithZone:zone] initWithTitle:_title icon:[_icon copy] submenuLayout:_submenuLayout subCells:[_subCells copy]];
-    copy->_voiceCommands = [_voiceCommands copy];
-    copy->_cellId = _cellId;
-    copy->_parentCellId = _parentCellId;
-    copy->_handler = [_handler copy];
+    SDLMenuCell *newCell = [[SDLMenuCell allocWithZone:zone] initWithTitle:_title secondaryText:_secondaryText tertiaryText:_tertiaryText icon:_icon secondaryArtwork:_secondaryArtwork voiceCommands:_voiceCommands handler:_handler];
+    newCell->_cellId = _cellId;
+    newCell->_parentCellId = _parentCellId;
+    newCell->_uniqueTitle = _uniqueTitle;
 
-    return copy;
+    if (_subCells.count > 0) {
+        newCell.subCells = [[NSArray alloc] initWithArray:_subCells copyItems:YES];
+    }
+
+    return newCell;
 }
 
 @end

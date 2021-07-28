@@ -14,21 +14,32 @@
 #import "SDLDynamicMenuUpdateRunScore.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuConfiguration.h"
+#import "SDLMenuReplaceOperation+MenuUniqueness.h"
 #import "SDLTextFieldName.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
-
 @interface SDLMenuCell()
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (strong, nonatomic, readwrite) NSString *uniqueTitle;
+
+@property (copy, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *icon;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+@property (copy, nonatomic, readwrite, nullable) SDLMenuCellSelectionHandler handler;
 
 @end
 
@@ -56,7 +67,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     _windowCapability = windowCapability;
     _menuConfiguration = menuConfiguration;
     _mutableCurrentMenu = [currentMenu mutableCopy];
-    _updatedMenu = updatedMenu;
+    _updatedMenu = [updatedMenu copy];
     _compatibilityModeEnabled = compatibilityModeEnabled;
     _currentMenuUpdatedBlock = currentMenuUpdatedBlock;
 
@@ -66,6 +77,8 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 - (void)start {
     [super start];
     if (self.isCancelled) { return; }
+
+    [self.class sdl_addUniqueNamesToCells:self.updatedMenu basedOnWindowCapability:self.windowCapability];
 
     SDLDynamicMenuUpdateRunScore *runScore = nil;
     if (self.compatibilityModeEnabled) {
@@ -128,7 +141,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 /// @param deleteCells The cells that need to be deleted
 /// @param addCells The cells that need to be added
 /// @param handler A handler called when complete
-- (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(SDLMenuUpdateCompletionHandler)handler {
+- (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(void(^)(NSError *_Nullable error))handler {
     __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
         if (weakself.isCancelled) { return handler(error); }
@@ -175,12 +188,12 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     }
 }
 
-#pragma mark - Adding / Deleting cell RPCs
+#pragma mark - Adding / Deleting Cell RPCs
 
 /// Send Delete RPCs for given menu cells
 /// @param deleteMenuCells The menu cells to be deleted
 /// @param completionHandler A handler called when the RPCs are finished with an error if any failed
-- (void)sdl_sendDeleteCurrentMenu:(nullable NSArray<SDLMenuCell *> *)deleteMenuCells withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
+- (void)sdl_sendDeleteCurrentMenu:(nullable NSArray<SDLMenuCell *> *)deleteMenuCells withCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     if (deleteMenuCells.count == 0) { return completionHandler(nil); }
 
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
@@ -208,7 +221,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 /// @param newMenuCells The new menu cells we want displayed
 /// @param oldMenu The old menu cells we no longer want displayed
 /// @param completionHandler A handler called when the RPCs are finished with an error if any failed
-- (void)sdl_sendNewMenuCells:(NSArray<SDLMenuCell *> *)newMenuCells oldMenu:(NSArray<SDLMenuCell *> *)oldMenu withCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
+- (void)sdl_sendNewMenuCells:(NSArray<SDLMenuCell *> *)newMenuCells oldMenu:(NSArray<SDLMenuCell *> *)oldMenu withCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     if (self.updatedMenu.count == 0 || newMenuCells.count == 0) {
         SDLLogV(@"There are no cells to update.");
         return completionHandler(nil);
@@ -223,7 +236,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
         if (error != nil) {
             errors[request] = error;
         } else {
-            // Find the id of the successful request and add it from the current menu list whereever it needs to be
+            // Find the id of the successful request and add it from the current menu list wherever it needs to be
             UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
             UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
             [SDLMenuReplaceUtilities addMenuRequestWithCommandId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
@@ -238,7 +251,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
             if (error != nil) {
                 errors[request] = error;
             } else {
-                // Find the id of the successful request and add it from the current menu list whereever it needs to be
+                // Find the id of the successful request and add it from the current menu list wherever it needs to be
                 UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
                 UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
                 [SDLMenuReplaceUtilities addMenuRequestWithCommandId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
@@ -255,7 +268,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
     }];
 }
 
-#pragma mark Dynamic Menu Helpers
+#pragma mark - Dynamic Menu Helpers
 
 - (NSArray<SDLMenuCell *> *)sdl_filterDeleteMenuItemsWithOldMenuItems:(NSArray<SDLMenuCell *> *)oldMenuCells basedOnStatusList:(NSArray<NSNumber *> *)oldStatusList {
     NSMutableArray<SDLMenuCell *> *deleteCells = [[NSMutableArray alloc] init];
