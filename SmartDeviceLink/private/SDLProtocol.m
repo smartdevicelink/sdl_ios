@@ -783,7 +783,6 @@ NS_ASSUME_NONNULL_BEGIN
     // TODO: (Joel F.)[2016-02-15] Should check for errors
     NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
 
-    SDLV2ProtocolHeader *clientProtocolHeader = (SDLV2ProtocolHeader *)clientHandshakeMessage.header;
     NSData *clientHandshakeHeaderData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(0, 12)];
     SDLSecurityQueryPayload *payl = [SDLSecurityQueryPayload rpcPayloadWithData:clientHandshakeHeaderData];
 
