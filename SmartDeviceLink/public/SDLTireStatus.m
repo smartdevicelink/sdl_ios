@@ -11,67 +11,128 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTireStatus
 
-- (void)setPressureTelltale:(SDLWarningLightStatus __nullable)pressureTelltale {
+- (void)setPressureTelltale:(SDLWarningLightStatus)pressureTelltale {
     [self.store sdl_setObject:pressureTelltale forName:SDLRPCParameterNamePressureTelltale];
 }
 
-- (SDLWarningLightStatus __nullable)pressureTelltale {
+- (SDLWarningLightStatus)pressureTelltale {
     NSError *error = nil;
-    return [self.store sdl_enumForName:SDLRPCParameterNamePressureTelltale error:&error];
+    SDLWarningLightStatus warningLightStatus = [self.store sdl_enumForName:SDLRPCParameterNamePressureTelltale error:&error];
+    if (warningLightStatus == nil) {
+        [self.store sdl_setObject:SDLWarningLightStatusNotUsed forName:SDLRPCParameterNamePressureTelltale];
+        warningLightStatus = SDLWarningLightStatusNotUsed;
+        SDLLogW(@"SDLTireStatus.pressureTelltale was nil and will be set to .notUsed. In the future, this will change to be nullable.");
+    }
+
+    return warningLightStatus;
 }
 
-- (void)setLeftFront:(SDLSingleTireStatus * __nullable)leftFront {
+- (void)setLeftFront:(SDLSingleTireStatus *)leftFront {
     [self.store sdl_setObject:leftFront forName:SDLRPCParameterNameLeftFront];
 }
 
-- (SDLSingleTireStatus * __nullable)leftFront {
+- (SDLSingleTireStatus *)leftFront {
     NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameLeftFront ofClass:SDLSingleTireStatus.class error:&error];
+    SDLSingleTireStatus *tireStatus = [self.store sdl_objectForName:SDLRPCParameterNameLeftFront ofClass:SDLSingleTireStatus.class error:&error];
+    if (tireStatus == nil) {
+        SDLSingleTireStatus *newTireStatus = [[SDLSingleTireStatus alloc] init];
+        newTireStatus.status = SDLComponentVolumeStatusUnknown;
+        [self.store sdl_setObject:newTireStatus forName:SDLRPCParameterNameLeftFront];
+        tireStatus = newTireStatus;
+        SDLLogW(@"SDLTireStatus.leftFront was nil and will be set to .unknown. In the future, this will change to be nullable.");
+    }
+
+    return tireStatus;
 }
 
-- (void)setRightFront:(SDLSingleTireStatus * __nullable)rightFront {
+- (void)setRightFront:(SDLSingleTireStatus *)rightFront {
     [self.store sdl_setObject:rightFront forName:SDLRPCParameterNameRightFront];
 }
 
-- (SDLSingleTireStatus * __nullable)rightFront {
+- (SDLSingleTireStatus *)rightFront {
     NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameRightFront ofClass:SDLSingleTireStatus.class error:&error];
+    SDLSingleTireStatus *tireStatus = [self.store sdl_objectForName:SDLRPCParameterNameRightFront ofClass:SDLSingleTireStatus.class error:&error];
+    if (tireStatus == nil) {
+        SDLSingleTireStatus *newTireStatus = [[SDLSingleTireStatus alloc] init];
+        newTireStatus.status = SDLComponentVolumeStatusUnknown;
+        [self.store sdl_setObject:newTireStatus forName:SDLRPCParameterNameRightFront];
+        tireStatus = newTireStatus;
+        SDLLogW(@"SDLTireStatus.rightFront was nil and will be set to .unknown. In the future, this will change to be nullable.");
+    }
+
+    return tireStatus;
 }
 
-- (void)setLeftRear:(SDLSingleTireStatus * __nullable)leftRear {
+- (void)setLeftRear:(SDLSingleTireStatus *)leftRear {
     [self.store sdl_setObject:leftRear forName:SDLRPCParameterNameLeftRear];
 }
 
-- (SDLSingleTireStatus * __nullable)leftRear {
+- (SDLSingleTireStatus *)leftRear {
     NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameLeftRear ofClass:SDLSingleTireStatus.class error:&error];
+    SDLSingleTireStatus *tireStatus = [self.store sdl_objectForName:SDLRPCParameterNameLeftRear ofClass:SDLSingleTireStatus.class error:&error];
+    if (tireStatus == nil) {
+        SDLSingleTireStatus *newTireStatus = [[SDLSingleTireStatus alloc] init];
+        newTireStatus.status = SDLComponentVolumeStatusUnknown;
+        [self.store sdl_setObject:newTireStatus forName:SDLRPCParameterNameLeftRear];
+        tireStatus = newTireStatus;
+        SDLLogW(@"SDLTireStatus.leftRear was nil and will be set to .unknown. In the future, this will change to be nullable.");
+    }
+
+    return tireStatus;
 }
 
-- (void)setRightRear:(SDLSingleTireStatus * __nullable)rightRear {
+- (void)setRightRear:(SDLSingleTireStatus *)rightRear {
     [self.store sdl_setObject:rightRear forName:SDLRPCParameterNameRightRear];
 }
 
-- (SDLSingleTireStatus * __nullable)rightRear {
+- (SDLSingleTireStatus *)rightRear {
     NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameRightRear ofClass:SDLSingleTireStatus.class error:&error];
+    SDLSingleTireStatus *tireStatus = [self.store sdl_objectForName:SDLRPCParameterNameRightRear ofClass:SDLSingleTireStatus.class error:&error];
+    if (tireStatus == nil) {
+        SDLSingleTireStatus *newTireStatus = [[SDLSingleTireStatus alloc] init];
+        newTireStatus.status = SDLComponentVolumeStatusUnknown;
+        [self.store sdl_setObject:newTireStatus forName:SDLRPCParameterNameRightRear];
+        tireStatus = newTireStatus;
+        SDLLogW(@"SDLTireStatus.rightRear was nil and will be set to .unknown. In the future, this will change to be nullable.");
+    }
+
+    return tireStatus;
 }
 
-- (void)setInnerLeftRear:(SDLSingleTireStatus * __nullable)innerLeftRear {
+- (void)setInnerLeftRear:(SDLSingleTireStatus *)innerLeftRear {
     [self.store sdl_setObject:innerLeftRear forName:SDLRPCParameterNameInnerLeftRear];
 }
 
-- (SDLSingleTireStatus * __nullable)innerLeftRear {
+- (SDLSingleTireStatus *)innerLeftRear {
     NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameInnerLeftRear ofClass:SDLSingleTireStatus.class error:&error];
+    SDLSingleTireStatus *tireStatus = [self.store sdl_objectForName:SDLRPCParameterNameInnerLeftRear ofClass:SDLSingleTireStatus.class error:&error];
+    if (tireStatus == nil) {
+        SDLSingleTireStatus *newTireStatus = [[SDLSingleTireStatus alloc] init];
+        newTireStatus.status = SDLComponentVolumeStatusUnknown;
+        [self.store sdl_setObject:newTireStatus forName:SDLRPCParameterNameInnerLeftRear];
+        tireStatus = newTireStatus;
+        SDLLogW(@"SDLTireStatus.innerLeftRear was nil and will be set to .unknown. In the future, this will change to be nullable.");
+    }
+
+    return tireStatus;
 }
 
-- (void)setInnerRightRear:(SDLSingleTireStatus * __nullable)innerRightRear {
+- (void)setInnerRightRear:(SDLSingleTireStatus *)innerRightRear {
     [self.store sdl_setObject:innerRightRear forName:SDLRPCParameterNameInnerRightRear];
 }
 
-- (SDLSingleTireStatus * __nullable)innerRightRear {
+- (SDLSingleTireStatus *)innerRightRear {
     NSError *error = nil;
-    return [self.store sdl_objectForName:SDLRPCParameterNameInnerRightRear ofClass:SDLSingleTireStatus.class error:&error];
+    SDLSingleTireStatus *tireStatus = [self.store sdl_objectForName:SDLRPCParameterNameInnerRightRear ofClass:SDLSingleTireStatus.class error:&error];
+    if (tireStatus == nil) {
+        SDLSingleTireStatus *newTireStatus = [[SDLSingleTireStatus alloc] init];
+        newTireStatus.status = SDLComponentVolumeStatusUnknown;
+        [self.store sdl_setObject:newTireStatus forName:SDLRPCParameterNameInnerRightRear];
+        tireStatus = newTireStatus;
+        SDLLogW(@"SDLTireStatus.innerRightRear was nil and will be set to .unknown. In the future, this will change to be nullable.");
+    }
+
+    return tireStatus;
 }
 
 @end

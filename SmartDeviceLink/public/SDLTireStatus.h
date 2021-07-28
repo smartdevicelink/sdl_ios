@@ -16,38 +16,52 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Status of the Tire Pressure Telltale. See WarningLightStatus.
+
+ Required
  */
-@property (strong, nonatomic, nullable) SDLWarningLightStatus pressureTelltale;
+@property (strong, nonatomic) SDLWarningLightStatus pressureTelltale;
 
 /**
  The status of the left front tire.
+
+ Required
  */
-@property (strong, nonatomic, nullable) SDLSingleTireStatus *leftFront;
+@property (strong, nonatomic) SDLSingleTireStatus *leftFront;
 
 /**
  The status of the right front tire.
+
+ Required
  */
-@property (strong, nonatomic, nullable) SDLSingleTireStatus *rightFront;
+@property (strong, nonatomic) SDLSingleTireStatus *rightFront;
 
 /**
  The status of the left rear tire.
+
+ Required
  */
-@property (strong, nonatomic, nullable) SDLSingleTireStatus *leftRear;
+@property (strong, nonatomic) SDLSingleTireStatus *leftRear;
 
 /**
  The status of the right rear tire.
+
+ Required
  */
-@property (strong, nonatomic, nullable) SDLSingleTireStatus *rightRear;
+@property (strong, nonatomic) SDLSingleTireStatus *rightRear;
 
 /**
  The status of the inner left rear tire.
+
+ Required
  */
-@property (strong, nonatomic, nullable) SDLSingleTireStatus *innerLeftRear;
+@property (strong, nonatomic) SDLSingleTireStatus *innerLeftRear;
 
 /**
  The status of the inner right rear tire.
+
+ Required
  */
-@property (strong, nonatomic, nullable) SDLSingleTireStatus *innerRightRear;
+@property (strong, nonatomic) SDLSingleTireStatus *innerRightRear;
 
 @end
 
