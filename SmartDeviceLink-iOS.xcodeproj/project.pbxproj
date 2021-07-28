@@ -1736,6 +1736,8 @@
 		B3DF19F3251225AA0090D7BA /* TestSmartConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3DF19F1251225A90090D7BA /* TestSmartConnection.m */; };
 		B3EC9E6E2579AA010039F3AA /* SDLClimateDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */; };
 		B3F7918324E062C200DB5CAF /* SDLGetVehicleDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */; };
+		C93193DC26B1B57C008203EC /* SDLSecurityQueryPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = C93193DA26B1B57B008203EC /* SDLSecurityQueryPayload.h */; };
+		C93193DD26B1B57C008203EC /* SDLSecurityQueryPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = C93193DB26B1B57B008203EC /* SDLSecurityQueryPayload.m */; };
 		C9707D1825DEE786009D00F2 /* NSArray+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = C9707D1625DEE786009D00F2 /* NSArray+Extensions.h */; };
 		C9707D1925DEE786009D00F2 /* NSArray+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C9707D1725DEE786009D00F2 /* NSArray+Extensions.m */; };
 		C9707D3025E0444D009D00F2 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = C9707D2E25E0444D009D00F2 /* SDLMacros.h */; };
@@ -3649,6 +3651,8 @@
 		B3DF19F2251225A90090D7BA /* TestSmartConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSmartConnection.h; sourceTree = "<group>"; };
 		B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLClimateDataSpec.m; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
+		C93193DA26B1B57B008203EC /* SDLSecurityQueryPayload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSecurityQueryPayload.h; path = private/SDLSecurityQueryPayload.h; sourceTree = "<group>"; };
+		C93193DB26B1B57B008203EC /* SDLSecurityQueryPayload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSecurityQueryPayload.m; path = private/SDLSecurityQueryPayload.m; sourceTree = "<group>"; };
 		C9707D1625DEE786009D00F2 /* NSArray+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+Extensions.h"; path = "private/NSArray+Extensions.h"; sourceTree = "<group>"; };
 		C9707D1725DEE786009D00F2 /* NSArray+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Extensions.m"; path = "private/NSArray+Extensions.m"; sourceTree = "<group>"; };
 		C9707D2E25E0444D009D00F2 /* SDLMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLMacros.h; path = private/SDLMacros.h; sourceTree = "<group>"; };
@@ -5828,6 +5832,8 @@
 			children = (
 				4ABB28EF24F82AFD0061BF55 /* SDLRPCPayload.h */,
 				4ABB28EE24F82AFD0061BF55 /* SDLRPCPayload.m */,
+				C93193DA26B1B57B008203EC /* SDLSecurityQueryPayload.h */,
+				C93193DB26B1B57B008203EC /* SDLSecurityQueryPayload.m */,
 			);
 			name = Payload;
 			sourceTree = "<group>";
@@ -7671,6 +7677,7 @@
 				4ABB2B5424F84EF50061BF55 /* SDLClimateControlData.h in Headers */,
 				4A8BD2B624F935BC000945E3 /* SDLSystemCapability.h in Headers */,
 				4ABB2AA624F847F40061BF55 /* SDLSetInteriorVehicleDataResponse.h in Headers */,
+				C93193DC26B1B57C008203EC /* SDLSecurityQueryPayload.h in Headers */,
 				4ABB264F24F7F5720061BF55 /* SDLConfiguration.h in Headers */,
 				4ABB252224F7E3FC0061BF55 /* SDLLifecycleSyncPDataHandler.h in Headers */,
 				4ABB29FD24F8477F0061BF55 /* SDLAlertResponse.h in Headers */,
@@ -8363,6 +8370,7 @@
 				4ABB2BA424F850AE0061BF55 /* SDLLightCapabilities.m in Sources */,
 				B3A9DB0625D497FB00CDFD21 /* SDLAppCapabilityType.m in Sources */,
 				4ABB272224F7FCAE0061BF55 /* SDLDefrostZone.m in Sources */,
+				C93193DD26B1B57C008203EC /* SDLSecurityQueryPayload.m in Sources */,
 				4ABB24BB24F592620061BF55 /* NSMutableArray+Safe.m in Sources */,
 				4ABB25AA24F7E6E10061BF55 /* SDLMenuManager.m in Sources */,
 				4ABB25DD24F7E77C0061BF55 /* SDLScreenManager.m in Sources */,
