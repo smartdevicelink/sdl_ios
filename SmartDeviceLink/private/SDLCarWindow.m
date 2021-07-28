@@ -22,6 +22,7 @@
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLVideoStreamingCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic, nullable) SDLStreamingVideoLifecycleManager *streamManager;
 
 @property (assign, nonatomic) SDLCarWindowRenderingType renderingType;
-@property (assign, nonatomic) BOOL drawsAfterScreenUpdates;
 @property (assign, nonatomic) BOOL allowMultipleOrientations;
 
 @property (assign, nonatomic, getter=isLockScreenPresenting) BOOL lockScreenPresenting;
@@ -72,7 +72,12 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    CGRect bounds = self.rootViewController.view.bounds;
+    const CGRect bounds = self.streamManager.videoScaleManager.appViewportFrame;
+    if (bounds.size.width < 1) {
+        SDLLogD(@"CarWindow: Invalid viewport frame");
+        return;
+    }
+
     UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
     switch (self.renderingType) {
         case SDLCarWindowRenderingTypeLayer: {
@@ -90,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIGraphicsEndImageContext();
 
     CGImageRef imageRef = screenshot.CGImage;
-    CVPixelBufferRef pixelBuffer = [self.class sdl_pixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
+    CVPixelBufferRef pixelBuffer = [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
     if (pixelBuffer != nil) {
         BOOL success = [self.streamManager sendVideoData:pixelBuffer];
         if (!success) {
@@ -101,6 +106,10 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         SDLLogE(@"Video frame will not be sent because the pixelBuffer is nil");
     }
+}
+
+- (void)updateVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
+    [self sdl_applyDisplayDimensionsToRootViewController:self.rootViewController];
 }
 
 #pragma mark - SDLNavigationLockScreenManager Notifications
@@ -162,7 +171,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Private Helpers
-+ (nullable CVPixelBufferRef)sdl_pixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
+
++ (nullable CVPixelBufferRef)sdl_createPixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
     size_t imageWidth = CGImageGetWidth(imageRef);
     size_t imageHeight = CGImageGetHeight(imageRef);
 
@@ -191,75 +201,18 @@ NS_ASSUME_NONNULL_BEGIN
  @param rootViewController The view controller to resize
  */
 - (void)sdl_applyDisplayDimensionsToRootViewController:(UIViewController *)rootViewController {
-    if (self.streamManager.videoScaleManager.appViewportFrame.size.width == 0) {
+    const CGSize displaySize = self.streamManager.videoScaleManager.displayViewportResolution;
+    if (displaySize.width < 1) {
         // The dimensions of the display screen is unknown because the connected head unit did not provide a screen resolution in the `RegisterAppInterfaceResponse` or in the video start service ACK.
-        SDLLogW(@"The dimensions of the display's screen are unknown. The CarWindow frame will not be resized.");
+        SDLLogW(@"The display screen dimensions are unknown. The CarWindow will not resize.");
         return;
     }
 
-    if (CGRectEqualToRect(rootViewController.view.frame, self.streamManager.videoScaleManager.appViewportFrame)) {
-        SDLLogV(@"The rootViewController frame is already the correct size: %@", NSStringFromCGRect(rootViewController.view.frame));
-        return;
-    }
+    const CGRect appFrame = self.streamManager.videoScaleManager.appViewportFrame;
+    rootViewController.view.frame = appFrame;
+    rootViewController.view.bounds = appFrame;
 
-    rootViewController.view.frame = self.streamManager.videoScaleManager.appViewportFrame;
-    rootViewController.view.bounds = rootViewController.view.frame;
-
-    SDLLogD(@"Setting CarWindow frame to: %@", NSStringFromCGRect(rootViewController.view.frame));
-}
-
-#pragma mark Backgrounded Screen / Text
-
-+ (UIImage*)sdl_imageWithText:(NSString*)text size:(CGSize)size {
-    CGRect frame = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContextWithOptions(frame.size, NO, 1.0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-    CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);
-    CGContextFillRect(context, frame);
-    CGContextSaveGState(context);
-
-    NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
-    textStyle.alignment = NSTextAlignmentCenter;
-
-    NSDictionary* textAttributes = @{
-                                     NSFontAttributeName: [self sdl_fontFittingSize:frame.size forText:text],
-                                     NSForegroundColorAttributeName: [UIColor whiteColor],
-                                     NSParagraphStyleAttributeName: textStyle
-                                     };
-    CGRect textFrame = [text boundingRectWithSize:size
-                                          options:NSStringDrawingUsesLineFragmentOrigin
-                                       attributes:textAttributes
-                                          context:nil];
-
-    CGRect textInset = CGRectMake(0,
-                                  (frame.size.height - CGRectGetHeight(textFrame)) / 2.0,
-                                  frame.size.width,
-                                  frame.size.height);
-
-    [text drawInRect:textInset
-      withAttributes:textAttributes];
-
-    CGContextRestoreGState(context);
-    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
-
-    return image;
-}
-
-+ (UIFont*)sdl_fontFittingSize:(CGSize)size forText:(NSString*)text {
-    CGFloat fontSize = 100;
-    while (fontSize > 0.0) {
-        CGSize textSize = [text boundingRectWithSize:CGSizeMake(size.width, CGFLOAT_MAX)
-                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize]}
-                                             context:nil].size;
-
-        if (textSize.height <= size.height) { break; }
-
-        fontSize -= 10.0;
-    }
-
-    return [UIFont boldSystemFontOfSize:fontSize];
+    SDLLogD(@"Setting CarWindow frame to: %@ (display size: %@)", NSStringFromCGSize(appFrame.size), NSStringFromCGSize(displaySize));
 }
 
 @end

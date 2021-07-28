@@ -12,10 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLIAPDataSessionDelegate <NSObject>
 
-- (void)dataSessionShouldRetry;
+- (void)dataSessionDidEnd;
 - (void)dataSessionDidReceiveData:(NSData *)data;
 - (void)dataSessionDidConnect;
 
 @end
 
 NS_ASSUME_NONNULL_END
+

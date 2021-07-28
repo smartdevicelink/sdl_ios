@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_encryption_lifecycle_notReadyError;
 + (NSError *)sdl_encryption_lifecycle_encryption_off;
 + (NSError *)sdl_encryption_lifecycle_nak;
++ (NSError *)sdl_encryption_unknown;
 
 #pragma mark SDLManager
 
@@ -75,6 +76,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 + (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
 
+#pragma mark Alert Manager
+
++ (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime;
++ (NSError *)sdl_alertManager_alertDataInvalid;
++ (NSError *)sdl_alertManager_alertAudioFileNotSupported;
 
 #pragma mark System Capability Manager
 
@@ -109,11 +115,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSException *)sdl_missingHandlerException;
 + (NSException *)sdl_missingIdException;
 + (NSException *)sdl_missingFilesException;
++ (NSException *)sdl_invalidTTSSpeechCapabilitiesException;
++ (NSException *)sdl_invalidAlertSoftButtonStatesException;
 + (NSException *)sdl_invalidSoftButtonStateException;
 + (NSException *)sdl_carWindowOrientationException;
 + (NSException *)sdl_invalidLockscreenSetupException;
 + (NSException *)sdl_invalidSystemCapabilitySelectorExceptionWithSelector:(SEL)selector;
 + (NSException *)sdl_invalidSubscribeButtonSelectorExceptionWithSelector:(SEL)selector;
++ (NSException *)sdl_invalidVideoStreamingRange;
 
 @end
 

@@ -35,6 +35,7 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaManager;
 @class SDLSystemCapabilityManager;
+@class SDLSystemInfo;
 
 @protocol SDLManagerDelegate;
 
@@ -78,11 +79,12 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
 
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
-@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
-@property (copy, nonatomic, nullable) SDLAudioStreamingState audioStreamingState;
-@property (copy, nonatomic, nullable) SDLVideoStreamingState videoStreamingState;
-@property (copy, nonatomic, nullable) SDLSystemContext systemContext;
-@property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (copy, nonatomic, readonly, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, readonly, nullable) SDLAudioStreamingState audioStreamingState;
+@property (copy, nonatomic, readonly, nullable) SDLVideoStreamingState videoStreamingState;
+@property (copy, nonatomic, readonly, nullable) SDLSystemContext systemContext;
+@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (strong, nonatomic, readonly, nullable) SDLSystemInfo *systemInfo;
 
 @property (strong, nonatomic) NSOperationQueue *rpcOperationQueue;
 

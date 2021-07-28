@@ -36,6 +36,7 @@
                                  [self sdl_screenManagerSubscribeButtonModule],
                                  [self sdl_screenManagerMenuModule],
                                  [self sdl_screenManagerChoiceSetModule],
+                                 [self sdl_screenManagerAlertModule],
                                  [self sdl_utilitiesModule]]];
 }
 
@@ -98,7 +99,7 @@
 }
 
 + (SDLLogFileModule *)sdl_videoStreamingMediaManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow", @"SDLFocusableItemLocator"]]];
+    return [SDLLogFileModule moduleWithName:@"Video Streaming" files:[NSSet setWithArray:@[@"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow", @"SDLFocusableItemLocator", @"SDLVideoStreamingRange"]]];
 }
 
 + (SDLLogFileModule *)sdl_videoStreamingMediaTranscoderModule {
@@ -127,6 +128,10 @@
 
 + (SDLLogFileModule *)sdl_screenManagerSubscribeButtonModule {
     return [SDLLogFileModule moduleWithName:@"Screen/SubscribeButton" files:[NSSet setWithArray:@[@"SDLSubscribeButtonManager", @"SDLSubscribeButtonObserver"]]];
+}
+
++ (SDLLogFileModule *)sdl_screenManagerAlertModule {
+    return [SDLLogFileModule moduleWithName:@"Screen/Alert" files:[NSSet setWithArray:@[@"SDLAlertManager", @"SDLAlertView", @"SDLAlertAudioData", @"SDLPresentAlertOperation"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerMenuModule {

@@ -4,53 +4,30 @@
 
 #import "SDLLifecycleManager.h"
 
-#import "SDLAppServiceData.h"
-#import "SDLChangeRegistration.h"
-#import "SDLConfiguration.h"
+#import <SmartDeviceLink/SmartDeviceLink.h>
+
 #import "SDLConnectionManagerType.h"
-#import "SDLEncryptionConfiguration.h"
 #import "SDLEncryptionLifecycleManager.h"
 #import "SDLError.h"
-#import "SDLFileManagerConfiguration.h"
-#import "SDLFileManager.h"
 #import "SDLGlobals.h"
-#import "SDLHMILevel.h"
-#import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleProtocolHandler.h"
-#import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
-#import "SDLLogConfiguration.h"
-#import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
-#import "SDLOnAppInterfaceUnregistered.h"
-#import "SDLOnAppServiceData.h"
-#import "SDLOnHashChange.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLPerformAppServiceInteractionResponse.h"
-#import "SDLPermissionManager.h"
 #import "SDLProtocol.h"
-#import "SDLRegisterAppInterface.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLResult.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLSecondaryTransportManager.h"
-#import "SDLShow.h"
 #import "SDLStateMachine.h"
-#import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaManager.h"
-#import "SDLSystemCapabilityManager.h"
-#import "SDLTextAlignment.h"
-#import "SDLTTSChunk.h"
-#import "SDLUnregisterAppInterface.h"
-#import "SDLUnregisterAppInterfaceResponse.h"
-#import "SDLVersion.h"
-#import "SDLVideoStreamingState.h"
-
 
 @interface SDLStreamingMediaManager ()
 
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 - (void)startSecondaryTransportWithProtocol:(SDLProtocol *)protocol;
+
+@end
+
+@interface SDLSystemCapabilityManager ()
+
+@property (nullable, strong, nonatomic) NSString *lastDisplayLayoutRequestTemplate;
 
 @end
 
@@ -62,6 +39,25 @@
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (strong, nonatomic) SDLEncryptionLifecycleManager *encryptionLifecycleManager;
 @property (strong, nonatomic, nullable) SDLLifecycleProtocolHandler *protocolHandler;
+@property (copy, nonatomic, readwrite, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLAudioStreamingState audioStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLVideoStreamingState videoStreamingState;
+@property (copy, nonatomic, readwrite, nullable) SDLSystemContext systemContext;
+@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (strong, nonatomic, readwrite, nullable) SDLSystemInfo *systemInfo;
+
+- (void)didEnterStateConnected;
+@end
+
+@interface SDLLifecycleTestManager : SDLLifecycleManager
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+@property (strong, nonatomic, nullable) __kindof SDLRPCMessage *testRequest;
+@end
+
+@implementation SDLLifecycleTestManager
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    self.testRequest = request;
+}
 @end
 
 @interface SDLGlobals ()
@@ -88,10 +84,27 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
+// test lifecycle manager internals
+describe(@"test lifecycle manager internals", ^{
+    context(@"init and assign version", ^{
+        SDLLifecycleTestManager *manager = [[SDLLifecycleTestManager alloc] init];
+        it(@"expect object to be created", ^{
+            expect(manager).notTo(beNil());
+        });
+        context(@"didEnterStateConnected", ^{
+            [manager didEnterStateConnected];
+            it(@"expect request to be of proper kind", ^{
+                expect([manager.testRequest isKindOfClass:SDLRegisterAppInterface.class]).to(equal(YES));
+            });
+        });
+    });
+});
+
+// a lifecycle manager
 describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
-    __block id protocolMock = nil;
+    __block SDLProtocol *protocolMock = nil;
     __block id sdlManagerDelegateProtocolMock = nil;
     __block id lockScreenManagerMock = nil;
     __block id fileManagerMock = nil;
@@ -100,6 +113,9 @@ describe(@"a lifecycle manager", ^{
     __block id systemCapabilityMock = nil;
     __block id secondaryTransportManagerMock = nil;
     __block id encryptionManagerMock = nil;
+    SDLVehicleType *vehicleType = [[SDLVehicleType alloc] initWithMake:@"Make" model:@"Model" modelYear:@"Model Year" trim:@"Trim"];
+    NSString *softwareVersion = @"1.1.1.1";
+    NSString *hardwareVersion = @"2.2.2.2";
 
     void (^transitionToState)(SDLState *) = ^(SDLState *state) {
         dispatch_sync(testManager.lifecycleQueue, ^{
@@ -145,7 +161,8 @@ describe(@"a lifecycle manager", ^{
         [SDLGlobals sharedGlobals].protocolVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:3 minor:0 patch:0];
     });
-    
+
+    // should initialize properties
     it(@"should initialize properties", ^{
         expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
         expect(testManager.delegate).toNot(beNil());
@@ -167,7 +184,8 @@ describe(@"a lifecycle manager", ^{
     });
     
     itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
-    
+
+    // after receiving an HMI Status
     describe(@"after receiving an HMI Status", ^{
         __block SDLOnHMIStatus *testHMIStatus = nil;
         __block SDLHMILevel testHMILevel = nil;
@@ -175,7 +193,8 @@ describe(@"a lifecycle manager", ^{
         beforeEach(^{
             testHMIStatus = [[SDLOnHMIStatus alloc] init];
         });
-        
+
+        // a non-none hmi level
         context(@"a non-none hmi level", ^{
             beforeEach(^{
                 testHMILevel = SDLHMILevelNone;
@@ -188,7 +207,8 @@ describe(@"a lifecycle manager", ^{
                 expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
             });
         });
-        
+
+        // a non-full, non-none hmi level
         context(@"a non-full, non-none hmi level", ^{
             beforeEach(^{
                 testHMILevel = SDLHMILevelBackground;
@@ -201,7 +221,8 @@ describe(@"a lifecycle manager", ^{
                 expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
             });
         });
-        
+
+        // a full hmi level
         context(@"a full hmi level", ^{
             beforeEach(^{
                 testHMILevel = SDLHMILevelFull;
@@ -215,7 +236,8 @@ describe(@"a lifecycle manager", ^{
             });
         });
     });
-    
+
+    // calling stop
     describe(@"calling stop", ^{
         beforeEach(^{
             [testManager stop];
@@ -226,7 +248,8 @@ describe(@"a lifecycle manager", ^{
             expect(testManager.lifecycleState).toEventuallyNot(match(SDLLifecycleStateStarted));
         });
     });
-    
+
+    // when started
     describe(@"when started", ^{
         __block BOOL readyHandlerSuccess = NO;
         __block NSError *readyHandlerError = nil;
@@ -249,34 +272,60 @@ describe(@"a lifecycle manager", ^{
             expect(testManager.secondaryTransportManager).toNot(beNil());
         });
 
+        // after receiving a connect notification
         describe(@"after receiving a connect notification", ^{
-            beforeEach(^{
-                // When we connect, we should be creating an sending an RAI
-                OCMExpect([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]]]);
-                
-                [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
-            });
-            
+            // should send a register app interface request and be in the connected state
             it(@"should send a register app interface request and be in the connected state", ^{
-                OCMVerifyAllWithDelay(protocolMock, 1.0);
+                OCMStub([protocolMock sendRPC:[OCMArg any] error:[OCMArg setTo:nil]]).andReturn(YES);
+                // When we connect, we should be creating an sending an RAI
+
+                [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
                 expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateConnected));
             });
-            
             itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
-            
+
+            // when the protocol system info is set
+            context(@"when the protocol system info is set", ^{
+                SDLSystemInfo *testSystemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:hardwareVersion];
+
+                it(@"should call the delegate handler", ^{
+                    OCMStub(protocolMock.systemInfo).andReturn(testSystemInfo);
+                    OCMExpect([sdlManagerDelegateProtocolMock didReceiveSystemInfo:[OCMArg isEqual:testSystemInfo]]).andReturn(YES);
+                    [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
+
+                    OCMVerifyAllWithDelay(sdlManagerDelegateProtocolMock, 1.0);
+                });
+            });
+
+            // when the protocol system info is not set
+            context(@"when the protocol system info is not set", ^{
+                beforeEach(^{
+                    OCMStub(protocolMock.systemInfo).andReturn(nil);
+                    [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
+                });
+
+                it(@"should call the delegate handler", ^{
+                    OCMReject([sdlManagerDelegateProtocolMock didReceiveSystemInfo:[OCMArg isNil]]);
+                });
+            });
+
+            // after receiving a disconnect notification"
             describe(@"after receiving a disconnect notification", ^{
                 beforeEach(^{
+                    OCMStub([protocolMock sendRPC:[OCMArg any] error:[OCMArg setTo:nil]]).andReturn(YES);
+                    [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
                     [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
-                    [NSThread sleepForTimeInterval:0.1];
                 });
                 
                 it(@"should be in the started state", ^{
-                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReconnecting));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReconnecting));
                 });
             });
-            
+
+            // stopping the manager
             describe(@"stopping the manager", ^{
                 it(@"should simply stop", ^{
+                    [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
                     [testManager stop];
                     
                     expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
@@ -284,6 +333,7 @@ describe(@"a lifecycle manager", ^{
             });
         });
 
+        // in the connected state when the minimum protocol version is in effect
         describe(@"in the connected state when the minimum protocol version is in effect", ^{
             beforeEach(^{
                 [SDLGlobals sharedGlobals].protocolVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
@@ -296,13 +346,24 @@ describe(@"a lifecycle manager", ^{
                 OCMVerifyAll(protocolMock);
             });
         });
-        
+
+        // in the connected state
         describe(@"in the connected state", ^{
             beforeEach(^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:NO];
             });
 
-             describe(@"after receiving a register app interface response", ^{
+            // after receiving another connect notification for encryption
+            describe(@"after receiving another connect notification for encryption", ^{
+                it(@"should not crash", ^{
+                    expectAction(^{
+                        [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
+                    }).toNot(raiseException());
+                });
+            });
+
+            // after receiving a register app interface response
+            describe(@"after receiving a register app interface response", ^{
                 it(@"should eventually reach the ready state", ^{
                     NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                     NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
@@ -324,115 +385,52 @@ describe(@"a lifecycle manager", ^{
 
                 itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
             });
-            
-            describe(@"after receiving a disconnect notification", ^{
+
+            // when the protocol system info is not set
+            context(@"when the protocol system info is not set", ^{
                 beforeEach(^{
-                    OCMStub([protocolMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
-                    OCMStub([secondaryTransportManagerMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
-                    [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
-                    [NSThread sleepForTimeInterval:1.0];
+                    testManager.systemInfo = nil;
+                    OCMExpect([sdlManagerDelegateProtocolMock didReceiveSystemInfo:[OCMArg isNotNil]]).andReturn(YES);
                 });
-                
-                it(@"should enter the started state", ^{
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStarted));
+
+                it(@"should call the delegate handler", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = SDLResultSuccess;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                    response.vehicleType = vehicleType;
+                    response.systemSoftwareVersion = softwareVersion;
+#pragma clang diagnostic pop
+                    testManager.registerResponse = response;
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:YES];
+
+                    OCMVerifyAllWithDelay(sdlManagerDelegateProtocolMock, 1.0);
                 });
             });
-            
-            describe(@"stopping the manager", ^{
+
+            // when the protocol system info is set
+            context(@"when the protocol system info is set", ^{
+                SDLSystemInfo *testSystemInfo = [[SDLSystemInfo alloc] initWithVehicleType:vehicleType softwareVersion:softwareVersion hardwareVersion:hardwareVersion];
+
                 beforeEach(^{
-                    [testManager stop];
+                    testManager.systemInfo = testSystemInfo;
                 });
-                
-                it(@"should enter the stopped state", ^{
-                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateStopped));
-                });
-            });
-        });
 
-        describe(@"transitioning to the registered state when the minimum RPC version is in effect", ^{
-            beforeEach(^{
-                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
-
-                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:YES];
-            });
-
-            it(@"should disconnect", ^{
-                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateUnregistering));
-            });
-        });
-        
-        describe(@"transitioning to the Setting Up HMI state", ^{
-            context(@"before register response is a success", ^{
-                it(@"ready handler should not be called yet", ^{
+                it(@"should call not the delegate handler", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
                     response.resultCode = SDLResultSuccess;
-                    testManager.registerResponse = response;
-                    
-                    setToStateWithEnterTransition(nil, SDLLifecycleStateSettingUpHMI);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                    response.vehicleType = vehicleType;
+                    response.systemSoftwareVersion = softwareVersion;
+#pragma clang diagnostic pop
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:YES];
 
-                    expect(@(readyHandlerSuccess)).to(equal(@NO));
-                    expect(readyHandlerError).to(beNil());
-                });
-            });
-            
-            context(@"assume hmi status is nil", ^{
-                it(@"mock notification and ensure state changes to ready", ^{
-                    __block SDLOnHMIStatus *testHMIStatus = nil;
-                    __block SDLHMILevel testHMILevel = nil;
-                    testHMIStatus = [[SDLOnHMIStatus alloc] init];
-                    
-                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = SDLResultSuccess;
-                    testManager.registerResponse = response;
-                    
-                    setToStateWithEnterTransition(nil, SDLLifecycleStateSettingUpHMI);
-                    
-                    testHMILevel = SDLHMILevelFull;
-                    testHMIStatus.hmiLevel = testHMILevel;
-                    
-                    [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
-
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
-                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
-                    expect(readyHandlerError).toEventually(beNil());
-                });
-            });
-        });
-
-        describe(@"transitioning to the ready state", ^{
-            beforeEach(^{
-                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:NO];
-            });
-
-            context(@"when the register response is a success", ^{
-                it(@"should call the ready handler with success", ^{
-                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = SDLResultSuccess;
-                    testManager.registerResponse = response;
-                    
-                    setToStateWithEnterTransition(nil, SDLLifecycleStateReady);
-
-                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
-                    expect(readyHandlerError).toEventually(beNil());
+                    OCMReject([sdlManagerDelegateProtocolMock didReceiveSystemInfo:[OCMArg isNotNil]]);
                 });
             });
 
-            context(@"when the register response is a warning", ^{
-                it(@"should call the ready handler with success but error", ^{
-                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = SDLResultWarnings;
-                    response.info = @"some info";
-                    testManager.registerResponse = response;
-
-                    setToStateWithEnterTransition(nil, SDLLifecycleStateReady);
-
-                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
-                    expect(readyHandlerError).toEventuallyNot(beNil());
-                    expect(@(readyHandlerError.code)).toEventually(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
-                    expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).toEventually(match(response.info));
-                });
-            });
-            
+            // when the register response returns different language than the one passed with the lifecycle configuration
             context(@"when the register response returns different language than the one passed with the lifecycle configuration", ^{
                 it(@"should should update the configuration when the app supports the head unit language", ^{
                     SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
@@ -453,7 +451,7 @@ describe(@"a lifecycle manager", ^{
                         expect(changeRegistration.ttsName).to(equal(update.ttsName));
                         expect(changeRegistration.vrSynonyms).to(equal(@[@"EnGb", @"Gb"]));
                         return [value isKindOfClass:[SDLChangeRegistration class]];
-                    }]]);
+                    }] error:[OCMArg anyObjectRef]]);
 
                     setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
 
@@ -500,7 +498,7 @@ describe(@"a lifecycle manager", ^{
                     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:@"EnGb" shortAppName:@"Gb" ttsName:nil voiceRecognitionCommandNames:nil];
                     OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:registerAppInterfaceResponse.language hmiLanguage:registerAppInterfaceResponse.hmiDisplayLanguage]).andReturn(update);
 
-                    transitionToState(SDLLifecycleStateUpdatingConfiguration);
+                    setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
 
                     OCMExpect([protocolMock sendRPC:[OCMArg checkWithBlock:^BOOL(id value) {
                         SDLChangeRegistration *changeRegistration = (SDLChangeRegistration *)value;
@@ -509,7 +507,7 @@ describe(@"a lifecycle manager", ^{
                         expect(changeRegistration.ttsName).to(beNil());
                         expect(changeRegistration.vrSynonyms).to(beNil());
                         return [value isKindOfClass:[SDLChangeRegistration class]];
-                    }]]);
+                    }] error:[OCMArg anyObjectRef]]);
 
                     setToStateWithEnterTransition(SDLLifecycleStateRegistered, SDLLifecycleStateUpdatingConfiguration);
 
@@ -522,24 +520,190 @@ describe(@"a lifecycle manager", ^{
                     expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
                 });
             });
+
+            // after receiving a disconnect notification
+            describe(@"after receiving a disconnect notification", ^{
+                beforeEach(^{
+                    OCMStub([protocolMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
+                    OCMStub([secondaryTransportManagerMock stopWithCompletionHandler:[OCMArg invokeBlock]]);
+                    [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
+                });
+                
+                it(@"should enter the started state", ^{
+                    expect(testManager.lifecycleState).withTimeout(3.0).toEventually(equal(SDLLifecycleStateStarted));
+                });
+            });
+
+            // stopping the manager
+            describe(@"stopping the manager", ^{
+                beforeEach(^{
+                    [testManager stop];
+                });
+                
+                it(@"should enter the stopped state", ^{
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateStopped));
+                });
+            });
         });
-        
+
+        // transitioning to the registered state when the minimum RPC version is in effect
+        describe(@"transitioning to the registered state when the minimum RPC version is in effect", ^{
+            beforeEach(^{
+                OCMStub([protocolMock sendRPC:[OCMArg any] error:[OCMArg setTo:nil]]).andReturn(YES);
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:YES];
+            });
+
+            it(@"should disconnect", ^{
+                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateUnregistering));
+            });
+        });
+
+        // transitioning from setting app icon state to the Setting Up HMI state
+        describe(@"transitioning from setting app icon state to the Setting Up HMI state", ^{
+            context(@"before register response is a success", ^{
+                it(@"ready handler should not be called yet", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = SDLResultSuccess;
+                    testManager.registerResponse = response;
+                    
+                    setToStateWithEnterTransition(nil, SDLLifecycleStateSettingUpHMI);
+
+                    expect(@(readyHandlerSuccess)).to(equal(@NO));
+                    expect(readyHandlerError).to(beNil());
+                });
+            });
+            
+            context(@"assume hmi status is nil", ^{
+                it(@"mock notification and ensure state changes to ready", ^{
+                    __block SDLOnHMIStatus *testHMIStatus = nil;
+                    __block SDLHMILevel testHMILevel = nil;
+                    testHMIStatus = [[SDLOnHMIStatus alloc] init];
+                    
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = SDLResultSuccess;
+                    testManager.registerResponse = response;
+                    
+                    setToStateWithEnterTransition(nil, SDLLifecycleStateSettingUpHMI);
+                    
+                    testHMILevel = SDLHMILevelFull;
+                    testHMIStatus.hmiLevel = testHMILevel;
+                    
+                    [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
+
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventually(beNil());
+                });
+            });
+        });
+
+        // transitioning from the registered state to the ready state
+        describe(@"transitioning from the registered state to the ready state", ^{
+            beforeEach(^{
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:NO];
+            });
+
+            // when the register response is a success
+            context(@"when the register response is a success", ^{
+                it(@"should call the ready handler with success", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = SDLResultSuccess;
+                    testManager.registerResponse = response;
+                    
+                    setToStateWithEnterTransition(nil, SDLLifecycleStateReady);
+
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventually(beNil());
+                });
+            });
+
+            // when the register response is a warning
+            context(@"when the register response is a warning", ^{
+                it(@"should call the ready handler with success but error", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = SDLResultWarnings;
+                    response.info = @"some info";
+                    testManager.registerResponse = response;
+
+                    setToStateWithEnterTransition(nil, SDLLifecycleStateReady);
+
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventuallyNot(beNil());
+                    expect(@(readyHandlerError.code)).toEventually(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
+                    expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).toEventually(match(response.info));
+                });
+            });
+        });
+
+        // in the ready state
         describe(@"in the ready state", ^{
             beforeEach(^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:NO];
             });
 
-            it(@"can send an RPC of type Request", ^{
-                SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
-                OCMExpect([protocolMock sendRPC:testShow]);
-                [testManager sendRPC:testShow];
+            // after receiving another connect notification for encryption
+            describe(@"after receiving another connect notification for encryption", ^{
+                it(@"should not crash and remain in the same state", ^{
+                    expectAction(^{
+                        [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
+                    }).toNot(raiseException());
 
-                OCMVerifyAllWithDelay(protocolMock, 0.1);
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReady));
+                });
+            });
+
+            describe(@"when sending a request RPC", ^{
+                it(@"can send the RPC", ^{
+                    SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil mainField3:nil mainField4:nil alignment:nil statusBar:nil mediaTrack:nil graphic:nil secondaryGraphic:nil softButtons:nil customPresets:nil metadataTags:nil templateTitle:nil windowID:nil templateConfiguration:nil];
+                    OCMExpect([protocolMock sendRPC:testShow error:[OCMArg anyObjectRef]]);
+                    [testManager sendRPC:testShow];
+
+                    OCMVerifyAllWithDelay(protocolMock, 0.1);
+                });
+
+                describe(@"when sending a SetDisplayLayout request", ^{
+                    beforeEach(^{
+                        OCMExpect([systemCapabilityMock setLastDisplayLayoutRequestTemplate:[OCMArg isKindOfClass:NSString.class]]);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+                        SDLSetDisplayLayout *request = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutMedia];
+#pragma clang diagnostic pop
+                        [testManager sendRequest:request withResponseHandler:nil];
+                    });
+
+                    it(@"should update the System Capability Manager with the next template type", ^{
+                        OCMVerifyAllWithDelay(systemCapabilityMock, 0.3);
+                    });
+                });
+            });
+
+            it(@"should call the callback if the protocol fails to send a request", ^{
+                NSError *testError = [NSError sdl_lifecycle_notReadyError];
+                OCMStub([protocolMock sendRPC:[OCMArg any] error:[OCMArg setTo:testError]]).andReturn(NO);
+
+                SDLShow *testShow = [[SDLShow alloc] init];
+                testShow.mainField1 = @"Test";
+
+                __block SDLRPCRequest *returnRequest = nil;
+                __block SDLRPCResponse *returnResponse = nil;
+                __block NSError *returnError = nil;
+                [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                    returnRequest = request;
+                    returnResponse = response;
+                    returnError = error;
+                }];
+
+                expect(returnRequest).toEventuallyNot(beNil());
+                expect(returnRequest).toEventually(beAnInstanceOf([SDLShow class]));
+                expect(returnResponse).toEventually(beNil());
+                expect(returnError).toEventuallyNot(beNil());
             });
 
             it(@"can send an RPC of type Response", ^{
                 SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] init];
-                OCMExpect([protocolMock sendRPC:testResponse]);
+                OCMExpect([protocolMock sendRPC:testResponse error:[OCMArg anyObjectRef]]);
                 [testManager sendRPC:testResponse];
                 testResponse.correlationID = @(2);
                 testResponse.success = @(true);
@@ -551,7 +715,7 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Notification", ^{
                 SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithServiceData:[[SDLAppServiceData alloc] init]];
-                OCMExpect([protocolMock sendRPC:testNotification]);
+                OCMExpect([protocolMock sendRPC:testNotification error:[OCMArg anyObjectRef]]);
                 [testManager sendRPC:testNotification];
 
                 OCMVerifyAllWithDelay(protocolMock, 0.1);
@@ -591,11 +755,12 @@ describe(@"a lifecycle manager", ^{
             
             describe(@"stopping the manager", ^{
                 beforeEach(^{
+                    OCMStub([protocolMock sendRPC:[OCMArg any] error:[OCMArg setTo:nil]]).andReturn(YES);
                     [testManager stop];
                 });
                 
                 it(@"should attempt to unregister", ^{
-                    OCMVerify([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
+                    OCMVerify([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]] error:[OCMArg anyObjectRef]]);
                     expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateUnregistering));
                 });
                 

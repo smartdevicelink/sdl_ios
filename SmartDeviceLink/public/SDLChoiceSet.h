@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 @interface SDLChoiceSet: NSObject
 
 /**
- Set this to change the default timeout for all choice sets. If a timeout is not set on an individual choice set object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 10 seconds.
+ Set this to change the default timeout for all choice sets. If a timeout is not set on an individual choice set object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 10 seconds. The minimum is 5 seconds, the maximum is 100 seconds. If this is set below the minimum, it will be capped at 5 seconds. If this is set above the maximum, it will be capped at 100 seconds.
  */
 @property (class, assign, nonatomic) NSTimeInterval defaultTimeout;
 
@@ -60,7 +60,9 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 @property (assign, nonatomic) SDLChoiceSetLayout layout;
 
 /**
- Maps to PerformInteraction.timeout. This applies only to a manual selection (not a voice selection, which has its timeout handled by the system). Defaults to `defaultTimeout`.
+ Maps to PerformInteraction.timeout. Timeout in seconds. Defaults to 0, which will use `defaultTimeout`. If this is set below the minimum, it will be capped at 5 seconds. Minimum 5 seconds, maximum 100 seconds. If this is set above the maximum, it will be capped at 100 seconds. Defaults to 0.
+
+ @note This applies only to a manual selection (not a voice selection, which has its timeout handled by the system).
  */
 @property (assign, nonatomic) NSTimeInterval timeout;
 
@@ -93,8 +95,19 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  */
 @property (copy, nonatomic) NSArray<SDLChoiceCell *> *choices;
 
+/// Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be `nil`.
+///
+/// WARNING: If you display multiple cells with the same `text` with the only uniquing property between cells being different `vrCommands` or a feature that is not displayed on the head unit (e.g. if the head unit doesn't display `secondaryArtwork` and that's the only uniquing property between two cells) then the cells may appear to be the same to the user in `Manual` mode. This only applies to RPC connections >= 7.1.0.
+///
+/// WARNING: On < 7.1.0 connections, the `text` cell will be automatically modified among cells that have the same `text` when they are preloaded, so they will always appear differently on-screen when they are displayed. `cell.uniqueText` will be created by appending ` (2)`, ` (3)`, etc.
+- (instancetype)init;
+
 /**
  Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be `nil`.
+
+ WARNING: If you display multiple cells with the same `text` with the only uniquing property between cells being different `vrCommands` or a feature that is not displayed on the head unit (e.g. if the head unit doesn't display `secondaryArtwork` and that's the only uniquing property between two cells) then the cells may appear to be the same to the user in `Manual` mode. This only applies to RPC connections >= 7.1.0.
+
+ WARNING: On < 7.1.0 connections, the `text` cell will be automatically modified among cells that have the same `text` when they are preloaded, so they will always appear differently on-screen when they are displayed. `cell.uniqueText` will be created by appending ` (2)`, ` (3)`, etc.
 
  @param title The choice set's title
  @param delegate The choice set delegate called after the user has interacted with your choice set
@@ -106,10 +119,14 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 /**
  Initializer with all possible properties.
 
+ WARNING: If you display multiple cells with the same `text` with the only uniquing property between cells being different `vrCommands` or a feature that is not displayed on the head unit (e.g. if the head unit doesn't display `secondaryArtwork` and that's the only uniquing property between two cells) then the cells may appear to be the same to the user in `Manual` mode. This only applies to RPC connections >= 7.1.0.
+
+ WARNING: On < 7.1.0 connections, the `text` cell will be automatically modified among cells that have the same `text` when they are preloaded, so they will always appear differently on-screen when they are displayed. `cell.uniqueText` will be created by appending ` (2)`, ` (3)`, etc.
+
  @param title The choice set's title
  @param delegate The choice set delegate called after the user has interacted with your choice set
  @param layout The layout of choice options (Manual/touch only)
- @param timeout The timeout of a touch interaction (Manual/touch only)
+ @param timeout The timeout of a touch interaction in seconds (Manual/touch only)
  @param initialPrompt A voice prompt spoken to the user when this set is displayed
  @param timeoutPrompt A voice prompt spoken to the user when the set times out (Voice only)
  @param helpPrompt A voice prompt spoken to the user when the user asks for "help"
@@ -122,10 +139,14 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 /**
  Initializer with all possible properties.
 
+ WARNING: If you display multiple cells with the same `text` with the only uniquing property between cells being different `vrCommands` or a feature that is not displayed on the head unit (e.g. if the head unit doesn't display `secondaryArtwork` and that's the only uniquing property between two cells) then the cells may appear to be the same to the user in `Manual` mode. This only applies to RPC connections >= 7.1.0.
+
+ WARNING: On < 7.1.0 connections, the `text` cell will be automatically modified among cells that have the same `text` when they are preloaded, so they will always appear differently on-screen when they are displayed. `cell.uniqueText` will be created by appending ` (2)`, ` (3)`, etc.
+
  @param title The choice set's title
  @param delegate The choice set delegate called after the user has interacted with your choice set
  @param layout The layout of choice options (Manual/touch only)
- @param timeout The timeout of a touch interaction (Manual/touch only)
+ @param timeout The timeout of a touch interaction in seconds (Manual/touch only)
  @param initialPrompt A voice prompt spoken to the user when this set is displayed
  @param timeoutPrompt A voice prompt spoken to the user when the set times out (Voice only)
  @param helpPrompt A voice prompt spoken to the user when the user asks for "help"
@@ -134,7 +155,6 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  @return The choice set
  */
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout timeout:(NSTimeInterval)timeout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt vrHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList choices:(NSArray<SDLChoiceCell *> *)choices;
-
 
 /**
  Cancels the choice set. If the choice set has not yet been sent to Core, it will not be sent. If the choice set is already presented on Core, the choice set will be immediately dismissed. Canceling an already presented choice set will only work if connected to Core versions 6.0+. On older versions of Core, the choice set will not be dismissed.

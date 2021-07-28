@@ -46,7 +46,7 @@
 @property (strong, nonatomic) NSMutableArray<SDLAsynchronousOperation *> *batchQueue;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification;
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability;
+- (void)sdl_displayCapabilityDidUpdate;
 
 @end
 
@@ -76,6 +76,8 @@ describe(@"a soft button manager", ^{
     __block SDLArtwork *object2State1Art = [[SDLArtwork alloc] initWithData:[@"TestData" dataUsingEncoding:NSUTF8StringEncoding] name:object2State1ArtworkName fileExtension:@"png" persistent:YES];
     __block SDLSoftButtonState *object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State1Art];
 
+    __block SDLWindowCapability *testWindowCapability = nil;
+
     beforeEach(^{
         testFileManager = OCMClassMock([SDLFileManager class]);
         testSystemCapabilityManager = OCMClassMock([SDLSystemCapabilityManager class]);
@@ -84,71 +86,102 @@ describe(@"a soft button manager", ^{
         testManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager systemCapabilityManager:testSystemCapabilityManager];
         [testManager start];
 
-        SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
-        status.hmiLevel = SDLHMILevelFull;
-        [testManager sdl_hmiStatusNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:status]];
-
         SDLSoftButtonCapabilities *softButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
         softButtonCapabilities.imageSupported = @YES;
         softButtonCapabilities.textSupported = @YES;
         softButtonCapabilities.longPressAvailable = @YES;
         softButtonCapabilities.shortPressAvailable = @YES;
 
-        SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
-        windowCapability.softButtonCapabilities = @[softButtonCapabilities];
-        SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[windowCapability] windowTypeSupported:nil];
-        [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+        testWindowCapability = [[SDLWindowCapability alloc] init];
+        testWindowCapability.softButtonCapabilities = @[softButtonCapabilities];
     });
 
     it(@"should instantiate correctly", ^{
         expect(testManager.connectionManager).to(equal(testConnectionManager));
         expect(testManager.fileManager).to(equal(testFileManager));
-
         expect(testManager.softButtonObjects).to(beEmpty());
         expect(testManager.currentMainField1).to(beNil());
         expect(testManager.transactionQueue).toNot(beNil());
-        expect(testManager.transactionQueue.isSuspended).to(beFalse());
-        expect(testManager.softButtonCapabilities).toNot(beNil());
-        expect(testManager.currentLevel).to(equal(SDLHMILevelFull));
-
-        // These are set up earlier for future tests and therefore won't be nil
-//        expect(testManager.windowCapability).to(beNil());
-//        expect(testManager.currentLevel).to(beNil());
+        expect(testManager.transactionQueue.isSuspended).to(beTrue());
+        expect(testManager.softButtonCapabilities).to(beNil());
+        expect(testManager.currentLevel).to(beNil());
     });
 
-    context(@"when in HMI NONE", ^{
+    describe(@"the SDL app has not been opened", ^{
         beforeEach(^{
-            SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
-            status.hmiLevel = SDLHMILevelNone;
-            [testManager sdl_hmiStatusNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:status]];
-
             testObject1 = [[SDLSoftButtonObject alloc] initWithName:@"name1" states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
             testObject2 = [[SDLSoftButtonObject alloc] initWithName:@"name2" state:object2State1 handler:nil];
-
             testManager.softButtonObjects = @[testObject1, testObject2];
         });
 
-        it(@"should set the soft buttons, but not update", ^{
-            expect(testManager.softButtonObjects).toNot(beEmpty());
-            expect(testManager.transactionQueue.suspended).to(beTrue());
+        context(@"when the HMI level notification has not been received", ^{
+            it(@"should set the soft buttons, but not update", ^{
+                expect(testManager.currentLevel).to(beNil());
+                expect(testManager.softButtonObjects).toNot(beEmpty());
+                expect(testManager.transactionQueue.suspended).to(beTrue());
+            });
+        });
+
+        context(@"when the HMI level is NONE", ^{
+            beforeEach(^{
+                SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
+                status.hmiLevel = SDLHMILevelNone;
+                [testManager sdl_hmiStatusNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:status]];
+            });
+
+            it(@"should set the soft buttons, but not update", ^{
+                expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
+                expect(testManager.softButtonObjects).toNot(beEmpty());
+                expect(testManager.transactionQueue.suspended).to(beTrue());
+            });
         });
     });
 
-    context(@"when there are no soft button capabilities", ^{
+    describe(@"the SDL app has been opened", ^{
         beforeEach(^{
-            SDLWindowCapability *windowCapability = [[SDLWindowCapability alloc] init];
-            SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:@"TEST" windowCapabilities:@[windowCapability] windowTypeSupported:nil];
-            [testManager sdl_displayCapabilityDidUpdate:[[SDLSystemCapability alloc] initWithDisplayCapabilities:@[displayCapability]]];
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:@"name1" states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:@"name2" state:object2State1 handler:nil];
+            testManager.softButtonObjects = @[testObject1, testObject2];
+
+            SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
+            status.hmiLevel = SDLHMILevelFull;
+            [testManager sdl_hmiStatusNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:status]];
         });
 
-        it(@"should set the buttons but have the queue suspended", ^{
-            expect(testManager.softButtonObjects).toNot(beNil());
-            expect(testManager.transactionQueue.isSuspended).to(beTrue());
+        context(@"when the soft button capabilities notification has not been received", ^{
+            beforeEach(^{
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(nil);
+                [testManager sdl_displayCapabilityDidUpdate];
+            });
+
+            it(@"should set the buttons but have the queue suspended", ^{
+                expect(testManager.softButtonObjects).toNot(beNil());
+                expect(testManager.transactionQueue.isSuspended).to(beTrue());
+            });
+        });
+
+        context(@"when the soft button capabilities notification has been received", ^{
+            beforeEach(^{
+                OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+                [testManager sdl_displayCapabilityDidUpdate];
+            });
+
+            it(@"should set the buttons and unsuspend the queue", ^{
+                expect(testManager.softButtonObjects).toNot(beNil());
+                expect(testManager.transactionQueue.isSuspended).to(beFalse());
+            });
         });
     });
 
-    context(@"when button objects have the same name", ^{
+    describe(@"invalid button objects (button objects have same names)", ^{
         beforeEach(^{
+            SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
+            status.hmiLevel = SDLHMILevelFull;
+            [testManager sdl_hmiStatusNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:status]];
+
+            OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            [testManager sdl_displayCapabilityDidUpdate];
+
             NSString *sameName = @"Same name";
             testObject1 = [[SDLSoftButtonObject alloc] initWithName:sameName states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
             testObject2 = [[SDLSoftButtonObject alloc] initWithName:sameName state:object2State1 handler:nil];
@@ -162,33 +195,44 @@ describe(@"a soft button manager", ^{
         });
     });
 
-    context(@"when button objects have different names", ^{
+    // valid button objects (button objects have different names)
+    describe(@"valid button objects (button objects have different names)", ^{
         beforeEach(^{
+            SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
+            status.hmiLevel = SDLHMILevelFull;
+            [testManager sdl_hmiStatusNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:status]];
+
+            OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            [testManager sdl_displayCapabilityDidUpdate];
+
             testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
             testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
 
             testManager.softButtonObjects = @[testObject1, testObject2];
-            [NSThread sleepForTimeInterval:0.1];
         });
 
+        // should set soft buttons correctly
         it(@"should set soft buttons correctly", ^{
-            expect(testManager.softButtonObjects).toNot(beNil());
-            expect(testObject1.buttonId).to(equal(1));
-            expect(testObject2.buttonId).to(equal(2));
-            expect(testObject1.manager).to(equal(testManager));
-            expect(testObject2.manager).to(equal(testManager));
+            expect(testManager.softButtonObjects).toEventuallyNot(beNil());
+            expect(testObject1.buttonId).toEventually(equal(1));
+            expect(testObject2.buttonId).toEventually(equal(2));
+            expect(testObject1.manager).toEventually(equal(testManager));
+            expect(testObject2.manager).toEventually(equal(testManager));
 
             // One replace operation
-            expect(testManager.transactionQueue.operationCount).to(equal(1));
+            expect(testManager.transactionQueue.operationCount).toEventually(equal(1));
         });
 
+        // should replace earlier operations when a replace operation is entered
         it(@"should replace earlier operations when a replace operation is entered", ^{
             [testObject1 transitionToNextState];
             testManager.softButtonObjects = @[testObject1];
-            expect(testManager.transactionQueue.operationCount).to(equal(3));
-            expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
-            expect(testManager.transactionQueue.operations[1].isCancelled).to(beTrue());
-            expect(testManager.transactionQueue.operations[2].isCancelled).to(beFalse());
+            [NSThread sleepForTimeInterval:0.5]; // Necessary to not get range exceptions with toEventually?
+
+            expect(testManager.transactionQueue.operationCount).withTimeout(3.0).toEventually(equal(3));
+            expect(testManager.transactionQueue.operations[0].isCancelled).withTimeout(3.0).toEventually(beTrue());
+            expect(testManager.transactionQueue.operations[1].isCancelled).withTimeout(3.0).toEventually(beTrue());
+            expect(testManager.transactionQueue.operations[2].isCancelled).withTimeout(3.0).toEventually(beFalse());
         });
 
         it(@"should retrieve soft buttons correctly", ^{
@@ -228,6 +272,13 @@ describe(@"a soft button manager", ^{
 
     describe(@"transitioning soft button states", ^{
         beforeEach(^{
+            SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
+            status.hmiLevel = SDLHMILevelFull;
+            [testManager sdl_hmiStatusNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:status]];
+
+            OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            [testManager sdl_displayCapabilityDidUpdate];
+
             testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
             testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
 
@@ -266,6 +317,17 @@ describe(@"a soft button manager", ^{
 
     context(@"On disconnects", ^{
         beforeEach(^{
+            SDLOnHMIStatus *status = [[SDLOnHMIStatus alloc] init];
+            status.hmiLevel = SDLHMILevelFull;
+            [testManager sdl_hmiStatusNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:status]];
+
+            OCMStub([testSystemCapabilityManager defaultMainWindowCapability]).andReturn(testWindowCapability);
+            [testManager sdl_displayCapabilityDidUpdate];
+
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:@"name1" states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:@"name2" state:object2State1 handler:nil];
+            testManager.softButtonObjects = @[testObject1, testObject2];
+
             [testManager stop];
         });
 

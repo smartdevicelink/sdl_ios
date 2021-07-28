@@ -11,6 +11,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVehicleType
 
+- (instancetype)initWithMake:(nullable NSString *)make model:(nullable NSString *)model modelYear:(nullable NSString *)modelYear trim:(nullable NSString *)trim {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    self.make = make;
+    self.model = model;
+    self.modelYear = modelYear;
+    self.trim = trim;
+    return self;
+}
+
 - (void)setMake:(nullable NSString *)make {
     [self.store sdl_setObject:make forName:SDLRPCParameterNameMake];
 }

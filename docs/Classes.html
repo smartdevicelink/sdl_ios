@@ -9,9 +9,12 @@
   <li><a href="#section-SDLAddSubMenuResponse">SDLAddSubMenuResponse</a></li>
   <li><a href="#section-SDLAirbagStatus">SDLAirbagStatus</a></li>
   <li><a href="#section-SDLAlert">SDLAlert</a></li>
+  <li><a href="#section-SDLAlertAudioData">SDLAlertAudioData</a></li>
   <li><a href="#section-SDLAlertManeuver">SDLAlertManeuver</a></li>
   <li><a href="#section-SDLAlertManeuverResponse">SDLAlertManeuverResponse</a></li>
   <li><a href="#section-SDLAlertResponse">SDLAlertResponse</a></li>
+  <li><a href="#section-SDLAlertView">SDLAlertView</a></li>
+  <li><a href="#section-SDLAppCapability">SDLAppCapability</a></li>
   <li><a href="#section-SDLAppInfo">SDLAppInfo</a></li>
   <li><a href="#section-SDLAppServiceCapability">SDLAppServiceCapability</a></li>
   <li><a href="#section-SDLAppServiceData">SDLAppServiceData</a></li>
@@ -21,6 +24,7 @@
   <li><a href="#section-SDLArtwork">SDLArtwork</a></li>
   <li><a href="#section-SDLAudioControlCapabilities">SDLAudioControlCapabilities</a></li>
   <li><a href="#section-SDLAudioControlData">SDLAudioControlData</a></li>
+  <li><a href="#section-SDLAudioData">SDLAudioData</a></li>
   <li><a href="#section-SDLAudioFile">SDLAudioFile</a></li>
   <li><a href="#section-SDLAudioPassThruCapabilities">SDLAudioPassThruCapabilities</a></li>
   <li><a href="#section-SDLAudioStreamManager">SDLAudioStreamManager</a></li>
@@ -39,6 +43,7 @@
   <li><a href="#section-SDLChoiceSet">SDLChoiceSet</a></li>
   <li><a href="#section-SDLClimateControlCapabilities">SDLClimateControlCapabilities</a></li>
   <li><a href="#section-SDLClimateControlData">SDLClimateControlData</a></li>
+  <li><a href="#section-SDLClimateData">SDLClimateData</a></li>
   <li><a href="#section-SDLCloseApplication">SDLCloseApplication</a></li>
   <li><a href="#section-SDLCloseApplicationResponse">SDLCloseApplicationResponse</a></li>
   <li><a href="#section-SDLCloudAppProperties">SDLCloudAppProperties</a></li>
@@ -68,6 +73,7 @@
   <li><a href="#section-SDLDialNumberResponse">SDLDialNumberResponse</a></li>
   <li><a href="#section-SDLDisplayCapabilities">SDLDisplayCapabilities</a></li>
   <li><a href="#section-SDLDisplayCapability">SDLDisplayCapability</a></li>
+  <li><a href="#section-SDLDoorStatus">SDLDoorStatus</a></li>
   <li><a href="#section-SDLDriverDistractionCapability">SDLDriverDistractionCapability</a></li>
   <li><a href="#section-SDLDynamicUpdateCapabilities">SDLDynamicUpdateCapabilities</a></li>
   <li><a href="#section-SDLECallInfo">SDLECallInfo</a></li>
@@ -84,6 +90,7 @@
   <li><a href="#section-SDLFuelRange">SDLFuelRange</a></li>
   <li><a href="#section-SDLFunctionID">SDLFunctionID</a></li>
   <li><a href="#section-SDLGPSData">SDLGPSData</a></li>
+  <li><a href="#section-SDLGateStatus">SDLGateStatus</a></li>
   <li><a href="#section-SDLGearStatus">SDLGearStatus</a></li>
   <li><a href="#section-SDLGenericResponse">SDLGenericResponse</a></li>
   <li><a href="#section-SDLGetAppServiceData">SDLGetAppServiceData</a></li>
@@ -114,6 +121,8 @@
   <li><a href="#section-SDLImage">SDLImage</a></li>
   <li><a href="#section-SDLImageField">SDLImageField</a></li>
   <li><a href="#section-SDLImageResolution">SDLImageResolution</a></li>
+  <li><a href="#section-SDLKeyboardCapabilities">SDLKeyboardCapabilities</a></li>
+  <li><a href="#section-SDLKeyboardLayoutCapability">SDLKeyboardLayoutCapability</a></li>
   <li><a href="#section-SDLKeyboardProperties">SDLKeyboardProperties</a></li>
   <li><a href="#section-SDLLifecycleConfiguration">SDLLifecycleConfiguration</a></li>
   <li><a href="#section-SDLLifecycleConfigurationUpdate">SDLLifecycleConfigurationUpdate</a></li>
@@ -153,6 +162,7 @@
   <li><a href="#section-SDLNavigationServiceManifest">SDLNavigationServiceManifest</a></li>
   <li><a href="#section-SDLNotificationConstants">SDLNotificationConstants</a></li>
   <li><a href="#section-SDLOasisAddress">SDLOasisAddress</a></li>
+  <li><a href="#section-SDLOnAppCapabilityUpdated">SDLOnAppCapabilityUpdated</a></li>
   <li><a href="#section-SDLOnAppInterfaceUnregistered">SDLOnAppInterfaceUnregistered</a></li>
   <li><a href="#section-SDLOnAppServiceData">SDLOnAppServiceData</a></li>
   <li><a href="#section-SDLOnAudioPassThru">SDLOnAudioPassThru</a></li>
@@ -218,6 +228,7 @@
   <li><a href="#section-SDLRemoteControlCapabilities">SDLRemoteControlCapabilities</a></li>
   <li><a href="#section-SDLResetGlobalProperties">SDLResetGlobalProperties</a></li>
   <li><a href="#section-SDLResetGlobalPropertiesResponse">SDLResetGlobalPropertiesResponse</a></li>
+  <li><a href="#section-SDLRoofStatus">SDLRoofStatus</a></li>
   <li><a href="#section-SDLSISData">SDLSISData</a></li>
   <li><a href="#section-SDLScreenManager">SDLScreenManager</a></li>
   <li><a href="#section-SDLScreenParams">SDLScreenParams</a></li>
@@ -228,6 +239,9 @@
   <li><a href="#section-SDLSeatLocation">SDLSeatLocation</a></li>
   <li><a href="#section-SDLSeatLocationCapability">SDLSeatLocationCapability</a></li>
   <li><a href="#section-SDLSeatMemoryAction">SDLSeatMemoryAction</a></li>
+  <li><a href="#section-SDLSeatOccupancy">SDLSeatOccupancy</a></li>
+  <li><a href="#section-SDLSeatStatus">SDLSeatStatus</a></li>
+  <li><a href="#section-SDLSeekStreamingIndicator">SDLSeekStreamingIndicator</a></li>
   <li><a href="#section-SDLSendHapticData">SDLSendHapticData</a></li>
   <li><a href="#section-SDLSendHapticDataResponse">SDLSendHapticDataResponse</a></li>
   <li><a href="#section-SDLSendLocation">SDLSendLocation</a></li>
@@ -277,6 +291,7 @@
   <li><a href="#section-SDLSyncPDataResponse">SDLSyncPDataResponse</a></li>
   <li><a href="#section-SDLSystemCapability">SDLSystemCapability</a></li>
   <li><a href="#section-SDLSystemCapabilityManager">SDLSystemCapabilityManager</a></li>
+  <li><a href="#section-SDLSystemInfo">SDLSystemInfo</a></li>
   <li><a href="#section-SDLSystemRequest">SDLSystemRequest</a></li>
   <li><a href="#section-SDLSystemRequestResponse">SDLSystemRequestResponse</a></li>
   <li><a href="#section-SDLTTSChunk">SDLTTSChunk</a></li>
@@ -308,6 +323,7 @@
   <li><a href="#section-SDLVersion">SDLVersion</a></li>
   <li><a href="#section-SDLVideoStreamingCapability">SDLVideoStreamingCapability</a></li>
   <li><a href="#section-SDLVideoStreamingFormat">SDLVideoStreamingFormat</a></li>
+  <li><a href="#section-SDLVideoStreamingRange">SDLVideoStreamingRange</a></li>
   <li><a href="#section-SDLVoiceCommand">SDLVoiceCommand</a></li>
   <li><a href="#section-SDLVRHelpItem">SDLVRHelpItem</a></li>
   <li><a href="#section-SDLWeatherAlert">SDLWeatherAlert</a></li>
@@ -347,7 +363,7 @@
 <li>Choices having both SDLMenuParams and VR synonym definitions</li>
 </ol>
 
-<p>HMILevel needs to be FULL, LIMITED or BACKGROUD
+<p>HMILevel needs to be FULL, LIMITED or BACKGROUND
   @since SDL 1.0</p>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
@@ -398,7 +414,7 @@
  added to a SDLSubMenu), and may only contain commands as children
  <p>
  <p>
- <b>HMILevel needs to be FULL, LIMITED or BACKGROUD</b>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  </p></p>
 
 <p>Since <b>SmartDeviceLink 1.0</b><br>
@@ -479,6 +495,32 @@
   
   
   
+  <h3 id="section-SDLAlertAudioData">
+      SDLAlertAudioData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAlertAudioData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAlertAudioData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLAudioData.html">SDLAudioData</a></span>
+
+<span class="c1">/// Whether the alert tone should be played before the prompt (if any) is spoken. Defaults to NO.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">playTone</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAlertAudioData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLAudioData.html">SDLAudioData</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLAlertManeuver">
       SDLAlertManeuver
   </h3>
@@ -537,6 +579,96 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAlertResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAlertView">
+      SDLAlertView
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAlertView.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAlertView</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
+
+<span class="c1">/// Set this to change the default timeout for all alerts. If a timeout is not set on an individual alert object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 5 seconds. The minimum is 3 seconds, the maximum is 10 seconds. If this is set below the minimum, it will be capped at 3 seconds. If this is set above the maximum, it will be capped at 10 seconds.</span>
+<span class="c1">/// Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">defaultTimeout</span><span class="p">;</span>
+
+<span class="c1">/// The primary line of text for display on the alert. If fewer than three alert lines are available on the head unit, the screen manager will automatically concatenate some of the lines together.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">;</span>
+
+<span class="c1">/// The secondary line of text for display on the alert. If fewer than three alert lines are available on the head unit, the screen manager will automatically concatenate some of the lines together.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">secondaryText</span><span class="p">;</span>
+
+<span class="c1">/// The tertiary line of text for display on the alert. If fewer than three alert lines are available on the head unit, the screen manager will automatically concatenate some of the lines together.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">tertiaryText</span><span class="p">;</span>
+
+<span class="c1">/// Timeout in seconds. Defaults to 0, which will use `defaultTimeout`. If this is set below the minimum, it will be capped at 3 seconds. Minimum 3 seconds, maximum 10 seconds. If this is set above the maximum, it will be capped at 10 seconds. Defaults to 0.</span>
+<span class="c1">/// Please note that if a button is added to the alert, the defaultTimeout and timeout values will be ignored.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">timeout</span><span class="p">;</span>
+
+<span class="c1">/// Text spoken, file(s) played, and/or tone played when the alert appears</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLAlertAudioData.html">SDLAlertAudioData</a></span> <span class="o">*</span><span class="n">audio</span><span class="p">;</span>
+
+<span class="c1">/// If supported, the alert GUI will display some sort of indefinite waiting / refresh / loading indicator animation. Defaults to NO.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">showWaitIndicator</span><span class="p">;</span>
+
+<span class="c1">/// Soft buttons the user may select to perform actions. Only one `SDLSoftButtonState` per object is supported; if any soft button object contains multiple states, an exception will be thrown.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtons</span><span class="p">;</span>
+
+<span class="c1">/// An artwork that will be displayed when the icon appears. This will be uploaded prior to the appearance of the alert if necessary. This will not be uploaded if the head unit does not declare support for alertIcon.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">icon</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span> 
+
+<span class="c1">/// Initialize a basic alert with a message and buttons</span>
+<span class="c1">/// @param text The primary line of text for display on the alert</span>
+<span class="c1">/// @param softButtons Soft buttons the user may select to perform actions</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="nf">buttons</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span>
+
+<span class="c1">/// Initialize a alert with a text, image, buttons and sound</span>
+<span class="c1">/// @param text The primary line of text for display on the alert</span>
+<span class="c1">/// @param secondaryText The secondary line of text for display on the alert</span>
+<span class="c1">/// @param tertiaryText The tertiary line of text for display on the alert</span>
+<span class="c1">/// @param timeout Timeout in seconds</span>
+<span class="c1">/// @param showWaitIndicator If supported, the alert GUI will display some sort of indefinite waiting / refresh / loading indicator animation</span>
+<span class="c1">/// @param audio Text spoken and/or tone played when the alert appears</span>
+<span class="c1">/// @param softButtons Soft buttons the user may select to perform actions</span>
+<span class="c1">/// @param icon An artwork that will be displayed when the icon appears</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="nf">secondaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryText</span> <span class="nf">tertiaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tertiaryText</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeout</span> <span class="nf">showWaitIndicator</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">showWaitIndicator</span> <span class="nf">audioIndication</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLAlertAudioData.html">SDLAlertAudioData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audio</span> <span class="nf">buttons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span> <span class="nf">icon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span><span class="p">;</span>
+
+<span class="c1">/// Cancels the alert. If the alert has not yet been sent to the module, it will not be sent. If the alert is already presented on the module, the alert will be immediately dismissed. Canceling an already presented alert will only work if connected to modules supporting RPC Spec v.6.0+. On older versions the alert will not be dismissed.</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancel</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAlertView</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppCapability">
+      SDLAppCapability
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLAppCapability.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAppCapability</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAppCapability</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -724,11 +856,65 @@
   
   
   
+  <h3 id="section-SDLAudioData">
+      SDLAudioData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAudioData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAudioData</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
+
+<span class="c1">/// The text-to-speech prompts that will used and/or audio files that will be played. The audio prompts and files will be played in the same order they are added.</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">audioData</span><span class="p">;</span>
+
+<span class="c1">/// Initialize with an SDLFile holding data or pointing to a file on the file system. When this object is passed to an `Alert` or `Speak`, the file will be uploaded if it is not already, then played if the system supports that feature.</span>
+<span class="c1">/// @discussion Only available on systems supporting RPC Spec v5.0+</span>
+<span class="c1">///</span>
+<span class="c1">/// @param audioFile The audio file to be played by the system</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAudioFile</span><span class="p">:(</span><span class="n"><a href="Classes/SDLFile.html">SDLFile</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioFile</span><span class="p">;</span>
+
+<span class="c1">/// Initialize with a string to be spoken by the system speech synthesizer.</span>
+<span class="c1">/// @param spokenString The string to be spoken by the system speech synthesizer</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSpeechSynthesizerString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">spokenString</span><span class="p">;</span>
+
+<span class="c1">/// Initialize with a string to be spoken by the system speech synthesizer using a phonetic string.</span>
+<span class="c1">/// @param phoneticString The string to be spoken by the system speech synthesizer</span>
+<span class="c1">/// @param phoneticType Must be one of `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED` or no object will be created</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPhoneticSpeechSynthesizerString</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneticString</span> <span class="nf">phoneticType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="p">)</span><span class="nv">phoneticType</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
+
+<span class="c1">/// Add additional SDLFiles holding data or pointing to a file on the file system. When this object is passed to an `Alert` or `Speak`, the file will be uploaded if it is not already, then played if the system supports that feature.</span>
+<span class="c1">/// @param audioFiles An array of audio file to be played by the system</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addAudioFiles</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLFile.html">SDLFile</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">audioFiles</span><span class="p">;</span>
+
+<span class="c1">/// Create additional strings to be spoken by the system speech synthesizer.</span>
+<span class="c1">/// @param spokenStrings The strings to be spoken by the system speech synthesizer</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addSpeechSynthesizerStrings</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">spokenStrings</span><span class="p">;</span>
+
+<span class="c1">/// Create additional strings to be spoken by the system speech synthesizer using a phonetic string.</span>
+<span class="c1">/// @param phoneticStrings The strings to be spoken by the system speech synthesizer</span>
+<span class="c1">/// @param phoneticType Must be one of `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED` or no object will be created</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addPhoneticSpeechSynthesizerStrings</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneticStrings</span> <span class="nf">phoneticType</span><span class="p">:(</span><span class="n"><a href="Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="p">)</span><span class="nv">phoneticType</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAudioData</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLAudioFile">
       SDLAudioFile
   </h3>
   
-  <p>Includes inforamtion about a given audio file</p>
+  <p>Includes information about a given audio file</p>
 
   <a href="Classes/SDLAudioFile.html" class="slightly-smaller">See more</a>
   
@@ -806,7 +992,7 @@
       SDLBodyInformation
   </h3>
   
-  <p>The body information including power modes.</p>
+  <p>Undocumented</p>
 
   <a href="Classes/SDLBodyInformation.html" class="slightly-smaller">See more</a>
   
@@ -1016,11 +1202,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLChoiceCell</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLChoiceCell</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLChoiceCell</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLChoiceCell</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
   
   
@@ -1078,6 +1264,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLClimateControlData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLClimateData">
+      SDLClimateData
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLClimateData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLClimateData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLClimateData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -1160,7 +1365,7 @@
       SDLConfiguration
   </h3>
   
-  <p>Contains information about the app&rsquo;s configurtion, such as lifecycle, lockscreen, encryption, etc.</p>
+  <p>Contains information about the app&rsquo;s configuration, such as lifecycle, lockscreen, encryption, etc.</p>
 
   <a href="Classes/SDLConfiguration.html" class="slightly-smaller">See more</a>
   
@@ -1674,7 +1879,8 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLDisplayCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight objective_c"><code>
+<span class="k">@interface</span> <span class="nc">SDLDisplayCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1700,6 +1906,27 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLDisplayCapability</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDoorStatus">
+      SDLDoorStatus
+  </h3>
+  
+  <p>Describes the status of a parameter of door.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLDoorStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLDoorStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLDoorStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -2024,6 +2251,27 @@ see SDLPerformAudioPassThru</p>
   
   
   
+  <h3 id="section-SDLGateStatus">
+      SDLGateStatus
+  </h3>
+  
+  <p>Describes the status of a parameter of trunk/hood/etc.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLGateStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLGateStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLGateStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLGearStatus">
       SDLGearStatus
   </h3>
@@ -2250,7 +2498,7 @@ whenever new data is available for the module.</p>
       SDLGetInteriorVehicleDataConsent
   </h3>
   
-  <p>This RPC allows you to get consent to control a certian module</p>
+  <p>This RPC allows you to get consent to control a certain module</p>
 
 <p>@since RPC 6.0</p>
 
@@ -2621,11 +2869,51 @@ whenever new data is available for the module.</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLImageResolution</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLImageResolution</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLImageResolution</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLImageResolution</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLKeyboardCapabilities">
+      SDLKeyboardCapabilities
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLKeyboardCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLKeyboardCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLKeyboardCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLKeyboardLayoutCapability">
+      SDLKeyboardLayoutCapability
+  </h3>
+  
+  <p>Describes the capabilities of a single keyboard layout.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLKeyboardLayoutCapability.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLKeyboardLayoutCapability</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLKeyboardLayoutCapability</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -3130,11 +3418,11 @@ cases the language of the head unit changes or does not match the app language.<
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLMenuCell</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLMenuCell</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMenuCell</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMenuCell</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
   
   
@@ -3386,6 +3674,27 @@ cases the language of the head unit changes or does not match the app language.<
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOasisAddress</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLOnAppCapabilityUpdated">
+      SDLOnAppCapabilityUpdated
+  </h3>
+  
+  <p>A notification to inform SDL Core that a specific app capability has changed.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLOnAppCapabilityUpdated.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLOnAppCapabilityUpdated</span> <span class="p">:</span> <span class="nc"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnAppCapabilityUpdated</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
 
   
   
@@ -4839,6 +5148,27 @@ Subsequent calls with the same service type will update the manifest for that se
   
   
   
+  <h3 id="section-SDLRoofStatus">
+      SDLRoofStatus
+  </h3>
+  
+  <p>Describes the status of a parameter of roof/convertible roof/sunroof/moonroof etc. If roof is open (AJAR), state will determine percentage of roof open.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLRoofStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRoofStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLRoofStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLSISData">
       SDLSISData
   </h3>
@@ -5030,6 +5360,67 @@ Subsequent calls with the same service type will update the manifest for that se
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSeatMemoryAction</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeatOccupancy">
+      SDLSeatOccupancy
+  </h3>
+  
+  <p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLSeatOccupancy.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSeatOccupancy</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSeatOccupancy</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeatStatus">
+      SDLSeatStatus
+  </h3>
+  
+  <p>Describes the status of a parameter of seat.</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLSeatStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSeatStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSeatStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeekStreamingIndicator">
+      SDLSeekStreamingIndicator
+  </h3>
+  
+  <p>The seek next / skip previous subscription buttons&rsquo; content</p>
+
+<p>@added in SmartDeviceLink 7.1.0</p>
+
+  <a href="Classes/SDLSeekStreamingIndicator.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSeekStreamingIndicator</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSeekStreamingIndicator</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -6137,6 +6528,51 @@ change the settings of a specific remote control module.</p>
   
   
   
+  <h3 id="section-SDLSystemInfo">
+      SDLSystemInfo
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSystemInfo.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSystemInfo</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="c1">/// The connected module's vehicle type: it's make, model, trim, and model year</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLVehicleType.html">SDLVehicleType</a></span> <span class="o">*</span><span class="n">vehicleType</span><span class="p">;</span>
+
+<span class="c1">/// The connected module's software version</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">systemSoftwareVersion</span><span class="p">;</span>
+
+<span class="c1">/// The connected module's hardware version</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">systemHardwareVersion</span><span class="p">;</span>
+
+<span class="c1">/// Initialize a system info object with individual pieces</span>
+<span class="c1">/// @param make The vehicle's make</span>
+<span class="c1">/// @param model The vehicle's model</span>
+<span class="c1">/// @param trim The vehicle's trim</span>
+<span class="c1">/// @param modelYear The vehicle's model year</span>
+<span class="c1">/// @param softwareVersion The vehicle's software version</span>
+<span class="c1">/// @param hardwareVersion The vehicle's hardware version</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMake</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">make</span> <span class="nf">model</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">model</span> <span class="nf">trim</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">trim</span> <span class="nf">modelYear</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">modelYear</span> <span class="nf">softwareVersion</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">softwareVersion</span> <span class="nf">hardwareVersion</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">hardwareVersion</span><span class="p">;</span>
+
+<span class="c1">/// Initialize a system info object with the vehicle type and versions</span>
+<span class="c1">/// @param vehicleType The vehicle information</span>
+<span class="c1">/// @param softwareVersion The vehicle's software version</span>
+<span class="c1">/// @param hardwareVersion The vehicle's hardware version</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithVehicleType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLVehicleType.html">SDLVehicleType</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">vehicleType</span> <span class="nf">softwareVersion</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">softwareVersion</span> <span class="nf">hardwareVersion</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">hardwareVersion</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSystemInfo</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLSystemRequest">
       SDLSystemRequest
   </h3>
@@ -6184,7 +6620,7 @@ change the settings of a specific remote control module.</p>
   
   <p>Specifies what is to be spoken. This can be simply a text phrase, which SDL will speak according to its own rules. It can also be phonemes from either the Microsoft SAPI phoneme set, or from the LHPLUS phoneme set. It can also be a pre-recorded sound in WAV format (either developer-defined, or provided by the SDL platform).</p>
 
-<p>In SDL, words, and therefore sentences, can be built up from phonemes and are used to explicitly provide the proper pronounciation to the TTS engine. For example, to have SDL pronounce the word &ldquo;read&rdquo; as &ldquo;red&rdquo;, rather than as when it is pronounced like &ldquo;reed&rdquo;, the developer would use phonemes to express this desired pronounciation.</p>
+<p>In SDL, words, and therefore sentences, can be built up from phonemes and are used to explicitly provide the proper pronunciation to the TTS engine. For example, to have SDL pronounce the word &ldquo;read&rdquo; as &ldquo;red&rdquo;, rather than as when it is pronounced like &ldquo;reed&rdquo;, the developer would use phonemes to express this desired pronunciation.</p>
 
 <p>For more information about phonemes, see <a href="http://en.wikipedia.org/wiki/Phoneme"><a href="http://en.wikipedia.org/wiki/Phoneme">http://en.wikipedia.org/wiki/Phoneme</a></a>.</p>
 
@@ -6775,6 +7211,64 @@ See SDLSubscribeButton</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLVideoStreamingFormat</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVideoStreamingRange">
+      SDLVideoStreamingRange
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLVideoStreamingRange.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLVideoStreamingRange</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
+
+<span class="c1">/// The minimum supported normalized aspect ratio, min value is 1.0, defaults to 1.0</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="kt">float</span> <span class="n">minimumAspectRatio</span><span class="p">;</span>
+
+<span class="c1">/// The maximum supported normalized aspect ratio, min value is 1.0, defaults to 9999.0</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="kt">float</span> <span class="n">maximumAspectRatio</span><span class="p">;</span>
+
+<span class="c1">/// The minimum supported diagonal screen size in inches, defaults to 0.0 (matches any size)</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="kt">float</span> <span class="n">minimumDiagonal</span><span class="p">;</span>
+
+<span class="c1">/// The minimum resolution to support, it overrides .minimumAspectRatio</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="n">minimumResolution</span><span class="p">;</span>
+
+<span class="c1">/// The maximum resolution to support, it overrides .maximumAspectRatio</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="n">maximumResolution</span><span class="p">;</span>
+
+<span class="c1">/// Create a video streaming range based on a minimum and maximum resolution</span>
+<span class="c1">/// @param minResolution The minimum supported height / width resolution</span>
+<span class="c1">/// @param maxResolution The maximum supported height / width resolution</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinimumResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">minResolution</span> <span class="nf">maximumResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">maxResolution</span><span class="p">;</span>
+
+<span class="c1">/// Create a video streaming range with all supported options</span>
+<span class="c1">/// @param minResolution The minimum supported height / width resolution</span>
+<span class="c1">/// @param maxResolution The maximum supported height / width resolution</span>
+<span class="c1">/// @param minimumAspectRatio The minimum supported normalized aspect ratio, min value is 1.0, defaults to 1.0</span>
+<span class="c1">/// @param maximumAspectRatio The maximum supported normalized aspect ratio, min value is 1.0, defaults to 9999.0</span>
+<span class="c1">/// @param minimumDiagonal The minimum supported diagonal screen size in inches, defaults to 0 (0 matches any size)</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinimumResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">minResolution</span> <span class="nf">maximumResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">maxResolution</span> <span class="nf">minimumAspectRatio</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">minimumAspectRatio</span> <span class="nf">maximumAspectRatio</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">maximumAspectRatio</span> <span class="nf">minimumDiagonal</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">minimumDiagonal</span><span class="p">;</span>
+
+<span class="c1">/// A convenience method to create a disabled range with the min and max resolutions equal to zero</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">disabled</span><span class="p">;</span>
+
+<span class="c1">/// Check if the argument is within the [.minimumResolution, .maximumResolution] range</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isImageResolutionInRange</span><span class="p">:(</span><span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">imageResolution</span><span class="p">;</span>
+
+<span class="c1">/// Check if the argument is within the [.minimumAspectRatio, .maximumAspectRatio] range</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isAspectRatioInRange</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">aspectRatio</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLVideoStreamingRange</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
   
   

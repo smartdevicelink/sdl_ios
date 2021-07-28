@@ -77,7 +77,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSoftButtonState *textState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonTextState text:AlertSoftButtonText image:nil];
 
     __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[imageAndTextState, textState] initialStateName:imageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    NSString *initialButtonStateName = self.imagesEnabled ? imageAndTextState.name : textState.name;
+    SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[imageAndTextState, textState] initialStateName:initialButtonStateName handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
         if (self.sdlex_isAlertAllowed) {
@@ -99,7 +100,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSoftButtonState *textState = [[SDLSoftButtonState alloc] initWithStateName:SubtleAlertSoftButtonTextState text:SubtleAlertSoftButtonText image:nil];
 
     __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *subtleAlertSoftButton = [[SDLSoftButtonObject alloc] initWithName:SubtleAlertSoftButton states:@[imageAndTextState, textState] initialStateName:imageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    NSString *initialButtonStateName = self.imagesEnabled ? imageAndTextState.name : textState.name;
+    SDLSoftButtonObject *subtleAlertSoftButton = [[SDLSoftButtonObject alloc] initWithName:SubtleAlertSoftButton states:@[imageAndTextState, textState] initialStateName:initialButtonStateName handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
         if (self.sdlex_isSubtleAlertAllowed) {
@@ -121,7 +123,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSoftButtonState *textOffState = [[SDLSoftButtonState alloc] initWithStateName:TextVisibleSoftButtonTextOffState text:TextVisibleSoftButtonTextOffText image:nil];
 
     __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *textButton = [[SDLSoftButtonObject alloc] initWithName:TextVisibleSoftButton states:@[textOnState, textOffState] initialStateName:textOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    NSString *initialButtonStateName = self.textEnabled ? textOnState.name : textOffState.name;
+    SDLSoftButtonObject *textButton = [[SDLSoftButtonObject alloc] initWithName:TextVisibleSoftButton states:@[textOnState, textOffState] initialStateName:initialButtonStateName handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
         weakself.textEnabled = !weakself.textEnabled;
@@ -140,7 +143,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSoftButtonState *imagesOffState = [[SDLSoftButtonState alloc] initWithStateName:ImagesVisibleSoftButtonImageOffState text:ImagesVisibleSoftButtonImageOffText image:nil];
 
     __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *imagesButton = [[SDLSoftButtonObject alloc] initWithName:ImagesVisibleSoftButton states:@[imagesOnState, imagesOffState] initialStateName:imagesOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    NSString *initialButtonStateName = self.imagesEnabled ? imagesOnState.name : imagesOffState.name;
+    SDLSoftButtonObject *imagesButton = [[SDLSoftButtonObject alloc] initWithName:ImagesVisibleSoftButton states:@[imagesOnState, imagesOffState] initialStateName:initialButtonStateName handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
         weakself.imagesEnabled = !weakself.imagesEnabled;

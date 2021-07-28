@@ -94,5 +94,5 @@ typedef NS_ENUM(UInt8, SDLFrameInfo) {
     SDLFrameInfoFirstFrame = 0x00, // If frameType == First (0x02)
 
     /// Frame in a multiple frame payload.
-    SDLFrameInfoConsecutiveLastFrame = 0x00 // If frametype == Consecutive (0x03)
+    SDLFrameInfoConsecutiveLastFrame = 0x00 // If frameType == Consecutive (0x03)
 };

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "NSNumber+NumberType.h"
+#import "SDLAlertView.h"
 #import "SDLButtonName.h"
 #import "SDLInteractionMode.h"
 #import "SDLMenuManagerConstants.h"
@@ -25,6 +26,7 @@
 @class SDLMenuConfiguration;
 @class SDLOnButtonEvent;
 @class SDLOnButtonPress;
+@class SDLPermissionManager;
 @class SDLSoftButtonObject;
 @class SDLSystemCapabilityManager;
 @class SDLTemplateConfiguration;
@@ -181,6 +183,12 @@ typedef void (^SDLSubscribeButtonHandler)(SDLOnButtonPress *_Nullable buttonPres
 
 /**
  The current list of menu cells displayed in the app's menu.
+
+ WARNING: If two or more cells in this array are duplicates – they contain all of the same data – the menu will not be set. Each list of `subCells` and the main menu are compared separately, which means you can have duplicate cells between the main menu and a sub cell list without a conflict occurring.
+
+ WARNING: If two or more cells contain the same `title` but are otherwise distinctive, unique identifiers will be appended in the style (2), (3), (4), etc. to those cells' `title`. The same rules apply to duplicate titles as apply to complete duplicates above: the titles can be duplicates between different array lists without a conflict.
+
+ WARNING: If any two cells contain the same voice command string in their `voiceCommands` list, the menu will not be set. Note that unlike the two warnings above, these lists *are not* checked separately. If you have the same voice command in a cell of the main menu and a sub cell, it will not be set.
  */
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menu;
 
@@ -189,7 +197,7 @@ Change the mode of the dynamic menu updater to be enabled, disabled, or enabled 
 
 The current status for dynamic menu updates. A dynamic menu update allows for smarter building of menu changes. If this status is set to `SDLDynamicMenuUpdatesModeForceOn`, menu updates will only create add commands for new items and delete commands for items no longer appearing in the menu. This helps reduce possible RPCs failures as there will be significantly less commands sent to the HMI.
 
-If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regarldess if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.
+If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy way. This means when a new menu is set the entire old menu is deleted and add commands are created for every item regardless if the item appears in both the old and new menu. This method is RPCs heavy and may cause some failures when creating and updating large menus.
 
  We recommend using either `SDLDynamicMenuUpdatesModeOnWithCompatibility` or `SDLDynamicMenuUpdatesModeForceOn`. `SDLDynamicMenuUpdatesModeOnWithCompatibility` turns dynamic updates off for head units that we know have poor compatibility with dynamic updates (e.g. they have bugs that cause menu items to not be placed correctly).
  */
@@ -222,14 +230,27 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 /**
  Initialize a screen manager
 
- @warning For internal use
+ @warning For internal use. An exception will be thrown if used.
 
  @param connectionManager The connection manager used to send RPCs
  @param fileManager The file manager used to upload files
  @param systemCapabilityManager The system capability manager object for reading window capabilities
  @return The screen manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager __deprecated_msg("Use initWithConnectionManager:fileManager:systemCapabilityManager:permissionManager: instead");
+
+/**
+ Initialize a screen manager
+
+ @warning For internal use
+
+ @param connectionManager The connection manager used to send RPCs
+ @param fileManager The file manager used to upload files
+ @param systemCapabilityManager The system capability manager object for reading window capabilities
+ @param permissionManager The permission manager object for checking RPC permissions
+ @return The screen manager
+ */
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager;
 
 /**
  Starts the manager and all sub-managers
@@ -403,6 +424,18 @@ If set to `SDLDynamicMenuUpdatesModeForceOff`, menu updates will work the legacy
 @param cell The submenu cell that should be opened as a sub menu, with its sub cells as the options.
  */
 - (BOOL)openSubmenu:(SDLMenuCell *)cell;
+
+#pragma mark - Alert
+
+/// Present the alert on the screen. To replace a currently presenting alert with a new alert, you must first call `cancel` on the currently presenting alert before sending the new alert. Otherwise the newest alert will only be presented when the module dismisses the currently presented alert (either due to the timeout or the user selecting a button on the alert). Please note that cancelling a currently presented alert will only work on modules supporting RPC Spec v.5.0+.
+///
+/// If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.
+///
+/// The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The `userInfo` object on the error contains an `error` key with more information about the error. If the alert failed to present, the `userInfo` object will contain a `tryAgainTime` key with information on how long to wait before trying to send another alert. The value for `tryAgainTime` may be `nil` if the module did not return a value in its response.
+///
+/// @param alert Alert to be presented
+/// @param handler The handler to be called when the alert either dismisses from the screen or it has failed to present.
+- (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
 
 @end
 

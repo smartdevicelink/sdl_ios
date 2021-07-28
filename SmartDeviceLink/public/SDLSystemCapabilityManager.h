@@ -232,7 +232,7 @@ typedef void (^SDLCapabilityUpdateWithErrorHandler)(SDLSystemCapability * _Nulla
  * To get the capabilities of the main window on the main display (i.e. your app's primary app screen on the head unit itself).
  *
  * @param windowID The ID of the window from which to get capabilities
- * @returns The window window capabilities of the window with the specified windowID, or nil if the window is not known or no window capabilities exist.
+ * @returns The window capabilities of the window with the specified windowID, or nil if the window is not known or no window capabilities exist.
  */
 - (nullable SDLWindowCapability *)windowCapabilityWithWindowID:(NSUInteger)windowID;
 

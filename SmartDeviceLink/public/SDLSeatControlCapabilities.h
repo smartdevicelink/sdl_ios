@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param coolingEnabledAvail Whether or not heating is available
 /// @param heatingLevelAvail Whether or not heating level is available
 /// @param coolingLevelAvail Whether or not cooling level is available
-/// @param horizontalPositionAvail Whether or not horizontal Position is aavailable
+/// @param horizontalPositionAvail Whether or not horizontal Position is available
 /// @param verticalPositionAvail Whether or not vertical position is available
 /// @param frontVerticalPositionAvail Whether or not front vertical position is available
 /// @param backVerticalPositionAvail Whether or not back vertical position is available

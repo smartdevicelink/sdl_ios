@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Includes inforamtion about a given audio file
+ Includes information about a given audio file
  */
 @interface SDLAudioFile : NSObject
 

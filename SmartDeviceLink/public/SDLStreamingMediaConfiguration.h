@@ -12,7 +12,8 @@
 
 @protocol SDLSecurityType;
 @protocol SDLStreamingMediaManagerDataSource;
-
+@protocol SDLStreamingVideoDelegate;
+@class SDLVideoStreamingRange;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -57,7 +58,7 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 
  @note If you wish to alter this `rootViewController` while streaming via CarWindow, you must set a new `rootViewController` on `SDLStreamingMediaManager` and this will update both the haptic view parser and CarWindow.
 
- @warning Apps using views outside of the `UIView` heirarchy (such as OpenGL) are currently unsupported. If you app uses partial views in the heirarchy, only those views will be discovered. Your OpenGL views will not be discoverable to a haptic interface head unit and you will have to manually make these views discoverable via the `SDLSendHapticData` RPC request.
+ @warning Apps using views outside of the `UIView` hierarchy (such as OpenGL) are currently unsupported. If you app uses partial views in the hierarchy, only those views will be discovered. Your OpenGL views will not be discoverable to a haptic interface head unit and you will have to manually make these views discoverable via the `SDLSendHapticData` RPC request.
 
  @warning If the `rootViewController` is app UI and is set from the `UIViewController` class, it should only be set after viewDidAppear:animated is called. Setting the `rootViewController` in `viewDidLoad` or `viewWillAppear:animated` can cause weird behavior when setting the new frame.
 
@@ -83,6 +84,25 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 @property (assign, nonatomic) BOOL allowMultipleViewControllerOrientations;
 
 /**
+ Set a landscape image dimension range and/or aspect ratio range that your rootViewController supports. If the module's screen size for your app changes during streaming (i.e. to a collapsed view, split screen, preview mode or picture-in-picture), your rootViewController will be resized to the new screen size. If left unset or set to `nil`, the default is to support all landscape streaming ranges. If you wish to disable support for streaming in landscape mode, set a `disabled` video streaming range.
+ If desired, you can subscribe to screen size updates via the SDLStreamingVideoDelegate.
+ @warning If you disable both the supportedLandscapeStreamingRange and supportedPortraitStreamingRange, video will not stream
+ */
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedLandscapeStreamingRange;
+
+/**
+ Set a portrait image dimension range and/or aspect ratio range that your rootViewController supports. If the module's screen size for your app changes during streaming (i.e. to a collapsed view, split screen, preview mode or picture-in-picture), your rootViewController will be resized to the new screen size. If left unset or set to `nil`, the default is to support all portrait streaming ranges. If you wish to disable support for streaming in portrait mode, set a `disabled` video streaming range.
+ If desired, you can subscribe to screen size updates via the SDLStreamingVideoDelegate.
+ @warning If you disable both the supportedLandscapeStreamingRange and supportedPortraitStreamingRange, video will not stream
+ */
+@property (strong, nonatomic, nullable) SDLVideoStreamingRange *supportedPortraitStreamingRange;
+
+/**
+ The configuration delegate, this is an object conforming to the SDLStreamingVideoDelegate protocol. If video streaming parameters change then this object will be called on.
+ */
+@property (weak, nonatomic, nullable) id<SDLStreamingVideoDelegate> delegate;
+
+/**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
 
  @return The configuration
@@ -99,12 +119,22 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 /**
  Manually set all the properties to the streaming media configuration
 
- @param encryptionFlag The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.
+ @param encryptionFlag The maximum encryption supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.
  @param videoSettings Custom video encoder settings to be used in video streaming.
- @param rootViewController The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
+ @param rootViewController The UIViewController with the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
  @return The configuration
  */
-- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;
+- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController __deprecated_msg("Use initWithEncryptionFlag:videoSettings:supportedLandscapeRange:supportedPortraitRange:dataSource:delegate:rootViewController:");
+
+/// Manually set all the properties to the streaming media configuration
+/// @param encryptionFlag The maximum encryption supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect
+/// @param videoSettings Custom video encoder settings to be used in video streaming
+/// @param landscapeRange Set a landscape image dimension range and/or aspect ratio range that your app supports
+/// @param portraitRange Set a portrait image dimension range and/or aspect ratio range that your rootViewController supports
+/// @param dataSource Allows you to respond with preferred resolutions and/or formats
+/// @param delegate Provides a delegate with notifications about changes to the audio stream
+/// @param rootViewController A view controller that should be automatically streamed
+- (instancetype)initWithEncryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings supportedLandscapeRange:(nullable SDLVideoStreamingRange *)landscapeRange supportedPortraitRange:(nullable SDLVideoStreamingRange *)portraitRange dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource delegate:(nullable id<SDLStreamingVideoDelegate>)delegate rootViewController:(nullable UIViewController *)rootViewController;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually. This is equivalent to `init`.

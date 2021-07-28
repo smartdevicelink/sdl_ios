@@ -40,9 +40,7 @@ describe(@"sending responses and notifications", ^{
 
         it(@"should correctly send the rpc", ^{
             testOperation = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPC];
-
             [testOperationQueue addOperation:testOperation];
-            [NSThread sleepForTimeInterval:0.1];
 
             expect(testConnectionManager.receivedRequests).toEventually(contain(sendRPC));
         });
@@ -85,9 +83,7 @@ describe(@"sending responses and notifications", ^{
             [testOperationQueue cancelAllOperations];
             [testOperationQueue setSuspended:NO];
 
-            [NSThread sleepForTimeInterval:0.5];
-
-            expect(testConnectionManager.receivedRequests).toEventually(beEmpty());
+            expect(testConnectionManager.receivedRequests).withTimeout(3.0).toEventually(beEmpty());
         });
     });
 });

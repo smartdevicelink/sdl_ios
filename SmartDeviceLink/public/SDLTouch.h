@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  @abstract
- *      Timestamp in which the touch occured.
+ *      Timestamp in which the touch occurred.
  */
 @property (nonatomic, assign, readonly) NSUInteger timeStamp;
 

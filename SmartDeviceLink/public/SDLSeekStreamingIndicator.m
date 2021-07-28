@@ -56,8 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-+ (instancetype)seekIndicatorWithSeekTime:(nullable NSNumber<SDLUInt> *)seekTime {
-    return [[self alloc] initWithType:SDLSeekIndicatorTypeTime seekTime:seekTime];
++ (instancetype)seekIndicatorWithSeekTime:(NSUInteger)seekTime {
+    return [[self alloc] initWithType:SDLSeekIndicatorTypeTime seekTime:@(seekTime)];
 }
 
 - (void)setType:(SDLSeekIndicatorType)type {

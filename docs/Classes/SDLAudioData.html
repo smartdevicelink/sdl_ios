@@ -1,0 +1,206 @@
+<h1>SDLAudioData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-audioData">audioData</a></li>
+  <li><a href="#section--initWithAudioFile:">-initWithAudioFile:</a></li>
+  <li><a href="#section--initWithSpeechSynthesizerString:">-initWithSpeechSynthesizerString:</a></li>
+  <li><a href="#section--initWithPhoneticSpeechSynthesizerString:phoneticType:">-initWithPhoneticSpeechSynthesizerString:phoneticType:</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--addAudioFiles:">-addAudioFiles:</a></li>
+  <li><a href="#section--addSpeechSynthesizerStrings:">-addSpeechSynthesizerStrings:</a></li>
+  <li><a href="#section--addPhoneticSpeechSynthesizerStrings:phoneticType:">-addPhoneticSpeechSynthesizerStrings:phoneticType:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-audioData">
+      audioData
+  </h3>
+  
+  <p>The text-to-speech prompts that will used and/or audio files that will be played. The audio prompts and files will be played in the same order they are added.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">audioData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">audioData</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithAudioFile:">
+      -initWithAudioFile:
+  </h3>
+  
+  <p>Initialize with an SDLFile holding data or pointing to a file on the file system. When this object is passed to an <code>Alert</code> or <code>Speak</code>, the file will be uploaded if it is not already, then played if the system supports that feature.
+@discussion Only available on systems supporting RPC Spec v5.0+</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAudioFile</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioFile</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">audioFile</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>audioFile</dt>
+      <dd><p>The audio file to be played by the system</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithSpeechSynthesizerString:">
+      -initWithSpeechSynthesizerString:
+  </h3>
+  
+  <p>Initialize with a string to be spoken by the system speech synthesizer.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSpeechSynthesizerString</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">spokenString</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">speechSynthesizerString</span> <span class="nv">spokenString</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>spokenString</dt>
+      <dd><p>The string to be spoken by the system speech synthesizer</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithPhoneticSpeechSynthesizerString:phoneticType:">
+      -initWithPhoneticSpeechSynthesizerString:phoneticType:
+  </h3>
+  
+  <p>Initialize with a string to be spoken by the system speech synthesizer using a phonetic string.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithPhoneticSpeechSynthesizerString</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneticString</span>
+                               <span class="nf">phoneticType</span><span class="p">:</span>
+                                   <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="p">)</span><span class="nv">phoneticType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">phoneticSpeechSynthesizerString</span> <span class="nv">phoneticString</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">phoneticType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>phoneticString</dt>
+      <dd><p>The string to be spoken by the system speech synthesizer</p></dd>
+      <dt>phoneticType</dt>
+      <dd><p>Must be one of <code>SAPI_PHONEMES</code>, <code>LHPLUS_PHONEMES</code>, <code>TEXT</code>, or <code>PRE_RECORDED</code> or no object will be created</p></dd>
+  </dl>
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--addAudioFiles:">
+      -addAudioFiles:
+  </h3>
+  
+  <p>Add additional SDLFiles holding data or pointing to a file on the file system. When this object is passed to an <code>Alert</code> or <code>Speak</code>, the file will be uploaded if it is not already, then played if the system supports that feature.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addAudioFiles</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">audioFiles</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addAudioFiles</span><span class="p">(</span><span class="n">_</span> <span class="nv">audioFiles</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">])</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>audioFiles</dt>
+      <dd><p>An array of audio file to be played by the system</p></dd>
+  </dl>
+  
+  <h3 id="section--addSpeechSynthesizerStrings:">
+      -addSpeechSynthesizerStrings:
+  </h3>
+  
+  <p>Create additional strings to be spoken by the system speech synthesizer.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addSpeechSynthesizerStrings</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">spokenStrings</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addSpeechSynthesizerStrings</span><span class="p">(</span><span class="n">_</span> <span class="nv">spokenStrings</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>spokenStrings</dt>
+      <dd><p>The strings to be spoken by the system speech synthesizer</p></dd>
+  </dl>
+  
+  <h3 id="section--addPhoneticSpeechSynthesizerStrings:phoneticType:">
+      -addPhoneticSpeechSynthesizerStrings:phoneticType:
+  </h3>
+  
+  <p>Create additional strings to be spoken by the system speech synthesizer using a phonetic string.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addPhoneticSpeechSynthesizerStrings</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneticStrings</span>
+                               <span class="nf">phoneticType</span><span class="p">:</span>
+                                   <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="p">)</span><span class="nv">phoneticType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addPhoneticSpeechSynthesizerStrings</span><span class="p">(</span><span class="n">_</span> <span class="nv">phoneticStrings</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">phoneticType</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>phoneticStrings</dt>
+      <dd><p>The strings to be spoken by the system speech synthesizer</p></dd>
+      <dt>phoneticType</dt>
+      <dd><p>Must be one of <code>SAPI_PHONEMES</code>, <code>LHPLUS_PHONEMES</code>, <code>TEXT</code>, or <code>PRE_RECORDED</code> or no object will be created</p></dd>
+  </dl>
+  
+</section>

@@ -10,6 +10,7 @@
 #import "SDLFileManagerConfiguration.h"
 #import "SDLFileType.h"
 #import "SDLFileWrapper.h"
+#import "SDLGlobals.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesOperation.h"
 #import "SDLListFilesResponse.h"
@@ -47,6 +48,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(int)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
 + (NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)sdl_incrementFailedUploadCountForFileName:(SDLFileName *)fileName failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
+- (BOOL)hasUploadedFile:(SDLFile *)file;
 
 @end
 
@@ -85,6 +87,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
     NSUInteger failureSpaceAvailabe = 2000000000;
     NSUInteger newBytesAvailable = 750;
     NSArray<NSString *> *testInitialFileNames = @[@"testFile1", @"testFile2", @"testFile3"];
+    NSArray<NSString *> *testInitialFileNames2 = @[@"testFile1", @"testFile2", @"testFile3", @"testFile4"];
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -121,14 +124,12 @@ describe(@"uploading / deleting single files with the file manager", ^{
                 startupError = error;
                 completionHandlerCalled = YES;
             }];
-
-            [NSThread sleepForTimeInterval:0.1];
         });
 
         it(@"should have queued a ListFiles request", ^{
-            expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
-            expect(testFileManager.pendingTransactions).to(haveCount(@1));
-            expect(testFileManager.pendingTransactions.firstObject).to(beAnInstanceOf([SDLListFilesOperation class]));
+            expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateFetchingInitialList));
+            expect(testFileManager.pendingTransactions).toEventually(haveCount(@1));
+            expect(testFileManager.pendingTransactions.firstObject).toEventually(beAnInstanceOf([SDLListFilesOperation class]));
         });
 
         describe(@"after going to the shutdown state and receiving a ListFiles response", ^{
@@ -144,30 +145,41 @@ describe(@"uploading / deleting single files with the file manager", ^{
             });
         });
 
-        describe(@"after receiving a ListFiles error", ^{
+        describe(@"getting an error for a ListFiles request", ^{
+            __block SDLListFilesOperation *operation = nil;
+
             beforeEach(^{
-                SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
-                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError sdl_fileManager_unableToStartError]);
+                operation = testFileManager.pendingTransactions.firstObject;
             });
 
-            it(@"should handle the error properly", ^{
+            it(@"should handle a ListFiles error with a resultCode of DISALLOWED and transition to the ready state", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:@{@"resultCode" : SDLResultDisallowed}]);
+
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                expect(testFileManager.remoteFileNames).to(beEmpty());
+                expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
+            });
+
+            it(@"should handle a ListFiles error with a resultCode ENCRYPTION_NEEDED and transition to the ready state", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:@{@"resultCode" : SDLResultEncryptionNeeded}]);
+
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                expect(testFileManager.remoteFileNames).to(beEmpty());
+                expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
+            });
+
+            it(@"should transition to the error state if it gets a ListFiles error with a resultCode that is not handled by the library", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:@{@"resultCode" : SDLResultUnsupportedRequest}]);
+
                 expect(testFileManager.currentState).to(match(SDLFileManagerStateStartupError));
                 expect(testFileManager.remoteFileNames).to(beEmpty());
                 expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
             });
-        });
 
-        describe(@"after receiving a ListFiles error with a resultCode DISALLOWED", ^{
-            beforeEach(^{
-                SDLListFilesOperation *operation = testFileManager.pendingTransactions.firstObject;
-                NSMutableDictionary *userInfo = [[NSError sdl_fileManager_unableToStartError].userInfo mutableCopy];
-                userInfo[@"resultCode"] = SDLResultDisallowed;
-                NSError *errorWithResultCode = [NSError errorWithDomain:[NSError sdl_fileManager_unableToStartError].domain code:[NSError sdl_fileManager_unableToStartError].code userInfo:userInfo];
-                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, errorWithResultCode);
-            });
+            it(@"should transition to the error state if it gets a ListFiles error without a resultCode", ^{
+                operation.completionHandler(NO, initialSpaceAvailable, testInitialFileNames, [NSError sdl_fileManager_unableToStartError]);
 
-            it(@"should handle the error properly", ^{
-                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateStartupError));
                 expect(testFileManager.remoteFileNames).to(beEmpty());
                 expect(@(testFileManager.bytesAvailable)).to(equal(initialSpaceAvailable));
             });
@@ -246,6 +258,140 @@ describe(@"uploading / deleting single files with the file manager", ^{
         });
     });
 
+    describe(@"check hasUploadedFile response", ^{
+        __block SDLFile *testFile = nil;
+
+        beforeEach(^{
+            [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
+        });
+
+        context(@"on RPC version >= 4.4.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:7 minor:1 patch:0];
+
+                NSData *testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                testFile = [SDLFile persistentFileWithData:testFileData name:@"testFile4" fileExtension:@"png"];
+            });
+
+            context(@"when the file is in remoteFileNames", ^{
+                beforeEach(^{
+                    testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
+                });
+
+                it(@"should return YES", ^{
+                    expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+                });
+            });
+
+            context(@"when the file is not in remoteFileNames", ^{
+                beforeEach(^{
+                    testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                });
+
+                it(@"should return NO", ^{
+                    expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                });
+            });
+        });
+
+        context(@"on RPC version < 4.4.0", ^{
+            beforeEach(^{
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:4 minor:3 patch:0];
+            });
+
+            context(@"when the file is persistent", ^{
+                beforeEach(^{
+                    NSData *testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                    testFile = [SDLFile persistentFileWithData:testFileData name:@"testFile4" fileExtension:@"png"];
+                });
+
+                context(@"when the file is not in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                    });
+
+                    it(@"should return NO", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                    });
+                });
+
+                context(@"when the file is in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
+                    });
+
+                    it(@"should return YES", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+                    });
+
+                    context(@"when the file is in uploadedEphemeralFiles", ^{
+                        beforeEach(^{
+                            testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+
+                        });
+
+                        it(@"should return YES", ^{
+                            expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+                        });
+                    });
+                });
+            });
+
+            context(@"when the file is not persistent", ^{
+                beforeEach(^{
+                    NSData *testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                    testFile = [SDLFile fileWithData:testFileData name:@"testFile4" fileExtension:@"png"];
+                });
+
+                it(@"should return NO", ^{
+                    expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                });
+
+                context(@"when the file is in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
+                    });
+
+                    it(@"should return NO", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                    });
+
+                    context(@"when the file is in uploadedEphemeralFiles", ^{
+                        beforeEach(^{
+                            testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames2];
+
+                        });
+
+                        it(@"should return YES", ^{
+                            expect([testFileManager hasUploadedFile:testFile]).to(equal(YES));
+                        });
+                    });
+
+                    context(@"when the file is not in uploadedEphemeralFiles", ^{
+                        beforeEach(^{
+                            testFileManager.uploadedEphemeralFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+
+                        });
+
+                        it(@"should return NO", ^{
+                            expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                        });
+                    });
+                });
+
+                context(@"when the file is not in remoteFileNames", ^{
+                    beforeEach(^{
+                        testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
+                    });
+
+                    it(@"should return NO", ^{
+                        expect([testFileManager hasUploadedFile:testFile]).to(equal(NO));
+                    });
+                });
+            });
+        });
+    });
+
     describe(@"uploading a new file", ^{
         __block NSString *testFileName = nil;
         __block SDLFile *testUploadFile = nil;
@@ -320,19 +466,20 @@ describe(@"uploading / deleting single files with the file manager", ^{
                 });
             });
 
-            context(@"when allow overwrite is NO", ^{
+            context(@"when allow overwrite is NO and the RPC version is < 4.4.0", ^{
                 __block NSString *testUploadFileName = nil;
                 __block Boolean testUploadOverwrite = NO;
 
                 beforeEach(^{
                     testUploadFileName = [testInitialFileNames lastObject];
+                    [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:4 minor:3 patch:0];
                 });
 
-                it(@"should not upload the file if persistance is YES", ^{
-                    SDLFile *persistantFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:YES];
-                    persistantFile.overwrite = testUploadOverwrite;
+                it(@"should not upload the file if persistence is YES", ^{
+                    SDLFile *persistentFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:YES];
+                    persistentFile.overwrite = testUploadOverwrite;
 
-                    [testFileManager uploadFile:persistantFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    [testFileManager uploadFile:persistentFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                         expect(@(success)).to(beFalse());
                         expect(@(bytesAvailable)).to(equal(@(testFileManager.bytesAvailable)));
                         expect(error).to(equal([NSError sdl_fileManager_cannotOverwriteError]));
@@ -341,11 +488,11 @@ describe(@"uploading / deleting single files with the file manager", ^{
                     expect(testFileManager.pendingTransactions.count).to(equal(0));
                 });
 
-                it(@"should upload the file if persistance is NO", ^{
-                    SDLFile *unPersistantFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:NO];
-                    unPersistantFile.overwrite = testUploadOverwrite;
+                it(@"should upload the file if persistence is NO", ^{
+                    SDLFile *unPersistentFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:NO];
+                    unPersistentFile.overwrite = testUploadOverwrite;
 
-                    [testFileManager uploadFile:unPersistantFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    [testFileManager uploadFile:unPersistentFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                         expect(success).to(beTrue());
                         expect(bytesAvailable).to(equal(newBytesAvailable));
                         expect(error).to(beNil());
@@ -473,6 +620,10 @@ describe(@"uploading / deleting single files with the file manager", ^{
         __block SDLArtwork *artwork = nil;
 
         context(@"when artwork is nil", ^{
+            beforeEach(^{
+                artwork = nil;
+            });
+
             it(@"should not allow file to be uploaded", ^{
                 expect(artwork).to(beNil());
                 BOOL testFileNeedsUpload = [testFileManager fileNeedsUpload:artwork];

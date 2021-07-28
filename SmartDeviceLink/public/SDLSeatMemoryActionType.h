@@ -11,7 +11,7 @@
 typedef SDLEnum SDLSeatMemoryActionType NS_TYPED_ENUM;
 
 /**
- * @abstract Save current seat postions and settings to seat memory.
+ * @abstract Save current seat positions and settings to seat memory.
  */
 extern SDLSeatMemoryActionType const SDLSeatMemoryActionTypeSave;
 

@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param seekTime - seekTime
  * @return A SDLSeekStreamingIndicator object
  */
-+ (instancetype)seekIndicatorWithSeekTime:(nullable NSNumber<SDLUInt> *)seekTime;
++ (instancetype)seekIndicatorWithSeekTime:(NSUInteger)seekTime;
 
 @property (strong, nonatomic) SDLSeekIndicatorType type;
 

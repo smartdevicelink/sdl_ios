@@ -53,6 +53,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 }
 
++ (NSError *)sdl_encryption_unknown {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: @"Encryption received an unknown error",
+                                                       NSLocalizedFailureReasonErrorKey: @"We don't know the reason for the failure",
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"Ensure that encryption is properly set up"
+                                                       };
+
+    return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
+                               code:SDLEncryptionLifecycleManagerErrorNAK
+                           userInfo:userInfo];
+}
+
 #pragma mark - SDLManager
 
 + (NSError *)sdl_lifecycle_rpcErrorWithDescription:(nullable NSString *)description andReason:(nullable NSString *)reason {
@@ -359,6 +371,37 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
 }
 
+#pragma mark Alert Manager
+
++ (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime {
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: @"The alert presentation failed",
+        NSLocalizedFailureReasonErrorKey: @"Either the alert failed to present on the module or it was dismissed early after being shown",
+        NSLocalizedRecoverySuggestionErrorKey: @"Please check the \"error\" key and the \"tryAgainTime\" keys for more information",
+        @"tryAgainTime": @(tryAgainTime),
+        @"error": error
+    };
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerPresentationError userInfo:userInfo];
+}
+
++ (NSError *)sdl_alertManager_alertDataInvalid {
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: @"The alert data is invalid",
+        NSLocalizedFailureReasonErrorKey: @"At least either text, secondaryText or audio needs to be provided",
+        NSLocalizedRecoverySuggestionErrorKey: @"Make sure to set at least the text, secondaryText or audio properties on the SDLAlertView"
+    };
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
+}
+
++ (NSError *)sdl_alertManager_alertAudioFileNotSupported {
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: @"The module does not support the use of only audio file data in an alert",
+        NSLocalizedFailureReasonErrorKey: @"The alert has no data and can not be sent to the module",
+        NSLocalizedRecoverySuggestionErrorKey: @"The use of audio file data in an alert is only supported on modules supporting RPC Spec v5.0 or newer"
+    };
+    return [NSError errorWithDomain:SDLErrorDomainAlertManager code:SDLAlertManagerInvalidDataError userInfo:userInfo];
+}
+
 #pragma mark System Capability Manager
 
 + (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities {
@@ -489,6 +532,14 @@ NS_ASSUME_NONNULL_BEGIN
             userInfo:nil];
 }
 
++ (NSException *)sdl_invalidTTSSpeechCapabilitiesException {
+    return [NSException exceptionWithName:@"InvalidTTSSpeechCapabilities" reason:@"Attempting to create a text-to-speech string with an invalid phonetic type. The phoneticType must be of type `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED`." userInfo:nil];
+}
+
++ (NSException *)sdl_invalidAlertSoftButtonStatesException {
+    return [NSException exceptionWithName:@"InvalidSoftButtonStates" reason:@"Attempting to create a soft button for an Alert with more than one state. Alerts only support soft buttons with one state" userInfo:nil];
+}
+
 + (NSException *)sdl_invalidSoftButtonStateException {
     return [NSException exceptionWithName:@"InvalidSoftButtonState" reason:@"Attempting to transition to a state that does not exist" userInfo:nil];
 }
@@ -514,6 +565,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSException *)sdl_invalidSubscribeButtonSelectorExceptionWithSelector:(SEL)selector {
     return [NSException exceptionWithName:@"com.sdl.subscribeButtonManager.selectorException"
                                    reason:[NSString stringWithFormat:@"Subscribe button observation selector: %@ does not match possible selectors, which must have between 0 and 4 parameters, or is not a selector on the observer object. Check that your selector is formatted correctly, and that your observer is not nil. You should unsubscribe an observer before it goes to nil.", NSStringFromSelector(selector)]
+                                 userInfo:nil];
+}
+
++ (NSException *)sdl_invalidVideoStreamingRange {
+    return [NSException exceptionWithName:@"com.sdl.videostreamingrange.rangeException"
+                                   reason:[NSString stringWithFormat:@"A video streaming resolution range was created with an invalid range. The minimum was probably greater than the maximum."]
                                  userInfo:nil];
 }
 

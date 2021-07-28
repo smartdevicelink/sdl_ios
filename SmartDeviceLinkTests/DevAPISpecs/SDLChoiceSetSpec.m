@@ -8,6 +8,7 @@
 #import "SDLChoiceSetDelegate.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
+#import "SDLArtwork.h"
 
 @interface SDLChoiceSet()
 
@@ -134,12 +135,14 @@ describe(@"an SDLChoiceSet", ^{
                 expect(testChoiceSet).to(beNil());
             });
 
-            it(@"should return nil with too short or too long timeout", ^{
+            it(@"should cap the timeout when too long or too short", ^{
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate layout:testLayout timeout:4.9 initialPromptString:nil timeoutPromptString:nil helpPromptString:nil vrHelpList:nil choices:@[testCell]];
-                expect(testChoiceSet).to(beNil());
+                expect(testChoiceSet).toNot(beNil());
+                expect(testChoiceSet.timeout).to(beCloseTo(5.0));
 
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate layout:testLayout timeout:100.1 initialPromptString:nil timeoutPromptString:nil helpPromptString:nil vrHelpList:nil choices:@[testCell]];
-                expect(testChoiceSet).to(beNil());
+                expect(testChoiceSet).toNot(beNil());
+                expect(testChoiceSet.timeout).to(beCloseTo(100.0));
             });
 
             it(@"should return nil with too short or too long title", ^{
@@ -156,23 +159,24 @@ describe(@"an SDLChoiceSet", ^{
                 expect(testChoiceSet).to(beNil());
             });
 
-            it(@"should return nil with equivalent cell text", ^{
+            it(@"should return nil when 2 or more cells are identical", ^{
+                // Cells cannot be identical
+                SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameKey];
+                SDLChoiceCell *equalCell = [[SDLChoiceCell alloc] initWithText:@"Text" secondaryText:@"Text 2" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:testArtwork];
+                SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text" secondaryText:@"Text 2" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:testArtwork];
+                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCell, equalCell2]];
+                expect(testChoiceSet).to(beNil());
+            });
+
+            it(@"should return nil when 2 or more cells voice commands are identical", ^{
                 // Cell `text` cannot be equal
-                SDLChoiceCell *equalCell = [[SDLChoiceCell alloc] initWithText:@"Text"];
-                SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text"];
+                SDLChoiceCell *equalCell = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Kit", @"Kat"]];
+                SDLChoiceCell *equalCell2 = [[SDLChoiceCell alloc] initWithText:@"Text 2" artwork:nil voiceCommands:@[@"Kat"]];
                 testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCell, equalCell2]];
                 expect(testChoiceSet).to(beNil());
             });
 
             context(@"With bad VR data", ^{
-                it(@"should return nil if not all choice set items have voice commands", ^{
-                    // Cell `voiceCommands` cannot be equal
-                    SDLChoiceCell *equalCellVR = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"vr"]];
-                    SDLChoiceCell *equalCellVR2 = [[SDLChoiceCell alloc] initWithText:@"Text2" artwork:nil voiceCommands:nil];
-                    testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCellVR, equalCellVR2]];
-                    expect(testChoiceSet).to(beNil());
-                });
-
                 it(@"should return nil if there are duplicate voice command strings in the choice set", ^{
                     // Cell `voiceCommands` cannot be equal
                     SDLChoiceCell *equalCellVR = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Dog"]];
@@ -181,6 +185,81 @@ describe(@"an SDLChoiceSet", ^{
                     expect(testChoiceSet).to(beNil());
                 });
             });
+        });
+    });
+
+    describe(@"setting the default timeout", ^{
+        __block SDLChoiceSet *testChoiceSet = nil;
+
+        beforeEach(^{
+            testChoiceSet = [[SDLChoiceSet alloc] init];
+        });
+
+        it(@"should return the default timeout if the timeout value was not set", ^{
+            int testDefaultTimeout = 6.0;
+            SDLChoiceSet.defaultTimeout = testDefaultTimeout;
+
+            expect(SDLChoiceSet.defaultTimeout).to(equal(testDefaultTimeout));
+            expect(testChoiceSet.timeout).to(equal(testDefaultTimeout));
+        });
+
+        it(@"should return the timeout value even if the default timeout was set", ^{
+            int testTimeout = 7.0;
+            int testDefaultTimeout = 9.0;
+            SDLChoiceSet.defaultTimeout = testDefaultTimeout;
+            testChoiceSet.timeout = testTimeout;
+
+            expect(SDLChoiceSet.defaultTimeout).to(equal(testDefaultTimeout));
+            expect(testChoiceSet.timeout).to(equal(testTimeout));
+        });
+
+        it(@"should return 100 if a value greater than 100 has been set", ^{
+            SDLChoiceSet.defaultTimeout = 155.0;
+
+            expect(SDLChoiceSet.defaultTimeout).to(equal(100.0));
+            expect(testChoiceSet.timeout).to(equal(100.0));
+        });
+
+        it(@"should return 5 if a value less than 5 has been set", ^{
+            SDLChoiceSet.defaultTimeout = -3.0;
+
+            expect(SDLChoiceSet.defaultTimeout).to(equal(5.0));
+            expect(testChoiceSet.timeout).to(equal(5.0));
+        });
+    });
+
+    describe(@"setting the timeout", ^{
+        __block SDLChoiceSet *testChoiceSet = nil;
+        __block NSTimeInterval testDefaultTimeout = 7.0;
+
+        beforeEach(^{
+            testChoiceSet = [[SDLChoiceSet alloc] init];
+            SDLChoiceSet.defaultTimeout = testDefaultTimeout;
+        });
+
+        it(@"should return the default timeout if the timeout was not set", ^{
+            expect(testChoiceSet.timeout).to(equal(testDefaultTimeout));
+        });
+
+        it(@"should return the default timeout if the timeout was set to 0", ^{
+            testChoiceSet.timeout = 0.0;
+            expect(testChoiceSet.timeout).to(equal(testDefaultTimeout));
+        });
+
+        it(@"should return the timeout value if it was set", ^{
+            int testTimeout = 9.0;
+            testChoiceSet.timeout = testTimeout;
+            expect(testChoiceSet.timeout).to(equal(testTimeout));
+        });
+
+        it(@"should return 100 if a value greater than 100 has been set", ^{
+            testChoiceSet.timeout = 214.0;
+            expect(testChoiceSet.timeout).to(equal(100.0));
+        });
+
+        it(@"should return 5 if a value less than 5 has been set", ^{
+            testChoiceSet.timeout = 2.25;
+            expect(testChoiceSet.timeout).to(equal(5.0));
         });
     });
 

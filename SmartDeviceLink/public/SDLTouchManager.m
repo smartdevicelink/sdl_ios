@@ -238,7 +238,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidStartInView:atCenterPoint:)]) {
                 CGPoint center = self.currentPinchGesture.center;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:center] : nil;
+                    UIView *hitView = [self.hitTester viewForPoint:center];
                     [self.touchEventDelegate touchManager:self pinchDidStartInView:hitView atCenterPoint:center];
                 });
             }

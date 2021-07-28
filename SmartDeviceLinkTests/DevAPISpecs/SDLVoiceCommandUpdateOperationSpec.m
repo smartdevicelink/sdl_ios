@@ -19,6 +19,12 @@
 
 @end
 
+@interface SDLVoiceCommandUpdateOperation()
+
+@property (strong, nonatomic) NSMutableArray<SDLVoiceCommand *> *currentVoiceCommands;
+
+@end
+
 QuickSpecBegin(SDLVoiceCommandUpdateOperationSpec)
 
 __block SDLDeleteCommandResponse *successDelete = nil;
@@ -28,6 +34,7 @@ __block SDLAddCommandResponse *failAdd = nil;
 
 __block SDLVoiceCommand *newVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC1"] handler:^{}];
 __block SDLVoiceCommand *newVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"NewVC2"] handler:^{}];
+__block SDLVoiceCommand *oldVoiceCommand1Dupe = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{}];
 __block SDLVoiceCommand *oldVoiceCommand1 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC1"] handler:^{}];
 __block SDLVoiceCommand *oldVoiceCommand2 = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"OldVC2"] handler:^{}];
 
@@ -81,6 +88,20 @@ describe(@"a voice command operation", ^{
         testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {}];
 
         expect(testOp.oldVoiceCommands).to(equal(@[oldVoiceCommand1, oldVoiceCommand2]));
+    });
+
+    // when updating oldVoiceCommands
+    describe(@"when updating oldVoiceCommands", ^{
+        beforeEach(^{
+            testOp = [[SDLVoiceCommandUpdateOperation alloc] init];
+            testOp.oldVoiceCommands = @[newVoiceCommand1, newVoiceCommand2];
+        });
+
+        // should update both oldVoiceCommands and currentVoiceCommands
+        it(@"should update both oldVoiceCommands and currentVoiceCommands", ^{
+            expect(testOp.oldVoiceCommands).to(equal(@[newVoiceCommand1, newVoiceCommand2]));
+            expect(testOp.currentVoiceCommands).to(equal(testOp.oldVoiceCommands));
+        });
     });
 
     // starting the operation
@@ -162,6 +183,129 @@ describe(@"a voice command operation", ^{
                     expect(callbackCurrentVoiceCommands).to(haveCount(1));
                     expect(callbackError).toNot(beNil());
                     expect(testConnectionManager.receivedRequests).to(haveCount(2));
+                });
+            });
+        });
+
+        // if it has pending voice commands identical to old voice commands
+        context(@"if it has pending voice commands identical to old voice commands", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            it(@"should not delete or upload the voiceCommands", ^{
+                expect(testConnectionManager.receivedRequests).to(haveCount(0));
+                expect(callbackCurrentVoiceCommands).to(haveCount(2));
+                expect(callbackError).to(beNil());
+            });
+        });
+
+        // going from voice commands [AB] to [A]
+        context(@"going from voice commands [AB] to [A]", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1] oldVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            // and the delete succeeds
+            describe(@"and the delete succeeds", ^{
+                beforeEach(^{
+                    SDLDeleteCommandResponse *deleteOld1 = [[SDLDeleteCommandResponse alloc] init];
+                    deleteOld1.success = @YES;
+                    deleteOld1.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:deleteOld1 requestNumber:0 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                });
+
+                it(@"Should only delete voiceCommands thats not in common", ^{
+                    expect(callbackCurrentVoiceCommands).to(haveCount(1));
+                    expect(callbackError).to(beNil());
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                });
+            });
+        });
+
+
+        // going from voice commands [A] to [AB]
+        context(@"going from voice commands [A] to [AB]", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, oldVoiceCommand1Dupe] oldVoiceCommands:@[oldVoiceCommand1] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            // and the add succeeds
+            describe(@"and the add succeeds", ^{
+                beforeEach(^{
+                    SDLAddCommandResponse *addNew1 = [[SDLAddCommandResponse alloc] init];
+                    addNew1.success = @YES;
+                    addNew1.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:addNew1 requestNumber:0 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                });
+
+                it(@"should only upload the voiceCommand thats not in common and update the handler for voiceCommand in common", ^{
+                    expect(callbackCurrentVoiceCommands).to(haveCount(2));
+                    expect(callbackError).to(beNil());
+                    expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                    expect(testOp.currentVoiceCommands.firstObject.handler == oldVoiceCommand1Dupe.handler).to(beTrue());
+                });
+            });
+        });
+
+        // going from voice commands [AB] to [CD]
+        context(@"going from voice commands [AB] to [CD]", ^{
+            beforeEach(^{
+                testOp = [[SDLVoiceCommandUpdateOperation alloc] initWithConnectionManager:testConnectionManager pendingVoiceCommands:@[newVoiceCommand1, newVoiceCommand2] oldVoiceCommands:@[oldVoiceCommand1, oldVoiceCommand2] updateCompletionHandler:^(NSArray<SDLVoiceCommand *> * _Nonnull newCurrentVoiceCommands, NSError * _Nullable error) {
+                    callbackCurrentVoiceCommands = newCurrentVoiceCommands;
+                    callbackError = error;
+                }];
+                [testOp start];
+            });
+
+            // the delete and add commands succeeds
+            describe(@"the delete and add commands succeeds", ^{
+                beforeEach(^{
+                    SDLDeleteCommandResponse *deleteOld1 = [[SDLDeleteCommandResponse alloc] init];
+                    deleteOld1.success = @YES;
+                    deleteOld1.resultCode = SDLResultSuccess;
+
+                    SDLDeleteCommandResponse *deleteOld2 = [[SDLDeleteCommandResponse alloc] init];
+                    deleteOld2.success = @YES;
+                    deleteOld2.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:deleteOld1 requestNumber:0 error:nil];
+                    [testConnectionManager respondToRequestWithResponse:deleteOld2 requestNumber:1 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                    SDLAddCommandResponse *addNew1 = [[SDLAddCommandResponse alloc] init];
+                    addNew1.success = @YES;
+                    addNew1.resultCode = SDLResultSuccess;
+
+                    SDLAddCommandResponse *addNew2 = [[SDLAddCommandResponse alloc] init];
+                    addNew2.success = @YES;
+                    addNew2.resultCode = SDLResultSuccess;
+
+                    [testConnectionManager respondToRequestWithResponse:addNew1 requestNumber:2 error:nil];
+                    [testConnectionManager respondToRequestWithResponse:addNew2 requestNumber:3 error:nil];
+                    [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                });
+
+                it(@"should delete and upload the voiceCommands", ^{
+                    expect(callbackCurrentVoiceCommands).to(haveCount(2));
+                    expect(callbackError).to(beNil());
+                    expect(testConnectionManager.receivedRequests).to(haveCount(4));
                 });
             });
         });

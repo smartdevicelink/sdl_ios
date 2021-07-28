@@ -7,9 +7,12 @@
 //
 
 #import "SDLScreenManager.h"
+
+#import "SDLAlertManager.h"
 #import "SDLArtwork.h"
 #import "SDLChoiceSetManager.h"
 #import "SDLMenuManager.h"
+#import "SDLPermissionManager.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLSubscribeButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
@@ -25,22 +28,29 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLVoiceCommandManager *voiceCommandMenuManager;
 @property (strong, nonatomic) SDLChoiceSetManager *choiceSetManager;
 @property (strong, nonatomic) SDLSubscribeButtonManager *subscribeButtonManager;
+@property (strong, nonatomic) SDLAlertManager *alertManager;
 
-@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic) SDLFileManager *fileManager;
-@property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
+@property (weak, nonatomic, nullable) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic, nullable) SDLFileManager *fileManager;
+@property (weak, nonatomic, nullable) SDLSystemCapabilityManager *systemCapabilityManager;
+@property (weak, nonatomic, nullable) SDLPermissionManager *permissionManager;
 
 @end
 
 @implementation SDLScreenManager
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"This convenience init is for internal use only and is no longer used. The initWithConnectionManager:fileManager:systemCapabilityManager:permissionManager: convenience init is now used." userInfo:nil];
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager systemCapabilityManager:(SDLSystemCapabilityManager *)systemCapabilityManager permissionManager:(SDLPermissionManager *)permissionManager {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _systemCapabilityManager = systemCapabilityManager;
+    _permissionManager = permissionManager;
 
     _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
@@ -48,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
     _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
     _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager];
+    _alertManager = [[SDLAlertManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager systemCapabilityManager:systemCapabilityManager permissionManager:permissionManager];
 
     return self;
 }
@@ -58,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.menuManager start];
     [self.choiceSetManager start];
     [self.subscribeButtonManager start];
+    [self.alertManager start];
 
     handler(nil);
 }
@@ -69,6 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.voiceCommandMenuManager stop];
     [self.choiceSetManager stop];
     [self.subscribeButtonManager stop];
+    [self.alertManager stop];
 }
 
 #pragma mark - Setters
@@ -324,6 +337,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)openSubmenu:(SDLMenuCell *)cell {
   return [self.menuManager openMenu:cell];
+}
+
+#pragma mark - Alert
+
+- (void)presentAlert:(SDLAlertView *)alert withCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler {
+    [self.alertManager presentAlert:alert withCompletionHandler:handler];
 }
 
 @end

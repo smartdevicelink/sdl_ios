@@ -30,7 +30,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     }
 
     func initButton() {
-        self.connectTableViewCell.backgroundColor = UIColor.red
+        self.connectTableViewCell.backgroundColor = UIColor.systemRed
         self.connectButton.setTitle("Connect", for: .normal)
         self.connectButton.setTitleColor(.white, for: .normal)
     }
@@ -65,13 +65,13 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
 
         switch newState {
         case .stopped:
-            newColor = UIColor.red
+            newColor = UIColor.systemRed
             newTitle = "Connect"
         case .searching:
-            newColor = UIColor.blue
+            newColor = UIColor.systemOrange
             newTitle = "Stop Searching"
         case .connected:
-            newColor = UIColor.green
+            newColor = UIColor.systemGreen
             newTitle = "Disconnect"
         }
 

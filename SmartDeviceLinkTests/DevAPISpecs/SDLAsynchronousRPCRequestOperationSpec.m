@@ -56,10 +56,9 @@ describe(@"sending asynchronous requests", ^{
             }];
 
             [testOperationQueue addOperation:testOperation];
-            [NSThread sleepForTimeInterval:0.5];
 
-            expect(testSuccess).toEventually(beTruthy());
-            expect(testError).toEventually(beNil());
+            expect(testSuccess).withTimeout(3.0).toEventually(beTrue());
+            expect(testError).withTimeout(3.0).toEventually(beNil());
         });
     });
 
@@ -120,11 +119,10 @@ describe(@"sending asynchronous requests", ^{
                 [resultResponses addObject:response];
             } completionHandler:^(BOOL success) {
                 expect(resultResponses).to(haveCount(3));
-                expect(success).to(beFalsy());
+                expect(success).to(beFalse());
             }];
 
             [testOperationQueue addOperation:testOperation];
-            [NSThread sleepForTimeInterval:0.5];
         });
     });
 });

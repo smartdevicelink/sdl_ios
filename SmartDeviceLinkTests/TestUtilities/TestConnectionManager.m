@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _receivedRequestObjects = [NSMutableArray<TestConnectionRequestObject *> array];
     _multipleCompletionBlocks = [NSMutableArray array];
+    _systemInfo = [[SDLSystemInfo alloc] initWithMake:@"Livio" model:@"Is" trim:@"Awesome" modelYear:@"2021" softwareVersion:@"1.1.1.1" hardwareVersion:@"2.2.2.2"];
 
     return self;
 }

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for all parameters.
  *
- *  @param currentForecastSupported     Whether or not the current forcast is supported.
+ *  @param currentForecastSupported     Whether or not the current forecast is supported.
  *  @param maxMultidayForecastAmount    The maximum number of day-by-day forecasts.
  *  @param maxHourlyForecastAmount      The maximum number of hour-by-hour forecasts.
  *  @param maxMinutelyForecastAmount    The maximum number of minute-by-minute forecasts.
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithCurrentForecastSupported:(BOOL)currentForecastSupported maxMultidayForecastAmount:(UInt32)maxMultidayForecastAmount maxHourlyForecastAmount:(UInt32)maxHourlyForecastAmount maxMinutelyForecastAmount:(UInt32)maxMinutelyForecastAmount weatherForLocationSupported:(BOOL)weatherForLocationSupported;
 
 /**
- *  Whether or not the current forcast is supported.
+ *  Whether or not the current forecast is supported.
  *
  *  Boolean, Optional
  */

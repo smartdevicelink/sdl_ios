@@ -9,6 +9,7 @@
   <li><a href="#section--initWithMainField1:mainField1Type:mainField2:mainField2Type:mainField3:mainField3Type:mainField4:mainField4Type:alignment:">-initWithMainField1:mainField1Type:mainField2:mainField2Type:mainField3:mainField3Type:mainField4:mainField4Type:alignment:</a></li>
   <li><a href="#section--initWithMainField1:mainField2:alignment:statusBar:mediaClock:mediaTrack:">-initWithMainField1:mainField2:alignment:statusBar:mediaClock:mediaTrack:</a></li>
   <li><a href="#section--initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets:textFieldMetadata:">-initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets:textFieldMetadata:</a></li>
+  <li><a href="#section--initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration:">-initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration:</a></li>
   <li><a href="#section-mainField1">mainField1</a></li>
   <li><a href="#section-mainField2">mainField2</a></li>
   <li><a href="#section-mainField3">mainField3</a></li>
@@ -319,6 +320,76 @@
     <p>An SDLShow object</p>
   </div>
   
+  <h3 id="section--initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration:">
+      -initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaTrack:graphic:secondaryGraphic:softButtons:customPresets:metadataTags:templateTitle:windowID:templateConfiguration:
+  </h3>
+  
+  
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+       <span class="nf">initWithMainField1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField1</span>
+               <span class="nf">mainField2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField2</span>
+               <span class="nf">mainField3</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField3</span>
+               <span class="nf">mainField4</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mainField4</span>
+                <span class="nf">alignment</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">)</span><span class="nv">alignment</span>
+                <span class="nf">statusBar</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">statusBar</span>
+               <span class="nf">mediaTrack</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaTrack</span>
+                  <span class="nf">graphic</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">graphic</span>
+         <span class="nf">secondaryGraphic</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryGraphic</span>
+              <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span>
+            <span class="nf">customPresets</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">customPresets</span>
+             <span class="nf">metadataTags</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLMetadataTags.html">SDLMetadataTags</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">metadataTags</span>
+            <span class="nf">templateTitle</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">templateTitle</span>
+                 <span class="nf">windowID</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windowID</span>
+    <span class="nf">templateConfiguration</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemplateConfiguration.html">SDLTemplateConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">templateConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">mainField1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">mainField2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">mainField3</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">mainField4</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">alignment</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span><span class="p">?,</span> <span class="nv">statusBar</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">mediaTrack</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">graphic</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">secondaryGraphic</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?,</span> <span class="nv">customPresets</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">metadataTags</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMetadataTags.html">SDLMetadataTags</a></span><span class="p">?,</span> <span class="nv">templateTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">windowID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">templateConfiguration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateConfiguration.html">SDLTemplateConfiguration</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mainField1</dt>
+      <dd><p>- mainField1</p></dd>
+      <dt>mainField2</dt>
+      <dd><p>- mainField2</p></dd>
+      <dt>mainField3</dt>
+      <dd><p>- mainField3</p></dd>
+      <dt>mainField4</dt>
+      <dd><p>- mainField4</p></dd>
+      <dt>alignment</dt>
+      <dd><p>- alignment</p></dd>
+      <dt>statusBar</dt>
+      <dd><p>- statusBar</p></dd>
+      <dt>mediaTrack</dt>
+      <dd><p>- mediaTrack</p></dd>
+      <dt>graphic</dt>
+      <dd><p>- graphic</p></dd>
+      <dt>secondaryGraphic</dt>
+      <dd><p>- secondaryGraphic</p></dd>
+      <dt>softButtons</dt>
+      <dd><p>- softButtons</p></dd>
+      <dt>customPresets</dt>
+      <dd><p>- customPresets</p></dd>
+      <dt>metadataTags</dt>
+      <dd><p>- metadataTags</p></dd>
+      <dt>templateTitle</dt>
+      <dd><p>- templateTitle</p></dd>
+      <dt>windowID</dt>
+      <dd><p>- windowID</p></dd>
+      <dt>templateConfiguration</dt>
+      <dd><p>- templateConfiguration</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLShow object</p>
+  </div>
+  
   <h3 id="section-mainField1">
       mainField1
   </h3>
@@ -513,20 +584,11 @@ line in a two-line display
       mediaClock
   </h3>
   
-  <p>This property is deprecated use SetMediaClockTimer instead.
- <p> The value for the MediaClock field using a format described in the
- MediaClockFormat enumeration</p>
+  <p>Text value for MediaClock field. Has to be properly formatted by Mobile App according to the module&rsquo;s capabilities. If this text is set, any automatic media clock updates previously set with SetMediaClockTimer will be stopped.
+ {&ldquo;string_min_length&rdquo;: 0, &ldquo;string_max_length&rdquo;: 500}</p>
 
-<p>@discussion A String value for the MediaClock
-            <p>
-            <b>Notes: </b><br/>
-            <ul>
-            <li>Must be properly formatted as described in the
-            MediaClockFormat enumeration</li>
-            <li>If a value of five spaces is provided, this will clear
-            that field on the display (i.e. the media clock timer field
-            will not display anything)</li>
-            </ul></p>
+<p>@deprecated in SmartDeviceLink 7.1.0
+ @added in SmartDeviceLink 1.0.0</p>
 
   
   

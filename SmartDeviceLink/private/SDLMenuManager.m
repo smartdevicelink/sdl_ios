@@ -52,6 +52,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (strong, nonatomic, readwrite) NSString *uniqueTitle;
+
+@property (copy, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *icon;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+@property (copy, nonatomic, readwrite, nullable) SDLMenuCellSelectionHandler handler;
 
 @end
 
@@ -107,7 +117,7 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)start {
-    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate:)];
+    [self.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeDisplays withObserver:self selector:@selector(sdl_displayCapabilityDidUpdate)];
 }
 
 - (void)stop {
@@ -291,6 +301,9 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark - Helpers
 
+/// Determine if the dynamic mode is active based on the set value.
+/// @param dynamicMenuUpdatesMode The set dynamic mode
+/// @returns YES if dynamic mode is forced on, or is on with compatibility, which only turns it on for Ford's Sync Gen 3 8-inch display type
 - (BOOL)sdl_isDynamicMenuUpdateActive:(SDLDynamicMenuUpdatesMode)dynamicMenuUpdatesMode {
     switch (dynamicMenuUpdatesMode) {
         case SDLDynamicMenuUpdatesModeForceOn:
@@ -307,6 +320,9 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark IDs
 
+/// Assign cell ids on an array of menu cells given a parent id (or no parent id)
+/// @param menuCells The array of menu cells to update
+/// @param parentId The parent id to assign if needed
 - (void)sdl_updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
     for (SDLMenuCell *cell in menuCells) {
         cell.cellId = self.lastMenuId++;
@@ -321,6 +337,10 @@ UInt32 const MenuCellIdMin = 1;
 
 #pragma mark - Calling handlers
 
+/// Call a handler for a currently displayed SDLMenuCell based on the incoming SDLOnCommand notification
+/// @param cells The menu cells to check (including their subcells)
+/// @param onCommand The notification retrieved
+/// @returns True if the handler was found, false if it was not found
 - (BOOL)sdl_callHandlerForCells:(NSArray<SDLMenuCell *> *)cells command:(SDLOnCommand *)onCommand {
     for (SDLMenuCell *cell in cells) {
         if (cell.cellId == onCommand.cmdID.unsignedIntegerValue && cell.handler != nil) {
@@ -344,8 +364,7 @@ UInt32 const MenuCellIdMin = 1;
     [self sdl_callHandlerForCells:self.menuCells command:onCommand];
 }
 
-- (void)sdl_displayCapabilityDidUpdate:(SDLSystemCapability *)systemCapability {
-    // We won't use the object in the parameter but the convenience method of the system capability manager
+- (void)sdl_displayCapabilityDidUpdate {
     self.windowCapability = self.systemCapabilityManager.defaultMainWindowCapability;
     [self sdl_updateMenuReplaceOperationsWithNewWindowCapability];
 }

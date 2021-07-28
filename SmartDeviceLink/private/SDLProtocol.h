@@ -13,6 +13,7 @@
 @class SDLProtocolHeader;
 @class SDLProtocolRecievedMessageRouter;
 @class SDLRPCMessage;
+@class SDLSystemInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -64,6 +65,9 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *  The auth token, if any, returned with the `StartServiceACK` for the RPC service from the module.
  */
 @property (strong, nonatomic, readonly, nullable) NSString *authToken;
+
+/// The connected module's information if it's available
+@property (strong, nonatomic, readonly, nullable) SDLSystemInfo *systemInfo;
 
 #pragma mark - Init
 - (instancetype)init NS_UNAVAILABLE;
@@ -132,8 +136,10 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  *  Sends an unencrypted RPC to Core
  *
  *  @param message A SDLRPCMessage message
+ *  @param error A pass-back error object if the RPC failed to send
+ *  @returns YES if the RPC was sent, NO if it was not
  */
-- (void)sendRPC:(SDLRPCMessage *)message;
+- (BOOL)sendRPC:(SDLRPCMessage *)message error:(NSError *__autoreleasing *)error;
 
 /**
  *  Sends an unencrypted message to Core

@@ -36,16 +36,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLWindowCapability *windowCapability;
 @property (strong, nonatomic) NSString *displayName;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
+@property (copy, nonatomic) SDLPreloadChoicesCompletionHandler completionHandler;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (copy, nonatomic, nullable) NSError *internalError;
+@property (strong, nonatomic) NSMutableArray<NSNumber *> *failedChoiceUploadIDs;
 
 @end
 
 @implementation SDLPreloadChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)defaultMainWindowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSOrderedSet<SDLChoiceCell *> *)cells updateCompletionHandler:(SDLPreloadChoicesCompletionHandler)completionHandler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -55,9 +57,11 @@ NS_ASSUME_NONNULL_BEGIN
     _windowCapability = defaultMainWindowCapability;
     _vrOptional = isVROptional;
     _cellsToUpload = [cells mutableCopy];
+    _completionHandler = completionHandler;
     _operationId = [NSUUID UUID];
 
     _currentState = SDLPreloadChoicesOperationStateWaitingToStart;
+    _failedChoiceUploadIDs = [NSMutableArray array];
 
     return self;
 }
@@ -119,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLCreateInteractionChoiceSet *> *choiceRPCs = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
         SDLCreateInteractionChoiceSet *csCell =  [self sdl_choiceFromCell:cell];
-        if(csCell != nil) {
+        if (csCell != nil) {
             [choiceRPCs addObject:csCell];
         }
     }
@@ -135,6 +139,8 @@ NS_ASSUME_NONNULL_BEGIN
     [self.connectionManager sendRequests:[choiceRPCs copy] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
         if (error != nil) {
             errors[request] = error;
+            SDLCreateInteractionChoiceSet *sentRequest = (SDLCreateInteractionChoiceSet *)request;
+            [self.failedChoiceUploadIDs addObject:sentRequest.choiceSet.firstObject.choiceID];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -160,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSString *menuName = nil;
     if ([self sdl_shouldSendChoiceText]) {
-        menuName = cell.text;
+        menuName = cell.uniqueText;
     }
 
     if(!menuName) {
@@ -215,6 +221,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)finishOperation {
     _currentState = SDLPreloadChoicesOperationStateFinished;
+    self.completionHandler(self.failedChoiceUploadIDs);
 
     [super finishOperation];
 }

@@ -9,16 +9,22 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLTransportType.h"
+#import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLControlFramePayloadVideoStartServiceAck.h"
+#import "SDLDeleteCommand.h"
+#import "SDLEncryptionLifecycleManager.h"
 #import "SDLGlobals.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
+#import "SDLProtocolMessageDisassembler.h"
 #import "SDLProtocolReceivedMessageRouter.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLRPCRequest.h"
 #import "SDLRPCParameterNames.h"
+#import "SDLTransportType.h"
 #import "SDLV1ProtocolMessage.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLV1ProtocolHeader.h"
@@ -33,11 +39,13 @@ NSDictionary* dictionaryV1 = @{SDLRPCParameterNameRequest:
                                      SDLRPCParameterNameCorrelationId:@0x98765,
                                      SDLRPCParameterNameParameters:
                                          @{SDLRPCParameterNameCommandId:@55}}};
-NSDictionary* dictionaryV2 = @{SDLRPCParameterNameCommandId:@55};
 
-describe(@"Send StartService Tests", ^ {
+// Send StartService Tests
+describe(@"Send StartService Tests", ^{
+    // Insecure
     context(@"Insecure", ^{
-        it(@"Should send the correct data", ^ {
+        // Should send the correct data
+        it(@"Should send the correct data", ^{
             // Reset max protocol version before test. (This test case expects V1 header. If other test ran
             // prior to this one, SDLGlobals would keep the max protocol version and this test case would fail.)
             [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"1.0.0"];
@@ -100,7 +108,7 @@ describe(@"Send StartService Tests", ^ {
     });
     
     context(@"Secure", ^{
-        it(@"Should send the correct data", ^ {
+        it(@"Should send the correct data", ^{
             // TODO: How do we properly test the security? Assume a correct / fail?
             // TODO: The security methods need to be split out to their own class so they can be public.
             // Abstract Protocol needs to be combined into Protocol
@@ -108,9 +116,12 @@ describe(@"Send StartService Tests", ^ {
     });
 });
 
-describe(@"Send EndSession Tests", ^ {
-    context(@"During V1 session", ^ {
-        it(@"Should send the correct data", ^ {
+// Send EndSession Tests
+describe(@"Send EndSession Tests", ^{
+    // During V1 session
+    context(@"During V1 session", ^{
+        // Should send the correct data
+        it(@"Should send the correct data", ^{
             __block BOOL verified = NO;
             id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
@@ -137,8 +148,8 @@ describe(@"Send EndSession Tests", ^ {
         });
     });
     
-    context(@"During V2 session", ^ {
-        it(@"Should send the correct data", ^ {
+    context(@"During V2 session", ^{
+        it(@"Should send the correct data", ^{
             __block BOOL verified = NO;
             id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
@@ -166,8 +177,10 @@ describe(@"Send EndSession Tests", ^ {
     });
 });
 
-describe(@"Send Register Secondary Transport Tests", ^ {
-    it(@"Should send the correct data", ^ {
+// Send Register Secondary Transport Tests
+describe(@"Send Register Secondary Transport Tests", ^{
+    // Should send the correct data
+    it(@"Should send the correct data", ^{
         __block BOOL verified = NO;
         id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
         [[[transportMock stub] andDo:^(NSInvocation* invocation) {
@@ -199,14 +212,21 @@ describe(@"Send Register Secondary Transport Tests", ^ {
     });
 });
 
-describe(@"SendRPCRequest Tests", ^ {
+// SendRPC Tests
+describe(@"SendRPC Tests", ^{
     __block id mockRequest;
-    beforeEach(^ {
+    beforeEach(^{
         mockRequest = OCMPartialMock([[SDLRPCRequest alloc] init]);
     });
-    
-    context(@"During V1 session", ^ {
-        it(@"Should send the correct data", ^ {
+
+    afterEach(^{
+        [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
+    });
+
+    // During V1 session
+    context(@"During V1 session", ^{
+        // Should send the correct data
+        it(@"Should send the correct data", ^{
             [[[[mockRequest stub] andReturn:dictionaryV1] ignoringNonObjectArgs] serializeAsDictionary:1];
             
             __block BOOL verified = NO;
@@ -235,62 +255,149 @@ describe(@"SendRPCRequest Tests", ^ {
             testHeader.sessionID = 0xFF;
             [testProtocol protocol:testProtocol didReceiveStartServiceACK:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
             
-            [testProtocol sendRPC:mockRequest];
+            NSError *error = nil;
+            BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
             expect(verified).toEventually(beTrue());
+            expect(sent).to(beTrue());
+            expect(error).to(beNil());
         });
     });
-    
-    context(@"During V2 session", ^ {
-        it(@"Should send the correct data bulk data when bulk data is available", ^ {
-            [[[[mockRequest stub] andReturn:dictionaryV2] ignoringNonObjectArgs] serializeAsDictionary:2];
-            [[[mockRequest stub] andReturn:@0x98765] correlationID];
-            [[[mockRequest stub] andReturn:@"DeleteCommand"] name];
-            [[[mockRequest stub] andReturn:[NSData dataWithBytes:"COMMAND" length:strlen("COMMAND")]] bulkData];
-            
-            __block BOOL verified = NO;
+
+    // During V2 session
+    context(@"During V2 session", ^{
+        beforeEach(^{
+            [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
+        });
+
+        // Should send the correct data bulk data when bulk data is available
+        it(@"should correctly send a request smaller than the MTU size", ^{
+            SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];
+            deleteRequest.correlationID = @12345;
+            deleteRequest.bulkData = [NSData dataWithBytes:"COMMAND" length:strlen("COMMAND")];
+
+            __block NSUInteger numTimesCalled = 0;
             id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
-            [[[transportMock stub] andDo:^(NSInvocation* invocation) {
-                verified = YES;
-                
-                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
-                __unsafe_unretained NSData* data;
-                [invocation getArgument:&data atIndex:2];
-                NSData* dataSent = [data copy];
-                
-                NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV2 options:0 error:0];
-                NSUInteger dataLength = jsonTestData.length;
-                
-                const char testPayloadHeader[12] = {0x00, 0x00, 0x00, 0x06, 0x00, 0x09, 0x87, 0x65, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
-                
-                NSMutableData* payloadData = [NSMutableData dataWithBytes:testPayloadHeader length:12];
-                [payloadData appendData:jsonTestData];
-                [payloadData appendBytes:"COMMAND" length:strlen("COMMAND")];
-                
-                const char testHeader[12] = {0x20 | SDLFrameTypeSingle, SDLServiceTypeBulkData, SDLFrameInfoSingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,(payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
-                
-                NSMutableData* testData = [NSMutableData dataWithBytes:testHeader length:12];
-                [testData appendData:payloadData];
-                
-                expect(dataSent).to(equal([testData copy]));
+            [[[transportMock stub] andDo:^(NSInvocation *invocation) {
+                numTimesCalled++;
             }] sendData:[OCMArg any]];
+
             SDLProtocol *testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
 
+            // Send a start service ack to ensure that it's set up for sending the RPC
             SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:2];
             testHeader.serviceType = SDLServiceTypeRPC;
             testHeader.sessionID = 0x01;
             [testProtocol protocol:testProtocol didReceiveStartServiceACK:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
+
+            NSError *error = nil;
+            BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
-            [testProtocol sendRPC:mockRequest];
-            
-            expect(verified).toEventually(beTrue());
+            expect(numTimesCalled).toEventually(equal(1));
+            expect(sent).to(beTrue());
+            expect(error).to(beNil());
+        });
+
+		it(@"should correctly send a request larger than the MTU size", ^{
+            char dummyBytes[1100];
+
+            SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];
+            deleteRequest.correlationID = @12345;
+            deleteRequest.bulkData = [NSData dataWithBytes:dummyBytes length:1100];
+
+            __block NSUInteger numTimesCalled = 0;
+            id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
+            [[[transportMock stub] andDo:^(NSInvocation *invocation) {
+                numTimesCalled++;
+            }] sendData:[OCMArg any]];
+
+            SDLProtocol *testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
+
+            NSError *error = nil;
+            [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
+            BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
+
+            expect(numTimesCalled).toEventually(equal(3));
+            expect(sent).to(beTrue());
+            expect(error).to(beNil());
+        });
+
+        describe(@"when encrypting the requests", ^{
+            context(@"when the encryption manager is not ready", ^{
+                it(@"should not send the request and return an error", ^{
+                    char dummyBytes[20000];
+
+                    SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];
+                    deleteRequest.correlationID = @12345;
+                    deleteRequest.bulkData = [NSData dataWithBytes:dummyBytes length:20000];
+                    deleteRequest.payloadProtected = YES;
+
+                    __block NSUInteger numTimesCalled = 0;
+                    id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
+                    [[[transportMock stub] andDo:^(NSInvocation *invocation) {
+                        numTimesCalled++;
+                    }] sendData:[OCMArg any]];
+
+                    SDLProtocol *testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
+
+                    NSError *error = nil;
+                    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                    BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
+
+                    expect(numTimesCalled).toEventually(equal(0));
+                    expect(sent).to(beFalse());
+                    expect(error).toNot(beNil());
+                });
+            });
+
+            context(@"when the encryption manager is ready", ^{
+                __block NSUInteger numTimesCalled = 0;
+                __block SDLProtocol *testProtocol = nil;
+                NSUInteger dataSize = 20000;
+                beforeEach(^{
+                    id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
+                    [[[transportMock stub] andDo:^(NSInvocation *invocation) {
+                        numTimesCalled++;
+                    }] sendData:[OCMArg any]];
+
+                    SDLEncryptionLifecycleManager *encryptionMock = OCMClassMock([SDLEncryptionLifecycleManager class]);
+                    OCMStub(encryptionMock.isEncryptionReady).andReturn(YES);
+
+                    id securityManager = OCMProtocolMock(@protocol(SDLSecurityType));
+                    char dummyBytes[dataSize];
+                    NSData *returnData = [NSData dataWithBytes:dummyBytes length:dataSize];
+                    OCMStub([securityManager encryptData:[OCMArg any] withError:[OCMArg setTo:nil]]).andReturn(returnData);
+
+                    testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:encryptionMock];
+                    testProtocol.securityManager = securityManager;
+                });
+
+                it(@"should correctly adjust the MTU size when the packet is encrypted and the service MTU size is larger than the TLS max size", ^{
+                    char dummyBytes[dataSize];
+                    
+                    SDLDeleteCommand *deleteRequest = [[SDLDeleteCommand alloc] initWithId:55];
+                    deleteRequest.correlationID = @12345;
+                    deleteRequest.bulkData = [NSData dataWithBytes:dummyBytes length:dataSize];
+                    deleteRequest.payloadProtected = YES;
+
+                    NSError *error = nil;
+                    [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
+                    BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
+
+                    expect(numTimesCalled).toEventually(equal(3));
+                    expect(sent).to(beTrue());
+                    expect(error).to(beNil());
+                });
+            });
         });
     });
 });
 
-describe(@"HandleBytesFromTransport Tests", ^ {
-    context(@"During V1 session", ^ {
-//        it(@"Should parse the data correctly", ^ {
+// HandleBytesFromTransport Tests
+describe(@"HandleBytesFromTransport Tests", ^{
+    // During V1 session
+    context(@"During V1 session", ^{
+//        it(@"Should parse the data correctly", ^{
 //            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
 //            
 //            //Override initialization methods so that our protocol will use our object instead
@@ -335,9 +442,10 @@ describe(@"HandleBytesFromTransport Tests", ^ {
 //            expect(@(verified)).toEventually(beTruthy());
 //        });
     });
-    
-    context(@"During V2 session", ^ {
-//        it(@"Should parse the data correctly", ^ {
+
+    // During V2 session
+    context(@"During V2 session", ^{
+//        it(@"Should parse the data correctly", ^{
 //            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
 //            
 //            //Override initialization methods so that our protocol will use our object instead
@@ -395,12 +503,20 @@ describe(@"HandleBytesFromTransport Tests", ^ {
     });
 });
 
-describe(@"HandleProtocolSessionStarted tests", ^ {
+// HandleProtocolSessionStarted tests
+describe(@"HandleProtocolSessionStarted tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
-    __block int64_t testMTU = 989786483;
-    __block int32_t hashId = 1545784;
+    int64_t testMTU = 989786483;
+    int32_t hashId = 1545784;
+    NSString *testAuthToken = @"testAuthToken";;
+    NSString *testMake = @"Livio";
+    NSString *testModel = @"Is";
+    NSString *testTrim = @"Awesome";
+    NSString *testModelYear = @"2021";
+    NSString *testSystemSoftwareVersion = @"1.1.1.1";
+    NSString *testSystemHardwareVersion = @"2.2.2.2";
 
     beforeEach(^{
         transportMock = OCMProtocolMock(@protocol(SDLTransportType));
@@ -412,16 +528,12 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
 #pragma clang diagnostic pop
     });
 
+    // For protocol versions 5.0.0 and greater
     context(@"For protocol versions 5.0.0 and greater", ^{
-        __block NSString *testAuthToken = nil;
-
-        beforeEach(^{
-            testAuthToken = @"testAuthToken";
-        });
-
+        // If the service type is RPC
         context(@"If the service type is RPC", ^{
-            it(@"Should store the auth token and the protocol version and pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.2.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+            it(@"Should store the auth token, system info, and the protocol version and pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.2.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:testMake model:testModel trim:testTrim modelYear:testModelYear systemSoftwareVersion:testSystemSoftwareVersion systemHardwareVersion:testSystemHardwareVersion];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -445,7 +557,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
             });
 
             it(@"Should store the protocol version, but not get the auth token, and pass the start service along to the delegate if the protocol version is greater than 5.0.0 but less than 5.2.0", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -463,13 +575,13 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
 
                 OCMVerifyAllWithDelay(delegateMock, 0.1);
 
-                expect(testProtocol.authToken).to(beNil());
+                expect(testProtocol.authToken).to(equal(testAuthToken));
                 expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.1.0"));
                 expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"5.1.0"));
             });
 
             it(@"Should set the max head unit version using the header version if the protocol version is missing from the payload", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:nil secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:nil secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -495,7 +607,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
 
         context(@"If the service type is control", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -522,7 +634,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
         
         context(@"If the service type is Audio", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadAudioStartServiceAck *testPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithMTU:testMTU];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -550,7 +662,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
         
         context(@"If the service type is Video", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadVideoStartServiceAck *testPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:0 width:0 protocol:nil codec:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -577,10 +689,12 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
         });
     });
 
+    // For protocol versions below 5.0.0
     context(@"For protocol versions below 5.0.0", ^{
+        // If the service type is RPC
         context(@"If the service type is RPC", ^{
             it(@"Should store the protocol version and pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"3.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"3.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
@@ -605,7 +719,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
 
         context(@"If the service type is not RPC", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil make:nil model:nil trim:nil modelYear:nil systemSoftwareVersion:nil systemHardwareVersion:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];
@@ -630,7 +744,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
         
         context(@"If the service type is Audio", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadAudioStartServiceAck *testPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithMTU:testMTU];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];
@@ -656,7 +770,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
         
         context(@"If the service type is Video", ^{
             it(@"Should just pass the start service along to the delegate", ^{
-                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:hashId mtu:testMTU authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                SDLControlFramePayloadVideoStartServiceAck *testPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:0 width:0 protocol:nil codec:nil];
                 NSData *testData = testPayload.data;
 
                 SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];
@@ -682,6 +796,7 @@ describe(@"HandleProtocolSessionStarted tests", ^ {
     });
 });
 
+// HandleProtocolRegisterSecondaryTransport Tests
 describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
@@ -691,7 +806,8 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
         testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:nil];
     });
 
-    it(@"Should pass information along to delegate when ACKed", ^ {
+    // Should pass information along to delegate when ACKed
+    it(@"Should pass information along to delegate when ACKed", ^{
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
 
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
@@ -711,7 +827,8 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 
-    it(@"Should pass information along to delegate when NAKed", ^ {
+    // Should pass information along to delegate when NAKed
+    it(@"Should pass information along to delegate when NAKed", ^{
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolDelegate));
 
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
@@ -734,6 +851,7 @@ describe(@"HandleProtocolRegisterSecondaryTransport Tests", ^{
     });
 });
 
+// HandleHeartbeatForSession Tests
 describe(@"HandleHeartbeatForSession Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
@@ -750,12 +868,13 @@ describe(@"HandleHeartbeatForSession Tests", ^{
         [testProtocol handleHeartbeatForSession:0x44];
     });
 
-    it(@"Should pass information along to delegate", ^ {
+    it(@"Should pass information along to delegate", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
-describe(@"OnProtocolMessageReceived Tests", ^ {
+// OnProtocolMessageReceived Tests
+describe(@"OnProtocolMessageReceived Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
@@ -776,12 +895,13 @@ describe(@"OnProtocolMessageReceived Tests", ^ {
         [testProtocol protocol:testProtocol didReceiveMessage:testMessage];
     });
 
-    it(@"Should pass information along to delegate", ^ {
+    it(@"Should pass information along to delegate", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
-describe(@"OnProtocolOpened Tests", ^ {
+// OnProtocolOpened Tests
+describe(@"OnProtocolOpened Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
@@ -797,12 +917,13 @@ describe(@"OnProtocolOpened Tests", ^ {
         [testProtocol onTransportConnected];
     });
 
-    it(@"Should pass information along to delegate", ^ {
+    it(@"Should pass information along to delegate", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
 
-describe(@"OnProtocolClosed Tests", ^ {
+// OnProtocolClosed Tests
+describe(@"OnProtocolClosed Tests", ^{
     __block id transportMock = nil;
     __block SDLProtocol *testProtocol = nil;
     __block id delegateMock = nil;
@@ -818,7 +939,7 @@ describe(@"OnProtocolClosed Tests", ^ {
         [testProtocol onTransportDisconnected];
     });
 
-    it(@"Should pass information along to delegate", ^ {
+    it(@"Should pass information along to delegate", ^{
         OCMVerifyAllWithDelay(delegateMock, 0.1);
     });
 });
