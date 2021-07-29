@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Correlation ID - next 32 bits
     // JSON size - next 32 bits
     UInt8 headerBuffer[SECURITY_QUERY_HEADER_SIZE];
-    *(UInt32 *)&headerBuffer[0] = CFSwapInt32HostToBig(self.functionID);
+    *(UInt32 *)&headerBuffer[1] = CFSwapInt32HostToBig(self.functionID);
     *(UInt32 *)&headerBuffer[4] = CFSwapInt32HostToBig(self.correlationID);
     *(UInt32 *)&headerBuffer[8] = CFSwapInt32HostToBig((UInt32)self.jsonData.length);
     UInt8 rpcType = (Byte)((self.rpcType & 0xFF) << 8);
