@@ -18,7 +18,6 @@
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuConfiguration.h"
-#import "SDLMenuReplaceOperation+MenuUniqueness.h"
 #import "SDLTextFieldName.h"
 #import "SDLVersion.h"
 #import "SDLWindowCapability.h"
@@ -49,16 +48,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedMenu;
 @property (assign, nonatomic) BOOL compatibilityModeEnabled;
-@property (copy, nonatomic) SDLCurrentMenuUpdatedBlock currentMenuUpdatedBlock;
+@property (copy, nonatomic) SDLCurrentMenuUpdatedBlock currentMenuUpdatedHandler;
 
 @property (strong, nonatomic) NSMutableArray<SDLMenuCell *> *mutableCurrentMenu;
+@property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedStrippedMenu;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
 
 @implementation SDLMenuReplaceOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu compatibilityModeEnabled:(BOOL)compatibilityModeEnabled currentMenuUpdatedHandler:(SDLCurrentMenuUpdatedBlock)currentMenuUpdatedBlock {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability menuConfiguration:(SDLMenuConfiguration *)menuConfiguration currentMenu:(NSArray<SDLMenuCell *> *)currentMenu updatedMenu:(NSArray<SDLMenuCell *> *)updatedMenu compatibilityModeEnabled:(BOOL)compatibilityModeEnabled currentMenuUpdatedHandler:(SDLCurrentMenuUpdatedBlock)currentMenuUpdatedHandler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
     _mutableCurrentMenu = [currentMenu mutableCopy];
     _updatedMenu = [updatedMenu copy];
     _compatibilityModeEnabled = compatibilityModeEnabled;
-    _currentMenuUpdatedBlock = currentMenuUpdatedBlock;
+    _currentMenuUpdatedHandler = currentMenuUpdatedHandler;
 
     return self;
 }
@@ -78,22 +78,24 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
-    [self.class sdl_addUniqueNamesToCells:self.updatedMenu basedOnWindowCapability:self.windowCapability];
+    self.updatedStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.updatedStrippedMenu basedOnWindowCapability:self.windowCapability];
+
+    BOOL supportsMenuUniqueness = [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]];
+    [self.class sdl_addUniqueNamesToCells:self.updatedMenu supportsMenuUniqueness:supportsMenuUniqueness];
 
     SDLDynamicMenuUpdateRunScore *runScore = nil;
     if (self.compatibilityModeEnabled) {
         SDLLogV(@"Dynamic menu update inactive. Forcing the deletion of all old cells and adding all new ones, even if they're the same.");
-        runScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:[self sdl_buildAllDeleteStatusesForMenu:self.currentMenu] updatedStatus:[self sdl_buildAllAddStatusesForMenu:self.updatedMenu] score:self.updatedMenu.count];
+        runScore = [SDLDynamicMenuUpdateAlgorithm compatibilityRunScoreWithOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
     } else {
         SDLLogV(@"Dynamic menu update active. Running the algorithm to find the best way to delete / add cells.");
         runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
     }
 
     // If both old and new cells are empty, nothing needs to happen
-    if ((runScore.oldStatus.count == 0) && (runScore.updatedStatus.count == 0)) {
-        return [self finishOperation];
-    }
+    if ((runScore.oldStatus.count == 0) && (runScore.updatedStatus.count == 0)) { return [self finishOperation]; }
 
+    // Drop the cells into buckets based on the run score
     NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
     NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
     // These arrays should ONLY contain KEEPS. These will be used for SubMenu compares
@@ -101,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
 
     // Since we are creating a new Menu but keeping old cells we must first transfer the old cellIDs to the new menus kept cells.
-    [self sdl_transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
+    [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
 
     // Upload the artworks, then we will start updating the main menu
     __weak typeof(self) weakself = self;
@@ -169,7 +171,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
         NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
 
-        [self sdl_transferCellIDFromOldCells:oldKeeps toKeptCells:newKeeps];
+        [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
 
         __weak typeof(self) weakself = self;
         [self sdl_sendDeleteCurrentMenu:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
@@ -315,29 +317,75 @@ NS_ASSUME_NONNULL_BEGIN
     return [keepMenuCells copy];
 }
 
-- (void)sdl_transferCellIDFromOldCells:(NSArray<SDLMenuCell *> *)oldCells toKeptCells:(NSArray<SDLMenuCell *> *)newCells {
+- (void)sdl_transferCellIDsFromOldCells:(NSArray<SDLMenuCell *> *)oldCells toKeptCells:(NSArray<SDLMenuCell *> *)newCells {
     if (oldCells.count == 0) { return; }
     for (NSUInteger i = 0; i < newCells.count; i++) {
         newCells[i].cellId = oldCells[i].cellId;
     }
 }
 
-- (NSArray<NSNumber *> *)sdl_buildAllDeleteStatusesForMenu:(NSArray<SDLMenuCell *> *)menuCells {
-    NSMutableArray<NSNumber *> *mutableNumbers = [NSMutableArray arrayWithCapacity:menuCells.count];
-    for (int i = 0; i < menuCells.count; i++) {
-        [mutableNumbers addObject:@(SDLMenuCellUpdateStateDelete)];
+#pragma mark - Menu Uniqueness
+
++ (NSArray<SDLMenuCell *> *)sdl_cellsWithRemovedPropertiesFromCells:(NSArray<SDLMenuCell *> *)menuCells basedOnWindowCapability:(SDLWindowCapability *)windowCapability {
+    NSArray<SDLMenuCell *> *removePropertiesCopy = [[NSArray alloc] initWithArray:menuCells copyItems:YES];
+    for (SDLMenuCell *cell in removePropertiesCopy) {
+        // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
+        cell.voiceCommands = nil;
+
+        // Don't check SDLImageFieldNameSubMenuIcon because it was added in 7.0 when the feature was added in 5.0. Just assume that if CommandIcon is not available, the submenu icon is not either.
+        if (![windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+            cell.icon = nil;
+        }
+
+        if (cell.subCells != nil) {
+            if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuSecondaryText]) {
+                cell.secondaryText = nil;
+            }
+            if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuTertiaryText]) {
+                cell.tertiaryText = nil;
+            }
+            if (![windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
+                cell.secondaryArtwork = nil;
+            }
+            cell.subCells = [self sdl_cellsWithRemovedPropertiesFromCells:cell.subCells basedOnWindowCapability:windowCapability];
+        } else {
+            if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText]) {
+                cell.secondaryText = nil;
+            }
+            if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]) {
+                cell.tertiaryText = nil;
+            }
+            if (![windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
+                cell.secondaryArtwork = nil;
+            }
+        }
     }
 
-    return [mutableNumbers copy];
+    return removePropertiesCopy;
 }
 
-- (NSArray<NSNumber *> *)sdl_buildAllAddStatusesForMenu:(NSArray<SDLMenuCell *> *)menuCells {
-    NSMutableArray<NSNumber *> *mutableNumbers = [NSMutableArray arrayWithCapacity:menuCells.count];
-    for (int i = 0; i < menuCells.count; i++) {
-        [mutableNumbers addObject:@(SDLMenuCellUpdateStateAdd)];
-    }
++ (void)sdl_addUniqueNamesToCells:(NSArray<SDLMenuCell *> *)menuCells supportsMenuUniqueness:(BOOL)supportsMenuUniqueness {
+    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
+    NSMutableDictionary<id<NSCopying>, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    for (NSUInteger i = 0; i < menuCells.count; i++) {
+        id<NSCopying> key = supportsMenuUniqueness ? menuCells[i] : menuCells[i].title;
+        NSNumber *counter = dictCounter[key];
+        if (counter != nil) {
+            counter = @(counter.intValue + 1);
+            dictCounter[key] = counter;
+        } else {
+            dictCounter[key] = @1;
+        }
 
-    return [mutableNumbers copy];
+        counter = dictCounter[key];
+        if (counter.intValue > 1) {
+            menuCells[i].uniqueTitle = [NSString stringWithFormat: @"%@ (%d)", menuCells[i].title, counter.intValue];
+        }
+
+        if (menuCells[i].subCells.count > 0) {
+            [self sdl_addUniqueNamesToCells:menuCells[i].subCells supportsMenuUniqueness:supportsMenuUniqueness];
+        }
+    }
 }
 
 #pragma mark - Getter / Setters
@@ -358,7 +406,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.internalError = [NSError sdl_menuManager_replaceOperationCancelled];
     }
 
-    self.currentMenuUpdatedBlock(self.currentMenu.copy, self.error);
+    self.currentMenuUpdatedHandler(self.currentMenu.copy, self.error);
     [super finishOperation];
 }
 

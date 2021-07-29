@@ -52,10 +52,16 @@
     return [mutableArtworks allObjects];
 }
 
-+ (BOOL)sdl_shouldCellIncludeImage:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
-    // If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
+/// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
++ (BOOL)sdl_shouldCellIncludeImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
     BOOL supportsImage = (cell.subCells.count > 0) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon] : [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon];
     return (cell.icon != nil) && supportsImage && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
+}
+
+/// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
++ (BOOL)sdl_shouldCellIncludeSecondaryImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
+    BOOL supportsImage = (cell.subCells.count > 0) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage] : [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage];
+    return (cell.secondaryArtwork != nil) && supportsImage && ([fileManager hasUploadedFile:cell.secondaryArtwork] || cell.secondaryArtwork.isStaticIcon);
 }
 
 #pragma mark - RPC Commands
@@ -152,19 +158,23 @@
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
     params.menuName = cell.title;
+    params.secondaryText = [windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText] ? cell.secondaryText : nil;
+    params.tertiaryText = [windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText] ? cell.tertiaryText : nil;
     params.parentID = (cell.parentCellId != ParentIdNotFound) ? @(cell.parentCellId) : nil;
     params.position = @(position);
 
     command.menuParams = params;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
-    command.cmdIcon = [self sdl_shouldCellIncludeImage:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
+    command.cmdIcon = [self sdl_shouldCellIncludeImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
+    command.secondaryImage = [self sdl_shouldCellIncludeSecondaryImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.secondaryArtwork.imageRPC : nil;
     command.cmdID = @(cell.cellId);
 
     return command;
 }
 
 + (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager position:(UInt16)position windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
-    SDLImage *icon = [self sdl_shouldCellIncludeImage:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
+    SDLImage *icon = [self sdl_shouldCellIncludeImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
+    SDLImage *secondaryIcon = [self sdl_shouldCellIncludeSecondaryImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
     if (cell.submenuLayout && [windowCapability.menuLayoutsAvailable containsObject:cell.submenuLayout]) {
@@ -173,7 +183,7 @@
         submenuLayout = defaultSubmenuLayout;
     }
 
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil];
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:secondaryIcon];
 }
 
 #pragma mark - Updating Menu Cells

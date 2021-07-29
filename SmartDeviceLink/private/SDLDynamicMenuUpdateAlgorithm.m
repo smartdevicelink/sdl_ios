@@ -15,21 +15,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDynamicMenuUpdateAlgorithm
 
-#pragma mark - Update Menu Cells
-+ (nullable SDLDynamicMenuUpdateRunScore *)compareOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells{
+#pragma mark Compatibility Menu Run Score
+
++ (SDLDynamicMenuUpdateRunScore *)compatibilityRunScoreWithOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells {
+    return [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:[self sdl_buildAllDeleteStatusesforMenu:oldMenuCells] updatedStatus:[self sdl_buildAllAddStatusesForMenu:updatedMenuCells] score:updatedMenuCells.count];
+}
+
+#pragma mark - Dynamic Menu Run Score
+
++ (SDLDynamicMenuUpdateRunScore *)compareOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells{
     if (oldMenuCells.count > 0 && updatedMenuCells.count == 0) {
+        // Deleting all cells
         return [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:[SDLDynamicMenuUpdateAlgorithm sdl_buildAllDeleteStatusesforMenu:oldMenuCells] updatedStatus:@[] score:0];
     }else if (oldMenuCells.count == 0 && updatedMenuCells.count > 0) {
+        // No cells to delete
         return [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:@[] updatedStatus:[SDLDynamicMenuUpdateAlgorithm sdl_buildAllAddStatusesForMenu:updatedMenuCells] score:updatedMenuCells.count];
     } else if (oldMenuCells.count == 0 && updatedMenuCells.count == 0) {
-        return nil;
+        // Empty menu to empty menu
+        return [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:@[] updatedStatus:@[] score:0];
     }
 
    return [SDLDynamicMenuUpdateAlgorithm sdl_startCompareAtRun:0 oldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 }
 
-+ (nullable SDLDynamicMenuUpdateRunScore *)sdl_startCompareAtRun:(NSUInteger)startRun oldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells {
-    SDLDynamicMenuUpdateRunScore *bestScore = nil;
++ (SDLDynamicMenuUpdateRunScore *)sdl_startCompareAtRun:(NSUInteger)startRun oldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells {
+    SDLDynamicMenuUpdateRunScore *bestScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:@[] updatedStatus:@[] score:0];
 
     for (NSUInteger run = startRun; run < oldMenuCells.count; run++) {
         // Set the menu status as a 1-1 array, start off will oldMenus = all Deletes, newMenu = all Adds

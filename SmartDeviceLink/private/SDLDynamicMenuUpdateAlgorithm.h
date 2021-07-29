@@ -35,7 +35,9 @@ typedef NS_ENUM(NSUInteger, SDLMenuCellUpdateState) {
  @param oldMenuCells The old menu array
  @param updatedMenuCells The new menu array
  */
-+ (nullable SDLDynamicMenuUpdateRunScore *)compareOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells;
++ (SDLDynamicMenuUpdateRunScore *)compareOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells;
+
++ (SDLDynamicMenuUpdateRunScore *)compatibilityRunScoreWithOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells;
 
 @end
 
