@@ -15,99 +15,95 @@
 
 QuickSpecBegin(SDLTireStatusSpec)
 
-SDLSingleTireStatus* tire1 = [[SDLSingleTireStatus alloc] init];
-SDLSingleTireStatus* tire2 = [[SDLSingleTireStatus alloc] init];
-SDLSingleTireStatus* tire3 = [[SDLSingleTireStatus alloc] init];
-SDLSingleTireStatus* tire4 = [[SDLSingleTireStatus alloc] init];
-SDLSingleTireStatus* tire5 = [[SDLSingleTireStatus alloc] init];
-SDLSingleTireStatus* tire6 = [[SDLSingleTireStatus alloc] init];
-// make all tires different to prevent misplacement (eg left front != right front etc.)
-tire1.pressure = @(1.0);
-tire2.pressure = @(2.0);
-tire3.pressure = @(3.0);
-tire4.pressure = @(4.0);
-tire5.pressure = @(5.0);
-tire6.pressure = @(6.0);
+__block SDLSingleTireStatus* tire1 = nil;
+__block SDLSingleTireStatus* tire2 = nil;
+__block SDLSingleTireStatus* tire3 = nil;
+__block SDLSingleTireStatus* tire4 = nil;
+__block SDLSingleTireStatus* tire5 = nil;
+__block SDLSingleTireStatus* tire6 = nil;
 
-SDLWarningLightStatus pressureTelltale = SDLWarningLightStatusOff;
+describe(@"Getter/Setter Tests", ^{
 
-describe(@"getter/setter tests", ^{
-    __block SDLTireStatus* testStruct = nil;
-
-    context(@"init", ^{
-        beforeEach(^{
-            testStruct = [[SDLTireStatus alloc] init];
-            testStruct.pressureTelltale = SDLWarningLightStatusFlash;
-            testStruct.leftFront = tire1;
-            testStruct.rightFront = tire2;
-            testStruct.leftRear = tire3;
-            testStruct.rightRear = tire4;
-            testStruct.innerLeftRear = tire5;
-            testStruct.innerRightRear = tire6;
-        });
-
-        it(@"should set and get correctly", ^{
-            expect(testStruct.pressureTelltale).to(equal(SDLWarningLightStatusFlash));
-            expect(testStruct.leftFront).to(equal(tire1));
-            expect(testStruct.leftFront).notTo(equal(tire2));
-            expect(testStruct.rightFront).to(equal(tire2));
-            expect(testStruct.rightFront).notTo(equal(tire1));
-            expect(testStruct.leftRear).to(equal(tire3));
-            expect(testStruct.leftRear).notTo(equal(tire1));
-            expect(testStruct.rightRear).to(equal(tire4));
-            expect(testStruct.rightRear).notTo(equal(tire1));
-            expect(testStruct.innerLeftRear).to(equal(tire5));
-            expect(testStruct.innerLeftRear).notTo(equal(tire1));
-            expect(testStruct.innerRightRear).to(equal(tire6));
-            expect(testStruct.innerRightRear).notTo(equal(tire1));
-        });
+    beforeEach(^{
+        tire1 = [[SDLSingleTireStatus alloc] init];
+        tire2 = [[SDLSingleTireStatus alloc] init];
+        tire3 = [[SDLSingleTireStatus alloc] init];
+        tire4 = [[SDLSingleTireStatus alloc] init];
+        tire5 = [[SDLSingleTireStatus alloc] init];
+        tire6 = [[SDLSingleTireStatus alloc] init];
+        // make all tires different to prevent misplacement (eg left front != right front etc.)
+        tire1.pressure = @(1.0);
+        tire2.pressure = @(2.0);
+        tire3.pressure = @(3.0);
+        tire4.pressure = @(4.0);
+        tire5.pressure = @(5.0);
+        tire6.pressure = @(6.0);
     });
 
-    context(@"initWithDictionary:", ^{
-        beforeEach(^{
-            NSDictionary* dataDict = @{
-                SDLRPCParameterNamePressureTelltale: pressureTelltale,
-                SDLRPCParameterNameLeftFront: tire1,
-                SDLRPCParameterNameRightFront: tire2,
-                SDLRPCParameterNameLeftRear: tire3,
-                SDLRPCParameterNameRightRear: tire4,
-                SDLRPCParameterNameInnerLeftRear: tire5,
-                SDLRPCParameterNameInnerRightRear: tire6,
-            };
-            testStruct = [[SDLTireStatus alloc] initWithDictionary:dataDict];
-        });
-
-        it(@"should get correctly when initialized", ^{
-            expect(testStruct.pressureTelltale).to(equal(pressureTelltale));
-            expect(testStruct.leftFront).to(equal(tire1));
-            expect(testStruct.rightFront).to(equal(tire2));
-            expect(testStruct.leftRear).to(equal(tire3));
-            expect(testStruct.rightRear).to(equal(tire4));
-            expect(testStruct.innerLeftRear).to(equal(tire5));
-            expect(testStruct.innerRightRear).to(equal(tire6));
-        });
+    it(@"Should set and get correctly", ^{
+        SDLTireStatus* testStruct = [[SDLTireStatus alloc] init];
+        
+        testStruct.pressureTelltale = SDLWarningLightStatusOff;
+        testStruct.leftFront = tire1;
+        testStruct.rightFront = tire2;
+        testStruct.leftRear = tire3;
+        testStruct.rightRear = tire4;
+        testStruct.innerLeftRear = tire5;
+        testStruct.innerRightRear = tire6;
+        
+        expect(testStruct.pressureTelltale).to(equal(SDLWarningLightStatusOff));
+        expect(testStruct.leftFront).to(equal(tire1));
+        expect(testStruct.rightFront).to(equal(tire2));
+        expect(testStruct.leftRear).to(equal(tire3));
+        expect(testStruct.rightRear).to(equal(tire4));
+        expect(testStruct.innerLeftRear).to(equal(tire5));
+        expect(testStruct.innerRightRear).to(equal(tire6));
     });
+    
+    it(@"Should get correctly when initialized", ^{
+        NSMutableDictionary* dict = [@{SDLRPCParameterNamePressureTelltale:SDLWarningLightStatusOff,
+                                       SDLRPCParameterNameLeftFront:tire1,
+                                       SDLRPCParameterNameRightFront:tire2,
+                                       SDLRPCParameterNameLeftRear:tire3,
+                                       SDLRPCParameterNameRightRear:tire4,
+                                       SDLRPCParameterNameInnerLeftRear:tire5,
+                                       SDLRPCParameterNameInnerRightRear:tire6} mutableCopy];
+        SDLTireStatus* testStruct = [[SDLTireStatus alloc] initWithDictionary:dict];
+        
+        expect(testStruct.pressureTelltale).to(equal(SDLWarningLightStatusOff));
+        expect(testStruct.leftFront).to(equal(tire1));
+        expect(testStruct.rightFront).to(equal(tire2));
+        expect(testStruct.leftRear).to(equal(tire3));
+        expect(testStruct.rightRear).to(equal(tire4));
+        expect(testStruct.innerLeftRear).to(equal(tire5));
+        expect(testStruct.innerRightRear).to(equal(tire6));
+    });
+    
+    context(@"Should return nil if not set", ^{
+        __block SDLTireStatus* testStruct = nil;
 
-    context(@"init", ^{
         beforeEach(^{
             testStruct = [[SDLTireStatus alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+            testStruct.pressureTelltale = nil;
+            testStruct.leftFront = nil;
+            testStruct.rightFront = nil;
+            testStruct.leftRear = nil;
+            testStruct.rightRear = nil;
+            testStruct.innerLeftRear = nil;
+            testStruct.innerRightRear = nil;
+#pragma clang diagnostic pop
         });
 
-        it(@"should not return nil if not set and should return unknown status", ^{
+        it(@"Should return nil if not set", ^{
             expect(testStruct.pressureTelltale).notTo(beNil());
-            expect(testStruct.pressureTelltale).to(equal(SDLWarningLightStatusNotUsed));
             expect(testStruct.leftFront).notTo(beNil());
             expect(testStruct.rightFront).notTo(beNil());
             expect(testStruct.leftRear).notTo(beNil());
             expect(testStruct.rightRear).notTo(beNil());
             expect(testStruct.innerLeftRear).notTo(beNil());
             expect(testStruct.innerRightRear).notTo(beNil());
-            expect(testStruct.leftFront.status).to(equal(SDLComponentVolumeStatusUnknown));
-            expect(testStruct.rightFront.status).to(equal(SDLComponentVolumeStatusUnknown));
-            expect(testStruct.leftRear.status).to(equal(SDLComponentVolumeStatusUnknown));
-            expect(testStruct.rightRear.status).to(equal(SDLComponentVolumeStatusUnknown));
-            expect(testStruct.innerLeftRear.status).to(equal(SDLComponentVolumeStatusUnknown));
-            expect(testStruct.innerRightRear.status).to(equal(SDLComponentVolumeStatusUnknown));
         });
     });
 });
