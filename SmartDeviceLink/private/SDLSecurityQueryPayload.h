@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSecurityQueryPayload : NSObject
 
-@property (assign, nonatomic) SDLRPCMessageType rpcType;
-@property (assign, nonatomic) UInt32 functionID;
-@property (assign, nonatomic) UInt32 correlationID;
+@property (assign, nonatomic) SDLRPCMessageType queryType;
+@property (assign, nonatomic) UInt32 queryID;
+@property (assign, nonatomic) UInt32 sequenceNumber;
 @property (nullable, strong, nonatomic) NSData *jsonData;
 @property (nullable, strong, nonatomic) NSData *binaryData;
 

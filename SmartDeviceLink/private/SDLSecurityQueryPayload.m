@@ -20,12 +20,12 @@ NS_ASSUME_NONNULL_BEGIN
     unsigned long dataLength = data.length;
 
     if (data == nil || dataLength == 0) {
-        SDLLogW(@"RPC Payload data is nil");
+        SDLLogW(@"Security Payload data is nil");
         return nil;
     }
 
     if (dataLength < SECURITY_QUERY_HEADER_SIZE) {
-        SDLLogW(@"RPC Payload error: not enough data to form RPC header");
+        SDLLogW(@"Security Payload error: not enough data to form Security Query header");
         return nil;
     }
 
@@ -36,17 +36,16 @@ NS_ASSUME_NONNULL_BEGIN
             UInt32 *ui32Pointer = (UInt32 *)data.bytes;
 
             // Extract the parts
-            UInt8 rpcType = (bytePointer[0] & 0xFF) >> 8;
+            UInt8 queryType = (bytePointer[0] & 0xFF) >> 8;
 
-            self.rpcType = rpcType;
+            self.queryType = queryType;
 
-            UInt32 functionID = ui32Pointer[0];
-            functionID = CFSwapInt32BigToHost(functionID) & 0x00FFFFF;
-            self.functionID = functionID;
+            UInt32 queryID = ui32Pointer[0];
+            self.queryID = queryID;
 
-            UInt32 correlationID = ui32Pointer[1];
-            correlationID = CFSwapInt32BigToHost(correlationID);
-            self.correlationID = correlationID;
+            UInt32 sequenceNumber = ui32Pointer[1];
+            sequenceNumber = CFSwapInt32BigToHost(sequenceNumber);
+            self.sequenceNumber = sequenceNumber;
 
             UInt32 jsonDataSize = ui32Pointer[2];
             jsonDataSize = CFSwapInt32BigToHost(jsonDataSize);
@@ -77,17 +76,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSData *)data {
     // Header is:
-    // RPC Type - first 8 bits
-    // RPC Function ID - next 24 bits
-    // Correlation ID - next 32 bits
+    // Query Type - first 8 bits
+    // Query ID - next 24 bits
+    // Sequence Number - next 32 bits
     // JSON size - next 32 bits
     UInt8 headerBuffer[SECURITY_QUERY_HEADER_SIZE];
-    *(UInt32 *)&headerBuffer[1] = CFSwapInt32HostToBig(self.functionID);
-    *(UInt32 *)&headerBuffer[4] = CFSwapInt32HostToBig(self.correlationID);
+    *(UInt32 *)&headerBuffer[0] = CFSwapInt32HostToBig(self.queryID);
+    *(UInt32 *)&headerBuffer[4] = CFSwapInt32HostToBig(self.sequenceNumber);
     *(UInt32 *)&headerBuffer[8] = CFSwapInt32HostToBig((UInt32)self.jsonData.length);
-    UInt8 rpcType = (Byte)((self.rpcType & 0xFF) << 8);
+    UInt8 queryType = (Byte)((self.queryType & 0xFF) << 8);
     headerBuffer[0] &= 0xFF;
-    headerBuffer[0] |= rpcType;
+    headerBuffer[0] |= queryType;
 
     // Serialize the header, the json data then the binary data
     NSMutableData *dataOut = [NSMutableData dataWithCapacity:[self size]];
@@ -108,12 +107,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)description {
     NSMutableString *description = [[NSMutableString alloc] init];
-    [description appendFormat:@" rpcType:%i, functionID:%i, correlationID:%i, json:%lu bytes, binary:%lu bytes", self.rpcType, (unsigned int)self.functionID, (unsigned int)self.correlationID, (unsigned long)self.jsonData.length, (unsigned long)self.binaryData.length];
+    [description appendFormat:@" queryType:%i, queryID:%i, sequenceNumber:%i, json:%lu bytes, binary:%lu bytes", self.queryType, (unsigned int)self.queryID, (unsigned int)self.sequenceNumber, (unsigned long)self.jsonData.length, (unsigned long)self.binaryData.length];
 
     return description;
 }
 
-+ (nullable id)rpcPayloadWithData:(NSData *)data {
++ (nullable id)securityPayloadWithData:(NSData *)data {
     return [[SDLSecurityQueryPayload alloc] initWithData:data];
 }
 @end
