@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic, nullable) SDLMenuCell *submenuCell;
+@property (copy, nonatomic) SDLMenuShowCompletionBlock showCompletionHandler;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
 
@@ -37,12 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMenuShowOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager toMenuCell:(nullable SDLMenuCell *)menuCell {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager toMenuCell:(nullable SDLMenuCell *)menuCell completionHandler:(nonnull SDLMenuShowCompletionBlock)completionHandler {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _submenuCell = menuCell;
+    _showCompletionHandler = completionHandler;
 
     return self;
 }
@@ -80,6 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isCancelled) {
         self.internalError = [NSError sdl_menuManager_openMenuOperationCancelled];
     }
+
+    self.showCompletionHandler(self.internalError);
 
     [super finishOperation];
 }

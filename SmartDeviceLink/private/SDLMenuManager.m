@@ -196,8 +196,8 @@ UInt32 const MenuCellIdMin = 1;
         return;
     }
 
-    [self sdl_updateIdsOnMenuCells:menuCells parentId:ParentIdNotFound];
-    _menuCells = menuCells;
+    _menuCells = [[NSArray alloc] initWithArray:menuCells copyItems:YES];
+    [self sdl_updateIdsOnMenuCells:self.menuCells parentId:ParentIdNotFound];
 
     __weak typeof(self) weakself = self;
     SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells compatibilityModeEnabled:(![self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) currentMenuUpdatedHandler:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells, NSError *error) {
@@ -230,13 +230,11 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     // Create the operation
-    SDLMenuShowOperation *showMenuOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:self.connectionManager toMenuCell:cell];
-    __weak typeof(showMenuOp) weakMenuOp = showMenuOp;
-    showMenuOp.completionBlock = ^{
-        if (weakMenuOp.error != nil) {
-            SDLLogE(@"Opening menu with error: %@, info: %@. Failed subcell (if nil, attempted to open to main menu): %@", weakMenuOp.error, weakMenuOp.error.userInfo, cell);
+    SDLMenuShowOperation *showMenuOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:self.connectionManager toMenuCell:cell completionHandler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Opening menu with error: %@, info: %@. Failed subcell (if nil, attempted to open to main menu): %@", error, error.userInfo, cell);
         }
-    };
+    }];
 
     // Cancel previous open menu operations
     for (NSOperation *operation in self.transactionQueue.operations) {

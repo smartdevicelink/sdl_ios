@@ -16,8 +16,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuShowOperation : SDLAsynchronousOperation
+typedef void(^SDLMenuShowCompletionBlock)(NSError *_Nullable error);
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager toMenuCell:(nullable SDLMenuCell *)menuCell;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager toMenuCell:(nullable SDLMenuCell *)menuCell completionHandler:(SDLMenuShowCompletionBlock)completionHandler;
 
 @end
 
