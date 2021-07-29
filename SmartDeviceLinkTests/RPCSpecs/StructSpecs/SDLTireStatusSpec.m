@@ -81,9 +81,14 @@ describe(@"Getter/Setter Tests", ^{
     
     context(@"Should return nil if not set", ^{
         __block SDLTireStatus* testStruct = nil;
+        // default tire status (when it is set to nil)
+        __block SDLSingleTireStatus* tireDefault = nil;
 
         beforeEach(^{
             testStruct = [[SDLTireStatus alloc] init];
+            tireDefault = [[SDLSingleTireStatus alloc] init];
+            tireDefault.status = SDLComponentVolumeStatusUnknown;
+            tireDefault.pressure = nil;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
             testStruct.pressureTelltale = nil;
@@ -97,13 +102,13 @@ describe(@"Getter/Setter Tests", ^{
         });
 
         it(@"Should return nil if not set", ^{
-            expect(testStruct.pressureTelltale).notTo(beNil());
-            expect(testStruct.leftFront).notTo(beNil());
-            expect(testStruct.rightFront).notTo(beNil());
-            expect(testStruct.leftRear).notTo(beNil());
-            expect(testStruct.rightRear).notTo(beNil());
-            expect(testStruct.innerLeftRear).notTo(beNil());
-            expect(testStruct.innerRightRear).notTo(beNil());
+            expect(testStruct.pressureTelltale).to(equal(SDLWarningLightStatusNotUsed));
+            expect(testStruct.leftFront).to(equal(tireDefault));
+            expect(testStruct.rightFront).to(equal(tireDefault));
+            expect(testStruct.leftRear).to(equal(tireDefault));
+            expect(testStruct.rightRear).to(equal(tireDefault));
+            expect(testStruct.innerLeftRear).to(equal(tireDefault));
+            expect(testStruct.innerRightRear).to(equal(tireDefault));
         });
     });
 });
