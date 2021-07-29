@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSData *binaryData;
 
 - (NSData *)data;
-+ (nullable id)rpcPayloadWithData:(NSData *)data;
++ (nullable id)securityPayloadWithData:(NSData *)data;
 
 @end
 

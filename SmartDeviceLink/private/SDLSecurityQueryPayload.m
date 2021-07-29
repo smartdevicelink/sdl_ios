@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
             self.queryType = queryType;
 
             UInt32 queryID = ui32Pointer[0];
+            queryID = CFSwapInt32BigToHost(queryID) & 0x00FFFFFF;
             self.queryID = queryID;
 
             UInt32 sequenceNumber = ui32Pointer[1];
