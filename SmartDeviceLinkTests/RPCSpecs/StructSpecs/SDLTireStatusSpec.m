@@ -79,7 +79,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.innerRightRear).to(equal(tire6));
     });
     
-    context(@"Should return nil if not set", ^{
+    context(@"Should not return nil if not set", ^{
         __block SDLTireStatus* testStruct = nil;
         // default tire status (when it is set to nil)
         __block SDLSingleTireStatus* tireDefault = nil;
@@ -101,7 +101,7 @@ describe(@"Getter/Setter Tests", ^{
 #pragma clang diagnostic pop
         });
 
-        it(@"Should return nil if not set", ^{
+        it(@"Should not return nil if not set", ^{
             expect(testStruct.pressureTelltale).to(equal(SDLWarningLightStatusNotUsed));
             expect(testStruct.leftFront).to(equal(tireDefault));
             expect(testStruct.rightFront).to(equal(tireDefault));
