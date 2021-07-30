@@ -112,37 +112,33 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Upload the artworks, then we will start updating the main menu
     __weak typeof(self) weakself = self;
-    NSArray<SDLArtwork *> *artworksToBeUploaded = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:self.updatedMenu fileManager:self.fileManager windowCapability:self.windowCapability];
-    if (artworksToBeUploaded.count > 0) {
-        [self.fileManager uploadArtworks:artworksToBeUploaded progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
-            if (weakself.isCancelled) {
-                [weakself finishOperation];
-                return NO;
-            }
-
-            return YES;
-        } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-            if (weakself.isCancelled) { return; }
-            if (error != nil) { SDLLogE(@"Error uploading menu artworks: %@", error); }
-
-            SDLLogD(@"Menu artworks uploaded, beginning upload of main menu");
-            // Start updating the main menu cells
-            [weakself sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
-                if (weakself.isCancelled) { return [weakself finishOperation]; }
-                // Start uploading the submenu cells
-                [weakself sdl_updateSubMenuWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
-            }];
-        }];
-    } else {
-        // Cells have no artwork to load
+    [self sdl_uploadMenuArtworksWithCompletionHandler:^(NSError * _Nullable error) {
+        if (weakself.isCancelled) { return [self finishOperation] }
         [self sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
             if (weakself.isCancelled) { return [weakself finishOperation]; }
             [weakself sdl_updateSubMenuWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
         }];
-    }
+    }];
 }
 
 #pragma mark - Update Main Menu / Submenu
+
+- (void)sdl_uploadMenuArtworksWithCompletionHandler:(void(^)(NSError *_Nullable error))handler {
+    NSArray<SDLArtwork *> *artworksToBeUploaded = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:self.updatedMenu fileManager:self.fileManager windowCapability:self.windowCapability];
+    if (artworksToBeUploaded.count == 0) { return handler(nil); }
+
+    __weak typeof(self) weakself = self;
+    [self.fileManager uploadArtworks:artworksToBeUploaded progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+        // If we're cancelled, stop uploading
+        return !weakself.isCancelled;
+    } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+        if (error != nil) { SDLLogE(@"Error uploading menu artworks: %@", error); }
+
+        SDLLogD(@"Menu artwork upload completed, beginning upload of main menu");
+        // Start updating the main menu cells
+        handler(error);
+    }];
+}
 
 /// Takes the main menu cells to delete and add, and deletes the current menu cells, then adds the new menu cells in the correct locations
 /// @param deleteCells The cells that need to be deleted
@@ -422,7 +418,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.internalError = [NSError sdl_menuManager_replaceOperationCancelled];
     }
 
-    self.currentMenuUpdatedHandler(self.currentMenu.copy, self.error);
+    self.currentMenuUpdatedHandler(self.currentMenu, self.error);
     [super finishOperation];
 }
 
