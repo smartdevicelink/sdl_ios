@@ -44,13 +44,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuReplaceOperation ()
 
+// Dependencies
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedMenu;
+@property (strong, nonatomic) NSMutableArray<SDLMenuCell *> *mutableCurrentMenu;
 @property (assign, nonatomic) BOOL compatibilityModeEnabled;
 @property (copy, nonatomic) SDLCurrentMenuUpdatedBlock currentMenuUpdatedHandler;
 
-@property (strong, nonatomic) NSMutableArray<SDLMenuCell *> *mutableCurrentMenu;
+// Internal properties
+@property (strong, nonatomic) NSArray<SDLMenuCell *> *currentStrippedMenu;
 @property (strong, nonatomic) NSArray<SDLMenuCell *> *updatedStrippedMenu;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
@@ -78,10 +81,12 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
-    self.updatedStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.updatedStrippedMenu basedOnWindowCapability:self.windowCapability];
+    self.updatedStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.updatedMenu basedOnWindowCapability:self.windowCapability];
+    self.currentStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.mutableCurrentMenu basedOnWindowCapability:self.windowCapability];
 
     BOOL supportsMenuUniqueness = [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]];
-    [self.class sdl_addUniqueNamesToCells:self.updatedMenu supportsMenuUniqueness:supportsMenuUniqueness];
+    [self.class sdl_addUniqueNamesToCells:self.updatedStrippedMenu supportsMenuUniqueness:supportsMenuUniqueness];
+    [self.class sdl_applyUniqueNamesOnCells:self.updatedStrippedMenu toCells:self.updatedMenu];
 
     SDLDynamicMenuUpdateRunScore *runScore = nil;
     if (self.compatibilityModeEnabled) {
@@ -89,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
         runScore = [SDLDynamicMenuUpdateAlgorithm compatibilityRunScoreWithOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
     } else {
         SDLLogV(@"Dynamic menu update active. Running the algorithm to find the best way to delete / add cells.");
-        runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
+        runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:self.currentMenu updatedMenuCells:self.updatedStrippedMenu];
     }
 
     // If both old and new cells are empty, nothing needs to happen
@@ -161,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (oldKeptCells.count == 0 || startIndex >= oldKeptCells.count) { return; }
 
     if (oldKeptCells[startIndex].subCells.count > 0) {
-        SDLDynamicMenuUpdateRunScore *tempScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldKeptCells[startIndex].subCells updatedMenuCells:newKeptCells[startIndex].subCells];
+        SDLDynamicMenuUpdateRunScore *tempScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldKeptCells[startIndex].subCells updatedMenuCells:newKeptCells[startIndex].subCells];
         NSArray<NSNumber *> *deleteMenuStatus = tempScore.oldStatus;
         NSArray<NSNumber *> *addMenuStatus = tempScore.updatedStatus;
 
@@ -384,6 +389,17 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (menuCells[i].subCells.count > 0) {
             [self sdl_addUniqueNamesToCells:menuCells[i].subCells supportsMenuUniqueness:supportsMenuUniqueness];
+        }
+    }
+}
+
++ (void)sdl_applyUniqueNamesOnCells:(NSArray<SDLMenuCell *> *)fromMenuCells toCells:(NSArray<SDLMenuCell *> *)toMenuCells {
+    NSParameterAssert(fromMenuCells.count == toMenuCells.count);
+
+    for (NSUInteger i = 0; i < fromMenuCells.count; i++) {
+        toMenuCells[i].uniqueTitle = fromMenuCells[i].uniqueTitle;
+        if (fromMenuCells[i].subCells.count > 0) {
+            [self sdl_applyUniqueNamesOnCells:fromMenuCells[i].subCells toCells:toMenuCells[i].subCells];
         }
     }
 }
