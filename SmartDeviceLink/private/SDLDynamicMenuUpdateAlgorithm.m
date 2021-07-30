@@ -14,12 +14,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLMenuCell ()
-
-- (BOOL)isEqualToCellWithUniqueTitle:(SDLMenuCell *)cell;
-
-@end
-
 @implementation SDLDynamicMenuUpdateAlgorithm
 
 #pragma mark Compatibility Menu Run Score
