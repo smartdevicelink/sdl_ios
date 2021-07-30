@@ -10,6 +10,7 @@
 
 @class SDLDynamicMenuUpdateRunScore;
 @class SDLMenuCell;
+@class SDLWindowCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,7 +36,7 @@ typedef NS_ENUM(NSUInteger, SDLMenuCellUpdateState) {
  @param oldMenuCells The old menu array
  @param updatedMenuCells The new menu array
  */
-+ (SDLDynamicMenuUpdateRunScore *)compareOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells;
++ (SDLDynamicMenuUpdateRunScore *)dynamicRunScoreOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells;
 
 + (SDLDynamicMenuUpdateRunScore *)compatibilityRunScoreWithOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells;
 
