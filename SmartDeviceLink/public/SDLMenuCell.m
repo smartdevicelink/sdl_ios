@@ -8,9 +8,10 @@
 
 #import "SDLMenuCell.h"
 
+#import "NSArray+Extensions.h"
 #import "SDLArtwork.h"
 #import "SDLMacros.h"
-#import "NSArray+Extensions.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -96,10 +97,10 @@ NS_ASSUME_NONNULL_BEGIN
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
     ^ NSUIntRotateCell(self.voiceCommands.dynamicHash, NSUIntBitCell / 4)
-    ^ NSUIntRotateCell((self.subCells.count != 0), NSUIntBitCell  / 5)
-    ^ NSUIntRotateCell(self.secondaryText.hash, NSUIntBitCell  / 6)
-    ^ NSUIntRotateCell(self.tertiaryText.hash, NSUIntBitCell  / 7)
-    ^ NSUIntRotateCell(self.secondaryArtwork.name.hash, NSUIntBitCell  / 8)
+    ^ NSUIntRotateCell((self.subCells.count != 0), NSUIntBitCell / 5)
+    ^ NSUIntRotateCell(self.secondaryText.hash, NSUIntBitCell / 6)
+    ^ NSUIntRotateCell(self.tertiaryText.hash, NSUIntBitCell / 7)
+    ^ NSUIntRotateCell(self.secondaryArtwork.name.hash, NSUIntBitCell / 8)
     ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 9);
 }
 
@@ -114,6 +115,18 @@ NS_ASSUME_NONNULL_BEGIN
     if (cell == nil) { return NO; }
 
     return (self.hash == cell.hash);
+}
+
+#pragma mark With Unique Title
+
+- (BOOL)isEqualToCellWithUniqueTitle:(SDLMenuCell *)cell {
+    if (cell == nil) { return NO; }
+
+    return ([self sdl_hashWithUniqueTitle] == [cell sdl_hashWithUniqueTitle]);
+}
+
+- (NSUInteger)sdl_hashWithUniqueTitle {
+    return self.hash ^ NSUIntRotateCell(self.uniqueTitle.hash, NSUIntBitCell / 10);
 }
 
 #pragma mark - Copying
