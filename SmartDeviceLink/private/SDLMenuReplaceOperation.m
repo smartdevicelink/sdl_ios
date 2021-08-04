@@ -168,7 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param newKeptCells The new kept cells
 /// @param startIndex The index of the main menu to use
 - (void)sdl_updateSubMenuWithOldKeptCells:(NSArray<SDLMenuCell *> *)oldKeptCells newKeptCells:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex completionHandler:(void(^)(NSError *_Nullable error))completionHandler {
-    if (oldKeptCells.count == 0 || startIndex >= oldKeptCells.count) { return; }
+    if (oldKeptCells.count == 0 || startIndex >= oldKeptCells.count) { return completionHandler(nil); }
 
     if (oldKeptCells[startIndex].subCells.count > 0) {
         SDLDynamicMenuUpdateRunScore *tempScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldKeptCells[startIndex].subCells updatedMenuCells:newKeptCells[startIndex].subCells];
