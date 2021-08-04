@@ -135,7 +135,7 @@
 }
 
 + (SDLLogFileModule *)sdl_screenManagerMenuModule {
-    return [SDLLogFileModule moduleWithName:@"Screen/Menu" files:[NSSet setWithArray:@[@"SDLMenuManager", @"SDLVoiceCommandManager", @"SDLVoiceCommandUpdateOperation"]]];
+    return [SDLLogFileModule moduleWithName:@"Screen/Menu" files:[NSSet setWithArray:@[@"SDLMenuManager", @"SDLMenuReplaceOperation", @"SDLMenuShowOperation", @"SDLMenuConfigurationUpdateOperation", @"SDLVoiceCommandManager", @"SDLVoiceCommandUpdateOperation"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerChoiceSetModule {
