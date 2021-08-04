@@ -157,7 +157,7 @@
     SDLAddCommand *command = [[SDLAddCommand alloc] init];
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
-    params.menuName = cell.title;
+    params.menuName = cell.uniqueTitle;
     params.secondaryText = [windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText] ? cell.secondaryText : nil;
     params.tertiaryText = [windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText] ? cell.tertiaryText : nil;
     params.parentID = (cell.parentCellId != ParentIdNotFound) ? @(cell.parentCellId) : nil;
@@ -183,7 +183,7 @@
         submenuLayout = defaultSubmenuLayout;
     }
 
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.title position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:secondaryIcon];
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.uniqueTitle position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:secondaryIcon];
 }
 
 #pragma mark - Updating Menu Cells
