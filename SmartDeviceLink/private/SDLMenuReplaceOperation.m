@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Upload the artworks, then we will start updating the main menu
     __weak typeof(self) weakself = self;
     [self sdl_uploadMenuArtworksWithCompletionHandler:^(NSError * _Nullable error) {
-        if (weakself.isCancelled) { return [self finishOperation] }
+        if (weakself.isCancelled) { return [self finishOperation]; }
         [self sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
             if (weakself.isCancelled) { return [weakself finishOperation]; }
             [weakself sdl_updateSubMenuWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
