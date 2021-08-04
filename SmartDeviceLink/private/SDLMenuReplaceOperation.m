@@ -111,12 +111,20 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
 
     // Upload the artworks, then we will start updating the main menu
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     [self sdl_uploadMenuArtworksWithCompletionHandler:^(NSError * _Nullable error) {
-        if (weakself.isCancelled) { return [self finishOperation]; }
-        [self sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
-            if (weakself.isCancelled) { return [weakself finishOperation]; }
-            [weakself sdl_updateSubMenuWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.isCancelled) { return [strongSelf finishOperation]; }
+        if (error != nil) { return [strongSelf finishOperationWithError:error]; }
+
+        [strongSelf sdl_updateMenuWithCellsToDelete:cellsToDelete cellsToAdd:cellsToAdd completionHandler:^(NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (strongSelf.isCancelled) { return [strongSelf finishOperation]; }
+            if (error != nil) { return [strongSelf finishOperationWithError:error]; }
+
+            [strongSelf sdl_updateSubMenuWithOldKeptCells:oldKeeps newKeptCells:newKeeps atIndex:0 completionHandler:^(NSError * _Nullable error) {
+                return [strongSelf finishOperationWithError:error];
+            }];
         }];
     }];
 }
@@ -145,10 +153,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param addCells The cells that need to be added
 /// @param handler A handler called when complete
 - (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(void(^)(NSError *_Nullable error))handler {
-    __weak typeof(self) weakself = self;
+    __weak typeof(self) weakSelf = self;
     [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
-        if (weakself.isCancelled) { return handler(error); }
-        [weakself sdl_sendNewMenuCells:addCells oldMenu:weakself.currentMenu withCompletionHandler:^(NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.isCancelled) { return handler(error); }
+        [strongSelf sdl_sendNewMenuCells:addCells oldMenu:strongSelf.currentMenu withCompletionHandler:^(NSError * _Nullable error) {
             handler(error);
         }];
     }];
@@ -158,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param oldKeptCells The old kept cells
 /// @param newKeptCells The new kept cells
 /// @param startIndex The index of the main menu to use
-- (void)sdl_updateSubMenuWithOldKeptCells:(NSArray<SDLMenuCell *> *)oldKeptCells newKeptCells:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex {
+- (void)sdl_updateSubMenuWithOldKeptCells:(NSArray<SDLMenuCell *> *)oldKeptCells newKeptCells:(NSArray<SDLMenuCell *> *)newKeptCells atIndex:(NSUInteger)startIndex completionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     if (oldKeptCells.count == 0 || startIndex >= oldKeptCells.count) { return; }
 
     if (oldKeptCells[startIndex].subCells.count > 0) {
@@ -176,18 +185,24 @@ NS_ASSUME_NONNULL_BEGIN
 
         __weak typeof(self) weakself = self;
         [self sdl_sendDeleteCurrentMenu:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
-            if (weakself.isCancelled) { return [weakself finishOperation]; }
+            if (weakself.isCancelled) { return completionHandler([NSError sdl_menuManager_replaceOperationCancelled]); }
+            if (error != nil) { return completionHandler(error); }
 
             [weakself sdl_sendNewMenuCells:cellsToAdd oldMenu:weakself.currentMenu[startIndex].subCells withCompletionHandler:^(NSError * _Nullable error) {
-                if (weakself.isCancelled) { return [weakself finishOperation]; }
+                if (weakself.isCancelled) { return completionHandler([NSError sdl_menuManager_replaceOperationCancelled]); }
+                if (error != nil) { return completionHandler(error); }
 
                 // After the first set of submenu cells were added and deleted we must find the next set of subcells until we loop through all the elements
-                [weakself sdl_updateSubMenuWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1)];
+                [weakself sdl_updateSubMenuWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1) completionHandler:^(NSError * _Nullable error) {
+                    completionHandler(error);
+                }];
             }];
         }];
     } else {
         // There are no subcells, we can skip to the next index.
-        [self sdl_updateSubMenuWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1)];
+        [self sdl_updateSubMenuWithOldKeptCells:oldKeptCells newKeptCells:newKeptCells atIndex:(startIndex + 1) completionHandler:^(NSError * _Nullable error) {
+            completionHandler(error);
+        }];
     }
 }
 
@@ -411,6 +426,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Operation Overrides
+
+- (void)finishOperationWithError:(NSError *)error {
+    self.internalError = error;
+    [self finishOperation];
+}
 
 - (void)finishOperation {
     SDLLogV(@"Finishing menu manager dynamic replace operation");
