@@ -14,28 +14,33 @@
 #import "SDLMenuShowOperation.h"
 #import "TestConnectionManager.h"
 
+@interface SDLMenuShowOperation ()
+
+@property (strong, nonatomic, nullable) SDLMenuCell *submenuCell;
+
+@end
+
 QuickSpecBegin(SDLMenuShowOperationSpec)
 
 describe(@"the show menu operation", ^{
     __block SDLMenuShowOperation *testOp = nil;
     __block TestConnectionManager *testConnectionManager = nil;
     __block NSError *resultError = nil;
+    __block BOOL callbackCalled = NO;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
+        testOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:testConnectionManager toMenuCell:nil completionHandler:^(NSError * _Nullable error) {
+            resultError = error;
+            callbackCalled = YES;
+        }];
         resultError = nil;
-    });
-
-    afterEach(^{
-        testOp = nil;
+        callbackCalled = NO;
     });
 
     // opening to the main menu
     context(@"opening to the main menu", ^{
         beforeEach(^{
-            testOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:testConnectionManager toMenuCell:nil completionHandler:^(NSError * _Nullable error) {
-                resultError = error;
-            }];
             [testOp start];
         });
 
@@ -54,8 +59,9 @@ describe(@"the show menu operation", ^{
             });
 
             it(@"should set the error and finish", ^{
-                expect(testOp.error).toNot((beNil()));
                 expect(testOp.isFinished).to(beTrue());
+                expect(resultError).toNot(beNil());
+                expect(callbackCalled).to(beTrue());
             });
         });
 
@@ -70,8 +76,9 @@ describe(@"the show menu operation", ^{
             });
 
             it(@"should not set the error and finish", ^{
-                expect(testOp.error).to((beNil()));
                 expect(testOp.isFinished).to(beTrue());
+                expect(resultError).to(beNil());
+                expect(callbackCalled).to(beTrue());
             });
         });
 
@@ -86,8 +93,9 @@ describe(@"the show menu operation", ^{
             });
 
             it(@"should not set the error and finish", ^{
-                expect(testOp.error).to((beNil()));
                 expect(testOp.isFinished).to(beTrue());
+                expect(resultError).to(beNil());
+                expect(callbackCalled).to(beTrue());
             });
         });
     });
@@ -99,14 +107,8 @@ describe(@"the show menu operation", ^{
         beforeEach(^{
             subcell = [[SDLMenuCell alloc] initWithTitle:@"Subcell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) { }];
             openToCell = [[SDLMenuCell alloc] initWithTitle:@"Test submenu" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[subcell]];
-            testOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:testConnectionManager toMenuCell:openToCell completionHandler:^(NSError * _Nullable error) {
-                resultError = error;
-            }];
+            testOp.submenuCell = openToCell;
             [testOp start];
-        });
-
-        it(@"should send the RPC request", ^{
-            expect(testConnectionManager.receivedRequests).to(haveCount(1));
         });
 
         // when the response is not SUCCESS or WARNINGS
@@ -120,7 +122,8 @@ describe(@"the show menu operation", ^{
             });
 
             it(@"should set the error and finish", ^{
-                expect(testOp.error).toNot((beNil()));
+                expect(resultError).toNot(beNil());
+                expect(callbackCalled).to(beTrue());
                 expect(testOp.isFinished).to(beTrue());
             });
         });
@@ -136,7 +139,8 @@ describe(@"the show menu operation", ^{
             });
 
             it(@"should not set the error and finish", ^{
-                expect(testOp.error).to((beNil()));
+                expect(resultError).to(beNil());
+                expect(callbackCalled).to(beTrue());
                 expect(testOp.isFinished).to(beTrue());
             });
         });
@@ -152,7 +156,8 @@ describe(@"the show menu operation", ^{
             });
 
             it(@"should not set the error and finish", ^{
-                expect(testOp.error).to((beNil()));
+                expect(resultError).to(beNil());
+                expect(callbackCalled).to(beTrue());
                 expect(testOp.isFinished).to(beTrue());
             });
         });
