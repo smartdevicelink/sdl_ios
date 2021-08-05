@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLMenuConfigurationUpdatedBlock)(SDLMenuConfiguration *newMenuConfiguration, NSError *_Nullable error);
+typedef void(^SDLMenuConfigurationUpdatedBlock)(SDLMenuConfiguration *_Nullable newMenuConfiguration, NSError *_Nullable error);
 
 @interface SDLMenuConfigurationUpdateOperation : SDLAsynchronousOperation
 

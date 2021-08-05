@@ -153,7 +153,7 @@ describe(@"a menu configuration update operation", ^{
         });
     });
 
-    describe(@"cancelling the operation", ^{
+    describe(@"cancelling the operation before it starts", ^{
         testOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:testConnectionManager windowCapability:testWindowCapability newMenuConfiguration:testMenuConfiguration configurationUpdatedHandler:testUpdatedBlock];
 
         beforeEach(^{
@@ -161,12 +161,12 @@ describe(@"a menu configuration update operation", ^{
             [testOp start];
         });
 
-        it(@"should finish with an error", ^{
-            expect(testOp.error).toNot(beNil());
+        it(@"should finish without any callbacks", ^{
+            expect(testOp.error).to(beNil());
             expect(testConnectionManager.receivedRequests).to(beEmpty());
             expect(testOp.isFinished).to(beTrue());
             expect(resultMenuConfiguration).to(beNil());
-            expect(resultError).toNot(beNil());
+            expect(resultError).to(beNil());
         });
     });
 });

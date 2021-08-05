@@ -271,14 +271,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Menu Manager
 
-+ (NSError *)sdl_menuManager_configurationOperationCancelled {
-    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOperationCancelled userInfo:@{
-        NSLocalizedDescriptionKey: @"Menu Manager - Configuration Update Cancelled",
-        NSLocalizedFailureReasonErrorKey: @"The menu manager was probably stopped or another configuration update was requested.",
-        NSLocalizedRecoverySuggestionErrorKey: @"This error probably does not need recovery."
-    }];
-}
-
 + (NSError *)sdl_menuManager_configurationOperationLayoutsNotSupported {
     return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateLayoutNotSupported userInfo:@{
         NSLocalizedDescriptionKey: @"Menu Manager - Configuration Update Failed",

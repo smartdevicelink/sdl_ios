@@ -73,10 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)finishOperation {
     SDLLogV(@"Finishing menu manager configuration update operation");
-    if (self.isCancelled) {
-        self.internalError = [NSError sdl_menuManager_configurationOperationCancelled];
+    if (self.internalError != nil) {
+        self.menuConfigurationUpdatedBlock(nil, self.internalError);
+    } else {
+        self.menuConfigurationUpdatedBlock(self.updatedMenuConfiguration, nil);
     }
-    self.menuConfigurationUpdatedBlock(self.updatedMenuConfiguration, self.internalError);
 
     [super finishOperation];
 }
