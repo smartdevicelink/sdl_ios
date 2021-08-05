@@ -49,8 +49,8 @@ describe(@"menu manager", ^{
     __block SDLMenuCell *submenuCell = nil;
 
     beforeEach(^{
-        textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil submenuLayout:nil subCells:@[textOnlyCell]];
+        textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[textOnlyCell]];
 
         testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutTiles defaultSubmenuLayout:SDLMenuLayoutList];
 
@@ -156,8 +156,8 @@ describe(@"menu manager", ^{
 
             // containing duplicate VR commands
             context(@"containing duplicate VR commands", ^{
-                __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-                __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
                 it(@"should fail when menu items have duplicate vr commands", ^{
                     testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
@@ -353,7 +353,7 @@ describe(@"menu manager", ^{
         // on a main menu cell
         context(@"on a main menu cell", ^{
             beforeEach(^{
-                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
                     cellCalled = YES;
                     testTriggerSource = triggerSource;
                 }];
@@ -377,12 +377,12 @@ describe(@"menu manager", ^{
         // on a submenu menu cell
         context(@"on a submenu menu cell", ^{
             beforeEach(^{
-                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
                     cellCalled = YES;
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler]];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler]];
 
                 testManager.menuCells = @[submenuCell];
             });

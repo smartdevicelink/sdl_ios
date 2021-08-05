@@ -19,9 +19,11 @@ QuickSpecBegin(SDLMenuShowOperationSpec)
 describe(@"the show menu operation", ^{
     __block SDLMenuShowOperation *testOp = nil;
     __block TestConnectionManager *testConnectionManager = nil;
+    __block NSError *resultError = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
+        resultError = nil;
     });
 
     afterEach(^{
@@ -31,7 +33,9 @@ describe(@"the show menu operation", ^{
     // opening to the main menu
     context(@"opening to the main menu", ^{
         beforeEach(^{
-            testOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:testConnectionManager toMenuCell:nil];
+            testOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:testConnectionManager toMenuCell:nil completionHandler:^(NSError * _Nullable error) {
+                resultError = error;
+            }];
             [testOp start];
         });
 
@@ -93,9 +97,11 @@ describe(@"the show menu operation", ^{
         __block SDLMenuCell *openToCell = nil;
         __block SDLMenuCell *subcell = nil;
         beforeEach(^{
-            subcell = [[SDLMenuCell alloc] initWithTitle:@"Subcell" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) { }];
-            openToCell = [[SDLMenuCell alloc] initWithTitle:@"Test submenu" icon:nil submenuLayout:nil subCells:@[subcell]];
-            testOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:testConnectionManager toMenuCell:openToCell];
+            subcell = [[SDLMenuCell alloc] initWithTitle:@"Subcell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) { }];
+            openToCell = [[SDLMenuCell alloc] initWithTitle:@"Test submenu" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[subcell]];
+            testOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:testConnectionManager toMenuCell:openToCell completionHandler:^(NSError * _Nullable error) {
+                resultError = error;
+            }];
             [testOp start];
         });
 

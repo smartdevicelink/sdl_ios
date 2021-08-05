@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
     MenuCellStateKeep
 };
 
-describe(@"menuUpdateAlgorithm", ^{
+describe(@"The menu update algorithm", ^{
     __block SDLDynamicMenuUpdateRunScore *runScore = nil;
 
     __block SDLMenuCell *oldCell1 = nil;
@@ -39,7 +39,7 @@ describe(@"menuUpdateAlgorithm", ^{
     __block SDLMenuCell *newCell5 = nil;
     __block SDLMenuCell *newCell6 = nil;
 
-    // 0 = Delete   1 = Add    2 = Keep
+    // 0 = Delete, 1 = Add, 2 = Keep
     describe(@"compare old and new menu cells", ^{
         beforeEach(^{
             oldCell1 = [[SDLMenuCell alloc] initWithTitle:@"Cell 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
@@ -58,11 +58,10 @@ describe(@"menuUpdateAlgorithm", ^{
         });
 
         it(@"should have a new menu status of 22221 and an old menu status of 2222 on best run", ^{
-
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[newCell1, newCell2, newCell3, newCell4, newCell5];
 
-            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(5));
             expect(runScore.oldStatus.count).to(equal(4));
@@ -85,7 +84,7 @@ describe(@"menuUpdateAlgorithm", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[newCell1, newCell2, newCell3];
 
-            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(3));
             expect(runScore.oldStatus.count).to(equal(4));
@@ -105,7 +104,7 @@ describe(@"menuUpdateAlgorithm", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[newCell4, newCell5, newCell6];
 
-            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(3));
             expect(runScore.oldStatus.count).to(equal(3));
@@ -124,7 +123,7 @@ describe(@"menuUpdateAlgorithm", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[oldCell2, oldCell1, oldCell4, oldCell3 ];
 
-            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(4));
             expect(runScore.oldStatus.count).to(equal(4));
@@ -145,7 +144,7 @@ describe(@"menuUpdateAlgorithm", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[];
 
-            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(0));
             expect(runScore.oldStatus.count).to(equal(4));
@@ -161,7 +160,7 @@ describe(@"menuUpdateAlgorithm", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[oldCell1, oldCell2, oldCell3, oldCell4];
 
-            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
             expect(runScore.updatedStatus.count).to(equal(4));
             expect(runScore.oldStatus.count).to(equal(0));
@@ -178,9 +177,9 @@ describe(@"menuUpdateAlgorithm", ^{
             NSArray<SDLMenuCell *> *oldMenuCells = @[];
             NSArray<SDLMenuCell *> *updatedMenuCells = @[];
 
-            runScore = [SDLDynamicMenuUpdateAlgorithm compareOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
+            runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:oldMenuCells updatedMenuCells:updatedMenuCells];
 
-            expect(runScore).to(beNil());
+            expect(runScore.isEmpty).to(beTrue());
         });
     });
 });

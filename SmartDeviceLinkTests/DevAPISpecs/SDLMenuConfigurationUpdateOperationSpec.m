@@ -25,28 +25,26 @@ describe(@"a menu configuration update operation", ^{
     SDLMenuConfiguration *testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutList defaultSubmenuLayout:SDLMenuLayoutTiles];
 
     __block SDLMenuConfigurationUpdatedBlock testUpdatedBlock = nil;
-    __block SDLMenuConfiguration *updatedBlockMenuConfiguration = nil;
+    __block SDLMenuConfiguration *resultMenuConfiguration = nil;
+    __block NSError *resultError = nil;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMClassMock([SDLFileManager class]);
-        testWindowCapability = nil;
+        testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:@[] dynamicUpdateCapabilities:nil keyboardCapabilities:nil];
 
-        updatedBlockMenuConfiguration = nil;
-        testUpdatedBlock = ^(SDLMenuConfiguration *newConfiguration) {
-            updatedBlockMenuConfiguration = newConfiguration;
+        resultMenuConfiguration = nil;
+        resultError = nil;
+        testUpdatedBlock = ^(SDLMenuConfiguration *newConfiguration, NSError *_Nullable error) {
+            resultMenuConfiguration = newConfiguration;
+            resultError = error;
         };
     });
 
     // when the layout check fails
     describe(@"when the layout check fails", ^{
-
         // when there are no known menu layouts
         context(@"when there are no known menu layouts", ^{
-            beforeEach(^{
-                testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:@[] dynamicUpdateCapabilities:nil];
-            });
-
             it(@"should return an error and finish", ^{
                 testOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:testConnectionManager windowCapability:testWindowCapability newMenuConfiguration:testMenuConfiguration configurationUpdatedHandler:testUpdatedBlock];
                 [testOp start];
@@ -54,14 +52,14 @@ describe(@"a menu configuration update operation", ^{
                 expect(testOp.error).toNot(beNil());
                 expect(testConnectionManager.receivedRequests).to(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
-                expect(updatedBlockMenuConfiguration).to(beNil());
+                expect(resultMenuConfiguration).to(beNil());
             });
         });
 
         // when the set main menu layout is not available
         context(@"when the set main menu layout is not available", ^{
             beforeEach(^{
-                testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:@[SDLMenuLayoutTiles] dynamicUpdateCapabilities:nil];
+                testWindowCapability.menuLayoutsAvailable = @[SDLMenuLayoutTiles];
             });
 
             it(@"should return an error and finish", ^{
@@ -71,14 +69,14 @@ describe(@"a menu configuration update operation", ^{
                 expect(testOp.error).toNot(beNil());
                 expect(testConnectionManager.receivedRequests).to(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
-                expect(updatedBlockMenuConfiguration).to(beNil());
+                expect(resultMenuConfiguration).to(beNil());
             });
         });
 
         // when the set default submenu layout is not available
         context(@"when the set default submenu layout is not available", ^{
             beforeEach(^{
-                testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:@[SDLMenuLayoutList] dynamicUpdateCapabilities:nil];
+                testWindowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList];
             });
 
             it(@"should return an error and finish", ^{
@@ -88,7 +86,7 @@ describe(@"a menu configuration update operation", ^{
                 expect(testOp.error).toNot(beNil());
                 expect(testConnectionManager.receivedRequests).to(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
-                expect(updatedBlockMenuConfiguration).to(beNil());
+                expect(resultMenuConfiguration).to(beNil());
             });
         });
     });
@@ -98,7 +96,7 @@ describe(@"a menu configuration update operation", ^{
         __block SDLSetGlobalPropertiesResponse *response = [[SDLSetGlobalPropertiesResponse alloc] init];
 
         beforeEach(^{
-            testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:nil imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:@[SDLMenuLayoutList, SDLMenuLayoutTiles] dynamicUpdateCapabilities:nil];
+            testWindowCapability.menuLayoutsAvailable = @[SDLMenuLayoutList, SDLMenuLayoutTiles];
 
             testOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:testConnectionManager windowCapability:testWindowCapability newMenuConfiguration:testMenuConfiguration configurationUpdatedHandler:testUpdatedBlock];
             [testOp start];
@@ -109,7 +107,8 @@ describe(@"a menu configuration update operation", ^{
             expect(testOp.error).to(beNil());
             expect(testConnectionManager.receivedRequests).toNot(beEmpty());
             expect(testOp.isFinished).to(beFalse());
-            expect(updatedBlockMenuConfiguration).to(beNil());
+            expect(resultMenuConfiguration).to(beNil());
+            expect(resultError).to(beNil());
 
             SDLSetGlobalProperties *receivedSGP = (SDLSetGlobalProperties *)testConnectionManager.receivedRequests[0];
             expect(receivedSGP.menuLayout).to(equal(testMenuConfiguration.mainMenuLayout));
@@ -128,7 +127,7 @@ describe(@"a menu configuration update operation", ^{
                 expect(testOp.error).toNot(beNil());
                 expect(testConnectionManager.receivedRequests).toNot(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
-                expect(updatedBlockMenuConfiguration).to(beNil());
+                expect(resultMenuConfiguration).to(beNil());
             });
         });
 
@@ -145,7 +144,7 @@ describe(@"a menu configuration update operation", ^{
                 expect(testOp.error).to(beNil());
                 expect(testConnectionManager.receivedRequests).toNot(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
-                expect(updatedBlockMenuConfiguration).to(equal(testMenuConfiguration));
+                expect(resultMenuConfiguration).to(equal(testMenuConfiguration));
             });
         });
     });
