@@ -44,6 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [mutableStringArray copy];
 }
 
+- (BOOL)isEmpty {
+    return (self.oldStatus.count == 0 && self.updatedStatus.count == 0 && self.score == 0);
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

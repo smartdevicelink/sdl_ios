@@ -73,8 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
         if (numberOfAdds == 0) {
             return [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
         }
-        // if we havent create the bestScore object or if the current score beats the old score then we will create a new bestScore
-        if (bestScore == nil || numberOfAdds < bestScore.score) {
+        // if we haven't create the bestScore object or if the current score beats the old score then we will create a new bestScore
+        if (bestScore.isEmpty || numberOfAdds < bestScore.score) {
             bestScore = [[SDLDynamicMenuUpdateRunScore alloc] initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
         }
     }

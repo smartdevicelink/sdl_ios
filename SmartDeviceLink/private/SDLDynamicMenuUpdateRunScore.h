@@ -27,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly) NSUInteger score;
 
+/// Contains no old score, new score, or score
+@property (assign, nonatomic, readonly) BOOL isEmpty;
+
 - (instancetype)initWithOldStatus:(NSArray<NSNumber *> *)oldStatus updatedStatus:(NSArray<NSNumber *> *)updatedStatus score:(NSUInteger)score;
 
 @end
