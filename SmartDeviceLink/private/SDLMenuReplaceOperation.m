@@ -427,8 +427,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Operation Overrides
 
-- (void)finishOperationWithError:(NSError *)error {
-    self.internalError = error;
+- (void)finishOperationWithError:(nullable NSError *)error {
+    if (error != nil) {
+        self.internalError = error;
+    }
+
     [self finishOperation];
 }
 

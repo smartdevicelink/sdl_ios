@@ -189,6 +189,7 @@
 #pragma mark - Updating Menu Cells
 
 #pragma mark Remove Cell
+
 + (BOOL)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId {
     for (SDLMenuCell *menuCell in menuCellList) {
         if (menuCell.cellId == commandId) {
@@ -210,6 +211,7 @@
 }
 
 #pragma mark Inserting Cell
+
 + (BOOL)addMenuRequestWithCommandId:(UInt32)commandId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList {
     SDLMenuCell *addedCell = nil;
     for (SDLMenuCell *cell in newMenuList) {
