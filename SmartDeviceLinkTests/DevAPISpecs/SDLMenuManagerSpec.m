@@ -193,8 +193,6 @@ describe(@"menu manager", ^{
                 it(@"should properly prepare and queue the transaction", ^{
                     testManager.menuCells = @[textOnlyCell];
 
-                    // Assign proper cell id
-                    expect(textOnlyCell.cellId).to(equal(1));
                     expect(testManager.transactionQueue.operationCount).to(equal(1));
                     expect(testManager.transactionQueue.operations[0]).to(beAnInstanceOf([SDLMenuReplaceOperation class]));
 
