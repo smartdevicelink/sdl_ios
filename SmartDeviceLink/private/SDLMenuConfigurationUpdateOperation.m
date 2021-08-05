@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (self.internalError == nil) {
-        self.menuConfigurationUpdatedBlock(self.updatedMenuConfiguration);
+        self.menuConfigurationUpdatedBlock(self.updatedMenuConfiguration, self.internalError);
     }
 
     [super finishOperation];

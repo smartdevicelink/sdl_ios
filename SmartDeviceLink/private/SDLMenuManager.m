@@ -171,7 +171,10 @@ UInt32 const MenuCellIdMin = 1;
 
     // Create the operation
     __weak typeof(self) weakself = self;
-    SDLMenuConfigurationUpdateOperation *configurationUpdateOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:self.connectionManager windowCapability:self.windowCapability newMenuConfiguration:menuConfiguration configurationUpdatedHandler:^(SDLMenuConfiguration * _Nonnull newMenuConfiguration) {
+    SDLMenuConfigurationUpdateOperation *configurationUpdateOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:self.connectionManager windowCapability:self.windowCapability newMenuConfiguration:menuConfiguration configurationUpdatedHandler:^(SDLMenuConfiguration *newMenuConfiguration, NSError *_Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error updating menu configuration: %@", error);
+        }
         weakself.currentMenuConfiguration = newMenuConfiguration;
         [weakself sdl_updateMenuReplaceOperationsWithNewMenuConfiguration];
     }];
