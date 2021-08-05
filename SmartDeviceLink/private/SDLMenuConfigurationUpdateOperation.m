@@ -76,10 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isCancelled) {
         self.internalError = [NSError sdl_menuManager_configurationOperationCancelled];
     }
-
-    if (self.internalError == nil) {
-        self.menuConfigurationUpdatedBlock(self.updatedMenuConfiguration, self.internalError);
-    }
+    self.menuConfigurationUpdatedBlock(self.updatedMenuConfiguration, self.internalError);
 
     [super finishOperation];
 }

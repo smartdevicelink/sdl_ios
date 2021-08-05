@@ -49,10 +49,11 @@ describe(@"a menu configuration update operation", ^{
                 testOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:testConnectionManager windowCapability:testWindowCapability newMenuConfiguration:testMenuConfiguration configurationUpdatedHandler:testUpdatedBlock];
                 [testOp start];
 
-                expect(testOp.error).toNot(beNil());
                 expect(testConnectionManager.receivedRequests).to(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
                 expect(resultMenuConfiguration).to(beNil());
+                expect(resultError).toNot(beNil());
+                expect(testOp.error).toNot(beNil());
             });
         });
 
@@ -66,10 +67,11 @@ describe(@"a menu configuration update operation", ^{
                 testOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:testConnectionManager windowCapability:testWindowCapability newMenuConfiguration:testMenuConfiguration configurationUpdatedHandler:testUpdatedBlock];
                 [testOp start];
 
-                expect(testOp.error).toNot(beNil());
                 expect(testConnectionManager.receivedRequests).to(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
                 expect(resultMenuConfiguration).to(beNil());
+                expect(resultError).toNot(beNil());
+                expect(testOp.error).toNot(beNil());
             });
         });
 
@@ -83,10 +85,11 @@ describe(@"a menu configuration update operation", ^{
                 testOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:testConnectionManager windowCapability:testWindowCapability newMenuConfiguration:testMenuConfiguration configurationUpdatedHandler:testUpdatedBlock];
                 [testOp start];
 
-                expect(testOp.error).toNot(beNil());
                 expect(testConnectionManager.receivedRequests).to(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
                 expect(resultMenuConfiguration).to(beNil());
+                expect(resultError).toNot(beNil());
+                expect(testOp.error).toNot(beNil());
             });
         });
     });
@@ -145,7 +148,25 @@ describe(@"a menu configuration update operation", ^{
                 expect(testConnectionManager.receivedRequests).toNot(beEmpty());
                 expect(testOp.isFinished).to(beTrue());
                 expect(resultMenuConfiguration).to(equal(testMenuConfiguration));
+                expect(resultError).to(beNil());
             });
+        });
+    });
+
+    describe(@"cancelling the operation", ^{
+        testOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:testConnectionManager windowCapability:testWindowCapability newMenuConfiguration:testMenuConfiguration configurationUpdatedHandler:testUpdatedBlock];
+
+        beforeEach(^{
+            [testOp cancel];
+            [testOp start];
+        });
+
+        it(@"should finish with an error", ^{
+            expect(testOp.error).toNot(beNil());
+            expect(testConnectionManager.receivedRequests).to(beEmpty());
+            expect(testOp.isFinished).to(beTrue());
+            expect(resultMenuConfiguration).to(beNil());
+            expect(resultError).toNot(beNil());
         });
     });
 });
