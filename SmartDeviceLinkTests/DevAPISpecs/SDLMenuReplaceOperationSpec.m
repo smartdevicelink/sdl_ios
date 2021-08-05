@@ -232,6 +232,7 @@ describe(@"a menu replace operation", ^{
                 deleteCommandResponse.success = @YES;
                 deleteCommandResponse.resultCode = SDLResultSuccess;
                 [testConnectionManager respondToLastRequestWithResponse:deleteCommandResponse];
+                [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
                 NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
                 NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];

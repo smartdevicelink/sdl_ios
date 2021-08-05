@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // If both old and new cells are empty, nothing needs to happen
-    if ((runScore.oldStatus.count == 0) && (runScore.updatedStatus.count == 0)) { return [self finishOperation]; }
+    if (runScore.isEmpty) { return [self finishOperation]; }
 
     // Drop the cells into buckets based on the run score
     NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
