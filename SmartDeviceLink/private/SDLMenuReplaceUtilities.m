@@ -96,10 +96,10 @@
     NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
         if (cell.subCells != nil) {
-            SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:cell.cellId];
+            SDLDeleteSubMenu *delete = [[SDLDeleteSubMenu alloc] initWithId:cell.cellId];
             [mutableDeletes addObject:delete];
         } else {
-            SDLDeleteSubMenu *delete = [[SDLDeleteSubMenu alloc] initWithId:cell.cellId];
+            SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:cell.cellId];
             [mutableDeletes addObject:delete];
         }
     }
@@ -112,7 +112,7 @@
     for (NSUInteger menuInteger = 0; menuInteger < menu.count; menuInteger++) {
         for (NSUInteger updateCellsIndex = 0; updateCellsIndex < cells.count; updateCellsIndex++) {
             if ([menu[menuInteger] isEqual:cells[updateCellsIndex]]) {
-                if (cells[updateCellsIndex].subCells == nil) {
+                if (cells[updateCellsIndex].subCells != nil) {
                     [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cells[updateCellsIndex] fileManager:fileManager position:(UInt16)menuInteger windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
                 } else {
                     [mutableCommands addObject:[self sdl_commandForMenuCell:cells[updateCellsIndex] fileManager:fileManager windowCapability:windowCapability position:(UInt16)menuInteger]];
