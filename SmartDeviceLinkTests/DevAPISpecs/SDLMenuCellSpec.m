@@ -108,6 +108,13 @@ describe(@"a menu cell", ^{
             expect([testCell isEqual:testCell2]).to(beFalse());
         });
 
+        it(@"should compare cells and return false if one cell has subcells empty and another has subcells nil", ^{
+            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:nil secondaryArtwork:someSecondaryArtwork submenuLayout:testLayout subCells:nil];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:someTitle secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:nil secondaryArtwork:someSecondaryArtwork submenuLayout:testLayout subCells:@[]];
+
+            expect([testCell isEqual:testCell2]).to(beFalse());
+        });
+
         it(@"should compare cells and return true if cells equal", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
