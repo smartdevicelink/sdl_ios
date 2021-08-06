@@ -54,13 +54,13 @@
 
 /// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
 + (BOOL)sdl_shouldCellIncludeImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
-    BOOL supportsImage = (cell.subCells.count > 0) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon] : [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon];
+    BOOL supportsImage = (cell.subCells != nil) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon] : [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon];
     return (cell.icon != nil) && supportsImage && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
 }
 
 /// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
 + (BOOL)sdl_shouldCellIncludeSecondaryImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
-    BOOL supportsImage = (cell.subCells.count > 0) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage] : [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage];
+    BOOL supportsImage = (cell.subCells != nil) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage] : [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage];
     return (cell.secondaryArtwork != nil) && supportsImage && ([fileManager hasUploadedFile:cell.secondaryArtwork] || cell.secondaryArtwork.isStaticIcon);
 }
 
@@ -95,7 +95,7 @@
 + (NSArray<SDLRPCRequest *> *)deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
     NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
-        if (cell.subCells.count == 0) {
+        if (cell.subCells != nil) {
             SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:cell.cellId];
             [mutableDeletes addObject:delete];
         } else {
@@ -112,7 +112,7 @@
     for (NSUInteger menuInteger = 0; menuInteger < menu.count; menuInteger++) {
         for (NSUInteger updateCellsIndex = 0; updateCellsIndex < cells.count; updateCellsIndex++) {
             if ([menu[menuInteger] isEqual:cells[updateCellsIndex]]) {
-                if (cells[updateCellsIndex].subCells.count > 0) {
+                if (cells[updateCellsIndex].subCells == nil) {
                     [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cells[updateCellsIndex] fileManager:fileManager position:(UInt16)menuInteger windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
                 } else {
                     [mutableCommands addObject:[self sdl_commandForMenuCell:cells[updateCellsIndex] fileManager:fileManager windowCapability:windowCapability position:(UInt16)menuInteger]];
@@ -128,7 +128,7 @@
 + (NSArray<SDLRPCRequest *> *)subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
-        if (cell.subCells.count > 0) {
+        if (cell.subCells != nil) {
             [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells fileManager:fileManager windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
         }
     }
@@ -142,7 +142,7 @@
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
 
     for (NSUInteger cellIndex = 0; cellIndex < cells.count; cellIndex++) {
-        if (cells[cellIndex].subCells.count > 0) {
+        if (cells[cellIndex].subCells != nil) {
             [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cells[cellIndex] fileManager:fileManager position:(UInt16)cellIndex windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
             [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cells[cellIndex].subCells fileManager:fileManager windowCapability:windowCapability defaultSubmenuLayout:defaultSubmenuLayout]];
         } else {
@@ -270,7 +270,7 @@
 
 + (void)sdl_insertMenuCell:(SDLMenuCell *)cell intoList:(NSMutableArray<SDLMenuCell *> *)cellList atPosition:(UInt16)position {
     SDLMenuCell *cellToInsert = cell;
-    if (cellToInsert.subCells.count > 0) {
+    if (cellToInsert.subCells != nil) {
         cellToInsert = [cell copy];
         cellToInsert.subCells = @[];
     }
