@@ -158,8 +158,8 @@
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
     params.menuName = cell.uniqueTitle;
-    params.secondaryText = [windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText] ? cell.secondaryText : nil;
-    params.tertiaryText = [windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText] ? cell.tertiaryText : nil;
+    params.secondaryText = ([windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText] && cell.secondaryText.length > 0) ? cell.secondaryText : nil;
+    params.tertiaryText = ([windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]  && cell.tertiaryText.length > 0) ? cell.tertiaryText : nil;
     params.parentID = (cell.parentCellId != ParentIdNotFound) ? @(cell.parentCellId) : nil;
     params.position = @(position);
 
@@ -173,6 +173,8 @@
 }
 
 + (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager position:(UInt16)position windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
+    NSString *secondaryText = ([windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText] && cell.secondaryText.length > 0) ? cell.secondaryText : nil;
+    NSString *tertiaryText = ([windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]  && cell.tertiaryText.length > 0) ? cell.tertiaryText : nil;
     SDLImage *icon = [self sdl_shouldCellIncludeImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
     SDLImage *secondaryIcon = [self sdl_shouldCellIncludeSecondaryImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.secondaryArtwork.imageRPC : nil;
 
@@ -183,7 +185,7 @@
         submenuLayout = defaultSubmenuLayout;
     }
 
-    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.uniqueTitle position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:cell.secondaryText tertiaryText:cell.tertiaryText secondaryImage:secondaryIcon];
+    return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.uniqueTitle position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:secondaryText tertiaryText:tertiaryText secondaryImage:secondaryIcon];
 }
 
 #pragma mark - Updating Menu Cells
