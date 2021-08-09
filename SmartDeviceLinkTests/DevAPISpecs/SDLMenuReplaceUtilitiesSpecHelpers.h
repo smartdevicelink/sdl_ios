@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuReplaceUtilitiesSpecHelpers : NSObject
 
-@property (nonatomic, readonly) NSArray<SDLMenuCell *> *topLevelOnlyMenu;
-@property (nonatomic, readonly) NSArray<SDLMenuCell *> *deepMenu;
+@property (class, nonatomic, readonly) NSArray<SDLMenuCell *> *topLevelOnlyMenu;
+@property (class, nonatomic, readonly) NSArray<SDLMenuCell *> *deepMenu;
 
 @end
 

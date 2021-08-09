@@ -65,6 +65,7 @@
 }
 
 #pragma mark - RPC Commands
+#pragma mark Retrieving Values
 
 + (UInt32)commandIdForRPCRequest:(SDLRPCRequest *)request {
     UInt32 commandId = 0;
@@ -91,6 +92,8 @@
 
     return position;
 }
+
+#pragma mark Generating RPCs
 
 + (NSArray<SDLRPCRequest *> *)deleteCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
     NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
@@ -188,9 +191,7 @@
     return [[SDLAddSubMenu alloc] initWithMenuID:cell.cellId menuName:cell.uniqueTitle position:@(position) menuIcon:icon menuLayout:submenuLayout parentID:nil secondaryText:secondaryText tertiaryText:tertiaryText secondaryImage:secondaryIcon];
 }
 
-#pragma mark - Updating Menu Cells
-
-#pragma mark Remove Cell
+#pragma mark - Updating Menu Cells In Lists
 
 + (BOOL)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId {
     for (SDLMenuCell *menuCell in menuCellList) {
@@ -211,8 +212,6 @@
 
     return NO;
 }
-
-#pragma mark Inserting Cell
 
 + (BOOL)addMenuRequestWithCommandId:(UInt32)commandId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList {
     SDLMenuCell *addedCell = nil;

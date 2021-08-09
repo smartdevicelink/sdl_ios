@@ -13,7 +13,7 @@
 
 @implementation SDLMenuReplaceUtilitiesSpecHelpers
 
-+ (NSArray<SDLMenuCell *> *)topLevelMenuOnly {
++ (NSArray<SDLMenuCell *> *)topLevelOnlyMenu {
     NSData *cellArtData = [@"testart" dataUsingEncoding:NSUTF8StringEncoding];
     NSData *cellArtData2 = [@"testart2" dataUsingEncoding:NSUTF8StringEncoding];
     SDLArtwork *artwork1 = [[SDLArtwork alloc] initWithData:cellArtData name:@"Test Art 1" fileExtension:@"png" persistent:NO];
