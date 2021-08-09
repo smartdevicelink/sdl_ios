@@ -381,9 +381,10 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 #pragma mark Present Helpers
 
 - (void)sdl_setSelectedCellWithId:(NSNumber<SDLInt> *)cellId {
-    for (NSUInteger i = 0; i < self.cellsToUpload.count; i++) {
-        if (self.cellsToUpload[i].choiceId == cellId.unsignedIntValue) {
-            self.selectedCell = self.cellsToUpload[i];
+    for (NSUInteger i = 0; i < self.choiceSet.choices.count; i++) {
+        SDLChoiceCell *thisCell = self.choiceSet.choices[i];
+        if (thisCell.choiceId == cellId.unsignedIntValue) {
+            self.selectedCell = thisCell;
             self.selectedCellRow = i;
             break;
         }
