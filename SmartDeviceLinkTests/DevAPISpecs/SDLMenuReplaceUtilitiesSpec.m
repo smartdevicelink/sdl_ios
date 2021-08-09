@@ -161,16 +161,17 @@ describe(@"retrieving a position", ^{
     context(@"with an AddCommand", ^{
         it(@"should return the position", ^{
             SDLAddCommand *rpc = [[SDLAddCommand alloc] init];
-            rpc.menuParams.position = @12345;
-            expect(@([SDLMenuReplaceUtilities positionForRPCRequest:rpc])).to(equal(@12345));
+            rpc.menuParams = [[SDLMenuParams alloc] init];
+            rpc.menuParams.position = @123;
+            expect(@([SDLMenuReplaceUtilities positionForRPCRequest:rpc])).to(equal(@123));
         });
     });
 
     context(@"with an AddSubMenu", ^{
         it(@"should return the command id", ^{
             SDLAddSubMenu *rpc = [[SDLAddSubMenu alloc] init];
-            rpc.position = @12345;
-            expect(@([SDLMenuReplaceUtilities positionForRPCRequest:rpc])).to(equal(@12345));
+            rpc.position = @123;
+            expect(@([SDLMenuReplaceUtilities positionForRPCRequest:rpc])).to(equal(@123));
         });
     });
 });
@@ -220,7 +221,7 @@ describe(@"generating RPCs", ^{
             });
 
             it(@"should generate the correct RPCs", ^{
-                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingIndexesFrom:@[] windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
+                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingIndexesFrom:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
                 expect(requests).to(haveCount(3));
                 expect(requests[0]).to(beAnInstanceOf(SDLAddCommand.class));
                 expect(requests[1]).to(beAnInstanceOf(SDLAddCommand.class));
@@ -234,7 +235,7 @@ describe(@"generating RPCs", ^{
             });
 
             it(@"should generate the correct RPCs", ^{
-                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingIndexesFrom:@[] windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
+                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingIndexesFrom:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
                 expect(requests).to(haveCount(3));
                 expect(requests[0]).to(beAnInstanceOf(SDLAddSubMenu.class));
                 expect(requests[1]).to(beAnInstanceOf(SDLAddCommand.class));
