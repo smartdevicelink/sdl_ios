@@ -649,10 +649,12 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     self.preloadCompletionHandler(self.loadedCells, self.internalError);
 
     if (self.choiceSet.delegate == nil) {
-        SDLLogW(@"Present finished, but no choice set delegate was available for callback");
+        SDLLogD(@"Preload finished, no choice set delegate was set, so no present will occur.");
     } else if (error != nil) {
+        SDLLogW(@"Choice set did error: %@", self.internalError);
         [self.choiceSet.delegate choiceSet:self.choiceSet didReceiveError:self.internalError];
     } else if (self.selectedCell != nil) {
+        SDLLogD(@"Choice set did present successfully: %@, selected choice: %@, trigger source: %@, row index: %ld", self.choiceSet, self.selectedCell, self.selectedTriggerSource, self.selectedCellRow);
         [self.choiceSet.delegate choiceSet:self.choiceSet didSelectChoice:self.selectedCell withSource:self.selectedTriggerSource atRowIndex:self.selectedCellRow];
     } else {
         SDLLogE(@"Present finished, but an unhandled state occurred and callback failed");
