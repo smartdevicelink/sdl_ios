@@ -20,7 +20,7 @@
 
 QuickSpecBegin(SDLMenuReplaceUtilitiesSpec)
 
-__block NSArray<SDLMenuCell *> *testMenuCells = nil;
+__block NSMutableArray<SDLMenuCell *> *testMenuCells = nil;
 __block SDLFileManager *mockFileManager = nil;
 __block SDLWindowCapability *testWindowCapability = nil;
 __block NSArray<SDLTextField *> *allSupportedTextFields = @[
@@ -261,19 +261,173 @@ describe(@"generating RPCs", ^{
 
 // updating menu cells
 describe(@"updating menu cell lists", ^{
-    __block NSArray<SDLMenuCell *> *testNewMenuCells = nil;
     __block UInt32 testCommandId = 0;
 
-    // removeMenuCellFromList:withCmdId:
-    describe(@"removing commands from a list", ^{
-        context(@"the list only has one level", ^{
+    describe(@"removing commands", ^{
+        context(@"from a shallow list", ^{
+            beforeEach(^{
+                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu;
+            });
 
+            context(@"when the cell is in the menu", ^{
+                beforeEach(^{
+                    testCommandId = testMenuCells[1].cellId;
+                });
+
+                it(@"should return the menu without the cell and return YES", ^{
+                    NSMutableArray<SDLMenuCell *> *testMutableMenuCells = [testMenuCells mutableCopy];
+                    BOOL foundItem = [SDLMenuReplaceUtilities removeCellFromList:testMutableMenuCells withCellId:testCommandId];
+
+                    expect(foundItem).to(beTrue());
+                    expect(testMutableMenuCells).to(haveCount(2));
+                    expect(testMutableMenuCells[0]).to(equal(testMenuCells[0]));
+                    expect(testMutableMenuCells[1]).to(equal(testMenuCells[2]));
+                });
+            });
+
+            context(@"when the cell is not in the menu", ^{
+                beforeEach(^{
+                    testCommandId = 100;
+                });
+
+                it(@"should return the menu with all cells and return NO", ^{
+                    NSMutableArray<SDLMenuCell *> *testMutableMenuCells = [testMenuCells mutableCopy];
+                    BOOL foundItem = [SDLMenuReplaceUtilities removeCellFromList:testMutableMenuCells withCellId:testCommandId];
+
+                    expect(foundItem).to(beFalse());
+                    expect(testMutableMenuCells).to(haveCount(3));
+                });
+            });
+        });
+
+        context(@"from a deep list", ^{
+            beforeEach(^{
+                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
+            });
+
+            context(@"when the cell is in the top menu", ^{
+                beforeEach(^{
+                    testCommandId = testMenuCells[1].cellId;
+                });
+
+                it(@"should return the menu without the cell and return YES", ^{
+                    NSMutableArray<SDLMenuCell *> *testMutableMenuCells = [testMenuCells mutableCopy];
+                    BOOL foundItem = [SDLMenuReplaceUtilities removeCellFromList:testMutableMenuCells withCellId:testCommandId];
+
+                    expect(foundItem).to(beTrue());
+                    expect(testMutableMenuCells).to(haveCount(2));
+                    expect(testMutableMenuCells[0]).to(equal(testMenuCells[0]));
+                    expect(testMutableMenuCells[1]).to(equal(testMenuCells[2]));
+                });
+            });
+
+            context(@"when the cell is in the submenu", ^{
+                beforeEach(^{
+                    testCommandId = 5;
+                });
+
+                it(@"should return the menu without the cell and return YES", ^{
+                    NSMutableArray<SDLMenuCell *> *testMutableMenuCells = [testMenuCells mutableCopy];
+                    BOOL foundItem = [SDLMenuReplaceUtilities removeCellFromList:testMutableMenuCells withCellId:testCommandId];
+
+                    expect(foundItem).to(beTrue());
+                    expect(testMutableMenuCells).to(haveCount(3));
+                    expect(testMutableMenuCells[2].subCells).to(haveCount(1));
+                });
+            });
+
+            context(@"when the cell is not in the menu", ^{
+                beforeEach(^{
+                    testCommandId = 100;
+                });
+
+                it(@"should return the menu with all cells and return NO", ^{
+                    NSMutableArray<SDLMenuCell *> *testMutableMenuCells = [testMenuCells mutableCopy];
+                    BOOL foundItem = [SDLMenuReplaceUtilities removeCellFromList:testMutableMenuCells withCellId:testCommandId];
+
+                    expect(foundItem).to(beFalse());
+                    expect(testMutableMenuCells).to(haveCount(3));
+                    expect(testMutableMenuCells[0].subCells).to(haveCount(2));
+                    expect(testMutableMenuCells[2].subCells).to(haveCount(2));
+                });
+            });
         });
     });
 
-    describe(@"add commands to the list", ^{
-        __block NSMutableArray<SDLMenuCell *> *testMenuCells = nil;
-        __block UInt16 testPosition = 0;
+    describe(@"add commands to the main list", ^{
+        __block NSMutableArray<SDLMenuCell *> *newCellList = nil;
+
+        context(@"from a shallow list", ^{
+            beforeEach(^{
+                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu;
+
+                SDLMenuCell *newCell = [[SDLMenuCell alloc] initWithTitle:@"New Cell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                newCell.cellId = 99;
+                newCellList = [@[newCell] mutableCopy];
+            });
+
+            describe(@"if the cell is not in the cell list", ^{
+                beforeEach(^{
+                    newCellList = [[NSMutableArray alloc] init];
+                });
+
+                it(@"should return NO", ^{
+                    BOOL didAddCell = [SDLMenuReplaceUtilities addCellWithCellId:99 position:0 fromNewMenuList:newCellList toMainMenuList:testMenuCells];
+
+                    expect(didAddCell).to(beFalse());
+                });
+            });
+
+            context(@"at the beginning", ^{
+                it(@"should return YES and the cell should be included", ^{
+                    BOOL didAddCell = [SDLMenuReplaceUtilities addCellWithCellId:newCellList[0].cellId position:0 fromNewMenuList:newCellList toMainMenuList:testMenuCells];
+
+                    expect(didAddCell).to(beTrue());
+                    expect(testMenuCells).to(haveCount(4));
+                    expect(testMenuCells[0]).to(equal(newCellList[0]));
+                });
+            });
+
+            context(@"in the middle", ^{
+                it(@"should return YES and the cell should be included", ^{
+                    BOOL didAddCell = [SDLMenuReplaceUtilities addCellWithCellId:newCellList[0].cellId position:1 fromNewMenuList:newCellList toMainMenuList:testMenuCells];
+
+                    expect(didAddCell).to(beTrue());
+                    expect(testMenuCells).to(haveCount(4));
+                    expect(testMenuCells[1]).to(equal(newCellList[0]));
+                });
+            });
+
+            context(@"at the end", ^{
+                it(@"should return YES and the cell should be included", ^{
+                    BOOL didAddCell = [SDLMenuReplaceUtilities addCellWithCellId:newCellList[0].cellId position:3 fromNewMenuList:newCellList toMainMenuList:testMenuCells];
+
+                    expect(didAddCell).to(beTrue());
+                    expect(testMenuCells).to(haveCount(4));
+                    expect(testMenuCells[3]).to(equal(newCellList[0]));
+                });
+            });
+        });
+
+        context(@"from a deep list", ^{
+            beforeEach(^{
+                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
+
+                SDLMenuCell *subCell = [[SDLMenuCell alloc] initWithTitle:@"New SubCell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                subCell.cellId = 98;
+                SDLMenuCell *newCell = [[SDLMenuCell alloc] initWithTitle:@"New Cell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[subCell]];
+                newCell.cellId = 99;
+                newCellList = [@[newCell] mutableCopy];
+            });
+
+            it(@"should properly add the subcell to the list", ^{
+                BOOL didAddCell = [SDLMenuReplaceUtilities addCellWithCellId:98 position:0 fromNewMenuList:newCellList toMainMenuList:testMenuCells];
+
+                expect(didAddCell).to(beTrue());
+                expect(testMenuCells).to(haveCount(4));
+                expect(testMenuCells[0]).to(equal(newCellList[0].subCells[0]));
+            });
+        });
     });
 });
 

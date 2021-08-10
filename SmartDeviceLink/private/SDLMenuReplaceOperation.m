@@ -222,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
         } else if (response.success.boolValue) {
             // Find the id of the successful request and remove it from the current menu list wherever it may have been
             UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
-            [SDLMenuReplaceUtilities removeMenuCellFromList:self.mutableCurrentMenu withCmdId:commandId];
+            [SDLMenuReplaceUtilities removeCellFromList:self.mutableCurrentMenu withCellId:commandId];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -257,7 +257,7 @@ NS_ASSUME_NONNULL_BEGIN
             // Find the id of the successful request and add it from the current menu list wherever it needs to be
             UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
             UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
-            [SDLMenuReplaceUtilities addMenuRequestWithCommandId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
+            [SDLMenuReplaceUtilities addCellWithCellId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
@@ -272,7 +272,7 @@ NS_ASSUME_NONNULL_BEGIN
                 // Find the id of the successful request and add it from the current menu list wherever it needs to be
                 UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
                 UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
-                [SDLMenuReplaceUtilities addMenuRequestWithCommandId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
+                [SDLMenuReplaceUtilities addCellWithCellId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
             }
         } completionHandler:^(BOOL success) {
             if (!success) {

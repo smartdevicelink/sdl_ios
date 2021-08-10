@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param menuCellList The list to mutate and remove the item from
 /// @param commandId The id of the cell to find and remove
 /// @return YES if the cell was found and removed successfully, NO if it was not
-+ (BOOL)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId;
++ (BOOL)removeCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCellId:(UInt32)commandId;
 
 /// Finds a menu cell from newMenuList with the given commandId and inserts it into the main menu list (or a subcell list) at the given position
 /// @param commandId The command id for the cell to be found
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param newMenuList The complete requested new menu list. We will find the cell to insert from this list.
 /// @param mainMenuList The mutable main menu list. The place to insert the cell will be in this list or one of its cell's subcell list (or one of it's cell's subcell's subcell's list, etc.)
 /// @return YES if the cell was added successfully, NO if the cell was not
-+ (BOOL)addMenuRequestWithCommandId:(UInt32)commandId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList;
++ (BOOL)addCellWithCellId:(UInt32)commandId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList;
 
 @end
 

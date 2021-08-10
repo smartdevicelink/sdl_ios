@@ -197,7 +197,7 @@
 
 #pragma mark - Updating Menu Cells In Lists
 
-+ (BOOL)removeMenuCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCmdId:(UInt32)commandId {
++ (BOOL)removeCellFromList:(NSMutableArray<SDLMenuCell *> *)menuCellList withCellId:(UInt32)commandId {
     for (SDLMenuCell *menuCell in menuCellList) {
         if (menuCell.cellId == commandId) {
             // If the cell id matches the command id, remove it from the list and return
@@ -206,7 +206,7 @@
         } else if (menuCell.subCells.count > 0) {
             // If the menu cell has subcells, we need to recurse and check the subcells
             NSMutableArray<SDLMenuCell *> *newList = [menuCell.subCells mutableCopy];
-            BOOL foundAndRemovedItem = [self removeMenuCellFromList:newList withCmdId:commandId];
+            BOOL foundAndRemovedItem = [self removeCellFromList:newList withCellId:commandId];
             if (foundAndRemovedItem) {
                 menuCell.subCells = [newList copy];
                 return YES;
@@ -217,14 +217,14 @@
     return NO;
 }
 
-+ (BOOL)addMenuRequestWithCommandId:(UInt32)commandId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList {
++ (BOOL)addCellWithCellId:(UInt32)cellId position:(UInt16)position fromNewMenuList:(NSArray<SDLMenuCell *> *)newMenuList toMainMenuList:(NSMutableArray <SDLMenuCell *> *)mainMenuList {
     SDLMenuCell *addedCell = nil;
     for (SDLMenuCell *cell in newMenuList) {
-        if (cell.cellId == commandId) {
+        if (cell.cellId == cellId) {
             addedCell = cell;
             break;
         } else if (cell.subCells.count > 0) {
-            BOOL success = [self addMenuRequestWithCommandId:commandId position:position fromNewMenuList:cell.subCells toMainMenuList:mainMenuList];
+            BOOL success = [self addCellWithCellId:cellId position:position fromNewMenuList:cell.subCells toMainMenuList:mainMenuList];
             if (success) { return YES; }
         }
     }
