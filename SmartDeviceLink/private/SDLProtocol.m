@@ -783,13 +783,19 @@ NS_ASSUME_NONNULL_BEGIN
     // TODO: (Joel F.)[2016-02-15] Should check for errors
     NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
 
-    NSData *clientHandshakeHeaderData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(0, 12)];
-    SDLSecurityQueryPayload *payl = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeHeaderData];
-
-//    if (payl.rpcType == SDLRPCMessageTypeNotification) {
-        NSLog(@"## client header rpcType: %u", (unsigned int)payl.queryType);
-        NSLog(@"## client header functionID: %u", (unsigned int)payl.queryID);
-//    }
+    SDLSecurityQueryPayload *clientSecurityQueryPayload = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeMessage.payload];
+    if (clientSecurityQueryPayload.queryID == 0x02) {
+        NSLog(@"## client header rpcType: %u", (unsigned int)clientSecurityQueryPayload.queryType);
+        NSLog(@"## client header functionID: %u", (unsigned int)clientSecurityQueryPayload.queryID);
+        NSError *JSONConversionError = nil;
+        NSDictionary<NSString *, id> *securityQueryErrorDictionary = [NSJSONSerialization JSONObjectWithData:clientSecurityQueryPayload.jsonData options:kNilOptions error:&JSONConversionError];
+        if (JSONConversionError) {
+            SDLLogE(@"Error converting EncodedSyncPData response dictionary: %@", JSONConversionError);
+        } else {
+            SDLLogE(@"Client internal error, dictionary: %@", securityQueryErrorDictionary)
+        }
+        return;
+    }
 
     // Ask the security manager for server data based on the client data sent
     NSError *handshakeError = nil;
