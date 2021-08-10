@@ -44,6 +44,10 @@
             [mutableArtworks addObject:cell.icon];
         }
 
+        if ((cell.secondaryArtwork != nil) && [fileManager fileNeedsUpload:cell.secondaryArtwork]) {
+            [mutableArtworks addObject:cell.secondaryArtwork];
+        }
+
         if (cell.subCells.count > 0) {
             [mutableArtworks addObjectsFromArray:[self findAllArtworksToBeUploadedFromCells:cell.subCells fileManager:fileManager windowCapability:windowCapability]];
         }
@@ -53,7 +57,7 @@
 }
 
 /// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
-+ (BOOL)sdl_shouldCellIncludeImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
++ (BOOL)sdl_shouldCellIncludePrimaryImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
     BOOL supportsImage = (cell.subCells != nil) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon] : [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon];
     return (cell.icon != nil) && supportsImage && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
 }
@@ -168,7 +172,7 @@
 
     command.menuParams = params;
     command.vrCommands = (cell.voiceCommands.count == 0) ? nil : cell.voiceCommands;
-    command.cmdIcon = [self sdl_shouldCellIncludeImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
+    command.cmdIcon = [self sdl_shouldCellIncludePrimaryImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
     command.secondaryImage = [self sdl_shouldCellIncludeSecondaryImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.secondaryArtwork.imageRPC : nil;
     command.cmdID = @(cell.cellId);
 
@@ -178,7 +182,7 @@
 + (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager position:(UInt16)position windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout {
     NSString *secondaryText = ([windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText] && cell.secondaryText.length > 0) ? cell.secondaryText : nil;
     NSString *tertiaryText = ([windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]  && cell.tertiaryText.length > 0) ? cell.tertiaryText : nil;
-    SDLImage *icon = [self sdl_shouldCellIncludeImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
+    SDLImage *icon = [self sdl_shouldCellIncludePrimaryImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.icon.imageRPC : nil;
     SDLImage *secondaryIcon = [self sdl_shouldCellIncludeSecondaryImageFromCell:cell fileManager:fileManager windowCapability:windowCapability] ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLMenuLayout submenuLayout = nil;
