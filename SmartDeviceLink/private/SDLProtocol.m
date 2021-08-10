@@ -792,7 +792,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (JSONConversionError) {
             SDLLogE(@"Error converting EncodedSyncPData response dictionary: %@", JSONConversionError);
         } else {
-            SDLLogE(@"Client internal error, dictionary: %@", securityQueryErrorDictionary)
+            SDLLogE(@"Client internal error, dictionary: %@", securityQueryErrorDictionary);
         }
         return;
     }
