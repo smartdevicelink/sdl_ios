@@ -829,8 +829,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
     SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
-    serverTLSPayload.queryID = 0x01; // TLS Handshake message
-    serverTLSPayload.queryType = 0x00;
+    serverTLSPayload.queryID = 0x77; // TLS Handshake message
+    serverTLSPayload.queryType = 0x77;
     serverTLSPayload.sequenceNumber = 0x00;
     serverTLSPayload.binaryData = data;
 
