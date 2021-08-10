@@ -44,7 +44,7 @@ describe(@"finding all artworks from cells", ^{
 
     context(@"when all the files need to be uploaded", ^{
         beforeEach(^{
-            OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
+            OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
         });
 
         context(@"when the window capability doesn't support the primary image", ^{
@@ -68,7 +68,7 @@ describe(@"finding all artworks from cells", ^{
             it(@"should only return primary images to upload", ^{
                 NSArray<SDLArtwork *> *artworksToUpload = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu fileManager:mockFileManager windowCapability:testWindowCapability];
 
-                expect(artworksToUpload).to(haveCount(1));
+                expect(artworksToUpload).to(haveCount(2));
             });
         });
 
@@ -90,7 +90,7 @@ describe(@"finding all artworks from cells", ^{
                 it(@"should only return all images to upload", ^{
                     NSArray<SDLArtwork *> *artworksToUpload = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:SDLMenuReplaceUtilitiesSpecHelpers.deepMenu fileManager:mockFileManager windowCapability:testWindowCapability];
 
-                    expect(artworksToUpload).to(haveCount(2));
+                    expect(artworksToUpload).to(haveCount(4));
                 });
             });
         });
@@ -98,7 +98,7 @@ describe(@"finding all artworks from cells", ^{
 
     context(@"when no files need to be uploaded", ^{
         beforeEach(^{
-            OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+            OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
         });
 
         context(@"when the window capability supports both images", ^{
@@ -206,7 +206,7 @@ describe(@"generating RPCs", ^{
 
             it(@"should generate the correct RPCs", ^{
                 NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities deleteCommandsForCells:testMenuCells];
-                expect(requests).to(haveCount(6));
+                expect(requests).to(haveCount(3));
                 expect(requests[0]).to(beAnInstanceOf(SDLDeleteSubMenu.class));
                 expect(requests[1]).to(beAnInstanceOf(SDLDeleteCommand.class));
                 expect(requests[2]).to(beAnInstanceOf(SDLDeleteSubMenu.class));
