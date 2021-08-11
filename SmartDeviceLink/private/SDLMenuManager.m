@@ -80,11 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *currentMenuCells;
 @property (strong, nonatomic, nullable) SDLMenuConfiguration *currentMenuConfiguration;
 
-@property (assign, nonatomic) UInt32 lastMenuId;
-
 @end
-
-UInt32 const MenuCellIdMin = 1;
 
 @implementation SDLMenuManager
 
@@ -92,7 +88,6 @@ UInt32 const MenuCellIdMin = 1;
     self = [super init];
     if (!self) { return nil; }
 
-    _lastMenuId = MenuCellIdMin;
     _menuConfiguration = [[SDLMenuConfiguration alloc] init];
     _menuCells = @[];
     _currentMenuCells = @[];
@@ -121,7 +116,6 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (void)stop {
-    _lastMenuId = MenuCellIdMin;
     _menuCells = @[];
     _currentMenuCells = @[];
     _transactionQueue = [self sdl_newTransactionQueue];
@@ -200,7 +194,6 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     _menuCells = [[NSArray alloc] initWithArray:menuCells copyItems:YES];
-    [self sdl_updateIdsOnMenuCells:self.menuCells parentId:ParentIdNotFound];
 
     __weak typeof(self) weakself = self;
     SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells compatibilityModeEnabled:(![self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) currentMenuUpdatedHandler:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells, NSError *error) {
@@ -334,23 +327,6 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     return YES;
-}
-
-#pragma mark IDs
-
-/// Assign cell ids on an array of menu cells given a parent id (or no parent id)
-/// @param menuCells The array of menu cells to update
-/// @param parentId The parent id to assign if needed
-- (void)sdl_updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
-    for (SDLMenuCell *cell in menuCells) {
-        cell.cellId = self.lastMenuId++;
-        if (parentId != ParentIdNotFound) {
-            cell.parentCellId = parentId;
-        }
-        if (cell.subCells.count > 0) {
-            [self sdl_updateIdsOnMenuCells:cell.subCells parentId:cell.cellId];
-        }
-    }
 }
 
 #pragma mark - Calling handlers

@@ -7,6 +7,7 @@
 #import "SDLFileManager.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuReplaceUtilitiesSpecHelpers.h"
+#import "SDLMenuManagerPrivateConstants.h"
 #import "SDLWindowCapability.h"
 #import "TestConnectionManager.h"
 
@@ -15,6 +16,12 @@
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
 @property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+
+@end
+
+@interface SDLMenuReplaceUtilities ()
+
+@property (class, assign, nonatomic) UInt32 nextMenuId;
 
 @end
 
@@ -35,6 +42,37 @@ __block NSArray<SDLImageField *> *allSupportedImageFields = @[
     [[SDLImageField alloc] initWithName:SDLImageFieldNameSubMenuIcon imageTypeSupported:@[SDLImageTypeDynamic] imageResolution:nil],
     [[SDLImageField alloc] initWithName:SDLImageFieldNameMenuSubMenuSecondaryImage imageTypeSupported:@[SDLImageTypeDynamic] imageResolution:nil]
 ];
+
+describe(@"adding ids", ^{
+    it(@"should properly add ids", ^{
+        SDLMenuReplaceUtilities.nextMenuId = 0;
+        testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
+
+        [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
+
+        expect(testMenuCells[0].cellId).to(equal(1));
+        expect(testMenuCells[1].cellId).to(equal(6));
+        expect(testMenuCells[2].cellId).to(equal(7));
+
+        NSArray<SDLMenuCell *> *subCellList1 = testMenuCells[0].subCells;
+        expect(subCellList1[0].cellId).to(equal(2));
+        expect(subCellList1[0].parentCellId).to(equal(1));
+        expect(subCellList1[1].cellId).to(equal(5));
+        expect(subCellList1[1].parentCellId).to(equal(1));
+
+        NSArray<SDLMenuCell *> *subCell1SubCellList1 = subCellList1[0].subCells;
+        expect(subCell1SubCellList1[0].cellId).to(equal(3));
+        expect(subCell1SubCellList1[0].parentCellId).to(equal(2));
+        expect(subCell1SubCellList1[1].cellId).to(equal(4));
+        expect(subCell1SubCellList1[1].parentCellId).to(equal(2));
+
+        NSArray<SDLMenuCell *> *subCellList2 = testMenuCells[2].subCells;
+        expect(subCellList2[0].cellId).to(equal(8));
+        expect(subCellList2[0].parentCellId).to(equal(7));
+        expect(subCellList2[1].cellId).to(equal(9));
+        expect(subCellList2[1].parentCellId).to(equal(7));
+    });
+});
 
 describe(@"finding all artworks from cells", ^{
     beforeEach(^{
@@ -267,6 +305,7 @@ describe(@"updating menu cell lists", ^{
         context(@"from a shallow list", ^{
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu;
+                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
             });
 
             context(@"when the cell is in the menu", ^{
@@ -303,6 +342,7 @@ describe(@"updating menu cell lists", ^{
         context(@"from a deep list", ^{
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
+                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
             });
 
             context(@"when the cell is in the top menu", ^{
@@ -360,6 +400,7 @@ describe(@"updating menu cell lists", ^{
         context(@"from a shallow list", ^{
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu;
+                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
 
                 SDLMenuCell *newCell = [[SDLMenuCell alloc] initWithTitle:@"New Cell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                 newCell.cellId = 99;
@@ -409,23 +450,30 @@ describe(@"updating menu cell lists", ^{
             });
         });
 
-        context(@"from a deep list", ^{
+        fcontext(@"from a deep list", ^{
+            __block SDLMenuCell *subCell = nil;
+            __block NSMutableArray<SDLMenuCell *> *newMenu = nil;
+
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
+                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
 
-                SDLMenuCell *subCell = [[SDLMenuCell alloc] initWithTitle:@"New SubCell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-                subCell.cellId = 98;
-                SDLMenuCell *newCell = [[SDLMenuCell alloc] initWithTitle:@"New Cell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[subCell]];
-                newCell.cellId = 99;
-                newCellList = [@[newCell] mutableCopy];
+                newMenu = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu.mutableCopy;
+                NSMutableArray<SDLMenuCell *> *subMenuToUpdate = newMenu[0].subCells.mutableCopy;
+                subCell = [[SDLMenuCell alloc] initWithTitle:@"New SubCell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                [subMenuToUpdate insertObject:subCell atIndex:0];
+                newMenu[0].subCells = subMenuToUpdate.copy;
+
+                [SDLMenuReplaceUtilities updateIdsOnMenuCells:newMenu parentId:ParentIdNotFound];
             });
 
             it(@"should properly add the subcell to the list", ^{
-                BOOL didAddCell = [SDLMenuReplaceUtilities addCellWithCellId:98 position:0 fromNewMenuList:newCellList toMainMenuList:testMenuCells];
+                BOOL didAddCell = [SDLMenuReplaceUtilities addCellWithCellId:newMenu[0].subCells[0].cellId position:0 fromNewMenuList:newMenu toMainMenuList:testMenuCells];
 
                 expect(didAddCell).to(beTrue());
-                expect(testMenuCells).to(haveCount(4));
-                expect(testMenuCells[0]).to(equal(newCellList[0].subCells[0]));
+                expect(testMenuCells).to(haveCount(3));
+                expect(testMenuCells[0].subCells).to(haveCount(3));
+                expect(testMenuCells[0].subCells[0]).to(equal(subCell));
             });
         });
     });

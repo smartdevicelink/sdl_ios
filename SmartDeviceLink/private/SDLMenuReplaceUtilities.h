@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuReplaceUtilities : NSObject
 
+#pragma mark - Ids
+
++ (void)updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId;
+
 #pragma mark - Artworks
 
 /// Finds all artworks that need to be uploaded from the given list of menu cells

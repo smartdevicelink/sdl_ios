@@ -31,8 +31,6 @@
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *currentMenuCells;
 @property (strong, nonatomic, nullable) SDLMenuConfiguration *currentMenuConfiguration;
 
-@property (assign, nonatomic) UInt32 lastMenuId;
-
 @end
 
 QuickSpecBegin(SDLMenuManagerSpec)
@@ -83,7 +81,6 @@ describe(@"menu manager", ^{
         expect(testManager.currentSystemContext).to(beNil());
         expect(testManager.currentMenuCells).to(beEmpty());
         expect(testManager.currentMenuConfiguration).to(beNil());
-        expect(testManager.lastMenuId).to(equal(1));
     });
 
     // when the manager stops
@@ -105,7 +102,6 @@ describe(@"menu manager", ^{
             expect(testManager.currentSystemContext).to(beNil());
             expect(testManager.currentMenuCells).to(beEmpty());
             expect(testManager.currentMenuConfiguration).to(beNil());
-            expect(testManager.lastMenuId).to(equal(1));
         });
     });
 

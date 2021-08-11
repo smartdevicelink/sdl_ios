@@ -18,6 +18,7 @@
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuConfiguration.h"
+#import "SDLMenuManagerPrivateConstants.h"
 #import "SDLTextFieldName.h"
 #import "SDLVersion.h"
 #import "SDLWindowCapability.h"
@@ -78,6 +79,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start {
     [super start];
     if (self.isCancelled) { return; }
+
+    [SDLMenuReplaceUtilities updateIdsOnMenuCells:self.updatedMenu parentId:ParentIdNotFound];
 
     SDLDynamicMenuUpdateRunScore *runScore = nil;
     if (self.compatibilityModeEnabled) {
