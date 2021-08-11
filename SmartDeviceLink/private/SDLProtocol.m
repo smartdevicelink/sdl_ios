@@ -784,7 +784,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
 
     SDLSecurityQueryPayload *clientSecurityQueryPayload = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeMessage.payload];
-    if (clientSecurityQueryPayload.queryID == 0x02) {
+    if (clientSecurityQueryPayload.queryID == SDLSecurityQueryIdSendInternalError) {
         NSLog(@"## client header rpcType: %u", (unsigned int)clientSecurityQueryPayload.queryType);
         NSLog(@"## client header functionID: %u", (unsigned int)clientSecurityQueryPayload.queryID);
         NSError *JSONConversionError = nil;
@@ -792,7 +792,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (JSONConversionError) {
             SDLLogE(@"Error converting EncodedSyncPData response dictionary: %@", JSONConversionError);
         } else {
-            SDLLogE(@"Client internal error, dictionary: %@", securityQueryErrorDictionary);
+            SDLLogE(@"Client internal error, dictionary: %@", securityQueryErrorDictionary.allValues);
         }
         return;
     }
@@ -829,8 +829,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
     SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
-    serverTLSPayload.queryID = 0x77; // TLS Handshake message
-    serverTLSPayload.queryType = 0x77;
+    serverTLSPayload.queryID = SDLSecurityQueryIdSendHandshake; // TLS Handshake message
+    serverTLSPayload.queryType = SDLSecurityQueryTypeResponse;
     serverTLSPayload.sequenceNumber = 0x00;
     serverTLSPayload.binaryData = data;
 
@@ -851,8 +851,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
     SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
-    serverTLSPayload.queryID = 0x02; // TLS Error message
-    serverTLSPayload.queryType = 0x02;
+    serverTLSPayload.queryID = SDLSecurityQueryIdSendInternalError; // TLS Error message
+    serverTLSPayload.queryType = SDLSecurityQueryTypeNotification;
     serverTLSPayload.sequenceNumber = 0x00;
 
     NSData *binaryData = serverTLSPayload.data;
