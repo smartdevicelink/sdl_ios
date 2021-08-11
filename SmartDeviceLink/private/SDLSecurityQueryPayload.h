@@ -11,9 +11,28 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(Byte, SDLSecurityQueryType) {
+    /// A request that will require a response
+    SDLSecurityQueryTypeRequest = 0x00,
+
+    /// A response to a request
+    SDLSecurityQueryTypeResponse = 0x01,
+
+    /// A message that does not have a response
+    SDLSecurityQueryTypeNotification = 0x02
+};
+
+typedef NS_ENUM(Byte, SDLSecurityQueryId) {
+    /// Send handshake data
+    SDLSecurityQueryIdSendHandshake = 0x000001,
+
+    /// Send internal error
+    SDLSecurityQueryIdSendInternalError = 0x000002,
+};
+
 @interface SDLSecurityQueryPayload : NSObject
 
-@property (assign, nonatomic) SDLRPCMessageType queryType;
+@property (assign, nonatomic) SDLSecurityQueryType queryType;
 @property (assign, nonatomic) UInt32 queryID;
 @property (assign, nonatomic) UInt32 sequenceNumber;
 @property (nullable, strong, nonatomic) NSData *jsonData;
