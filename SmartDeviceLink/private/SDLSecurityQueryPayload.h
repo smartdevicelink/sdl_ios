@@ -22,7 +22,7 @@ typedef NS_ENUM(Byte, SDLSecurityQueryType) {
     SDLSecurityQueryTypeNotification = 0x02
 };
 
-typedef NS_ENUM(Byte, SDLSecurityQueryId) {
+typedef NS_ENUM(UInt32, SDLSecurityQueryId) {
     /// Send handshake data
     SDLSecurityQueryIdSendHandshake = 0x000001,
 
