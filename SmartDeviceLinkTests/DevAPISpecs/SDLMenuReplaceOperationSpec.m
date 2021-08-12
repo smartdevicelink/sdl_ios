@@ -21,6 +21,16 @@
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+@property (strong, nonatomic, readwrite) NSString *uniqueTitle;
+
+@property (copy, nonatomic, readwrite) NSString *title;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *icon;
+@property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
+@property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
+@property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
+@property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+@property (copy, nonatomic, readwrite, nullable) SDLMenuCellSelectionHandler handler;
 
 @end
 
@@ -31,10 +41,18 @@ describe(@"a menu replace operation", ^{
 
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
-    __block SDLWindowCapability *testWindowCapability = nil;
     __block SDLMenuConfiguration *testMenuConfiguration = nil;
     __block NSArray<SDLMenuCell *> *testCurrentMenu = nil;
     __block NSArray<SDLMenuCell *> *testNewMenu = nil;
+
+    SDLTextField *commandSecondaryTextField = [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuCommandSecondaryText characterSet:SDLCharacterSetUtf8 width:200 rows:1];
+    SDLTextField *commandTertiaryTextField = [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuCommandTertiaryText characterSet:SDLCharacterSetUtf8 width:200 rows:1];
+    SDLTextField *submenuSecondaryTextField = [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuSubMenuSecondaryText characterSet:SDLCharacterSetUtf8 width:200 rows:1];
+    SDLTextField *submenuTertiaryTextField = [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuSubMenuTertiaryText characterSet:SDLCharacterSetUtf8 width:200 rows:1];
+    SDLImageField *commandImageField = [[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+    SDLImageField *submenuImageField = [[SDLImageField alloc] initWithName:SDLImageFieldNameSubMenuIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
+    __block SDLWindowCapability *testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:@[commandSecondaryTextField, commandTertiaryTextField, submenuSecondaryTextField, submenuTertiaryTextField] imageFields:@[commandImageField, submenuImageField] imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil keyboardCapabilities:nil];
+    __block SDLWindowCapability *testTitleOnlyWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:@[] imageFields:@[commandImageField, submenuImageField] imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil keyboardCapabilities:nil];
 
     __block SDLArtwork *testArtwork = nil;
     __block SDLArtwork *testArtwork2 = nil;
@@ -88,9 +106,6 @@ describe(@"a menu replace operation", ^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMClassMock([SDLFileManager class]);
 
-        SDLImageField *commandImageField = [[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
-        SDLImageField *submenuImageField = [[SDLImageField alloc] initWithName:SDLImageFieldNameSubMenuIcon imageTypeSupported:@[SDLFileTypePNG] imageResolution:nil];
-        testWindowCapability = [[SDLWindowCapability alloc] initWithWindowID:@0 textFields:nil imageFields:@[commandImageField, submenuImageField] imageTypeSupported:nil templatesAvailable:nil numCustomPresetsAvailable:nil buttonCapabilities:nil softButtonCapabilities:nil menuLayoutsAvailable:nil dynamicUpdateCapabilities:nil keyboardCapabilities:nil];
         testMenuConfiguration = [[SDLMenuConfiguration alloc] initWithMainMenuLayout:SDLMenuLayoutList defaultSubmenuLayout:SDLMenuLayoutList];
         testCurrentMenu = @[];
         testNewMenu = nil;
@@ -343,19 +358,78 @@ describe(@"a menu replace operation", ^{
                     [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:7 minor:1 patch:0];
                 });
 
-                context(@"when cells have the same name but are unique", ^{
-
-                });
-
-                context(@"when cells are completely identical", ^{
+                context(@"when cells have the same title but are unique", ^{
                     beforeEach(^{
                         testCurrentMenu = @[];
-                        testNewMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCell] copyItems:YES];
+
+                        SDLMenuCell *textOnlyCellDupe = [textOnlyCell copy];
+                        textOnlyCellDupe.secondaryText = @"Secondary Text";
+
+                        testNewMenu = @[textOnlyCell, textOnlyCellDupe];
+                    });
+
+                    it(@"should send the cells unchanged", ^{
+                        testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:NO currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                        [testOp start];
+
+                        NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                        NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+
+                        NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                        NSArray *adds = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+
+                        expect(deletes).to(haveCount(0));
+                        expect(adds).to(haveCount(2));
+
+                        [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:0 error:nil];
+                        [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:1 error:nil];
+                        [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                        expect(testOp.isFinished).to(beTrue());
+                        expect(resultError).to(beNil());
+                        expect(resultMenuCells).to(haveCount(2));
+                        expect(resultMenuCells[0].uniqueTitle).to(equal(textOnlyCell.uniqueTitle));
+                        expect(resultMenuCells[0].secondaryText).to(beNil());
+                        expect(resultMenuCells[1].uniqueTitle).to(equal(textOnlyCell.uniqueTitle));
+                        expect(resultMenuCells[1].secondaryText).toNot(beNil());
                     });
                 });
 
                 context(@"when cells are unique but are identical when stripped", ^{
+                    beforeEach(^{
+                        testCurrentMenu = @[];
 
+                        SDLMenuCell *textOnlyCellDupe = [textOnlyCell copy];
+                        textOnlyCellDupe.secondaryText = @"Secondary Text";
+
+                        testNewMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCellDupe] copyItems:YES];
+                    });
+
+                    it(@"should change the second cell's title", ^{
+                        testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testTitleOnlyWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:NO currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                        [testOp start];
+
+                        NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                        NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+
+                        NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                        NSArray *adds = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+
+                        expect(deletes).to(haveCount(0));
+                        expect(adds).to(haveCount(2));
+
+                        [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:0 error:nil];
+                        [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:1 error:nil];
+                        [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                        expect(testOp.isFinished).to(beTrue());
+                        expect(resultError).to(beNil());
+                        expect(resultMenuCells).to(haveCount(2));
+                        expect(resultMenuCells[0].uniqueTitle).to(equal(textOnlyCell.uniqueTitle));
+                        expect(resultMenuCells[0].secondaryText).to(beNil());
+                        expect(resultMenuCells[1].uniqueTitle).toNot(equal(textOnlyCell.uniqueTitle));
+                        expect(resultMenuCells[1].secondaryText).toNot(beNil());
+                    });
                 });
             });
 
@@ -364,16 +438,78 @@ describe(@"a menu replace operation", ^{
                     [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:7 minor:0 patch:0];
                 });
 
-                context(@"when cells have the same name but are unique", ^{
+                context(@"when cells have the same title but are unique", ^{
+                    beforeEach(^{
+                        testCurrentMenu = @[];
 
-                });
+                        SDLMenuCell *textOnlyCellDupe = [textOnlyCell copy];
+                        textOnlyCellDupe.secondaryText = @"Secondary Text";
 
-                context(@"when cells are completely identical", ^{
+                        testNewMenu = @[textOnlyCell, textOnlyCellDupe];
+                    });
 
+                    it(@"should change the second cell's title", ^{
+                        testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:NO currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                        [testOp start];
+
+                        NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                        NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+
+                        NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                        NSArray *adds = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+
+                        expect(deletes).to(haveCount(0));
+                        expect(adds).to(haveCount(2));
+
+                        [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:0 error:nil];
+                        [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:1 error:nil];
+                        [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                        expect(testOp.isFinished).to(beTrue());
+                        expect(resultError).to(beNil());
+                        expect(resultMenuCells).to(haveCount(2));
+                        expect(resultMenuCells[0].uniqueTitle).to(equal(textOnlyCell.uniqueTitle));
+                        expect(resultMenuCells[0].secondaryText).to(beNil());
+                        expect(resultMenuCells[1].uniqueTitle).toNot(equal(textOnlyCell.uniqueTitle));
+                        expect(resultMenuCells[1].secondaryText).toNot(beNil());
+                    });
                 });
 
                 context(@"when cells are unique but are identical when stripped", ^{
+                    beforeEach(^{
+                        testCurrentMenu = @[];
 
+                        SDLMenuCell *textOnlyCellDupe = [textOnlyCell copy];
+                        textOnlyCellDupe.secondaryText = @"Secondary Text";
+
+                        testNewMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCellDupe] copyItems:YES];
+                    });
+
+                    it(@"should change the second cell's title", ^{
+                        testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testTitleOnlyWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:NO currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                        [testOp start];
+
+                        NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                        NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+
+                        NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                        NSArray *adds = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+
+                        expect(deletes).to(haveCount(0));
+                        expect(adds).to(haveCount(2));
+
+                        [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:0 error:nil];
+                        [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:1 error:nil];
+                        [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+
+                        expect(testOp.isFinished).to(beTrue());
+                        expect(resultError).to(beNil());
+                        expect(resultMenuCells).to(haveCount(2));
+                        expect(resultMenuCells[0].uniqueTitle).to(equal(textOnlyCell.uniqueTitle));
+                        expect(resultMenuCells[0].secondaryText).to(beNil());
+                        expect(resultMenuCells[1].uniqueTitle).toNot(equal(textOnlyCell.uniqueTitle));
+                        expect(resultMenuCells[1].secondaryText).toNot(beNil());
+                    });
                 });
             });
         });
