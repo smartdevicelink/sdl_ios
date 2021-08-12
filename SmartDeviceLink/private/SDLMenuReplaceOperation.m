@@ -82,23 +82,22 @@ NS_ASSUME_NONNULL_BEGIN
 
     [SDLMenuReplaceUtilities updateIdsOnMenuCells:self.updatedMenu parentId:ParentIdNotFound];
 
+    // Strip the "current menu" and the new menu of properties that are not displayed on the head unit
+    NSArray<SDLMenuCell *> *updatedStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.updatedMenu basedOnWindowCapability:self.windowCapability];
+    NSArray<SDLMenuCell *> *currentStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.mutableCurrentMenu basedOnWindowCapability:self.windowCapability];
+
+    // Generate unique names and ensure that all menus we are tracking have them so that we can properly compare when using the dynamic algorithm
+    BOOL supportsMenuUniqueness = [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]];
+    [self.class sdl_generateUniqueNamesForCells:updatedStrippedMenu supportsMenuUniqueness:supportsMenuUniqueness];
+    [self.class sdl_applyUniqueNamesOnCells:updatedStrippedMenu toCells:self.updatedMenu];
+    [self.class sdl_applyUniqueNamesOnCells:self.currentMenu toCells:currentStrippedMenu];
+
     SDLDynamicMenuUpdateRunScore *runScore = nil;
     if (self.compatibilityModeEnabled) {
         SDLLogV(@"Dynamic menu update inactive. Forcing the deletion of all old cells and adding all new ones, even if they're the same.");
-        runScore = [SDLDynamicMenuUpdateAlgorithm compatibilityRunScoreWithOldMenuCells:self.currentMenu updatedMenuCells:self.updatedMenu];
+        runScore = [SDLDynamicMenuUpdateAlgorithm compatibilityRunScoreWithOldMenuCells:currentStrippedMenu updatedMenuCells:updatedStrippedMenu];
     } else {
         SDLLogV(@"Dynamic menu update active. Running the algorithm to find the best way to delete / add cells.");
-
-        // Strip the "current menu" and the new menu of properties that are not displayed on the head unit
-        NSArray<SDLMenuCell *> *updatedStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.updatedMenu basedOnWindowCapability:self.windowCapability];
-        NSArray<SDLMenuCell *> *currentStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.mutableCurrentMenu basedOnWindowCapability:self.windowCapability];
-
-        // Generate unique names and ensure that all menus we are tracking have them so that we can properly compare when using the dynamic algorithm
-        BOOL supportsMenuUniqueness = [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]];
-        [self.class sdl_generateUniqueNamesForCells:updatedStrippedMenu supportsMenuUniqueness:supportsMenuUniqueness];
-        [self.class sdl_applyUniqueNamesOnCells:updatedStrippedMenu toCells:self.updatedMenu];
-        [self.class sdl_applyUniqueNamesOnCells:self.currentMenu toCells:currentStrippedMenu];
-
         runScore = [SDLDynamicMenuUpdateAlgorithm dynamicRunScoreOldMenuCells:currentStrippedMenu updatedMenuCells:updatedStrippedMenu];
     }
 
