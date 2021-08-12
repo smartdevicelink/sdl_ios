@@ -363,7 +363,7 @@ describe(@"updating menu cell lists", ^{
 
             context(@"when the cell is in the submenu", ^{
                 beforeEach(^{
-                    testCommandId = 5;
+                    testCommandId = testMenuCells[0].subCells[0].cellId;
                 });
 
                 it(@"should return the menu without the cell and return YES", ^{
@@ -372,7 +372,7 @@ describe(@"updating menu cell lists", ^{
 
                     expect(foundItem).to(beTrue());
                     expect(testMutableMenuCells).to(haveCount(3));
-                    expect(testMutableMenuCells[2].subCells).to(haveCount(1));
+                    expect(testMutableMenuCells[0].subCells).to(haveCount(1));
                 });
             });
 
@@ -450,21 +450,22 @@ describe(@"updating menu cell lists", ^{
             });
         });
 
-        fcontext(@"from a deep list", ^{
+        context(@"from a deep list", ^{
             __block SDLMenuCell *subCell = nil;
             __block NSMutableArray<SDLMenuCell *> *newMenu = nil;
 
             beforeEach(^{
-                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
+                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu.copy;
                 [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
 
-                newMenu = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu.mutableCopy;
+                newMenu = [[NSMutableArray alloc] initWithArray:testMenuCells copyItems:YES];
                 NSMutableArray<SDLMenuCell *> *subMenuToUpdate = newMenu[0].subCells.mutableCopy;
+
                 subCell = [[SDLMenuCell alloc] initWithTitle:@"New SubCell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                subCell.cellId = 98;
+                subCell.parentCellId = newMenu[0].cellId;
                 [subMenuToUpdate insertObject:subCell atIndex:0];
                 newMenu[0].subCells = subMenuToUpdate.copy;
-
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:newMenu parentId:ParentIdNotFound];
             });
 
             it(@"should properly add the subcell to the list", ^{
