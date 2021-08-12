@@ -29,6 +29,7 @@
 #import "SDLRPCRequest.h"
 #import "SDLRPCResponse.h"
 #import "SDLSecurityType.h"
+#import "SDLSecurityQueryErrorCode.h"
 #import "SDLSystemInfo.h"
 #import "SDLTimer.h"
 #import "SDLVersion.h"
@@ -779,23 +780,35 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogE(@"Security message is malformed, less than 12 bytes. It does not have a protocol header.");
     }
 
-    // Tear off the binary header of the client protocol message to get at the actual TLS handshake
-    // TODO: (Joel F.)[2016-02-15] Should check for errors
-    NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
-
+    // Check the client's message header for any internal errors
     SDLSecurityQueryPayload *clientSecurityQueryPayload = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeMessage.payload];
     if (clientSecurityQueryPayload.queryID == SDLSecurityQueryIdSendInternalError) {
         NSLog(@"## client header rpcType: %u", (unsigned int)clientSecurityQueryPayload.queryType);
         NSLog(@"## client header functionID: %u", (unsigned int)clientSecurityQueryPayload.queryID);
+
         NSError *JSONConversionError = nil;
         NSDictionary<NSString *, id> *securityQueryErrorDictionary = [NSJSONSerialization JSONObjectWithData:clientSecurityQueryPayload.jsonData options:kNilOptions error:&JSONConversionError];
         if (JSONConversionError) {
-            SDLLogE(@"Error converting EncodedSyncPData response dictionary: %@", JSONConversionError);
+            SDLLogE(@"Error converting client response dictionary: %@", JSONConversionError);
         } else {
-            SDLLogE(@"Client internal error, dictionary: %@", securityQueryErrorDictionary.allValues);
+            if ([securityQueryErrorDictionary objectForKey:@"text"]) {
+                NSString *errorMessage = securityQueryErrorDictionary[@"text"];
+                SDLLogE(@"Client internal error, Dictionary: %@", errorMessage);
+            } else {
+                if ([securityQueryErrorDictionary objectForKey:@"id"]) {
+                    SDLSecurityQueryErrorCode errorMessage = [self.class sdl_parseClientInternalError:securityQueryErrorDictionary[@"id"]];
+                    SDLLogE(@"Client internal error, Dictionary: %@", errorMessage);
+                } else {
+                    SDLLogE(@"Client internal error: No information provided");
+                }
+            }
         }
         return;
     }
+
+    // Tear off the binary header of the client protocol message to get at the actual TLS handshake
+    // TODO: (Joel F.)[2016-02-15] Should check for errors
+    NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
 
     // Ask the security manager for server data based on the client data sent
     NSError *handshakeError = nil;
@@ -815,6 +828,29 @@ NS_ASSUME_NONNULL_BEGIN
     // Send the response or error message. If it's an error message, the module will ACK the Start Service without encryption. If it's a TLS handshake message, the module will ACK with encryption
     SDLLogD(@"Sending security message: %@", serverSecurityMessage);
     [self sdl_sendDataToTransport:serverSecurityMessage.data onService:SDLServiceTypeControl];
+}
+
++ (SDLSecurityQueryErrorCode)sdl_parseClientInternalError:(NSNumber *)errorId {
+    NSDictionary *errorCodesDict = @{@0x00: SDLSecurityQueryErrorCode_SUCCESS,
+                                     @0x01: SDLSecurityQueryErrorCode_INVALID_QUERY_SIZE,
+                                     @0x02: SDLSecurityQueryErrorCode_INVALID_QUERY_ID,
+                                     @0x03: SDLSecurityQueryErrorCode_NOT_SUPPORTED,
+                                     @0x04: SDLSecurityQueryErrorCode_SERVICE_ALREADY_PROTECTED,
+                                     @0x05: SDLSecurityQueryErrorCode_SERVICE_NOT_PROTECTED,
+                                     @0x06: SDLSecurityQueryErrorCode_DECRYPTION_FAILED,
+                                     @0x07: SDLSecurityQueryErrorCode_ENCRYPTION_FAILED,
+                                     @0x08: SDLSecurityQueryErrorCode_SSL_INVALID_DATA,
+                                     @0x09: SDLSecurityQueryErrorCode_HANDSHAKE_FAILED,
+                                     @0x0A: SDLSecurityQueryErrorCode_INVALID_CERT,
+                                     @0x0B: SDLSecurityQueryErrorCode_EXPIRED_CERT,
+                                     @0xFF: SDLSecurityQueryErrorCode_INTERNAL,
+                                     @0xFE: SDLSecurityQueryErrorCode_UNKNOWN_INTERNAL_ERROR,
+    };
+    if ([errorCodesDict objectForKey:errorId]) {
+        return errorCodesDict[errorId];
+    }
+
+    return SDLSecurityQueryErrorCode_UNKNOWN_INTERNAL_ERROR;
 }
 
 + (SDLProtocolMessage *)sdl_serverSecurityHandshakeMessageWithData:(NSData *)data clientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId {
