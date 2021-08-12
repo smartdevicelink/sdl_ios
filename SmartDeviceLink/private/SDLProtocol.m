@@ -792,15 +792,10 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Error converting client response dictionary: %@", JSONConversionError);
         } else {
             if ([securityQueryErrorDictionary objectForKey:@"text"]) {
-                NSString *errorMessage = securityQueryErrorDictionary[@"text"];
-                SDLLogE(@"Client internal error, Dictionary: %@", errorMessage);
+                SDLLogE(@"Client internal error, Dictionary: %@", securityQueryErrorDictionary[@"text"]);
+                SDLSecurityQueryErrorCode errorCode = [self.class sdl_parseClientInternalError:securityQueryErrorDictionary[@"id"]];
             } else {
-                if ([securityQueryErrorDictionary objectForKey:@"id"]) {
-                    SDLSecurityQueryErrorCode errorMessage = [self.class sdl_parseClientInternalError:securityQueryErrorDictionary[@"id"]];
-                    SDLLogE(@"Client internal error, Dictionary: %@", errorMessage);
-                } else {
-                    SDLLogE(@"Client internal error: No information provided");
-                }
+                SDLLogE(@"Client internal error: No information provided");
             }
         }
         return;
