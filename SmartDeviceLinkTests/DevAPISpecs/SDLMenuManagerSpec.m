@@ -67,7 +67,6 @@ describe(@"menu manager", ^{
         testManager.windowCapability = windowCapability;
     });
 
-    // should instantiate correctly
     it(@"should instantiate correctly", ^{
         expect(testManager.menuCells).to(beEmpty());
 
@@ -83,7 +82,6 @@ describe(@"menu manager", ^{
         expect(testManager.currentMenuConfiguration).to(beNil());
     });
 
-    // when the manager stops
     describe(@"when the manager stops", ^{
         beforeEach(^{
             [testManager stop];
@@ -105,14 +103,13 @@ describe(@"menu manager", ^{
         });
     });
 
-    // when in HMI NONE
     context(@"when in HMI NONE", ^{
         beforeEach(^{
             SDLOnHMIStatus *noneStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelNone systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateNotAudible videoStreamingState:nil windowID:nil];
             [[NSNotificationCenter defaultCenter] postNotification:[[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:noneStatus]];
         });
 
-        it(@"should not update", ^{
+        it(@"should not suspend the transaction queue", ^{
             expect(testManager.transactionQueue.isSuspended).to(beTrue());
         });
 
@@ -127,41 +124,38 @@ describe(@"menu manager", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:testSystemContextNotification];
             });
 
-            it(@"should update", ^{
+            it(@"should run the transaction queue", ^{
                 expect(testManager.transactionQueue.isSuspended).to(beFalse());
             });
         });
     });
 
-    // when the HMI is ready
     context(@"when the HMI is ready", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
             testManager.currentSystemContext = SDLSystemContextMain;
         });
 
-        // updating menu cells
-        describe(@"updating menu cells", ^{
-            // containing duplicate titles
+        describe(@"setting new menu cells", ^{
             context(@"containing duplicate titles", ^{
-                it(@"should fail with a duplicate title", ^{
+                it(@"should not start an operation", ^{
                     testManager.menuCells = @[textOnlyCell, textOnlyCell];
-                    expect(testManager.menuCells).to(beEmpty()); // TODO: Fix, add op count
+                    expect(testManager.menuCells).to(beEmpty());
+                    expect(testManager.transactionQueue.operationCount).to(equal(0));
                 });
             });
 
-            // containing duplicate VR commands
             context(@"containing duplicate VR commands", ^{
-                __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-                __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
 
-                it(@"should fail when menu items have duplicate vr commands", ^{
+                it(@"should not start an operation", ^{
                     testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
-                    expect(testManager.menuCells).to(beEmpty()); // TODO Fix, add op count
+                    expect(testManager.menuCells).to(beEmpty());
+                    expect(testManager.transactionQueue.operationCount).to(equal(0));
                 });
             });
 
-            // if the new menu cells are identical to the old menu cells
             context(@"if the new menu cells are identical to the old menu cells", ^{
                 it(@"should only queue one transaction", ^{
                     testManager.menuCells = @[textOnlyCell];
@@ -172,7 +166,6 @@ describe(@"menu manager", ^{
                 });
             });
 
-            // when a second menu cells update is queued before the first is done
             context(@"when a second menu cells update is queued before the first is done", ^{
                 it(@"should cancel the first operation", ^{
                     testManager.menuCells = @[textOnlyCell];
@@ -184,7 +177,6 @@ describe(@"menu manager", ^{
                 });
             });
 
-            // if cells are formed properly
             context(@"if cells are formed properly", ^{
                 it(@"should properly prepare and queue the transaction", ^{
                     testManager.menuCells = @[textOnlyCell];
@@ -204,14 +196,12 @@ describe(@"menu manager", ^{
             });
         });
 
-        // updating the menu configuration
         describe(@"updating the menu configuration", ^{
             beforeEach(^{
                 testManager.currentHMILevel = SDLHMILevelFull;
                 testManager.currentSystemContext = SDLSystemContextMain;
             });
 
-            // if the connection RPC version is less than 6.0.0
             context(@"if the connection RPC version is less than 6.0.0", ^{
                 beforeEach(^{
                     [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"5.0.0"];
@@ -225,7 +215,6 @@ describe(@"menu manager", ^{
                 });
             });
 
-            // if the connection RPC version is greater than or equal to 6.0.0
             context(@"if the connection RPC version is greater than or equal to 6.0.0", ^{
                 beforeEach(^{
                     [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
@@ -238,7 +227,6 @@ describe(@"menu manager", ^{
                     expect(testManager.transactionQueue.operationCount).to(equal(1));
                 });
 
-                // when queueing a second task after the first
                 context(@"when queueing a second task after the first", ^{
                     it(@"should cancel the first task", ^{
                         testManager.menuConfiguration = testMenuConfiguration;
@@ -251,14 +239,12 @@ describe(@"menu manager", ^{
             });
         });
 
-        // opening the menu
         describe(@"opening the menu", ^{
             beforeEach(^{
                 testManager.currentHMILevel = SDLHMILevelFull;
                 testManager.currentSystemContext = SDLSystemContextMain;
             });
 
-            // when open menu RPC can be sent
             context(@"when open menu RPC can be sent", ^{
                 beforeEach(^{
                     SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
@@ -293,9 +279,7 @@ describe(@"menu manager", ^{
                 });
             });
 
-            // when open menu RPC can not be sent
             context(@"when the open menu RPC can not be sent", ^{
-                // should not queue an open menu operation when cell has no subcells
                 it(@"should not queue an open menu operation when cell has no subcells", ^ {
                     BOOL canSendRPC = [testManager openMenu:textOnlyCell];
 
@@ -303,7 +287,6 @@ describe(@"menu manager", ^{
                     expect(canSendRPC).to(equal(NO));
                 });
 
-                // should not queue an open menu operation when RPC version is not at least 6.0.0
                 it(@"should not queue an open menu operation when RPC version is not at least 6.0.0", ^ {
                     SDLVersion *oldVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
                     id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
@@ -315,7 +298,6 @@ describe(@"menu manager", ^{
                     expect(canSendRPC).to(equal(NO));
                 });
 
-                // should not queue an open menu operation when the cell is not in the menu array
                 it(@"should not queue an open menu operation when the cell is not in the menu array", ^ {
                     SDLVersion *oldVersion = [SDLVersion versionWithMajor:6 minor:0 patch:0];
                     id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
@@ -330,7 +312,6 @@ describe(@"menu manager", ^{
         });
     });
 
-    // running menu cell handlers
     describe(@"running menu cell handlers", ^{
         __block SDLMenuCell *cellWithHandler = nil;
         __block BOOL cellCalled = NO;
@@ -344,13 +325,13 @@ describe(@"menu manager", ^{
             testTriggerSource = nil;
         });
 
-        // on a main menu cell
         context(@"on a main menu cell", ^{
             beforeEach(^{
                 cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
                     cellCalled = YES;
                     testTriggerSource = triggerSource;
                 }];
+                cellWithHandler.cellId = 1;
 
                 testManager.menuCells = @[cellWithHandler];
             });
@@ -368,15 +349,18 @@ describe(@"menu manager", ^{
             });
         });
 
-        // on a submenu menu cell
         context(@"on a submenu menu cell", ^{
             beforeEach(^{
                 cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
                     cellCalled = YES;
                     testTriggerSource = triggerSource;
                 }];
+                cellWithHandler.cellId = 2;
 
                 SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:SDLMenuLayoutTiles subCells:@[cellWithHandler]];
+                submenuCell.cellId = 1;
+
+                cellWithHandler.parentCellId = 1;
 
                 testManager.menuCells = @[submenuCell];
             });
