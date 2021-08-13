@@ -90,7 +90,6 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL supportsMenuUniqueness = [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]];
     [self.class sdl_generateUniqueNamesForCells:updatedStrippedMenu supportsMenuUniqueness:supportsMenuUniqueness];
     [self.class sdl_applyUniqueNamesOnCells:updatedStrippedMenu toCells:self.updatedMenu];
-    [self.class sdl_applyUniqueNamesOnCells:self.currentMenu toCells:currentStrippedMenu];
 
     SDLDynamicMenuUpdateRunScore *runScore = nil;
     if (self.compatibilityModeEnabled) {
