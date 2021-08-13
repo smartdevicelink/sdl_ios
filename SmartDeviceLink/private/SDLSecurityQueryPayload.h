@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "SDLRPCMessageType.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef NS_ENUM(Byte, SDLSecurityQueryType) {
     /// A request that will require a response
     SDLSecurityQueryTypeRequest = 0x00,
@@ -29,6 +27,8 @@ typedef NS_ENUM(UInt32, SDLSecurityQueryId) {
     /// Send internal error
     SDLSecurityQueryIdSendInternalError = 0x000002,
 };
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSecurityQueryPayload : NSObject
 
