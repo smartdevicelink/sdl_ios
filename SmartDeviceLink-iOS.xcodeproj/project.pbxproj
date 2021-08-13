@@ -1749,6 +1749,7 @@
 		C9758785257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */; };
 		C99BE00926C53E7F00DB0B54 /* SDLSecurityQueryErrorCode.h in Headers */ = {isa = PBXBuildFile; fileRef = C99BE00726C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.h */; };
 		C99BE00A26C53E7F00DB0B54 /* SDLSecurityQueryErrorCode.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE00826C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.m */; };
+		C99BE00D26C5B23000DB0B54 /* SDLSecurityQueryPayloadSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE00C26C5B23000DB0B54 /* SDLSecurityQueryPayloadSpec.m */; };
 		C9AA62C4261E5035000F49BC /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		C9DFFE78257ACE0000F7D57A /* SDLSeekStreamingIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9DFFE79257ACE0000F7D57A /* SDLSeekStreamingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DFFE77257ACE0000F7D57A /* SDLSeekStreamingIndicator.m */; };
@@ -3663,6 +3664,7 @@
 		C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekStreamingIndicatorSpec.m; sourceTree = "<group>"; };
 		C99BE00726C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSecurityQueryErrorCode.h; path = public/SDLSecurityQueryErrorCode.h; sourceTree = "<group>"; };
 		C99BE00826C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSecurityQueryErrorCode.m; path = public/SDLSecurityQueryErrorCode.m; sourceTree = "<group>"; };
+		C99BE00C26C5B23000DB0B54 /* SDLSecurityQueryPayloadSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSecurityQueryPayloadSpec.m; sourceTree = "<group>"; };
 		C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSeekStreamingIndicator.h; path = public/SDLSeekStreamingIndicator.h; sourceTree = "<group>"; };
 		C9DFFE77257ACE0000F7D57A /* SDLSeekStreamingIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSeekStreamingIndicator.m; path = public/SDLSeekStreamingIndicator.m; sourceTree = "<group>"; };
 		C9DFFE7C257AD07E00F7D57A /* SDLSeekIndicatorType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSeekIndicatorType.h; path = public/SDLSeekIndicatorType.h; sourceTree = "<group>"; };
@@ -3980,6 +3982,7 @@
 			isa = PBXGroup;
 			children = (
 				162E823C1A9BDE8A00906325 /* SDLRPCPayloadSpec.m */,
+				C99BE00C26C5B23000DB0B54 /* SDLSecurityQueryPayloadSpec.m */,
 			);
 			path = PayloadSpecs;
 			sourceTree = "<group>";
@@ -8864,6 +8867,7 @@
 				1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */,
 				8BBEA6091F324832003EEA26 /* SDLMetadataTypeSpec.m in Sources */,
 				5DAD5F8B20508F140025624C /* SDLSoftButtonObjectSpec.m in Sources */,
+				C99BE00D26C5B23000DB0B54 /* SDLSecurityQueryPayloadSpec.m in Sources */,
 				DA9F7E9E1DCC05B900ACAE48 /* SDLWaypointTypeSpec.m in Sources */,
 				5D76E31C1D3805FF00647CFA /* SDLLockScreenManagerSpec.m in Sources */,
 				162E82DA1A9BDE8B00906325 /* SDLDriverDistractionStateSpec.m in Sources */,
