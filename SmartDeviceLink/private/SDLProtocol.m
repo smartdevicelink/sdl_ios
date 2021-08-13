@@ -782,10 +782,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Check the client's message header for any internal errors
     SDLSecurityQueryPayload *clientSecurityQueryPayload = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeMessage.payload];
-    if (clientSecurityQueryPayload.queryID == SDLSecurityQueryIdSendInternalError) {
-        NSLog(@"## client header rpcType: %u", (unsigned int)clientSecurityQueryPayload.queryType);
-        NSLog(@"## client header functionID: %u", (unsigned int)clientSecurityQueryPayload.queryID);
-
+    if (clientSecurityQueryPayload.queryID == SDLSecurityQueryIdSendInternalError && clientSecurityQueryPayload == SDLSecurityQueryTypeNotification) {
         NSError *JSONConversionError = nil;
         NSDictionary<NSString *, id> *securityQueryErrorDictionary = [NSJSONSerialization JSONObjectWithData:clientSecurityQueryPayload.jsonData options:kNilOptions error:&JSONConversionError];
         if (JSONConversionError) {

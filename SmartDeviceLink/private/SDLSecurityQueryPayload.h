@@ -16,10 +16,10 @@ typedef NS_ENUM(Byte, SDLSecurityQueryType) {
     SDLSecurityQueryTypeRequest = 0x00,
 
     /// A response to a request
-    SDLSecurityQueryTypeResponse = 0x01,
+    SDLSecurityQueryTypeResponse = 0x10,
 
     /// A message that does not have a response
-    SDLSecurityQueryTypeNotification = 0x02
+    SDLSecurityQueryTypeNotification = 0x20
 };
 
 typedef NS_ENUM(UInt32, SDLSecurityQueryId) {
