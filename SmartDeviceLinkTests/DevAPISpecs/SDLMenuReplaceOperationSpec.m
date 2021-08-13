@@ -120,7 +120,7 @@ describe(@"a menu replace operation", ^{
         mockReplaceUtilities = OCMClassMock([SDLMenuReplaceUtilities class]);
     });
 
-    describe(@"sending initial batch of cells", ^{
+    context(@"sending initial batch of cells", ^{
         context(@"when setting no cells", ^{
             it(@"should finish without doing anything", ^{
                 testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:YES currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];

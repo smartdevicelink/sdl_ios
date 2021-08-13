@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
 
     // Since we are creating a new Menu but keeping old cells we must first transfer the old cellIDs to the new menus kept cells.
-    [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
+//    [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
 
     // Upload the artworks, then we will start updating the main menu
     __weak typeof(self) weakSelf = self;
@@ -181,10 +181,11 @@ NS_ASSUME_NONNULL_BEGIN
         NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
         NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
 
-        NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
-        NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
-
-        [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
+        // TODO: These will be necessary once we do subcells of subcells
+//        NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
+//        NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
+//
+//        [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
 
         __weak typeof(self) weakself = self;
         [self sdl_sendDeleteCurrentMenu:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
