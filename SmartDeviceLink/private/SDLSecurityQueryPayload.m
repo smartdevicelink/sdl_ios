@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
             UInt32 *ui32Pointer = (UInt32 *)data.bytes;
 
             // Extract the parts
-            UInt8 queryType = (bytePointer[0] & 0xFF) >> 8;
+            UInt8 queryType = bytePointer[0];
 
             self.queryType = queryType;
 
@@ -85,9 +85,8 @@ NS_ASSUME_NONNULL_BEGIN
     *(UInt32 *)&headerBuffer[0] = CFSwapInt32HostToBig(self.queryID);
     *(UInt32 *)&headerBuffer[4] = CFSwapInt32HostToBig(self.sequenceNumber);
     *(UInt32 *)&headerBuffer[8] = CFSwapInt32HostToBig((UInt32)self.jsonData.length);
-    UInt8 queryType = (Byte)((self.queryType & 0xFF) << 8);
     headerBuffer[0] &= 0xFF;
-    headerBuffer[0] |= queryType;
+    headerBuffer[0] |= self.queryType;
 
     // Serialize the header, the json data then the binary data
     NSMutableData *dataOut = [NSMutableData dataWithCapacity:[self size]];
