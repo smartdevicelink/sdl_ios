@@ -56,14 +56,11 @@ typedef NSNumber * SDLChoiceId;
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLWindowCapability *currentWindowCapability;
 
-@property (assign, nonatomic) UInt16 nextChoiceId;
 @property (assign, nonatomic) UInt16 nextCancelId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 @property (copy, nonatomic, readwrite) NSSet<SDLChoiceCell *> *preloadedChoices;
 
 @end
-
-UInt16 const ChoiceCellIdMin = 1;
 
 // Assigns a set range of unique cancel ids in order to prevent overlap with other sub-screen managers that use cancel ids. If the max cancel id is reached, generation starts over from the cancel id min value.
 UInt16 const ChoiceCellCancelIdMin = 101;
@@ -87,7 +84,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
     _preloadedChoices = [NSSet set];
 
-    _nextChoiceId = ChoiceCellIdMin;
     _nextCancelId = ChoiceCellCancelIdMin;
     _vrOptional = YES;
     _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
@@ -235,9 +231,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-    // Add ids to all the choices, ones that are already on the head unit will be removed when the preload starts
-    [self sdl_updateIdsOnChoices:choices];
-
     // Upload pending preloads
     // For backward compatibility with Gen38Inch display type head units
     SDLLogD(@"Preloading choices");
@@ -279,13 +272,11 @@ UInt16 const ChoiceCellCancelIdMax = 200;
         return;
     }
 
-    [self sdl_updateIdsOnChoices:choiceSet.choices];
     SDLLogD(@"Preloading and presenting choice set: %@", choiceSet);
-
-    NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
     // Add an operation to present it once the preload is complete
     __weak typeof(self) weakSelf = self;
+    NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
     SDLPreloadPresentChoicesOperation *presentOp = [[SDLPreloadPresentChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager choiceSet:choiceSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate cancelID:self.nextCancelId displayName:displayName windowCapability:self.currentWindowCapability isVROptional:self.isVROptional loadedCells:self.preloadedChoices preloadCompletionHandler:^(NSSet<SDLChoiceCell *> * _Nonnull updatedLoadedCells, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
@@ -348,12 +339,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     }
 }
 
-/// Assigns a unique id to each choice item.
-/// @param choices An array of choices
-- (void)sdl_updateIdsOnChoices:(NSArray<SDLChoiceCell *> *)choices {
-    for (SDLChoiceCell *cell in choices) { cell.choiceId = self.nextChoiceId; }
-}
-
 #pragma mark - Keyboard Configuration
 
 - (void)setKeyboardConfiguration:(nullable SDLKeyboardProperties *)keyboardConfiguration {
@@ -378,16 +363,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 }
 
 #pragma mark - Getters
-
-- (UInt16)nextChoiceId {
-    __block UInt16 choiceId = 0;
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        choiceId = self->_nextChoiceId;
-        self->_nextChoiceId = choiceId + 1;
-    }];
-
-    return choiceId;
-}
 
 - (UInt16)nextCancelId {
     __block UInt16 cancelId = 0;
