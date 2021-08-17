@@ -62,12 +62,15 @@ describe(@"a menu replace operation", ^{
     __block SDLMenuCell *textOnlyCell2 = nil;
     __block SDLMenuCell *textAndImageCell = nil;
     __block SDLMenuCell *submenuCell = nil;
+    __block SDLMenuCell *submenuCellReversed = nil;
     __block SDLMenuCell *submenuImageCell = nil;
 
     __block SDLAddCommandResponse *addCommandSuccessResponse = nil;
     __block SDLAddSubMenuResponse *addSubMenuSuccessResponse = nil;
     __block SDLDeleteCommandResponse *deleteCommandSuccessResponse = nil;
     __block SDLDeleteSubMenuResponse *deleteSubMenuSuccessResponse = nil;
+
+    __block NSMutableArray<SDLMenuCell *> *basicCellArray = [NSMutableArray array];
 
     __block NSArray<SDLMenuCell *> *resultMenuCells = nil;
     __block NSError *resultError = nil;
@@ -83,11 +86,19 @@ describe(@"a menu replace operation", ^{
         testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
         testArtwork3.overwrite = YES;
 
+        for (int i = 0; i < 49; i++) {
+            NSString *cellTitle = [NSString stringWithFormat:@"Cell %@", @(i)];
+            [basicCellArray addObject:[[SDLMenuCell alloc] initWithTitle:cellTitle secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[cellTitle] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                NSLog(@"%@ pressed", cellTitle);
+            }]];
+        }
+
         textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" secondaryText:nil tertiaryText:nil icon:testArtwork secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[textOnlyCell, textAndImageCell]];
-        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" secondaryText:nil tertiaryText:nil icon:testArtwork2 secondaryArtwork:nil submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell]];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Cell with Subcells" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:basicCellArray];
+        submenuCellReversed = [[SDLMenuCell alloc] initWithTitle:@"Cell with Subcells" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:basicCellArray.reverseObjectEnumerator.allObjects];
+        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Cell with Image and Subcell" secondaryText:nil tertiaryText:nil icon:testArtwork2 secondaryArtwork:nil submenuLayout:SDLMenuLayoutTiles subCells:@[textOnlyCell]];
 
         addCommandSuccessResponse = [[SDLAddCommandResponse alloc] init];
         addCommandSuccessResponse.success = @YES;
@@ -579,6 +590,61 @@ describe(@"a menu replace operation", ^{
                 expect(deletes).to(haveCount(1));
                 expect(adds).to(haveCount(1));
                 expect(submenu).to(haveCount(0));
+
+                expect(testOp.isFinished).to(beTrue());
+                expect(resultError).to(beNil());
+                expect(resultMenuCells).to(haveCount(3));
+            });
+        });
+
+        context(@"rearranging cells and their subcells", ^{
+            beforeEach(^{
+                testCurrentMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textAndImageCell, submenuCell] copyItems:YES];
+                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testCurrentMenu parentId:ParentIdNotFound];
+
+                testNewMenu = [[NSArray alloc] initWithArray:@[submenuCellReversed, textAndImageCell, textOnlyCell] copyItems:YES];
+
+                OCMStub([testFileManager uploadArtworks:[OCMArg any] progressHandler:([OCMArg invokeBlockWithArgs:textAndImageCell.icon.name, @1.0, [NSNull null], nil]) completionHandler:([OCMArg invokeBlockWithArgs: @[textAndImageCell.icon.name], [NSNull null], nil])]);
+            });
+
+            fit(@"should sent the correct deletions and additions", ^{
+                testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:NO currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
+                [testOp start];
+
+                // Delete textOnlyCell and textAndImageCell
+                expect(testConnectionManager.receivedRequests).to(haveCount(2));
+                expect(testConnectionManager.receivedRequests[0]).to(beAnInstanceOf(SDLDeleteCommand.class));
+                expect(testConnectionManager.receivedRequests[1]).to(beAnInstanceOf(SDLDeleteCommand.class));
+
+                [testConnectionManager respondToRequestWithResponse:deleteCommandSuccessResponse requestNumber:0 error:nil];
+                [testConnectionManager respondToRequestWithResponse:deleteSubMenuSuccessResponse requestNumber:1 error:nil];
+                [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                expect(testOp.currentMenu).to(haveCount(1));
+
+                // Main Menu Add Command / Add Submenu
+                expect(testConnectionManager.receivedRequests).to(haveCount(4));
+
+                [testConnectionManager respondToRequestWithResponse:addSubMenuSuccessResponse requestNumber:2 error:nil];
+                [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:3 error:nil];
+                [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
+                expect(testOp.currentMenu).to(haveCount(3));
+
+                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
+                NSArray *deletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
+
+                NSPredicate *deleteSubCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteSubMenu class]];
+                NSArray *subDeletes = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteSubCommandPredicate];
+
+                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
+                NSArray *adds = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+
+                NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
+                NSArray *submenu = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+
+                expect(deletes).to(haveCount(1));
+                expect(subDeletes).to(haveCount(1));
+                expect(adds).to(haveCount(51));
+                expect(submenu).to(haveCount(1));
 
                 expect(testOp.isFinished).to(beTrue());
                 expect(resultError).to(beNil());
