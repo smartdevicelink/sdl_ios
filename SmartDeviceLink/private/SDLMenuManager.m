@@ -185,10 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
-    if ([self.menuCells isEqualToArray:menuCells]) {
-        SDLLogD(@"The set menu cells are identical to previously set menu cells. Skipping...");
-        return;
-    } else if (![self sdl_menuCellsAreUnique:menuCells allVoiceCommands:[NSMutableArray array]]) {
+    if (![self sdl_menuCellsAreUnique:menuCells allVoiceCommands:[NSMutableArray array]]) {
         SDLLogE(@"Not all set menu cells are unique, but that is required");
         return;
     }
