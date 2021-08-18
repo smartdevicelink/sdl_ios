@@ -48,12 +48,13 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
-@property (strong, nonatomic, readwrite) NSString *uniqueText;
 @property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
 @property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
 @property (strong, nonatomic, readwrite, nullable) SDLArtwork *artwork;
 @property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+
+@property (assign, nonatomic) NSUInteger uniqueTextId;
 
 @end
 
@@ -502,40 +503,54 @@ static UInt16 _choiceId = 0;
 /// @param loadedCells The cells already on the head unit
 + (void)sdl_addUniqueNamesToCells:(NSArray<SDLChoiceCell *> *)cellsToUpload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells supportsChoiceUniqueness:(BOOL)supportsChoiceUniqueness {
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
-    NSMutableDictionary<id<NSCopying>, NSNumber *> *dictCounter = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<id<NSCopying>, NSMutableArray<NSNumber *> *> *dictCounter = [[NSMutableDictionary alloc] init];
 
     // TODO: Needs fixing. We need to check the loaded cell's unique text number to ensure that if we do [1, 2, 3], delete [2], that we don't end up with this algorithm detecting [1, 2] and trying to create a new cell with [3].
     // Include cells from loaded cells to ensure that new cells get the correct title
     for (SDLChoiceCell *loadedCell in loadedCells) {
         id<NSCopying> cellKey = supportsChoiceUniqueness ? loadedCell : loadedCell.text;
-        NSNumber *counter = dictCounter[cellKey];
-        if (counter != nil) {
-            counter = @(counter.intValue + 1);
-            dictCounter[cellKey] = counter;
+        NSNumber *cellUniqueId = @(loadedCell.uniqueTextId);
+        if (dictCounter[cellKey] == nil) {
+            dictCounter[cellKey] = [NSMutableArray arrayWithObject:cellUniqueId];
         } else {
-            dictCounter[cellKey] = @1;
+            [dictCounter[cellKey] addObject:cellUniqueId];
         }
+    }
+
+    // Sort the arrays so that the numbers are in order
+    for (id<NSCopying> cellKey in dictCounter.keyEnumerator) {
+        [dictCounter[cellKey] sortUsingComparator:^NSComparisonResult(NSNumber *_Nonnull obj1, NSNumber *_Nonnull obj2) {
+            if (obj1.unsignedIntegerValue > obj2.unsignedIntegerValue) { return NSOrderedDescending; }
+            if (obj1.unsignedIntegerValue < obj2.unsignedIntegerValue) { return NSOrderedAscending; }
+
+            return NSOrderedSame;
+        }];
     }
 
     // Run through cellsToUpload and add unique text as needed
     for (SDLChoiceCell *cell in cellsToUpload) {
         id<NSCopying> cellKey = supportsChoiceUniqueness ? cell : cell.text;
-        NSNumber *counter = dictCounter[cellKey];
-        if (counter != nil) {
-            counter = @(counter.intValue + 1);
-            dictCounter[cellKey] = counter;
+        if (dictCounter[cellKey] == nil) {
+            dictCounter[cellKey] = [NSMutableArray arrayWithObject:@(cell.uniqueTextId)];
         } else {
-            dictCounter[cellKey] = @1;
-        }
-        if (counter.intValue > 1) {
-            cell.uniqueText = [NSString stringWithFormat: @"%@ (%d)", cell.text, counter.intValue];
+            // There are already some duplicates, loop through to find the lowest unused duplicate number
+            NSUInteger lowestMissingUniqueId = dictCounter[cellKey].lastObject.unsignedIntegerValue + 1;
+            for (NSUInteger i = 1; i < dictCounter[cellKey].count + 1; i++) {
+                if (i != dictCounter[cellKey][i - 1].unsignedIntegerValue) {
+                    lowestMissingUniqueId = i;
+                    break;
+                }
+            }
+
+            cell.uniqueTextId = lowestMissingUniqueId;
+            [dictCounter[cellKey] insertObject:@(cell.uniqueTextId) atIndex:(cell.uniqueTextId - 1)];
         }
     }
 }
 
 + (void)sdl_transferUniqueNamesFromCells:(NSArray<SDLChoiceCell *> *)fromCells toCells:(NSOrderedSet<SDLChoiceCell *> *)toCells {
     for (NSUInteger i = 0; i < fromCells.count; i++) {
-        toCells[i].uniqueText = fromCells[i].uniqueText;
+        toCells[i].uniqueTextId = fromCells[i].uniqueTextId;
     }
 }
 

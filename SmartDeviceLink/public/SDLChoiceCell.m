@@ -16,12 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
-@property (nonatomic, readwrite) NSString *uniqueText;
 @property (copy, nonatomic, readwrite, nullable) NSString *secondaryText;
 @property (copy, nonatomic, readwrite, nullable) NSString *tertiaryText;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *voiceCommands;
 @property (strong, nonatomic, readwrite, nullable) SDLArtwork *artwork;
 @property (strong, nonatomic, readwrite, nullable) SDLArtwork *secondaryArtwork;
+
+@property (assign, nonatomic) NSUInteger uniqueTextId;
 
 @end
 
@@ -47,11 +48,21 @@ NS_ASSUME_NONNULL_BEGIN
     _voiceCommands = voiceCommands;
     _artwork = artwork;
     _secondaryArtwork = secondaryArtwork;
-    _uniqueText = text;
+    _uniqueTextId = 1;
     
     _choiceId = UINT16_MAX;
 
     return self;
+}
+
+#pragma mark - Getters
+
+- (NSString *)uniqueText {
+    if (self.uniqueTextId != 1) {
+        return [NSString stringWithFormat:@"%@ (%lu)", self.text, (unsigned long)self.uniqueTextId];
+    } else {
+        return self.text;
+    }
 }
 
 
@@ -94,13 +105,13 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLChoiceCell *newCell = [[SDLChoiceCell allocWithZone:zone] initWithText:_text secondaryText:_secondaryText tertiaryText:_tertiaryText voiceCommands:_voiceCommands artwork:_artwork secondaryArtwork:_secondaryArtwork];
     newCell.choiceId = _choiceId;
-    newCell.uniqueText = _uniqueText;
+    newCell.uniqueTextId = _uniqueTextId;
 
     return newCell;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu, uniqueText: %@", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, ([_text isEqualToString:_uniqueText] ? @"NO" : _uniqueText)];
+    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu, uniqueText: %@", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, ((_uniqueTextId != 1) ? @"NO" : self.uniqueText)];
 }
 
 @end
