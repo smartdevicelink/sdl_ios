@@ -161,7 +161,6 @@ UInt16 const ChoiceCellCancelIdMax = 200;
     _preloadedChoices = [NSMutableSet set];
 
     _vrOptional = YES;
-    _nextChoiceId = ChoiceCellIdMin;
     _nextCancelId = ChoiceCellCancelIdMin;
 }
 
