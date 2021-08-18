@@ -505,7 +505,6 @@ static UInt16 _choiceId = 0;
     // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
     NSMutableDictionary<id<NSCopying>, NSMutableArray<NSNumber *> *> *dictCounter = [[NSMutableDictionary alloc] init];
 
-    // TODO: Needs fixing. We need to check the loaded cell's unique text number to ensure that if we do [1, 2, 3], delete [2], that we don't end up with this algorithm detecting [1, 2] and trying to create a new cell with [3].
     // Include cells from loaded cells to ensure that new cells get the correct title
     for (SDLChoiceCell *loadedCell in loadedCells) {
         id<NSCopying> cellKey = supportsChoiceUniqueness ? loadedCell : loadedCell.text;
