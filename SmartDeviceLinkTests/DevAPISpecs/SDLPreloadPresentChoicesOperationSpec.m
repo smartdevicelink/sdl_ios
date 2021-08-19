@@ -515,7 +515,7 @@ describe(@"a preload choices operation", ^{
                         [testOp start];
                     });
 
-                    fit(@"should properly assign unique text", ^{
+                    it(@"should properly assign unique text", ^{
                         expect(testOp.cellsToUpload[0].uniqueText).to(equal(@"Cell 2 (2)"));
                         expect(testOp.cellsToUpload[1].uniqueText).to(equal(@"Cell 2 (4)"));
                         expect(testOp.cellsToUpload[2].uniqueText).to(equal(@"Cell 2 (6)"));
