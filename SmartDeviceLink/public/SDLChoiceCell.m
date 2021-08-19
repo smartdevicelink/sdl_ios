@@ -111,7 +111,7 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu, uniqueText: %@", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, ((_uniqueTextId != 1) ? @"NO" : self.uniqueText)];
+    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu, uniqueText: %@", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count, ((_uniqueTextId == 1) ? @"NO" : self.uniqueText)];
 }
 
 @end
