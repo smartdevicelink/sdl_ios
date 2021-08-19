@@ -42,6 +42,7 @@
 @interface SDLChoiceCell()
 
 @property (assign, nonatomic) UInt16 choiceId;
+@property (assign, nonatomic) NSUInteger uniqueTextId;
 
 @end
 
@@ -180,6 +181,33 @@ describe(@"a preload choices operation", ^{
                     it(@"should update the choiceCells' unique title", ^{
                         expect(testOp.cellsToUpload.count).to(equal(1));
                         expect(testOp.cellsToUpload[0].uniqueText).to(equal(@"Cell2 (2)"));
+                    });
+                });
+
+                context(@"if there are duplicate but non-contiguous cells once you strip unused cell properties", ^{
+                    beforeEach(^{
+                        SDLChoiceCell *loadedCell1 = [[SDLChoiceCell alloc] initWithText:@"Cell 2" secondaryText:@"Loaded 1" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
+                        SDLChoiceCell *loadedCell2 = [[SDLChoiceCell alloc] initWithText:@"Cell 2" secondaryText:@"Loaded 2" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
+                        loadedCell2.uniqueTextId = 3;
+                        SDLChoiceCell *loadedCell3 = [[SDLChoiceCell alloc] initWithText:@"Cell 2" secondaryText:@"Loaded 3" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
+                        loadedCell3.uniqueTextId = 5;
+
+                        SDLChoiceCell *cellToUpload1 = [[SDLChoiceCell alloc] initWithText:@"Cell 2" secondaryText:@"Unique 1" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
+                        SDLChoiceCell *cellToUpload2 = [[SDLChoiceCell alloc] initWithText:@"Cell 2" secondaryText:@"Unique 2" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
+                        SDLChoiceCell *cellToUpload3 = [[SDLChoiceCell alloc] initWithText:@"Cell 2" secondaryText:@"Unique 3" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
+                        SDLChoiceCell *cellToUpload4 = [[SDLChoiceCell alloc] initWithText:@"Cell 2" secondaryText:@"Unique 4" tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
+
+                        testOp.windowCapability = primaryTextOnlyCapability;
+                        testOp.loadedCells = [NSSet setWithArray:@[loadedCell1, loadedCell2, loadedCell3]];
+                        testOp.cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:@[cellToUpload1, cellToUpload2, cellToUpload3, cellToUpload4]];
+                        [testOp start];
+                    });
+
+                    fit(@"should properly assign unique text", ^{
+                        expect(testOp.cellsToUpload[0].uniqueText).to(equal(@"Cell 2 (2)"));
+                        expect(testOp.cellsToUpload[1].uniqueText).to(equal(@"Cell 2 (4)"));
+                        expect(testOp.cellsToUpload[2].uniqueText).to(equal(@"Cell 2 (6)"));
+                        expect(testOp.cellsToUpload[3].uniqueText).to(equal(@"Cell 2 (7)"));
                     });
                 });
 
@@ -489,6 +517,7 @@ describe(@"a preload choices operation", ^{
                     it(@"should update the choiceCells' unique title", ^{
                         expect(testOp.cellsToUpload.count).to(equal(1));
                         expect(testOp.cellsToUpload[0].uniqueText).to(equal(@"Cell2 (2)"));
+                        // TODO: Ensure choice set is set back correctly
                     });
                 });
 
@@ -501,10 +530,12 @@ describe(@"a preload choices operation", ^{
                     it(@"should not update the choiceCells' unique title", ^{
                         expect(testOp.cellsToUpload[0].uniqueText).to(equal("Cell2"));
                         expect(testOp.cellsToUpload.count).to(equal(1));
+                        // TODO: Ensure choice set is set back correctly
                     });
                 });
             });
 
+            // TODO: Ensure choice set is set back correctly
             context(@"when some choices are already uploaded with duplicate titles version <= 7.1.0", ^{
                 beforeEach(^{
                     [SDLGlobals sharedGlobals].rpcVersion = choiceSetUniquenessInactiveVersion;
