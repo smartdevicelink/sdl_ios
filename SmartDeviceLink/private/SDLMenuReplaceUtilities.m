@@ -53,14 +53,30 @@ static UInt32 _menuId = 0;
 /// Assign cell ids on an array of menu cells given a parent id (or no parent id)
 /// @param menuCells The array of menu cells to update
 /// @param parentId The parent id to assign if needed
-+ (void)updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
++ (void)addIdsToMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
     for (SDLMenuCell *cell in menuCells) {
         cell.cellId = self.class.nextMenuId;
         if (parentId != ParentIdNotFound) {
             cell.parentCellId = parentId;
         }
         if (cell.subCells.count > 0) {
-            [self updateIdsOnMenuCells:cell.subCells parentId:cell.cellId];
+            [self addIdsToMenuCells:cell.subCells parentId:cell.cellId];
+        }
+    }
+}
+
++ (void)transferCellIDsFromCells:(NSArray<SDLMenuCell *> *)fromCells toCells:(NSArray<SDLMenuCell *> *)toCells {
+    if (fromCells.count == 0 || fromCells.count != toCells.count) { return; }
+    for (NSUInteger i = 0; i < toCells.count; i++) {
+        toCells[i].cellId = fromCells[i].cellId;
+    }
+
+    // Update parent ids
+    for (SDLMenuCell *cell in toCells) {
+        if (cell.subCells == nil) { continue; }
+
+        for (SDLMenuCell *subCell in cell.subCells) {
+            subCell.parentCellId = cell.cellId;
         }
     }
 }

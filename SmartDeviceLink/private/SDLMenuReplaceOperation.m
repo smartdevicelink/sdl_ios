@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
-    [SDLMenuReplaceUtilities updateIdsOnMenuCells:self.updatedMenu parentId:ParentIdNotFound];
+    [SDLMenuReplaceUtilities addIdsToMenuCells:self.updatedMenu parentId:ParentIdNotFound];
 
     // Strip the "current menu" and the new menu of properties that are not displayed on the head unit
     NSArray<SDLMenuCell *> *updatedStrippedMenu = [self.class sdl_cellsWithRemovedPropertiesFromCells:self.updatedMenu basedOnWindowCapability:self.windowCapability];
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
 
     // Since we are creating a new Menu but keeping old cells we must first transfer the old cellIDs to the new menus kept cells.
-//    [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
+    [SDLMenuReplaceUtilities transferCellIDsFromCells:oldKeeps toCells:newKeeps];
 
     // Upload the artworks, then we will start updating the main menu
     __weak typeof(self) weakSelf = self;
@@ -157,10 +157,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param handler A handler called when complete
 - (void)sdl_updateMenuWithCellsToDelete:(NSArray<SDLMenuCell *> *)deleteCells cellsToAdd:(NSArray<SDLMenuCell *> *)addCells completionHandler:(void(^)(NSError *_Nullable error))handler {
     __weak typeof(self) weakSelf = self;
-    [self sdl_sendDeleteCurrentMenu:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
+    [self sdl_sendDeleteMenuCells:deleteCells withCompletionHandler:^(NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.isCancelled) { return handler(error); }
-        [strongSelf sdl_sendNewMenuCells:addCells oldMenu:strongSelf.currentMenu withCompletionHandler:^(NSError * _Nullable error) {
+        [strongSelf sdl_sendAddMenuCells:addCells withCompletionHandler:^(NSError * _Nullable error) {
             handler(error);
         }];
     }];
@@ -188,11 +188,11 @@ NS_ASSUME_NONNULL_BEGIN
 //        [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
 
         __weak typeof(self) weakself = self;
-        [self sdl_sendDeleteCurrentMenu:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
+        [self sdl_sendDeleteMenuCells:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {
             if (weakself.isCancelled) { return completionHandler([NSError sdl_menuManager_replaceOperationCancelled]); }
             if (error != nil) { return completionHandler(error); }
 
-            [weakself sdl_sendNewMenuCells:cellsToAdd oldMenu:weakself.currentMenu[startIndex].subCells withCompletionHandler:^(NSError * _Nullable error) {
+            [weakself sdl_sendAddMenuCells:cellsToAdd withCompletionHandler:^(NSError * _Nullable error) {
                 if (weakself.isCancelled) { return completionHandler([NSError sdl_menuManager_replaceOperationCancelled]); }
                 if (error != nil) { return completionHandler(error); }
 
@@ -215,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Send Delete RPCs for given menu cells
 /// @param deleteMenuCells The menu cells to be deleted
 /// @param completionHandler A handler called when the RPCs are finished with an error if any failed
-- (void)sdl_sendDeleteCurrentMenu:(nullable NSArray<SDLMenuCell *> *)deleteMenuCells withCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
+- (void)sdl_sendDeleteMenuCells:(nullable NSArray<SDLMenuCell *> *)deleteMenuCells withCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     if (deleteMenuCells.count == 0) { return completionHandler(nil); }
 
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
@@ -241,16 +241,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Send Add RPCs for given new menu cells compared to old menu cells
 /// @param newMenuCells The new menu cells we want displayed
-/// @param oldMenu The old menu cells we no longer want displayed
 /// @param completionHandler A handler called when the RPCs are finished with an error if any failed
-- (void)sdl_sendNewMenuCells:(NSArray<SDLMenuCell *> *)newMenuCells oldMenu:(NSArray<SDLMenuCell *> *)oldMenu withCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
+- (void)sdl_sendAddMenuCells:(NSArray<SDLMenuCell *> *)newMenuCells withCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     if (self.updatedMenu.count == 0 || newMenuCells.count == 0) {
         SDLLogV(@"There are no cells to update.");
         return completionHandler(nil);
     }
 
     NSArray<SDLRPCRequest *> *mainMenuCommands = [SDLMenuReplaceUtilities mainMenuCommandsForCells:newMenuCells fileManager:self.fileManager usingIndexesFrom:self.updatedMenu windowCapability:self.windowCapability defaultSubmenuLayout:self.menuConfiguration.defaultSubmenuLayout];;
-    NSArray<SDLRPCRequest *> *subMenuCommands = [SDLMenuReplaceUtilities subMenuCommandsForCells:newMenuCells fileManager:self.fileManager windowCapability:self.windowCapability defaultSubmenuLayout:self.menuConfiguration.defaultSubmenuLayout];
+//    NSArray<SDLRPCRequest *> *subMenuCommands = [SDLMenuReplaceUtilities subMenuCommandsForCells:newMenuCells fileManager:self.fileManager windowCapability:self.windowCapability defaultSubmenuLayout:self.menuConfiguration.defaultSubmenuLayout];
 
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
@@ -267,26 +266,29 @@ NS_ASSUME_NONNULL_BEGIN
         if (!success) {
             SDLLogE(@"Failed to send main menu commands: %@", errors);
             return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
+        } else {
+            SDLLogD(@"Finished sending new cells");
+            return completionHandler(nil);
         }
 
-        [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-            if (error != nil) {
-                errors[request] = error;
-            } else {
-                // Find the id of the successful request and add it from the current menu list wherever it needs to be
-                UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
-                UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
-                [SDLMenuReplaceUtilities addCellWithCellId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
-            }
-        } completionHandler:^(BOOL success) {
-            if (!success) {
-                SDLLogE(@"Failed to send sub menu commands: %@", errors);
-                return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-            }
-
-            SDLLogD(@"Finished updating menu");
-            completionHandler(nil);
-        }];
+//        [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+//            if (error != nil) {
+//                errors[request] = error;
+//            } else {
+//                // Find the id of the successful request and add it from the current menu list wherever it needs to be
+//                UInt32 commandId = [SDLMenuReplaceUtilities commandIdForRPCRequest:request];
+//                UInt16 position = [SDLMenuReplaceUtilities positionForRPCRequest:request];
+//                [SDLMenuReplaceUtilities addCellWithCellId:commandId position:position fromNewMenuList:newMenuCells toMainMenuList:weakSelf.mutableCurrentMenu];
+//            }
+//        } completionHandler:^(BOOL success) {
+//            if (!success) {
+//                SDLLogE(@"Failed to send sub menu commands: %@", errors);
+//                return completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
+//            }
+//
+//            SDLLogD(@"Finished updating menu");
+//            completionHandler(nil);
+//        }];
     }];
 }
 
@@ -335,13 +337,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     return [keepMenuCells copy];
-}
-
-- (void)sdl_transferCellIDsFromOldCells:(NSArray<SDLMenuCell *> *)oldCells toKeptCells:(NSArray<SDLMenuCell *> *)newCells {
-    if (oldCells.count == 0) { return; }
-    for (NSUInteger i = 0; i < newCells.count; i++) {
-        newCells[i].cellId = oldCells[i].cellId;
-    }
 }
 
 #pragma mark - Menu Uniqueness

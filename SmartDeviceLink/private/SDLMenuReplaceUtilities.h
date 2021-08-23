@@ -23,7 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Ids
 
-+ (void)updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId;
++ (void)addIdsToMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId;
+
++ (void)transferCellIDsFromCells:(NSArray<SDLMenuCell *> *)fromCells toCells:(NSArray<SDLMenuCell *> *)toCells;
 
 #pragma mark - Artworks
 
