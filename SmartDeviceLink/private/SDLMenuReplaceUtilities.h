@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param menu The menu from which we will manage indexes
 /// @param windowCapability The window capability with which to check available text fields / image fields
 /// @param defaultSubmenuLayout The default submenu layout to use for displaying submenus
-+ (NSArray<SDLRPCRequest *> *)mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager usingIndexesFrom:(NSArray<SDLMenuCell *> *)menu windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout;
++ (NSArray<SDLRPCRequest *> *)mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager usingPositionsFromFullMenu:(NSArray<SDLMenuCell *> *)menu windowCapability:(SDLWindowCapability *)windowCapability defaultSubmenuLayout:(SDLMenuLayout)defaultSubmenuLayout;
 
 /// Generate SDLAddCommand and SDLAddSubMenu RPCs for the given submenu cells
 /// @param cells The cells to generate AddCommand / AddSubMenu RPCs for
