@@ -437,7 +437,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)finishOperation {
-    SDLLogV(@"Finishing menu manager dynamic replace operation");
+    SDLLogV(@"Finishing menu manager replace operation");
     if (self.isCancelled) {
         self.internalError = [NSError sdl_menuManager_replaceOperationCancelled];
     }
