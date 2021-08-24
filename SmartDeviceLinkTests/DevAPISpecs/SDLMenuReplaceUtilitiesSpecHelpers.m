@@ -49,31 +49,22 @@
     SDLArtwork *artwork4 = [[SDLArtwork alloc] initWithData:cellArtData4 name:@"Test Art 4" fileExtension:@"png" persistent:NO];
 
     SDLMenuCell *subList1SubList1Cell1 = [[SDLMenuCell alloc] initWithTitle:@"Item 1" secondaryText:@"SubItem 1" tertiaryText:@"Sub-SubItem 1" icon:nil secondaryArtwork:artwork3 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//    subList1SubList1Cell1.cellId = 1;
     SDLMenuCell *subList1SubList1Cell2 = [[SDLMenuCell alloc] initWithTitle:@"Item 1" secondaryText:@"SubItem 1" tertiaryText:@"Sub-SubItem 2" icon:artwork1 secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//    subList1SubList1Cell2.cellId = 2;
     NSArray<SDLMenuCell *> *subList1SubList1 = @[subList1SubList1Cell1, subList1SubList1Cell2];
 
     SDLMenuCell *subList1Cell1 = [[SDLMenuCell alloc] initWithTitle:@"Item 1" secondaryText:@"SubItem 1" tertiaryText:nil icon:artwork4 secondaryArtwork:nil submenuLayout:nil subCells:subList1SubList1];
-//    subList1Cell1.cellId = 3;
     SDLMenuCell *subList1Cell2 = [[SDLMenuCell alloc] initWithTitle:@"Item 1" secondaryText:@"SubItem 2" tertiaryText:nil icon:artwork2 secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//    subList1Cell2.cellId = 4;
     NSArray<SDLMenuCell *> *subList1 = @[subList1Cell1, subList1Cell2];
 
     SDLMenuCell *subList2Cell1 = [[SDLMenuCell alloc] initWithTitle:@"Item 3" secondaryText:@"SubItem 1" tertiaryText:nil icon:artwork1 secondaryArtwork:artwork4 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//    subList2Cell1.cellId = 5;
     SDLMenuCell *subList2Cell2 = [[SDLMenuCell alloc] initWithTitle:@"Item 3" secondaryText:@"SubItem 2" tertiaryText:nil icon:artwork1 secondaryArtwork:artwork2 voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//    subList2Cell2.cellId = 6;
     NSArray<SDLMenuCell *> *subList2 = @[subList2Cell1, subList2Cell2];
 
     SDLMenuCell *topListCell1 = [[SDLMenuCell alloc] initWithTitle:@"Item 1" secondaryText:nil tertiaryText:nil icon:artwork1 secondaryArtwork:nil submenuLayout:nil subCells:subList1];
-//    topListCell1.cellId = 7;
     SDLMenuCell *topListCell2 = [[SDLMenuCell alloc] initWithTitle:@"Item 2" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-//    topListCell2.cellId = 8;
     SDLMenuCell *topListCell3 = [[SDLMenuCell alloc] initWithTitle:@"Item 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:subList2];
-//    topListCell3.cellId = 9;
 
-    return [@[topListCell1, topListCell2, topListCell3] mutableCopy];
+    return @[topListCell1, topListCell2, topListCell3].mutableCopy;
 }
 
 @end
