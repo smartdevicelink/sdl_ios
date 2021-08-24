@@ -157,12 +157,12 @@ describe(@"menu manager", ^{
             });
 
             context(@"if the new menu cells are identical to the old menu cells", ^{
-                it(@"should only queue one transaction", ^{
+                it(@"should queue two transactions and let the operation handle not updating", ^{
                     testManager.menuCells = @[textOnlyCell];
                     testManager.menuCells = @[textOnlyCell];
 
                     expect(testManager.menuCells).to(equal(@[textOnlyCell]));
-                    expect(testManager.transactionQueue.operationCount).to(equal(1));
+                    expect(testManager.transactionQueue.operationCount).to(equal(2));
                 });
             });
 
@@ -333,7 +333,7 @@ describe(@"menu manager", ^{
                 }];
                 cellWithHandler.cellId = 1;
 
-                testManager.menuCells = @[cellWithHandler];
+                testManager.currentMenuCells = @[cellWithHandler];
             });
 
             it(@"should call the cell handler", ^{
@@ -362,7 +362,7 @@ describe(@"menu manager", ^{
 
                 cellWithHandler.parentCellId = 1;
 
-                testManager.menuCells = @[submenuCell];
+                testManager.currentMenuCells = @[submenuCell];
             });
 
             it(@"should call the cell handler", ^{
