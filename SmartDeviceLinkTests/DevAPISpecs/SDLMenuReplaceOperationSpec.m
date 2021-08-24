@@ -78,6 +78,15 @@ describe(@"a menu replace operation", ^{
 
     __block SDLMenuReplaceUtilities *mockReplaceUtilities = nil;
 
+    beforeSuite(^{
+        for (int i = 0; i < 49; i++) {
+            NSString *cellTitle = [NSString stringWithFormat:@"Cell %@", @(i)];
+            [basicCellArray addObject:[[SDLMenuCell alloc] initWithTitle:cellTitle secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[cellTitle] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                NSLog(@"%@ pressed", cellTitle);
+            }]];
+        }
+    });
+
     beforeEach(^{
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:7 minor:1 patch:0];
 
@@ -85,13 +94,6 @@ describe(@"a menu replace operation", ^{
         testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name 2" fileExtension:@"png" persistent:NO];
         testArtwork3 = [[SDLArtwork alloc] initWithData:[@"Test data 3" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
         testArtwork3.overwrite = YES;
-
-        for (int i = 0; i < 49; i++) {
-            NSString *cellTitle = [NSString stringWithFormat:@"Cell %@", @(i)];
-            [basicCellArray addObject:[[SDLMenuCell alloc] initWithTitle:cellTitle secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[cellTitle] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-                NSLog(@"%@ pressed", cellTitle);
-            }]];
-        }
 
         textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
@@ -272,7 +274,7 @@ describe(@"a menu replace operation", ^{
                 NSPredicate *submenuCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
                 NSArray *submenus = [[testConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:submenuCommandPredicate];
 
-                expect(adds).to(haveCount(2));
+                expect(adds).to(haveCount(49));
                 expect(submenus).to(haveCount(1));
 
                 [testConnectionManager respondToRequestWithResponse:addCommandSuccessResponse requestNumber:1 error:nil];
@@ -292,7 +294,7 @@ describe(@"a menu replace operation", ^{
             context(@"adding a text cell", ^{
                 beforeEach(^{
                     testCurrentMenu = [[NSArray alloc] initWithArray:@[textOnlyCell] copyItems:YES];
-                    [SDLMenuReplaceUtilities updateIdsOnMenuCells:testCurrentMenu parentId:ParentIdNotFound];
+                    [SDLMenuReplaceUtilities addIdsToMenuCells:testCurrentMenu parentId:ParentIdNotFound];
 
                     testNewMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCell2] copyItems:YES];
                 });
@@ -328,7 +330,7 @@ describe(@"a menu replace operation", ^{
             context(@"when all cells remain the same", ^{
                 beforeEach(^{
                     testCurrentMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCell2, textAndImageCell] copyItems:YES];
-                    [SDLMenuReplaceUtilities updateIdsOnMenuCells:testCurrentMenu parentId:ParentIdNotFound];
+                    [SDLMenuReplaceUtilities addIdsToMenuCells:testCurrentMenu parentId:ParentIdNotFound];
 
                     testNewMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCell2, textAndImageCell] copyItems:YES];
                 });
@@ -558,7 +560,7 @@ describe(@"a menu replace operation", ^{
         context(@"rearranging cells with subcells", ^{
             beforeEach(^{
                 testCurrentMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, submenuCell, submenuImageCell] copyItems:YES];
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testCurrentMenu parentId:ParentIdNotFound];
+                [SDLMenuReplaceUtilities addIdsToMenuCells:testCurrentMenu parentId:ParentIdNotFound];
 
                 testNewMenu = [[NSArray alloc] initWithArray:@[submenuCell, submenuImageCell, textOnlyCell] copyItems:YES];
 
@@ -600,7 +602,7 @@ describe(@"a menu replace operation", ^{
         context(@"rearranging cells and their subcells", ^{
             beforeEach(^{
                 testCurrentMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textAndImageCell, submenuCell] copyItems:YES];
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testCurrentMenu parentId:ParentIdNotFound];
+                [SDLMenuReplaceUtilities addIdsToMenuCells:testCurrentMenu parentId:ParentIdNotFound];
 
                 testNewMenu = [[NSArray alloc] initWithArray:@[submenuCellReversed, textAndImageCell, textOnlyCell] copyItems:YES];
 
@@ -643,7 +645,7 @@ describe(@"a menu replace operation", ^{
 
                 expect(deletes).to(haveCount(1));
                 expect(subDeletes).to(haveCount(1));
-                expect(adds).to(haveCount(51));
+                expect(adds).to(haveCount(50));
                 expect(submenu).to(haveCount(1));
 
                 expect(testOp.isFinished).to(beTrue());
@@ -655,7 +657,7 @@ describe(@"a menu replace operation", ^{
         context(@"removing a cell with subcells", ^{
             beforeEach(^{
                 testCurrentMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textAndImageCell, submenuCell, submenuImageCell] copyItems:YES];
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testCurrentMenu parentId:ParentIdNotFound];
+                [SDLMenuReplaceUtilities addIdsToMenuCells:testCurrentMenu parentId:ParentIdNotFound];
 
                 testNewMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textAndImageCell, submenuCell] copyItems:YES];
 
@@ -697,7 +699,7 @@ describe(@"a menu replace operation", ^{
         context(@"when cells remain the same", ^{
             beforeEach(^{
                 testCurrentMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCell2, textAndImageCell] copyItems:YES];
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testCurrentMenu parentId:ParentIdNotFound];
+                [SDLMenuReplaceUtilities addIdsToMenuCells:testCurrentMenu parentId:ParentIdNotFound];
 
                 testNewMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCell2, textAndImageCell] copyItems:YES];
             });
