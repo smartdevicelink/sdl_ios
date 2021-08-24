@@ -186,8 +186,8 @@ NS_ASSUME_NONNULL_BEGIN
         NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:newKeptCells[index].subCells basedOnStatusList:addMenuStatus];
 
         // Transfer ids from subcell keeps to old subcells, which are stored in the current menu
-        NSArray<SDLMenuCell *> *oldSubcellKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
-        NSArray<SDLMenuCell *> *newSubcellKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
+        NSArray<SDLMenuCell *> *oldSubcellKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[index].subCells basedOnStatusList:deleteMenuStatus];
+        NSArray<SDLMenuCell *> *newSubcellKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[index].subCells basedOnStatusList:addMenuStatus];
         [SDLMenuReplaceUtilities transferCellHandlersFromCells:newSubcellKeeps toCells:oldSubcellKeeps];
 
         __weak typeof(self) weakself = self;
