@@ -48,7 +48,7 @@ describe(@"adding ids", ^{
         SDLMenuReplaceUtilities.nextMenuId = 0;
         testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
 
-        [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
+        [SDLMenuReplaceUtilities addIdsToMenuCells:testMenuCells parentId:ParentIdNotFound];
 
         expect(testMenuCells[0].cellId).to(equal(1));
         expect(testMenuCells[1].cellId).to(equal(6));
@@ -71,6 +71,55 @@ describe(@"adding ids", ^{
         expect(subCellList2[0].parentCellId).to(equal(7));
         expect(subCellList2[1].cellId).to(equal(9));
         expect(subCellList2[1].parentCellId).to(equal(7));
+    });
+});
+
+describe(@"transferring cell ids", ^{
+    it(@"should properly transfer ids and set parent ids", ^{
+        testMenuCells = [[NSMutableArray alloc] initWithArray:SDLMenuReplaceUtilitiesSpecHelpers.deepMenu copyItems:YES];
+        [SDLMenuReplaceUtilities addIdsToMenuCells:testMenuCells parentId:ParentIdNotFound];
+
+        NSArray<SDLMenuCell *> *toCells = [[NSArray alloc] initWithArray:SDLMenuReplaceUtilitiesSpecHelpers.deepMenu copyItems:YES];
+        [SDLMenuReplaceUtilities transferCellIDsFromCells:testMenuCells toCells:toCells];
+
+        // Top-level cells should have same cell ids
+        for (NSUInteger i = 0; i < testMenuCells.count; i++) {
+            expect(toCells[i].cellId).to(equal(testMenuCells[i].cellId));
+        }
+
+        // Sub-cells should _not_ have the same cell ids
+        for (NSUInteger i = 0; i < testMenuCells[0].subCells.count; i++) {
+            expect(toCells[0].subCells[i].cellId).toNot(equal(testMenuCells[0].subCells[i].cellId));
+        }
+
+        // Sub-cells should have proper parent ids
+        for (NSUInteger i = 0; i < testMenuCells[0].subCells.count; i++) {
+            expect(toCells[0].subCells[i].parentCellId).to(equal(toCells[0].cellId));
+        }
+    });
+});
+
+describe(@"transferring cell handlers", ^{
+    __block BOOL cell1HandlerTriggered = NO;
+    __block BOOL cell2HandlerTriggered = NO;
+    beforeEach(^{
+        cell1HandlerTriggered = NO;
+        cell2HandlerTriggered = NO;
+    });
+
+    it(@"should properly transfer cell handlers", ^{
+        SDLMenuCell *cell1 = [[SDLMenuCell alloc] initWithTitle:@"Cell1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+            cell1HandlerTriggered = YES;
+        }];
+        SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Cell1" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+            cell2HandlerTriggered = YES;
+        }];
+
+        [SDLMenuReplaceUtilities transferCellHandlersFromCells:@[cell1] toCells:@[cell2]];
+        cell2.handler(SDLTriggerSourceMenu);
+
+        expect(cell1HandlerTriggered).to(beTrue());
+        expect(cell2HandlerTriggered).to(beFalse());
     });
 });
 
@@ -259,7 +308,7 @@ describe(@"generating RPCs", ^{
             });
 
             it(@"should generate the correct RPCs", ^{
-                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingIndexesFrom:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
+                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingPositionsFromFullMenu:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
                 expect(requests).to(haveCount(3));
                 expect(requests[0]).to(beAnInstanceOf(SDLAddCommand.class));
                 expect(requests[1]).to(beAnInstanceOf(SDLAddCommand.class));
@@ -273,7 +322,7 @@ describe(@"generating RPCs", ^{
             });
 
             it(@"should generate the correct RPCs", ^{
-                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingIndexesFrom:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
+                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingPositionsFromFullMenu:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
                 expect(requests).to(haveCount(3));
                 expect(requests[0]).to(beAnInstanceOf(SDLAddSubMenu.class));
                 expect(requests[1]).to(beAnInstanceOf(SDLAddCommand.class));
@@ -305,7 +354,7 @@ describe(@"updating menu cell lists", ^{
         context(@"from a shallow list", ^{
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu;
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
+                [SDLMenuReplaceUtilities addIdsToMenuCells:testMenuCells parentId:ParentIdNotFound];
             });
 
             context(@"when the cell is in the menu", ^{
@@ -342,7 +391,7 @@ describe(@"updating menu cell lists", ^{
         context(@"from a deep list", ^{
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
+                [SDLMenuReplaceUtilities addIdsToMenuCells:testMenuCells parentId:ParentIdNotFound];
             });
 
             context(@"when the cell is in the top menu", ^{
@@ -400,7 +449,7 @@ describe(@"updating menu cell lists", ^{
         context(@"from a shallow list", ^{
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu;
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
+                [SDLMenuReplaceUtilities addIdsToMenuCells:testMenuCells parentId:ParentIdNotFound];
 
                 SDLMenuCell *newCell = [[SDLMenuCell alloc] initWithTitle:@"New Cell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
                 newCell.cellId = 99;
@@ -456,7 +505,7 @@ describe(@"updating menu cell lists", ^{
 
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu.copy;
-                [SDLMenuReplaceUtilities updateIdsOnMenuCells:testMenuCells parentId:ParentIdNotFound];
+                [SDLMenuReplaceUtilities addIdsToMenuCells:testMenuCells parentId:ParentIdNotFound];
 
                 newMenu = [[NSMutableArray alloc] initWithArray:testMenuCells copyItems:YES];
                 NSMutableArray<SDLMenuCell *> *subMenuToUpdate = newMenu[0].subCells.mutableCopy;
