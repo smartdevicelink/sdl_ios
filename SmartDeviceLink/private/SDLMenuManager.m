@@ -353,7 +353,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_commandNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnCommand *onCommand = (SDLOnCommand *)notification.notification;
-    [self sdl_callHandlerForCells:self.menuCells command:onCommand];
+    [self sdl_callHandlerForCells:self.currentMenuCells command:onCommand];
 }
 
 - (void)sdl_displayCapabilityDidUpdate {
