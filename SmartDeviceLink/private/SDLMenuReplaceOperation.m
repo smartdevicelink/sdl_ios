@@ -110,8 +110,11 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
     NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
 
-    // Since we are creating a new Menu but keeping old cells we must first transfer the old cellIDs to the new menus kept cells.
+    // Old kept cells ids need to be moved to the new kept cells so that submenu changes have correct parent ids
     [SDLMenuReplaceUtilities transferCellIDsFromCells:oldKeeps toCells:newKeeps];
+
+    // Transfer new cells' handlers to the old cells, which are stored in the current menu
+    [SDLMenuReplaceUtilities transferCellHandlersFromCells:newKeeps toCells:oldKeeps];
 
     // Upload the artworks, then we will start updating the main menu
     __weak typeof(self) weakSelf = self;
@@ -182,11 +185,10 @@ NS_ASSUME_NONNULL_BEGIN
         NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:oldKeptCells[index].subCells basedOnStatusList:deleteMenuStatus];
         NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:newKeptCells[index].subCells basedOnStatusList:addMenuStatus];
 
-        // TODO: These will be necessary once we do subcells of subcells
-//        NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
-//        NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
-//
-//        [self sdl_transferCellIDsFromOldCells:oldKeeps toKeptCells:newKeeps];
+        // Transfer ids from subcell keeps to old subcells, which are stored in the current menu
+        NSArray<SDLMenuCell *> *oldSubcellKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[startIndex].subCells basedOnStatusList:deleteMenuStatus];
+        NSArray<SDLMenuCell *> *newSubcellKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[startIndex].subCells basedOnStatusList:addMenuStatus];
+        [SDLMenuReplaceUtilities transferCellHandlersFromCells:newSubcellKeeps toCells:oldSubcellKeeps];
 
         __weak typeof(self) weakself = self;
         [self sdl_sendDeleteMenuCells:cellsToDelete withCompletionHandler:^(NSError * _Nullable error) {

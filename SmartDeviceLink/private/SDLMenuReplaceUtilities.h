@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)transferCellIDsFromCells:(NSArray<SDLMenuCell *> *)fromCells toCells:(NSArray<SDLMenuCell *> *)toCells;
 
++ (void)transferCellHandlersFromCells:(NSArray<SDLMenuCell *> *)fromCells toCells:(NSArray<SDLMenuCell *> *)toCells;
+
 #pragma mark - Artworks
 
 /// Finds all artworks that need to be uploaded from the given list of menu cells

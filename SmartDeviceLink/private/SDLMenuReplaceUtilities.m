@@ -28,6 +28,7 @@
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
 @property (copy, nonatomic, readwrite, nullable) NSArray<SDLMenuCell *> *subCells;
+@property (copy, nonatomic, readwrite, nullable) SDLMenuCellSelectionHandler handler;
 
 @end
 
@@ -78,6 +79,13 @@ static UInt32 _menuId = 0;
         for (SDLMenuCell *subCell in cell.subCells) {
             subCell.parentCellId = cell.cellId;
         }
+    }
+}
+
++ (void)transferCellHandlersFromCells:(NSArray<SDLMenuCell *> *)fromCells toCells:(NSArray<SDLMenuCell *> *)toCells {
+    if (fromCells.count == 0 || fromCells.count != toCells.count) { return; }
+    for (NSUInteger i = 0; i < toCells.count; i++) {
+        toCells[i].handler = fromCells[i].handler;
     }
 }
 
