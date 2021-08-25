@@ -5582,8 +5582,6 @@
 				4ABB27F624F823F20061BF55 /* SDLSamplingRate.m */,
 				4ABB280524F824600061BF55 /* SDLSeatMemoryActionType.h */,
 				4ABB280224F8245F0061BF55 /* SDLSeatMemoryActionType.m */,
-				C99BE00726C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.h */,
-				C99BE00826C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.m */,
 				C9DFFE7C257AD07E00F7D57A /* SDLSeekIndicatorType.h */,
 				C9DFFE7D257AD07E00F7D57A /* SDLSeekIndicatorType.m */,
 				4ABB280424F824600061BF55 /* SDLServiceUpdateReason.h */,
@@ -5818,6 +5816,10 @@
 				4A8BD32524F9431B000945E3 /* SDLV1ProtocolHeader.m */,
 				4A8BD32A24F9431B000945E3 /* SDLV2ProtocolHeader.h */,
 				4A8BD32624F9431B000945E3 /* SDLV2ProtocolHeader.m */,
+				C93193DA26B1B57B008203EC /* SDLSecurityQueryPayload.h */,
+				C93193DB26B1B57B008203EC /* SDLSecurityQueryPayload.m */,
+				C99BE00726C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.h */,
+				C99BE00826C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.m */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -5841,8 +5843,6 @@
 			children = (
 				4ABB28EF24F82AFD0061BF55 /* SDLRPCPayload.h */,
 				4ABB28EE24F82AFD0061BF55 /* SDLRPCPayload.m */,
-				C93193DA26B1B57B008203EC /* SDLSecurityQueryPayload.h */,
-				C93193DB26B1B57B008203EC /* SDLSecurityQueryPayload.m */,
 			);
 			name = Payload;
 			sourceTree = "<group>";
