@@ -704,14 +704,21 @@ describe(@"a menu replace operation", ^{
         });
 
         context(@"when cells remain the same", ^{
+            __block BOOL secondHandlerCalled = NO;
+
             beforeEach(^{
+                secondHandlerCalled = NO;
+
                 testCurrentMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCell2, textAndImageCell] copyItems:YES];
                 [SDLMenuReplaceUtilities addIdsToMenuCells:testCurrentMenu parentId:ParentIdNotFound];
 
+                textOnlyCell.handler = ^(SDLTriggerSource triggerSource) {
+                    secondHandlerCalled = YES;
+                };
                 testNewMenu = [[NSArray alloc] initWithArray:@[textOnlyCell, textOnlyCell2, textAndImageCell] copyItems:YES];
             });
 
-            it(@"should send dynamic deletes first then dynamic adds when cells stay the same", ^{
+            it(@"should not send deletes or adds, but should transfer handlers", ^{
                 testOp = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager windowCapability:testWindowCapability menuConfiguration:testMenuConfiguration currentMenu:testCurrentMenu updatedMenu:testNewMenu compatibilityModeEnabled:NO currentMenuUpdatedHandler:testCurrentMenuUpdatedBlock];
                 [testOp start];
 
@@ -727,6 +734,9 @@ describe(@"a menu replace operation", ^{
                 expect(testOp.isFinished).to(beTrue());
                 expect(resultError).to(beNil());
                 expect(resultMenuCells).to(haveCount(3));
+
+                resultMenuCells[0].handler(SDLTriggerSourceMenu);
+                expect(secondHandlerCalled).to(beTrue());
             });
         });
     });
