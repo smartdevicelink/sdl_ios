@@ -106,10 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    NSMutableString *description = [[NSMutableString alloc] init];
-    [description appendFormat:@" queryType:%i, queryID:%i, sequenceNumber:%i, json:%lu bytes, binary:%lu bytes", self.queryType, (unsigned int)self.queryID, (unsigned int)self.sequenceNumber, (unsigned long)self.jsonData.length, (unsigned long)self.binaryData.length];
-
-    return description;
+    return [NSString stringWithFormat:@"Security Query Header: queryType:%i, queryID:%lu, sequenceNumber:%lu, json:%lu bytes, binary:%lu bytes", self.queryType, (unsigned long)self.queryID, (unsigned long)self.sequenceNumber, (NSUInteger)self.jsonData.length, (NSUInteger)self.binaryData.length];
 }
 
 + (nullable id)securityPayloadWithData:(NSData *)data {
