@@ -25,11 +25,11 @@
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLRPCNotification.h"
 #import "SDLRPCPayload.h"
-#import "SDLSecurityQueryPayload.h"
 #import "SDLRPCRequest.h"
 #import "SDLRPCResponse.h"
 #import "SDLSecurityType.h"
 #import "SDLSecurityQueryErrorCode.h"
+#import "SDLSecurityQueryPayload.h"
 #import "SDLSystemInfo.h"
 #import "SDLTimer.h"
 #import "SDLVersion.h"
@@ -782,17 +782,19 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Check the client's message header for any internal errors
     SDLSecurityQueryPayload *clientSecurityQueryPayload = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeMessage.payload];
+
+    // If the query is of type `Notification` and the id represents a client internal error, we abort the response message and the encryptionManager will not be in state ready.
     if (clientSecurityQueryPayload.queryID == SDLSecurityQueryIdSendInternalError && clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeNotification) {
-        NSError *JSONConversionError = nil;
-        NSDictionary<NSString *, id> *securityQueryErrorDictionary = [NSJSONSerialization JSONObjectWithData:clientSecurityQueryPayload.jsonData options:kNilOptions error:&JSONConversionError];
-        if (JSONConversionError) {
-            SDLLogE(@"Error converting client response dictionary: %@", JSONConversionError);
+        NSError *jsonDecodeError = nil;
+        NSDictionary<NSString *, id> *securityQueryErrorDictionary = [NSJSONSerialization JSONObjectWithData:clientSecurityQueryPayload.jsonData options:kNilOptions error:&jsonDecodeError];
+        if (jsonDecodeError != nil) {
+            SDLLogE(@"Error decoding client security query response JSON: %@", jsonDecodeError);
         } else {
-            if ([securityQueryErrorDictionary objectForKey:@"text"]) {
-                SDLLogE(@"Client internal error, Dictionary: %@", securityQueryErrorDictionary[@"text"]);
-                SDLSecurityQueryErrorCode errorCode = [self.class sdl_parseClientInternalError:securityQueryErrorDictionary[@"id"]];
+            if (securityQueryErrorDictionary[@"text"] != nil) {
+                SDLSecurityQueryErrorCode errorCodeString = [SDLSecurityQueryError sdl_parseClientInternalError:securityQueryErrorDictionary[@"id"]];
+                SDLLogE(@"Security Query client internal error: %@, code: %@", securityQueryErrorDictionary[@"text"], errorCodeString);
             } else {
-                SDLLogE(@"Client internal error: No information provided");
+                SDLLogE(@"Security Query client error: No information provided");
             }
         }
         return;
@@ -822,29 +824,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendDataToTransport:serverSecurityMessage.data onService:SDLServiceTypeControl];
 }
 
-+ (SDLSecurityQueryErrorCode)sdl_parseClientInternalError:(NSNumber *)errorId {
-    NSDictionary *errorCodesDict = @{@0x00: SDLSecurityQueryErrorCode_SUCCESS,
-                                     @0x01: SDLSecurityQueryErrorCode_INVALID_QUERY_SIZE,
-                                     @0x02: SDLSecurityQueryErrorCode_INVALID_QUERY_ID,
-                                     @0x03: SDLSecurityQueryErrorCode_NOT_SUPPORTED,
-                                     @0x04: SDLSecurityQueryErrorCode_SERVICE_ALREADY_PROTECTED,
-                                     @0x05: SDLSecurityQueryErrorCode_SERVICE_NOT_PROTECTED,
-                                     @0x06: SDLSecurityQueryErrorCode_DECRYPTION_FAILED,
-                                     @0x07: SDLSecurityQueryErrorCode_ENCRYPTION_FAILED,
-                                     @0x08: SDLSecurityQueryErrorCode_SSL_INVALID_DATA,
-                                     @0x09: SDLSecurityQueryErrorCode_HANDSHAKE_FAILED,
-                                     @0x0A: SDLSecurityQueryErrorCode_INVALID_CERT,
-                                     @0x0B: SDLSecurityQueryErrorCode_EXPIRED_CERT,
-                                     @0xFF: SDLSecurityQueryErrorCode_INTERNAL,
-                                     @0xFE: SDLSecurityQueryErrorCode_UNKNOWN_INTERNAL_ERROR,
-    };
-    if ([errorCodesDict objectForKey:errorId]) {
-        return errorCodesDict[errorId];
-    }
-
-    return SDLSecurityQueryErrorCode_UNKNOWN_INTERNAL_ERROR;
-}
-
 + (SDLProtocolMessage *)sdl_serverSecurityHandshakeMessageWithData:(NSData *)data clientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId {
     // This can't possibly be a v1 header because v1 does not have control protocol messages
     SDLV2ProtocolHeader *serverMessageHeader = [SDLProtocolHeader headerForVersion:clientHeader.version];
@@ -855,9 +834,9 @@ NS_ASSUME_NONNULL_BEGIN
     serverMessageHeader.sessionID = clientHeader.sessionID;
     serverMessageHeader.messageID = messageId;
 
-    // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
+    // Assemble a security query payload header for our response
     SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
-    serverTLSPayload.queryID = SDLSecurityQueryIdSendHandshake; // TLS Handshake message
+    serverTLSPayload.queryID = SDLSecurityQueryIdSendHandshake;
     serverTLSPayload.queryType = SDLSecurityQueryTypeResponse;
     serverTLSPayload.sequenceNumber = 0x00;
     serverTLSPayload.binaryData = data;
@@ -879,7 +858,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
     SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
-    serverTLSPayload.queryID = SDLSecurityQueryIdSendInternalError; // TLS Error message
+    serverTLSPayload.queryID = SDLSecurityQueryIdSendInternalError;
     serverTLSPayload.queryType = SDLSecurityQueryTypeNotification;
     serverTLSPayload.sequenceNumber = 0x00;
 
