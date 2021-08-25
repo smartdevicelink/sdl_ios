@@ -8,17 +8,17 @@
 
 #import "SDLSecurityQueryErrorCode.h"
 
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_SUCCESS = @"Internal Security Manager value";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_INVALID_QUERY_SIZE = @"Wrong size of query data";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_INVALID_QUERY_ID = @"Unknown Query ID";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_NOT_SUPPORTED = @"SDL does not support encryption";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_SERVICE_ALREADY_PROTECTED = @"Received request to protect a service that was protected before";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_SERVICE_NOT_PROTECTED = @"Received handshake or encrypted data for not protected service";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_DECRYPTION_FAILED = @"Decryption failed";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_ENCRYPTION_FAILED = @"Encryption failed";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_SSL_INVALID_DATA = @"SSL invalid data";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_HANDSHAKE_FAILED = @"In case of all other handshake errors";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_INVALID_CERT = @"Handshake failed because certificate is invalid";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_EXPIRED_CERT = @"Handshake failed because certificate is expired";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_INTERNAL = @"Internal error";
-SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_UNKNOWN_INTERNAL_ERROR = @"Error value for testing";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeSuccess = @"Success";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInvalidQuerySize = @"Wrong size of query data";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInvalidQueryID = @"Unknown Query ID";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeNotSupported = @"SDL does not support encryption";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeServiceAlreadyProtected = @"Received request to protect a service that was protected before";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeServiceNotProtected = @"Received handshake or encrypted data for not protected service";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeDecryptionFailed = @"Decryption failed";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeEncryptionFailed = @"Encryption failed";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeSSLInvalidData = @"SSL invalid data";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeHandshakeFailed = @"In case of all other handshake errors";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInvalidCertificate = @"Handshake failed because certificate is invalid";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeExpiredCertificate = @"Handshake failed because certificate is expired";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInternal = @"Internal error";
+SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeUnknownInternalError = @"Error value for testing";

@@ -10,66 +10,44 @@
 
 typedef SDLEnum SDLSecurityQueryErrorCode NS_TYPED_ENUM;
 
-/**
- Internal Security Manager value
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_SUCCESS;
-/**
- Wrong size of query data
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_INVALID_QUERY_SIZE;
-/**
- Unknown Query ID
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_INVALID_QUERY_ID;
-/**
- SDL does not support encryption
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_NOT_SUPPORTED;
-/**
- Received request to protect a service that was protected before
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_SERVICE_ALREADY_PROTECTED;
-/**
- Received handshake or encrypted data for not protected service
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_SERVICE_NOT_PROTECTED;
-/**
- Decryption failed
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_DECRYPTION_FAILED;
+///Internal Security Manager value
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeSuccess;
 
-/**
- Encryption failed
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_ENCRYPTION_FAILED;
+///Wrong size of query data
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInvalidQuerySize;
 
-/**
- SSL invalid data
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_SSL_INVALID_DATA;
+///Unknown Query ID
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInvalidQueryID;
 
-/**
- In case of all other handshake errors
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_HANDSHAKE_FAILED;
+///SDL does not support encryption
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeNotSupported;
 
-/**
- Handshake failed because certificate is invalid
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_INVALID_CERT;
+///Received request to protect a service that was protected before
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeServiceAlreadyProtected;
 
-/**
- Handshake failed because certificate is expired
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_EXPIRED_CERT;
+///Received handshake or encrypted data for not protected service
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeServiceNotProtected;
 
-/**
- Internal error
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_INTERNAL;
+///Decryption failed
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeDecryptionFailed;
 
-/**
- Error value for testing
- */
-extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCode_UNKNOWN_INTERNAL_ERROR;
+///Encryption failed
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeEncryptionFailed;
+
+///SSL invalid data
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeSSLInvalidData;
+
+///In case of all other handshake errors
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeHandshakeFailed;
+
+///Handshake failed because certificate is invalid
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInvalidCertificate;
+
+///Handshake failed because certificate is expired
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeExpiredCertificate;
+
+///Internal error
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInternal;
+
+///Error value for testing
+extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeUnknownInternalError;
