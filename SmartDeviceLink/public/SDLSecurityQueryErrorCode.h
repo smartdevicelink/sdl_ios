@@ -51,3 +51,13 @@ extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInternal;
 
 ///Error value for testing
 extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeUnknownInternalError;
+
+
+@interface SDLSecurityQueryError : NSObject
+
+/**
+ Compare the internal error ID with the App's security query error codes
+ */
++ (SDLSecurityQueryErrorCode)sdl_parseClientInternalError:(NSNumber *)errorId;
+
+@end

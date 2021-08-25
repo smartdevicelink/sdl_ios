@@ -22,3 +22,31 @@ SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInvalidCertificate = @"
 SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeExpiredCertificate = @"Handshake failed because certificate is expired";
 SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeInternal = @"Internal error";
 SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeUnknownInternalError = @"Error value for testing";
+
+
+@implementation SDLSecurityQueryError
+
++ (SDLSecurityQueryErrorCode)sdl_parseClientInternalError:(NSNumber *)errorId {
+    NSDictionary *errorCodesDict = @{@0x00: SDLSecurityQueryErrorCodeSuccess,
+                                     @0x01: SDLSecurityQueryErrorCodeInvalidQuerySize,
+                                     @0x02: SDLSecurityQueryErrorCodeInvalidQueryID,
+                                     @0x03: SDLSecurityQueryErrorCodeNotSupported,
+                                     @0x04: SDLSecurityQueryErrorCodeServiceAlreadyProtected,
+                                     @0x05: SDLSecurityQueryErrorCodeServiceNotProtected,
+                                     @0x06: SDLSecurityQueryErrorCodeDecryptionFailed,
+                                     @0x07: SDLSecurityQueryErrorCodeEncryptionFailed,
+                                     @0x08: SDLSecurityQueryErrorCodeSSLInvalidData,
+                                     @0x09: SDLSecurityQueryErrorCodeHandshakeFailed,
+                                     @0x0A: SDLSecurityQueryErrorCodeInvalidCertificate,
+                                     @0x0B: SDLSecurityQueryErrorCodeExpiredCertificate,
+                                     @0xFF: SDLSecurityQueryErrorCodeInternal,
+                                     @0xFE: SDLSecurityQueryErrorCodeUnknownInternalError,
+    };
+    if ([errorCodesDict objectForKey:errorId]) {
+        return errorCodesDict[errorId];
+    }
+
+    return SDLSecurityQueryErrorCodeUnknownInternalError;
+}
+
+@end
