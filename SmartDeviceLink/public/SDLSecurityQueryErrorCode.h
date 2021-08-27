@@ -58,6 +58,6 @@ extern SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeUnknownInternalE
 /**
  Compare the internal error ID with the App's security query error codes
  */
-+ (SDLSecurityQueryErrorCode)sdl_parseClientInternalError:(NSNumber *)errorId;
++ (SDLSecurityQueryErrorCode)convertErrorIdToStringEnum:(NSNumber *)errorId;
 
 @end

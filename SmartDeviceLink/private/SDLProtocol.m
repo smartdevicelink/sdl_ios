@@ -791,7 +791,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Error decoding client security query response JSON: %@", jsonDecodeError);
         } else {
             if (securityQueryErrorDictionary[@"text"] != nil) {
-                SDLSecurityQueryErrorCode errorCodeString = [SDLSecurityQueryError sdl_parseClientInternalError:securityQueryErrorDictionary[@"id"]];
+                SDLSecurityQueryErrorCode errorCodeString = [SDLSecurityQueryError convertErrorIdToStringEnum:securityQueryErrorDictionary[@"id"]];
                 SDLLogE(@"Security Query client internal error: %@, code: %@", securityQueryErrorDictionary[@"text"], errorCodeString);
             } else {
                 SDLLogE(@"Security Query client error: No information provided");
@@ -841,7 +841,7 @@ NS_ASSUME_NONNULL_BEGIN
     serverTLSPayload.sequenceNumber = 0x00;
     serverTLSPayload.binaryData = data;
 
-    NSData *binaryData = serverTLSPayload.data;
+    NSData *binaryData = serverTLSPayload.convertToData;
 
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
 }
@@ -862,7 +862,7 @@ NS_ASSUME_NONNULL_BEGIN
     serverTLSPayload.queryType = SDLSecurityQueryTypeNotification;
     serverTLSPayload.sequenceNumber = 0x00;
 
-    NSData *binaryData = serverTLSPayload.data;
+    NSData *binaryData = serverTLSPayload.convertToData;
 
     // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];

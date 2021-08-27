@@ -26,27 +26,23 @@ SDLSecurityQueryErrorCode const SDLSecurityQueryErrorCodeUnknownInternalError = 
 
 @implementation SDLSecurityQueryError
 
-+ (SDLSecurityQueryErrorCode)sdl_parseClientInternalError:(NSNumber *)errorId {
-    NSDictionary *errorCodesDict = @{@0x00: SDLSecurityQueryErrorCodeSuccess,
-                                     @0x01: SDLSecurityQueryErrorCodeInvalidQuerySize,
-                                     @0x02: SDLSecurityQueryErrorCodeInvalidQueryID,
-                                     @0x03: SDLSecurityQueryErrorCodeNotSupported,
-                                     @0x04: SDLSecurityQueryErrorCodeServiceAlreadyProtected,
-                                     @0x05: SDLSecurityQueryErrorCodeServiceNotProtected,
-                                     @0x06: SDLSecurityQueryErrorCodeDecryptionFailed,
-                                     @0x07: SDLSecurityQueryErrorCodeEncryptionFailed,
-                                     @0x08: SDLSecurityQueryErrorCodeSSLInvalidData,
-                                     @0x09: SDLSecurityQueryErrorCodeHandshakeFailed,
-                                     @0x0A: SDLSecurityQueryErrorCodeInvalidCertificate,
-                                     @0x0B: SDLSecurityQueryErrorCodeExpiredCertificate,
-                                     @0xFF: SDLSecurityQueryErrorCodeInternal,
-                                     @0xFE: SDLSecurityQueryErrorCodeUnknownInternalError,
-    };
-    if ([errorCodesDict objectForKey:errorId]) {
-        return errorCodesDict[errorId];
++ (SDLSecurityQueryErrorCode)convertErrorIdToStringEnum:(NSNumber *)errorId {
+    switch (errorId.unsignedIntegerValue) {
+        case 0x00: return SDLSecurityQueryErrorCodeSuccess;
+        case 0x01: return SDLSecurityQueryErrorCodeInvalidQuerySize;
+        case 0x02: return SDLSecurityQueryErrorCodeInvalidQueryID;
+        case 0x03: return SDLSecurityQueryErrorCodeNotSupported;
+        case 0x04: return SDLSecurityQueryErrorCodeServiceAlreadyProtected;
+        case 0x05: return SDLSecurityQueryErrorCodeServiceNotProtected;
+        case 0x06: return SDLSecurityQueryErrorCodeDecryptionFailed;
+        case 0x07: return SDLSecurityQueryErrorCodeEncryptionFailed;
+        case 0x08: return SDLSecurityQueryErrorCodeSSLInvalidData;
+        case 0x09: return SDLSecurityQueryErrorCodeHandshakeFailed;
+        case 0x0A: return SDLSecurityQueryErrorCodeInvalidCertificate;
+        case 0x0B: return SDLSecurityQueryErrorCodeExpiredCertificate;
+        case 0xFF: return SDLSecurityQueryErrorCodeInternal;
+        default: return SDLSecurityQueryErrorCodeUnknownInternalError;
     }
-
-    return SDLSecurityQueryErrorCodeUnknownInternalError;
 }
 
 @end
