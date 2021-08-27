@@ -113,7 +113,39 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"Security Query Header: queryType:%i, queryID:%lu, sequenceNumber:%lu, json:%lu bytes, binary:%lu bytes", self.queryType, (unsigned long)self.queryID, (unsigned long)self.sequenceNumber, (NSUInteger)self.jsonData.length, (NSUInteger)self.binaryData.length];
+    return [NSString stringWithFormat:@"Security Query Header: %@, %@, sequenceNumber: %lu, json size: %lu bytes, binary size: %lu bytes", [self descriptionForQueryID], [self descriptionForQueryType], (unsigned long)self.sequenceNumber, (unsigned long)self.jsonData.length, (unsigned long)self.binaryData.length];
+}
+
+- (NSString *)descriptionForQueryID {
+    NSString *queryIdDescription;
+    switch (self.queryID) {
+        case SDLSecurityQueryIdSendHandshake:
+            queryIdDescription = @"Send Handshake Data";
+        case SDLSecurityQueryIdSendInternalError:
+            queryIdDescription = @"Send Internal Error";
+        case 0xFFFFFF:
+            queryIdDescription = @"Invalid Query ID";
+        default:
+            queryIdDescription = @"Unknown Query ID";
+    }
+    return [NSString stringWithFormat:@"queryID: %lu - %@", (unsigned long)self.queryID, queryIdDescription];
+}
+
+- (NSString *)descriptionForQueryType {
+    NSString *queryTypeDescription;
+    switch (self.queryType) {
+        case SDLSecurityQueryTypeRequest:
+            queryTypeDescription = @"Request";
+        case SDLSecurityQueryTypeResponse:
+            queryTypeDescription = @"Response";
+        case SDLSecurityQueryTypeNotification:
+            queryTypeDescription = @"Notification";
+        case 0xFF:
+            queryTypeDescription = @"Invalid Query Type";
+        default:
+            queryTypeDescription = @"Unknown Query Type";
+    }
+    return [NSString stringWithFormat:@"queryType: %lu - %@", (unsigned long)self.queryType, queryTypeDescription];
 }
 
 @end

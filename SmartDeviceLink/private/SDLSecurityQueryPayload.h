@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, SDLSecurityQueryId) {
     SDLSecurityQueryIdSendHandshake = 0x000001,
 
     /// Send internal error
-    SDLSecurityQueryIdSendInternalError = 0x000002,
+    SDLSecurityQueryIdSendInternalError = 0x000002
 };
 
 NS_ASSUME_NONNULL_BEGIN
