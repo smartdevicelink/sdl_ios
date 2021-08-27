@@ -20,7 +20,7 @@
 QuickSpecBegin(SDLSecurityQueryPayloadSpec)
 
 __block SDLSecurityQueryPayload* testPayload;
-__block NSDictionary* dict = @{@"id": @"3", @"text":@"SDL does not support encryption"};
+__block NSDictionary* dict = @{@"id": @"3", @"text": @"SDL does not support encryption"};
 
 NSData* (^testData)(void) = ^NSData* {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:0];
@@ -37,7 +37,7 @@ NSData* (^testData)(void) = ^NSData* {
     return data;
 };
 
-beforeSuite(^ {
+beforeSuite(^{
     testPayload = [[SDLSecurityQueryPayload alloc] init];
 
     testPayload.queryType = 0x20;
@@ -59,7 +59,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"Data Tests", ^ {
     it(@"should convert to byte data correctly", ^ {
-        expect(testPayload.data).to(equal(testData()));
+        expect(testPayload.convertToData).to(equal(testData()));
     });
 });
 

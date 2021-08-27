@@ -9,9 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SDLRPCMessageType.h"
 
-/**
- * Enum for different SDL security query types
- */
+/// Enum for different SDL security query types
 typedef NS_ENUM(Byte, SDLSecurityQueryType) {
     /// A request that will require a response
     SDLSecurityQueryTypeRequest = 0x00,
@@ -23,9 +21,7 @@ typedef NS_ENUM(Byte, SDLSecurityQueryType) {
     SDLSecurityQueryTypeNotification = 0x20
 };
 
-/**
- * Enum for each type of SDL security query IDs
- */
+/// Enum for each type of SDL security query IDs
 typedef NS_ENUM(NSUInteger, SDLSecurityQueryId) {
     /// Send handshake data
     SDLSecurityQueryIdSendHandshake = 0x000001,
@@ -38,34 +34,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSecurityQueryPayload : NSObject
 
-/**
- The security query's type, could be of type request - response or notification
- */
+/// The security query's type, could be of type request - response or notification
 @property (assign, nonatomic) SDLSecurityQueryType queryType;
 
-/**
- The security query's ID.
- */
+/// The security query's ID.
 @property (assign, nonatomic) UInt32 queryID;
 
-/**
- The message ID is set by the Mobile libraries to track security messages.
- */
+/// The message ID is set by the Mobile libraries to track security messages.
 @property (assign, nonatomic) UInt32 sequenceNumber;
 
-/**
- The JSON data following the binary query header.
- */
+/// The JSON data following the binary query header.
 @property (nullable, strong, nonatomic) NSData *jsonData;
 
-/**
- The binary data that is after the header (96 bits) and the JSON data.
- */
+/// The binary data that is after the header (96 bits) and the JSON data.
 @property (nullable, strong, nonatomic) NSData *binaryData;
 
-+ (nullable id)securityPayloadWithData:(NSData *)data;
+/// Create a security query object from raw data
+/// @param data The data to convert into an SDLSecurityQueryPayload object
+/// @return The SDLSecurityQueryPayload object, or nil if the data is malformed
 - (nullable instancetype)initWithData:(NSData *)data;
-- (NSData *)data;
+
+/// Create a security query object from raw data
+/// @param data The data to convert into an SDLSecurityQueryPayload object
+/// @return The SDLSecurityQueryPayload object, or nil if the data is malformed
++ (nullable id)securityPayloadWithData:(NSData *)data;
+
+/// Convert the object into raw NSData
+/// @return The raw NSData of the object
+- (NSData *)convertToData;
 
 @end
 

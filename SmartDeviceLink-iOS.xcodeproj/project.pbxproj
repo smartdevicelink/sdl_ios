@@ -5810,16 +5810,13 @@
 		5D5935011A851D7E00687FB9 /* Header */ = {
 			isa = PBXGroup;
 			children = (
+				C904F1DD26D919EF00E073DA /* SecurityQuery */,
 				4A8BD32824F9431B000945E3 /* SDLProtocolHeader.h */,
 				4A8BD32924F9431B000945E3 /* SDLProtocolHeader.m */,
 				4A8BD32724F9431B000945E3 /* SDLV1ProtocolHeader.h */,
 				4A8BD32524F9431B000945E3 /* SDLV1ProtocolHeader.m */,
 				4A8BD32A24F9431B000945E3 /* SDLV2ProtocolHeader.h */,
 				4A8BD32624F9431B000945E3 /* SDLV2ProtocolHeader.m */,
-				C93193DA26B1B57B008203EC /* SDLSecurityQueryPayload.h */,
-				C93193DB26B1B57B008203EC /* SDLSecurityQueryPayload.m */,
-				C99BE00726C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.h */,
-				C99BE00826C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.m */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -7063,6 +7060,17 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C904F1DD26D919EF00E073DA /* SecurityQuery */ = {
+			isa = PBXGroup;
+			children = (
+				C93193DA26B1B57B008203EC /* SDLSecurityQueryPayload.h */,
+				C93193DB26B1B57B008203EC /* SDLSecurityQueryPayload.m */,
+				C99BE00726C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.h */,
+				C99BE00826C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.m */,
+			);
+			name = SecurityQuery;
 			sourceTree = "<group>";
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {

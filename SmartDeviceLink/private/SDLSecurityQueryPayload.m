@@ -16,20 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSecurityQueryPayload
 
-+ (nullable id)securityPayloadWithData:(NSData *)data {
-    return [[SDLSecurityQueryPayload alloc] initWithData:data];
-}
-
 - (nullable instancetype)initWithData:(NSData *)data {
-    NSUInteger dataLength = data.length;
-
-    if (data == nil || dataLength == 0) {
+    if (data == nil || data.length == 0) {
         SDLLogW(@"Security Payload data is nil");
         return nil;
     }
 
-    if (dataLength < SECURITY_QUERY_HEADER_SIZE) {
-        SDLLogE(@"Security Payload error: not enough data to form Security Query header");
+    if (data.length < SECURITY_QUERY_HEADER_SIZE) {
+        SDLLogE(@"Security Payload error: not enough data to form Security Query header. Data length: %lu", (unsigned long)data.length);
         return nil;
     }
 
@@ -63,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Extract the JSON data after the header (96 bits) based on the JSON data size
         NSData *jsonData = nil;
         NSUInteger offsetOfJSONData = SECURITY_QUERY_HEADER_SIZE;
-        if (jsonDataSize > 0 && jsonDataSize <= dataLength - SECURITY_QUERY_HEADER_SIZE) {
+        if (jsonDataSize > 0 && jsonDataSize <= (data.length - SECURITY_QUERY_HEADER_SIZE)) {
             jsonData = [data subdataWithRange:NSMakeRange(offsetOfJSONData, jsonDataSize)];
         }
         self.jsonData = jsonData;
@@ -85,7 +79,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (NSData *)data {
++ (nullable id)securityPayloadWithData:(NSData *)data {
+    return [[SDLSecurityQueryPayload alloc] initWithData:data];
+}
+
+- (NSData *)convertToData {
     // From the properties, create a data buffer
     // Query Type - first 8 bits
     // Query ID - next 24 bits
