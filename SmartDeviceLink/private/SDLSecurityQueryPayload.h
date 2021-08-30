@@ -18,7 +18,7 @@ typedef NS_ENUM(Byte, SDLSecurityQueryType) {
     SDLSecurityQueryTypeResponse = 0x10,
 
     /// A message that does not have a response
-    SDLSecurityQueryTypeNotification = 0x20
+    SDLSecurityQueryTypeNotification = 0x20,
 
     /// An invalid query Type
     SDLSecurityQueryTypeInvalid = 0xFF
