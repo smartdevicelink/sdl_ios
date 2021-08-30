@@ -54,13 +54,32 @@ static BOOL _reachedMaxId = NO;
 #pragma mark - Cell Ids
 
 + (void)assignIdsToCells:(NSOrderedSet<SDLChoiceCell *> *)cells loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells {
-    for (SDLChoiceCell *cell in cells) { cell.choiceId = [self sdl_nextChoiceIdBasedOnLoadedCells:loadedCells]; }
+    NSMutableArray<NSNumber *> *usedIds = [NSMutableArray array];
+    for (SDLChoiceCell *loadedCell in loadedCells) { [usedIds addObject:@(loadedCell.choiceId)]; }
+    NSMutableArray<NSNumber *> *sortedUsedIds = [usedIds sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES]]].mutableCopy;
+
+    // Loop through the cells we need ids for. Get and assign those ids.
+    for (UInt16 i = 0; i < cells.count; i++) {
+        UInt16 cellId = [self sdl_nextChoiceIdBasedOnUsedIds:sortedUsedIds];
+        cells[i].choiceId = cellId;
+
+        // Insert the ids into the usedIds sorted array in the correct position
+        for (NSUInteger j = 0; j < sortedUsedIds.count; j++) {
+            if (sortedUsedIds[j].unsignedShortValue > cellId) {
+                [sortedUsedIds insertObject:@(cellId) atIndex:j];
+                break;
+            } else if (j == (sortedUsedIds.count - 1)) {
+                [sortedUsedIds addObject:@(cellId)];
+                break;
+            }
+        }
+    }
 }
 
 /// Find the next available choice id. Takes into account the loaded cells to ensure there are not duplicates
-/// @param loadedCells The already loaded cells
+/// @param usedIds The already loaded cell ids
 /// @return The choice id between 0 - 65535, or NSNotFound if no cell ids were available
-+ (UInt16)sdl_nextChoiceIdBasedOnLoadedCells:(NSSet<SDLChoiceCell *> *)loadedCells {
++ (UInt16)sdl_nextChoiceIdBasedOnUsedIds:(NSArray<NSNumber *> *)usedIds {
     // Check if we are entirely full, or if we've advanced beyond the max value, loop back
     if (_choiceId == UINT16_MAX) {
         _choiceId = 0;
@@ -70,16 +89,30 @@ static BOOL _reachedMaxId = NO;
     if (_reachedMaxId) {
         // We've looped all the way around, so we need to check loaded cells
         // Sort the set of cells by the choice id so that we can more easily check which slots are available
-        NSArray<SDLChoiceCell *> *loadedCellsSortedById = [loadedCells sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"choiceId" ascending:YES]]];
-        for (NSUInteger i = 0; i < loadedCellsSortedById.count - 1; i++) {
-            if ((loadedCellsSortedById[i + 1].choiceId - loadedCellsSortedById[i].choiceId) != 1) {
-                // The id of two contiguous cells is not one, so there is at least one slot between them (i.e. (3 - 1 = 2) != 1, so 1 + 1 is available)
-                _choiceId = loadedCellsSortedById[i].choiceId + 1;
+        if (usedIds.count >= (UINT16_MAX + 1)) {
+            // If we've maxed out our slots, return the max value
+            _choiceId = UINT16_MAX;
+            return _choiceId;
+        }
+
+        // If the last value isn't the max value, just keep grabbing towards the max value
+        UInt16 lastUsedId = usedIds.lastObject.unsignedShortValue;
+        if (lastUsedId < UINT16_MAX) {
+            _choiceId = lastUsedId + 1;
+            return _choiceId;
+        }
+
+        // All our easy options are gone. Find and grab an empty slot from within the sorted list
+        for (UInt16 i = 0; i < usedIds.count; i++) {
+            UInt16 loopId = usedIds[i].unsignedShortValue;
+            if (i != loopId) {
+                // This slot is open because the cell id does not match an open sorted slot
+                _choiceId = i;
                 return _choiceId;
             }
         }
 
-        // This shouldn't be possible, but if it happens, return the max Id
+        // This *shouldn't* be possible
         _choiceId = UINT16_MAX;
         return _choiceId;
     } else {
