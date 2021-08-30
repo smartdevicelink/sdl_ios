@@ -19,26 +19,32 @@ typedef NS_ENUM(Byte, SDLSecurityQueryType) {
 
     /// A message that does not have a response
     SDLSecurityQueryTypeNotification = 0x20
+
+    /// An invalid query Type
+    SDLSecurityQueryTypeInvalid = 0xFF
 };
 
 /// Enum for each type of SDL security query IDs
-typedef NS_ENUM(NSUInteger, SDLSecurityQueryId) {
+typedef NS_ENUM(UInt32, SDLSecurityQueryId) {
     /// Send handshake data
     SDLSecurityQueryIdSendHandshake = 0x000001,
 
     /// Send internal error
-    SDLSecurityQueryIdSendInternalError = 0x000002
+    SDLSecurityQueryIdSendInternalError = 0x000002,
+
+    /// Invalid query id
+    SDLSecurityQueryIdInvalid = 0xFFFFFF
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSecurityQueryPayload : NSObject
 
-/// The security query's type, could be of type request - response or notification
+/// The security query's type, could be of type request, response, or notification
 @property (assign, nonatomic) SDLSecurityQueryType queryType;
 
 /// The security query's ID.
-@property (assign, nonatomic) UInt32 queryID;
+@property (assign, nonatomic) SDLSecurityQueryId queryID;
 
 /// The message ID is set by the Mobile libraries to track security messages.
 @property (assign, nonatomic) UInt32 sequenceNumber;
@@ -53,6 +59,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param data The data to convert into an SDLSecurityQueryPayload object
 /// @return The SDLSecurityQueryPayload object, or nil if the data is malformed
 - (nullable instancetype)initWithData:(NSData *)data;
+
+/// Create a security query object from security query properties
+/// @param queryType The security query type to be sent
+/// @param queryID The security query ID
+/// @param sequenceNumber The security query sequence number
+/// @param jsonData The JSON data to be set in the security query
+/// @param binaryData The binary data that's after the header and the JSON data
+/// @return The SDLSecurityQueryPayload non-nullable object
+- (instancetype)initWithQueryType:(SDLSecurityQueryType)queryType queryID:(SDLSecurityQueryId)queryID sequenceNumber:(UInt32)sequenceNumber jsonData:(nullable NSData *)jsonData binaryData:(nullable NSData *)binaryData;
 
 /// Create a security query object from raw data
 /// @param data The data to convert into an SDLSecurityQueryPayload object

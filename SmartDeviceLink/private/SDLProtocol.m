@@ -777,24 +777,28 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Misformatted handshake message, something went wrong
     if (clientHandshakeMessage.payload.length <= 12) {
-        SDLLogE(@"Security message is malformed, less than 12 bytes. It does not have a protocol header.");
+        SDLLogE(@"Security message is malformed, less than 12 bytes. It does not have a security payload header.");
     }
 
     // Check the client's message header for any internal errors
     SDLSecurityQueryPayload *clientSecurityQueryPayload = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeMessage.payload];
+    if (clientSecurityQueryPayload == nil) {
+        SDLLogE(@"Module Security Query could not convert to object.");
+        return;
+    }
 
     // If the query is of type `Notification` and the id represents a client internal error, we abort the response message and the encryptionManager will not be in state ready.
     if (clientSecurityQueryPayload.queryID == SDLSecurityQueryIdSendInternalError && clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeNotification) {
         NSError *jsonDecodeError = nil;
         NSDictionary<NSString *, id> *securityQueryErrorDictionary = [NSJSONSerialization JSONObjectWithData:clientSecurityQueryPayload.jsonData options:kNilOptions error:&jsonDecodeError];
         if (jsonDecodeError != nil) {
-            SDLLogE(@"Error decoding client security query response JSON: %@", jsonDecodeError);
+            SDLLogE(@"Error decoding module security query response JSON: %@", jsonDecodeError);
         } else {
             if (securityQueryErrorDictionary[@"text"] != nil) {
                 SDLSecurityQueryErrorCode errorCodeString = [SDLSecurityQueryError convertErrorIdToStringEnum:securityQueryErrorDictionary[@"id"]];
-                SDLLogE(@"Security Query client internal error: %@, code: %@", securityQueryErrorDictionary[@"text"], errorCodeString);
+                SDLLogE(@"Security Query module internal error: %@, code: %@", securityQueryErrorDictionary[@"text"], errorCodeString);
             } else {
-                SDLLogE(@"Security Query client error: No information provided");
+                SDLLogE(@"Security Query module error: No information provided");
             }
         }
         return;
@@ -835,13 +839,9 @@ NS_ASSUME_NONNULL_BEGIN
     serverMessageHeader.messageID = messageId;
 
     // Assemble a security query payload header for our response
-    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
-    serverTLSPayload.queryID = SDLSecurityQueryIdSendHandshake;
-    serverTLSPayload.queryType = SDLSecurityQueryTypeResponse;
-    serverTLSPayload.sequenceNumber = 0x00;
-    serverTLSPayload.binaryData = data;
+    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] initWithQueryType:SDLSecurityQueryTypeResponse queryID:SDLSecurityQueryIdSendHandshake sequenceNumber:0x00 jsonData:nil binaryData:data];
 
-    NSData *binaryData = serverTLSPayload.convertToData;
+    NSData *binaryData = [serverTLSPayload convertToData];
 
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
 }
@@ -857,12 +857,9 @@ NS_ASSUME_NONNULL_BEGIN
     serverMessageHeader.messageID = messageId;
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
-    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] init];
-    serverTLSPayload.queryID = SDLSecurityQueryIdSendInternalError;
-    serverTLSPayload.queryType = SDLSecurityQueryTypeNotification;
-    serverTLSPayload.sequenceNumber = 0x00;
+    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] initWithQueryType:SDLSecurityQueryTypeNotification queryID:SDLSecurityQueryIdSendInternalError sequenceNumber:0x00 jsonData:nil binaryData:nil];
 
-    NSData *binaryData = serverTLSPayload.convertToData;
+    NSData *binaryData = [serverTLSPayload convertToData];
 
     // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];

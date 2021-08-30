@@ -17,12 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSecurityQueryPayload
 
 - (nullable instancetype)initWithData:(NSData *)data {
-    if (data == nil || data.length == 0) {
-        SDLLogW(@"Security Payload data is nil");
-        return nil;
-    }
-
-    if (data.length < SECURITY_QUERY_HEADER_SIZE) {
+    if (data == nil || data.length < SECURITY_QUERY_HEADER_SIZE) {
         SDLLogE(@"Security Payload error: not enough data to form Security Query header. Data length: %lu", (unsigned long)data.length);
         return nil;
     }
@@ -79,6 +74,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithQueryType:(SDLSecurityQueryType)queryType queryID:(SDLSecurityQueryId)queryID sequenceNumber:(UInt32)sequenceNumber jsonData:(nullable NSData *)jsonData binaryData:(nullable NSData *)binaryData {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _queryType = queryType;
+    _queryID = queryID;
+    _sequenceNumber = sequenceNumber;
+    _jsonData = jsonData;
+    _binaryData = binaryData;
+
+    return self;
+}
+
 + (nullable id)securityPayloadWithData:(NSData *)data {
     return [[SDLSecurityQueryPayload alloc] initWithData:data];
 }
@@ -97,19 +105,15 @@ NS_ASSUME_NONNULL_BEGIN
     headerBuffer[0] |= self.queryType;
 
     // Serialize the header. Append the json data, then the binary data
-    NSMutableData *dataOut = [NSMutableData dataWithCapacity:[self size]];
+    NSUInteger jsonDataSize = self.jsonData.length;
+    NSUInteger binaryDataSize = self.binaryData.length;
+    NSUInteger size = SECURITY_QUERY_HEADER_SIZE + jsonDataSize + binaryDataSize;
+    NSMutableData *dataOut = [NSMutableData dataWithCapacity:size];
     [dataOut appendBytes:&headerBuffer length:12];
     [dataOut appendData:self.jsonData];
     [dataOut appendData:self.binaryData];
 
     return dataOut;
-}
-
-- (NSUInteger)size {
-    NSUInteger jsonDataSize = self.jsonData.length;
-    NSUInteger binaryDataSize = self.binaryData.length;
-
-    return (SECURITY_QUERY_HEADER_SIZE + jsonDataSize + binaryDataSize);
 }
 
 - (NSString *)description {
@@ -121,12 +125,16 @@ NS_ASSUME_NONNULL_BEGIN
     switch (self.queryID) {
         case SDLSecurityQueryIdSendHandshake:
             queryIdDescription = @"Send Handshake Data";
+            break;
         case SDLSecurityQueryIdSendInternalError:
             queryIdDescription = @"Send Internal Error";
-        case 0xFFFFFF:
+            break;
+        case SDLSecurityQueryIdInvalid:
             queryIdDescription = @"Invalid Query ID";
+            break;
         default:
             queryIdDescription = @"Unknown Query ID";
+            break;
     }
     return [NSString stringWithFormat:@"queryID: %lu - %@", (unsigned long)self.queryID, queryIdDescription];
 }
@@ -136,14 +144,19 @@ NS_ASSUME_NONNULL_BEGIN
     switch (self.queryType) {
         case SDLSecurityQueryTypeRequest:
             queryTypeDescription = @"Request";
+            break;
         case SDLSecurityQueryTypeResponse:
             queryTypeDescription = @"Response";
+            break;
         case SDLSecurityQueryTypeNotification:
             queryTypeDescription = @"Notification";
-        case 0xFF:
+            break;
+        case SDLSecurityQueryTypeInvalid:
             queryTypeDescription = @"Invalid Query Type";
+            break;
         default:
             queryTypeDescription = @"Unknown Query Type";
+            break;
     }
     return [NSString stringWithFormat:@"queryType: %lu - %@", (unsigned long)self.queryType, queryTypeDescription];
 }
