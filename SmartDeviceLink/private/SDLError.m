@@ -329,6 +329,14 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
++ (NSError *)sdl_choiceSetManager_noIdsAvailable {
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorNoIdsAvailable userInfo:@{
+        NSLocalizedDescriptionKey: @"Choice set operation failed because the maximum number of choices have been uploaded (65535)",
+        NSLocalizedFailureReasonErrorKey: @"65535 unique choices have been uploaded to the head unit in this session and no more are allowed",
+        NSLocalizedRecoverySuggestionErrorKey: @"Re-use or delete choices to free up space"
+    }];
+}
+
 #pragma mark Alert Manager
 
 + (NSError *)sdl_alertManager_presentationFailedWithError:(NSError *)error tryAgainTime:(int)tryAgainTime {

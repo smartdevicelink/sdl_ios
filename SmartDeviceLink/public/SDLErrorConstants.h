@@ -215,6 +215,9 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
 
     /// An operation was cancelled and may or may not have succeeded
     SDLChoiceSetManagerErrorCancelled = -6,
+
+    /// No new choices could be loaded because the maximum number of choices are loaded (65535)
+    SDLChoiceSetManagerErrorNoIdsAvailable = -7,
 };
 
 /// Errors associated with Alert Manager class

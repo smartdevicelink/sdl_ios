@@ -24,6 +24,7 @@
 #import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
 #import "SDLOnKeyboardInput.h"
+#import "SDLPreloadPresentChoicesOperationUtilities.h"
 #import "SDLPerformInteraction.h"
 #import "SDLPerformInteractionResponse.h"
 #import "SDLRPCNotificationNotification.h"
@@ -86,7 +87,6 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 @property (assign, nonatomic) UInt16 cancelId;
 
 // Internal operation properties
-@property (class, assign, nonatomic) UInt16 nextChoiceId;
 @property (assign, nonatomic) SDLPreloadPresentChoicesOperationState currentState;
 @property (strong, nonatomic) NSUUID *operationId;
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -102,7 +102,6 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 @end
 
 @implementation SDLPreloadPresentChoicesOperation
-static UInt16 _choiceId = 0;
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayName:(NSString *)displayName windowCapability:(SDLWindowCapability *)windowCapability isVROptional:(BOOL)isVROptional cellsToPreload:(NSArray<SDLChoiceCell *> *)cellsToPreload loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells preloadCompletionHandler:(SDLUploadChoicesCompletionHandler)preloadCompletionHandler {
     self = [super init];
@@ -163,14 +162,24 @@ static UInt16 _choiceId = 0;
     [super start];
     if (self.isCancelled) { return; }
 
+    // If we have no loaded cells, reset choice ids to ensure reconnections restart numbering
+    if (self.loadedCells.count == 0) {
+        SDLPreloadPresentChoicesOperationUtilities.choiceId = 0;
+        SDLPreloadPresentChoicesOperationUtilities.reachedMaxId = NO;
+    }
+
     // Remove cells that are already loaded, add ids to cells needing upload, then make the cells to upload unique
     [self.cellsToUpload minusSet:self.loadedCells];
-    [self.class sdl_assignIdsToCells:self.cellsToUpload];
-    [self.class sdl_makeCellsToUploadUnique:self.cellsToUpload choiceSet:self.choiceSet basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
+    [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:self.cellsToUpload loadedCells:self.loadedCells];
+    [SDLPreloadPresentChoicesOperationUtilities makeCellsToUploadUnique:self.cellsToUpload choiceSet:self.choiceSet basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
+
+    if ((self.loadedCells.count == UINT16_MAX) && (self.cellsToUpload.count > 0)) {
+        return [self finishOperation:[NSError sdl_choiceSetManager_noIdsAvailable]];
+    }
 
     // If we have a choice set, we need to replace the choices with the cells that we're uploading (with new ids and unique text) and the cells that are already on the head unit (with the correct cell ids and unique text)
     if (self.choiceSet != nil) {
-        [self.class sdl_updateChoiceSet:self.choiceSet withLoadedCells:self.loadedCells cellsToUpload:self.cellsToUpload.set];
+        [SDLPreloadPresentChoicesOperationUtilities updateChoiceSet:self.choiceSet withLoadedCells:self.loadedCells cellsToUpload:self.cellsToUpload.set];
     }
 
     // Start uploading cell artworks, then cells themselves, then determine if we want to present, then update keyboard properties if necessary, then present the choice set, then revert keyboard properties if necessary
@@ -432,127 +441,6 @@ static UInt16 _choiceId = 0;
     performInteraction.cancelID = @(self.cancelId);
 
     return performInteraction;
-}
-
-#pragma mark - Cell Ids
-
-/// Assigns a unique id to each choice item.
-/// @param cells An array of choices
-+ (void)sdl_assignIdsToCells:(NSOrderedSet<SDLChoiceCell *> *)cells {
-    for (SDLChoiceCell *cell in cells) { cell.choiceId = self.nextChoiceId; }
-}
-
-+ (void)setNextChoiceId:(UInt16)nextChoiceId {
-    _choiceId = nextChoiceId;
-}
-
-+ (UInt16)nextChoiceId {
-    return ++_choiceId;
-}
-
-#pragma mark - Choice Uniqueness
-
-+ (void)sdl_makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload choiceSet:(nullable SDLChoiceSet *)choiceSet basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability {
-    if (cellsToUpload.count == 0) { return; }
-
-    // If we're on < RPC 7.1, all primary texts need to be unique, so we don't need to check removed properties and duplicate cells
-    // On > RPC 7.1, at this point all cells are unique when considering all properties, but we also need to check if any cells will _appear_ as duplicates when displayed on the screen. To check that, we'll remove properties from the set cells based on the system capabilities (we probably don't need to consider them changing between now and when they're actually sent to the HU) and check for uniqueness again. Then we'll add unique identifiers to primary text if there are duplicates. Then we transfer the primary text identifiers back to the main cells and add those to an operation to be sent.
-    NSArray<SDLChoiceCell *> *strippedCellsToUpload = [[NSArray alloc] initWithArray:cellsToUpload.array copyItems:YES];
-    NSArray<SDLChoiceCell *> *strippedLoadedCells = [[NSArray alloc] initWithArray:loadedCells.allObjects copyItems:YES];
-    BOOL supportsChoiceUniqueness = [[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]];
-    if (supportsChoiceUniqueness) {
-        [self sdl_removeUnusedProperties:strippedCellsToUpload basedOnWindowCapability:windowCapability];
-        [self sdl_removeUnusedProperties:strippedLoadedCells basedOnWindowCapability:windowCapability];
-    }
-
-    // Now remove duplicate cells that are already on the head unit, then add unique names to the ones to upload
-    [self sdl_addUniqueNamesToCells:strippedCellsToUpload loadedCells:strippedLoadedCells supportsChoiceUniqueness:supportsChoiceUniqueness];
-    [self sdl_transferUniqueNamesFromCells:strippedCellsToUpload toCells:cellsToUpload];
-}
-
-+ (void)sdl_updateChoiceSet:(SDLChoiceSet *)choiceSet withLoadedCells:(NSSet<SDLChoiceCell *> *)loadedCells cellsToUpload:(NSSet<SDLChoiceCell *> *)cellsToUpload {
-    NSMutableArray<SDLChoiceCell *> *choiceSetCells = [NSMutableArray array];
-    for (SDLChoiceCell *cell in choiceSet.choices) {
-        [choiceSetCells addObject:([loadedCells member:cell] ?: [cellsToUpload member:cell])];
-    }
-
-    choiceSet.choices = [choiceSetCells copy];
-}
-
-+ (void)sdl_removeUnusedProperties:(NSArray<SDLChoiceCell *> *)choiceCells basedOnWindowCapability:(SDLWindowCapability *)windowCapability {
-    for (SDLChoiceCell *cell in choiceCells) {
-        // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
-        cell.voiceCommands = nil;
-
-        if (![windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
-            cell.artwork = nil;
-        }
-        if (![windowCapability hasTextFieldOfName:SDLTextFieldNameSecondaryText]) {
-            cell.secondaryText = nil;
-        }
-        if (![windowCapability hasTextFieldOfName:SDLTextFieldNameTertiaryText]) {
-            cell.tertiaryText = nil;
-        }
-        if (![windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]) {
-            cell.secondaryArtwork = nil;
-        }
-    }
-}
-
-/// Checks if 2 or more cells have the same text/title. In case this condition is true, this function will handle the presented issue by adding "(count)".
-/// E.g. Choices param contains 2 cells with text/title "Address" will be handled by updating the uniqueText/uniqueTitle of the second cell to "Address (2)".
-/// @param cellsToUpload The choices to be uploaded.
-/// @param loadedCells The cells already on the head unit
-+ (void)sdl_addUniqueNamesToCells:(NSArray<SDLChoiceCell *> *)cellsToUpload loadedCells:(NSArray<SDLChoiceCell *> *)loadedCells supportsChoiceUniqueness:(BOOL)supportsChoiceUniqueness {
-    // Tracks how many of each cell primary text there are so that we can append numbers to make each unique as necessary
-    NSMutableDictionary<id<NSCopying>, NSMutableArray<NSNumber *> *> *dictCounter = [[NSMutableDictionary alloc] init];
-
-    // Include cells from loaded cells to ensure that new cells get the correct title
-    for (SDLChoiceCell *loadedCell in loadedCells) {
-        id<NSCopying> cellKey = supportsChoiceUniqueness ? loadedCell : loadedCell.text;
-        NSNumber *cellUniqueId = @(loadedCell.uniqueTextId);
-        if (dictCounter[cellKey] == nil) {
-            dictCounter[cellKey] = [NSMutableArray arrayWithObject:cellUniqueId];
-        } else {
-            [dictCounter[cellKey] addObject:cellUniqueId];
-        }
-    }
-
-    // Sort the arrays so that the numbers are in order
-    for (id<NSCopying> cellKey in dictCounter.keyEnumerator) {
-        [dictCounter[cellKey] sortUsingComparator:^NSComparisonResult(NSNumber *_Nonnull obj1, NSNumber *_Nonnull obj2) {
-            if (obj1.unsignedIntegerValue > obj2.unsignedIntegerValue) { return NSOrderedDescending; }
-            if (obj1.unsignedIntegerValue < obj2.unsignedIntegerValue) { return NSOrderedAscending; }
-
-            return NSOrderedSame;
-        }];
-    }
-
-    // Run through cellsToUpload and add unique text as needed
-    for (SDLChoiceCell *cell in cellsToUpload) {
-        id<NSCopying> cellKey = supportsChoiceUniqueness ? cell : cell.text;
-        if (dictCounter[cellKey] == nil) {
-            dictCounter[cellKey] = [NSMutableArray arrayWithObject:@(cell.uniqueTextId)];
-        } else {
-            // There are already some duplicates, loop through to find the lowest unused duplicate number
-            NSUInteger lowestMissingUniqueId = dictCounter[cellKey].lastObject.unsignedIntegerValue + 1;
-            for (NSUInteger i = 1; i < dictCounter[cellKey].count + 1; i++) {
-                if (i != dictCounter[cellKey][i - 1].unsignedIntegerValue) {
-                    lowestMissingUniqueId = i;
-                    break;
-                }
-            }
-
-            cell.uniqueTextId = lowestMissingUniqueId;
-            [dictCounter[cellKey] insertObject:@(cell.uniqueTextId) atIndex:(cell.uniqueTextId - 1)];
-        }
-    }
-}
-
-+ (void)sdl_transferUniqueNamesFromCells:(NSArray<SDLChoiceCell *> *)fromCells toCells:(NSOrderedSet<SDLChoiceCell *> *)toCells {
-    for (NSUInteger i = 0; i < fromCells.count; i++) {
-        toCells[i].uniqueTextId = fromCells[i].uniqueTextId;
-    }
 }
 
 #pragma mark Finding Cells

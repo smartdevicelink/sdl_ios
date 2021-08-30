@@ -67,6 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 + (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
 + (NSError *)sdl_choiceSetManager_cancelled;
++ (NSError *)sdl_choiceSetManager_noIdsAvailable;
 
 #pragma mark Alert Manager
 
