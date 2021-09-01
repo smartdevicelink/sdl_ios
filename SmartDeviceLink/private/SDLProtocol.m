@@ -781,6 +781,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Check the client's message header for any internal errors
+    // NOTE: Before Core v8.0.0, all these messages will be notifications. In Core v8.0.0 and later, received messages will have the proper query type. Therefore, we cannot do things based only on the query type being request or response.
     SDLSecurityQueryPayload *clientSecurityQueryPayload = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeMessage.payload];
     if (clientSecurityQueryPayload == nil) {
         SDLLogE(@"Module Security Query could not convert to object.");
