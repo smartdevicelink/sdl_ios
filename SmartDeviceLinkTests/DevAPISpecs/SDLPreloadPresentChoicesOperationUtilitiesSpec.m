@@ -33,7 +33,7 @@
 
 - (NSSet<SDLChoiceCell *> *)sdl_loadedCellsWithStartNum:(UInt16)startNum endNum:(UInt16)endNum {
     NSMutableSet<SDLChoiceCell *> *mutableCells = [NSMutableSet setWithCapacity:(endNum - startNum)];
-    for (NSUInteger i = 0; i <= endNum; i++) {
+    for (NSUInteger i = startNum; i <= endNum; i++) {
         SDLChoiceCell *cell = [[SDLChoiceCell alloc] initWithText:[NSString stringWithFormat:@"Loaded Cell %lu", i]];
         cell.choiceId = (UInt16)i;
 
@@ -134,27 +134,89 @@
                 });
 
                 context(@"when those items are contiguous in the middle so that assigning cells overlap", ^{
-                    it(@"should assign the early ids, skip the middle, then assign the end", ^{
+                    beforeEach(^{
+                        SDLPreloadPresentChoicesOperationUtilities.choiceId = 10;
 
+                        testLoadedCells = [self sdl_loadedCellsWithStartNum:3 endNum:10];
+                        testCellsToLoad = [self sdl_cellsToLoadWithCount:13];
+                    });
+
+                    it(@"should start assigning from the last used id", ^{
+                        [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:testCellsToLoad loadedCells:testLoadedCells];
+                        expect(testCellsToLoad.count).to(equal(13));
+                        for (NSUInteger i = 0; i < testCellsToLoad.count; i++) {
+                            expect((NSUInteger)testCellsToLoad[i].choiceId).to(equal(i + 11));
+                        }
+                        expect(SDLPreloadPresentChoicesOperationUtilities.reachedMaxId).to(beTrue());
                     });
                 });
 
                 context(@"when there are items scattered and overlapping setting cells", ^{
-                    it(@"should skip the already set ids", ^{
+                    beforeEach(^{
+                        SDLPreloadPresentChoicesOperationUtilities.choiceId = 10;
 
+                        testLoadedCells = [self sdl_loadedCellsWithStartNum:3 endNum:10];
+                        NSSet<SDLChoiceCell *> *secondLoadedCells = [self sdl_loadedCellsWithStartNum:50 endNum:55];
+                        testLoadedCells = [testLoadedCells setByAddingObjectsFromSet:secondLoadedCells];
+
+                        testCellsToLoad = [self sdl_cellsToLoadWithCount:10];
+                    });
+
+                    it(@"start from the last used id", ^{
+                        [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:testCellsToLoad loadedCells:testLoadedCells];
+                        expect(testCellsToLoad.count).to(equal(10));
+                        for (NSUInteger i = 0; i < testCellsToLoad.count; i++) {
+                            expect((NSUInteger)testCellsToLoad[i].choiceId).to(equal(i + 56));
+                        }
+                        expect(SDLPreloadPresentChoicesOperationUtilities.reachedMaxId).to(beTrue());
                     });
                 });
 
                 context(@"when not enough open ids are available", ^{
-                    it(@"should assign what it can and the rest should be UINT16_MAX", ^{
+                    beforeEach(^{
+                        SDLPreloadPresentChoicesOperationUtilities.choiceId = 10;
 
+                        testLoadedCells = [self sdl_loadedCellsWithStartNum:3 endNum:10];
+                        NSSet<SDLChoiceCell *> *secondLoadedCells = [self sdl_loadedCellsWithStartNum:12 endNum:65533];
+                        testLoadedCells = [testLoadedCells setByAddingObjectsFromSet:secondLoadedCells];
+
+                        testCellsToLoad = [self sdl_cellsToLoadWithCount:10];
+                    });
+                    it(@"should assign what it can and the rest should be UINT16_MAX", ^{
+                        [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:testCellsToLoad loadedCells:testLoadedCells];
+                        expect(testCellsToLoad.count).to(equal(10));
+
+                        expect((NSUInteger)testCellsToLoad[0].choiceId).to(equal(65534));
+                        expect((NSUInteger)testCellsToLoad[1].choiceId).to(equal(65535));
+                        expect((NSUInteger)testCellsToLoad[2].choiceId).to(equal(0));
+                        expect((NSUInteger)testCellsToLoad[3].choiceId).to(equal(1));
+                        expect((NSUInteger)testCellsToLoad[4].choiceId).to(equal(2));
+                        expect((NSUInteger)testCellsToLoad[5].choiceId).to(equal(11));
+                        expect((NSUInteger)testCellsToLoad[6].choiceId).to(equal(65535));
+                        expect((NSUInteger)testCellsToLoad[7].choiceId).to(equal(65535));
+                        expect((NSUInteger)testCellsToLoad[8].choiceId).to(equal(65535));
+                        expect((NSUInteger)testCellsToLoad[9].choiceId).to(equal(65535));
+
+                        expect(SDLPreloadPresentChoicesOperationUtilities.reachedMaxId).to(beTrue());
                     });
                 });
             });
 
             context(@"when loadedCells is full", ^{
-                it(@"should set all ids to UINT16_MAX", ^{
+                beforeEach(^{
+                    SDLPreloadPresentChoicesOperationUtilities.choiceId = 65535;
 
+                    testLoadedCells = [self sdl_loadedCellsWithStartNum:0 endNum:65535];
+                    testCellsToLoad = [self sdl_cellsToLoadWithCount:10];
+                });
+
+                it(@"should set all ids to UINT16_MAX", ^{
+                    [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:testCellsToLoad loadedCells:testLoadedCells];
+                    expect(testCellsToLoad.count).to(equal(10));
+                    for (NSUInteger i = 0; i < testCellsToLoad.count; i++) {
+                        expect((NSUInteger)testCellsToLoad[i].choiceId).to(equal(65535));
+                    }
+                    expect(SDLPreloadPresentChoicesOperationUtilities.reachedMaxId).to(beTrue());
                 });
             });
         });
