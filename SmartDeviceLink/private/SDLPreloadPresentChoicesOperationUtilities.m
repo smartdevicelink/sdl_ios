@@ -123,7 +123,7 @@ static BOOL _reachedMaxId = NO;
 
 #pragma mark - Choice Uniqueness
 
-+ (void)makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload choiceSet:(nullable SDLChoiceSet *)choiceSet basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability {
++ (void)makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability {
     if (cellsToUpload.count == 0) { return; }
 
     // If we're on < RPC 7.1, all primary texts need to be unique, so we don't need to check removed properties and duplicate cells

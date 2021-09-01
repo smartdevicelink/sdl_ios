@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param loadedCells The already loaded cells with ids to avoid
 + (void)assignIdsToCells:(NSOrderedSet<SDLChoiceCell *> *)cells loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells;
 
-+ (void)makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload choiceSet:(nullable SDLChoiceSet *)choiceSet basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability;
++ (void)makeCellsToUploadUnique:(NSMutableOrderedSet<SDLChoiceCell *> *)cellsToUpload basedOnLoadedCells:(NSMutableSet<SDLChoiceCell *> *)loadedCells windowCapability:(SDLWindowCapability *)windowCapability;
 + (void)updateChoiceSet:(SDLChoiceSet *)choiceSet withLoadedCells:(NSSet<SDLChoiceCell *> *)loadedCells cellsToUpload:(NSSet<SDLChoiceCell *> *)cellsToUpload;
 
 @end

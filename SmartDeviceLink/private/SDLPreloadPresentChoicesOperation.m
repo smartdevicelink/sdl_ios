@@ -171,7 +171,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     // Remove cells that are already loaded, add ids to cells needing upload, then make the cells to upload unique
     [self.cellsToUpload minusSet:self.loadedCells];
     [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:self.cellsToUpload loadedCells:self.loadedCells];
-    [SDLPreloadPresentChoicesOperationUtilities makeCellsToUploadUnique:self.cellsToUpload choiceSet:self.choiceSet basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
+    [SDLPreloadPresentChoicesOperationUtilities makeCellsToUploadUnique:self.cellsToUpload basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
 
     if ((self.loadedCells.count == UINT16_MAX) && (self.cellsToUpload.count > 0)) {
         return [self finishOperation:[NSError sdl_choiceSetManager_noIdsAvailable]];
