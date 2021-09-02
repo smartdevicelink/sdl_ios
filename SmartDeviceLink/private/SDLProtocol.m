@@ -805,6 +805,12 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    if (clientSecurityQueryPayload.queryID != SDLSecurityQueryIdSendHandshake
+            && !(clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeRequest || clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeNotification)) {
+        SDLLogE(@"Security Query module error: Message is not a SEND_HANDSHAKE_DATA REQUEST");
+        return;
+    }
+
     // Tear off the binary header of the client protocol message to get at the actual TLS handshake
     // TODO: (Joel F.)[2016-02-15] Should check for errors
     NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
