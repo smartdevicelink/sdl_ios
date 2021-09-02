@@ -806,7 +806,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (clientSecurityQueryPayload.queryID != SDLSecurityQueryIdSendHandshake
-            && !(clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeRequest || clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeNotification)) {
+            || !(clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeRequest || clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeNotification)) {
         SDLLogE(@"Security Query module error: Message is not a SEND_HANDSHAKE_DATA REQUEST");
         return;
     }
