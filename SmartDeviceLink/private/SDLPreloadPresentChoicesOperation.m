@@ -168,14 +168,17 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
         SDLPreloadPresentChoicesOperationUtilities.reachedMaxId = NO;
     }
 
-    // Remove cells that are already loaded, add ids to cells needing upload, then make the cells to upload unique
+    // Remove cells that are already loaded so that we don't try to re-upload them
     [self.cellsToUpload minusSet:self.loadedCells];
-    [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:self.cellsToUpload loadedCells:self.loadedCells];
-    [SDLPreloadPresentChoicesOperationUtilities makeCellsToUploadUnique:self.cellsToUpload basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
 
+    // If loaded cells is full and we need to upload cells, just fail the operation since we can't successfully upload or present
     if ((self.loadedCells.count == UINT16_MAX) && (self.cellsToUpload.count > 0)) {
         return [self finishOperation:[NSError sdl_choiceSetManager_noIdsAvailable]];
     }
+
+    // Assign Ids, then make cells to upload unique so that they upload properly (if necessary)
+    [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:self.cellsToUpload loadedCells:self.loadedCells];
+    [SDLPreloadPresentChoicesOperationUtilities makeCellsToUploadUnique:self.cellsToUpload basedOnLoadedCells:self.mutableLoadedCells windowCapability:self.windowCapability];
 
     // If we have a choice set, we need to replace the choices with the cells that we're uploading (with new ids and unique text) and the cells that are already on the head unit (with the correct cell ids and unique text)
     if (self.choiceSet != nil) {

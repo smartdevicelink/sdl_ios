@@ -223,16 +223,16 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
     SDLLogV(@"Request to preload choices: %@", choices);
     if (choices.count == 0) { return; }
-    if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
         NSError *error = [NSError sdl_choiceSetManager_incorrectState:self.currentState];
-        SDLLogE(@"Attempted to preload choices but the choice set manager is shut down: %@", error);
+        SDLLogE(@"Cannot preload choices when the manager isn't in the ready state: %@", error);
         if (handler != nil) { handler(error); }
         return;
     }
 
     // Upload pending preloads
     // For backward compatibility with Gen38Inch display type head units
-    SDLLogD(@"Preloading choices");
+    SDLLogD(@"Starting preload choices");
     SDLLogV(@"Choices to be uploaded: %@", choices);
     NSString *displayName = self.systemCapabilityManager.displays.firstObject.displayName;
 
