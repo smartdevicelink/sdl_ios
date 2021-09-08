@@ -107,8 +107,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLMenuCell *> *cellsToDelete = [self sdl_filterDeleteMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
     NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
     // These arrays should ONLY contain KEEPS. These will be used for SubMenu compares
-    NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
-    NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
+    NSArray<SDLMenuCell *> *oldKeeps = [self sdl_filterKeepMenuItems:self.currentMenu basedOnStatusList:runScore.oldStatus];
+    NSArray<SDLMenuCell *> *newKeeps = [self sdl_filterKeepMenuItems:self.updatedMenu basedOnStatusList:runScore.updatedStatus];
 
     // Old kept cells ids need to be moved to the new kept cells so that submenu changes have correct parent ids
     [SDLMenuReplaceUtilities transferCellIDsFromCells:oldKeeps toCells:newKeeps];
@@ -186,8 +186,8 @@ NS_ASSUME_NONNULL_BEGIN
         NSArray<SDLMenuCell *> *cellsToAdd = [self sdl_filterAddMenuItemsWithNewMenuItems:newKeptCells[index].subCells basedOnStatusList:addMenuStatus];
 
         // Transfer ids from subcell keeps to old subcells, which are stored in the current menu
-        NSArray<SDLMenuCell *> *oldSubcellKeeps = [self sdl_filterKeepMenuItemsWithOldMenuItems:oldKeptCells[index].subCells basedOnStatusList:deleteMenuStatus];
-        NSArray<SDLMenuCell *> *newSubcellKeeps = [self sdl_filterKeepMenuItemsWithNewMenuItems:newKeptCells[index].subCells basedOnStatusList:addMenuStatus];
+        NSArray<SDLMenuCell *> *oldSubcellKeeps = [self sdl_filterKeepMenuItems:oldKeptCells[index].subCells basedOnStatusList:deleteMenuStatus];
+        NSArray<SDLMenuCell *> *newSubcellKeeps = [self sdl_filterKeepMenuItems:newKeptCells[index].subCells basedOnStatusList:addMenuStatus];
         [SDLMenuReplaceUtilities transferCellHandlersFromCells:newSubcellKeeps toCells:oldSubcellKeeps];
 
         __weak typeof(self) weakself = self;
@@ -322,22 +322,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [addCells copy];
 }
 
-- (NSArray<SDLMenuCell *> *)sdl_filterKeepMenuItemsWithOldMenuItems:(NSArray<SDLMenuCell *> *)oldMenuCells basedOnStatusList:(NSArray<NSNumber *> *)keepStatusList {
+- (NSArray<SDLMenuCell *> *)sdl_filterKeepMenuItems:(NSArray<SDLMenuCell *> *)menuCells basedOnStatusList:(NSArray<NSNumber *> *)keepStatusList {
     NSMutableArray<SDLMenuCell *> *keepMenuCells = [[NSMutableArray alloc] init];
 
-    for (NSUInteger index = 0; index < keepStatusList.count; index++) {
-        if (keepStatusList[index].unsignedIntegerValue == SDLMenuCellUpdateStateKeep) {
-            [keepMenuCells addObject:oldMenuCells[index]];
-        }
-    }
-    return [keepMenuCells copy];
-}
-
-- (NSArray<SDLMenuCell *> *)sdl_filterKeepMenuItemsWithNewMenuItems:(NSArray<SDLMenuCell *> *)newMenuCells basedOnStatusList:(NSArray<NSNumber *> *)keepStatusList {
-    NSMutableArray<SDLMenuCell *> *keepMenuCells = [[NSMutableArray alloc] init];
-    for (NSUInteger index = 0; index < keepStatusList.count; index++) {
-        if (keepStatusList[index].unsignedIntegerValue == SDLMenuCellUpdateStateKeep) {
-            [keepMenuCells addObject:newMenuCells[index]];
+    for (NSUInteger i = 0; i < keepStatusList.count; i++) {
+        if (keepStatusList[i].unsignedIntegerValue == SDLMenuCellUpdateStateKeep) {
+            [keepMenuCells addObject:menuCells[i]];
         }
     }
     return [keepMenuCells copy];

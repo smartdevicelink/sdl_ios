@@ -332,11 +332,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Menu
 
 - (BOOL)openMenu {
-   return [self.menuManager openMenu:nil];
+    return [self.menuManager openMenu:nil];
 }
 
 - (BOOL)openSubmenu:(SDLMenuCell *)cell {
-  return [self.menuManager openMenu:cell];
+    return [self.menuManager openMenu:cell];
 }
 
 #pragma mark - Alert

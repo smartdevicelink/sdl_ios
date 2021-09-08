@@ -112,16 +112,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)isEqualToCell:(SDLMenuCell *)cell {
-    if (cell == nil) { return NO; }
-
     return (self.hash == cell.hash);
 }
 
 #pragma mark With Unique Title
 
 - (BOOL)isEqualToCellWithUniqueTitle:(SDLMenuCell *)cell {
-    if (cell == nil) { return NO; }
-
     return ([self sdl_hashWithUniqueTitle] == [cell sdl_hashWithUniqueTitle]);
 }
 
