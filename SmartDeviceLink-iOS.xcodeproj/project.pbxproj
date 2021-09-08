@@ -3662,8 +3662,8 @@
 		C9707D2F25E0444D009D00F2 /* SDLMacros.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMacros.m; path = private/SDLMacros.m; sourceTree = "<group>"; };
 		C975877E257AEFDB0066F271 /* SDLSeekIndicatorTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekIndicatorTypeSpec.m; sourceTree = "<group>"; };
 		C9758784257F4C570066F271 /* SDLSeekStreamingIndicatorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeekStreamingIndicatorSpec.m; sourceTree = "<group>"; };
-		C99BE00726C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSecurityQueryErrorCode.h; path = public/SDLSecurityQueryErrorCode.h; sourceTree = "<group>"; };
-		C99BE00826C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSecurityQueryErrorCode.m; path = public/SDLSecurityQueryErrorCode.m; sourceTree = "<group>"; };
+		C99BE00726C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSecurityQueryErrorCode.h; path = private/SDLSecurityQueryErrorCode.h; sourceTree = "<group>"; };
+		C99BE00826C53E7E00DB0B54 /* SDLSecurityQueryErrorCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSecurityQueryErrorCode.m; path = private/SDLSecurityQueryErrorCode.m; sourceTree = "<group>"; };
 		C99BE00C26C5B23000DB0B54 /* SDLSecurityQueryPayloadSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSecurityQueryPayloadSpec.m; sourceTree = "<group>"; };
 		C9DFFE76257ACE0000F7D57A /* SDLSeekStreamingIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSeekStreamingIndicator.h; path = public/SDLSeekStreamingIndicator.h; sourceTree = "<group>"; };
 		C9DFFE77257ACE0000F7D57A /* SDLSeekStreamingIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSeekStreamingIndicator.m; path = public/SDLSeekStreamingIndicator.m; sourceTree = "<group>"; };
