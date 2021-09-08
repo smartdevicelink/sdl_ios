@@ -805,9 +805,13 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if (clientSecurityQueryPayload.queryID != SDLSecurityQueryIdSendHandshake
-            || !(clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeRequest || clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeNotification)) {
+    if (clientSecurityQueryPayload.queryID != SDLSecurityQueryIdSendHandshake) {
         SDLLogE(@"Security Query module error: Message is not a SEND_HANDSHAKE_DATA REQUEST");
+        return;
+    }
+
+    if (clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeResponse) {
+        SDLLogE(@"Security Query module error: Message is a response, which is not supported");
         return;
     }
 
