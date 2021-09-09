@@ -168,6 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLMenuConfigurationUpdateOperation *configurationUpdateOp = [[SDLMenuConfigurationUpdateOperation alloc] initWithConnectionManager:self.connectionManager windowCapability:self.windowCapability newMenuConfiguration:menuConfiguration configurationUpdatedHandler:^(SDLMenuConfiguration *newMenuConfiguration, NSError *_Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error updating menu configuration: %@", error);
+            return;
         }
         weakself.currentMenuConfiguration = newMenuConfiguration;
         [weakself sdl_updateMenuReplaceOperationsWithNewMenuConfiguration];
