@@ -30,7 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @implementation SDLPreloadPresentChoicesOperationUtilities
-static UInt16 _choiceId = 0;
+
+// HAX: Choice ID starts at 1 instead of 0 because of an HMI bug that existed until 2021 (https://github.com/smartdevicelink/generic_hmi/commit/b292fbbec095b9ce11b520d47ec95b6fcff8e247)
+static UInt16 _choiceId = 1;
 static BOOL _reachedMaxId = NO;
 
 #pragma mark Getters / Setters
@@ -82,7 +84,7 @@ static BOOL _reachedMaxId = NO;
 + (UInt16)sdl_nextChoiceIdBasedOnUsedIds:(NSArray<NSNumber *> *)usedIds {
     // Check if we are entirely full, or if we've advanced beyond the max value, loop back
     if (_choiceId == UINT16_MAX) {
-        _choiceId = 0;
+        _choiceId = 1;
         _reachedMaxId = YES;
     }
 

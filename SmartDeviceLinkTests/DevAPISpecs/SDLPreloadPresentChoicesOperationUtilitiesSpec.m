@@ -31,7 +31,7 @@
 
 - (NSOrderedSet<SDLChoiceCell *> *)sdl_cellsToLoadWithCount:(UInt16)count {
     NSMutableOrderedSet<SDLChoiceCell *> *mutableCells = [NSMutableOrderedSet orderedSetWithCapacity:count];
-    for (NSUInteger i = 0; i < count; i++) {
+    for (NSUInteger i = 1; i <= count; i++) {
         [mutableCells addObject:[[SDLChoiceCell alloc] initWithText:[NSString stringWithFormat:@"Cell %lu", i]]];
     }
 
@@ -58,7 +58,7 @@
         context(@"when we're on the first loop of assigning ids", ^{
             beforeEach(^{
                 SDLPreloadPresentChoicesOperationUtilities.reachedMaxId = NO;
-                SDLPreloadPresentChoicesOperationUtilities.choiceId = 0;
+                SDLPreloadPresentChoicesOperationUtilities.choiceId = 1;
             });
 
             context(@"when there's no ids already set", ^{
@@ -71,7 +71,7 @@
                     [SDLPreloadPresentChoicesOperationUtilities assignIdsToCells:testCellsToLoad loadedCells:testLoadedCells];
                     expect(testCellsToLoad.count).to(equal(50));
                     for (NSUInteger i = 0; i < testCellsToLoad.count; i++) {
-                        expect((NSUInteger)testCellsToLoad[i].choiceId).to(equal(i));
+                        expect((NSUInteger)testCellsToLoad[i].choiceId).to(equal(i + 1));
                     }
                 });
             });
@@ -118,7 +118,7 @@
         context(@"on subsequent loops of assigning ids", ^{
             beforeEach(^{
                 SDLPreloadPresentChoicesOperationUtilities.reachedMaxId = YES;
-                SDLPreloadPresentChoicesOperationUtilities.choiceId = 0;
+                SDLPreloadPresentChoicesOperationUtilities.choiceId = 1;
             });
 
             context(@"when loadedCells is not full", ^{
