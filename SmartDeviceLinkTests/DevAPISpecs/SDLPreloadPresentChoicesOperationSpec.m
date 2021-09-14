@@ -69,7 +69,9 @@ describe(@"a preload choices operation", ^{
     __block NSData *cellArtData2 = [@"testart2" dataUsingEncoding:NSUTF8StringEncoding];
     __block NSString *art1Name = @"Art1Name";
     __block NSString *art2Name = @"Art2Name";
-    __block SDLArtwork *cell1Art2 = [[SDLArtwork alloc] initWithData:cellArtData2 name:art1Name fileExtension:@"png" persistent:NO];
+    SDLArtwork *cell1Art = [[SDLArtwork alloc] initWithData:cellArtData name:art1Name fileExtension:@"png" persistent:NO];
+    SDLArtwork *cell1Art2 = [[SDLArtwork alloc] initWithData:cellArtData2 name:art1Name fileExtension:@"png" persistent:NO];
+    SDLArtwork *cell2Art = [[SDLArtwork alloc] initWithData:cellArtData name:art2Name fileExtension:@"png" persistent:NO];
 
     __block SDLChoiceCell *cellBasic = nil;
     __block SDLChoiceCell *cellBasicDuplicate = nil;
@@ -115,10 +117,8 @@ describe(@"a preload choices operation", ^{
             [[SDLTextField alloc] initWithName:SDLTextFieldNameMenuName characterSet:SDLCharacterSetUtf8 width:500 rows:1],
         ];
 
-        SDLArtwork *cell1Art = [[SDLArtwork alloc] initWithData:cellArtData name:art1Name fileExtension:@"png" persistent:NO];
         SDLChoiceCell *cell1WithArt = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:cell1Art voiceCommands:nil];
         cell1WithArt.choiceId = 1;
-        SDLArtwork *cell2Art = [[SDLArtwork alloc] initWithData:cellArtData name:art2Name fileExtension:@"png" persistent:NO];
         SDLChoiceCell *cell2WithArtAndSecondary = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:cell2Art secondaryArtwork:cell2Art];
         cell2WithArtAndSecondary.choiceId = 2;
 
@@ -293,20 +293,43 @@ describe(@"a preload choices operation", ^{
                     });
                 });
 
-                context(@"when artwork are not already on the system", ^{
+                fcontext(@"when artworks are not already on the system", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
-
-                        testOp.cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:cellsWithArtwork];
-                        testOp.loadedCells = [NSSet set];
                     });
 
-                    it(@"should upload artworks", ^{
-                        [testOp start];
-                        OCMVerify([testFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id obj) {
-                            NSArray<SDLArtwork *> *artworks = (NSArray<SDLArtwork *> *)obj;
-                            return (artworks.count == 3);
-                        }] completionHandler:[OCMArg any]]);
+                    context(@"when there's more than one of the same artwork", ^{
+                        beforeEach(^{
+                            testOp.cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:@[
+                                [[SDLChoiceCell alloc] initWithText:@"Cell 1" artwork:cell1Art voiceCommands:nil],
+                                [[SDLChoiceCell alloc] initWithText:@"Cell 2" artwork:cell1Art voiceCommands:nil],
+                                [[SDLChoiceCell alloc] initWithText:@"Cell 3" artwork:cell1Art voiceCommands:nil],
+                            ]];
+                            testOp.loadedCells = [NSSet set];
+                        });
+
+                        it(@"should only attempt to upload one of each art", ^{
+                            [testOp start];
+                            OCMVerify([testFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                NSArray<SDLArtwork *> *artworks = (NSArray<SDLArtwork *> *)obj;
+                                return (artworks.count == 1);
+                            }] completionHandler:[OCMArg any]]);
+                        });
+                    });
+
+                    context(@"when uploading unique art", ^{
+                        beforeEach(^{
+                            testOp.cellsToUpload = [NSMutableOrderedSet orderedSetWithArray:cellsWithArtwork];
+                            testOp.loadedCells = [NSSet set];
+                        });
+
+                        it(@"should upload artworks", ^{
+                            [testOp start];
+                            OCMVerify([testFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                NSArray<SDLArtwork *> *artworks = (NSArray<SDLArtwork *> *)obj;
+                                return (artworks.count == 2);
+                            }] completionHandler:[OCMArg any]]);
+                        });
                     });
                 });
             });

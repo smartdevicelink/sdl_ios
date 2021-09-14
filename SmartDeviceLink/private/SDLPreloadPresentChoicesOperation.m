@@ -225,16 +225,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 - (void)sdl_uploadCellArtworksWithCompletionHandler:(void(^)(NSError *_Nullable error))completionHandler {
     self.currentState = SDLPreloadPresentChoicesOperationStateUploadingImages;
 
-    NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
-    for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self.class sdl_shouldSendChoicePrimaryImageBasedOnWindowCapability:self.windowCapability] && [self.fileManager fileNeedsUpload:cell.artwork]) {
-            [artworksToUpload addObject:cell.artwork];
-        }
-        if ([self.class sdl_shouldSendChoiceSecondaryImageBasedOnWindowCapability:self.windowCapability] && [self.fileManager fileNeedsUpload:cell.secondaryArtwork]) {
-            [artworksToUpload addObject:cell.secondaryArtwork];
-        }
-    }
-
+    NSArray<SDLArtwork *> *artworksToUpload = [self.class sdl_findAllArtworksToBeUploadedFromCells:self.cellsToUpload.array fileManager:self.fileManager windowCapability:self.windowCapability];
     if (artworksToUpload.count == 0) {
         SDLLogD(@"No choice artworks to be uploaded");
         return completionHandler(nil);
@@ -288,6 +279,26 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
         return completionHandler(preloadError);
     }];
+}
+
+#pragma mark - Artwork
+
+/// Get an array of artwork that needs to be uploaded form a list of menu cells
+/// @param cells The menu cells to get artwork from
+/// @returns The array of artwork that needs to be uploaded
++ (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLChoiceCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
+    NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
+    for (SDLChoiceCell *cell in cells) {
+        if ([windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceImage] && [fileManager fileNeedsUpload:cell.artwork]) {
+            [mutableArtworks addObject:cell.artwork];
+        }
+
+        if ([windowCapability hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && [fileManager fileNeedsUpload:cell.secondaryArtwork]) {
+            [mutableArtworks addObject:cell.secondaryArtwork];
+        }
+    }
+
+    return [mutableArtworks allObjects];
 }
 
 #pragma mark - Presenting Choice Set
