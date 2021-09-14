@@ -22,16 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLUploadFileOperation : SDLAsynchronousOperation
 
 /**
- *  Create an instance of an upload files operation which will send a file to a remote system when added to an operation queue.
+ * Create an instance of an upload files operation which will send a file to a remote system when added to an operation queue.
  *
- *  @param file A file wrapper around the file which will be sent and a completion handler for when the file finishes sending.
- *  @param connectionManager The connection manager which will handle transporting the file bytes to the remote system
+ * @param file A file wrapper around the file which will be sent and a completion handler for when the file finishes sending.
+ * @param connectionManager The connection manager which will handle transporting the file bytes to the remote system
+ * @param remoteFileNames The files currently on the head unit. Used to check if the current file should be uploaded
  *
- *  @return An instance of SDLUploadFilesOperation
+ * @return An instance of SDLUploadFilesOperation
  */
-- (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager;
+- (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager remoteFileNames:(NSSet<SDLFileName *> *)remoteFileNames;
 
 @property (nonatomic, strong, readonly) SDLFileWrapper *fileWrapper;
+@property (nonatomic, strong) NSSet<SDLFileName *> *remoteFileNames;
 
 @end
 

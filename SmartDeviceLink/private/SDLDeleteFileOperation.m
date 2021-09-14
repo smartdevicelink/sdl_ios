@@ -11,6 +11,8 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDeleteFile.h"
 #import "SDLDeleteFileResponse.h"
+#import "SDLError.h"
+#import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteFileOperation
 
-- (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completionHandler {
+- (instancetype)initWithFileName:(SDLFileName *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager remoteFileNames:(NSSet<SDLFileName *> *)remoteFileNames completionHandler:(SDLFileManagerDeleteCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
         return nil;
@@ -33,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _fileName = fileName;
     _connectionManager = connectionManager;
+    _remoteFileNames = remoteFileNames;
     _completionHandler = completionHandler;
 
     return self;
@@ -42,6 +45,12 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
     if (self.isCancelled) { return; }
 
+    if (![self.remoteFileNames containsObject:self.fileName]) {
+        SDLLogW(@"File to delete is no longer on the head unit, aborting operation");
+        self.completionHandler(NO, NSNotFound, [NSError sdl_fileManager_fileDoesNotExistError]);
+        return [self finishOperation];
+    }
+
     [self sdl_deleteFile];
 }
 
@@ -50,18 +59,17 @@ NS_ASSUME_NONNULL_BEGIN
 
     typeof(self) weakself = self;
     [self.connectionManager sendConnectionManagerRequest:deleteFile withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        // Pull out the parameters
         SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
         BOOL success = [deleteFileResponse.success boolValue];
 
-        // If spaceAvailable is nil, set it to the max value
-        NSUInteger bytesAvailable = deleteFileResponse.spaceAvailable != nil ? deleteFileResponse.spaceAvailable.unsignedIntegerValue : 2000000000;
-
-        // Callback
-        if (weakself.completionHandler != nil) {
-            weakself.completionHandler(success, bytesAvailable, error);
+        if (error != nil) {
+            SDLLogE(@"Error deleting file: %@", error);
         }
 
+        // If spaceAvailable is nil, set it to the max value
+        NSUInteger bytesAvailable = (deleteFileResponse.spaceAvailable != nil) ? deleteFileResponse.spaceAvailable.unsignedIntegerValue : 2000000000;
+
+        weakself.completionHandler(success, bytesAvailable, error);
         [weakself finishOperation];
     }];
 }

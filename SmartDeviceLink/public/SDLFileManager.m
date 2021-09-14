@@ -12,6 +12,7 @@
 #import "SDLLogMacros.h"
 #import "SDLDeleteFileOperation.h"
 #import "SDLError.h"
+#import "SDLErrorConstants.h"
 #import "SDLFile.h"
 #import "SDLFileManagerConfiguration.h"
 #import "SDLFileWrapper.h"
@@ -230,11 +231,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 #pragma mark - Deleting
 
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)handler {
-    if ((![self.remoteFileNames containsObject:name]) && (handler != nil)) {
-        handler(NO, self.bytesAvailable, [NSError sdl_fileManager_noKnownFileError]);
-        return;
-    }
-
     __weak typeof(self) weakSelf = self;
     SDLDeleteFileOperation *deleteOperation = [[SDLDeleteFileOperation alloc] initWithFileName:name connectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -243,6 +239,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         if (success) {
             strongSelf.bytesAvailable = bytesAvailable;
             [strongSelf.mutableRemoteFileNames removeObject:name];
+            [strongSelf sdl_updatePendingOperationsWithNewRemoteFiles];
         }
 
         if (handler != nil) {
@@ -262,18 +259,21 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     dispatch_group_t deleteFilesTask = dispatch_group_create();
     dispatch_group_enter(deleteFilesTask);
-    for(NSString *name in names) {
+    __weak typeof(self) weakself = self;
+    for (NSString *name in names) {
         dispatch_group_enter(deleteFilesTask);
         [self deleteRemoteFileWithName:name completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            if(!success) {
+            if (!success) {
                 failedDeletes[name] = error;
+            } else {
+                weakself.bytesAvailable = bytesAvailable;
             }
             dispatch_group_leave(deleteFilesTask);
         }];
     }
     dispatch_group_leave(deleteFilesTask);
 
-    // Wait for all files to be deleted
+    // When all files to be deleted
     dispatch_group_notify(deleteFilesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         if (completionHandler == nil) { return; }
         if (failedDeletes.count > 0) {
@@ -393,14 +393,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         file.overwrite = YES;
     }
 
-    // Check our overwrite settings and error out if it would overwrite
-    if (!file.overwrite && [self.remoteFileNames containsObject:file.name]) {
-        if (handler != nil) {
-            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
-        }
-        return;
-    }
-
     // If we didn't error out over the overwrite, then continue on
     [self sdl_uploadFile:file completionHandler:handler];
 }
@@ -414,8 +406,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         if (success) {
             weakSelf.bytesAvailable = bytesAvailable;
             [weakSelf.mutableRemoteFileNames addObject:fileName];
-            [weakSelf.uploadedEphemeralFileNames addObject:fileName];
-        } else {
+
+            if (!file.persistent) {
+                [weakSelf.uploadedEphemeralFileNames addObject:fileName];
+            }
+
+            [weakSelf sdl_updatePendingOperationsWithNewRemoteFiles];
+        } else if (error.code != SDLFileManagerErrorCannotOverwrite) {
             weakSelf.failedFileUploadsCount = [weakSelf.class sdl_incrementFailedUploadCountForFileName:file.name failedFileUploadsCount:weakSelf.failedFileUploadsCount];
 
             NSUInteger maxUploadCount = [file isMemberOfClass:[SDLArtwork class]] ? weakSelf.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
@@ -430,7 +427,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
     }];
 
-    SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
+    SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager remoteFileNames:self.remoteFileNames];
 
     [self.transactionQueue addOperation:uploadOperation];
 }
@@ -496,6 +493,18 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 #pragma mark Helpers
+
+- (void)sdl_updatePendingOperationsWithNewRemoteFiles {
+    for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
+        if ([op isMemberOfClass:SDLUploadFileOperation.class]) {
+            SDLUploadFileOperation *uploadOp = (SDLUploadFileOperation *)op;
+            uploadOp.remoteFileNames = self.remoteFileNames;
+        } else if ([op isMemberOfClass:SDLDeleteFileOperation.class]) {
+            SDLDeleteFileOperation *deleteOp = (SDLDeleteFileOperation *)op;
+            deleteOp.remoteFileNames = self.remoteFileNames;
+        }
+    }
+}
 
 /**
  *  Checks an error returned by Core to see if it is a "can not overwrite" error.
