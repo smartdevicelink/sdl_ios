@@ -99,7 +99,8 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
     // Break the data into small pieces, each of which will be sent in a separate putfile
     NSUInteger maxBulkDataSize = [self.class sdl_getMaxBulkDataSizeForFile:file mtuSize:mtuSize];
     NSUInteger currentOffset = 0;
-    for (int i = 0; i < (((file.fileSize - 1) / maxBulkDataSize) + 1); i++) {
+    NSUInteger numPutFiles = (((file.fileSize - 1) / maxBulkDataSize) + 1);
+    for (int i = 0; i < numPutFiles; i++) {
         dispatch_group_enter(putFileGroup);
 
         // Get a chunk of data from the input stream
@@ -127,7 +128,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
             // If the SDL Core returned an error, cancel the upload the process in the future
             if (error != nil || response == nil || !response.success.boolValue || strongself.isCancelled) {
                 streamError = error;
-                BLOCK_RETURN;
+                BLOCK_RETURN dispatch_group_leave(putFileGroup);;
             }
 
             // If no errors, watch for a response containing the amount of storage left on the SDL Core

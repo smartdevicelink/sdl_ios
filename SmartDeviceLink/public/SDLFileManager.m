@@ -232,7 +232,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)handler {
     __weak typeof(self) weakSelf = self;
-    SDLDeleteFileOperation *deleteOperation = [[SDLDeleteFileOperation alloc] initWithFileName:name connectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
+    SDLDeleteFileOperation *deleteOperation = [[SDLDeleteFileOperation alloc] initWithFileName:name connectionManager:self.connectionManager remoteFileNames:self.remoteFileNames completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         // Mutate self based on the changes

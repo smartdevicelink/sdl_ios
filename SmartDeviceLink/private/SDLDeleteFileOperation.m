@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSOperationQueuePriority)queuePriority {
-    return NSOperationQueuePriorityVeryHigh;
+    return NSOperationQueuePriorityNormal;
 }
 
 @end

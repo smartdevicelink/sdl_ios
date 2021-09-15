@@ -118,7 +118,50 @@ describe(@"Streaming upload of data", ^{
         errorResult = nil;
     });
 
-    describe(@"When uploading data", ^{
+    describe(@"when the file is already on the head unit", ^{
+        context(@"when not overwriting", ^{
+            it(@"should not send the upload RPCs and finish the operation", ^{
+                testFileName = @"TestSmallMemory";
+                testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
+                testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+
+                testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    expect(success).to(beFalse());
+                    expect(bytesAvailable).to(equal(NSNotFound));
+                    expect(error).toNot(beNil());
+                }];
+
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet setWithObject:testFileName]];
+                [testOperation start];
+
+                expect(testConnectionManager.receivedRequests).to(haveCount(0));
+                expect(testOperation.isFinished).to(beTrue());
+            });
+        });
+
+        context(@"when overwriting", ^{
+            it(@"should send the upload RPCs", ^{
+                testFileName = @"TestSmallMemory";
+                testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
+                testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+                testFile.overwrite = YES;
+
+                testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    expect(success).to(beFalse());
+                    expect(bytesAvailable).to(equal(NSNotFound));
+                    expect(error).toNot(beNil());
+                }];
+
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet setWithObject:testFileName]];
+                [testOperation start];
+
+                expect(testConnectionManager.receivedRequests).to(haveCount(1));
+                expect(testOperation.isFinished).to(beFalse());
+            });
+        });
+    });
+
+    describe(@"when uploading data", ^{
         __block NSInteger spaceLeft = 0;
         __block SDLPutFileResponse *successResponse = nil;
 
@@ -140,7 +183,7 @@ describe(@"Streaming upload of data", ^{
 
                 expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *testPutFiles = testConnectionManager.receivedRequests;
@@ -174,7 +217,7 @@ describe(@"Streaming upload of data", ^{
 
                 expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
@@ -208,7 +251,7 @@ describe(@"Streaming upload of data", ^{
 
                 expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
@@ -243,7 +286,7 @@ describe(@"Streaming upload of data", ^{
 
                 expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
@@ -264,7 +307,7 @@ describe(@"Streaming upload of data", ^{
         });
     });
 
-    describe(@"When a response to the data upload comes back", ^{
+    describe(@"when a response to the data upload comes back", ^{
         beforeEach(^{
             testFileName = @"TestLargeMemory";
             UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
@@ -279,7 +322,7 @@ describe(@"Streaming upload of data", ^{
             expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
             testConnectionManager = [[TestConnectionManager alloc] init];
-            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
             [testOperation start];
         });
 
@@ -308,7 +351,7 @@ describe(@"Streaming upload of data", ^{
             });
         });
 
-        context(@"If data was not sent successfully", ^{
+        context(@"if data was not sent successfully", ^{
             __block SDLPutFileResponse *response = nil;
             __block NSString *responseErrorDescription = nil;
             __block NSString *responseErrorReason = nil;
@@ -321,69 +364,77 @@ describe(@"Streaming upload of data", ^{
                 spaceLeft = 11212512;
             });
 
-            it(@"should have called the completion handler with error if the first packet was not sent successfully", ^{
-                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
-                    response = [[SDLPutFileResponse alloc] init];
-                    response.spaceAvailable = @(spaceLeft -= 1024);
+            context(@"when the first packet is not successful", ^{
+                beforeEach(^{
+                    for (int i = 0; i < expectedNumberOfPutFiles; i++) {
+                        response = [[SDLPutFileResponse alloc] init];
+                        response.spaceAvailable = @(spaceLeft -= 1024);
 
-                    if (i == 0) {
-                        // Only the first packet is sent unsuccessfully
-                        response.success = @NO;
-                        responseErrorDescription = @"some description";
-                        responseErrorReason = @"some reason";
-                        error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
-                    } else  {
-                        response.success = @YES;
-                        error = nil;
+                        if (i == 0) {
+                            // Only the first packet is sent unsuccessfully
+                            response.success = @NO;
+                            responseErrorDescription = @"some description";
+                            responseErrorReason = @"some reason";
+                            error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
+                        } else  {
+                            response.success = @YES;
+                            error = nil;
+                        }
+
+                        [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
                     }
+                });
 
-                    [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
-                }
-
-                expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
-                expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
-                expect(successResult).toEventually(beFalse());
+                it(@"should have called the completion handler with error", ^{
+                    expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
+                    expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
+                    expect(successResult).toEventually(beFalse());
+                });
             });
 
-            it(@"should have called the completion handler with error if the last packet was not sent successfully", ^{
-                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
-                    response = [[SDLPutFileResponse alloc] init];
-                    response.spaceAvailable = @(spaceLeft -= 1024);
+            context(@"when the last packet is not successful", ^{
+                it(@"should have called the completion handler with error", ^{
+                    for (int i = 0; i < expectedNumberOfPutFiles; i++) {
+                        response = [[SDLPutFileResponse alloc] init];
+                        response.spaceAvailable = @(spaceLeft -= 1024);
 
-                    if (i == (expectedNumberOfPutFiles - 1)) {
-                        // Only the last packet is sent unsuccessfully
-                        response.success = @NO;
-                        responseErrorDescription = @"some description";
-                        responseErrorReason = @"some reason";
-                        error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
-                    } else  {
-                        response.success = @YES;
-                        error = nil;
+                        if (i == (expectedNumberOfPutFiles - 1)) {
+                            // Only the last packet is sent unsuccessfully
+                            response.success = @NO;
+                            responseErrorDescription = @"some description";
+                            responseErrorReason = @"some reason";
+                            error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
+                        } else  {
+                            response.success = @YES;
+                            error = nil;
+                        }
+
+                        [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
                     }
 
-                    [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
-                }
-
-                expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
-                expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
-                expect(successResult).toEventually(beFalse());
+                    expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
+                    expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
+                    expect(successResult).toEventually(beFalse());
+                });
             });
 
-            it(@"should have called the completion handler with error if all packets were not sent successfully", ^{
-                for (int i = 0; i < expectedNumberOfPutFiles; i++) {
-                    response = [[SDLPutFileResponse alloc] init];
-                    response.success = @NO;
-                    response.spaceAvailable = @(spaceLeft -= 1024);
+            context(@"when all the packets are not successful", ^{
+                it(@"should have called the completion handler with error if all packets were not sent successfully", ^{
+                    for (int i = 0; i < expectedNumberOfPutFiles; i++) {
+                        response = [[SDLPutFileResponse alloc] init];
+                        response.success = @NO;
+                        response.spaceAvailable = @(spaceLeft -= 1024);
 
-                    responseErrorDescription = @"some description";
-                    responseErrorReason = @"some reason";
+                        responseErrorDescription = @"some description";
+                        responseErrorReason = @"some reason";
 
-                    [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
-                }
+                        [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
+                    }
 
-                expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
-                expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
-                expect(successResult).toEventually(beFalse());
+                    expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
+                    expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
+                    expect(successResult).toEventually(beFalse());
+                });
             });
         });
     });
@@ -402,7 +453,7 @@ describe(@"Streaming upload of data", ^{
             }];
 
             testConnectionManager = [[TestConnectionManager alloc] init];
-            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
             [testOperation start];
         });
     });
@@ -419,7 +470,7 @@ describe(@"Streaming upload of data", ^{
             }];
 
             testConnectionManager = [[TestConnectionManager alloc] init];
-            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
             [testOperation start];
         });
     });

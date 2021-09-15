@@ -200,9 +200,7 @@ describe(@"uploading / deleting single files with the file manager", ^{
     });
 
     describe(@"deleting a file", ^{
-        __block BOOL completionSuccess = NO;
-        __block NSUInteger completionBytesAvailable = 0;
-        __block NSError *completionError = nil;
+        __block BOOL completionCalled = NO;
 
         beforeEach(^{
             testFileManager.mutableRemoteFileNames = [NSMutableSet setWithArray:testInitialFileNames];
@@ -213,19 +211,14 @@ describe(@"uploading / deleting single files with the file manager", ^{
             beforeEach(^{
                 NSString *someUnknownFileName = @"Some Unknown File Name";
                 [testFileManager deleteRemoteFileWithName:someUnknownFileName completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                    completionSuccess = success;
-                    completionBytesAvailable = bytesAvailable;
-                    completionError = error;
+                    completionCalled = YES;
                 }];
 
-                expect(testFileManager.pendingTransactions).to(beEmpty());
+                expect(testFileManager.pendingTransactions).toNot(beEmpty());
             });
 
-            it(@"should return the correct data", ^{
-                expect(completionSuccess).to(beFalse());
-                expect(completionBytesAvailable).to(equal(initialSpaceAvailable));
-                expect(completionError).to(equal([NSError sdl_fileManager_noKnownFileError]));
-                expect(testFileManager.remoteFileNames).to(haveCount(testInitialFileNames.count));
+            it(@"should not call the completion handler", ^{
+                expect(completionCalled).to(beFalse());
             });
         });
 
@@ -475,32 +468,36 @@ describe(@"uploading / deleting single files with the file manager", ^{
                     [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithMajor:4 minor:3 patch:0];
                 });
 
-                it(@"should not upload the file if persistence is YES", ^{
-                    SDLFile *persistentFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:YES];
-                    persistentFile.overwrite = testUploadOverwrite;
+                context(@"when persistent = YES", ^{
+                    it(@"should create the upload operation", ^{
+                        SDLFile *persistentFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:YES];
+                        persistentFile.overwrite = testUploadOverwrite;
 
-                    [testFileManager uploadFile:persistentFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                        expect(@(success)).to(beFalse());
-                        expect(@(bytesAvailable)).to(equal(@(testFileManager.bytesAvailable)));
-                        expect(error).to(equal([NSError sdl_fileManager_cannotOverwriteError]));
-                    }];
+                        [testFileManager uploadFile:persistentFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                            expect(@(success)).to(beFalse());
+                            expect(@(bytesAvailable)).to(equal(@(testFileManager.bytesAvailable)));
+                            expect(error).to(equal([NSError sdl_fileManager_cannotOverwriteError]));
+                        }];
 
-                    expect(testFileManager.pendingTransactions.count).to(equal(0));
+                        expect(testFileManager.pendingTransactions.count).to(equal(1));
+                    });
                 });
 
-                it(@"should upload the file if persistence is NO", ^{
-                    SDLFile *unPersistentFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:NO];
-                    unPersistentFile.overwrite = testUploadOverwrite;
+                context(@"when persistent = NO", ^{
+                    it(@"should upload the file", ^{
+                        SDLFile *unPersistentFile = [[SDLFile alloc] initWithData:testFileData name:testUploadFileName fileExtension:@"bin" persistent:NO];
+                        unPersistentFile.overwrite = testUploadOverwrite;
 
-                    [testFileManager uploadFile:unPersistentFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                        expect(success).to(beTrue());
-                        expect(bytesAvailable).to(equal(newBytesAvailable));
-                        expect(error).to(beNil());
-                    }];
+                        [testFileManager uploadFile:unPersistentFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                            expect(success).to(beTrue());
+                            expect(bytesAvailable).to(equal(newBytesAvailable));
+                            expect(error).to(beNil());
+                        }];
 
-                    SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
-                    sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
-                    expect(testFileManager.pendingTransactions.count).to(equal(1));
+                        SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
+                        sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
+                        expect(testFileManager.pendingTransactions.count).to(equal(1));
+                    });
                 });
             });
         });
@@ -572,45 +569,51 @@ describe(@"uploading / deleting single files with the file manager", ^{
             [testFileManager.stateMachine setToState:SDLFileManagerStateReady fromOldState:SDLFileManagerStateShutdown callEnterTransition:NO];
         });
 
-        it(@"should not upload the artwork again and simply return the artwork name when sending artwork that has already been uploaded", ^{
-            expectedArtworkName = testInitialFileNames.firstObject;
+        context(@"when uploading an already uploading artwork", ^{
+            it(@"should create an upload operation", ^{
+                expectedArtworkName = testInitialFileNames.firstObject;
 
-            SDLArtwork *art = [SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG];
-            [testFileManager uploadArtwork:art completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                expect(success).to(beTrue());
-                expect(bytesAvailable).to(equal(initialSpaceAvailable));
-                expect(error).to(beNil());
-            }];
+                SDLArtwork *art = [SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG];
+                [testFileManager uploadArtwork:art completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    expect(success).to(beTrue());
+                    expect(bytesAvailable).to(equal(initialSpaceAvailable));
+                    expect(error).to(beNil());
+                }];
 
-            expect(testFileManager.pendingTransactions.count).to(equal(0));
+                expect(testFileManager.pendingTransactions.count).to(equal(1));
+            });
         });
 
-        it(@"should upload the artwork and return the artwork name when done when sending artwork that has not yet been uploaded", ^{
-            expectedArtworkName = @"uniqueArtworkName";
-            [testFileManager uploadArtwork:[SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG] completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                expect(success).to(beTrue());
-                expect(bytesAvailable).to(equal(newBytesAvailable));
-                expect(error).to(beNil());
-            }];
+        context(@"when sending artwork that has not yet been uploaded", ^{
+            it(@"should upload the artwork and return the artwork name", ^{
+                expectedArtworkName = @"uniqueArtworkName";
+                [testFileManager uploadArtwork:[SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG] completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    expect(success).to(beTrue());
+                    expect(bytesAvailable).to(equal(newBytesAvailable));
+                    expect(error).to(beNil());
+                }];
 
-            SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
-            sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
-            expect(testFileManager.pendingTransactions.count).to(equal(1));
+                SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
+                sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
+                expect(testFileManager.pendingTransactions.count).to(equal(1));
+            });
         });
 
-        it(@"should upload the artwork and return the artwork name when done when sending arwork that is already been uploaded but overwrite is enabled", ^{
-            expectedArtworkName = testInitialFileNames.firstObject;
-            SDLArtwork *testArt = [SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG];
-            testArt.overwrite = YES;
-            [testFileManager uploadArtwork:testArt completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                expect(success).to(beTrue());
-                expect(bytesAvailable).to(equal(newBytesAvailable));
-                expect(error).to(beNil());
-            }];
+        context(@"when sending arwork that is already been uploaded but overwrite is enabled", ^{
+            it(@"should upload the artwork and return the artwork name when done when sending arwork that is already been uploaded but overwrite is enabled", ^{
+                expectedArtworkName = testInitialFileNames.firstObject;
+                SDLArtwork *testArt = [SDLArtwork artworkWithImage:testUIImage name:expectedArtworkName asImageFormat:SDLArtworkImageFormatPNG];
+                testArt.overwrite = YES;
+                [testFileManager uploadArtwork:testArt completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                    expect(success).to(beTrue());
+                    expect(bytesAvailable).to(equal(newBytesAvailable));
+                    expect(error).to(beNil());
+                }];
 
-            SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
-            sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
-            expect(testFileManager.pendingTransactions.count).to(equal(1));
+                SDLUploadFileOperation *sentOperation = testFileManager.pendingTransactions.firstObject;
+                sentOperation.fileWrapper.completionHandler(YES, newBytesAvailable, nil);
+                expect(testFileManager.pendingTransactions.count).to(equal(1));
+            });
         });
     });
 
