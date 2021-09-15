@@ -285,6 +285,8 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 
 /// Get an array of artwork that needs to be uploaded form a list of menu cells
 /// @param cells The menu cells to get artwork from
+/// @param fileManager The file manager to use for checking artwork availability
+/// @param windowCapability The window capability to use to check if artwork fields are supported
 /// @returns The array of artwork that needs to be uploaded
 + (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLChoiceCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
