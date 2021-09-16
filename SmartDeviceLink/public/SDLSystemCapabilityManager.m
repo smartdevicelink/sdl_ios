@@ -606,17 +606,15 @@ typedef NSString * SDLServiceID;
     [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
         for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
             for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
-                [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-                    // If an observer object is nil, remove it
-                    if (observer.observer == nil) {
-                        [self.capabilityObservers[key] removeObject:observer];
-                    }
+                // If an observer object is nil, remove it
+                if (observer.observer == nil) {
+                    [self.capabilityObservers[key] removeObject:observer];
+                }
 
-                    // If we no longer have any observers for that type, remove the array
-                    if (self.capabilityObservers[key].count == 0) {
-                        [self.capabilityObservers removeObjectForKey:key];
-                    }
-                }];
+                // If we no longer have any observers for that type, remove the array
+                if (self.capabilityObservers[key].count == 0) {
+                    [self.capabilityObservers removeObjectForKey:key];
+                }
             }
         }
 
