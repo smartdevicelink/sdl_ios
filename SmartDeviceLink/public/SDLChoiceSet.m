@@ -145,7 +145,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
  @param choices The choices you will be adding
  @return Boolean that indicates whether choices and voice commands are unique or not
  */
--(BOOL)sdl_choiceCellsAreUnique:(NSArray<SDLChoiceCell *> *)choices {
+- (BOOL)sdl_choiceCellsAreUnique:(NSArray<SDLChoiceCell *> *)choices {
     NSMutableSet<SDLChoiceCell *> *identicalCellsCheckSet = [NSMutableSet setWithCapacity:choices.count];
     NSMutableSet<NSString *> *identicalVoiceCommandsCheckSet = [NSMutableSet set];
     NSUInteger allVoiceCommandsCount = 0;
