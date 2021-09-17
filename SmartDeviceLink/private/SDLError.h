@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLChoiceCell.h"
 #import "SDLErrorConstants.h"
 #import "SDLResult.h"
 
@@ -60,11 +61,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Choice Set Manager
 
-+ (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo;
++ (NSError *)sdl_choiceSetManager_choicesNotAvailableForPresentation:(NSSet<SDLChoiceCell *> *)neededCells availableCells:(NSSet<SDLChoiceCell *> *)availableCells;
 + (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 + (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
++ (NSError *)sdl_choiceSetManager_cancelled;
++ (NSError *)sdl_choiceSetManager_noIdsAvailable;
 
 #pragma mark Alert Manager
 
