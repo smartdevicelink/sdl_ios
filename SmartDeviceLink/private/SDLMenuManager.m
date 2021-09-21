@@ -194,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
     _menuCells = [[NSArray alloc] initWithArray:menuCells copyItems:YES];
 
     __weak typeof(self) weakself = self;
-    SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.menuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells compatibilityModeEnabled:(![self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) currentMenuUpdatedHandler:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells, NSError *error) {
+    SDLMenuReplaceOperation *menuReplaceOperation = [[SDLMenuReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager windowCapability:self.windowCapability menuConfiguration:self.currentMenuConfiguration currentMenu:self.currentMenuCells updatedMenu:self.menuCells compatibilityModeEnabled:(![self sdl_isDynamicMenuUpdateActive:self.dynamicMenuUpdatesMode]) currentMenuUpdatedHandler:^(NSArray<SDLMenuCell *> * _Nonnull currentMenuCells, NSError *error) {
         weakself.currentMenuCells = currentMenuCells;
         [weakself sdl_updateMenuReplaceOperationsWithNewCurrentMenu];
         SDLLogD(@"Finished updating menu");
