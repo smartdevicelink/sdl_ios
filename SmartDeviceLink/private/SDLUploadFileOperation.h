@@ -11,8 +11,8 @@
 #import "SDLAsynchronousOperation.h"
 #import "SDLFileManagerConstants.h"
 
-
 @protocol SDLConnectionManagerType;
+@class SDLFileManager;
 @class SDLFileWrapper;
 
 
@@ -26,14 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param file A file wrapper around the file which will be sent and a completion handler for when the file finishes sending.
  * @param connectionManager The connection manager which will handle transporting the file bytes to the remote system
- * @param remoteFileNames The files currently on the head unit. Used to check if the current file should be uploaded
+ * @param fileManager The file manager, used to check if the file is uploaded
  *
  * @return An instance of SDLUploadFilesOperation
  */
-- (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager remoteFileNames:(NSSet<SDLFileName *> *)remoteFileNames;
+- (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
 @property (nonatomic, strong, readonly) SDLFileWrapper *fileWrapper;
-@property (nonatomic, strong) NSSet<SDLFileName *> *remoteFileNames;
+@property (nonatomic, weak) SDLFileManager *fileManager;
 
 @end
 

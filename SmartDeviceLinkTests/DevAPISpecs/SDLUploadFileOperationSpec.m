@@ -1,8 +1,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <OCMock/OCMock.h>
 
 #import "SDLError.h"
 #import "SDLFile.h"
+#import "SDLFileManager.h"
 #import "SDLFileWrapper.h"
 #import "SDLGlobals.h"
 #import "SDLProtocolHeader.h"
@@ -91,6 +93,7 @@ describe(@"Streaming upload of data", ^{
     __block NSUInteger expectedNumberOfPutFiles = 0;
 
     __block TestConnectionManager *testConnectionManager = nil;
+    __block SDLFileManager *mockFileManager = nil;
     __block SDLUploadFileOperation *testOperation = nil;
 
     __block BOOL successResult = NO;
@@ -112,6 +115,7 @@ describe(@"Streaming upload of data", ^{
 
         testOperation = nil;
         testConnectionManager = [[TestConnectionManager alloc] init];
+        mockFileManager = OCMClassMock([SDLFileManager class]);
 
         successResult = NO;
         bytesAvailableResult = NO;
@@ -120,6 +124,10 @@ describe(@"Streaming upload of data", ^{
 
     describe(@"when the file is already on the head unit", ^{
         context(@"when not overwriting", ^{
+            beforeEach(^{
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
+            });
+
             it(@"should not send the upload RPCs and finish the operation", ^{
                 testFileName = @"TestSmallMemory";
                 testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
@@ -131,7 +139,7 @@ describe(@"Streaming upload of data", ^{
                     expect(error).toNot(beNil());
                 }];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet setWithObject:testFileName]];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
                 [testOperation start];
 
                 expect(testConnectionManager.receivedRequests).to(haveCount(0));
@@ -140,6 +148,10 @@ describe(@"Streaming upload of data", ^{
         });
 
         context(@"when overwriting", ^{
+            beforeEach(^{
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+            });
+
             it(@"should send the upload RPCs", ^{
                 testFileName = @"TestSmallMemory";
                 testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
@@ -152,7 +164,7 @@ describe(@"Streaming upload of data", ^{
                     expect(error).toNot(beNil());
                 }];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet setWithObject:testFileName]];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
                 [testOperation start];
 
                 expect(testConnectionManager.receivedRequests).to(haveCount(1));
@@ -167,6 +179,7 @@ describe(@"Streaming upload of data", ^{
 
         beforeEach(^{
             spaceLeft = 11212512;
+            OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
         });
 
         context(@"data should be split into smaller packets if too large to send all at once", ^{
@@ -183,7 +196,7 @@ describe(@"Streaming upload of data", ^{
 
                 expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *testPutFiles = testConnectionManager.receivedRequests;
@@ -217,7 +230,7 @@ describe(@"Streaming upload of data", ^{
 
                 expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
@@ -251,7 +264,7 @@ describe(@"Streaming upload of data", ^{
 
                 expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
@@ -286,7 +299,7 @@ describe(@"Streaming upload of data", ^{
 
                 expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
-                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
+                testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
                 [testOperation start];
 
                 NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
@@ -309,6 +322,7 @@ describe(@"Streaming upload of data", ^{
 
     describe(@"when a response to the data upload comes back", ^{
         beforeEach(^{
+            OCMStub([mockFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
             testFileName = @"TestLargeMemory";
             UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             testFileData = UIImageJPEGRepresentation(testImage, 1.0);
@@ -322,11 +336,11 @@ describe(@"Streaming upload of data", ^{
             expectedNumberOfPutFiles = [UploadFileOperationSpecHelpers testNumberOfPutFiles:testFile mtuSize:testMTUSize];
 
             testConnectionManager = [[TestConnectionManager alloc] init];
-            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
             [testOperation start];
         });
 
-        context(@"If data was sent successfully", ^{
+        context(@"if data was sent successfully", ^{
             __block NSInteger spaceLeft = 0;
             __block SDLPutFileResponse *successResponse = nil;
 
@@ -440,6 +454,10 @@ describe(@"Streaming upload of data", ^{
     });
 
     describe(@"when an incorrect file url is passed", ^{
+        beforeEach(^{
+            OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+        });
+
         it(@"should have called the completion handler with an error", ^{
             NSString *fileName = @"testImagePNG";
             testFileName = fileName;
@@ -453,12 +471,16 @@ describe(@"Streaming upload of data", ^{
             }];
 
             testConnectionManager = [[TestConnectionManager alloc] init];
-            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
             [testOperation start];
         });
     });
 
     describe(@"when empty data is passed", ^{
+        beforeEach(^{
+            OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+        });
+
         it(@"should have called the completion handler with an error", ^{
             testFileName = @"TestEmptyMemory";
             testFileData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
@@ -470,7 +492,7 @@ describe(@"Streaming upload of data", ^{
             }];
 
             testConnectionManager = [[TestConnectionManager alloc] init];
-            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager remoteFileNames:[NSSet set]];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager fileManager:mockFileManager];
             [testOperation start];
         });
     });

@@ -11,6 +11,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLFile.h"
+#import "SDLFileManager.h"
 #import "SDLFileWrapper.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
@@ -41,7 +42,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 
 @implementation SDLUploadFileOperation
 
-- (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager remoteFileNames:(nonnull NSSet<SDLFileName *> *)remoteFileNames {
+- (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager {
     self = [super init];
     if (!self) {
         return nil;
@@ -49,7 +50,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 
     _fileWrapper = file;
     _connectionManager = connectionManager;
-    _remoteFileNames = remoteFileNames;
+    _fileManager = fileManager;
 
     return self;
 }
@@ -58,7 +59,7 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
     [super start];
     if (self.isCancelled) { return; }
 
-    if (!self.fileWrapper.file.overwrite && [self.remoteFileNames containsObject:self.fileWrapper.file.name]) {
+    if (![self.fileManager fileNeedsUpload:self.fileWrapper.file]) {
         SDLLogW(@"File is already on the head unit, aborting upload operation");
         self.fileWrapper.completionHandler(NO, NSNotFound, [NSError sdl_fileManager_cannotOverwriteError]);
         return [self finishOperation];

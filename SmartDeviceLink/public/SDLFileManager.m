@@ -239,7 +239,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         if (success) {
             strongSelf.bytesAvailable = bytesAvailable;
             [strongSelf.mutableRemoteFileNames removeObject:name];
-            [strongSelf sdl_updatePendingOperationsWithNewRemoteFiles];
         }
 
         if (handler != nil) {
@@ -410,8 +409,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             if (!file.persistent) {
                 [weakSelf.uploadedEphemeralFileNames addObject:fileName];
             }
-
-            [weakSelf sdl_updatePendingOperationsWithNewRemoteFiles];
         } else if (error.code != SDLFileManagerErrorCannotOverwrite) {
             weakSelf.failedFileUploadsCount = [weakSelf.class sdl_incrementFailedUploadCountForFileName:file.name failedFileUploadsCount:weakSelf.failedFileUploadsCount];
 
@@ -427,8 +424,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
     }];
 
-    SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager remoteFileNames:self.remoteFileNames];
-
+    SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager fileManager:self];
     [self.transactionQueue addOperation:uploadOperation];
 }
 
@@ -493,18 +489,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 #pragma mark Helpers
-
-- (void)sdl_updatePendingOperationsWithNewRemoteFiles {
-    for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
-        if ([op isMemberOfClass:SDLUploadFileOperation.class]) {
-            SDLUploadFileOperation *uploadOp = (SDLUploadFileOperation *)op;
-            uploadOp.remoteFileNames = self.remoteFileNames;
-        } else if ([op isMemberOfClass:SDLDeleteFileOperation.class]) {
-            SDLDeleteFileOperation *deleteOp = (SDLDeleteFileOperation *)op;
-            deleteOp.remoteFileNames = self.remoteFileNames;
-        }
-    }
-}
 
 /**
  *  Checks an error returned by Core to see if it is a "can not overwrite" error.
