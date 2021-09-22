@@ -168,7 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
     fileCopy.persistent = _persistent;
     fileCopy.isStaticIcon = _isStaticIcon;
 
-    if (_data.length == 0 && _fileURL != nil) {
+    if (_data.length != 0) {
         fileCopy.data = _data.copy;
     }
 
@@ -197,8 +197,16 @@ NS_ASSUME_NONNULL_BEGIN
     if (!file) { return NO; }
 
     BOOL haveEqualNames = [self.name isEqualToString:file.name];
-    BOOL haveEqualData = [self.data isEqualToData:file.data];
     BOOL haveEqualFormats = [self.fileType isEqualToEnum:file.fileType];
+
+    BOOL haveEqualData = NO;
+    if (self.data.length == 0 && file.data.length == 0) {
+        haveEqualData = [self.fileURL isEqual:file.fileURL];
+    } else if (self.data.length > 0 && file.data.length > 0) {
+        haveEqualData = [self.data isEqualToData:file.data];
+    } else {
+        return NO;
+    }
 
     return haveEqualNames && haveEqualData && haveEqualFormats;
 }

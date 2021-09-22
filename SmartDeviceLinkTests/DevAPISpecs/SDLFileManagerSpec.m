@@ -1134,7 +1134,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
             });
 
             it(@"should cancel the remaining files if cancel is triggered after first upload", ^{
-                for(int i = 0; i < 5; i += 1) {
+                for(int i = 0; i < 5; i++) {
                     NSString *testFileName = [NSString stringWithFormat:@"TestSmallFilesMemory%d", i];
                     SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
                     testSDLFile.overwrite = true;
@@ -1171,7 +1171,7 @@ describe(@"uploading/deleting multiple files in the file manager", ^{
             });
 
             it(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
-                for(int i = 0; i < 5; i += 1) {
+                for(int i = 0; i < 5; i++) {
                     NSString *testFileName = [NSString stringWithFormat:@"TestSmallFilesMemory%d", i];
                     SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
                     testSDLFile.overwrite = true;

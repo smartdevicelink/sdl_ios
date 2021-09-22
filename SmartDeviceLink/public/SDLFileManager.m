@@ -333,7 +333,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         dispatch_group_enter(uploadFilesTask);
         __weak typeof(self) weakself = self;
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            if(!success) {
+            if (!success) {
                 failedUploads[file.name] = error;
             }
 
