@@ -161,7 +161,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithFileURL:_fileURL name:_name persistent:_persistent];
+    SDLFile *fileCopy = [[self.class allocWithZone:zone] init];
+    fileCopy.name = _name.copy;
+    fileCopy.fileURL = _fileURL.copy;
+    fileCopy.fileType = _fileType.copy;
+    fileCopy.persistent = _persistent;
+    fileCopy.isStaticIcon = _isStaticIcon;
+
+    if (_data.length == 0 && _fileURL != nil) {
+        fileCopy.data = _data.copy;
+    }
+
+    return fileCopy;
 }
 
 #pragma mark - NSObject overrides
