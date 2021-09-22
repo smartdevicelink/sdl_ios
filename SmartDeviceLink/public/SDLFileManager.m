@@ -387,35 +387,30 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return;
     }
 
-    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not. This is only needed if connecting to Core v4.3.1 or less which corresponds to RPC v4.3.1 or less
-    if (!file.persistent && ![self hasUploadedFile:file] && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
-        file.overwrite = YES;
-    }
-
     // If we didn't error out over the overwrite, then continue on
     [self sdl_uploadFile:file completionHandler:handler];
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
-    __block NSString *fileName = file.name;
-    __block SDLFileManagerUploadCompletionHandler uploadCompletion = [handler copy];
+    SDLFile *fileCopy = [file copy];
+    SDLFileManagerUploadCompletionHandler uploadCompletion = [handler copy];
 
     __weak typeof(self) weakSelf = self;
-    SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
+    SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:fileCopy completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         if (success) {
             weakSelf.bytesAvailable = bytesAvailable;
-            [weakSelf.mutableRemoteFileNames addObject:fileName];
+            [weakSelf.mutableRemoteFileNames addObject:fileCopy.name];
 
             if (!file.persistent) {
-                [weakSelf.uploadedEphemeralFileNames addObject:fileName];
+                [weakSelf.uploadedEphemeralFileNames addObject:fileCopy.name];
             }
         } else if (error.code != SDLFileManagerErrorCannotOverwrite) {
-            weakSelf.failedFileUploadsCount = [weakSelf.class sdl_incrementFailedUploadCountForFileName:file.name failedFileUploadsCount:weakSelf.failedFileUploadsCount];
+            weakSelf.failedFileUploadsCount = [weakSelf.class sdl_incrementFailedUploadCountForFileName:fileCopy.name failedFileUploadsCount:weakSelf.failedFileUploadsCount];
 
-            NSUInteger maxUploadCount = [file isMemberOfClass:[SDLArtwork class]] ? weakSelf.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
-            if ([weakSelf sdl_canFileBeUploadedAgain:file maxUploadCount:maxUploadCount failedFileUploadsCount:weakSelf.failedFileUploadsCount]) {
+            NSUInteger maxUploadCount = [fileCopy isMemberOfClass:[SDLArtwork class]] ? weakSelf.maxArtworkUploadAttempts : weakSelf.maxFileUploadAttempts;
+            if ([weakSelf sdl_canFileBeUploadedAgain:fileCopy maxUploadCount:maxUploadCount failedFileUploadsCount:weakSelf.failedFileUploadsCount]) {
                 SDLLogD(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
-                return [weakSelf sdl_uploadFile:file completionHandler:handler];
+                return [weakSelf sdl_uploadFile:fileCopy completionHandler:handler];
             }
         }
 

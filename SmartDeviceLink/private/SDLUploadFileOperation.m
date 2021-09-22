@@ -59,13 +59,20 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
     [super start];
     if (self.isCancelled) { return; }
 
-    if (![self.fileManager fileNeedsUpload:self.fileWrapper.file]) {
+    SDLFile *file = self.fileWrapper.file;
+
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not. This is only needed if connecting to Core v4.3.1 or less which corresponds to RPC v4.3.1 or less
+    if (!file.persistent && ![self.fileManager hasUploadedFile:file] && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
+        file.overwrite = YES;
+    }
+
+    if (![self.fileManager fileNeedsUpload:file]) {
         SDLLogW(@"File is already on the head unit, aborting upload operation");
         self.fileWrapper.completionHandler(NO, NSNotFound, [NSError sdl_fileManager_cannotOverwriteError]);
         return [self finishOperation];
     }
 
-    [self sdl_sendFile:self.fileWrapper.file mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC] withCompletion:self.fileWrapper.completionHandler];
+    [self sdl_sendFile:file mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC] withCompletion:self.fileWrapper.completionHandler];
 }
 
 /**
