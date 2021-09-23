@@ -4,6 +4,7 @@
 
 #import "ConnectionIAPTableViewController.h"
 
+#import "Preferences.h"
 #import "ProxyManager.h"
 
 
@@ -31,6 +32,10 @@
     
     // Connect Button setup
     self.connectButton.tintColor = [UIColor whiteColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    Preferences.sharedPreferences.lastUsedSegment = 1;
 }
 
 - (void)dealloc {

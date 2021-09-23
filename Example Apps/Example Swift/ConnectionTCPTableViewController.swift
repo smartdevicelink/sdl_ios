@@ -27,7 +27,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        AppUserDefaults.shared.lastUsedSegment = 1
+        AppUserDefaults.shared.lastUsedSegment = 0
     }
 
     private func configureConnectButton() {

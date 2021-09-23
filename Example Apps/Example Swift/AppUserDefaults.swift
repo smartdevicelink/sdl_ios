@@ -43,12 +43,12 @@ class AppUserDefaults {
         }
     }
 
-    var lastUsedSegment: Int? {
+    var lastUsedSegment: Int {
         get {
             return UserDefaults.standard.integer(forKey: Keys.lastUsedSegment)
         }
         set {
-            UserDefaults.standard.set(newValue!, forKey: Keys.lastUsedSegment)
+            UserDefaults.standard.set(newValue, forKey: Keys.lastUsedSegment)
         }
     }
 }

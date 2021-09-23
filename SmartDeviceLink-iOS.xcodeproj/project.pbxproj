@@ -1393,6 +1393,8 @@
 		4AC0128126D9612E00537E31 /* SDLPreloadPresentChoicesOperationUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AC0127F26D9612E00537E31 /* SDLPreloadPresentChoicesOperationUtilities.m */; };
 		4AC0128326D9686F00537E31 /* SDLPreloadPresentChoicesOperationUtilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AC0128226D9686F00537E31 /* SDLPreloadPresentChoicesOperationUtilitiesSpec.m */; };
 		4AD1F1742559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD1F1732559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m */; };
+		4ADBD1F826FCED4000ABB045 /* ConnectionTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBD1F726FCED4000ABB045 /* ConnectionTabBarController.swift */; };
+		4ADBD1FB26FCEDFC00ABB045 /* ConnectionTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBD1FA26FCEDFC00ABB045 /* ConnectionTabBarController.m */; };
 		4AE8A7022537796E000666C0 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE8A7012537796E000666C0 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D0A9F911F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */; };
 		5D0A9F931F15560B00CC80DD /* SDLNavigationCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */; };
@@ -3256,6 +3258,9 @@
 		4AC0127F26D9612E00537E31 /* SDLPreloadPresentChoicesOperationUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLPreloadPresentChoicesOperationUtilities.m; path = private/SDLPreloadPresentChoicesOperationUtilities.m; sourceTree = "<group>"; };
 		4AC0128226D9686F00537E31 /* SDLPreloadPresentChoicesOperationUtilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLPreloadPresentChoicesOperationUtilitiesSpec.m; path = DevAPISpecs/SDLPreloadPresentChoicesOperationUtilitiesSpec.m; sourceTree = "<group>"; };
 		4AD1F1732559957100637FE1 /* SDLVoiceCommandUpdateOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandUpdateOperationSpec.m; path = DevAPISpecs/SDLVoiceCommandUpdateOperationSpec.m; sourceTree = "<group>"; };
+		4ADBD1F726FCED4000ABB045 /* ConnectionTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConnectionTabBarController.swift; path = "Example Apps/Example Swift/ConnectionTabBarController.swift"; sourceTree = SOURCE_ROOT; };
+		4ADBD1F926FCEDFC00ABB045 /* ConnectionTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConnectionTabBarController.h; path = "Example Apps/Example ObjC/ConnectionTabBarController.h"; sourceTree = SOURCE_ROOT; };
+		4ADBD1FA26FCEDFC00ABB045 /* ConnectionTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ConnectionTabBarController.m; path = "Example Apps/Example ObjC/ConnectionTabBarController.m"; sourceTree = SOURCE_ROOT; };
 		4AE8A7012537796E000666C0 /* SmartDeviceLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartDeviceLink.h; path = public/SmartDeviceLink.h; sourceTree = "<group>"; };
 		4AE8A707253779F9000666C0 /* EAAccessory+OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessory+OCMock.h"; sourceTree = "<group>"; };
 		5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityTypeSpec.m; sourceTree = "<group>"; };
@@ -4471,6 +4476,8 @@
 				5D1FF2B421304580000EB9B4 /* ConnectionIAPTableViewController.m */,
 				5D1FF2B321304580000EB9B4 /* ConnectionTCPTableViewController.h */,
 				5D1FF2B621304581000EB9B4 /* ConnectionTCPTableViewController.m */,
+				4ADBD1F926FCEDFC00ABB045 /* ConnectionTabBarController.h */,
+				4ADBD1FA26FCEDFC00ABB045 /* ConnectionTabBarController.m */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -6913,6 +6920,7 @@
 				5D1FF2EE213047AB000EB9B4 /* Main.storyboard */,
 				5D1FF2EA2130479C000EB9B4 /* ConnectionIAPTableViewController.swift */,
 				5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */,
+				4ADBD1F726FCED4000ABB045 /* ConnectionTabBarController.swift */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -8018,6 +8026,7 @@
 				5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */,
 				5D1FF2A021304515000EB9B4 /* AudioManager.m in Sources */,
 				5D1FF29E21304515000EB9B4 /* MenuManager.m in Sources */,
+				4ADBD1FB26FCEDFC00ABB045 /* ConnectionTabBarController.m in Sources */,
 				5D1FF2C3213045EB000EB9B4 /* AppConstants.m in Sources */,
 				5D1FF2B821304581000EB9B4 /* ConnectionIAPTableViewController.m in Sources */,
 				5D1FF29C21304515000EB9B4 /* PerformInteractionManager.m in Sources */,
@@ -9150,6 +9159,7 @@
 				5D1FF2C4213045EB000EB9B4 /* AppConstants.m in Sources */,
 				5D1FF2DA21304746000EB9B4 /* ButtonManager.swift in Sources */,
 				5DC49BDD237314B500B2B8F2 /* SceneDelegate.swift in Sources */,
+				4ADBD1F826FCED4000ABB045 /* ConnectionTabBarController.swift in Sources */,
 				5D1FF2DC21304746000EB9B4 /* AlertManager.swift in Sources */,
 				5D1FF2E021304746000EB9B4 /* MenuManager.swift in Sources */,
 				5D1FF2DF21304746000EB9B4 /* PerformInteractionManager.swift in Sources */,

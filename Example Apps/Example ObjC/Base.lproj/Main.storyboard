@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Connection Tab Bar Controller-->
         <scene sceneID="Gr3-mM-wyL">
             <objects>
-                <tabBarController id="cVb-pX-Ls9" sceneMemberID="viewController">
+                <tabBarController id="cVb-pX-Ls9" customClass="ConnectionTabBarController" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="eLA-bh-hG8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
