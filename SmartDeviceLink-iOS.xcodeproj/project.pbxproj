@@ -1410,14 +1410,9 @@
 		5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29B21304515000EB9B4 /* ButtonManager.m */; };
 		5D1FF2A721304531000EB9B4 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A421304531000EB9B4 /* Preferences.m */; };
 		5D1FF2A821304531000EB9B4 /* TextValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A621304531000EB9B4 /* TextValidator.m */; };
-		5D1FF2AF21304568000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
 		5D1FF2B021304568000EB9B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AB21304567000EB9B4 /* Main.storyboard */; };
-		5D1FF2B121304568000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */; };
 		5D1FF2B821304581000EB9B4 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2B421304580000EB9B4 /* ConnectionIAPTableViewController.m */; };
-		5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2B521304581000EB9B4 /* ConnectionContainerViewController.m */; };
 		5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2B621304581000EB9B4 /* ConnectionTCPTableViewController.m */; };
-		5D1FF2BF21304598000EB9B4 /* ConnectionAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2BC21304598000EB9B4 /* ConnectionAnimatedTransition.m */; };
-		5D1FF2C021304598000EB9B4 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2BE21304598000EB9B4 /* ConnectionTransitionContext.m */; };
 		5D1FF2C3213045EB000EB9B4 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C2213045EB000EB9B4 /* AppConstants.m */; };
 		5D1FF2C4213045EB000EB9B4 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C2213045EB000EB9B4 /* AppConstants.m */; };
 		5D1FF2C6213045F2000EB9B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C5213045F1000EB9B4 /* Images.xcassets */; };
@@ -1436,12 +1431,9 @@
 		5D1FF2E521304761000EB9B4 /* AppUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */; };
 		5D1FF2E621304761000EB9B4 /* ProxyManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E321304761000EB9B4 /* ProxyManagerDelegate.swift */; };
 		5D1FF2E721304761000EB9B4 /* TextValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E421304761000EB9B4 /* TextValidator.swift */; };
-		5D1FF2EB2130479C000EB9B4 /* ConnectionContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E82130479C000EB9B4 /* ConnectionContainerViewController.swift */; };
 		5D1FF2EC2130479C000EB9B4 /* ConnectionTCPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */; };
 		5D1FF2ED2130479C000EB9B4 /* ConnectionIAPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2EA2130479C000EB9B4 /* ConnectionIAPTableViewController.swift */; };
 		5D1FF2F1213047AB000EB9B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2EE213047AB000EB9B4 /* Main.storyboard */; };
-		5D1FF2F2213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2EF213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard */; };
-		5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F0213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
 		5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F4213047B2000EB9B4 /* LaunchScreen.xib */; };
 		5D1FF2F8213047C1000EB9B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F7213047C1000EB9B4 /* AppDelegate.swift */; };
 		5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */; };
@@ -3298,19 +3290,11 @@
 		5D1FF2A421304531000EB9B4 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = "Example Apps/Example ObjC/Preferences.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF2A521304531000EB9B4 /* TextValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextValidator.h; path = "Example Apps/Example ObjC/TextValidator.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF2A621304531000EB9B4 /* TextValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextValidator.m; path = "Example Apps/Example ObjC/TextValidator.m"; sourceTree = SOURCE_ROOT; };
-		5D1FF2AA21304567000EB9B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Example Apps/Example ObjC/Base.lproj/ConnectionTCPTableViewController.storyboard"; sourceTree = SOURCE_ROOT; };
 		5D1FF2AC21304567000EB9B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Example Apps/Example ObjC/Base.lproj/Main.storyboard"; sourceTree = SOURCE_ROOT; };
-		5D1FF2AE21304567000EB9B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Example Apps/Example ObjC/Base.lproj/ConnectionIAPTableViewController.storyboard"; sourceTree = SOURCE_ROOT; };
-		5D1FF2B221304580000EB9B4 /* ConnectionContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionContainerViewController.h; path = "Example Apps/Example ObjC/ConnectionContainerViewController.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF2B321304580000EB9B4 /* ConnectionTCPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionTCPTableViewController.h; path = "Example Apps/Example ObjC/ConnectionTCPTableViewController.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF2B421304580000EB9B4 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionIAPTableViewController.m; path = "Example Apps/Example ObjC/ConnectionIAPTableViewController.m"; sourceTree = SOURCE_ROOT; };
-		5D1FF2B521304581000EB9B4 /* ConnectionContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionContainerViewController.m; path = "Example Apps/Example ObjC/ConnectionContainerViewController.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF2B621304581000EB9B4 /* ConnectionTCPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionTCPTableViewController.m; path = "Example Apps/Example ObjC/ConnectionTCPTableViewController.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF2B721304581000EB9B4 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionIAPTableViewController.h; path = "Example Apps/Example ObjC/ConnectionIAPTableViewController.h"; sourceTree = SOURCE_ROOT; };
-		5D1FF2BB21304598000EB9B4 /* ConnectionAnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionAnimatedTransition.h; path = "Example Apps/Example ObjC/ConnectionAnimatedTransition.h"; sourceTree = SOURCE_ROOT; };
-		5D1FF2BC21304598000EB9B4 /* ConnectionAnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionAnimatedTransition.m; path = "Example Apps/Example ObjC/ConnectionAnimatedTransition.m"; sourceTree = SOURCE_ROOT; };
-		5D1FF2BD21304598000EB9B4 /* ConnectionTransitionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionTransitionContext.h; path = "Example Apps/Example ObjC/ConnectionTransitionContext.h"; sourceTree = SOURCE_ROOT; };
-		5D1FF2BE21304598000EB9B4 /* ConnectionTransitionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionTransitionContext.m; path = "Example Apps/Example ObjC/ConnectionTransitionContext.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF2C1213045EB000EB9B4 /* AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppConstants.h; path = "Example Apps/Shared/AppConstants.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF2C2213045EB000EB9B4 /* AppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppConstants.m; path = "Example Apps/Shared/AppConstants.m"; sourceTree = SOURCE_ROOT; };
 		5D1FF2C5213045F1000EB9B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Example Apps/Shared/Images.xcassets"; sourceTree = SOURCE_ROOT; };
@@ -3330,12 +3314,9 @@
 		5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppUserDefaults.swift; path = "Example Apps/Example Swift/AppUserDefaults.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2E321304761000EB9B4 /* ProxyManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProxyManagerDelegate.swift; path = "Example Apps/Example Swift/ProxyManagerDelegate.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2E421304761000EB9B4 /* TextValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextValidator.swift; path = "Example Apps/Example Swift/TextValidator.swift"; sourceTree = SOURCE_ROOT; };
-		5D1FF2E82130479C000EB9B4 /* ConnectionContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionContainerViewController.swift; path = "Example Apps/Example Swift/ConnectionContainerViewController.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionTCPTableViewController.swift; path = "Example Apps/Example Swift/ConnectionTCPTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2EA2130479C000EB9B4 /* ConnectionIAPTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionIAPTableViewController.swift; path = "Example Apps/Example Swift/ConnectionIAPTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2EE213047AB000EB9B4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "Example Apps/Example Swift/Main.storyboard"; sourceTree = SOURCE_ROOT; };
-		5D1FF2EF213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ConnectionIAPTableViewController.storyboard; path = "Example Apps/Example Swift/ConnectionIAPTableViewController.storyboard"; sourceTree = SOURCE_ROOT; };
-		5D1FF2F0213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ConnectionTCPTableViewController.storyboard; path = "Example Apps/Example Swift/ConnectionTCPTableViewController.storyboard"; sourceTree = SOURCE_ROOT; };
 		5D1FF2F4213047B2000EB9B4 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = "Example Apps/Example Swift/LaunchScreen.xib"; sourceTree = SOURCE_ROOT; };
 		5D1FF2F6213047C1000EB9B4 /* SmartDeviceLink-Example-Swift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmartDeviceLink-Example-Swift-Bridging-Header.h"; path = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		5D1FF2F7213047C1000EB9B4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Example Apps/Example Swift/AppDelegate.swift"; sourceTree = SOURCE_ROOT; };
@@ -4485,10 +4466,7 @@
 		5D0218EC1A8E796100D1BF62 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
-				5D4832991A8EA27200252386 /* Storyboards */,
-				5D4832A21A94F8F100252386 /* Transition */,
-				5D1FF2B221304580000EB9B4 /* ConnectionContainerViewController.h */,
-				5D1FF2B521304581000EB9B4 /* ConnectionContainerViewController.m */,
+				5D1FF2AB21304567000EB9B4 /* Main.storyboard */,
 				5D1FF2B721304581000EB9B4 /* ConnectionIAPTableViewController.h */,
 				5D1FF2B421304580000EB9B4 /* ConnectionIAPTableViewController.m */,
 				5D1FF2B321304580000EB9B4 /* ConnectionTCPTableViewController.h */,
@@ -4809,16 +4787,6 @@
 			name = General;
 			sourceTree = "<group>";
 		};
-		5D4832991A8EA27200252386 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */,
-				5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */,
-				5D1FF2AB21304567000EB9B4 /* Main.storyboard */,
-			);
-			name = Storyboards;
-			sourceTree = "<group>";
-		};
 		5D48329A1A8EA31500252386 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -4853,17 +4821,6 @@
 				5D1FF29921304514000EB9B4 /* VehicleDataManager.m */,
 			);
 			name = SDL;
-			sourceTree = "<group>";
-		};
-		5D4832A21A94F8F100252386 /* Transition */ = {
-			isa = PBXGroup;
-			children = (
-				5D1FF2BB21304598000EB9B4 /* ConnectionAnimatedTransition.h */,
-				5D1FF2BC21304598000EB9B4 /* ConnectionAnimatedTransition.m */,
-				5D1FF2BD21304598000EB9B4 /* ConnectionTransitionContext.h */,
-				5D1FF2BE21304598000EB9B4 /* ConnectionTransitionContext.m */,
-			);
-			name = Transition;
 			sourceTree = "<group>";
 		};
 		5D5934EE1A85160900687FB9 /* Protocol */ = {
@@ -6853,9 +6810,6 @@
 			children = (
 				5D1FF2F4213047B2000EB9B4 /* LaunchScreen.xib */,
 				88A0AA5F207CFEA60075132C /* Connection */,
-				5D1FF2E82130479C000EB9B4 /* ConnectionContainerViewController.swift */,
-				5D1FF2EA2130479C000EB9B4 /* ConnectionIAPTableViewController.swift */,
-				5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -6956,19 +6910,11 @@
 		88A0AA5F207CFEA60075132C /* Connection */ = {
 			isa = PBXGroup;
 			children = (
-				88A0AA60207CFEAC0075132C /* Storyboards */,
+				5D1FF2EE213047AB000EB9B4 /* Main.storyboard */,
+				5D1FF2EA2130479C000EB9B4 /* ConnectionIAPTableViewController.swift */,
+				5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */,
 			);
 			name = Connection;
-			sourceTree = "<group>";
-		};
-		88A0AA60207CFEAC0075132C /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				5D1FF2EF213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard */,
-				5D1FF2F0213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard */,
-				5D1FF2EE213047AB000EB9B4 /* Main.storyboard */,
-			);
-			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		88A70C392233087500574CA4 /* Requests */ = {
@@ -8001,8 +7947,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D1FF2B121304568000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
-				5D1FF2AF21304568000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				5D1FF2C6213045F2000EB9B4 /* Images.xcassets in Resources */,
 				5D1FF2B021304568000EB9B4 /* Main.storyboard in Resources */,
 				5D1FF2D12130466D000EB9B4 /* LaunchScreen.xib in Resources */,
@@ -8041,10 +7985,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D1FF2F1213047AB000EB9B4 /* Main.storyboard in Resources */,
-				5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				5D1FF2C7213045F2000EB9B4 /* Images.xcassets in Resources */,
 				5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */,
-				5D1FF2F2213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8068,14 +8010,11 @@
 				5D1FF2CA2130463F000EB9B4 /* AppDelegate.m in Sources */,
 				5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */,
 				B30509052511E79B008C5401 /* ProxyManager.m in Sources */,
-				5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */,
 				5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */,
 				5D1FF2A121304515000EB9B4 /* VehicleDataManager.m in Sources */,
-				5D1FF2BF21304598000EB9B4 /* ConnectionAnimatedTransition.m in Sources */,
 				5D1FF2A721304531000EB9B4 /* Preferences.m in Sources */,
 				5D1FF2CC2130464E000EB9B4 /* main.m in Sources */,
 				4A40255D250026830080E159 /* SubscribeButtonManager.m in Sources */,
-				5D1FF2C021304598000EB9B4 /* ConnectionTransitionContext.m in Sources */,
 				5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */,
 				5D1FF2A021304515000EB9B4 /* AudioManager.m in Sources */,
 				5D1FF29E21304515000EB9B4 /* MenuManager.m in Sources */,
@@ -9212,7 +9151,6 @@
 				5D1FF2DA21304746000EB9B4 /* ButtonManager.swift in Sources */,
 				5DC49BDD237314B500B2B8F2 /* SceneDelegate.swift in Sources */,
 				5D1FF2DC21304746000EB9B4 /* AlertManager.swift in Sources */,
-				5D1FF2EB2130479C000EB9B4 /* ConnectionContainerViewController.swift in Sources */,
 				5D1FF2E021304746000EB9B4 /* MenuManager.swift in Sources */,
 				5D1FF2DF21304746000EB9B4 /* PerformInteractionManager.swift in Sources */,
 				5D1FF2ED2130479C000EB9B4 /* ConnectionIAPTableViewController.swift in Sources */,
@@ -9268,28 +9206,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5D1FF2AA21304567000EB9B4 /* Base */,
-			);
-			name = ConnectionTCPTableViewController.storyboard;
-			sourceTree = "<group>";
-		};
 		5D1FF2AB21304567000EB9B4 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				5D1FF2AC21304567000EB9B4 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5D1FF2AE21304567000EB9B4 /* Base */,
-			);
-			name = ConnectionIAPTableViewController.storyboard;
 			sourceTree = "<group>";
 		};
 		5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */ = {
@@ -9486,7 +9408,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;

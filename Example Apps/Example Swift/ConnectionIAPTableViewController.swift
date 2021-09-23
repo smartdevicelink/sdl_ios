@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDelegate {
+class ConnectionIAPTableViewController: UITableViewController {
     @IBOutlet weak var connectTableViewCell: UITableViewCell!
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var connectButton: UIButton!
@@ -16,32 +16,24 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         ProxyManager.sharedManager.delegate = self
+        title = "iAP"
         table.keyboardDismissMode = .onDrag
         table.isScrollEnabled = false
-        initButton()
+        configureConnectButton()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewWillAppear(_ animated: Bool) {
+        AppUserDefaults.shared.lastUsedSegment = 1
     }
 
-    func initButton() {
+    private func configureConnectButton() {
         self.connectTableViewCell.backgroundColor = UIColor.systemRed
         self.connectButton.setTitle("Connect", for: .normal)
         self.connectButton.setTitleColor(.white, for: .normal)
     }
-    // MARK: - IBActions
-    @IBAction func connectButtonWasPressed(_ sender: UIButton) {
-        switch proxyState {
-        case .stopped:
-            ProxyManager.sharedManager.start(with: .iap)
-        case .searching:
-            ProxyManager.sharedManager.stopConnection()
-        case .connected:
-            ProxyManager.sharedManager.stopConnection()
-        }
-    }
-    // MARK: - Delegate Functions
+}
+
+extension ConnectionIAPTableViewController: ProxyManagerDelegate {
     func didChangeProxyState(_ newState: ProxyState) {
         proxyState = newState
         var newColor: UIColor? = nil
@@ -49,13 +41,13 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
 
         switch newState {
         case .stopped:
-            newColor = UIColor.systemRed
+            newColor = .systemRed
             newTitle = "Connect"
         case .searching:
-            newColor = UIColor.systemOrange
+            newColor = .systemOrange
             newTitle = "Stop Searching"
         case .connected:
-            newColor = UIColor.systemGreen
+            newColor = .systemGreen
             newTitle = "Disconnect"
         }
 
@@ -65,6 +57,20 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
                 self?.connectButton.setTitle(newTitle, for: .normal)
                 self?.connectButton.setTitleColor(.white, for: .normal)
             })
+        }
+    }
+}
+
+// MARK: - IBActions
+extension ConnectionIAPTableViewController {
+    @IBAction private func connectButtonWasPressed(_ sender: UIButton) {
+        switch proxyState {
+        case .stopped:
+            ProxyManager.sharedManager.start(with: .iap)
+        case .searching:
+            ProxyManager.sharedManager.stopConnection()
+        case .connected:
+            ProxyManager.sharedManager.stopConnection()
         }
     }
 }
