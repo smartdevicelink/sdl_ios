@@ -12,7 +12,6 @@
 #import "SDLLogMacros.h"
 #import "SDLDeleteFileOperation.h"
 #import "SDLError.h"
-#import "SDLErrorConstants.h"
 #import "SDLFile.h"
 #import "SDLFileManagerConfiguration.h"
 #import "SDLFileWrapper.h"
@@ -231,8 +230,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 #pragma mark - Deleting
 
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)handler {
+    if ((![self.remoteFileNames containsObject:name]) && (handler != nil)) {
+        handler(NO, self.bytesAvailable, [NSError sdl_fileManager_noKnownFileError]);
+        return;
+    }
+
     __weak typeof(self) weakSelf = self;
-    SDLDeleteFileOperation *deleteOperation = [[SDLDeleteFileOperation alloc] initWithFileName:name connectionManager:self.connectionManager remoteFileNames:self.remoteFileNames completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
+    SDLDeleteFileOperation *deleteOperation = [[SDLDeleteFileOperation alloc] initWithFileName:name connectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         // Mutate self based on the changes
@@ -258,21 +262,18 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     dispatch_group_t deleteFilesTask = dispatch_group_create();
     dispatch_group_enter(deleteFilesTask);
-    __weak typeof(self) weakself = self;
-    for (NSString *name in names) {
+    for(NSString *name in names) {
         dispatch_group_enter(deleteFilesTask);
         [self deleteRemoteFileWithName:name completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            if (!success) {
+            if(!success) {
                 failedDeletes[name] = error;
-            } else {
-                weakself.bytesAvailable = bytesAvailable;
             }
             dispatch_group_leave(deleteFilesTask);
         }];
     }
     dispatch_group_leave(deleteFilesTask);
 
-    // When all files to be deleted
+    // Wait for all files to be deleted
     dispatch_group_notify(deleteFilesTask, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         if (completionHandler == nil) { return; }
         if (failedDeletes.count > 0) {
@@ -333,7 +334,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         dispatch_group_enter(uploadFilesTask);
         __weak typeof(self) weakself = self;
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            if (!success) {
+            if(!success) {
                 failedUploads[file.name] = error;
             }
 
@@ -387,30 +388,40 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return;
     }
 
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not. This is only needed if connecting to Core v4.3.1 or less which corresponds to RPC v4.3.1 or less
+    if (!file.persistent && ![self hasUploadedFile:file] && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
+        file.overwrite = YES;
+    }
+
+    // Check our overwrite settings and error out if it would overwrite
+    if (!file.overwrite && [self.remoteFileNames containsObject:file.name]) {
+        if (handler != nil) {
+            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
+        }
+        return;
+    }
+
     // If we didn't error out over the overwrite, then continue on
     [self sdl_uploadFile:file completionHandler:handler];
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
-    SDLFile *fileCopy = [file copy];
-    SDLFileManagerUploadCompletionHandler uploadCompletion = [handler copy];
+    __block NSString *fileName = file.name;
+    __block SDLFileManagerUploadCompletionHandler uploadCompletion = [handler copy];
 
     __weak typeof(self) weakSelf = self;
-    SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:fileCopy completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
+    SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
         if (success) {
             weakSelf.bytesAvailable = bytesAvailable;
-            [weakSelf.mutableRemoteFileNames addObject:fileCopy.name];
+            [weakSelf.mutableRemoteFileNames addObject:fileName];
+            [weakSelf.uploadedEphemeralFileNames addObject:fileName];
+        } else {
+            weakSelf.failedFileUploadsCount = [weakSelf.class sdl_incrementFailedUploadCountForFileName:file.name failedFileUploadsCount:weakSelf.failedFileUploadsCount];
 
-            if (!file.persistent) {
-                [weakSelf.uploadedEphemeralFileNames addObject:fileCopy.name];
-            }
-        } else if (error.code != SDLFileManagerErrorCannotOverwrite) {
-            weakSelf.failedFileUploadsCount = [weakSelf.class sdl_incrementFailedUploadCountForFileName:fileCopy.name failedFileUploadsCount:weakSelf.failedFileUploadsCount];
-
-            NSUInteger maxUploadCount = [fileCopy isMemberOfClass:[SDLArtwork class]] ? weakSelf.maxArtworkUploadAttempts : weakSelf.maxFileUploadAttempts;
-            if ([weakSelf sdl_canFileBeUploadedAgain:fileCopy maxUploadCount:maxUploadCount failedFileUploadsCount:weakSelf.failedFileUploadsCount]) {
+            NSUInteger maxUploadCount = [file isMemberOfClass:[SDLArtwork class]] ? weakSelf.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
+            if ([weakSelf sdl_canFileBeUploadedAgain:file maxUploadCount:maxUploadCount failedFileUploadsCount:weakSelf.failedFileUploadsCount]) {
                 SDLLogD(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
-                return [weakSelf sdl_uploadFile:fileCopy completionHandler:handler];
+                return [weakSelf sdl_uploadFile:file completionHandler:handler];
             }
         }
 
@@ -419,7 +430,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
     }];
 
-    SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager fileManager:self];
+    SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
+
     [self.transactionQueue addOperation:uploadOperation];
 }
 

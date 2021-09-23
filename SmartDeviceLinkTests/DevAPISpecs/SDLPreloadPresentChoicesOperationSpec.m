@@ -293,7 +293,7 @@ describe(@"a preload choices operation", ^{
                     });
                 });
 
-                context(@"when artworks are not already on the system", ^{
+                fcontext(@"when artworks are not already on the system", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
                     });

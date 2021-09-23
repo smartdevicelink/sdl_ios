@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                        NSLocalizedFailureReasonErrorKey: @"The SDL library is not finished setting up the connection, please wait until the encryption lifecycleState is SDLEncryptionLifecycleStateReady",
                                                        NSLocalizedRecoverySuggestionErrorKey: @"Make sure HMI is not NONE and at least one RPC requires encryption in permissions?"
                                                        };
-    
+
     return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
                                code:SDLEncryptionLifecycleManagerErrorNotConnected
                            userInfo:userInfo];
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                        NSLocalizedFailureReasonErrorKey: @"The SDL library received ACK with encryption = OFF.",
                                                        NSLocalizedRecoverySuggestionErrorKey: @"Make sure you are on a supported remote head unit with proper policies and your app id is approved."
                                                        };
-    
+
     return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
                                code:SDLEncryptionLifecycleManagerErrorEncryptionOff
                            userInfo:userInfo];
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                        NSLocalizedFailureReasonErrorKey: @"The remote head unit sent a NAK.  Encryption service failed to start due to NAK.",
                                                        NSLocalizedRecoverySuggestionErrorKey: @"Make sure your certificates are valid."
                                                        };
-    
+
     return [NSError errorWithDomain:SDLErrorDomainEncryptionLifecycleManager
                                code:SDLEncryptionLifecycleManagerErrorNAK
                            userInfo:userInfo];
@@ -167,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: @"Cannot overwrite remote file",
                                                        NSLocalizedFailureReasonErrorKey: @"The remote file system already has a file of this name, and the file manager is set to not automatically overwrite files",
-                                                       NSLocalizedRecoverySuggestionErrorKey: @"Set file.overwrite to true to overwrite the file"
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"Set SDLFileManager autoOverwrite to YES, or call forceUploadFile:completion:"
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorCannotOverwrite userInfo:userInfo];
 }
