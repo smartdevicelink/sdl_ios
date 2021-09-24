@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded;
 + (NSError *)sdl_subscribeButtonManager_notSubscribed;
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded;
++ (NSError *)sdl_textAndGraphicManager_batchingUpdate;
++ (NSError *)sdl_textAndGraphicManager_nothingToUpdate;
 
 #pragma mark Menu Manager
 
@@ -91,6 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities;
 + (NSError *)sdl_systemCapabilityManager_cannotUpdateInHMINONE;
 + (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS;
++ (NSError *)sdl_systemCapabilityManager_unknownSystemCapabilityType;
 
 #pragma mark Transport
 

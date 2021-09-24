@@ -177,7 +177,13 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
  */
 typedef NS_ENUM(NSInteger, SDLTextAndGraphicManagerError) {
     /// A pending update was superseded by a newer requested update. The old update will not be sent
-    SDLTextAndGraphicManagerErrorPendingUpdateSuperseded = -1
+    SDLTextAndGraphicManagerErrorPendingUpdateSuperseded = -1,
+
+    /// The manager is currently batching updates so the update will not yet be sent and the handler will not be called
+    SDLTextAndGraphicManagerErrorCurrentlyBatching = -2,
+
+    /// The manager could find nothing to update
+    SDLTextAndGraphicManagerErrorNothingToUpdate = -3,
 };
 
 /**
@@ -251,7 +257,10 @@ typedef NS_ENUM(NSInteger, SDLSystemCapabilityManagerError) {
     SDLSystemCapabilityManagerErrorHMINone = -2,
 
     /// You may not update the system capability type DISPLAYS because it is always subscribed
-    SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays = -3
+    SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays = -3,
+
+    /// The module sent an unknown system capability type
+    SDLSystemCapabilityManagerErrorUnknownType = -4,
 };
 
 /**
