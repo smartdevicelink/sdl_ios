@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Validate input
     if (message.header.sessionID != self.sessionID) {
         SDLLogE(@"Message part sent to the wrong assembler. This session id: %d, message session id: %d", self.sessionID, message.header.sessionID);
-        return;
+        return completionHandler(NO, nil);
     }
 
     if (self.parts == nil) {

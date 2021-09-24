@@ -13,6 +13,9 @@
 /// A typedef declaration of the SDL error domain
 typedef NSString SDLErrorDomain;
 
+/// An error with the iOS system
+extern SDLErrorDomain *const SDLErrorDomainSystem;
+
 /// An error in the SDLAudioStreamManager
 extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
 
@@ -57,6 +60,12 @@ extern SDLErrorDomain *const SDLErrorDomainTransport;
 
 
 #pragma mark Error Codes
+
+/// Error associated with the underlying operating system
+typedef NS_ENUM(NSInteger, SDLSystemError) {
+    /// iOS failed to create an object
+    SDLSystemErrorFailedToCreateObject = -1
+};
 
 /**
  *  Errors associated with the SDLManager class.

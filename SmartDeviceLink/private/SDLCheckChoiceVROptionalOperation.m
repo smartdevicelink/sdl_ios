@@ -12,6 +12,7 @@
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDeleteInteractionChoiceSet.h"
+#import "SDLError.h"
 #import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,9 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCheckChoiceVROptionalOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nonnull SDLCheckChoiceVROptionalCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(SDLCheckChoiceVROptionalCompletionHandler)completionHandler {
     self = [super init];
-    if (!self) { return nil; }
+    if (!self) {
+        completionHandler(NO, [NSError sdl_failedToCreateObjectOfClass:[SDLCheckChoiceVROptionalOperation class]]);
+        return nil;
+    }
 
     _connectionManager = connectionManager;
     _operationId = [NSUUID UUID];

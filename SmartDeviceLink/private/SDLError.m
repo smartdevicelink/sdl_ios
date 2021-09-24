@@ -15,6 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSError (SDLErrors)
 
++ (NSError *)sdl_failedToCreateObjectOfClass:(Class)objectClass {
+    return [NSError errorWithDomain:SDLErrorDomainSystem code:SDLSystemErrorFailedToCreateObject userInfo:@{
+        NSLocalizedDescriptionKey: [NSString stringWithFormat: @"iOS system failed to create a new object of class: %@", objectClass],
+        NSLocalizedFailureReasonErrorKey: @"An unknown error caused iOS to fail to create an object",
+        NSLocalizedRecoverySuggestionErrorKey: @"There is no known way to fix this error"
+    }];
+}
+
 #pragma mark - SDLEncryptionLifecycleManager
 + (NSError *)sdl_encryption_lifecycle_notReadyError {
     NSDictionary<NSString *, NSString *> *userInfo = @{

@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSError (SDLErrors)
 
++ (NSError *)sdl_failedToCreateObjectOfClass:(Class)objectClass;
+
 #pragma mark SDLEncryptionLifecycleManager
 + (NSError *)sdl_encryption_lifecycle_notReadyError;
 + (NSError *)sdl_encryption_lifecycle_encryption_off;
