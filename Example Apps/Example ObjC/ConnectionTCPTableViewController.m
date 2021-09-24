@@ -44,10 +44,6 @@
     self.connectButton.tintColor = [UIColor whiteColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    Preferences.sharedPreferences.lastUsedSegment = 0;
-}
-
 - (void)dealloc {
     @try {
         [[ProxyManager sharedManager] removeObserver:self forKeyPath:NSStringFromSelector(@selector(state))];

@@ -26,10 +26,6 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         configureConnectButton()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        AppUserDefaults.shared.lastUsedSegment = 0
-    }
-
     private func configureConnectButton() {
         self.connectTableViewCell.backgroundColor = UIColor.systemRed
         self.connectButton.setTitle("Connect", for: .normal)

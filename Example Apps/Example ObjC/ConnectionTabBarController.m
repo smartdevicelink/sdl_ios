@@ -14,12 +14,18 @@
 
 @end
 
-@implementation ConnectionTabBarController
+@implementation ConnectionTabBarController <UITabBarControllerDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.selectedIndex = Preferences.sharedPreferences.lastUsedSegment;
+    self.delegate = self
+}
+
+#pragma mark - UITabBarControllerDelegate
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    Preferences.sharedPreferences.lastUsedSegment = [tabBar.items indexOfObject:item];
 }
 
 @end
