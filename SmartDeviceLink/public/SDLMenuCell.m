@@ -63,7 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTitle:(NSString *)title secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText icon:(nullable SDLArtwork *)icon secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells {
-
     self = [super init];
     if (!self) { return nil; }
 

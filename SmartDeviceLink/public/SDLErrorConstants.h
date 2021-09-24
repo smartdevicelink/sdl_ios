@@ -202,8 +202,8 @@ typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
 
 /// Errors associated with Choice Set Manager class
 typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
-    /// The choice set has been deleted before it was presented
-    SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
+    /// Some needed choices for presentation are not available
+    SDLChoiceSetManagerErrorNeededChoicesUnavailable = -1,
 
     /// The choice set failed to delete
     SDLChoiceSetManagerErrorDeletionFailed = -2,
@@ -215,7 +215,13 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorFailedToCreateMenuItems = -4,
 
     /// Invalid state
-    SDLChoiceSetManagerErrorInvalidState = -5
+    SDLChoiceSetManagerErrorInvalidState = -5,
+
+    /// An operation was cancelled and may or may not have succeeded
+    SDLChoiceSetManagerErrorCancelled = -6,
+
+    /// No new choices could be loaded because the maximum number of choices are loaded (65535)
+    SDLChoiceSetManagerErrorNoIdsAvailable = -7,
 };
 
 /// Errors associated with Alert Manager class
