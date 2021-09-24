@@ -9,6 +9,7 @@
 #import "SDLError.h"
 
 #import "SDLChoiceSetManager.h"
+#import "SDLMenuConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -269,6 +270,54 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark Menu Manager
+
++ (NSError *)sdl_menuManager_configurationOperationLayoutsNotSupported {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateLayoutNotSupported userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Configuration Update Failed",
+        NSLocalizedFailureReasonErrorKey: @"One or more of the configuration layouts is not supported by the module",
+        NSLocalizedRecoverySuggestionErrorKey: @"Compare SDLManager.systemCapabilityManager.defaultWindowCapability.menuLayoutsAvailable to what you attempted to set"
+    }];
+}
+
++ (NSError *)sdl_menuManager_configurationOperationFailed:(SDLMenuConfiguration *)failedConfiguration {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateFailed userInfo:@{
+        @"Failed Configuration": failedConfiguration,
+        NSLocalizedDescriptionKey: @"Menu Manager - Configuration Update Failed",
+        NSLocalizedFailureReasonErrorKey: @"The configuration may not be supported by the connected head unit",
+        NSLocalizedRecoverySuggestionErrorKey: @"Check SystemCapabilityManager.defaultWindowCapability.menuLayouts to ensure the set configuration is supported"
+    }];
+}
+
++ (NSError *)sdl_menuManager_openMenuOperationCancelled {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOperationCancelled userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Open Menu Cancelled",
+        NSLocalizedFailureReasonErrorKey: @"The menu manager was probably stopped or opening another menu item was requested.",
+        NSLocalizedRecoverySuggestionErrorKey: @"This error probably does not need recovery."
+    }];
+}
+
++ (NSError *)sdl_menuManager_openMenuOperationFailed:(nullable SDLMenuCell *)menuCell {
+    NSString *failureReason = nil;
+    if (menuCell != nil) {
+        failureReason = @"Something went wrong attempting to open the menu.";
+    } else {
+        failureReason = [NSString stringWithFormat:@"Something went wrong attempting to open the menu to the given subcell: %@", menuCell];
+    }
+
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOpenMenuFailed userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Open Menu Failed",
+        NSLocalizedFailureReasonErrorKey: failureReason,
+        NSLocalizedRecoverySuggestionErrorKey: @"Check the error logs for more information on the RPC failure."
+    }];
+}
+
++ (NSError *)sdl_menuManager_replaceOperationCancelled {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOperationCancelled userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Menu Replace Cancelled",
+        NSLocalizedFailureReasonErrorKey: @"The menu manager was probably stopped or another menu update was requested.",
+        NSLocalizedRecoverySuggestionErrorKey: @"This error probably does not need recovery."
+    }];
+}
 
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo {
     return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorRPCsFailed userInfo:userInfo];

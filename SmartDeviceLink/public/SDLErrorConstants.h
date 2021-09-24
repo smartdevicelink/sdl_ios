@@ -193,7 +193,11 @@ typedef NS_ENUM(NSInteger, SDLSubscribeButtonManagerError) {
 typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     /// Sending menu-related RPCs returned an error from the remote system
     SDLMenuManagerErrorRPCsFailed = -1,
-    SDLMenuManagerErrorPendingUpdateSuperseded = -2
+    SDLMenuManagerErrorPendingUpdateSuperseded = -2,
+    SDLMenuManagerErrorOperationCancelled = -3,
+    SDLMenuManagerErrorConfigurationUpdateLayoutNotSupported = -4,
+    SDLMenuManagerErrorConfigurationUpdateFailed = -5,
+    SDLMenuManagerErrorOpenMenuFailed = -6
 };
 
 /// Errors associated with Choice Set Manager class
