@@ -9,6 +9,7 @@
 #import "SDLListFilesOperation.h"
 
 #import "SDLConnectionManagerType.h"
+#import "SDLError.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesResponse.h"
 
@@ -29,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
+        if (completionHandler != nil) {
+            completionHandler(NO, NSNotFound, @[], [NSError sdl_failedToCreateObjectOfClass:[SDLListFilesOperation class]]);
+        }
         return nil;
     }
 

@@ -414,8 +414,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             }
         }
 
-        if (uploadCompletion != nil) {
-            uploadCompletion(success, bytesAvailable, error);
+        if (handler != nil) {
+            handler(success, bytesAvailable, error);
         }
     }];
 

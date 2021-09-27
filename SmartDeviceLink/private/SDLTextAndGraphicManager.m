@@ -150,11 +150,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Upload / Send
 
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
-    if (self.isBatchingUpdates) { return; }
-
-    if (self.isDirty) {
+    if (self.isBatchingUpdates) {
+        if (handler != nil) {
+            // This shouldn't be possible, but just in case
+            handler([NSError sdl_textAndGraphicManager_batchingUpdate]);
+        }
+    } else if (self.isDirty) {
         self.isDirty = NO;
         [self sdl_updateAndCancelPreviousOperations:YES completionHandler:handler];
+    } else {
+        if (handler != nil) {
+            handler([NSError sdl_textAndGraphicManager_nothingToUpdate]);
+        }
     }
 }
 

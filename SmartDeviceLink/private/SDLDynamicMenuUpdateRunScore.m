@@ -8,6 +8,8 @@
 
 #import "SDLDynamicMenuUpdateRunScore.h"
 
+#import "SDLDynamicMenuUpdateAlgorithm.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDynamicMenuUpdateRunScore
@@ -21,6 +23,29 @@ NS_ASSUME_NONNULL_BEGIN
     _score = score;
 
     return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Run Score: %ld, old status: %@, updated status: %@", (long)self.score, [self sdl_stringArrayForCellUpdateStatuses:self.oldStatus], [self sdl_stringArrayForCellUpdateStatuses:self.updatedStatus]];
+}
+
+- (NSArray<NSString *> *)sdl_stringArrayForCellUpdateStatuses:(NSArray<NSNumber *> *)statuses {
+    NSMutableArray<NSString *> *mutableStringArray = [NSMutableArray arrayWithCapacity:statuses.count];
+    for (NSNumber *status in statuses) {
+        if (status.unsignedIntegerValue == SDLMenuCellUpdateStateDelete) {
+            [mutableStringArray addObject:@"DELETE"];
+        } else if (status.unsignedIntegerValue == SDLMenuCellUpdateStateAdd) {
+            [mutableStringArray addObject:@"ADD"];
+        } else if (status.unsignedIntegerValue == SDLMenuCellUpdateStateKeep) {
+            [mutableStringArray addObject:@"KEEP"];
+        }
+    }
+
+    return [mutableStringArray copy];
+}
+
+- (BOOL)isEmpty {
+    return (self.oldStatus.count == 0 && self.updatedStatus.count == 0 && self.score == 0);
 }
 
 @end

@@ -10,6 +10,7 @@
 
 #pragma mark Error Domains
 
+SDLErrorDomain *const SDLErrorDomainSystem = @"com.sdl.system.error";
 SDLErrorDomain *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioStreamManager";
 SDLErrorDomain *const SDLErrorDomainCacheFileManager = @"com.sdl.cachefilemanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";

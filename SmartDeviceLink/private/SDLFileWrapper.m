@@ -8,6 +8,7 @@
 
 #import "SDLFileWrapper.h"
 
+#import "SDLError.h"
 #import "SDLFile.h"
 
 
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
+        completionHandler(NO, NSNotFound, [NSError sdl_failedToCreateObjectOfClass:[SDLFileWrapper class]]);
         return nil;
     }
 
