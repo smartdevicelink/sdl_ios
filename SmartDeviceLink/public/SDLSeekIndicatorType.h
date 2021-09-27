@@ -37,5 +37,8 @@
  */
 typedef SDLEnum SDLSeekIndicatorType NS_TYPED_ENUM;
 
+/// Seek indicator UI that is appropriate for skipping tracks
 extern SDLSeekIndicatorType const SDLSeekIndicatorTypeTrack;
+
+/// Seek indicator UI that is appropriate for skipping time
 extern SDLSeekIndicatorType const SDLSeekIndicatorTypeTime;

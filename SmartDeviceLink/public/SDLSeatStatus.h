@@ -50,8 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithSeatLocation:(SDLSeatLocation *)seatLocation conditionActive:(BOOL)conditionActive;
 
+/// The location of the seat on the vehicle grid
 @property (strong, nonatomic) SDLSeatLocation *seatLocation;
 
+/// If the seat condition is active (see the containing object parameter, such as 'seatsOccupied')
 @property (strong, nonatomic) NSNumber<SDLBool> *conditionActive;
 
 @end

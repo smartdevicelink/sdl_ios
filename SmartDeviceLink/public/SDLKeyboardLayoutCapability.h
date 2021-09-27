@@ -49,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithKeyboardLayout:(SDLKeyboardLayout)keyboardLayout numConfigurableKeys:(UInt8)numConfigurableKeys;
 
+/// The keyboard layout of this capability
 @property (strong, nonatomic) SDLKeyboardLayout keyboardLayout;
 
 /**

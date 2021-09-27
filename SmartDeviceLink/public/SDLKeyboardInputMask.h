@@ -39,8 +39,11 @@
  */
 typedef SDLEnum SDLKeyboardInputMask NS_TYPED_ENUM;
 
+/// Key mask is enabled. Input characters will not be viewable by the user.
 extern SDLKeyboardInputMask const SDLKeyboardInputMaskEnableInputKeyMask;
 
+/// Key mask is disabled. Input characters will be viewable by the user.
 extern SDLKeyboardInputMask const SDLKeyboardInputMaskDisableInputKeyMask;
 
+/// Key mask can be toggled by the user.
 extern SDLKeyboardInputMask const SDLKeyboardInputMaskUserChoiceInputKeyMask;

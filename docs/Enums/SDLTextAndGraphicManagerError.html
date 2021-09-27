@@ -4,6 +4,8 @@
 
 <ul>
   <li><a href="#section-SDLTextAndGraphicManagerErrorPendingUpdateSuperseded">SDLTextAndGraphicManagerErrorPendingUpdateSuperseded</a></li>
+  <li><a href="#section-SDLTextAndGraphicManagerErrorCurrentlyBatching">SDLTextAndGraphicManagerErrorCurrentlyBatching</a></li>
+  <li><a href="#section-SDLTextAndGraphicManagerErrorNothingToUpdate">SDLTextAndGraphicManagerErrorNothingToUpdate</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -26,6 +28,42 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">case</span> <span class="n">pendingUpdateSuperseded</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextAndGraphicManagerErrorCurrentlyBatching">
+      SDLTextAndGraphicManagerErrorCurrentlyBatching
+  </h3>
+  
+  <p>The manager is currently batching updates so the update will not yet be sent and the handler will not be called</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLTextAndGraphicManagerErrorCurrentlyBatching</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">currentlyBatching</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTextAndGraphicManagerErrorNothingToUpdate">
+      SDLTextAndGraphicManagerErrorNothingToUpdate
+  </h3>
+  
+  <p>The manager could find nothing to update</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLTextAndGraphicManagerErrorNothingToUpdate</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">nothingToUpdate</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span></code></pre>
 
   
   

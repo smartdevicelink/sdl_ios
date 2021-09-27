@@ -1,4 +1,36 @@
 # Changelog
+## 7.3.0 RC 1
+* Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/tree/09520e4b2cd5dd09d475bec306e611bdda1187b0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/pull/42).
+
+### Testing
+* Xcode 13.0
+* iOS 15.0
+* Core:
+    * Manticore (Core v7.1.1, Generic HMI v0.10.0)
+    * Ford Sync 3.4 (19353_DEVTEST)
+    * Ford Sync 3.0 (17276_DEVTEST)
+    * Ford Sync 4.0 (20016_DEVTEST)
+    * Core v8.0.0-RC with sdl_hmi v5.6.0-RC and generic_hmi v0.11.0-RC
+    
+### Bug Fixes
+* Fix a mismatch in TireStatus vehicle data (https://github.com/smartdevicelink/sdl_ios/issues/1297)
+* Fix menu updates fail if updates are queues (https://github.com/smartdevicelink/sdl_ios/issues/1957)
+* Fix Choice Set Manager back to back choice sets can fail (https://github.com/smartdevicelink/sdl_ios/issues/2018)
+* Fix Choice Set Manager not handling order of operations correctly (https://github.com/smartdevicelink/sdl_ios/issues/2020)
+* Fix Security handshake doesn't handle errors correctly (https://github.com/smartdevicelink/sdl_ios/issues/2024)
+* Fix Choice Set Manager loaded cells are not taken into account for uniqueness (https://github.com/smartdevicelink/sdl_ios/issues/2025)
+* Fix swapping menu items with unique identifiers causes incorrect unique identifiers (https://github.com/smartdevicelink/sdl_ios/issues/2027)
+* Fix delete / add submenu cells doesn't work properly (https://github.com/smartdevicelink/sdl_ios/issues/2028)
+* Fix System Capability Manager crashes when removing capabilities (https://github.com/smartdevicelink/sdl_ios/issues/2033, https://github.com/smartdevicelink/sdl_ios/issues/2036)
+* Fix file manager can upload the same file multiple times (https://github.com/smartdevicelink/sdl_ios/issues/2034)
+* Fix rare cases when a completion handler would not be called (https://github.com/smartdevicelink/sdl_ios/issues/2044)
+
+### Other
+* Add ability to manually run CI tests (https://github.com/smartdevicelink/sdl_ios/issues/2016)
+* Fix code documentation spelling & grammar (https://github.com/smartdevicelink/sdl_ios/issues/2021)
+* Fix code documentation of capabilities (https://github.com/smartdevicelink/sdl_ios/issues/2031)
+* Fix example app iOS 15 appearance (https://github.com/smartdevicelink/sdl_ios/issues/2042)
+
 ## 7.2.0 (Since RC 1)
 * Supports [SDL RPC Spec 7.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/7.1.0) and [SDL Protocol Spec 5.4.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.0).
 

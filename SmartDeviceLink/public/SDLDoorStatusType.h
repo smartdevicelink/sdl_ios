@@ -37,10 +37,14 @@
  */
 typedef SDLEnum SDLDoorStatusType NS_TYPED_ENUM;
 
+/// Door is closed and unlocked
 extern SDLDoorStatusType const SDLDoorStatusTypeClosed;
 
+/// Door is closed and locked
 extern SDLDoorStatusType const SDLDoorStatusTypeLocked;
 
+/// Door is open
 extern SDLDoorStatusType const SDLDoorStatusTypeAjar;
 
+/// Door is removed from the vehicle
 extern SDLDoorStatusType const SDLDoorStatusTypeRemoved;

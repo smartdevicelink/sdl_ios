@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Vehicle data body information containing information like the park brake status, the ignition status, gate and roof statuses, etc.
 @interface SDLBodyInformation : SDLRPCStruct
 
 /**

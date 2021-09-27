@@ -3,11 +3,13 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section-SDLChoiceSetManagerErrorPendingPresentationDeleted">SDLChoiceSetManagerErrorPendingPresentationDeleted</a></li>
+  <li><a href="#section-SDLChoiceSetManagerErrorNeededChoicesUnavailable">SDLChoiceSetManagerErrorNeededChoicesUnavailable</a></li>
   <li><a href="#section-SDLChoiceSetManagerErrorDeletionFailed">SDLChoiceSetManagerErrorDeletionFailed</a></li>
   <li><a href="#section-SDLChoiceSetManagerErrorUploadFailed">SDLChoiceSetManagerErrorUploadFailed</a></li>
   <li><a href="#section-SDLChoiceSetManagerErrorFailedToCreateMenuItems">SDLChoiceSetManagerErrorFailedToCreateMenuItems</a></li>
   <li><a href="#section-SDLChoiceSetManagerErrorInvalidState">SDLChoiceSetManagerErrorInvalidState</a></li>
+  <li><a href="#section-SDLChoiceSetManagerErrorCancelled">SDLChoiceSetManagerErrorCancelled</a></li>
+  <li><a href="#section-SDLChoiceSetManagerErrorNoIdsAvailable">SDLChoiceSetManagerErrorNoIdsAvailable</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -16,20 +18,20 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section-SDLChoiceSetManagerErrorPendingPresentationDeleted">
-      SDLChoiceSetManagerErrorPendingPresentationDeleted
+  <h3 id="section-SDLChoiceSetManagerErrorNeededChoicesUnavailable">
+      SDLChoiceSetManagerErrorNeededChoicesUnavailable
   </h3>
   
-  <p>The choice set has been deleted before it was presented</p>
+  <p>Some needed choices for presentation are not available</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">SDLChoiceSetManagerErrorPendingPresentationDeleted</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="n">SDLChoiceSetManagerErrorNeededChoicesUnavailable</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">pendingPresentationDeleted</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">neededChoicesUnavailable</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
 
   
   
@@ -102,6 +104,42 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidState</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLChoiceSetManagerErrorCancelled">
+      SDLChoiceSetManagerErrorCancelled
+  </h3>
+  
+  <p>An operation was cancelled and may or may not have succeeded</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLChoiceSetManagerErrorCancelled</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">cancelled</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLChoiceSetManagerErrorNoIdsAvailable">
+      SDLChoiceSetManagerErrorNoIdsAvailable
+  </h3>
+  
+  <p>No new choices could be loaded because the maximum number of choices are loaded (65535)</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLChoiceSetManagerErrorNoIdsAvailable</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noIdsAvailable</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span></code></pre>
 
   
   

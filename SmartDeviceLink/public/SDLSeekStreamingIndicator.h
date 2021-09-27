@@ -61,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)seekIndicatorWithSeekTime:(NSUInteger)seekTime;
 
+/// The type of seek indicator to be displayed on the module UI
 @property (strong, nonatomic) SDLSeekIndicatorType type;
 
 /**
