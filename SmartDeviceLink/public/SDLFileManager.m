@@ -264,8 +264,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         [self deleteRemoteFileWithName:name completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
             if (!success) {
                 failedDeletes[name] = error;
-            } else {
-                weakself.bytesAvailable = bytesAvailable;
             }
             dispatch_group_leave(deleteFilesTask);
         }];
@@ -393,7 +391,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
     SDLFile *fileCopy = [file copy];
-    SDLFileManagerUploadCompletionHandler uploadCompletion = [handler copy];
 
     __weak typeof(self) weakSelf = self;
     SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:fileCopy completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
