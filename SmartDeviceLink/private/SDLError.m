@@ -176,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: @"Cannot overwrite remote file",
                                                        NSLocalizedFailureReasonErrorKey: @"The remote file system already has a file of this name, and the file manager is set to not automatically overwrite files",
-                                                       NSLocalizedRecoverySuggestionErrorKey: @"Set SDLFileManager autoOverwrite to YES, or call forceUploadFile:completion:"
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"Set file.overwrite to true to overwrite the file"
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorCannotOverwrite userInfo:userInfo];
 }
