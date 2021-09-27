@@ -4,6 +4,7 @@
 
 #import "ConnectionIAPTableViewController.h"
 
+#import "Preferences.h"
 #import "ProxyManager.h"
 
 
@@ -23,6 +24,10 @@
     [[ProxyManager sharedManager] addObserver:self forKeyPath:NSStringFromSelector(@selector(state)) options:(NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew) context:nil];
     
     // Tableview setup
+    if (@available(iOS 11.0, *)) {
+        self.tableView.dragInteractionEnabled = NO;
+    }
+    self.title = @"iAP";
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
     // Connect Button setup
