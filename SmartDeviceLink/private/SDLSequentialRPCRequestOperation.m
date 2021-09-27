@@ -34,7 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     self = [super init];
-    if (!self) { return nil; }
+    if (!self) {
+        if (completionHandler != nil) {
+            completionHandler(NO);
+        }
+        return nil;
+    }
 
     executing = NO;
     finished = NO;

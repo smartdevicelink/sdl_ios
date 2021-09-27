@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
+        if (completionHandler != nil) {
+            completionHandler(NO, NSNotFound, [NSError sdl_failedToCreateObjectOfClass:[SDLDeleteFileOperation class]]);
+        }
         return nil;
     }
 

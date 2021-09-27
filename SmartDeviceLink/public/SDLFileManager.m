@@ -406,8 +406,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
-    __block NSString *fileName = file.name;
-    __block SDLFileManagerUploadCompletionHandler uploadCompletion = [handler copy];
+    SDLFile *fileCopy = [file copy];
 
     __weak typeof(self) weakSelf = self;
     SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
@@ -425,8 +424,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             }
         }
 
-        if (uploadCompletion != nil) {
-            uploadCompletion(success, bytesAvailable, error);
+        if (handler != nil) {
+            handler(success, bytesAvailable, error);
         }
     }];
 
