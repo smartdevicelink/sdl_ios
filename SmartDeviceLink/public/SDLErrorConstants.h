@@ -208,10 +208,20 @@ typedef NS_ENUM(NSInteger, SDLSubscribeButtonManagerError) {
 typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     /// Sending menu-related RPCs returned an error from the remote system
     SDLMenuManagerErrorRPCsFailed = -1,
+
+    /// A pending menu update was superseded by a later update and did not run
     SDLMenuManagerErrorPendingUpdateSuperseded = -2,
+
+    /// A pending or in-progress menu update was cancelled
     SDLMenuManagerErrorOperationCancelled = -3,
+
+    /// A configuration update failed because the configuration is not supported
     SDLMenuManagerErrorConfigurationUpdateLayoutNotSupported = -4,
+
+    /// A configuration update failed
     SDLMenuManagerErrorConfigurationUpdateFailed = -5,
+
+    /// An open menu operation failed
     SDLMenuManagerErrorOpenMenuFailed = -6
 };
 

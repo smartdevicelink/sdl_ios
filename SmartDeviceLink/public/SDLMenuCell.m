@@ -114,9 +114,9 @@ NS_ASSUME_NONNULL_BEGIN
     return (self.hash == cell.hash);
 }
 
-#pragma mark With Unique Title
+#pragma mark Protected
 
-- (BOOL)isEqualToCellWithUniqueTitle:(SDLMenuCell *)cell {
+- (BOOL)sdl_isEqualToCellWithUniqueTitle:(SDLMenuCell *)cell {
     return ([self sdl_hashWithUniqueTitle] == [cell sdl_hashWithUniqueTitle]);
 }
 

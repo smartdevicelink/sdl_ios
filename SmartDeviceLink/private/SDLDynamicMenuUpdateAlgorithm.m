@@ -14,6 +14,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLMenuCell ()
+
+- (BOOL)sdl_isEqualToCellWithUniqueTitle:(SDLMenuCell *)cell;
+
+@end
+
 @implementation SDLDynamicMenuUpdateAlgorithm
 
 #pragma mark Compatibility Menu Run Score
@@ -51,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
         for (NSUInteger oldCellIndex = run; oldCellIndex < oldMenuCells.count; oldCellIndex++) { //For each old item
             // Create inner loop to compare old cells to new cells to find a match, if a match if found we mark the index at match for both the old and the new status to keep since we do not want to send RPCs for those cases
             for (NSUInteger newCellIndex = startIndex; newCellIndex < updatedMenuCells.count; newCellIndex++) {
-                if ([oldMenuCells[oldCellIndex] isEqualToCellWithUniqueTitle:updatedMenuCells[newCellIndex]]) {
+                if ([oldMenuCells[oldCellIndex] sdl_isEqualToCellWithUniqueTitle:updatedMenuCells[newCellIndex]]) {
                     oldMenuStatus[oldCellIndex] = @(SDLMenuCellUpdateStateKeep);
                     newMenuStatus[newCellIndex] = @(SDLMenuCellUpdateStateKeep);
                     startIndex = newCellIndex + 1;

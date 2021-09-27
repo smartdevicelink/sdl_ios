@@ -125,11 +125,6 @@ typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
  */
 - (instancetype)initWithTitle:(NSString *)title secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText icon:(nullable SDLArtwork *)icon secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells;
 
-/// Check cell equality including the internally used `uniqueTitle` property. To compare without `uniqueTitle`, use the `isEqual:` method.
-/// @param cell The other cell to compare with
-/// @return True if the cells are equal, including the `uniqueTitle` property, False otherwise
-- (BOOL)isEqualToCellWithUniqueTitle:(SDLMenuCell *)cell;
-
 @end
 
 NS_ASSUME_NONNULL_END
