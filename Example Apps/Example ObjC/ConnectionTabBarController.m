@@ -10,16 +10,16 @@
 
 #import "Preferences.h"
 
-@interface ConnectionTabBarController ()
+@interface ConnectionTabBarController () <UITabBarControllerDelegate>
 
 @end
 
-@implementation ConnectionTabBarController <UITabBarControllerDelegate>
+@implementation ConnectionTabBarController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.delegate = self
+    self.delegate = self;
 }
 
 #pragma mark - UITabBarControllerDelegate
