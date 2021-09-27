@@ -37,7 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cellsToDelete loadedCells:(NSSet<SDLChoiceCell *> *)loadedCells completionHandler:(SDLDeleteChoicesCompletionHandler)completionHandler {
     self = [super init];
-    if (!self) { return nil; }
+    if (!self) {
+        completionHandler(loadedCells, [NSError sdl_failedToCreateObjectOfClass:[SDLDeleteChoicesOperation class]]);
+        return nil;
+    }
 
     _connectionManager = connectionManager;
     _cellsToDelete = cellsToDelete;

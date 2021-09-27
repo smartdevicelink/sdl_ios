@@ -222,7 +222,16 @@ UInt16 const ChoiceCellCancelIdMax = 200;
 
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
     SDLLogV(@"Request to preload choices: %@", choices);
-    if (choices.count == 0) { return; }
+    if (choices.count == 0) {
+        if (handler != nil) {
+            handler([NSError sdl_choiceSetManager_choiceUploadFailed:@{
+                NSLocalizedDescriptionKey: @"Choice upload failed",
+                NSLocalizedFailureReasonErrorKey: @"No choices were provided for upload",
+                NSLocalizedRecoverySuggestionErrorKey: @"Provide some choice cells to upload instead of an empty list"
+            }]);
+        }
+        return;
+    }
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) {
         NSError *error = [NSError sdl_choiceSetManager_incorrectState:self.currentState];
         SDLLogE(@"Cannot preload choices when the manager isn't in the ready state: %@", error);

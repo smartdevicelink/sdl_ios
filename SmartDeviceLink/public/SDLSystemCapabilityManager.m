@@ -450,11 +450,13 @@ typedef NSString * SDLServiceID;
         [self sdl_saveDisplayCapabilityListUpdate:systemCapability.displayCapabilities];
     } else {
         SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
+        if (handler != nil) {
+            handler(systemCapability, NO, [NSError sdl_systemCapabilityManager_unknownSystemCapabilityType]);
+        }
         return NO;
     }
 
     SDLLogD(@"Updated system capability manager with new data: %@", systemCapability);
-
     [self sdl_callObserversForUpdate:systemCapability error:error handler:handler];
     return YES;
 }

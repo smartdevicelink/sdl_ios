@@ -39,7 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager pendingVoiceCommands:(NSArray<SDLVoiceCommand *> *)pendingVoiceCommands oldVoiceCommands:(NSArray<SDLVoiceCommand *> *)oldVoiceCommands updateCompletionHandler:(SDLVoiceCommandUpdateCompletionHandler)completionHandler {
     self = [self init];
-    if (!self) { return nil; }
+    if (!self) {
+        completionHandler(@[], [NSError sdl_failedToCreateObjectOfClass:[SDLVoiceCommandUpdateOperation class]]);
+        return nil;
+    }
 
     _connectionManager = connectionManager;
     _pendingVoiceCommands = pendingVoiceCommands;

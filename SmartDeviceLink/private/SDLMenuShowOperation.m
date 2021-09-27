@@ -38,9 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMenuShowOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager toMenuCell:(nullable SDLMenuCell *)menuCell completionHandler:(nonnull SDLMenuShowCompletionBlock)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager toMenuCell:(nullable SDLMenuCell *)menuCell completionHandler:(SDLMenuShowCompletionBlock)completionHandler {
     self = [super init];
-    if (!self) { return nil; }
+    if (!self) {
+        completionHandler([NSError sdl_failedToCreateObjectOfClass:[SDLMenuShowOperation class]]);
+        return nil;
+    }
 
     _connectionManager = connectionManager;
     _submenuCell = menuCell;
