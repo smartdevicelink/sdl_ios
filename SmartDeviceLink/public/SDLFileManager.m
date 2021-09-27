@@ -258,7 +258,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     dispatch_group_t deleteFilesTask = dispatch_group_create();
     dispatch_group_enter(deleteFilesTask);
-    __weak typeof(self) weakself = self;
     for (NSString *name in names) {
         dispatch_group_enter(deleteFilesTask);
         [self deleteRemoteFileWithName:name completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
