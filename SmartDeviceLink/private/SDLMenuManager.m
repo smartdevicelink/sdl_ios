@@ -169,7 +169,10 @@ NS_ASSUME_NONNULL_BEGIN
         if (error != nil) {
             SDLLogE(@"Error updating menu configuration: %@", error);
             return;
+        } else {
+            SDLLogD(@"Successfully updated menu configuration: %@", newMenuConfiguration);
         }
+
         weakself.currentMenuConfiguration = newMenuConfiguration;
         [weakself sdl_updateMenuReplaceOperationsWithNewMenuConfiguration];
     }];
