@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic) NSArray<SDLMenuLayout> *availableMenuLayouts;
 @property (strong, nonatomic) SDLMenuConfiguration *updatedMenuConfiguration;
-@property (assign, nonatomic) SDLMenuConfigurationUpdatedBlock menuConfigurationUpdatedBlock;
+@property (copy, nonatomic) SDLMenuConfigurationUpdatedBlock menuConfigurationUpdatedBlock;
 
 @property (copy, nonatomic, nullable) NSError *internalError;
 
