@@ -134,6 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (_subCells.count > 0) {
         newCell.subCells = [[NSArray alloc] initWithArray:_subCells copyItems:YES];
+        newCell->_submenuLayout = _submenuLayout;
     }
 
     return newCell;
