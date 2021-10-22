@@ -828,7 +828,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (serverHandshakeData == nil) {
         SDLLogE(@"Error running TLS handshake procedure. Sending error to module. Error: %@", handshakeError);
 
-        serverSecurityMessage = [self.class sdl_serverSecurityFailedMessageWithClientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
+        serverSecurityMessage = [self.class sdl_serverSecurityFailedMessageWithClientMessageHeader:clientHandshakeMessage.header messageId:++_messageID handshakeError:handshakeError];
     } else {
         // The handshake went fine, send the module the remaining handshake data
         serverSecurityMessage = [self.class sdl_serverSecurityHandshakeMessageWithData:serverHandshakeData clientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
@@ -857,7 +857,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
 }
 
-+ (SDLProtocolMessage *)sdl_serverSecurityFailedMessageWithClientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId {
++ (SDLProtocolMessage *)sdl_serverSecurityFailedMessageWithClientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId handshakeError:(NSError *)handshakeError {
     // This can't possibly be a v1 header because v1 does not have control protocol messages
     SDLV2ProtocolHeader *serverMessageHeader = [SDLProtocolHeader headerForVersion:clientHeader.version];
     serverMessageHeader.encrypted = NO;
@@ -868,7 +868,13 @@ NS_ASSUME_NONNULL_BEGIN
     serverMessageHeader.messageID = messageId;
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
-    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] initWithQueryType:SDLSecurityQueryTypeNotification queryID:SDLSecurityQueryIdSendInternalError sequenceNumber:0x00 jsonData:nil binaryData:nil];
+    UInt8 codeError = (UInt8)handshakeError.code;
+
+    NSDictionary *jsonDictionary = @{@"id" : @(codeError), @"text" : [SDLSecurityQueryError convertErrorIdToStringEnum:@(codeError)]};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary options:NSJSONWritingPrettyPrinted error:nil];
+
+    NSData *binaryDataPayload = [NSData dataWithBytes:&index length:sizeof(codeError)];
+    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] initWithQueryType:SDLSecurityQueryTypeNotification queryID:SDLSecurityQueryIdSendInternalError sequenceNumber:0x00 jsonData:jsonData binaryData:binaryDataPayload];
 
     NSData *binaryData = [serverTLSPayload convertToData];
 
