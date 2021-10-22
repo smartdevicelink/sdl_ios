@@ -5,9 +5,11 @@
 #import "SDLMenuReplaceUtilities.h"
 
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuReplaceUtilitiesSpecHelpers.h"
 #import "SDLMenuManagerPrivateConstants.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 #import "TestConnectionManager.h"
 
@@ -127,6 +129,21 @@ describe(@"finding all artworks from cells", ^{
     beforeEach(^{
         mockFileManager = OCMClassMock([SDLFileManager class]);
         testWindowCapability = [[SDLWindowCapability alloc] init];
+        testWindowCapability.imageFields = @[[[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLImageTypeDynamic] imageResolution:nil]];
+        [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"8.0.0"];
+    });
+
+    context(@"when checking a submenu cell artwork on RPC 5.0–7.0 without the submenu image field", ^{
+        beforeEach(^{
+            OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+            OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(YES);
+            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
+        });
+
+        it(@"should include the submenu primary artwork", ^{
+            NSArray<SDLArtwork *> *artworksToUpload = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:SDLMenuReplaceUtilitiesSpecHelpers.deepMenu fileManager:mockFileManager windowCapability:testWindowCapability];
+            expect(artworksToUpload).to(haveCount(3));
+        });
     });
 
     context(@"when all the files need to be uploaded", ^{
@@ -268,6 +285,7 @@ describe(@"generating RPCs", ^{
 
     beforeEach(^{
         mockFileManager = OCMClassMock([SDLFileManager class]);
+        OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(YES);
         testWindowCapability = [[SDLWindowCapability alloc] init];
     });
 
@@ -302,6 +320,10 @@ describe(@"generating RPCs", ^{
     });
 
     context(@"main menu commands", ^{
+        beforeEach(^{
+            [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"8.0.0"];
+        });
+
         context(@"shallow menu", ^{
             beforeEach(^{
                 testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu;
@@ -325,28 +347,34 @@ describe(@"generating RPCs", ^{
                 NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingPositionsFromFullMenu:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
                 expect(requests).to(haveCount(3));
                 expect(requests[0]).to(beAnInstanceOf(SDLAddSubMenu.class));
+                SDLAddSubMenu *request0 = (SDLAddSubMenu *)requests[0];
+                expect(request0.menuIcon).to(beNil());
+
+                expect(requests[1]).to(beAnInstanceOf(SDLAddCommand.class));
+                expect(requests[2]).to(beAnInstanceOf(SDLAddSubMenu.class));
+            });
+        });
+
+        context(@"deep menu on RPC >= 5.0 && < 7.0", ^{
+            beforeEach(^{
+                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
+            });
+
+            fit(@"should generate the correct RPCs", ^{
+                NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingPositionsFromFullMenu:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
+                expect(requests).to(haveCount(3));
+                expect(requests[0]).to(beAnInstanceOf(SDLAddSubMenu.class));
+                SDLAddSubMenu *request0 = (SDLAddSubMenu *)requests[0];
+                expect(request0.menuIcon).toNot(beNil());
+
                 expect(requests[1]).to(beAnInstanceOf(SDLAddCommand.class));
                 expect(requests[2]).to(beAnInstanceOf(SDLAddSubMenu.class));
             });
         });
     });
-
-    context(@"sub menu commands", ^{
-        context(@"shallow menu", ^{
-            beforeEach(^{
-                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu;
-            });
-        });
-
-        context(@"deep menu", ^{
-            beforeEach(^{
-                testMenuCells = SDLMenuReplaceUtilitiesSpecHelpers.deepMenu;
-            });
-        });
-    });
 });
 
-// updating menu cells
 describe(@"updating menu cell lists", ^{
     __block UInt32 testCommandId = 0;
 
