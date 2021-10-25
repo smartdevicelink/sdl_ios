@@ -869,8 +869,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
     UInt8 errorCode = 0xFF;
-    NSDictionary *jsonDictionary = @{@"id" : @0xFF, @"text" : [SDLSecurityQueryError convertErrorIdToStringEnum:@(errorCode)]};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary options:NSJSONWritingPrettyPrinted error:nil];
+    NSDictionary *jsonDictionary = @{@"id" : @(errorCode), @"text" : [SDLSecurityQueryError convertErrorIdToStringEnum:@(errorCode)]};
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary options:kNilOptions error:nil];
 
     NSData *binaryDataPayload = [NSData dataWithBytes:&errorCode length:sizeof(errorCode)];
     SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] initWithQueryType:SDLSecurityQueryTypeNotification queryID:SDLSecurityQueryIdSendInternalError sequenceNumber:0x00 jsonData:jsonData binaryData:binaryDataPayload];
