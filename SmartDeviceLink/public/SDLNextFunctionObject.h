@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLNextFunctionObject : NSObject
 
-@property (nonatomic, copy) SDLNextFunctionInfo *nextFunctionInfo;
+@property (nullable, copy, nonatomic) SDLNextFunctionInfo *nextFunctionInfo;
 
 @end
 

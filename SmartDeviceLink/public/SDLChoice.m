@@ -5,6 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
+#import "SDLNextFunctionInfo.h"
 #import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -94,6 +95,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)secondaryImage {
     return [self.store sdl_objectForName:SDLRPCParameterNameSecondaryImage ofClass:SDLImage.class error:nil];
+}
+
+- (void)setNextFunctionInfo:(nullable SDLNextFunctionInfo *)nextFunctionInfo {
+    [self.store sdl_setObject:nextFunctionInfo forName:SDLRPCParameterNameNextFunctionInfo];
+}
+
+- (nullable SDLNextFunctionInfo *)nextFunctionInfo {
+    return [self.store sdl_objectForName:SDLRPCParameterNameNextFunctionInfo ofClass:SDLNextFunctionInfo.class error:nil];
 }
 
 @end

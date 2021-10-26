@@ -1718,11 +1718,11 @@
 		B38D8E7E24A118BD00B977D0 /* SDLGearStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7D24A118BD00B977D0 /* SDLGearStatusSpec.m */; };
 		B38D8E8024A1E3D000B977D0 /* SDLTransmissionTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E7F24A1E3D000B977D0 /* SDLTransmissionTypeSpec.m */; };
 		B38D8E8224A1F53500B977D0 /* SDLCapacityUnitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D8E8124A1F53500B977D0 /* SDLCapacityUnitSpec.m */; };
-		B392A1CA2727F2AE00271C58 /* SDLNextFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = B392A1C82727F2AE00271C58 /* SDLNextFunction.h */; };
+		B392A1CA2727F2AE00271C58 /* SDLNextFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = B392A1C82727F2AE00271C58 /* SDLNextFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B392A1CB2727F2AE00271C58 /* SDLNextFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = B392A1C92727F2AE00271C58 /* SDLNextFunction.m */; };
-		B392A1D22728008C00271C58 /* SDLNextFunctionObject.h in Headers */ = {isa = PBXBuildFile; fileRef = B392A1D02728008C00271C58 /* SDLNextFunctionObject.h */; };
+		B392A1D22728008C00271C58 /* SDLNextFunctionObject.h in Headers */ = {isa = PBXBuildFile; fileRef = B392A1D02728008C00271C58 /* SDLNextFunctionObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B392A1D32728008C00271C58 /* SDLNextFunctionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B392A1D12728008C00271C58 /* SDLNextFunctionObject.m */; };
-		B392A1DA2728031D00271C58 /* SDLNextFunctionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B392A1D82728031D00271C58 /* SDLNextFunctionInfo.h */; };
+		B392A1DA2728031D00271C58 /* SDLNextFunctionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B392A1D82728031D00271C58 /* SDLNextFunctionInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B392A1DB2728031D00271C58 /* SDLNextFunctionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B392A1D92728031D00271C58 /* SDLNextFunctionInfo.m */; };
 		B3A0BA2925940ED100CC3BDF /* SDLCarWindowSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A0BA212593FE7400CC3BDF /* SDLCarWindowSpec.m */; };
 		B3A0BA2D259600D100CC3BDF /* SDLSupportedStreamingRangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A0BA2C259600D100CC3BDF /* SDLSupportedStreamingRangeSpec.m */; };

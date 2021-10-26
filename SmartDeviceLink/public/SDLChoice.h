@@ -4,7 +4,7 @@
 #import "SDLRPCMessage.h"
 
 @class SDLImage;
-
+@class SDLNextFunctionInfo;
 
 /**
  * A choice is an option which a user can select either via the menu or via voice recognition (VR) during an application initiated interaction.
@@ -91,6 +91,13 @@ Constructs a newly allocated SDLChangeRegistration object with all parameters
  * Optional
  */
 @property (nullable, strong, nonatomic) SDLImage *secondaryImage;
+
+/**
+ * Information about the next RPC that is triggered when this choice is selected.
+ *
+ * Optional
+ */
+@property (nullable, strong, nonatomic) SDLNextFunctionInfo *nextFunctionInfo;
 
 @end
 
