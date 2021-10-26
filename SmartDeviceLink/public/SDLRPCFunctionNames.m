@@ -8,6 +8,7 @@
 
 #import "SDLRPCFunctionNames.h"
 
+SDLRPCFunctionName const SDLRPCFunctionNameAccessMicrophone = @"AccessMicrophone";
 SDLRPCFunctionName const SDLRPCFunctionNameAddCommand = @"AddCommand";
 SDLRPCFunctionName const SDLRPCFunctionNameAddSubMenu = @"AddSubMenu";
 SDLRPCFunctionName const SDLRPCFunctionNameAlert = @"Alert";
@@ -17,6 +18,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameCancelInteraction = @"CancelInteracti
 SDLRPCFunctionName const SDLRPCFunctionNameChangeRegistration = @"ChangeRegistration";
 SDLRPCFunctionName const SDLRPCFunctionNameCloseApplication = @"CloseApplication";
 SDLRPCFunctionName const SDLRPCFunctionNameCreateInteractionChoiceSet = @"CreateInteractionChoiceSet";
+SDLRPCFunctionName const SDLRPCFunctionNameDefault = @"Default";
 SDLRPCFunctionName const SDLRPCFunctionNameDeleteCommand = @"DeleteCommand";
 SDLRPCFunctionName const SDLRPCFunctionNameDeleteFile = @"DeleteFile";
 SDLRPCFunctionName const SDLRPCFunctionNameDeleteInteractionChoiceSet = @"DeleteInteractionChoiceSet";
@@ -63,8 +65,10 @@ SDLRPCFunctionName const SDLRPCFunctionNameOnUpdateFile = @"OnUpdateFile";
 SDLRPCFunctionName const SDLRPCFunctionNameOnUpdateSubMenu = @"OnUpdateSubMenu";
 SDLRPCFunctionName const SDLRPCFunctionNameOnVehicleData = @"OnVehicleData";
 SDLRPCFunctionName const SDLRPCFunctionNameOnWayPointChange = @"OnWayPointChange";
+SDLRPCFunctionName const SDLRPCFunctionNameOpenMenu = @"OpenMenu";
 SDLRPCFunctionName const SDLRPCFunctionNamePerformAppServiceInteraction = @"PerformAppServiceInteraction";
 SDLRPCFunctionName const SDLRPCFunctionNamePerformAudioPassThru = @"PerformAudioPassThru";
+SDLRPCFunctionName const SDLRPCFunctionNamePerformChoiceSet = @"PerformChoiceSet";
 SDLRPCFunctionName const SDLRPCFunctionNamePerformInteraction = @"PerformInteraction";
 SDLRPCFunctionName const SDLRPCFunctionNamePublishAppService = @"PublishAppService";
 SDLRPCFunctionName const SDLRPCFunctionNamePutFile = @"PutFile";
@@ -73,6 +77,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameReleaseInteriorVehicleDataModule = @"
 SDLRPCFunctionName const SDLRPCFunctionNameRegisterAppInterface = @"RegisterAppInterface";
 SDLRPCFunctionName const SDLRPCFunctionNameReserved = @"reserved";
 SDLRPCFunctionName const SDLRPCFunctionNameResetGlobalProperties = @"ResetGlobalProperties";
+SDLRPCFunctionName const SDLRPCFunctionNameScreenUpdate = @"ScreenUpdate";
 SDLRPCFunctionName const SDLRPCFunctionNameScrollableMessage = @"ScrollableMessage";
 SDLRPCFunctionName const SDLRPCFunctionNameSendHapticData = @"SendHapticData";
 SDLRPCFunctionName const SDLRPCFunctionNameSendLocation = @"SendLocation";

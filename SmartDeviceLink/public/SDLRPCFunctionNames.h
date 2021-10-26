@@ -13,6 +13,9 @@
  */
 typedef SDLEnum SDLRPCFunctionName NS_TYPED_ENUM;
 
+/// Function name for a SDLRPCFunctionNameAccessMicrophone RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameAccessMicrophone;
+
 /// Function name for an AddCommand RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameAddCommand;
 
@@ -39,6 +42,9 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameCloseApplication;
 
 /// Function name for a CreateInteractionChoiceSet RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameCreateInteractionChoiceSet;
+
+/// Function name for a SDLRPCFunctionNameDefault RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameDefault;
 
 /// Function name for a DeleteCommand RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameDeleteCommand;
@@ -96,6 +102,9 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameGetWayPoints;
 
 /// Function name for a ListFiles RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameListFiles;
+
+/// Function name for a SDLRPCFunctionNameOpenMenu RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameOpenMenu;
 
 /// Function name for an OnAppCapabilityUpdated notification RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnAppCapabilityUpdated;
@@ -184,6 +193,9 @@ extern SDLRPCFunctionName const SDLRPCFunctionNamePerformAppServiceInteraction;
 /// Function name for a PerformAppServiceInteraction RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNamePerformAudioPassThru;
 
+/// Function name for a SDLRPCFunctionNamePerformChoiceSet RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNamePerformChoiceSet;
+
 /// Function name for a PerformInteraction RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNamePerformInteraction;
 
@@ -207,6 +219,9 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameReserved;
 
 /// Function name for a ResetGlobalProperties RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameResetGlobalProperties;
+
+/// Function name for a SDLRPCFunctionNameScreenUpdate RPC
+extern SDLRPCFunctionName const SDLRPCFunctionNameScreenUpdate;
 
 /// Function name for a ScrollableMessage RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameScrollableMessage;
@@ -291,5 +306,3 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameCreateWindow;
 
 /// Function name for a DeleteWindow RPC
 extern SDLRPCFunctionName const SDLRPCFunctionNameDeleteWindow;
-
-
