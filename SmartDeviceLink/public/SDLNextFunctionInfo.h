@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLNextFunction.h"
+#import "SDLRPCStruct.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  Outlines information about the next RPC that will be triggered.
  */
 
-@interface SDLNextFunctionInfo : NSObject <NSCopying>
+@interface SDLNextFunctionInfo : SDLRPCStruct
 
 - (instancetype)initWithNextFunction:(SDLNextFunction)nextFunction loadingText:(NSString *)loadingText;
 
