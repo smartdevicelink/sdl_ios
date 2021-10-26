@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLNextFunctionObject.h"
+
 @class SDLArtwork;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /// A selectable item within an SDLChoiceSet
-@interface SDLChoiceCell: NSObject <NSCopying>
+@interface SDLChoiceCell: SDLNextFunctionObject <NSCopying>
 
 /**
  Maps to Choice.menuName. The primary text of the cell. Duplicates within an `SDLChoiceSet` are not permitted and will result in the `SDLChoiceSet` failing to initialize.

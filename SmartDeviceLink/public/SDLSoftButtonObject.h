@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLNextFunctionObject.h"
 #import "SDLNotificationConstants.h"
 
 @class SDLArtwork;
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A soft button wrapper object that is capable of storing and switching between states
  */
-@interface SDLSoftButtonObject : NSObject
+@interface SDLSoftButtonObject : SDLNextFunctionObject
 
 /**
  The name of this button

@@ -127,10 +127,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Copying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLMenuCell *newCell = [[SDLMenuCell allocWithZone:zone] initWithTitle:_title secondaryText:_secondaryText tertiaryText:_tertiaryText icon:_icon secondaryArtwork:_secondaryArtwork voiceCommands:_voiceCommands handler:_handler];
+    SDLMenuCell *newCell = [[[self class] allocWithZone:zone] initWithTitle:_title secondaryText:_secondaryText tertiaryText:_tertiaryText icon:_icon secondaryArtwork:_secondaryArtwork voiceCommands:_voiceCommands handler:_handler];
     newCell->_cellId = _cellId;
     newCell->_parentCellId = _parentCellId;
     newCell->_uniqueTitle = _uniqueTitle;
+    newCell.nextFunctionInfo = self.nextFunctionInfo;
 
     if (_subCells.count > 0) {
         newCell.subCells = [[NSArray alloc] initWithArray:_subCells copyItems:YES];

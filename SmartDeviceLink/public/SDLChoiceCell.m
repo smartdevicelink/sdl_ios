@@ -103,9 +103,10 @@ NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
 #pragma mark - Etc.
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLChoiceCell *newCell = [[SDLChoiceCell allocWithZone:zone] initWithText:_text secondaryText:_secondaryText tertiaryText:_tertiaryText voiceCommands:_voiceCommands artwork:_artwork secondaryArtwork:_secondaryArtwork];
+    SDLChoiceCell *newCell = [[[self class] allocWithZone:zone] initWithText:_text secondaryText:_secondaryText tertiaryText:_tertiaryText voiceCommands:_voiceCommands artwork:_artwork secondaryArtwork:_secondaryArtwork];
     newCell.choiceId = _choiceId;
     newCell.uniqueTextId = _uniqueTextId;
+    newCell.nextFunctionInfo = self.nextFunctionInfo;
 
     return newCell;
 }

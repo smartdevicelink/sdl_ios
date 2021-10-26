@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLMenuLayout.h"
+#import "SDLNextFunctionObject.h"
 #import "SDLTriggerSource.h"
 
 @class SDLArtwork;
@@ -23,7 +24,7 @@ The handler to run when a menu item is selected.
 typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
 
 /// A menu cell item for the main menu or sub-menu.
-@interface SDLMenuCell : NSObject <NSCopying>
+@interface SDLMenuCell : SDLNextFunctionObject <NSCopying>
 
 /**
  The cell's text to be displayed
