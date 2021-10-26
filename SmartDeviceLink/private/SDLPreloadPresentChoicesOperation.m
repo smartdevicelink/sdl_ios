@@ -496,6 +496,7 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     SDLImage *secondaryImage = [self sdl_shouldSendChoiceSecondaryImageBasedOnWindowCapability:windowCapability] ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:menuName vrCommands:vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
+    choice.nextFunctionInfo = cell.nextFunctionInfo;
 
     return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID.unsignedIntValue choiceSet:@[choice]];
 }
