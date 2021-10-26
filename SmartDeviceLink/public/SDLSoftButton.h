@@ -8,6 +8,7 @@
 #import "SDLSystemAction.h"
 
 @class SDLImage;
+@class SDLNextFunctionInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -76,6 +77,13 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (strong, nonatomic, nullable) SDLSystemAction systemAction;
+
+/**
+ * Information about the next RPC that is triggered when this choice is selected.
+ *
+ * Optional
+ */
+@property (nullable, strong, nonatomic) SDLNextFunctionInfo *nextFunctionInfo;
 
 @end
 

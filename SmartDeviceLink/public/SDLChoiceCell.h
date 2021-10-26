@@ -89,6 +89,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithText:(NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText voiceCommands:(nullable NSArray<NSString *> *)voiceCommands artwork:(nullable SDLArtwork *)artwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork;
 
+/**
+ Initialize the cell with all optional items
+
+ @param text The primary text
+ @param secondaryText The secondary text
+ @param tertiaryText The tertiary text
+ @param voiceCommands Strings that can be spoken by the user to activate this cell in a voice or both interaction mode
+ @param artwork The primary artwork
+ @param secondaryArtwork The secondary artwork
+ @param nextFunctionInfo The next function info
+ @return The cell
+ */
+- (instancetype)initWithText:(NSString *)text secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText voiceCommands:(nullable NSArray<NSString *> *)voiceCommands artwork:(nullable SDLArtwork *)artwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork nextFunctionInfo:(nullable SDLNextFunctionInfo *)nextFunctionInfo;
+
 @end
 
 NS_ASSUME_NONNULL_END

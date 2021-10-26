@@ -5,6 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
+#import "SDLNextFunctionInfo.h"
 #import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -89,11 +90,20 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.store sdl_enumForName:SDLRPCParameterNameSystemAction error:nil];
 }
 
--(id)copyWithZone:(nullable NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     SDLSoftButton *newButton = [super copyWithZone:zone];
     newButton->_handler = self.handler;
+    newButton.nextFunctionInfo = self.nextFunctionInfo;
 
     return newButton;
+}
+
+- (void)setNextFunctionInfo:(nullable SDLNextFunctionInfo *)nextFunctionInfo {
+    [self.store sdl_setObject:nextFunctionInfo forName:SDLRPCParameterNameNextFunctionInfo];
+}
+
+- (nullable SDLNextFunctionInfo *)nextFunctionInfo {
+    return [self.store sdl_objectForName:SDLRPCParameterNameNextFunctionInfo ofClass:SDLNextFunctionInfo.class error:nil];
 }
 
 @end

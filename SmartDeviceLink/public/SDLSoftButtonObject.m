@@ -107,6 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSoftButton *button = self.currentState.softButton;
     button.softButtonID = @(self.buttonId);
     button.handler = self.eventHandler;
+    button.nextFunctionInfo = self.nextFunctionInfo;
 
     return button;
 }
