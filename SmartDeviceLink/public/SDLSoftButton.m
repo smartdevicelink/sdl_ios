@@ -93,7 +93,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLSoftButton *newButton = [super copyWithZone:zone];
     newButton->_handler = self.handler;
-    newButton.nextFunctionInfo = self.nextFunctionInfo;
 
     return newButton;
 }

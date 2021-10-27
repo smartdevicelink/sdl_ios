@@ -23,6 +23,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameChangeRegistration).to(equal(@"ChangeRegistration"));
         expect(SDLRPCFunctionNameCloseApplication).to(equal(@"CloseApplication"));
         expect(SDLRPCFunctionNameCreateInteractionChoiceSet).to(equal(@"CreateInteractionChoiceSet"));
+        expect(SDLRPCFunctionNameDefault).to(equal(@"Default"));
         expect(SDLRPCFunctionNameDeleteCommand).to(equal(@"DeleteCommand"));
         expect(SDLRPCFunctionNameDeleteFile).to(equal(@"DeleteFile"));
         expect(SDLRPCFunctionNameDeleteInteractionChoiceSet).to(equal(@"DeleteInteractionChoiceSet"));
@@ -71,8 +72,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameOnTouchEvent).to(equal(@"OnTouchEvent"));
         expect(SDLRPCFunctionNameOnVehicleData).to(equal(@"OnVehicleData"));
         expect(SDLRPCFunctionNameOnWayPointChange).to(equal(@"OnWayPointChange"));
+        expect(SDLRPCFunctionNameOpenMenu).to(equal(@"OpenMenu"));
         expect(SDLRPCFunctionNamePerformAppServiceInteraction).to(equal(@"PerformAppServiceInteraction"));
         expect(SDLRPCFunctionNamePerformAudioPassThru).to(equal(@"PerformAudioPassThru"));
+        expect(SDLRPCFunctionNamePerformChoiceSet).to(equal(@"PerformChoiceSet"));
         expect(SDLRPCFunctionNamePerformInteraction).to(equal(@"PerformInteraction"));
         expect(SDLRPCFunctionNamePublishAppService).to(equal(@"PublishAppService"));
         expect(SDLRPCFunctionNamePutFile).to(equal(@"PutFile"));
@@ -80,6 +83,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNameRegisterAppInterface).to(equal(@"RegisterAppInterface"));
         expect(SDLRPCFunctionNameReserved).to(equal(@"reserved"));
         expect(SDLRPCFunctionNameResetGlobalProperties).to(equal(@"ResetGlobalProperties"));
+        expect(SDLRPCFunctionNameScreenUpdate).to(equal(@"ScreenUpdate"));
         expect(SDLRPCFunctionNameScrollableMessage).to(equal(@"ScrollableMessage"));
         expect(SDLRPCFunctionNameSendHapticData).to(equal(@"SendHapticData"));
         expect(SDLRPCFunctionNameSendLocation).to(equal(@"SendLocation"));

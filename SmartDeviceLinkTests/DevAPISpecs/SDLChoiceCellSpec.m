@@ -3,6 +3,7 @@
 
 #import "SDLArtwork.h"
 #import "SDLChoiceCell.h"
+#import "SDLNextFunctionInfo.h"
 
 @interface SDLChoiceCell()
 
@@ -23,6 +24,7 @@ describe(@"an SDLChoiceCell", ^{
     __block SDLArtwork *testArtwork = nil;
     __block SDLArtwork *testSecondaryArtwork = nil;
     __block NSArray<NSString *> *testVRCommands = nil;
+    __block SDLNextFunctionInfo *nextFunctionInfo = nil;
 
     beforeEach(^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"testart" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
@@ -30,6 +32,7 @@ describe(@"an SDLChoiceCell", ^{
         testVRCommands = @[@"testvr"];
 
         testCell = nil;
+        nextFunctionInfo = [[SDLNextFunctionInfo alloc] initWithNextFunction:SDLNextFunctionDialNumber loadingText:@"hello world"];
     });
 
     describe(@"initializing", ^{
@@ -44,6 +47,7 @@ describe(@"an SDLChoiceCell", ^{
             expect(testCell.secondaryArtwork).to(beNil());
             expect(@(testCell.choiceId)).to(equal(@(UINT16_MAX)));
             expect(testCell.uniqueText).to(equal(testText));
+            expect(testCell.nextFunctionInfo).to(beNil());
         });
 
         it(@"should initialize properly with initWithText:artwork:voiceCommands:", ^{
@@ -57,6 +61,7 @@ describe(@"an SDLChoiceCell", ^{
             expect(testCell.secondaryArtwork).to(beNil());
             expect(@(testCell.choiceId)).to(equal(@(UINT16_MAX)));
             expect(testCell.uniqueText).to(equal(testText));
+            expect(testCell.nextFunctionInfo).to(beNil());
         });
 
         it(@"should initialize properly with initWithText:secondaryText:tertiaryText:voiceCommands:artwork:secondaryArtwork:", ^{
@@ -70,6 +75,21 @@ describe(@"an SDLChoiceCell", ^{
             expect(testCell.secondaryArtwork).to(equal(testSecondaryArtwork));
             expect(@(testCell.choiceId)).to(equal(@(UINT16_MAX)));
             expect(testCell.uniqueText).to(equal(testText));
+            expect(testCell.nextFunctionInfo).to(beNil());
+        });
+
+        it(@"should initialize properly with initWithText:secondaryText:tertiaryText:voiceCommands:artwork:secondaryArtwork:", ^{
+            testCell = [[SDLChoiceCell alloc] initWithText:testText secondaryText:testSecondaryText tertiaryText:testTertiaryText voiceCommands:testVRCommands artwork:testArtwork secondaryArtwork:testSecondaryArtwork nextFunctionInfo:nextFunctionInfo];
+
+            expect(testCell.text).to(equal(testText));
+            expect(testCell.secondaryText).to(equal(testSecondaryText));
+            expect(testCell.tertiaryText).to(equal(testTertiaryText));
+            expect(testCell.voiceCommands).to(equal(testVRCommands));
+            expect(testCell.artwork).to(equal(testArtwork));
+            expect(testCell.secondaryArtwork).to(equal(testSecondaryArtwork));
+            expect(@(testCell.choiceId)).to(equal(@(UINT16_MAX)));
+            expect(testCell.uniqueText).to(equal(testText));
+            expect(testCell.nextFunctionInfo).to(equal(nextFunctionInfo));
         });
     });
 

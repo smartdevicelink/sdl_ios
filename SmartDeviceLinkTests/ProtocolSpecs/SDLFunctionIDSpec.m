@@ -70,6 +70,11 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:55]).to(equal(SDLRPCFunctionNamePerformAppServiceInteraction));
         expect([functionID functionNameForId:60]).to(equal(SDLRPCFunctionNameCreateWindow));
         expect([functionID functionNameForId:61]).to(equal(SDLRPCFunctionNameDeleteWindow));
+        expect([functionID functionNameForId:65]).to(equal(SDLRPCFunctionNameDefault));
+        expect([functionID functionNameForId:66]).to(equal(SDLRPCFunctionNamePerformChoiceSet));
+        expect([functionID functionNameForId:67]).to(equal(SDLRPCFunctionNameScreenUpdate));
+        expect([functionID functionNameForId:68]).to(equal(SDLRPCFunctionNameAccessMicrophone));
+        expect([functionID functionNameForId:69]).to(equal(SDLRPCFunctionNameOpenMenu));
         expect([functionID functionNameForId:32768]).to(equal(SDLRPCFunctionNameOnHMIStatus));
         expect([functionID functionNameForId:32769]).to(equal(SDLRPCFunctionNameOnAppInterfaceUnregistered));
         expect([functionID functionNameForId:32770]).to(equal(SDLRPCFunctionNameOnButtonEvent));
@@ -160,6 +165,11 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID functionIdForName:SDLRPCFunctionNamePerformAppServiceInteraction]).to(equal(@55));
         expect([functionID functionIdForName:SDLRPCFunctionNameCreateWindow]).to(equal(@60));
         expect([functionID functionIdForName:SDLRPCFunctionNameDeleteWindow]).to(equal(@61));
+        expect([functionID functionIdForName:SDLRPCFunctionNameDefault]).to(equal(@65));
+        expect([functionID functionIdForName:SDLRPCFunctionNamePerformChoiceSet]).to(equal(@66));
+        expect([functionID functionIdForName:SDLRPCFunctionNameScreenUpdate]).to(equal(@67));
+        expect([functionID functionIdForName:SDLRPCFunctionNameAccessMicrophone]).to(equal(@68));
+        expect([functionID functionIdForName:SDLRPCFunctionNameOpenMenu]).to(equal(@69));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnHMIStatus]).to(equal(@32768));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnAppInterfaceUnregistered]).to(equal(@32769));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnButtonEvent]).to(equal(@32770));

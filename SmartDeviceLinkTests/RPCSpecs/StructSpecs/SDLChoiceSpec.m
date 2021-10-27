@@ -10,6 +10,7 @@
 
 #import "SDLChoice.h"
 #import "SDLImage.h"
+#import "SDLNextFunctionInfo.h"
 #import "SDLRPCParameterNames.h"
 
 
@@ -17,8 +18,13 @@ QuickSpecBegin(SDLChoiceSpec)
 
 __block SDLImage* image = [[SDLImage alloc] init];
 __block SDLImage* secondaryImage = [[SDLImage alloc] init];
+__block SDLNextFunctionInfo *nextFunctionInfo = nil;
 
 describe(@"Getter/Setter Tests", ^ {
+    beforeEach(^{
+        nextFunctionInfo = [[SDLNextFunctionInfo alloc] initWithNextFunction:SDLNextFunctionDialNumber loadingText:@"hello world"];
+    });
+
     it(@"Should set and get correctly", ^ {
         SDLChoice* testStruct = [[SDLChoice alloc] init];
         
@@ -29,7 +35,8 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.secondaryText = @"Arbitrary";
         testStruct.tertiaryText = @"qwerty";
         testStruct.secondaryImage = secondaryImage;
-        
+        testStruct.nextFunctionInfo = nextFunctionInfo;
+
         expect(testStruct.choiceID).to(equal(@3));
         expect(testStruct.menuName).to(equal(@"Hello"));
         expect(testStruct.vrCommands).to(equal([@[@"1", @"2"] mutableCopy]));
@@ -37,16 +44,19 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.secondaryText).to(equal(@"Arbitrary"));
         expect(testStruct.tertiaryText).to(equal(@"qwerty"));
         expect(testStruct.secondaryImage).to(equal(secondaryImage));
+        expect(testStruct.nextFunctionInfo).to(equal(nextFunctionInfo));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameChoiceId:@3,
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameChoiceId:@3,
                                        SDLRPCParameterNameMenuName:@"Hello",
                                        SDLRPCParameterNameVRCommands:[@[@"1", @"2"] mutableCopy],
                                        SDLRPCParameterNameImage:image,
                                        SDLRPCParameterNameSecondaryText:@"Arbitrary",
                                        SDLRPCParameterNameTertiaryText:@"qwerty",
-                                       SDLRPCParameterNameSecondaryImage:secondaryImage} mutableCopy];
+                                       SDLRPCParameterNameSecondaryImage:secondaryImage,
+                                       SDLRPCParameterNameNextFunctionInfo: nextFunctionInfo,
+        };
         SDLChoice* testStruct = [[SDLChoice alloc] initWithDictionary:dict];
         
         expect(testStruct.choiceID).to(equal(@3));
@@ -56,6 +66,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.secondaryText).to(equal(@"Arbitrary"));
         expect(testStruct.tertiaryText).to(equal(@"qwerty"));
         expect(testStruct.secondaryImage).to(equal(secondaryImage));
+        expect(testStruct.nextFunctionInfo).to(equal(nextFunctionInfo));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -68,6 +79,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.secondaryText).to(beNil());
         expect(testStruct.tertiaryText).to(beNil());
         expect(testStruct.secondaryImage).to(beNil());
+        expect(testStruct.nextFunctionInfo).to(beNil());
     });
 });
 

@@ -3,6 +3,7 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLArtwork.h"
+#import "SDLNextFunctionInfo.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
@@ -30,6 +31,7 @@ describe(@"a soft button object", ^{
             expect(testObject.currentState.name).to(equal(testSingleState.name));
             expect(testObject.currentStateSoftButton).to(equal(testSingleStateSoftButton));
             expect(testObject.states).to(haveCount(1));
+            expect(testObject.nextFunctionInfo).to(beNil());
         });
 
         it(@"should not allow transitioning to another state", ^{
@@ -60,6 +62,7 @@ describe(@"a soft button object", ^{
             expect(testObject.currentState.text).to(equal(testText));
             expect(testObject.currentState.artwork).to(equal(testArt));
             expect(testObject.states).to(haveCount(1));
+            expect(testObject.nextFunctionInfo).to(beNil());
         });
 
         it(@"should not allow transitioning to another state", ^{
@@ -98,6 +101,7 @@ describe(@"a soft button object", ^{
             expect(testObject.currentState.name).to(equal(testFirstState.name));
             expect(testObject.currentStateSoftButton).to(equal(testFirstStateSoftButton));
             expect(testObject.states).to(haveCount(2));
+            expect(testObject.nextFunctionInfo).to(beNil());
         });
 
         it(@"should transitioning to the second state", ^{
@@ -115,6 +119,20 @@ describe(@"a soft button object", ^{
 
             returnedState = [testObject stateWithName:@"Some other state"];
             expect(returnedState).to(beNil());
+        });
+    });
+
+    context(@"nextFunctionInfo", ^{
+        __block SDLNextFunctionInfo *nextFunctionInfo = nil;
+
+        beforeEach(^{
+            nextFunctionInfo = [[SDLNextFunctionInfo alloc] init];
+            testObject = [[SDLSoftButtonObject alloc] init];
+            testObject.nextFunctionInfo = nextFunctionInfo;
+        });
+
+        it(@"should set correctly", ^{
+            expect(testObject.nextFunctionInfo).to(equal(nextFunctionInfo));
         });
     });
 });

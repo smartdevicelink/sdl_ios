@@ -3,6 +3,7 @@
 
 #import "SDLArtwork.h"
 #import "SDLMenuCell.h"
+#import "SDLNextFunctionInfo.h"
 
 QuickSpecBegin(SDLMenuCellSpec)
 
@@ -17,6 +18,7 @@ describe(@"a menu cell", ^{
     __block SDLArtwork *someSecondaryArtwork = nil;
     __block NSArray<NSString *> *someVoiceCommands = nil;
     __block NSArray<SDLMenuCell *> *someSubcells = nil;
+    __block SDLNextFunctionInfo *nextFunctionInfo = nil;
 
     beforeEach(^{
         someTitle = @"Some Title";
@@ -26,6 +28,7 @@ describe(@"a menu cell", ^{
         someSecondaryArtwork = [[SDLArtwork alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"data" options:kNilOptions] name:@"Some artwork 2" fileExtension:@"png" persistent:NO];
         someVoiceCommands = @[@"some command"];
         someSubcells = @[[[SDLMenuCell alloc] initWithTitle:@"Test Subcell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}], [[SDLMenuCell alloc] initWithTitle:@"Test Subcell2" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}]];
+        nextFunctionInfo = [[SDLNextFunctionInfo alloc] initWithNextFunction:SDLNextFunctionDialNumber loadingText:@"hello world"];
     });
 
     describe(@"initializing", ^{
@@ -42,6 +45,7 @@ describe(@"a menu cell", ^{
             expect(testCell.secondaryText).to(beNil());
             expect(testCell.tertiaryText).to(beNil());
             expect(testCell.secondaryArtwork).to(beNil());
+            expect(testCell.nextFunctionInfo).to(beNil());
         });
 
         it(@"should set initWithTitle:icon:voiceCommands:handler: properly", ^{
@@ -58,6 +62,7 @@ describe(@"a menu cell", ^{
             expect(testCell.secondaryText).to(beNil());
             expect(testCell.tertiaryText).to(beNil());
             expect(testCell.secondaryArtwork).to(beNil());
+            expect(testCell.nextFunctionInfo).to(beNil());
         });
 
         it(@"should set initWithTitle:icon:voiceCommands:secondaryText:tertiaryText:secondaryArtwork:handler: properly", ^{
@@ -70,6 +75,7 @@ describe(@"a menu cell", ^{
             expect(testCell.secondaryText).to(equal(someSecondaryTitle));
             expect(testCell.tertiaryText).to(equal(someTertiaryTitle));
             expect(testCell.secondaryArtwork).to(equal(someSecondaryArtwork));
+            expect(testCell.nextFunctionInfo).to(beNil());
         });
 
         it(@"should initWithTitle:icon:submenuLayout:subCells:secondaryText:tertiaryText:secondaryArtwork: initialize", ^{
@@ -84,6 +90,20 @@ describe(@"a menu cell", ^{
             expect(testCell.secondaryText).to(equal(someSecondaryTitle));
             expect(testCell.tertiaryText).to(equal(someTertiaryTitle));
             expect(testCell.secondaryArtwork).to(equal(someSecondaryArtwork));
+            expect(testCell.nextFunctionInfo).to(beNil());
+        });
+
+        context(@"init and set nextFunctionInfo", ^{
+            beforeEach(^{
+                testCell = [[SDLMenuCell alloc] init];
+                nextFunctionInfo = [[SDLNextFunctionInfo alloc] initWithNextFunction:SDLNextFunctionDialNumber loadingText:@"hello world"];
+                testCell.nextFunctionInfo = nextFunctionInfo;
+            });
+
+            it(@"nextFunctionInfo should be set", ^{
+                expect(testCell).notTo(beNil());
+                expect(testCell.nextFunctionInfo).to(equal(nextFunctionInfo));
+            });
         });
     });
 
