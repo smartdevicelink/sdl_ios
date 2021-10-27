@@ -1471,7 +1471,6 @@
 		5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5D61FA341A84237100846EE7 /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D64FE6D20DA9CE600792F9F /* SDLVideoStreamingStateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D64FE6C20DA9CE600792F9F /* SDLVideoStreamingStateSpec.m */; };
-		5D64FE6F20DA9E4300792F9F /* SDLStreamingVideoLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D64FE6E20DA9E4300792F9F /* SDLStreamingVideoLifecycleManagerSpec.m */; };
 		5D64FE7120DA9E6700792F9F /* SDLStreamingAudioLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D64FE7020DA9E6700792F9F /* SDLStreamingAudioLifecycleManagerSpec.m */; };
 		5D6EB4CC1BF28DC600693731 /* NSMapTable+SubscriptingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6EB4CB1BF28DC600693731 /* NSMapTable+SubscriptingSpec.m */; };
 		5D6F7A3E1BC811FC0070BF37 /* SDLAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D6F7A3D1BC811FC0070BF37 /* SDLAssets.xcassets */; };
@@ -1522,7 +1521,6 @@
 		5DAD5F87205087430025624C /* SDLTextAndGraphicManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F86205087430025624C /* SDLTextAndGraphicManagerSpec.m */; };
 		5DAD5F8920508F090025624C /* SDLSoftButtonStateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F8820508F090025624C /* SDLSoftButtonStateSpec.m */; };
 		5DAD5F8B20508F140025624C /* SDLSoftButtonObjectSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F8A20508F140025624C /* SDLSoftButtonObjectSpec.m */; };
-		5DAD5F8D20508F220025624C /* SDLSoftButtonManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F8C20508F220025624C /* SDLSoftButtonManagerSpec.m */; };
 		5DADA7781F4E059E0084D17D /* SDLRectangleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DADA7771F4E059E0084D17D /* SDLRectangleSpec.m */; };
 		5DAE06731BDEC6C000F9B498 /* SDLFileSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAE06721BDEC6C000F9B498 /* SDLFileSpec.m */; };
 		5DAE06751BDEC6D600F9B498 /* SDLArtworkSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAE06741BDEC6D600F9B498 /* SDLArtworkSpec.m */; };
@@ -9016,7 +9014,6 @@
 				162E83381A9BDE8B00906325 /* SDLScrollableMessageSpec.m in Sources */,
 				889D0B9624D065EE008AD494 /* SDLSubtleAlertResponseSpec.m in Sources */,
 				162E82E81A9BDE8B00906325 /* SDLKeyboardLayoutSpec.m in Sources */,
-				5D64FE6F20DA9E4300792F9F /* SDLStreamingVideoLifecycleManagerSpec.m in Sources */,
 				DA9F7EA41DCC05EE00ACAE48 /* SDLSubscribeWaypointsSpec.m in Sources */,
 				DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */,
 				5DB1BCE71D245647002FFC37 /* TestStateMachineTarget.m in Sources */,
@@ -9064,7 +9061,6 @@
 				8818ADDD2100FE0C007D6F19 /* SDLTurnSignalSpec.m in Sources */,
 				162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */,
 				162E83091A9BDE8B00906325 /* SDLVehicleDataStatusSpec.m in Sources */,
-				5DAD5F8D20508F220025624C /* SDLSoftButtonManagerSpec.m in Sources */,
 				162E83741A9BDE8B00906325 /* SDLBodyInformationSpec.m in Sources */,
 				1EAA477A2036BD46000FE74B /* SDLSISDataSpec.m in Sources */,
 				5D64FE6D20DA9CE600792F9F /* SDLVideoStreamingStateSpec.m in Sources */,
