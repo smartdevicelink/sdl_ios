@@ -1,4 +1,20 @@
 # Changelog
+## 7.3.0 (Since RC 1)
+* Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
+
+### Testing
+* Xcode 13.0 / 13.1
+* iOS 15.0 / 15.1
+* Core:
+    * Manticore (Core v7.1.1, Generic HMI v0.10.0)
+    * Ford Sync 3.4 (19353_DEVTEST)
+    * Ford Sync 3.0 (17276_DEVTEST)
+    * Ford Sync 4.0 (20016_DEVTEST)
+    * Core v8.0.0-RC with sdl_hmi v5.6.0-RC and generic_hmi v0.11.0-RC
+    
+### Bug Fixes
+* Fix `SDLMenuCell.submenuLayout` not being copied to new cells (https://github.com/smartdevicelink/sdl_ios/issues/2048)
+
 ## 7.3.0 RC 1
 * Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/tree/09520e4b2cd5dd09d475bec306e611bdda1187b0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/pull/42).
 
