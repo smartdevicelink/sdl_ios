@@ -11,6 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A range of supported video streaming sizes from minimum to maximum
 @interface SDLVideoStreamingRange : NSObject <NSCopying>
 
 /// The minimum supported normalized aspect ratio, min value is 1.0, defaults to 1.0

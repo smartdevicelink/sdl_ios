@@ -39,4 +39,5 @@
  */
 typedef SDLEnum SDLAppCapabilityType NS_TYPED_ENUM;
 
+/// Video streaming app capability. Used internally.
 extern SDLAppCapabilityType const SDLAppCapabilityTypeVideoStreaming;

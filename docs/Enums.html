@@ -5,6 +5,7 @@
 <ul>
   <li><a href="#section-SDLArtworkImageFormat">SDLArtworkImageFormat</a></li>
   <li><a href="#section-SDLChoiceSetLayout">SDLChoiceSetLayout</a></li>
+  <li><a href="#section-SDLSystemError">SDLSystemError</a></li>
   <li><a href="#section-SDLEncryptionLifecycleManagerError">SDLEncryptionLifecycleManagerError</a></li>
   <li><a href="#section-SDLManagerError">SDLManagerError</a></li>
   <li><a href="#section-SDLFileManagerError">SDLFileManagerError</a></li>
@@ -26,7 +27,6 @@
   <li><a href="#section-SDLLogLevel">SDLLogLevel</a></li>
   <li><a href="#section-SDLLogFormatType">SDLLogFormatType</a></li>
   <li><a href="#section-SDLDynamicMenuUpdatesMode">SDLDynamicMenuUpdatesMode</a></li>
-  <li><a href="#section-MenuCellState">MenuCellState</a></li>
   <li><a href="#section-SDLPermissionGroupType">SDLPermissionGroupType</a></li>
   <li><a href="#section-SDLPermissionGroupStatus">SDLPermissionGroupStatus</a></li>
   <li><a href="#section-SDLPredefinedWindows">SDLPredefinedWindows</a></li>
@@ -79,6 +79,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLChoiceSetLayout</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSystemError">
+      SDLSystemError
+  </h3>
+  
+  <p>Error associated with the underlying operating system</p>
+
+  <a href="Enums/SDLSystemError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLSystemError</span> <span class="o">:</span> <span class="n">NSInteger</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLSystemError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
   
   
@@ -480,27 +499,6 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLDynamicMenuUpdatesMode</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-MenuCellState">
-      MenuCellState
-  </h3>
-  
-  <p>Menu cell state</p>
-
-<p>Cell state that tells the menu manager what it should do with a given SDLMenuCell</p>
-
-  <a href="Enums/MenuCellState.html" class="slightly-smaller">See more</a>
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">MenuCellState</span> <span class="o">:</span> <span class="n">NSUInteger</span> <span class="p">{}</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">MenuCellState</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
 
   
   

@@ -15,6 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Audio data for various SDLScreenManager views
 @interface SDLAudioData : NSObject <NSCopying>
 
 /// The text-to-speech prompts that will used and/or audio files that will be played. The audio prompts and files will be played in the same order they are added.
@@ -35,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param phoneticType Must be one of `SAPI_PHONEMES`, `LHPLUS_PHONEMES`, `TEXT`, or `PRE_RECORDED` or no object will be created
 - (instancetype)initWithPhoneticSpeechSynthesizerString:(NSString *)phoneticString phoneticType:(SDLSpeechCapabilities)phoneticType;
 
+/// Use another init method instead.
 - (instancetype)init NS_UNAVAILABLE;
 
 /// Add additional SDLFiles holding data or pointing to a file on the file system. When this object is passed to an `Alert` or `Speak`, the file will be uploaded if it is not already, then played if the system supports that feature.

@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Notifies the subscriber that the alert should be cancelled.
 typedef void (^SDLAlertCanceledHandler)(void);
 
+/// An alert view to be displayed on the remote module. Pass this object to the SDLScreenManager to display.
 @interface SDLAlertView : NSObject <NSCopying>
 
 /// Set this to change the default timeout for all alerts. If a timeout is not set on an individual alert object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 5 seconds. The minimum is 3 seconds, the maximum is 10 seconds. If this is set below the minimum, it will be capped at 3 seconds. If this is set above the maximum, it will be capped at 10 seconds.
@@ -50,6 +51,7 @@ typedef void (^SDLAlertCanceledHandler)(void);
 /// An artwork that will be displayed when the icon appears. This will be uploaded prior to the appearance of the alert if necessary. This will not be uploaded if the head unit does not declare support for alertIcon.
 @property (nullable, copy, nonatomic) SDLArtwork *icon;
 
+/// Use one of the other init methods
 - (instancetype)init NS_DESIGNATED_INITIALIZER; 
 
 /// Initialize a basic alert with a message and buttons

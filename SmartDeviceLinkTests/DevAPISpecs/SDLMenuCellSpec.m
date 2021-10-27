@@ -15,6 +15,8 @@ describe(@"a menu cell", ^{
     __block NSString *someTertiaryTitle = nil;
     __block SDLArtwork *someArtwork = nil;
     __block SDLArtwork *someSecondaryArtwork = nil;
+    __block NSArray<NSString *> *someVoiceCommands = nil;
+    __block NSArray<SDLMenuCell *> *someSubcells = nil;
 
     beforeEach(^{
         someTitle = @"Some Title";
@@ -22,19 +24,11 @@ describe(@"a menu cell", ^{
         someTertiaryTitle = @"Some Title 3";
         someArtwork = [[SDLArtwork alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"data" options:kNilOptions] name:@"Some artwork" fileExtension:@"png" persistent:NO];
         someSecondaryArtwork = [[SDLArtwork alloc] initWithData:[[NSData alloc] initWithBase64EncodedString:@"data" options:kNilOptions] name:@"Some artwork 2" fileExtension:@"png" persistent:NO];
+        someVoiceCommands = @[@"some command"];
+        someSubcells = @[[[SDLMenuCell alloc] initWithTitle:@"Test Subcell" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}], [[SDLMenuCell alloc] initWithTitle:@"Test Subcell2" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}]];
     });
 
     describe(@"initializing", ^{
-        __block NSArray<NSString *> *someVoiceCommands = nil;
-        __block NSArray<SDLMenuCell *> *someSubcells = nil;
-
-        beforeEach(^{
-            someVoiceCommands = @[@"some command"];
-
-            SDLMenuCell *subcell = [[SDLMenuCell alloc] initWithTitle:@"Hello" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-            someSubcells = @[subcell];
-        });
-
         it(@"should set initWithTitle:icon:submenuLayout:subCells: propertly", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -108,6 +102,13 @@ describe(@"a menu cell", ^{
             expect([testCell isEqual:testCell2]).to(beFalse());
         });
 
+        it(@"should compare cells and return false if one cell has subcells empty and another has subcells nil", ^{
+            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:nil secondaryArtwork:someSecondaryArtwork submenuLayout:testLayout subCells:nil];
+            testCell2 = [[SDLMenuCell alloc] initWithTitle:someTitle secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:nil secondaryArtwork:someSecondaryArtwork submenuLayout:testLayout subCells:@[]];
+
+            expect([testCell isEqual:testCell2]).to(beFalse());
+        });
+
         it(@"should compare cells and return true if cells equal", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -126,6 +127,24 @@ describe(@"a menu cell", ^{
 #pragma clang diagnostic pop
 
             expect([testCell isEqual:testCell2]).to(beFalse());
+        });
+    });
+
+    describe(@"copying a cell", ^{
+        context(@"a submenu cell", ^{
+            it(@"should copy correctly", ^{
+                testCell = [[SDLMenuCell alloc] initWithTitle:someTitle secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:someArtwork secondaryArtwork:someSecondaryArtwork submenuLayout:testLayout subCells:someSubcells];
+                testCell2 = [testCell copy];
+
+                expect(testCell2).to(equal(testCell));
+            });
+        });
+
+        context(@"a normal cell", ^{
+            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle secondaryText:someSecondaryTitle tertiaryText:someTertiaryTitle icon:someArtwork secondaryArtwork:someSecondaryArtwork voiceCommands:someVoiceCommands handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            testCell2 = [testCell copy];
+
+            expect(testCell2).to(equal(testCell));
         });
     });
 });

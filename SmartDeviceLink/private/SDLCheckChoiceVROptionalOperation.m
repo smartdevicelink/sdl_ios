@@ -12,6 +12,7 @@
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDeleteInteractionChoiceSet.h"
+#import "SDLError.h"
 #import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,18 +21,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSUUID *operationId;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 @property (copy, nonatomic, nullable) NSError *internalError;
+@property (copy, nonatomic) SDLCheckChoiceVROptionalCompletionHandler vrOptionalCompletionHandler;
 
 @end
 
 @implementation SDLCheckChoiceVROptionalOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(SDLCheckChoiceVROptionalCompletionHandler)completionHandler {
     self = [super init];
-    if (!self) { return nil; }
+    if (!self) {
+        completionHandler(NO, [NSError sdl_failedToCreateObjectOfClass:[SDLCheckChoiceVROptionalOperation class]]);
+        return nil;
+    }
 
     _connectionManager = connectionManager;
     _operationId = [NSUUID UUID];
+    _vrOptionalCompletionHandler = completionHandler;
 
     return self;
 }
@@ -95,6 +102,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Property Overrides
+
+- (void)finishOperation {
+    self.vrOptionalCompletionHandler(self.isVROptional, self.internalError);
+
+    [super finishOperation];
+}
 
 - (nullable NSString *)name {
     return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];

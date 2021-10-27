@@ -28,6 +28,8 @@
 #import "SDLRPCRequest.h"
 #import "SDLRPCResponse.h"
 #import "SDLSecurityType.h"
+#import "SDLSecurityQueryErrorCode.h"
+#import "SDLSecurityQueryPayload.h"
 #import "SDLSystemInfo.h"
 #import "SDLTimer.h"
 #import "SDLVersion.h"
@@ -775,7 +777,42 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Misformatted handshake message, something went wrong
     if (clientHandshakeMessage.payload.length <= 12) {
-        SDLLogE(@"Security message is malformed, less than 12 bytes. It does not have a protocol header.");
+        SDLLogE(@"Security message is malformed, less than 12 bytes. It does not have a security payload header.");
+    }
+
+    // Check the client's message header for any internal errors
+    // NOTE: Before Core v8.0.0, all these messages will be notifications. In Core v8.0.0 and later, received messages will have the proper query type. Therefore, we cannot do things based only on the query type being request or response.
+    SDLSecurityQueryPayload *clientSecurityQueryPayload = [SDLSecurityQueryPayload securityPayloadWithData:clientHandshakeMessage.payload];
+    if (clientSecurityQueryPayload == nil) {
+        SDLLogE(@"Module Security Query could not convert to object.");
+        return;
+    }
+
+    // If the query is of type `Notification` and the id represents a client internal error, we abort the response message and the encryptionManager will not be in state ready.
+    if (clientSecurityQueryPayload.queryID == SDLSecurityQueryIdSendInternalError && clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeNotification) {
+        NSError *jsonDecodeError = nil;
+        NSDictionary<NSString *, id> *securityQueryErrorDictionary = [NSJSONSerialization JSONObjectWithData:clientSecurityQueryPayload.jsonData options:kNilOptions error:&jsonDecodeError];
+        if (jsonDecodeError != nil) {
+            SDLLogE(@"Error decoding module security query response JSON: %@", jsonDecodeError);
+        } else {
+            if (securityQueryErrorDictionary[@"text"] != nil) {
+                SDLSecurityQueryErrorCode errorCodeString = [SDLSecurityQueryError convertErrorIdToStringEnum:securityQueryErrorDictionary[@"id"]];
+                SDLLogE(@"Security Query module internal error: %@, code: %@", securityQueryErrorDictionary[@"text"], errorCodeString);
+            } else {
+                SDLLogE(@"Security Query module error: No information provided");
+            }
+        }
+        return;
+    }
+
+    if (clientSecurityQueryPayload.queryID != SDLSecurityQueryIdSendHandshake) {
+        SDLLogE(@"Security Query module error: Message is not a SEND_HANDSHAKE_DATA REQUEST");
+        return;
+    }
+
+    if (clientSecurityQueryPayload.queryType == SDLSecurityQueryTypeResponse) {
+        SDLLogE(@"Security Query module error: Message is a response, which is not supported");
+        return;
     }
 
     // Tear off the binary header of the client protocol message to get at the actual TLS handshake
@@ -788,7 +825,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // If the handshake went bad and the security library ain't happy, send over the failure to the module. This should result in an ACK with encryption off.
     SDLProtocolMessage *serverSecurityMessage = nil;
-    if (serverHandshakeData == nil) {
+    if (serverHandshakeData.length == 0) {
         SDLLogE(@"Error running TLS handshake procedure. Sending error to module. Error: %@", handshakeError);
 
         serverSecurityMessage = [self.class sdl_serverSecurityFailedMessageWithClientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
@@ -812,14 +849,10 @@ NS_ASSUME_NONNULL_BEGIN
     serverMessageHeader.sessionID = clientHeader.sessionID;
     serverMessageHeader.messageID = messageId;
 
-    // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
-    SDLRPCPayload *serverTLSPayload = [[SDLRPCPayload alloc] init];
-    serverTLSPayload.functionID = 0x01; // TLS Handshake message
-    serverTLSPayload.rpcType = 0x00;
-    serverTLSPayload.correlationID = 0x00;
-    serverTLSPayload.binaryData = data;
+    // Assemble a security query payload header for our response
+    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] initWithQueryType:SDLSecurityQueryTypeResponse queryID:SDLSecurityQueryIdSendHandshake sequenceNumber:0x00 jsonData:nil binaryData:data];
 
-    NSData *binaryData = serverTLSPayload.data;
+    NSData *binaryData = [serverTLSPayload convertToData];
 
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
 }
@@ -835,12 +868,9 @@ NS_ASSUME_NONNULL_BEGIN
     serverMessageHeader.messageID = messageId;
 
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
-    SDLRPCPayload *serverTLSPayload = [[SDLRPCPayload alloc] init];
-    serverTLSPayload.functionID = 0x02; // TLS Error message
-    serverTLSPayload.rpcType = 0x02;
-    serverTLSPayload.correlationID = 0x00;
+    SDLSecurityQueryPayload *serverTLSPayload = [[SDLSecurityQueryPayload alloc] initWithQueryType:SDLSecurityQueryTypeNotification queryID:SDLSecurityQueryIdSendInternalError sequenceNumber:0x00 jsonData:nil binaryData:nil];
 
-    NSData *binaryData = serverTLSPayload.data;
+    NSData *binaryData = [serverTLSPayload convertToData];
 
     // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];

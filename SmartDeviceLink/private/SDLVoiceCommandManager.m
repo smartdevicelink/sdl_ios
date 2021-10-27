@@ -12,6 +12,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDeleteCommand.h"
 #import "SDLError.h"
+#import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
@@ -87,6 +88,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     queue.name = @"SDLVoiceCommandManager Transaction Queue";
     queue.maxConcurrentOperationCount = 1;
     queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.underlyingQueue = [SDLGlobals sharedGlobals].sdlConcurrentQueue;
     queue.suspended = YES;
 
     return queue;
@@ -210,9 +212,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-    if (hmiStatus.windowID != nil && hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow) {
-        return;
-    }
+    if ((hmiStatus.windowID != nil) && (hmiStatus.windowID.integerValue != SDLPredefinedWindowsDefaultWindow)) { return; }
 
     self.currentLevel = hmiStatus.hmiLevel;
     [self sdl_updateTransactionQueueSuspended];

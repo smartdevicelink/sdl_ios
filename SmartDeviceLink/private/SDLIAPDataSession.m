@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
                     [self.sendDataQueue popBuffer];
                 } else {
                     // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
-                    SDLLogD(@"SDLIAPDataSession writeDataToSessionStream bytes written %ld", (long)bytesWritten);
+                    SDLLogV(@"SDLIAPDataSession writeDataToSessionStream bytes written %ld", (long)bytesWritten);
                     [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
                 }
             } else {
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }];
     } else {
-        SDLLogD(@"No more data to write to data session's output stream for IAPSession %@", self.iapSession);
+        SDLLogV(@"No more data to write to data session's output stream for IAPSession %@", self.iapSession);
         return;
     }
 }

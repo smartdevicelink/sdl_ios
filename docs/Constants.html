@@ -193,6 +193,7 @@
   <li><a href="#section-SDLEmergencyEventTypeRollover">SDLEmergencyEventTypeRollover</a></li>
   <li><a href="#section-SDLEmergencyEventTypeNotSupported">SDLEmergencyEventTypeNotSupported</a></li>
   <li><a href="#section-SDLEmergencyEventTypeFault">SDLEmergencyEventTypeFault</a></li>
+  <li><a href="#section-SDLErrorDomainSystem">SDLErrorDomainSystem</a></li>
   <li><a href="#section-SDLErrorDomainAudioStreamManager">SDLErrorDomainAudioStreamManager</a></li>
   <li><a href="#section-SDLErrorDomainCacheFileManager">SDLErrorDomainCacheFileManager</a></li>
   <li><a href="#section-SDLErrorDomainChoiceSetManager">SDLErrorDomainChoiceSetManager</a></li>
@@ -1443,12 +1444,12 @@
       SDLAppCapabilityTypeVideoStreaming
   </h3>
   
-  <p>Undocumented</p>
+  <p>Video streaming app capability. Used internally.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span> <span class="k">const</span> <span class="n">SDLAppCapabilityTypeVideoStreaming</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLAppCapabilityType.h@T@SDLAppCapabilityType">SDLAppCapabilityType</a></span> <span class="n">SDLAppCapabilityTypeVideoStreaming</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4313,12 +4314,12 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLDoorStatusTypeClosed
   </h3>
   
-  <p>Undocumented</p>
+  <p>Door is closed and unlocked</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="k">const</span> <span class="n">SDLDoorStatusTypeClosed</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="n">SDLDoorStatusTypeClosed</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4331,12 +4332,12 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLDoorStatusTypeLocked
   </h3>
   
-  <p>Undocumented</p>
+  <p>Door is closed and locked</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="k">const</span> <span class="n">SDLDoorStatusTypeLocked</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="n">SDLDoorStatusTypeLocked</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4349,12 +4350,12 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLDoorStatusTypeAjar
   </h3>
   
-  <p>Undocumented</p>
+  <p>Door is open</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="k">const</span> <span class="n">SDLDoorStatusTypeAjar</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="n">SDLDoorStatusTypeAjar</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4367,12 +4368,12 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLDoorStatusTypeRemoved
   </h3>
   
-  <p>Undocumented</p>
+  <p>Door is removed from the vehicle</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="k">const</span> <span class="n">SDLDoorStatusTypeRemoved</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLDoorStatusType.h@T@SDLDoorStatusType">SDLDoorStatusType</a></span> <span class="n">SDLDoorStatusTypeRemoved</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4757,6 +4758,24 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">fault</span><span class="p">:</span> <span class="kt"><a href="Type%20Definitions.html#/c:SDLEmergencyEventType.h@T@SDLEmergencyEventType">SDLEmergencyEventType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLErrorDomainSystem">
+      SDLErrorDomainSystem
+  </h3>
+  
+  <p>An error with the iOS system</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLErrorConstants.h@T@SDLErrorDomain">SDLErrorDomain</a></span> <span class="o">*</span><span class="k">const</span> <span class="n">SDLErrorDomainSystem</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLErrorDomainSystem</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
   
   
@@ -6375,12 +6394,12 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLKeyboardInputMaskEnableInputKeyMask
   </h3>
   
-  <p>Undocumented</p>
+  <p>Key mask is enabled. Input characters will not be viewable by the user.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="k">const</span> <span class="n">SDLKeyboardInputMaskEnableInputKeyMask</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="n">SDLKeyboardInputMaskEnableInputKeyMask</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -6393,12 +6412,12 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLKeyboardInputMaskDisableInputKeyMask
   </h3>
   
-  <p>Undocumented</p>
+  <p>Key mask is disabled. Input characters will be viewable by the user.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="k">const</span> <span class="n">SDLKeyboardInputMaskDisableInputKeyMask</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="n">SDLKeyboardInputMaskDisableInputKeyMask</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -6411,12 +6430,12 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
       SDLKeyboardInputMaskUserChoiceInputKeyMask
   </h3>
   
-  <p>Undocumented</p>
+  <p>Key mask can be toggled by the user.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="k">const</span> <span class="n">SDLKeyboardInputMaskUserChoiceInputKeyMask</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLKeyboardInputMask.h@T@SDLKeyboardInputMask">SDLKeyboardInputMask</a></span> <span class="n">SDLKeyboardInputMaskUserChoiceInputKeyMask</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -16839,12 +16858,12 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
       SDLSeekIndicatorTypeTrack
   </h3>
   
-  <p>Undocumented</p>
+  <p>Seek indicator UI that is appropriate for skipping tracks</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span> <span class="k">const</span> <span class="n">SDLSeekIndicatorTypeTrack</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span> <span class="n">SDLSeekIndicatorTypeTrack</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -16857,12 +16876,12 @@ appropriate permissions to show the application&rsquo;s own web view.</p>
       SDLSeekIndicatorTypeTime
   </h3>
   
-  <p>Undocumented</p>
+  <p>Seek indicator UI that is appropriate for skipping time</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span> <span class="k">const</span> <span class="n">SDLSeekIndicatorTypeTime</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type%20Definitions.html#/c:SDLSeekIndicatorType.h@T@SDLSeekIndicatorType">SDLSeekIndicatorType</a></span> <span class="n">SDLSeekIndicatorTypeTime</span></code></pre>
 
   
   <h4>Swift</h4>

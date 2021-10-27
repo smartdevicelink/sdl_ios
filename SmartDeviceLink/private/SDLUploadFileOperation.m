@@ -11,6 +11,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLFile.h"
+#import "SDLFileManager.h"
 #import "SDLFileWrapper.h"
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
@@ -39,22 +40,17 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
 @end
 
 
-@implementation SDLUploadFileOperation {
-    BOOL executing;
-    BOOL finished;
-}
+@implementation SDLUploadFileOperation
 
-- (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager {
+- (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager {
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    executing = NO;
-    finished = NO;
-
     _fileWrapper = file;
     _connectionManager = connectionManager;
+    _fileManager = fileManager;
 
     return self;
 }
@@ -63,65 +59,56 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
     [super start];
     if (self.isCancelled) { return; }
 
-    [self sdl_sendFile:self.fileWrapper.file mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC] withCompletion:self.fileWrapper.completionHandler];
+    SDLFile *file = self.fileWrapper.file;
+
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not. This is only needed if connecting to Core v4.3.1 or less which corresponds to RPC v4.3.1 or less
+    if (!file.persistent && ![self.fileManager hasUploadedFile:file] && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:4 minor:4 patch:0]]) {
+        file.overwrite = YES;
+    }
+
+    if (![self.fileManager fileNeedsUpload:file]) {
+        SDLLogW(@"File is already on the head unit, aborting upload operation");
+        self.fileWrapper.completionHandler(NO, NSNotFound, [NSError sdl_fileManager_cannotOverwriteError]);
+        return [self finishOperation];
+    }
+
+    [self sdl_sendFile:file mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC] withCompletion:self.fileWrapper.completionHandler];
 }
 
 /**
- Sends data asynchronously to the SDL Core by breaking the data into smaller packets, each of which is sent via a putfile. To prevent large files from eating up memory, the data packet is deleted once it is sent via a putfile. If the SDL Core receives all the putfiles successfully, a success response with the amount of free storage space left on the SDL Core is returned. Otherwise the error returned by the SDL Core is passed along.
+ Sends data asynchronously to the SDL Core by breaking the data into smaller packets, each of which is sent via a PutFile. To prevent large files from eating up memory, the data packet is deleted once it is sent via a PutFile. If the SDL Core receives all the PutFiles successfully, a success response with the amount of free storage space left on the SDL Core is returned. Otherwise the error returned by the SDL Core is passed along.
 
  @param file The file containing the data to be sent to the SDL Core
  @param mtuSize The maximum packet size allowed
  @param completion Closure returning whether or not the upload was a success
  */
-- (void)sdl_sendFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
+- (void)sdl_sendFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion {
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 2000000000;
     __block NSInteger highestCorrelationIDReceived = -1;
 
-    if (self.isCancelled) {
-        completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
-        [self finishOperation];
-        return;
-    }
-
     if (file == nil) {
         completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
-        [self finishOperation];
-        return;
+        return [self finishOperation];
     }
 
     self.inputStream = [self sdl_openInputStreamWithFile:file];
-    if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
+    if (self.inputStream == nil || !self.inputStream.hasBytesAvailable) {
         // If the file does not exist or the passed data is nil, return an error
         [self sdl_closeInputStream];
 
         completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
-        [self finishOperation];
-        return;
+        return [self finishOperation];
     }
 
     dispatch_group_t putFileGroup = dispatch_group_create();
     dispatch_group_enter(putFileGroup);
 
-    // Wait for all packets be sent before returning whether or not the upload was a success
-    __weak typeof(self) weakself = self;
-    dispatch_group_notify(putFileGroup, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
-        typeof(weakself) strongself = weakself;
-        [weakself sdl_closeInputStream];
-
-        if (streamError != nil || strongself.isCancelled) {
-            completion(NO, bytesAvailable, streamError);
-        } else {
-            completion(YES, bytesAvailable, nil);
-        }
-
-        [weakself finishOperation];
-    });
-
     // Break the data into small pieces, each of which will be sent in a separate putfile
     NSUInteger maxBulkDataSize = [self.class sdl_getMaxBulkDataSizeForFile:file mtuSize:mtuSize];
     NSUInteger currentOffset = 0;
-    for (int i = 0; i < (((file.fileSize - 1) / maxBulkDataSize) + 1); i++) {
+    NSUInteger numPutFiles = (((file.fileSize - 1) / maxBulkDataSize) + 1);
+    for (int i = 0; i < numPutFiles; i++) {
         dispatch_group_enter(putFileGroup);
 
         // Get a chunk of data from the input stream
@@ -145,19 +132,11 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
             typeof(weakself) strongself = weakself;
             SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
 
-            // Check if the upload process has been cancelled by another packet. If so, stop the upload process.
             // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
-            if (strongself.isCancelled) {
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
-            }
-
             // If the SDL Core returned an error, cancel the upload the process in the future
             if (error != nil || response == nil || !response.success.boolValue || strongself.isCancelled) {
-                [strongself cancel];
                 streamError = error;
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
+                BLOCK_RETURN dispatch_group_leave(putFileGroup);;
             }
 
             // If no errors, watch for a response containing the amount of storage left on the SDL Core
@@ -172,6 +151,22 @@ static NSUInteger const MaxCRCValue = UINT32_MAX;
         }];
     }
     dispatch_group_leave(putFileGroup);
+
+    // Wait for all packets be sent before returning whether or not the upload was a success
+    __weak typeof(self) weakself = self;
+    dispatch_group_notify(putFileGroup, [SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
+        typeof(weakself) strongself = weakself;
+        [strongself sdl_closeInputStream];
+
+        if (streamError != nil || strongself.isCancelled) {
+            SDLLogE(@"Error sending PutFile RPCs for upload: %@, error: %@", strongself.fileWrapper.file, streamError);
+            completion(NO, bytesAvailable, streamError);
+        } else {
+            completion(YES, bytesAvailable, nil);
+        }
+
+        [strongself finishOperation];
+    });
 }
 
 /**

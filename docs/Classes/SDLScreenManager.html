@@ -560,7 +560,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="n">completionHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
 
   
   
@@ -653,7 +653,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">endUpdates</span><span class="p">(</span><span class="n">completionHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">endUpdates</span><span class="p">()</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
 
   
   
@@ -684,7 +684,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">changeLayout</span><span class="p">(</span><span class="n">_</span> <span class="nv">templateConfiguration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateConfiguration.html">SDLTemplateConfiguration</a></span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">changeLayout</span><span class="p">(</span><span class="n">_</span> <span class="nv">templateConfiguration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemplateConfiguration.html">SDLTemplateConfiguration</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
 
   
   
@@ -808,7 +808,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">unsubscribeButton</span><span class="p">(</span><span class="n">_</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">,</span> <span class="n">withObserver</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">NSObjectProtocol</span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">unsubscribeButton</span><span class="p">(</span><span class="n">_</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span><span class="p">,</span> <span class="n">withObserver</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt">NSObjectProtocol</span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
 
   
   
@@ -836,7 +836,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">preloadChoices</span><span class="p">(</span><span class="n">_</span> <span class="nv">choices</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLChoiceCell.html">SDLChoiceCell</a></span><span class="p">],</span> <span class="n">withCompletionHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLPreloadChoiceCompletionHandler">SDLPreloadChoiceCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">preloadChoices</span><span class="p">(</span><span class="n">_</span> <span class="nv">choices</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLChoiceCell.html">SDLChoiceCell</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
 
   
   
@@ -1035,7 +1035,7 @@
 
 <p>If the alert contains an audio indication with a file that needs to be uploaded, it will be uploaded before presenting the alert. If the alert contains soft buttons with images, they will be uploaded before presenting the alert. If the alert contains an icon, that will be uploaded before presenting the alert.</p>
 
-<p>The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The <code>userInfo</code> object on the error contais an <code>error</code> key with more information about the error. If the alert failed to present, the <code>userInfo</code> object will contain a <code>tryAgainTime</code> key with information on how long to wait before trying to send another alert. The value for <code>tryAgainTime</code> may be <code>nil</code> if the module did not return a value in its response.</p>
+<p>The handler will be called when the alert either dismisses from the screen or it has failed to present. If the error value in the handler is present, then the alert failed to appear or was aborted, if not, then the alert dismissed without error. The <code>userInfo</code> object on the error contains an <code>error</code> key with more information about the error. If the alert failed to present, the <code>userInfo</code> object will contain a <code>tryAgainTime</code> key with information on how long to wait before trying to send another alert. The value for <code>tryAgainTime</code> may be <code>nil</code> if the module did not return a value in its response.</p>
 
   
   
@@ -1046,7 +1046,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">presentAlert</span><span class="p">(</span><span class="n">_</span> <span class="nv">alert</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAlertView.html">SDLAlertView</a></span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type%20Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">presentAlert</span><span class="p">(</span><span class="n">_</span> <span class="nv">alert</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAlertView.html">SDLAlertView</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
 
   
   

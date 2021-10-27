@@ -9,10 +9,19 @@
 #import "SDLError.h"
 
 #import "SDLChoiceSetManager.h"
+#import "SDLMenuConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSError (SDLErrors)
+
++ (NSError *)sdl_failedToCreateObjectOfClass:(Class)objectClass {
+    return [NSError errorWithDomain:SDLErrorDomainSystem code:SDLSystemErrorFailedToCreateObject userInfo:@{
+        NSLocalizedDescriptionKey: [NSString stringWithFormat: @"iOS system failed to create a new object of class: %@", objectClass],
+        NSLocalizedFailureReasonErrorKey: @"An unknown error caused iOS to fail to create an object",
+        NSLocalizedRecoverySuggestionErrorKey: @"There is no known way to fix this error"
+    }];
+}
 
 #pragma mark - SDLEncryptionLifecycleManager
 + (NSError *)sdl_encryption_lifecycle_notReadyError {
@@ -167,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: @"Cannot overwrite remote file",
                                                        NSLocalizedFailureReasonErrorKey: @"The remote file system already has a file of this name, and the file manager is set to not automatically overwrite files",
-                                                       NSLocalizedRecoverySuggestionErrorKey: @"Set SDLFileManager autoOverwrite to YES, or call forceUploadFile:completion:"
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"Set file.overwrite to true to overwrite the file"
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorCannotOverwrite userInfo:userInfo];
 }
@@ -268,7 +277,71 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSError errorWithDomain:SDLErrorDomainSubscribeButtonManager code:SDLSubscribeButtonManagerErrorNotSubscribed userInfo:userInfo];
 }
 
++ (NSError *)sdl_textAndGraphicManager_batchingUpdate {
+    return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorCurrentlyBatching userInfo:@{
+        NSLocalizedDescriptionKey: @"Update will not run because batching is enabled",
+        NSLocalizedFailureReasonErrorKey: @"Text and Graphic manager will not run this update and call this handler because its currently batching updates. The update will occur when batching ends.",
+        NSLocalizedRecoverySuggestionErrorKey: @"This callback shouldn't occur. Please open an issue on https://www.github.com/smartdevicelink/sdl_ios/ if it does"
+    }];
+}
+
++ (NSError *)sdl_textAndGraphicManager_nothingToUpdate {
+    return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorNothingToUpdate userInfo:@{
+        NSLocalizedDescriptionKey: @"Update will not run because there's nothing to update",
+        NSLocalizedFailureReasonErrorKey: @"This callback shouldn't occur, so there's no known reason for this failure.",
+        NSLocalizedRecoverySuggestionErrorKey: @"This callback shouldn't occur. Please open an issue on https://www.github.com/smartdevicelink/sdl_ios/ if it does"
+    }];
+}
+
 #pragma mark Menu Manager
+
++ (NSError *)sdl_menuManager_configurationOperationLayoutsNotSupported {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateLayoutNotSupported userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Configuration Update Failed",
+        NSLocalizedFailureReasonErrorKey: @"One or more of the configuration layouts is not supported by the module",
+        NSLocalizedRecoverySuggestionErrorKey: @"Compare SDLManager.systemCapabilityManager.defaultWindowCapability.menuLayoutsAvailable to what you attempted to set"
+    }];
+}
+
++ (NSError *)sdl_menuManager_configurationOperationFailed:(SDLMenuConfiguration *)failedConfiguration {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorConfigurationUpdateFailed userInfo:@{
+        @"Failed Configuration": failedConfiguration,
+        NSLocalizedDescriptionKey: @"Menu Manager - Configuration Update Failed",
+        NSLocalizedFailureReasonErrorKey: @"The configuration may not be supported by the connected head unit",
+        NSLocalizedRecoverySuggestionErrorKey: @"Check SystemCapabilityManager.defaultWindowCapability.menuLayouts to ensure the set configuration is supported"
+    }];
+}
+
++ (NSError *)sdl_menuManager_openMenuOperationCancelled {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOperationCancelled userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Open Menu Cancelled",
+        NSLocalizedFailureReasonErrorKey: @"The menu manager was probably stopped or opening another menu item was requested.",
+        NSLocalizedRecoverySuggestionErrorKey: @"This error probably does not need recovery."
+    }];
+}
+
++ (NSError *)sdl_menuManager_openMenuOperationFailed:(nullable SDLMenuCell *)menuCell {
+    NSString *failureReason = nil;
+    if (menuCell != nil) {
+        failureReason = @"Something went wrong attempting to open the menu.";
+    } else {
+        failureReason = [NSString stringWithFormat:@"Something went wrong attempting to open the menu to the given subcell: %@", menuCell];
+    }
+
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOpenMenuFailed userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Open Menu Failed",
+        NSLocalizedFailureReasonErrorKey: failureReason,
+        NSLocalizedRecoverySuggestionErrorKey: @"Check the error logs for more information on the RPC failure."
+    }];
+}
+
++ (NSError *)sdl_menuManager_replaceOperationCancelled {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorOperationCancelled userInfo:@{
+        NSLocalizedDescriptionKey: @"Menu Manager - Menu Replace Cancelled",
+        NSLocalizedFailureReasonErrorKey: @"The menu manager was probably stopped or another menu update was requested.",
+        NSLocalizedRecoverySuggestionErrorKey: @"This error probably does not need recovery."
+    }];
+}
 
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo {
     return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorRPCsFailed userInfo:userInfo];
@@ -283,8 +356,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Choice Set Manager
 
-+ (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo {
-    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorPendingPresentationDeleted userInfo:userInfo];
++ (NSError *)sdl_choiceSetManager_choicesNotAvailableForPresentation:(NSSet<SDLChoiceCell *> *)neededCells availableCells:(NSSet<SDLChoiceCell *> *)availableCells {
+
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorNeededChoicesUnavailable userInfo:@{
+        NSLocalizedDescriptionKey: @"Choice Set Manager error",
+        NSLocalizedFailureReasonErrorKey: @"Not all needed choices for presentation are available on the head unit. See key 'neededChoices' and 'availableChoices'",
+        NSLocalizedRecoverySuggestionErrorKey: @"Choices may have been deleted or were not all properly uploaded for presentation. You can attempt the presentation again to retry the upload.",
+        @"neededChoices": neededCells.description,
+        @"availableChoices": availableCells.description
+    }];
 }
 
 + (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo {
@@ -312,6 +392,22 @@ NS_ASSUME_NONNULL_BEGIN
                                                        NSLocalizedRecoverySuggestionErrorKey: @"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities."
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorInvalidState userInfo:userInfo];
+}
+
++ (NSError *)sdl_choiceSetManager_cancelled {
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorCancelled userInfo:@{
+        NSLocalizedDescriptionKey: @"Choice set operation error cancelled",
+        NSLocalizedFailureReasonErrorKey: @"The choice operation was cancelled and may or may not have completed",
+        NSLocalizedRecoverySuggestionErrorKey: @"It may have been cancelled due to shutdown, or it may have been cancelled by the developer"
+    }];
+}
+
++ (NSError *)sdl_choiceSetManager_noIdsAvailable {
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorNoIdsAvailable userInfo:@{
+        NSLocalizedDescriptionKey: @"Choice set operation failed because the maximum number of choices have been uploaded (65535)",
+        NSLocalizedFailureReasonErrorKey: @"65535 unique choices have been uploaded to the head unit in this session and no more are allowed",
+        NSLocalizedRecoverySuggestionErrorKey: @"Re-use or delete choices to free up space"
+    }];
 }
 
 #pragma mark Alert Manager
@@ -372,6 +468,14 @@ NS_ASSUME_NONNULL_BEGIN
                                                        NSLocalizedRecoverySuggestionErrorKey: @"Subscribe to DISPLAYS to automatically receive updates or retrieve a cached display capability value directly from the SystemCapabilityManager."
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays userInfo:userInfo];
+}
+
++ (NSError *)sdl_systemCapabilityManager_unknownSystemCapabilityType {
+    return [NSError errorWithDomain:SDLErrorDomainSystemCapabilityManager code:SDLSystemCapabilityManagerErrorUnknownType userInfo:@{
+        NSLocalizedDescriptionKey: @"An unknown system capability type was received.",
+        NSLocalizedFailureReasonErrorKey: @"Failure reason unknown. If you see this, please open an issue on https://www.github.com/smartdevicelink/sdl_ios/",
+        NSLocalizedRecoverySuggestionErrorKey: @"Ensure you are only attempting to manually subscribe to known system capability types for the version of this library. You may also want to update this library to its latest version."
+    }];
 }
 
 #pragma mark Transport

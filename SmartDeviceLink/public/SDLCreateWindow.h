@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithId:(NSUInteger)windowId windowName:(NSString *)windowName windowType:(SDLWindowType)windowType;
 
 /**
- Convinience constructor with all the parameters.
+ Convenience constructor with all the parameters.
 
  @param windowId The type of the window to be created. Main window or widget.
  @param windowName The window name to be used by the HMI. @see windowName

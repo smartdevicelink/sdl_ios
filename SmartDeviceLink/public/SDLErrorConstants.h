@@ -13,6 +13,9 @@
 /// A typedef declaration of the SDL error domain
 typedef NSString SDLErrorDomain;
 
+/// An error with the iOS system
+extern SDLErrorDomain *const SDLErrorDomainSystem;
+
 /// An error in the SDLAudioStreamManager
 extern SDLErrorDomain *const SDLErrorDomainAudioStreamManager;
 
@@ -57,6 +60,12 @@ extern SDLErrorDomain *const SDLErrorDomainTransport;
 
 
 #pragma mark Error Codes
+
+/// Error associated with the underlying operating system
+typedef NS_ENUM(NSInteger, SDLSystemError) {
+    /// iOS failed to create an object
+    SDLSystemErrorFailedToCreateObject = -1
+};
 
 /**
  *  Errors associated with the SDLManager class.
@@ -168,7 +177,13 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
  */
 typedef NS_ENUM(NSInteger, SDLTextAndGraphicManagerError) {
     /// A pending update was superseded by a newer requested update. The old update will not be sent
-    SDLTextAndGraphicManagerErrorPendingUpdateSuperseded = -1
+    SDLTextAndGraphicManagerErrorPendingUpdateSuperseded = -1,
+
+    /// The manager is currently batching updates so the update will not yet be sent and the handler will not be called
+    SDLTextAndGraphicManagerErrorCurrentlyBatching = -2,
+
+    /// The manager could find nothing to update
+    SDLTextAndGraphicManagerErrorNothingToUpdate = -3,
 };
 
 /**
@@ -193,13 +208,27 @@ typedef NS_ENUM(NSInteger, SDLSubscribeButtonManagerError) {
 typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     /// Sending menu-related RPCs returned an error from the remote system
     SDLMenuManagerErrorRPCsFailed = -1,
-    SDLMenuManagerErrorPendingUpdateSuperseded = -2
+
+    /// A pending menu update was superseded by a later update and did not run
+    SDLMenuManagerErrorPendingUpdateSuperseded = -2,
+
+    /// A pending or in-progress menu update was cancelled
+    SDLMenuManagerErrorOperationCancelled = -3,
+
+    /// A configuration update failed because the configuration is not supported
+    SDLMenuManagerErrorConfigurationUpdateLayoutNotSupported = -4,
+
+    /// A configuration update failed
+    SDLMenuManagerErrorConfigurationUpdateFailed = -5,
+
+    /// An open menu operation failed
+    SDLMenuManagerErrorOpenMenuFailed = -6
 };
 
 /// Errors associated with Choice Set Manager class
 typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
-    /// The choice set has been deleted before it was presented
-    SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
+    /// Some needed choices for presentation are not available
+    SDLChoiceSetManagerErrorNeededChoicesUnavailable = -1,
 
     /// The choice set failed to delete
     SDLChoiceSetManagerErrorDeletionFailed = -2,
@@ -211,7 +240,13 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorFailedToCreateMenuItems = -4,
 
     /// Invalid state
-    SDLChoiceSetManagerErrorInvalidState = -5
+    SDLChoiceSetManagerErrorInvalidState = -5,
+
+    /// An operation was cancelled and may or may not have succeeded
+    SDLChoiceSetManagerErrorCancelled = -6,
+
+    /// No new choices could be loaded because the maximum number of choices are loaded (65535)
+    SDLChoiceSetManagerErrorNoIdsAvailable = -7,
 };
 
 /// Errors associated with Alert Manager class
@@ -232,7 +267,10 @@ typedef NS_ENUM(NSInteger, SDLSystemCapabilityManagerError) {
     SDLSystemCapabilityManagerErrorHMINone = -2,
 
     /// You may not update the system capability type DISPLAYS because it is always subscribed
-    SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays = -3
+    SDLSystemCapabilityManagerErrorCannotUpdateTypeDisplays = -3,
+
+    /// The module sent an unknown system capability type
+    SDLSystemCapabilityManagerErrorUnknownType = -4,
 };
 
 /**

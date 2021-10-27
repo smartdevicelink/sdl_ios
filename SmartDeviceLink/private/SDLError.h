@@ -8,13 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLChoiceCell.h"
 #import "SDLErrorConstants.h"
 #import "SDLResult.h"
+
+@class SDLMenuCell;
+@class SDLMenuConfiguration;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSError (SDLErrors)
+
++ (NSError *)sdl_failedToCreateObjectOfClass:(Class)objectClass;
 
 #pragma mark SDLEncryptionLifecycleManager
 + (NSError *)sdl_encryption_lifecycle_notReadyError;
@@ -52,19 +58,29 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded;
 + (NSError *)sdl_subscribeButtonManager_notSubscribed;
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded;
++ (NSError *)sdl_textAndGraphicManager_batchingUpdate;
++ (NSError *)sdl_textAndGraphicManager_nothingToUpdate;
 
 #pragma mark Menu Manager
 
++ (NSError *)sdl_menuManager_configurationOperationLayoutsNotSupported;
++ (NSError *)sdl_menuManager_configurationOperationFailed:(SDLMenuConfiguration *)failedConfiguration;
++ (NSError *)sdl_menuManager_openMenuOperationCancelled;
++ (NSError *)sdl_menuManager_openMenuOperationFailed:(nullable SDLMenuCell *)menuCell;
++ (NSError *)sdl_menuManager_replaceOperationCancelled;
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo;
+
 + (NSError *)sdl_voiceCommandManager_pendingUpdateSuperseded;
 
 #pragma mark Choice Set Manager
 
-+ (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo;
++ (NSError *)sdl_choiceSetManager_choicesNotAvailableForPresentation:(NSSet<SDLChoiceCell *> *)neededCells availableCells:(NSSet<SDLChoiceCell *> *)availableCells;
 + (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 + (NSError *)sdl_choiceSetManager_incorrectState:(NSString *)state;
++ (NSError *)sdl_choiceSetManager_cancelled;
++ (NSError *)sdl_choiceSetManager_noIdsAvailable;
 
 #pragma mark Alert Manager
 
@@ -77,6 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)sdl_systemCapabilityManager_moduleDoesNotSupportSystemCapabilities;
 + (NSError *)sdl_systemCapabilityManager_cannotUpdateInHMINONE;
 + (NSError *)sdl_systemCapabilityManager_cannotUpdateTypeDISPLAYS;
++ (NSError *)sdl_systemCapabilityManager_unknownSystemCapabilityType;
 
 #pragma mark Transport
 

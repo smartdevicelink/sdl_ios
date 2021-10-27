@@ -123,7 +123,7 @@ typedef NSString * SDLServiceID;
 
         self.supportsSubscriptions = NO;
 
-        self.appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
+        [self.appServicesCapabilitiesDictionary removeAllObjects];
         [self.capabilityObservers removeAllObjects];
         [self.subscriptionStatus removeAllObjects];
 
@@ -386,7 +386,8 @@ typedef NSString * SDLServiceID;
 }
 
 - (void)sdl_notifyObserversOfCapabilityType:(SDLSystemCapabilityType)type capability:(nullable SDLSystemCapability *)capability error:(nullable NSError *)error {
-    for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[type]) {
+    NSDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *capabilityObservers = [self.capabilityObservers copy];
+    for (SDLSystemCapabilityObserver *observer in capabilityObservers[type]) {
         [self sdl_invokeObserver:observer withCapabilityType:type capability:capability error:error];
     }
 }
@@ -449,11 +450,13 @@ typedef NSString * SDLServiceID;
         [self sdl_saveDisplayCapabilityListUpdate:systemCapability.displayCapabilities];
     } else {
         SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
+        if (handler != nil) {
+            handler(systemCapability, NO, [NSError sdl_systemCapabilityManager_unknownSystemCapabilityType]);
+        }
         return NO;
     }
 
     SDLLogD(@"Updated system capability manager with new data: %@", systemCapability);
-
     [self sdl_callObserversForUpdate:systemCapability error:error handler:handler];
     return YES;
 }
@@ -584,28 +587,27 @@ typedef NSString * SDLServiceID;
     return observerObject.observer;
 }
 
-#pragma mark Unubscribing
+#pragma mark Unsubscribing
 
 - (void)unsubscribeFromCapabilityType:(SDLSystemCapabilityType)type withObserver:(id)observer {
     SDLLogD(@"Unsubscribing from capability type: %@", type);
-    for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
-        if ([observer isEqual:capabilityObserver.observer] && self.capabilityObservers[type] != nil) {
-            [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
+        for (SDLSystemCapabilityObserver *capabilityObserver in self.capabilityObservers[type]) {
+            if ([observer isEqual:capabilityObserver.observer] && self.capabilityObservers[type] != nil) {
                 [self.capabilityObservers[type] removeObject:capabilityObserver];
-            }];
-
-            [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
-            break;
+                [self sdl_removeNilObserversAndUnsubscribeIfNecessary];
+                break;
+            }
         }
-    }
+    }];
 }
 
 - (void)sdl_removeNilObserversAndUnsubscribeIfNecessary {
     SDLLogV(@"Checking for nil observers and removing them, then checking for subscriptions we don't need and unsubscribing.");
-    // Loop through our observers
-    for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
-        for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
-            [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
+
+    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
+        for (SDLSystemCapabilityType key in self.capabilityObservers.allKeys) {
+            for (SDLSystemCapabilityObserver *observer in self.capabilityObservers[key]) {
                 // If an observer object is nil, remove it
                 if (observer.observer == nil) {
                     [self.capabilityObservers[key] removeObject:observer];
@@ -615,24 +617,24 @@ typedef NSString * SDLServiceID;
                 if (self.capabilityObservers[key].count == 0) {
                     [self.capabilityObservers removeObjectForKey:key];
                 }
-            }];
+            }
         }
-    }
 
-    // If we don't support subscriptions, we don't want to unsubscribe by sending an RPC below
-    if (!self.supportsSubscriptions) {
-        return;
-    }
-
-    // Loop through our subscription statuses, check if we're subscribed. If we are, and we do not have observers for that type, and that type is not DISPLAYS, then unsubscribe.
-    for (SDLSystemCapabilityType type in self.subscriptionStatus.allKeys) {
-        if ([self.subscriptionStatus[type] isEqualToNumber:@YES]
-            && self.capabilityObservers[type] == nil
-            && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
-            SDLLogD(@"Removing the last subscription to type %@, sending a GetSystemCapability with subscribe false (will unsubscribe)", type);
-            [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
+        // If we don't support subscriptions, we don't want to unsubscribe by sending an RPC below
+        if (!self.supportsSubscriptions) {
+            return;
         }
-    }
+
+        // Loop through our subscription statuses, check if we're subscribed. If we are, and we do not have observers for that type, and that type is not DISPLAYS, then unsubscribe.
+        for (SDLSystemCapabilityType type in self.subscriptionStatus.allKeys) {
+            if ([self.subscriptionStatus[type] isEqualToNumber:@YES]
+                && self.capabilityObservers[type] == nil
+                && ![type isEqualToEnum:SDLSystemCapabilityTypeDisplays]) {
+                SDLLogD(@"Removing the last subscription to type %@, sending a GetSystemCapability with subscribe false (will unsubscribe)", type);
+                [self sdl_sendGetSystemCapabilityWithType:type subscribe:@NO completionHandler:nil];
+            }
+        }
+    }];
 }
 
 #pragma mark Notifying Subscribers
@@ -736,9 +738,9 @@ typedef NSString * SDLServiceID;
 }
 
 /**
- *  Called when a `SetDisplayLayoutResponse` response is received from Core. If the template was set successfully, the the new capabilities for the template are saved.
+ * Called when a `SetDisplayLayoutResponse` response is received from Core. If the template was set successfully, the the new capabilities for the template are saved.
  *
- *  @param notification The `SetDisplayLayoutResponse` response received from Core
+ * @param notification The `SetDisplayLayoutResponse` response received from Core
  */
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
 #pragma clang diagnostic push
@@ -784,36 +786,6 @@ typedef NSString * SDLServiceID;
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *onHMIStatus = (SDLOnHMIStatus *)notification.notification;
     self.currentHMILevel = onHMIStatus.hmiLevel;
-}
-
-
-#pragma mark Getters
-
-- (NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *)capabilityObservers {
-    __block NSMutableDictionary<SDLSystemCapabilityType, NSMutableArray<SDLSystemCapabilityObserver *> *> *dict = nil;
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        dict = self->_capabilityObservers;
-    }];
-
-    return dict;
-}
-
-- (NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *)subscriptionStatus {
-    __block NSMutableDictionary<SDLSystemCapabilityType, NSNumber<SDLBool> *> *dict = nil;
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        dict = self->_subscriptionStatus;
-    }];
-
-    return dict;
-}
-
-- (nullable NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *)appServicesCapabilitiesDictionary {
-    __block NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *dict = nil;
-    [SDLGlobals runSyncOnSerialSubQueue:self.readWriteQueue block:^{
-        dict = self->_appServicesCapabilitiesDictionary;
-    }];
-
-    return dict;
 }
 
 @end

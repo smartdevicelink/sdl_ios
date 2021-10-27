@@ -51,8 +51,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithLocation:(SDLGrid *)location status:(SDLDoorStatusType)status;
 
+/// The location of the gate on the vehicle grid
 @property (strong, nonatomic) SDLGrid *location;
 
+/// The status of the gate
 @property (strong, nonatomic) SDLDoorStatusType status;
 
 @end

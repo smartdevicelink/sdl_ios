@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Basic information about the connected module system
 @interface SDLSystemInfo : NSObject
 
 /// The connected module's vehicle type: it's make, model, trim, and model year

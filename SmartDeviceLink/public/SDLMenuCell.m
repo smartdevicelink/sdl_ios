@@ -8,8 +8,10 @@
 
 #import "SDLMenuCell.h"
 
-#import "SDLArtwork.h"
 #import "NSArray+Extensions.h"
+#import "SDLArtwork.h"
+#import "SDLMacros.h"
+#import "SDLWindowCapability+ScreenManagerExtensions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -61,7 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTitle:(NSString *)title secondaryText:(nullable NSString *)secondaryText tertiaryText:(nullable NSString *)tertiaryText icon:(nullable SDLArtwork *)icon secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork submenuLayout:(nullable SDLMenuLayout)layout subCells:(NSArray<SDLMenuCell *> *)subCells {
-
     self = [super init];
     if (!self) { return nil; }
 
@@ -91,24 +92,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Object Equality
 
-- (id)copyWithZone:(nullable NSZone *)zone {
-    SDLMenuCell *newCell = [[SDLMenuCell allocWithZone:zone] initWithTitle:_title secondaryText:_secondaryText tertiaryText:_tertiaryText icon:_icon secondaryArtwork:_secondaryArtwork voiceCommands:_voiceCommands handler:_handler];
-
-    if (_subCells.count > 0) {
-        newCell.subCells = [[NSArray alloc] initWithArray:_subCells copyItems:YES];
-    }
-
-    return newCell;
-}
-
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
     ^ NSUIntRotateCell(self.voiceCommands.dynamicHash, NSUIntBitCell / 4)
-    ^ NSUIntRotateCell((self.subCells.count != 0), NSUIntBitCell  / 5)
-    ^ NSUIntRotateCell(self.secondaryText.hash, NSUIntBitCell  / 6)
-    ^ NSUIntRotateCell(self.tertiaryText.hash, NSUIntBitCell  / 7)
-    ^ NSUIntRotateCell(self.secondaryArtwork.name.hash, NSUIntBitCell  / 8)
+    ^ NSUIntRotateCell((self.subCells != nil), NSUIntBitCell / 5)
+    ^ NSUIntRotateCell(self.secondaryText.hash, NSUIntBitCell / 6)
+    ^ NSUIntRotateCell(self.tertiaryText.hash, NSUIntBitCell / 7)
+    ^ NSUIntRotateCell(self.secondaryArtwork.name.hash, NSUIntBitCell / 8)
     ^ NSUIntRotateCell(self.submenuLayout.hash, NSUIntBitCell / 9);
 }
 
@@ -116,13 +107,37 @@ NS_ASSUME_NONNULL_BEGIN
     if (self == object) { return YES; }
     if (![object isMemberOfClass:[self class]]) { return NO; }
 
-    return [self isEqualToChoice:(SDLMenuCell *)object];
+    return [self isEqualToCell:(SDLMenuCell *)object];
 }
 
-- (BOOL)isEqualToChoice:(SDLMenuCell *)choice {
-    if (choice == nil) { return NO; }
+- (BOOL)isEqualToCell:(SDLMenuCell *)cell {
+    return (self.hash == cell.hash);
+}
 
-    return (self.hash == choice.hash);
+#pragma mark Protected
+
+- (BOOL)sdl_isEqualToCellWithUniqueTitle:(SDLMenuCell *)cell {
+    return ([self sdl_hashWithUniqueTitle] == [cell sdl_hashWithUniqueTitle]);
+}
+
+- (NSUInteger)sdl_hashWithUniqueTitle {
+    return self.hash ^ NSUIntRotateCell(self.uniqueTitle.hash, NSUIntBitCell / 10);
+}
+
+#pragma mark - Copying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLMenuCell *newCell = [[SDLMenuCell allocWithZone:zone] initWithTitle:_title secondaryText:_secondaryText tertiaryText:_tertiaryText icon:_icon secondaryArtwork:_secondaryArtwork voiceCommands:_voiceCommands handler:_handler];
+    newCell->_cellId = _cellId;
+    newCell->_parentCellId = _parentCellId;
+    newCell->_uniqueTitle = _uniqueTitle;
+
+    if (_subCells.count > 0) {
+        newCell.subCells = [[NSArray alloc] initWithArray:_subCells copyItems:YES];
+        newCell->_submenuLayout = _submenuLayout;
+    }
+
+    return newCell;
 }
 
 @end
