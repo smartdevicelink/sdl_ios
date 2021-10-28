@@ -190,7 +190,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updatePresentation {
     if (self.config.displayMode == SDLLockScreenConfigurationDisplayModeAlways) {
-        if (self.canPresent && !self.lockScreenDismissedByUser && !self.lockScreenDismissable) {
+        if (self.canPresent && !self.lockScreenDismissable) {
             [self.presenter updateLockScreenToShow:YES withCompletionHandler:nil];
         }
     } else if (self.lastLockNotification.lockScreenStatus == SDLLockScreenStatusRequired) {
