@@ -224,7 +224,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.lockScreenDismissedByUser = NO;
     }
 
-    if (!self.lockScreenDismissedByUser) {
+    if (!self.lockScreenDismissedByUser || !self.lockScreenDismissable) {
         [self sdl_updateLockscreenViewControllerWithDismissableState:self.lockScreenDismissable];
     }
 }
