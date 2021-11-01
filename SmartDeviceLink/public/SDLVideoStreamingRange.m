@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     _minimumResolution = minResolution;
     _maximumResolution = maxResolution;
-    _minimumDiagonal = minimumDiagonal;
-    _minimumAspectRatio = minimumAspectRatio;
-    _maximumAspectRatio = maximumAspectRatio;
+    self.minimumDiagonal = minimumDiagonal;
+    self.minimumAspectRatio = minimumAspectRatio;
+    self.maximumAspectRatio = maximumAspectRatio;
 
     return self;
 }
