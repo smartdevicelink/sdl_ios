@@ -122,7 +122,8 @@ static UInt32 _menuId = 0;
     BOOL supportsImage = NO;
     if (cell.subCells != nil) {
         if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]
-            && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:1 patch:0]]) {
+            && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]
+            && [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
             supportsImage = YES;
         } else {
             supportsImage = [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon];
