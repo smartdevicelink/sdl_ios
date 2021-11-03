@@ -34,20 +34,20 @@
 #import "SDLImageFieldName.h"
 
 SDLImageFieldName const SDLImageFieldNameAlertIcon = @"alertIcon";
-SDLImageFieldName const SDLImageFieldNameSoftButtonImage = @"softButtonImage";
+SDLImageFieldName const SDLImageFieldNameAppIcon = @"appIcon";
 SDLImageFieldName const SDLImageFieldNameChoiceImage = @"choiceImage";
 SDLImageFieldName const SDLImageFieldNameChoiceSecondaryImage = @"choiceSecondaryImage";
-SDLImageFieldName const SDLImageFieldNameVoiceRecognitionHelpItem = @"vrHelpItem";
-SDLImageFieldName const SDLImageFieldNameTurnIcon = @"turnIcon";
-SDLImageFieldName const SDLImageFieldNameMenuIcon = @"menuIcon";
 SDLImageFieldName const SDLImageFieldNameCommandIcon = @"cmdIcon";
-SDLImageFieldName const SDLImageFieldNameAppIcon = @"appIcon";
 SDLImageFieldName const SDLImageFieldNameGraphic = @"graphic";
+SDLImageFieldName const SDLImageFieldNameLocationImage = @"locationImage";
+SDLImageFieldName const SDLImageFieldNameMenuCommandSecondaryImage = @"menuCommandSecondaryImage";
+SDLImageFieldName const SDLImageFieldNameMenuIcon = @"menuIcon";
+SDLImageFieldName const SDLImageFieldNameMenuSubMenuSecondaryImage = @"menuSubMenuSecondaryImage";
 SDLImageFieldName const SDLImageFieldNameSecondaryGraphic = @"secondaryGraphic";
 SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon = @"showConstantTBTIcon";
 SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon = @"showConstantTBTNextTurnIcon";
-SDLImageFieldName const SDLImageFieldNameLocationImage = @"locationImage";
+SDLImageFieldName const SDLImageFieldNameSoftButtonImage = @"softButtonImage";
 SDLImageFieldName const SDLImageFieldNameSubMenuIcon = @"subMenuIcon";
 SDLImageFieldName const SDLImageFieldNameSubtleAlertIcon = @"subtleAlertIcon";
-SDLImageFieldName const SDLImageFieldNameMenuCommandSecondaryImage = @"menuCommandSecondaryImage";
-SDLImageFieldName const SDLImageFieldNameMenuSubMenuSecondaryImage = @"menuSubMenuSecondaryImage";
+SDLImageFieldName const SDLImageFieldNameTurnIcon = @"turnIcon";
+SDLImageFieldName const SDLImageFieldNameVoiceRecognitionHelpItem = @"vrHelpItem";
