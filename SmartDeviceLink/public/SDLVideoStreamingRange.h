@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// The maximum resolution to support, it overrides .maximumAspectRatio
 @property (nonatomic, strong, nullable) SDLImageResolution *maximumResolution;
 
+/// Creates a disabled range without any min/max aspect ratio or min diagonal information.
+- (instancetype)init __deprecated_msg("Use .disabled instead");
+
 /// Create a video streaming range based on a minimum and maximum resolution
 /// @param minResolution The minimum supported height / width resolution
 /// @param maxResolution The maximum supported height / width resolution

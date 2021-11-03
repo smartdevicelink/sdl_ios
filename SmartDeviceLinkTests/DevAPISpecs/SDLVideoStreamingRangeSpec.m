@@ -16,60 +16,83 @@ QuickSpecBegin(SDLVideoStreamingRangeSpec)
 describe(@"video streaming range", ^{
     __block SDLVideoStreamingRange *testRange = nil;
     SDLImageResolution *disabledResolution = [[SDLImageResolution alloc] initWithWidth:0 height:0];
-    SDLImageResolution *lowResolution = [[SDLImageResolution alloc] initWithWidth:1 height:1];
-    SDLImageResolution *highResolution = [[SDLImageResolution alloc] initWithWidth:999 height:999];
+    SDLImageResolution *minResolution = [[SDLImageResolution alloc] initWithWidth:10 height:50];
+    SDLImageResolution *maxResolution = [[SDLImageResolution alloc] initWithWidth:100 height:500];
+    const float minimumAspectRatio = 2.5;
+    const float maximumAspectRatio = 7.1;
+    const float minimumDiagonal = 3.3;
 
     float defaultMinimumAspectRatio = 1.0;
     float defaultMaximumAspectRatio = 9999.0;
     float defaultMinimumDiagonal = 0.0;
 
-    float testMinimumAspectRatio = 4.0;
-    float testMaximumAspectRatio = 12.0;
-    float testMinimumDiagonal = 6.0;
+    describe(@"initialization", ^{
+        context(@"init", ^{
+            beforeEach(^{
+                testRange = [SDLVideoStreamingRange disabled];
+            });
 
-    beforeEach(^{
-        testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:lowResolution maximumResolution:highResolution];;
-    });
+            it(@"expect object to be created with empty fields", ^{
+                expect(testRange).toNot(beNil());
+                expect(testRange.minimumResolution).to(equal(disabledResolution));
+                expect(testRange.maximumResolution).to(equal(disabledResolution));
+                expect(testRange.minimumAspectRatio).to(equal(defaultMinimumAspectRatio));
+                expect(testRange.maximumAspectRatio).to(equal(defaultMaximumAspectRatio));
+                expect(testRange.minimumDiagonal).to(equal(defaultMinimumDiagonal));
+            });
 
-    context(@"initialized with initWithMinimumResolution:maximumResolution", ^{
-        it(@"should set all parameters correctly", ^{
-            expect(testRange.minimumResolution).to(equal(lowResolution));
-            expect(testRange.maximumResolution).to(equal(highResolution));
-            expect(testRange.minimumAspectRatio).to(equal(1.0));
-            expect(testRange.maximumAspectRatio).to(equal(9999.0));
-            expect(testRange.minimumDiagonal).to(equal(0.0));
-        });
-    });
+            it(@"expect object to be created and properties are set properly", ^{
+                testRange.minimumResolution = minResolution;
+                testRange.maximumResolution = maxResolution;
+                testRange.minimumDiagonal = minimumDiagonal;
+                testRange.minimumAspectRatio = minimumAspectRatio;
+                testRange.maximumAspectRatio = maximumAspectRatio;
 
-    context(@"initialized with initWithMinimumResolution:maximumResolution:minimumAspectRatio:maximumAspectRatio:minimumDiagonal:", ^{
-        beforeEach(^{
-            testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:lowResolution maximumResolution:highResolution minimumAspectRatio:testMinimumAspectRatio maximumAspectRatio:testMaximumAspectRatio minimumDiagonal:testMinimumDiagonal];
-        });
-
-        it(@"should set all parameters correctly", ^{
-            expect(testRange.minimumResolution).to(equal(lowResolution));
-            expect(testRange.maximumResolution).to(equal(highResolution));
-            expect(testRange.minimumAspectRatio).to(equal(testMinimumAspectRatio));
-            expect(testRange.maximumAspectRatio).to(equal(testMaximumAspectRatio));
-            expect(testRange.minimumDiagonal).to(equal(testMinimumDiagonal));
-        });
-    });
-
-    context(@"initialized with disabled", ^{
-        beforeEach(^{
-            testRange = [SDLVideoStreamingRange disabled];
+                expect(testRange).toNot(beNil());
+                expect(testRange.minimumResolution).to(equal(minResolution));
+                expect(testRange.maximumResolution).to(equal(maxResolution));
+                expect(testRange.minimumAspectRatio).to(equal(minimumAspectRatio));
+                expect(testRange.maximumAspectRatio).to(equal(maximumAspectRatio));
+                expect(testRange.minimumDiagonal).to(equal(minimumDiagonal));
+            });
         });
 
-        it(@"should set all parameters correctly", ^{
-            expect(testRange.minimumResolution).to(equal(disabledResolution));
-            expect(testRange.maximumResolution).to(equal(disabledResolution));
-            expect(testRange.minimumAspectRatio).to(equal(defaultMinimumAspectRatio));
-            expect(testRange.maximumAspectRatio).to(equal(defaultMaximumAspectRatio));
-            expect(testRange.minimumDiagonal).to(equal(defaultMinimumDiagonal));
+        context(@"initWithMinimumResolution:maximumResolution:", ^{
+            beforeEach(^{
+                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:minResolution maximumResolution:maxResolution];
+            });
+
+            it(@"expect min and max resolution to be set and others are defaults", ^{
+                expect(testRange).toNot(beNil());
+                expect(testRange.minimumResolution).to(equal(minResolution));
+                expect(testRange.maximumResolution).to(equal(maxResolution));
+                expect(testRange.minimumAspectRatio).to(equal(defaultMinimumAspectRatio));
+                expect(testRange.maximumAspectRatio).to(equal(defaultMaximumAspectRatio));
+                expect(testRange.minimumDiagonal).to(equal(defaultMinimumDiagonal));
+            });
+        });
+
+        context(@"initWithMinimumResolution:maximumResolution:minimumAspectRatio:maximumAspectRatio:minimumDiagonal:", ^{
+            beforeEach(^{
+                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:minResolution maximumResolution:maxResolution minimumAspectRatio:minimumAspectRatio maximumAspectRatio:maximumAspectRatio minimumDiagonal:minimumDiagonal];
+            });
+
+            it(@"expect min and max resolution to be set and others are defaults", ^{
+                expect(testRange).toNot(beNil());
+                expect(testRange.minimumResolution).to(equal(minResolution));
+                expect(testRange.maximumResolution).to(equal(maxResolution));
+                expect(testRange.minimumAspectRatio).to(equal(minimumAspectRatio));
+                expect(testRange.maximumAspectRatio).to(equal(maximumAspectRatio));
+                expect(testRange.minimumDiagonal).to(equal(minimumDiagonal));
+            });
         });
     });
 
     describe(@"setting float parameters", ^{
+        beforeEach(^{
+            testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:minResolution maximumResolution:maxResolution];;
+        });
+
         describe(@"minimum aspect ratio", ^{
             context(@"below the minimum", ^{
                 it(@"should be set to the minimum", ^{
@@ -80,8 +103,8 @@ describe(@"video streaming range", ^{
 
             context(@"above the minimum", ^{
                 it(@"should set the value", ^{
-                    testRange.minimumAspectRatio = testMinimumAspectRatio;
-                    expect(testRange.minimumAspectRatio).to(equal(testMinimumAspectRatio));
+                    testRange.minimumAspectRatio = minimumAspectRatio;
+                    expect(testRange.minimumAspectRatio).to(equal(minimumAspectRatio));
                 });
             });
         });
@@ -96,8 +119,8 @@ describe(@"video streaming range", ^{
 
             context(@"above the minimum", ^{
                 it(@"should set the value", ^{
-                    testRange.maximumAspectRatio = testMaximumAspectRatio;
-                    expect(testRange.maximumAspectRatio).to(equal(testMaximumAspectRatio));
+                    testRange.maximumAspectRatio = maximumAspectRatio;
+                    expect(testRange.maximumAspectRatio).to(equal(maximumAspectRatio));
                 });
             });
         });
@@ -112,8 +135,8 @@ describe(@"video streaming range", ^{
 
             context(@"above the minimum", ^{
                 it(@"should set the value", ^{
-                    testRange.minimumDiagonal = testMinimumDiagonal;
-                    expect(testRange.minimumDiagonal).to(equal(testMinimumDiagonal));
+                    testRange.minimumDiagonal = minimumDiagonal;
+                    expect(testRange.minimumDiagonal).to(equal(minimumDiagonal));
                 });
             });
         });
@@ -121,7 +144,7 @@ describe(@"video streaming range", ^{
 
     describe(@"checking if the resolution is in a given range", ^{
         beforeEach(^{
-            testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:lowResolution maximumResolution:highResolution];
+            testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:minResolution maximumResolution:maxResolution];
         });
 
         context(@"when there is no minimum or maximum resolution", ^{
@@ -136,17 +159,17 @@ describe(@"video streaming range", ^{
 
         context(@"when there is no maximum resolution", ^{
             beforeEach(^{
-                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:lowResolution maximumResolution:nil];
+                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:minResolution maximumResolution:nil];
             });
 
-            it(@"should return YES", ^{
-                expect([testRange isImageResolutionInRange:[[SDLImageResolution alloc] initWithWidth:2 height:2]]).to(beTrue());
+            it(@"should return YES when above the minimum resolution", ^{
+                expect([testRange isImageResolutionInRange:[[SDLImageResolution alloc] initWithWidth:12 height:52]]).to(beTrue());
             });
         });
 
         context(@"when there is no minimum resolution", ^{
             beforeEach(^{
-                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:nil maximumResolution:highResolution];
+                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:nil maximumResolution:maxResolution];
             });
 
             it(@"should return YES", ^{
@@ -168,33 +191,33 @@ describe(@"video streaming range", ^{
 
         context(@"when the resolution is in the range", ^{
             it(@"should return YES", ^{
-                expect([testRange isImageResolutionInRange:[[SDLImageResolution alloc] initWithWidth:2 height:2]]).to(beTrue());
+                expect([testRange isImageResolutionInRange:[[SDLImageResolution alloc] initWithWidth:12 height:52]]).to(beTrue());
             });
         });
     });
 
     describe(@"checking if the aspect ratio is in a given range", ^{
         beforeEach(^{
-            testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:nil maximumResolution:nil minimumAspectRatio:testMinimumAspectRatio maximumAspectRatio:testMaximumAspectRatio minimumDiagonal:1.0];
+            testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:nil maximumResolution:nil minimumAspectRatio:minimumAspectRatio maximumAspectRatio:maximumAspectRatio minimumDiagonal:1.0];
         });
 
         context(@"when there is no maximum aspect ratio", ^{
             beforeEach(^{
-                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:nil maximumResolution:nil minimumAspectRatio:testMinimumAspectRatio maximumAspectRatio:0.0 minimumDiagonal:1.0];
+                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:nil maximumResolution:nil minimumAspectRatio:minimumAspectRatio maximumAspectRatio:0.0 minimumDiagonal:1.0];
             });
 
             it(@"should return NO", ^{
-                expect([testRange isAspectRatioInRange:10.0]).to(beTrue());
+                expect([testRange isAspectRatioInRange:10.0]).to(beFalse());
             });
         });
 
         context(@"when there is no minimum aspect ratio", ^{
             beforeEach(^{
-                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:nil maximumResolution:nil minimumAspectRatio:0.0 maximumAspectRatio:testMaximumAspectRatio minimumDiagonal:1.0];
+                testRange = [[SDLVideoStreamingRange alloc] initWithMinimumResolution:nil maximumResolution:nil minimumAspectRatio:0.0 maximumAspectRatio:maximumAspectRatio minimumDiagonal:1.0];
             });
 
-            it(@"should return NO", ^{
-                expect([testRange isAspectRatioInRange:10.0]).to(beTrue());
+            it(@"should set the minimum to 1.0", ^{
+                expect(testRange.minimumAspectRatio).to(equal(1.0));
             });
         });
 
@@ -212,7 +235,7 @@ describe(@"video streaming range", ^{
 
         context(@"when the aspect ratio is in the range", ^{
             it(@"should return NO", ^{
-                expect([testRange isAspectRatioInRange:10.0]).to(beTrue());
+                expect([testRange isAspectRatioInRange:6.0]).to(beTrue());
             });
         });
     });

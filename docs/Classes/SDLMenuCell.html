@@ -17,7 +17,6 @@
   <li><a href="#section--initWithTitle:icon:submenuLayout:subCells:">-initWithTitle:icon:submenuLayout:subCells:</a></li>
   <li><a href="#section--initWithTitle:secondaryText:tertiaryText:icon:secondaryArtwork:voiceCommands:handler:">-initWithTitle:secondaryText:tertiaryText:icon:secondaryArtwork:voiceCommands:handler:</a></li>
   <li><a href="#section--initWithTitle:secondaryText:tertiaryText:icon:secondaryArtwork:submenuLayout:subCells:">-initWithTitle:secondaryText:tertiaryText:icon:secondaryArtwork:submenuLayout:subCells:</a></li>
-  <li><a href="#section--isEqualToCellWithUniqueTitle:">-isEqualToCellWithUniqueTitle:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -370,33 +369,6 @@
   <div>
     <h4>Return Value</h4>
     <p>The menu cell</p>
-  </div>
-  
-  <h3 id="section--isEqualToCellWithUniqueTitle:">
-      -isEqualToCellWithUniqueTitle:
-  </h3>
-  
-  <p>Check cell equality including the internally used <code><a href="../Classes/SDLMenuCell.html#/c:objc(cs)SDLMenuCell(py)uniqueTitle">uniqueTitle</a></code> property. To compare without <code><a href="../Classes/SDLMenuCell.html#/c:objc(cs)SDLMenuCell(py)uniqueTitle">uniqueTitle</a></code>, use the <code>isEqual:</code> method.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isEqualToCellWithUniqueTitle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SDLMenuCell</span> <span class="o">*</span><span class="p">)</span><span class="nv">cell</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isEqualToCell</span><span class="p">(</span><span class="n">withUniqueTitle</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">SDLMenuCell</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>cell</dt>
-      <dd><p>The other cell to compare with</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>True if the cells are equal, including the <code><a href="../Classes/SDLMenuCell.html#/c:objc(cs)SDLMenuCell(py)uniqueTitle">uniqueTitle</a></code> property, False otherwise</p>
   </div>
   
 </section>

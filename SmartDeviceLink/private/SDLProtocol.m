@@ -825,7 +825,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // If the handshake went bad and the security library ain't happy, send over the failure to the module. This should result in an ACK with encryption off.
     SDLProtocolMessage *serverSecurityMessage = nil;
-    if (serverHandshakeData == nil) {
+    if (serverHandshakeData.length == 0) {
         SDLLogE(@"Error running TLS handshake procedure. Sending error to module. Error: %@", handshakeError);
 
         serverSecurityMessage = [self.class sdl_serverSecurityFailedMessageWithClientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
