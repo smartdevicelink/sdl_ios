@@ -129,15 +129,15 @@ describe(@"finding all artworks from cells", ^{
     beforeEach(^{
         mockFileManager = OCMClassMock([SDLFileManager class]);
         testWindowCapability = [[SDLWindowCapability alloc] init];
-        testWindowCapability.imageFields = @[[[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLImageTypeDynamic] imageResolution:nil]];
         [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"8.0.0"];
     });
 
-    context(@"when checking a submenu cell artwork on RPC 5.0–7.0 without the submenu image field", ^{
+    context(@"when checking a submenu cell artwork on RPC 5.0–7.0 without the submenu image field but with the command image field", ^{
         beforeEach(^{
             OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
             OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(YES);
             [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
+            testWindowCapability.imageFields = @[allSupportedImageFields[0]];
         });
 
         it(@"should include the submenu primary artwork", ^{
@@ -154,6 +154,7 @@ describe(@"finding all artworks from cells", ^{
         context(@"when the window capability doesn't support the primary image", ^{
             beforeEach(^{
                 testWindowCapability.textFields = allSupportedTextFields;
+                testWindowCapability.imageFields = @[];
             });
 
             it(@"should return an empty list of artworks to upload", ^{
@@ -172,7 +173,7 @@ describe(@"finding all artworks from cells", ^{
             it(@"should only return primary images to upload", ^{
                 NSArray<SDLArtwork *> *artworksToUpload = [SDLMenuReplaceUtilities findAllArtworksToBeUploadedFromCells:SDLMenuReplaceUtilitiesSpecHelpers.topLevelOnlyMenu fileManager:mockFileManager windowCapability:testWindowCapability];
 
-                expect(artworksToUpload).to(haveCount(2));
+                expect(artworksToUpload).to(haveCount(1));
             });
         });
 
@@ -287,6 +288,7 @@ describe(@"generating RPCs", ^{
         mockFileManager = OCMClassMock([SDLFileManager class]);
         OCMStub([mockFileManager hasUploadedFile:[OCMArg any]]).andReturn(YES);
         testWindowCapability = [[SDLWindowCapability alloc] init];
+        testWindowCapability.imageFields = @[[[SDLImageField alloc] initWithName:SDLImageFieldNameCommandIcon imageTypeSupported:@[SDLImageTypeDynamic] imageResolution:nil]];
     });
 
     context(@"delete commands", ^{
@@ -361,7 +363,7 @@ describe(@"generating RPCs", ^{
                 [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithString:@"6.0.0"];
             });
 
-            fit(@"should generate the correct RPCs", ^{
+            it(@"should generate the correct RPCs", ^{
                 NSArray<SDLRPCRequest *> *requests = [SDLMenuReplaceUtilities mainMenuCommandsForCells:testMenuCells fileManager:mockFileManager usingPositionsFromFullMenu:testMenuCells windowCapability:testWindowCapability defaultSubmenuLayout:testMenuLayout];
                 expect(requests).to(haveCount(3));
                 expect(requests[0]).to(beAnInstanceOf(SDLAddSubMenu.class));

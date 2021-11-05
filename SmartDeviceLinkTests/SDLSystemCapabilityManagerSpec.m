@@ -699,8 +699,8 @@ describe(@"a system capability manager", ^{
 
             it(@"should should save the capabilities", ^{
                 // All the text fields and image fields should be available
-                expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(31));
-                expect(testSystemCapabilityManager.defaultMainWindowCapability.imageFields).to(haveCount(14));
+                expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(38));
+                expect(testSystemCapabilityManager.defaultMainWindowCapability.imageFields).to(haveCount(18));
             });
         });
     });

@@ -344,8 +344,8 @@ NS_ASSUME_NONNULL_BEGIN
         if (cell.subCells != nil) {
             // If we're >= 5.0 && < 7.0, but don't have command icon image, no icon. If we're < 5.0 || >= 7.0 and don't have submenu icon, no icon.
             if (![windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon]
-                || ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithString:@"5.0"]]
-                    && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithString:@"7.0"]]
+                || ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]
+                    && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]
                     && ![windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon])) {
                 cell.icon = nil;
             }
