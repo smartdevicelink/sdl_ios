@@ -146,7 +146,7 @@ static UInt32 _menuId = 0;
 
 /// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
 + (BOOL)sdl_shouldCellIncludeSecondaryImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
-    return (cell.secondaryArtwork != nil) && [self sdl_windowCapabilitySupportsSecondaryImage:windowCapability forCell:cell] && ([fileManager hasUploadedFile:cell.secondaryArtwork] || cell.secondaryArtwork.isStaticIcon);
+    return (cell.secondaryArtwork != nil) && [self windowCapabilitySupportsSecondaryImage:windowCapability forCell:cell] && ([fileManager hasUploadedFile:cell.secondaryArtwork] || cell.secondaryArtwork.isStaticIcon);
 }
 
 #pragma mark - RPC Commands
