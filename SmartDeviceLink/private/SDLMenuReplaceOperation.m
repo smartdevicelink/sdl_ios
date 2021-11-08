@@ -341,36 +341,27 @@ NS_ASSUME_NONNULL_BEGIN
         // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
         cell.voiceCommands = nil;
 
+        if (![SDLMenuReplaceUtilities windowCapabilitySupportsPrimaryImage:windowCapability forCell:cell]) {
+            cell.icon = nil;
+        }
+        if (![SDLMenuReplaceUtilities windowCapabilitySupportsSecondaryImage:windowCapability forCell:cell]) {
+            cell.secondaryArtwork = nil;
+        }
+
         if (cell.subCells != nil) {
-            // If we're >= 5.0 && < 7.0, but don't have command icon image, no icon. If we're < 5.0 || >= 7.0 and don't have submenu icon, no icon.
-            if (![windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon]
-                || ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]
-                    && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]
-                    && ![windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon])) {
-                cell.icon = nil;
-            }
             if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuSecondaryText]) {
                 cell.secondaryText = nil;
             }
             if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuTertiaryText]) {
                 cell.tertiaryText = nil;
             }
-            if (![windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
-                cell.secondaryArtwork = nil;
-            }
             cell.subCells = [self sdl_cellsWithRemovedPropertiesFromCells:cell.subCells basedOnWindowCapability:windowCapability];
         } else {
-            if (![windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
-                cell.icon = nil;
-            }
             if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText]) {
                 cell.secondaryText = nil;
             }
             if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]) {
                 cell.tertiaryText = nil;
-            }
-            if (![windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
-                cell.secondaryArtwork = nil;
             }
         }
     }

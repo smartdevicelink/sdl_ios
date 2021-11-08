@@ -37,6 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param windowCapability The window capability to check available image fields
 + (NSArray<SDLArtwork *> *)findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability;
 
+/// Whether or not a given window capability supports the primary image for a given cell
+/// @param windowCapability The window capability to use for the comparison
+/// @param cell The cell to use for the comparison
++ (BOOL)windowCapabilitySupportsPrimaryImage:(SDLWindowCapability *)windowCapability forCell:(SDLMenuCell *)cell;
+
+/// Whether or not a given window capability supports the secondary image for a given cell
+/// @param windowCapability The window capability to use for the comparison
+/// @param cell The cell to use for the comparison
++ (BOOL)windowCapabilitySupportsSecondaryImage:(SDLWindowCapability *)windowCapability forCell:(SDLMenuCell *)cell;
+
 #pragma mark - RPC Commands
 
 /// Finds and returns the command id for a given RPC request, assuming that request is an SDLDeleteSubMenu, SDLDeleteCommand, SDLAddSubMenu, or SDLAddCommand

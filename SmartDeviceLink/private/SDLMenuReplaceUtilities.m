@@ -99,13 +99,13 @@ static UInt32 _menuId = 0;
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
         if ((cell.icon != nil)
-            && [self sdl_windowCapabilitySupportsPrimaryImage:windowCapability forCell:cell]
+            && [self windowCapabilitySupportsPrimaryImage:windowCapability forCell:cell]
             && [fileManager fileNeedsUpload:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
         }
 
         if ((cell.secondaryArtwork != nil)
-            && [self sdl_windowCapabilitySupportsSecondaryImage:windowCapability forCell:cell]
+            && [self windowCapabilitySupportsSecondaryImage:windowCapability forCell:cell]
             && [fileManager fileNeedsUpload:cell.secondaryArtwork]) {
             [mutableArtworks addObject:cell.secondaryArtwork];
         }
@@ -118,7 +118,7 @@ static UInt32 _menuId = 0;
     return [mutableArtworks allObjects];
 }
 
-+ (BOOL)sdl_windowCapabilitySupportsPrimaryImage:(SDLWindowCapability *)windowCapability forCell:(SDLMenuCell *)cell {
++ (BOOL)windowCapabilitySupportsPrimaryImage:(SDLWindowCapability *)windowCapability forCell:(SDLMenuCell *)cell {
     BOOL supportsImage = NO;
     if (cell.subCells != nil) {
         if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]
@@ -135,13 +135,13 @@ static UInt32 _menuId = 0;
     return supportsImage;
 }
 
-+ (BOOL)sdl_windowCapabilitySupportsSecondaryImage:(SDLWindowCapability *)windowCapability forCell:(SDLMenuCell *)cell {
++ (BOOL)windowCapabilitySupportsSecondaryImage:(SDLWindowCapability *)windowCapability forCell:(SDLMenuCell *)cell {
     return (cell.subCells != nil) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage] : [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage];
 }
 
 /// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
 + (BOOL)sdl_shouldCellIncludePrimaryImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
-    return (cell.icon != nil) && [self sdl_windowCapabilitySupportsPrimaryImage:windowCapability forCell:cell] && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
+    return (cell.icon != nil) && [self windowCapabilitySupportsPrimaryImage:windowCapability forCell:cell] && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
 }
 
 /// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
