@@ -162,6 +162,8 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
     [super start];
     if (self.isCancelled) { return; }
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
+
     // If we have no loaded cells, reset choice ids to ensure reconnections restart numbering
     if (self.loadedCells.count == 0) {
         SDLPreloadPresentChoicesOperationUtilities.choiceId = 0;
@@ -310,8 +312,6 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
     self.currentState = SDLPreloadPresentChoicesOperationStateUpdatingKeyboardProperties;
     if (self.keyboardDelegate == nil) { return completionHandler(nil); }
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
     // Check if we're using a keyboard (searchable) choice set and setup keyboard properties if we need to
     if (self.keyboardDelegate != nil && [self.keyboardDelegate respondsToSelector:@selector(customKeyboardConfiguration)]) {
