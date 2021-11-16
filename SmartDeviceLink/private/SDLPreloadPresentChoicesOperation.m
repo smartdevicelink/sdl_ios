@@ -366,8 +366,10 @@ typedef NS_ENUM(NSUInteger, SDLPreloadPresentChoicesOperationState) {
         }
 
         SDLPerformInteractionResponse *performResponse = response;
-        [weakself sdl_setSelectedCellWithId:performResponse.choiceID];
-        weakself.selectedTriggerSource = performResponse.triggerSource;
+        if (![performResponse.triggerSource isEqualToEnum:SDLTriggerSourceKeyboard]) {
+            [weakself sdl_setSelectedCellWithId:performResponse.choiceID];
+            weakself.selectedTriggerSource = performResponse.triggerSource;
+        }
 
         return completionHandler(error);
     }];
