@@ -11,7 +11,24 @@
 @implementation SDLImageField (ScreenManagerExtensions)
 
 + (NSArray<SDLImageFieldName> *)sdl_allImageFieldNames {
-    return @[SDLImageFieldNameAppIcon, SDLImageFieldNameGraphic, SDLImageFieldNameMenuIcon, SDLImageFieldNameTurnIcon, SDLImageFieldNameAlertIcon, SDLImageFieldNameChoiceImage, SDLImageFieldNameCommandIcon, SDLImageFieldNameLocationImage, SDLImageFieldNameSoftButtonImage, SDLImageFieldNameSecondaryGraphic, SDLImageFieldNameShowConstantTBTIcon, SDLImageFieldNameChoiceSecondaryImage, SDLImageFieldNameVoiceRecognitionHelpItem, SDLImageFieldNameShowConstantTBTNextTurnIcon];
+    return @[SDLImageFieldNameAlertIcon,
+             SDLImageFieldNameAppIcon,
+             SDLImageFieldNameChoiceImage,
+             SDLImageFieldNameChoiceSecondaryImage,
+             SDLImageFieldNameCommandIcon,
+             SDLImageFieldNameGraphic,
+             SDLImageFieldNameLocationImage,
+             SDLImageFieldNameMenuCommandSecondaryImage,
+             SDLImageFieldNameMenuIcon,
+             SDLImageFieldNameMenuSubMenuSecondaryImage,
+             SDLImageFieldNameSecondaryGraphic,
+             SDLImageFieldNameShowConstantTBTIcon,
+             SDLImageFieldNameShowConstantTBTNextTurnIcon,
+             SDLImageFieldNameSoftButtonImage,
+             SDLImageFieldNameSubMenuIcon,
+             SDLImageFieldNameSubtleAlertIcon,
+             SDLImageFieldNameTurnIcon,
+             SDLImageFieldNameVoiceRecognitionHelpItem];
 }
 
 + (NSArray<SDLFileType> *)sdl_allImageFileTypes {

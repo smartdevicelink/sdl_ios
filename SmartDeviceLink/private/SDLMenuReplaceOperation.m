@@ -341,9 +341,11 @@ NS_ASSUME_NONNULL_BEGIN
         // Strip away fields that cannot be used to determine uniqueness visually including fields not supported by the HMI
         cell.voiceCommands = nil;
 
-        // Don't check SDLImageFieldNameSubMenuIcon because it was added in 7.0 when the feature was added in 5.0. Just assume that if CommandIcon is not available, the submenu icon is not either.
-        if (![windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+        if (![SDLMenuReplaceUtilities windowCapabilitySupportsPrimaryImage:windowCapability forCell:cell]) {
             cell.icon = nil;
+        }
+        if (![SDLMenuReplaceUtilities windowCapabilitySupportsSecondaryImage:windowCapability forCell:cell]) {
+            cell.secondaryArtwork = nil;
         }
 
         if (cell.subCells != nil) {
@@ -353,9 +355,6 @@ NS_ASSUME_NONNULL_BEGIN
             if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuSubMenuTertiaryText]) {
                 cell.tertiaryText = nil;
             }
-            if (![windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage]) {
-                cell.secondaryArtwork = nil;
-            }
             cell.subCells = [self sdl_cellsWithRemovedPropertiesFromCells:cell.subCells basedOnWindowCapability:windowCapability];
         } else {
             if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandSecondaryText]) {
@@ -363,9 +362,6 @@ NS_ASSUME_NONNULL_BEGIN
             }
             if (![windowCapability hasTextFieldOfName:SDLTextFieldNameMenuCommandTertiaryText]) {
                 cell.tertiaryText = nil;
-            }
-            if (![windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage]) {
-                cell.secondaryArtwork = nil;
             }
         }
     }
