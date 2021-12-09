@@ -1,4 +1,18 @@
 # Changelog
+## 7.3.1
+* Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
+
+### Testing
+* Xcode 13.1
+* iOS 15.1
+* Core:
+    * Manticore (Core v7.1.1, Generic HMI v0.10.0)
+    * Core v8.0.0, Generic HMI v0.11.0
+    * Ford Sync 3.4 (19353_DEVTEST)
+    
+### Bug Fixes
+* Fix `SDLChoiceSetDelegate.userDidSubmitInput` called multiple times and `SDLChoiceSetDelegate.autocompleteInput` called multiple times for each keypress (https://github.com/smartdevicelink/sdl_ios/issues/2064)
+
 ## 7.3.0 (Since RC 1)
 * Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
 
