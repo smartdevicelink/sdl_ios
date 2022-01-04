@@ -8,8 +8,10 @@
 #import "SDLHMILevel.h"
 #import "SDLLockScreenConstants.h"
 
-@class SDLNotificationDispatcher;
 @class SDLLockScreenStatusInfo;
+@class SDLNotificationDispatcher;
+@class SDLOnDriverDistraction;
+@class SDLOnHMIStatus;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +28,9 @@ static NSString *const SDLDidChangeLockScreenStatusNotification = @"com.sdl.noti
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNotificationDispatcher:(SDLNotificationDispatcher *)dispatcher;
+
+- (void)updateHMIStatus:(SDLOnHMIStatus *)hmiStatus;
+- (void)updateDriverDistractionState:(SDLOnDriverDistraction *)driverDistraction;
 
 @end
 
