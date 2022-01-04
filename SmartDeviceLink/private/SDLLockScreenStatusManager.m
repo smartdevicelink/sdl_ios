@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
+    _notificationDispatcher = dispatcher;
     _userSelected = NO;
     _driverDistracted = NO;
     _haveDriverDistractionStatus = NO;
