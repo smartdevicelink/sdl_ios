@@ -177,9 +177,9 @@ NS_ASSUME_NONNULL_BEGIN
         currentDriverDistraction.lockScreenDismissalEnabled = self.lastDriverDistractionNotification.lockScreenDismissalEnabled;
         currentDriverDistraction.lockScreenDismissalWarning = self.lastDriverDistractionNotification.lockScreenDismissalWarning;
     }
+    self.lastDriverDistractionNotification = currentDriverDistraction;
 
     // Update dismissible state, then update the lock screen status itself
-    self.lastDriverDistractionNotification = currentDriverDistraction;
     [self sdl_updateLockScreenDismissable];
     [self.statusManager updateDriverDistractionState:currentDriverDistraction];
 }
