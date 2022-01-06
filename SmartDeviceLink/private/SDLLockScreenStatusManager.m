@@ -31,17 +31,25 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
+    _notificationDispatcher = dispatcher;
     _userSelected = NO;
     _driverDistracted = NO;
     _haveDriverDistractionStatus = NO;
-    _notificationDispatcher = dispatcher;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidUpdate:) name:SDLDidChangeHMIStatusNotification object:dispatcher];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_driverDistractionDidUpdate:) name:SDLDidChangeDriverDistractionStateNotification object:dispatcher];
 
     return self;
 }
 
+#pragma mark - Component Updates
+
+- (void)updateHMIStatus:(SDLOnHMIStatus *)hmiStatus {
+    self.hmiLevel = hmiStatus.hmiLevel;
+    [self sdl_postLockScreenStatus:self.lockScreenStatusNotification];
+}
+
+- (void)updateDriverDistractionState:(SDLOnDriverDistraction *)driverDistraction {
+    self.driverDistracted = [driverDistraction.state isEqualToEnum:SDLDriverDistractionStateOn];
+    [self sdl_postLockScreenStatus:self.lockScreenStatusNotification];
+}
 
 #pragma mark - Getters / Setters
 #pragma mark Custom setters
@@ -110,22 +118,6 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Lock screen status changed: %@", statusNotification);
 
     [self.notificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:statusNotification];
-}
-
-#pragma mark - Observers
-
-- (void)sdl_hmiStatusDidUpdate:(SDLRPCNotificationNotification *)notification {
-    SDLOnHMIStatus *hmiStatus = notification.notification;
-
-    self.hmiLevel = hmiStatus.hmiLevel;
-    [self sdl_postLockScreenStatus:self.lockScreenStatusNotification];
-}
-
-- (void)sdl_driverDistractionDidUpdate:(SDLRPCNotificationNotification *)notification {
-    SDLOnDriverDistraction *driverDistraction = notification.notification;
-
-    self.driverDistracted = [driverDistraction.state isEqualToEnum:SDLDriverDistractionStateOn];
-    [self sdl_postLockScreenStatus:self.lockScreenStatusNotification];
 }
 
 @end

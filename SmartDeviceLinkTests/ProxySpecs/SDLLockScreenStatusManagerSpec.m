@@ -270,8 +270,7 @@ describe(@"the lockscreen status manager", ^{
             }]]);
 
             SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] initWithHMILevel:SDLHMILevelFull systemContext:SDLSystemContextMain audioStreamingState:SDLAudioStreamingStateAudible videoStreamingState:nil windowID:nil];
-            SDLRPCNotificationNotification *hmiStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:mockDispatcher rpcNotification:hmiStatus];
-            [[NSNotificationCenter defaultCenter] postNotification:hmiStatusNotification];
+            [testManager updateHMIStatus:hmiStatus];
         });
 
         it(@"should update the driver distraction status and send a notification", ^{
@@ -290,8 +289,7 @@ describe(@"the lockscreen status manager", ^{
 
             SDLOnDriverDistraction *driverDistraction = [[SDLOnDriverDistraction alloc] init];
             driverDistraction.state = SDLDriverDistractionStateOn;
-            SDLRPCNotificationNotification *driverDistractionStateNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeDriverDistractionStateNotification object:mockDispatcher rpcNotification:driverDistraction];
-            [[NSNotificationCenter defaultCenter] postNotification:driverDistractionStateNotification];
+            [testManager updateDriverDistractionState:driverDistraction];
         });
 
         it(@"should update the driver distraction status and send a notification", ^{

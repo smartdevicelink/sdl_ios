@@ -17,6 +17,7 @@
 #import "SDLNotificationDispatcher.h"
 #import "SDLLockScreenStatusInfo.h"
 #import "SDLOnDriverDistraction.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLViewControllerPresentable.h"
 
@@ -52,7 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
     _presenter = presenter;
     _lockScreenDismissedByUser = NO;
     _statusManager = [[SDLLockScreenStatusManager alloc] initWithNotificationDispatcher:dispatcher];
-    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -131,7 +133,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (lockScreenStatus == nil) { return; }
 
     self.lastLockNotification = lockScreenStatus;
-
     [self sdl_checkLockScreen];
 }
 
@@ -161,10 +162,15 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
+- (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) { return; }
+
+    [self.statusManager updateHMIStatus:notification.notification];
+}
+
 - (void)sdl_driverDistractionStateDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationMemberOfClass:[SDLOnDriverDistraction class]]) {
-        return;
-    }
+    if (![notification isNotificationMemberOfClass:[SDLOnDriverDistraction class]]) { return; }
+
     // When an `OnDriverDistraction` notification is sent with a `lockScreenDismissalEnabled` value, keep track of said value if subsequent `OnDriverDistraction`s are missing the `lockScreenDismissalEnabled` value. This is done because the `lockScreenDismissalEnabled` state is assumed to be the same value until a new `lockScreenDismissalEnabled` value is received.
     SDLOnDriverDistraction *currentDriverDistraction = notification.notification;
     if (currentDriverDistraction.lockScreenDismissalEnabled == nil && self.lastDriverDistractionNotification.lockScreenDismissalEnabled != nil){
@@ -172,7 +178,10 @@ NS_ASSUME_NONNULL_BEGIN
         currentDriverDistraction.lockScreenDismissalWarning = self.lastDriverDistractionNotification.lockScreenDismissalWarning;
     }
     self.lastDriverDistractionNotification = currentDriverDistraction;
+
+    // Update dismissible state, then update the lock screen status itself
     [self sdl_updateLockScreenDismissable];
+    [self.statusManager updateDriverDistractionState:currentDriverDistraction];
 }
 
 #pragma mark - Private Helpers
