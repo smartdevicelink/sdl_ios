@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text image:(nullable UIImage *)image {
     NSParameterAssert((text != nil) || (image != nil));
+    if ((text == nil) && (image == nil)) { return nil; }
 
     SDLArtwork *artwork = [[SDLArtwork alloc] initWithImage:image persistent:YES asImageFormat:SDLArtworkImageFormatPNG];
     return [self initWithStateName:stateName text:text artwork:artwork];
@@ -43,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     NSParameterAssert((text != nil) || (artwork != nil));
+    if ((text == nil) && (artwork == nil)) { return nil; }
 
     _name = stateName;
     _text = text;
