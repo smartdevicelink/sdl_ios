@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
             hasStateWithInitialName = YES;
         }
     }
-
-    // Make sure there aren't two states with the same name
     NSAssert(![self sdl_hasTwoStatesOfSameName:states], @"A SoftButtonObject must have states with different names.");
     NSAssert(hasStateWithInitialName, @"A SoftButtonObject must have a state with initialStateName.");
     if ([self sdl_hasTwoStatesOfSameName:states]) { return nil; }
