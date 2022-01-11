@@ -42,10 +42,16 @@ NS_ASSUME_NONNULL_BEGIN
             hasStateWithInitialName = YES;
         }
     }
-    NSAssert(![self sdl_hasTwoStatesOfSameName:states], @"A SoftButtonObject must have states with different names.");
+    NSAssert(![SDLSoftButtonObject sdl_hasTwoStatesOfSameName:states], @"A SoftButtonObject must have states with different names.");
     NSAssert(hasStateWithInitialName, @"A SoftButtonObject must have a state with initialStateName.");
-    if ([self sdl_hasTwoStatesOfSameName:states]) { return nil; }
-    if (!hasStateWithInitialName) { return nil; }
+    if ([SDLSoftButtonObject sdl_hasTwoStatesOfSameName:states]) {
+        SDLLogE(@"Error creating soft button object: the soft button object was created with two states of the same name. Soft button object name: %@, states: %@, initialStateName: %@", name, states, initialStateName);
+        return nil;
+    }
+    if (!hasStateWithInitialName) {
+        SDLLogE(@"Error creating soft button object: the soft button object does not have a state with the specified initial state name. Soft button object name: %@, states: %@, initialStateName: %@", name, states, initialStateName);
+        return nil;
+    }
 
     _name = name;
     _states = states;
@@ -127,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
     return nil;
 }
 
-- (BOOL)sdl_hasTwoStatesOfSameName:(NSArray<SDLSoftButtonState *> *)states {
++ (BOOL)sdl_hasTwoStatesOfSameName:(NSArray<SDLSoftButtonState *> *)states {
     for (NSUInteger i = 0; i < states.count; i++) {
         NSString *stateName = states[i].name;
         for (NSUInteger j = (i + 1); j < states.count; j++) {
