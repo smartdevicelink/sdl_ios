@@ -47,7 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     NSParameterAssert((text != nil) || (artwork != nil));
-    if ((text == nil) && (artwork == nil)) { return nil; }
+    if ((text == nil) && (artwork == nil)) {
+        SDLLogE(@"Error creating soft button state: the state requires either text or an image, or both. StateName: %@", stateName);
+        return nil;
+    }
 
     _name = stateName;
     _text = text;
