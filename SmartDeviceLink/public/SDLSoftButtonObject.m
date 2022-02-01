@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLSoftButtonState *state in states) {
         if ([state.name isEqualToString:initialStateName]) {
             hasStateWithInitialName = YES;
+            break;
         }
     }
     NSAssert(![SDLSoftButtonObject sdl_hasTwoStatesOfSameName:states], @"A SoftButtonObject must have states with different names.");
