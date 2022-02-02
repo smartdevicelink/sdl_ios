@@ -14,14 +14,11 @@ describe(@"a soft button object", ^{
     __block NSString *testObjectName = @"Test Object Name";
 
     context(@"with a single state", ^{
-        __block SDLSoftButtonState *testSingleState = OCMClassMock([SDLSoftButtonState class]);
         __block NSString *testSingleStateName = @"Test state name";
+        __block SDLSoftButtonState *testSingleState = [[SDLSoftButtonState alloc] initWithStateName:testSingleStateName text:@"Some Text" image:nil];
         __block SDLSoftButton *testSingleStateSoftButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Some Text" image:nil highlighted:NO buttonId:0 systemAction:SDLSystemActionDefaultAction handler:nil];
 
         beforeEach(^{
-            OCMStub(testSingleState.name).andReturn(testSingleStateName);
-            OCMStub(testSingleState.softButton).andReturn(testSingleStateSoftButton);
-
             testObject = [[SDLSoftButtonObject alloc] initWithName:testObjectName state:testSingleState handler:nil];
         });
 
@@ -77,19 +74,14 @@ describe(@"a soft button object", ^{
     });
 
     context(@"with multiple states", ^{
-        __block SDLSoftButtonState *testFirstState = OCMClassMock([SDLSoftButtonState class]);
         __block NSString *testFirstStateName = @"Test First Name";
+        __block SDLSoftButtonState *testFirstState = [[SDLSoftButtonState alloc] initWithStateName:testFirstStateName text:@"Some Text" image:nil];
         __block SDLSoftButton *testFirstStateSoftButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Some Text" image:nil highlighted:NO buttonId:0 systemAction:SDLSystemActionDefaultAction handler:nil];
 
-        __block SDLSoftButtonState *testSecondState = OCMClassMock([SDLSoftButtonState class]);
         __block NSString *testSecondStateName = @"Test Second Name";
+        __block SDLSoftButtonState *testSecondState = [[SDLSoftButtonState alloc] initWithStateName:testSecondStateName text:@"Some Second Text" image:nil];
 
         beforeEach(^{
-            OCMStub(testFirstState.name).andReturn(testFirstStateName);
-            OCMStub(testFirstState.softButton).andReturn(testFirstStateSoftButton);
-
-            OCMStub(testSecondState.name).andReturn(testSecondStateName);
-
             testObject = [[SDLSoftButtonObject alloc] initWithName:testObjectName states:@[testFirstState, testSecondState] initialStateName:testFirstStateName handler:nil];
         });
 
