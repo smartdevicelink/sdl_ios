@@ -175,11 +175,15 @@ UInt32 const VoiceCommandIdMin = 1900000000;
             // Updates voice command strings array by only adding ones that are not empty(e.g. "", " ", ...)
             if (trimmedString.length > 0) {
                 [voiceCommandStrings addObject:voiceCommandString];
+            } else {
+                SDLLogW(@"Empty or whitespace only voice command string: \"%@\" removed from voice command: %@", voiceCommandString, voiceCommand);
             }
         }
         if (voiceCommandStrings.count > 0) {
             voiceCommand.voiceCommands = voiceCommandStrings;
             [validatedVoiceCommands addObject:voiceCommand];
+        } else {
+            SDLLogW(@"A voice command with no valid strings was removed: %@", voiceCommand);
         }
     }
     return [validatedVoiceCommands copy];
