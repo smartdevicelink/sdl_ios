@@ -7970,7 +7970,7 @@
 			attributes = {
 				CLASSPREFIX = SDL;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = smartdevicelink;
 				TargetAttributes = {
 					5D4019AE1A76EC350006B0C2 = {
