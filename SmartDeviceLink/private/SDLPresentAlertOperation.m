@@ -335,9 +335,13 @@ static const int SDLAlertSoftButtonCount = 4;
 }
 
 /// Checks if the connected module or current template supports soft button images.
-/// @return True if soft button images are currently supported; false if not.
+/// @return True if soft button images are currently supported or unknown; false if not.
 - (BOOL)sdl_supportsSoftButtonImages {
-    return self.currentWindowCapability.softButtonCapabilities.firstObject.imageSupported.boolValue;
+    if (self.currentWindowCapability.softButtonCapabilities.count > 0) {
+        return self.currentWindowCapability.softButtonCapabilities.firstObject.imageSupported.boolValue;
+    } else {
+        return YES;
+    }
 }
 
 /// Checks if the connected module supports audio files. Using an audio file in an alert will only work if connected to modules supporting RPC spec versions 5.0+. If the module does not return a speechCapabilities, assume that the module supports playing an audio file.
