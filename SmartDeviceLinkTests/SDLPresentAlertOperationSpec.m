@@ -553,6 +553,25 @@ describe(@"SDLPresentAlertOperation", ^{
                 OCMVerifyAll(strictMockCurrentWindowCapability);
             });
 
+            it(@"should upload the soft button images if soft button image support is unknown", ^{
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:strictMockFileManager systemCapabilityManager:strictMockSystemCapabilityManager currentWindowCapability:nil alertView:testAlertView cancelID:testCancelID];
+
+                OCMStub([strictMockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+
+                OCMExpect([strictMockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
+                    NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
+                    expect(files.count).to(equal(1));
+                    expect(files[0].name).to(equal(testAlertView.icon.name));
+                    return [value isKindOfClass:[NSArray class]];
+                }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+
+                [testPresentAlertOperation start];
+
+                OCMVerifyAll(strictMockFileManager);
+                OCMVerifyAll(strictMockSystemCapabilityManager);
+                OCMVerifyAll(strictMockCurrentWindowCapability);
+            });
+
             it(@"should not upload the soft button images if soft button images are not supported on the module", ^{
                 testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:strictMockFileManager systemCapabilityManager:strictMockSystemCapabilityManager currentWindowCapability:strictMockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
 
