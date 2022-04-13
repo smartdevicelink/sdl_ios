@@ -14,12 +14,14 @@
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteSubMenu.h"
 #import "SDLFileManager.h"
+#import "SDLGlobals.h"
 #import "SDLImage.h"
 #import "SDLImageFieldName.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuParams.h"
 #import "SDLMenuManagerPrivateConstants.h"
 #import "SDLRPCRequest.h"
+#import "SDLVersion.h"
 #import "SDLWindowCapability.h"
 #import "SDLWindowCapability+ScreenManagerExtensions.h"
 
@@ -96,11 +98,15 @@ static UInt32 _menuId = 0;
 
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
-        if ((cell.icon != nil) && [fileManager fileNeedsUpload:cell.icon]) {
+        if ((cell.icon != nil)
+            && [self windowCapabilitySupportsPrimaryImage:windowCapability forCell:cell]
+            && [fileManager fileNeedsUpload:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
         }
 
-        if ((cell.secondaryArtwork != nil) && [fileManager fileNeedsUpload:cell.secondaryArtwork]) {
+        if ((cell.secondaryArtwork != nil)
+            && [self windowCapabilitySupportsSecondaryImage:windowCapability forCell:cell]
+            && [fileManager fileNeedsUpload:cell.secondaryArtwork]) {
             [mutableArtworks addObject:cell.secondaryArtwork];
         }
 
@@ -112,16 +118,35 @@ static UInt32 _menuId = 0;
     return [mutableArtworks allObjects];
 }
 
++ (BOOL)windowCapabilitySupportsPrimaryImage:(SDLWindowCapability *)windowCapability forCell:(SDLMenuCell *)cell {
+    BOOL supportsImage = NO;
+    if (cell.subCells != nil) {
+        if ([[SDLGlobals sharedGlobals].rpcVersion isGreaterThanOrEqualToVersion:[SDLVersion versionWithMajor:5 minor:0 patch:0]]
+            && [[SDLGlobals sharedGlobals].rpcVersion isLessThanVersion:[SDLVersion versionWithMajor:7 minor:0 patch:0]]
+            && [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+            supportsImage = YES;
+        } else {
+            supportsImage = [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon];
+        }
+    } else {
+        supportsImage = [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon];
+    }
+
+    return supportsImage;
+}
+
++ (BOOL)windowCapabilitySupportsSecondaryImage:(SDLWindowCapability *)windowCapability forCell:(SDLMenuCell *)cell {
+    return (cell.subCells != nil) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage] : [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage];
+}
+
 /// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
 + (BOOL)sdl_shouldCellIncludePrimaryImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
-    BOOL supportsImage = (cell.subCells != nil) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameSubMenuIcon] : [windowCapability hasImageFieldOfName:SDLImageFieldNameCommandIcon];
-    return (cell.icon != nil) && supportsImage && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
+    return (cell.icon != nil) && [self windowCapabilitySupportsPrimaryImage:windowCapability forCell:cell] && ([fileManager hasUploadedFile:cell.icon] || cell.icon.isStaticIcon);
 }
 
 /// If there is an icon and the icon has been uploaded, or if the icon is a static icon, it should include the image
 + (BOOL)sdl_shouldCellIncludeSecondaryImageFromCell:(SDLMenuCell *)cell fileManager:(SDLFileManager *)fileManager windowCapability:(SDLWindowCapability *)windowCapability {
-    BOOL supportsImage = (cell.subCells != nil) ? [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuSubMenuSecondaryImage] : [windowCapability hasImageFieldOfName:SDLImageFieldNameMenuCommandSecondaryImage];
-    return (cell.secondaryArtwork != nil) && supportsImage && ([fileManager hasUploadedFile:cell.secondaryArtwork] || cell.secondaryArtwork.isStaticIcon);
+    return (cell.secondaryArtwork != nil) && [self windowCapabilitySupportsSecondaryImage:windowCapability forCell:cell] && ([fileManager hasUploadedFile:cell.secondaryArtwork] || cell.secondaryArtwork.isStaticIcon);
 }
 
 #pragma mark - RPC Commands

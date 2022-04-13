@@ -37,7 +37,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"driverDistractionStatus: %@, userSelected: %@, lockScreenStatus: %lu, hmiLevel: %@", self.driverDistractionStatus, self.userSelected, (unsigned long)self.lockScreenStatus, self.hmiLevel];
+    return [NSString stringWithFormat:@"driverDistractionStatus: %@, userSelected: %@, lockScreenStatus: %@, hmiLevel: %@", (self.driverDistractionStatus ? @"ON" : @"OFF"), (self.userSelected ? @"YES" : @"NO"), [self descriptionForStatus:self.lockScreenStatus], self.hmiLevel];
+}
+
+- (NSString *)descriptionForStatus:(SDLLockScreenStatus)status {
+    switch (status) {
+        case SDLLockScreenStatusOff: return @"Off";
+        case SDLLockScreenStatusOptional: return @"Optional";
+        case SDLLockScreenStatusRequired: return @"Required";
+    }
 }
 
 @end

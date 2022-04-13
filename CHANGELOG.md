@@ -1,4 +1,28 @@
 # Changelog
+## 7.4.0
+* Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
+
+### Testing
+* Xcode 13.2/13.3
+* iOS 15.4
+* Core:
+    * Core v8.1.0, Generic HMI v0.12.0, SDL HMI v5.7.0
+    * Core v7.1.1, Generic HMI v0.10.0, SDL HMI v5.5.0
+    * Ford Sync 3.4 (19353\_DEVTEST) Ford Sync 3.0 (19353\_DEVTEST)
+    
+### Bug Fixes
+*  Fix alert `SDLSoftButton` not being shown when softButtonCapabilities are missing (https://github.com/smartdevicelink/sdl_ios/issues/2079)
+*  Fix not handling invalid `SoftButtonObject` configurations (https://github.com/smartdevicelink/sdl_ios/issues/2067)
+*  Fix some race conditions in the `SDLLockScreenManager` (https://github.com/smartdevicelink/sdl_ios/issues/2063)
+*  Fix not sending error data on security setup failures (https://github.com/smartdevicelink/sdl_ios/issues/2049)
+*  Fix not sending `subMenu` cell images on RPC connections between v5.0 and v7.0 (https://github.com/smartdevicelink/sdl_ios/issues/2047)
+*  Deprecate `SDLVideoStreamingRange.init()` because it was confusing (https://github.com/smartdevicelink/sdl_ios/issues/2050)
+*  Fix handling of 0 length incoming security messages (https://github.com/smartdevicelink/sdl_ios/issues/2054)
+*  Fix lockScreen not shown after user dismissal (https://github.com/smartdevicelink/sdl_ios/issues/2061)
+
+### Other
+*  Add warning logs when removing invalid voice commands (https://github.com/smartdevicelink/sdl_ios/issues/2075)
+
 ## 7.3.1
 * Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
 
