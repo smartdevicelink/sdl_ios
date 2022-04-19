@@ -5,7 +5,7 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
-    DESTINATION: 'platform=iOS Simulator,name=iPhone 13,OS=15.3'
+    DESTINATION: 'platform=iOS Simulator,name=iPhone 13,OS=15.2'
 
 jobs:
     build:
