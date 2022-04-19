@@ -102,7 +102,7 @@ describe(@"SDLPresentAlertOperation", ^{
         testAlertSoftButton6 = [[SDLSoftButtonObject alloc] initWithName:@"button6" text:@"button6" artwork:testButton2Icon handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
 
         UIImage *testImage = [[UIImage alloc] initWithContentsOfFile:[testBundle pathForResource:@"testImageJPEG" ofType:@"jpeg"]];
-        testAlertIcon = [SDLArtwork artworkWithImage:testImage asImageFormat:SDLArtworkImageFormatPNG];
+        testAlertIcon = [SDLArtwork artworkWithImage:testImage asImageFormat:SDLArtworkImageFormatJPG];
 
         testAlertView = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:@(4) showWaitIndicator:@(YES) audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2] icon:testAlertIcon];
     });
@@ -560,8 +560,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 OCMExpect([strictMockFileManager uploadArtworks:[OCMArg checkWithBlock:^BOOL(id value) {
                     NSArray<SDLArtwork *> *files = (NSArray<SDLArtwork *> *)value;
-                    expect(files.count).to(equal(1));
-                    expect(files[0].name).to(equal(testAlertView.icon.name));
+                    expect(files.count).to(equal(2));
                     return [value isKindOfClass:[NSArray class]];
                 }] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
