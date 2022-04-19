@@ -5,7 +5,7 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
     PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
-    DESTINATION: 'platform=iOS Simulator,name=iPhone 12,OS=14.4'
+    DESTINATION: 'platform=iOS Simulator,name=iPhone 13,OS=15.4'
 
 jobs:
     build:
@@ -27,7 +27,7 @@ jobs:
 
             # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
             - name: Select Xcode version
-              run: sudo xcode-select -switch /Applications/Xcode_12.4.app
+              run: sudo xcode-select -switch /Applications/Xcode_13.3.app
 
             - name: Build
               run: set -o pipefail && xcodebuild -scheme "${{ matrix.scheme }}" -destination "$DESTINATION" build | xcpretty --color --simple
@@ -46,7 +46,7 @@ jobs:
 
             # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
             - name: Select Xcode version
-              run: sudo xcode-select -switch /Applications/Xcode_12.4.app
+              run: sudo xcode-select -switch /Applications/Xcode_13.3.app
 
             - name: Checkout repository
               uses: actions/checkout@v2.3.1
@@ -63,7 +63,7 @@ jobs:
 
             - name: Installing dependencies
               if: steps.carthage-cache.outputs.cache-hit != 'true'
-              run: bash carthage-build.sh bootstrap --no-use-binaries --platform ios --cache-builds
+              run: carthage bootstrap --use-xcframeworks --no-use-binaries --platform ios --cache-builds
 
             # Split build into build-only and test-only as it is faster than building and running in one step
             - name: Building unit tests
