@@ -74,7 +74,7 @@ To run tests, you will need to bootstrap the Carthage testing libraries. To do s
 
 Then, from the root project directory, run:
 ```bash
-carthage bootstrap --platform ios
+carthage bootstrap --use-xcframeworks --platform ios
 ```
 
 At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, see the [YAML document](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/workflows/test.yml) describing those tests. You can also check the [previously run CI tests](https://github.com/smartdevicelink/sdl_ios/actions?query=workflow%3A%22SmartDeviceLink+Tests%22) to see how they're currently being run.

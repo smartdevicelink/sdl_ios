@@ -66,7 +66,7 @@
 
 QuickConfigurationBegin(SendingRPCsConfiguration)
 
-+ (void)configure:(Configuration *)configuration {
++ (void)configure:(QCKConfiguration *)configuration {
     sharedExamples(@"unable to send an RPC", ^(QCKDSLSharedExampleContext exampleContext) {
         it(@"cannot publicly send RPCs", ^{
             SDLLifecycleManager *testManager = exampleContext()[@"manager"];
