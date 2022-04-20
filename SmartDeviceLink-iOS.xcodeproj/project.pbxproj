@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1505,12 +1505,6 @@
 		5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */; };
 		5DA150D1227367580032928D /* SDLSoftButtonTransitionOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA150D0227367580032928D /* SDLSoftButtonTransitionOperationSpec.m */; };
 		5DA150D32273676A0032928D /* SDLSoftButtonReplaceOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA150D22273676A0032928D /* SDLSoftButtonReplaceOperationSpec.m */; };
-		5DA22CB71D075CF200245F5F /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB31D075CF200245F5F /* Nimble.framework */; };
-		5DA22CB81D075CF200245F5F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB41D075CF200245F5F /* OCMock.framework */; };
-		5DA22CBA1D075CF200245F5F /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB61D075CF200245F5F /* Quick.framework */; };
-		5DA22CBB1D075DE800245F5F /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB31D075CF200245F5F /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5DA22CBC1D075DE800245F5F /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB41D075CF200245F5F /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5DA22CBE1D075DE800245F5F /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB61D075CF200245F5F /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA22CBF1D075DEC00245F5F /* SmartDeviceLink.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA23FF01F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA23FEF1F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m */; };
 		5DA23FF31F2FA35C009C0313 /* SDLControlFramePayloadAudioStartServiceAckSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA23FF21F2FA35C009C0313 /* SDLControlFramePayloadAudioStartServiceAckSpec.m */; };
@@ -1547,6 +1541,10 @@
 		5DBF0D601F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBF0D5F1F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m */; };
 		5DC09EDA1F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC09ED91F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m */; };
 		5DC49BDD237314B500B2B8F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC49BDC237314B500B2B8F2 /* SceneDelegate.swift */; };
+		5DC95BC2280F38D600B20822 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC95BC1280F38D600B20822 /* SwiftSpec.swift */; };
+		5DC95BC6280F3A4D00B20822 /* Quick.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC95BC3280F3A4C00B20822 /* Quick.xcframework */; };
+		5DC95BC7280F3A4D00B20822 /* Nimble.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC95BC4280F3A4D00B20822 /* Nimble.xcframework */; };
+		5DC95BC8280F3A4D00B20822 /* OCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC95BC5280F3A4D00B20822 /* OCMock.xcframework */; };
 		5DC978261B7A38640012C2F1 /* SDLGlobalsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */; };
 		5DCC458D221C9F6600036C2F /* SDLVersionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCC458C221C9F6600036C2F /* SDLVersionSpec.m */; };
 		5DCF76FC1ACDDB4200BB647B /* SDLSendLocationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCF76FB1ACDDB4200BB647B /* SDLSendLocationSpec.m */; };
@@ -1855,9 +1853,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5DA22CBF1D075DEC00245F5F /* SmartDeviceLink.framework in CopyFiles */,
-				5DA22CBB1D075DE800245F5F /* Nimble.framework in CopyFiles */,
-				5DA22CBC1D075DE800245F5F /* OCMock.framework in CopyFiles */,
-				5DA22CBE1D075DE800245F5F /* Quick.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3427,9 +3422,6 @@
 		5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponseSpec.m; sourceTree = "<group>"; };
 		5DA150D0227367580032928D /* SDLSoftButtonTransitionOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSoftButtonTransitionOperationSpec.m; path = DevAPISpecs/SDLSoftButtonTransitionOperationSpec.m; sourceTree = "<group>"; };
 		5DA150D22273676A0032928D /* SDLSoftButtonReplaceOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonReplaceOperationSpec.m; sourceTree = "<group>"; };
-		5DA22CB31D075CF200245F5F /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = sdl_ios/Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
-		5DA22CB41D075CF200245F5F /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = sdl_ios/Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
-		5DA22CB61D075CF200245F5F /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = sdl_ios/Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		5DA23FEF1F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadEndServiceSpec.m; sourceTree = "<group>"; };
 		5DA23FF21F2FA35C009C0313 /* SDLControlFramePayloadAudioStartServiceAckSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadAudioStartServiceAckSpec.m; sourceTree = "<group>"; };
 		5DA23FF51F2FAA31009C0313 /* SDLControlFramePayloadRPCStartServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadRPCStartServiceSpec.m; sourceTree = "<group>"; };
@@ -3469,6 +3461,10 @@
 		5DBF0D5F1F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFrameVideoStartServiceAckSpec.m; path = ControlFramePayloadSpecs/SDLControlFrameVideoStartServiceAckSpec.m; sourceTree = "<group>"; };
 		5DC09ED91F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadNakSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadNakSpec.m; sourceTree = "<group>"; };
 		5DC49BDC237314B500B2B8F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = "Example Apps/Example Swift/SceneDelegate.swift"; sourceTree = SOURCE_ROOT; };
+		5DC95BC1280F38D600B20822 /* SwiftSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSpec.swift; sourceTree = "<group>"; };
+		5DC95BC3280F3A4C00B20822 /* Quick.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Quick.xcframework; path = sdl_ios/Carthage/Build/Quick.xcframework; sourceTree = "<group>"; };
+		5DC95BC4280F3A4D00B20822 /* Nimble.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Nimble.xcframework; path = sdl_ios/Carthage/Build/Nimble.xcframework; sourceTree = "<group>"; };
+		5DC95BC5280F3A4D00B20822 /* OCMock.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OCMock.xcframework; path = sdl_ios/Carthage/Build/OCMock.xcframework; sourceTree = "<group>"; };
 		5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGlobalsSpec.m; path = UtilitiesSpecs/SDLGlobalsSpec.m; sourceTree = "<group>"; };
 		5DCA93821EE0844D0015768E /* SmartDeviceLink.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = SmartDeviceLink.podspec; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5DCC458C221C9F6600036C2F /* SDLVersionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVersionSpec.m; path = DevAPISpecs/SDLVersionSpec.m; sourceTree = "<group>"; };
@@ -3736,10 +3732,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DC95BC7280F3A4D00B20822 /* Nimble.xcframework in Frameworks */,
+				5DC95BC8280F3A4D00B20822 /* OCMock.xcframework in Frameworks */,
 				167ED93C1A9BCB8A00797BE5 /* SmartDeviceLink.framework in Frameworks */,
-				5DA22CB81D075CF200245F5F /* OCMock.framework in Frameworks */,
-				5DA22CBA1D075CF200245F5F /* Quick.framework in Frameworks */,
-				5DA22CB71D075CF200245F5F /* Nimble.framework in Frameworks */,
+				5DC95BC6280F3A4D00B20822 /* Quick.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4284,9 +4280,9 @@
 		167ED9231A9BB86300797BE5 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5DA22CB31D075CF200245F5F /* Nimble.framework */,
-				5DA22CB41D075CF200245F5F /* OCMock.framework */,
-				5DA22CB61D075CF200245F5F /* Quick.framework */,
+				5DC95BC4280F3A4D00B20822 /* Nimble.xcframework */,
+				5DC95BC5280F3A4D00B20822 /* OCMock.xcframework */,
+				5DC95BC3280F3A4C00B20822 /* Quick.xcframework */,
 			);
 			name = Libraries;
 			path = ../..;
@@ -5983,6 +5979,7 @@
 		5D61FA2D1A84237100846EE7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5DC95BC1280F38D600B20822 /* SwiftSpec.swift */,
 				5D9F50711BE7DD4C00FEF399 /* Assets */,
 				5D61FA2E1A84237100846EE7 /* Info.plist */,
 			);
@@ -7908,9 +7905,9 @@
 			buildConfigurationList = 5D61FA381A84237100846EE7 /* Build configuration list for PBXNativeTarget "SmartDeviceLinkTests" */;
 			buildPhases = (
 				5D61FA221A84237100846EE7 /* Sources */,
+				5DA22C861D0745B000245F5F /* CopyFiles */,
 				5D61FA231A84237100846EE7 /* Frameworks */,
 				5D61FA241A84237100846EE7 /* Resources */,
-				5DA22C861D0745B000245F5F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -7992,7 +7989,7 @@
 					};
 					5D61FA251A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
-						LastSwiftMigration = 1020;
+						LastSwiftMigration = 1330;
 					};
 					8829567D207CF68800EF056C = {
 						LastSwiftMigration = 0930;
@@ -8967,6 +8964,7 @@
 				4AC0128326D9686F00537E31 /* SDLPreloadPresentChoicesOperationUtilitiesSpec.m in Sources */,
 				752ECDB9228C42E100D945F4 /* SDLMenuRunScoreSpec.m in Sources */,
 				162E83141A9BDE8B00906325 /* SDLOnDriverDistractionSpec.m in Sources */,
+				5DC95BC2280F38D600B20822 /* SwiftSpec.swift in Sources */,
 				B3838A09257C4EB400420C11 /* SDLDoorStatusSpec.m in Sources */,
 				162E83371A9BDE8B00906325 /* SDLResetGlobalPropertiesSpec.m in Sources */,
 				162E82DF1A9BDE8B00906325 /* SDLGlobalProperySpec.m in Sources */,
@@ -9434,7 +9432,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -9450,7 +9449,10 @@
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 7.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
@@ -9469,7 +9471,10 @@
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 7.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
@@ -9517,7 +9522,11 @@
 				INFOPLIST_FILE = SmartDeviceLink/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 7.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
@@ -9570,7 +9579,11 @@
 				INFOPLIST_FILE = SmartDeviceLink/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 7.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
@@ -9609,7 +9622,11 @@
 				);
 				INFOPLIST_FILE = SmartDeviceLinkTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -9643,7 +9660,11 @@
 				);
 				INFOPLIST_FILE = SmartDeviceLinkTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -9670,7 +9691,10 @@
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 7.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
@@ -9693,7 +9717,10 @@
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 7.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
@@ -9739,7 +9766,11 @@
 				INFOPLIST_FILE = SmartDeviceLinkSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 7.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
@@ -9790,7 +9821,11 @@
 				INFOPLIST_FILE = SmartDeviceLinkSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 7.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
