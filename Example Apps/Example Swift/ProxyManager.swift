@@ -178,7 +178,11 @@ extension ProxyManager: SDLManagerDelegate {
             // The SDL app is in the foreground. Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
             subscribeButtonManager.subscribeToPresetButtons()
         case .limited: break // An active NAV or MEDIA SDL app is in the background
-        case .background: break // The SDL app is not in the foreground
+        case .background:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                let alertView = SDLAlertView(text: "Background Alert", buttons: [])
+                self.sdlManager.screenManager.presentAlert(alertView)
+            }
         case .none:
             // The SDL app is not yet running or is terminated
             firstHMILevelState = .none
