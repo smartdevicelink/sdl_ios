@@ -36,7 +36,7 @@ read new_version_number
 if [ -z $new_version_number ]; then
     echo "No version number entered. Skipping..."
 else
-    if [ $current_version_number != $NewVersinew_version_numberonNumber ]; then
+    if [ $current_version_number != $new_version_number ]; then
         echo "Changed Version Number"
         # 1.4) swap new version in to file
         sed '/MARKETING_VERSION/{s/'$current_version_number'/'$new_version_number'/;}' $project_file > $new_file
@@ -52,7 +52,7 @@ fi
 # per review, the new build number will always be 1
 new_build_number=1
 if [ -z $new_build_number ]; then
-    #echo "No project file change needed for build"
+    echo "No project file change needed for build number"
 else
     if [ $current_build_number != $new_build_number ]; then
         echo make the change
@@ -60,7 +60,7 @@ else
         sed '/CURRENT_PROJECT_VERSION/{s/'$current_build_number'/'$new_build_number'/;}' $project_file > $new_file
         mv -f $new_file $project_file
     else
-        #echo "No project file change needed for build"
+        echo "No project file change needed for build number"
     fi
 fi
 
@@ -86,15 +86,12 @@ read new_version
 # 2.3) If blank, use new version number from above.  If new version is different from current, change it.
 if [ -z $new_version ]; then
     new_version=$new_version_number
-else
 fi
 if [ $CurrentVersion != $new_version ]; then
     echo make the change
     # 2.4) swap new version in to file
     sed '/s.version/{s/'$CurrentVersion'/'$new_version'/;}' $PodSpecFile > $PodSpecNewFile
     mv -f $PodSpecNewFile $PodSpecFile
-else
-    #echo "No pod file change needed for version"
 fi
 
 
@@ -117,9 +114,9 @@ fi
 # Changelog.md
 
 # 6 Install Jazzy
-# we may want to check if Jazzy is already installed, and only run this if not.  TBD
+# TODO - we may want to check if Jazzy is already installed, and only run this if not.
 echo "6 Install Jazzy"
-sudo gem install jazzy
+#sudo gem install jazzy
 
 # 6 generate documentation
 echo "6 generate documentation"
