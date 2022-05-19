@@ -28,17 +28,17 @@ echo "Current Version "$Current_version_number
 echo "Current Build "$Current_build_number
 
 # 1.2) prompt user for new version
-echo "New Version?"
+echo "Enter the new version number (semantic versioning x.x.x format) or blank to skip: "
 read NewVersionNumber
 echo "New Build?"
 read NewBuildNumber
 
 # 1.3) if not blank, or not the same
 if [ -z $NewVersionNumber ]; then
-    echo No file change needed for version
+    echo "No version number entered. Skipping..."
 else
     if [ $Current_version_number != $NewVersionNumber ]; then
-        echo make the change
+        echo "Changed Version Number"
         # 1.4) swap new version in to file
         sed '/MARKETING_VERSION/{s/'$Current_version_number'/'$NewVersionNumber'/;}' $ProjFile > $NewFile
         mv -f $NewFile $ProjFile
@@ -156,7 +156,7 @@ echo "3 Push the new release to the secondary cocoapod using command line:"
 #pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings.
 
 # 4 add binary xcframework archive for manual installation
-echo "4 add binary xcframework archive for manual installation"
+echo "Creating .xcframework for manual installation, to be added to the release."
 # i
 echo "4.i"
 xcodebuild archive -project 'SmartDeviceLink-iOS.xcodeproj/' -scheme 'SmartDeviceLink' -configuration Release -destination 'generic/platform=iOS' -archivePath './SmartDeviceLink-Device.xcarchive' SKIP_INSTALL=NO
