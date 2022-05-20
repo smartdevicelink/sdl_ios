@@ -43,7 +43,7 @@ if [ -z $new_version_number ]; then
     echo "No version number entered. Skipping..."
 else
     if [ $current_version_number != $new_version_number ]; then
-        echo "Changed Version Number"
+        echo "Changing Version Number in $project_file"
         # 1.4) swap new version in to file
         sed '/MARKETING_VERSION/{s/'$current_version_number'/'$new_version_number'/;}' $project_file > $new_file
         mv -f $new_file $project_file
@@ -104,11 +104,13 @@ fi
 # 3 update RPC versions
 # /SmartDeviceLink/private/SDLGlobals.h
 # TODO - extract version, prompt user to fix it if necessary.
+echo 
 echo "Step 3: Please update RPC version in /SmartDeviceLink/private/SDLGlobals.h"
 
 # 3 update protocol versions
 # /SmartDeviceLink/private/SDLGlobals.h
 # TODO - extract version, prompt user to fix it if necessary.
+echo 
 echo "Step 3: Please update protocol versions in /SmartDeviceLink/private/SDLGlobals.h"
 
 # 4 update to newest bson
@@ -125,6 +127,7 @@ read user_input
 # Changelog.md
 
 # 6 generate documentation
+echo 
 echo "6 generate documentation"
 echo "Would you like to automatically generate documentation with Jazzy (Y/n)?"
 read user_input
@@ -145,6 +148,7 @@ if [[ ! $user_input == [Nn] ]]; then
 fi
 
 # 7 ensure RPC_SPEC has released to master
+echo
 echo "Step 7: ensure RPC_SPEC has released to master"
 # TODO - cleanup wording
 # IDEA - maybe provide links to assist?
@@ -155,10 +159,12 @@ read user_input
 #echo "update the submodule to point to new release"
 # TODO - cleanup wording
 # IDEA - maybe provide links to assist?
+echo
 echo "Please update the submodule to point to new release and return here"
 read user_input
 
 
+echo
 echo "Please perform the following steps"
 # and every step of this process, the user needs complete control.
 # that means we tell them what we want to do, ask them if they want us to do it, report the results, and gracefully handle exits.
@@ -202,6 +208,7 @@ echo "3 Push the new release to the secondary cocoapod using command line:"
 read user_input
 
 # 4 add binary xcframework archive for manual installation
+echo
 echo "Creating .xcframework for manual installation, to be added to the release."
 # i
 echo "4.i"
@@ -216,20 +223,27 @@ echo "4.iii"
 xcodebuild -create-xcframework -framework './SmartDeviceLink-Device.xcarchive/Products/Library/Frameworks/SmartDeviceLink.framework/' -framework './SmartDeviceLink-Simulator.xcarchive/Products/Library/Frameworks/SmartDeviceLink.framework/' -output './SmartDeviceLink.xcframework'
 
 # iv Compress the .xcframework and add the it to the release.
+echo
 echo "4.iv Compress the .xcframework and add the it to the release."
 # SmartDeviceLink.xcframework
-# TODO - Zip the .xcframework and name it based on the naming scheme in the releases. Then delete the old intermediate files.
-
+file="SmartDeviceLink.xcframework"
+zip_file_name="SmartDeviceLink.xcframework.zip"
+if [ ! -f "$zip_file_name" ]; then
+    rm $zip_file_name
+fi
+zip $zip_file_name $file
+#TODO - add framework to release
 
 # 5 add docset to release (docs/docsets/)
-# ?
+# TODO - ?
 
 # 6 rename docset similar to old releases
-# ?
+# TODO - ?
 
 # 6 rename framework similar to old releases
-# ?
+# TODO - ?
 
 # script end
+echo
 echo "Work Complete"
 # echo "Release complete. Time to party 🍾"
