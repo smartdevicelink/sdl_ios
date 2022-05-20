@@ -94,7 +94,7 @@ if [ -z $new_version ]; then
     new_version=$new_version_number
 fi
 if [ $CurrentVersion != $new_version ]; then
-    echo make the change
+    echo "changing version in $PodSpecFile to $new_version"
     # 2.4) swap new version in to file
     sed '/s.version/{s/'$CurrentVersion'/'$new_version'/;}' $PodSpecFile > $PodSpecNewFile
     mv -f $PodSpecNewFile $PodSpecFile
@@ -143,7 +143,7 @@ if [[ ! $user_input == [Nn] ]]; then
     # this runs Jazzy to generate the documentation
     echo "Run Jazzy to generate documentation"
     jazzy --clean --objc --framework-root SmartDeviceLink --sdk iphonesimulator --umbrella-header SmartDeviceLink/public/SmartDeviceLink.h --theme theme --output docs
-#then
+#else
 #    echo "not Jazzy..."
 fi
 
@@ -191,7 +191,7 @@ echo "8.3 merge master back to develop"
 # git merge <branch> <master>
 
 # 1 Create new release for tag
-echo "1.0 Create new release for tag"
+echo "Step 1: Create new release for tag"
 # ?
 
 # 1 add highlights of changes
@@ -199,17 +199,18 @@ echo "1.1 add highlights of changes"
 # ?
 
 # 2 push new release to primary cocoapod
-echo "2 push new release to primary Cocoapod"
+echo "Step 2: push new release to primary Cocoapod"
 #pod trunk push SmartDeviceLink.podspec --allow-warnings
 
 # 3 Push the new release to the secondary cocoapod using command line:
-echo "3 Push the new release to the secondary cocoapod using command line:"
+echo "Step 3: Push the new release to the secondary cocoapod using command line:"
 #pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings.
 read user_input
 
-# 4 add binary xcframework archive for manual installation
+# 4 Add a binary xcframework archive for manual installation with the following commands
+# TODO - these commands did not work on last test.
 echo
-echo "Creating .xcframework for manual installation, to be added to the release."
+echo "Step 4: Add a binary xcframework archive for manual installation with the following commands"
 # i
 echo "4.i"
 xcodebuild archive -project 'SmartDeviceLink-iOS.xcodeproj/' -scheme 'SmartDeviceLink' -configuration Release -destination 'generic/platform=iOS' -archivePath './SmartDeviceLink-Device.xcarchive' SKIP_INSTALL=NO
@@ -225,23 +226,28 @@ xcodebuild -create-xcframework -framework './SmartDeviceLink-Device.xcarchive/Pr
 # iv Compress the .xcframework and add the it to the release.
 echo
 echo "4.iv Compress the .xcframework and add the it to the release."
-# SmartDeviceLink.xcframework
 file="SmartDeviceLink.xcframework"
 zip_file_name="SmartDeviceLink.xcframework.zip"
 if [ ! -f "$zip_file_name" ]; then
-    rm $zip_file_name
+    rm $zip_file_name #kill the old zip if present.  Useful for re-running the script
 fi
+#TODO - we should verify file exists before acting on it.  It's just good practice.  Maybe review and apply through this script.
 zip $zip_file_name $file
 #TODO - add framework to release
 
+
 # 5 add docset to release (docs/docsets/)
+echo "step 5: Add the docset to the release found in docs/docsets/."
 # TODO - ?
 
+echo "step 6: Rename the docset and framework similar to older releases"
 # 6 rename docset similar to old releases
-# TODO - ?
+# TODO - figure out old/new names
+# mv <oldname> <newname>
 
 # 6 rename framework similar to old releases
-# TODO - ?
+# TODO
+# mv <oldname> <newname>
 
 # script end
 echo
