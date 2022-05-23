@@ -233,7 +233,9 @@ if [ ! -f "$zip_file_name" ]; then
 fi
 #TODO - we should verify file exists before acting on it.  It's just good practice.  Maybe review and apply through this script.
 zip $zip_file_name $file
-#TODO - add framework to release
+#TODO - remove old files
+# rm $file
+#TODO - add framework to release ??
 
 
 # 5 add docset to release (docs/docsets/)
@@ -251,5 +253,6 @@ echo "step 6: Rename the docset and framework similar to older releases"
 
 # script end
 echo
-echo "Work Complete"
-# echo "Release complete. Time to party 🍾"
+#echo "Work Complete"
+#echo "Release complete. Time to party 🍾"
+echo "Release complete"
