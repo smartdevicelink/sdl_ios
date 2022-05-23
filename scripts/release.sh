@@ -101,22 +101,41 @@ if [ $CurrentVersion != $new_version ]; then
 fi
 
 
+
 # 3 update RPC versions
-# /SmartDeviceLink/private/SDLGlobals.h
+# /SmartDeviceLink/private/SDLGlobals.m
 # TODO - extract version, prompt user to fix it if necessary.
 echo 
 echo "Step 3: Please update RPC version in /SmartDeviceLink/private/SDLGlobals.h"
 
 # 3 update protocol versions
-# /SmartDeviceLink/private/SDLGlobals.h
+# /SmartDeviceLink/private/SDLGlobals.m
 # TODO - extract version, prompt user to fix it if necessary.
 echo 
 echo "Step 3: Please update protocol versions in /SmartDeviceLink/private/SDLGlobals.h"
 
-# 4 update to newest bson
-# git submodule ... commands
-# 4.1 Update Package.swift and CocoaPods dependency files to point to latest if necessary.
-# TODO - what needs to be done for this?
+
+# 4 Update to the newest BSON submodule. Update Package.swift and CocoaPods dependency files to point to latest if necessary.
+# extract version and link from Package.swift
+submodule_info=$(sed -n '/.package/{s/let package = Package(//;s/.package(//;s/)//;p;}' $project_file)
+submodule_name=$(jq -n "{$submodule_info}" | jq -r .name)
+submodule_url=$(jq -n "{$submodule_info}" | jq -r .url)
+submodule_current_version=$(jq -n "{$submodule_info}" | jq -r .from)
+
+# figure out latest version (visit link?)
+submodule_latest_version=$(gh repo view $submodule_url --json latestRelease -q .latestRelease.tagName)
+
+# compare versions
+if [ $submodule_current_version != $submodule_latest_version ]; then
+    echo
+    echo "Current version of $submodule_name: "$submodule_current_version
+    echo "Latest version of $submodule_name: "$submodule_latest_version
+    echo "Please update the submodule $submodule_name before continuing with the release."
+    echo
+    echo "You must also edit the dependancy information in SmartDeviceLink-iOS.podspec"
+    echo
+fi
+
 
 # 5 update changelog
 # IDEA - I should record the timestamp of the changelog, and then check after the user returns to see that they did touch the file.
@@ -236,10 +255,12 @@ zip $zip_file_name $file
 #TODO - remove old files
 # rm $file
 #TODO - add framework to release ??
+# git add <filename>
 
 
 # 5 add docset to release (docs/docsets/)
 echo "step 5: Add the docset to the release found in docs/docsets/."
+# git add <filename>
 # TODO - ?
 
 echo "step 6: Rename the docset and framework similar to older releases"
@@ -250,6 +271,8 @@ echo "step 6: Rename the docset and framework similar to older releases"
 # 6 rename framework similar to old releases
 # TODO
 # mv <oldname> <newname>
+
+# TODO - don't we still need to commit/push the framework/docset changes?
 
 # script end
 echo
