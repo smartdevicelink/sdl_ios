@@ -166,21 +166,15 @@ if [[ ! $user_input == [Nn] ]]; then
 #    echo "not Jazzy..."
 fi
 
-# 7 ensure RPC_SPEC has released to master
+# 7 Ensure that the RPC_SPEC has released to the master branch and update the submodule to point to the new release tag (or to the HEAD of master, if no release of the RPC_SPEC is occurring).
+# TODO - cleanup wording
+# IDEA - maybe provide links to assist?
 echo
 echo "Step 7: ensure RPC_SPEC has released to master"
-# TODO - cleanup wording
-# IDEA - maybe provide links to assist?
-echo "Please ensure RPC_SPEC has released to master and return here"
+echo "Ensure that the RPC_SPEC has released to the master branch and update the submodule to point to the new release tag (or to the HEAD of master, if no release of the RPC_SPEC is occurring)"
+echo "Then return here"
 read user_input
 
-# 7 update the submodule to point to new release
-#echo "update the submodule to point to new release"
-# TODO - cleanup wording
-# IDEA - maybe provide links to assist?
-echo
-echo "Please update the submodule to point to new release and return here"
-read user_input
 
 
 echo
@@ -208,7 +202,11 @@ echo "8.2 tag the release"
 # 8 merge master back to develop
 echo "8.3 merge master back to develop"
 # git merge <branch> <master>
+read user_input
 
+
+echo
+echo "Please perform the following steps"
 # 1 Create new release for tag
 echo "Step 1: Create new release for tag"
 # ?
@@ -219,63 +217,83 @@ echo "1.1 add highlights of changes"
 
 # 2 push new release to primary cocoapod
 echo "Step 2: push new release to primary Cocoapod"
+echo "pod trunk push SmartDeviceLink.podspec --allow-warnings"
 #pod trunk push SmartDeviceLink.podspec --allow-warnings
 
 # 3 Push the new release to the secondary cocoapod using command line:
 echo "Step 3: Push the new release to the secondary cocoapod using command line:"
+echo "pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings."
 #pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings.
 read user_input
 
+
 # 4 Add a binary xcframework archive for manual installation with the following commands
-# TODO - these commands did not work on last test.
 echo
-echo "Step 4: Add a binary xcframework archive for manual installation with the following commands"
+echo "Step 4: Add a binary xcframework archive for manual installation"
 # i
-echo "4.i"
+echo "4.i - Build Device archive"
 xcodebuild archive -project 'SmartDeviceLink-iOS.xcodeproj/' -scheme 'SmartDeviceLink' -configuration Release -destination 'generic/platform=iOS' -archivePath './SmartDeviceLink-Device.xcarchive' SKIP_INSTALL=NO
 
 # ii
-echo "4.ii"
+echo "4.ii - Build Simulator archive"
 xcodebuild archive -project 'SmartDeviceLink-iOS.xcodeproj/' -scheme 'SmartDeviceLink' -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath './SmartDeviceLink-Simulator.xcarchive' SKIP_INSTALL=NO
 
 # iii
-echo "4.iii"
+echo "4.iii - Build framework"
 xcodebuild -create-xcframework -framework './SmartDeviceLink-Device.xcarchive/Products/Library/Frameworks/SmartDeviceLink.framework/' -framework './SmartDeviceLink-Simulator.xcarchive/Products/Library/Frameworks/SmartDeviceLink.framework/' -output './SmartDeviceLink.xcframework'
 
 # iv Compress the .xcframework and add the it to the release.
 echo
 echo "4.iv Compress the .xcframework and add the it to the release."
 file="SmartDeviceLink.xcframework"
-zip_file_name="SmartDeviceLink.xcframework.zip"
+zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip" #SmartDeviceLink-7.3.1.xcframework.zip
 if [ ! -f "$zip_file_name" ]; then
     rm $zip_file_name #kill the old zip if present.  Useful for re-running the script
 fi
-#TODO - we should verify file exists before acting on it.  It's just good practice.  Maybe review and apply through this script.
-zip $zip_file_name $file
-#TODO - remove old files
-# rm $file
-#TODO - add framework to release ??
-# git add <filename>
+#verify file exists before acting on it.  It's just good practice.  Maybe review and apply through this script.
+if [ ! -f "$file" ]; then
+    zip $zip_file_name $file
+fi
+#remove old files.  We check if the zip exists first to make sure we don't break anything
+if [ ! -f "$zip_file_name" ]; then
+    rm $file
+fi
 
+echo
+echo "Please add the framework to the release."
+echo "$framework_zip_file_name" # tell the user the name of the file we prepared
+read user_input
+#TODO - phase 3 - automate adding to release
+# git add <filename>
 
 # 5 add docset to release (docs/docsets/)
-echo "step 5: Add the docset to the release found in docs/docsets/."
+echo 
+echo "step 5: Add the docset to the release (docs/docsets/)."
+echo "Please add the docset to the release."
+# probably need to zip this, and name it
+# name should be SmartDeviceLink-$new_version_number-docset.tgz  #BTW, what is tgz, and why not just .zip?
+docset_directory="docs/docsets/"
+docset_tar_file_name="SmartDeviceLink-$new_version_number-docset.tgz"
+tar -czf $docset_tar_file_name $docset_directory
+echo "$docset_tar_file_name" # tell the user the name of the file we prepared
+read user_input
+
+# TODO - phase 3 - automate adding to release
 # git add <filename>
-# TODO - ?
 
-echo "step 6: Rename the docset and framework similar to older releases"
+
+# This was kind of handled in step 5, but I want to leave it here til phase 3, in case we decide to do it.
+#echo
+#echo "step 6: Rename the docset and framework similar to older releases"
+#read user_input
 # 6 rename docset similar to old releases
-# TODO - figure out old/new names
-# mv <oldname> <newname>
+# name should be SmartDeviceLink-$new_version_number-docset.tgz
 
-# 6 rename framework similar to old releases
-# TODO
-# mv <oldname> <newname>
-
-# TODO - don't we still need to commit/push the framework/docset changes?
 
 # script end
 echo
-#echo "Work Complete"
-#echo "Release complete. Time to party 🍾"
+#echo "Work Complete" #WoW
+#echo "Release complete. Time to party 🍾" #LivioCulture
 echo "Release complete"
+
+
