@@ -230,11 +230,12 @@ if [[ ! $user_input == [Nn] ]]; then
     fi
     #Check to see if the zip exists, and then remove old files.
     if [ -f "$zip_file_name" ]; then
-        rm $folder
+        rm -r $folder
     fi
 fi
 
-echo "The xcframework zip file was created at $framework_zip_file_name. Please add it to the Github Release, then press enter..."
+echo
+echo "The xcframework zip file was created at $zip_file_name. Please add it to the Github Release, then press enter..."
 read user_input
 #TODO - phase 3 - automate adding to release
 
@@ -243,7 +244,9 @@ read user_input
 docset_directory="docs/docsets/"
 docset_tar_file_name="SmartDeviceLink-$new_version_number-docset.tgz"
 tar -czf $docset_tar_file_name $docset_directory
+echo 
 echo "Please add the docset at $docset_tar_file_name to the Github release, then press enter..."
+read user_input
 # TODO - phase 3 - automate adding to release
 
 
