@@ -28,8 +28,8 @@ echo
 echo "Step 1: Update version in Project File"
 
 # 1.1) get the current version and build from the podspec file
-project_file=./SmartDeviceLink-iOS.xcodeproj/project.pbxproj
-new_file=./SmartDeviceLink-iOS.xcodeproj/new.pbxproj
+project_file="./SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
+new_file="./SmartDeviceLink-iOS.xcodeproj/new.pbxproj"
 current_version_number=$(sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' $project_file)
 current_build_number=$(sed -n '/CURRENT_PROJECT_VERSION/{s/CURRENT_PROJECT_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' $project_file)
 echo "Current Version: "$current_version_number
@@ -59,8 +59,8 @@ echo
 echo "Step 2: Update version in podspec File"
 
 # 2.1) get the current version from the podspec file
-pod_spec_file=SmartDeviceLink-iOS.podspec
-pod_spec_new_file=NewFile.podspec
+pod_spec_file="SmartDeviceLink-iOS.podspec"
+pod_spec_new_file="NewFile.podspec"
 current_version=$(sed -n '/s.version/{s/s.version//;s/=//;s/[\"]//g;s/^[[:space:]]*//g;p;q;}' $pod_spec_file)
 echo "Current Version: "$current_version
 
@@ -81,13 +81,15 @@ file="SmartDeviceLink/private/SDLGlobals.m"
 current_rpc_version=$(sed -n '/SDLMaxProxyProtocolVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
 current_protocol_version=$(sed -n '/SDLMaxProxyRPCVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
 echo "Current RPC Version: "$current_rpc_version
-echo "Current Protocol Version: "$current_rpc_version
+echo "Current Protocol Version: "$current_protocol_version
 echo "Step 3: If these are not correct, please update protocol versions in /SmartDeviceLink/private/SDLGlobals.m"
+read user_input
 
 
 # 4 Update to the newest BSON submodule. Update Package.swift and CocoaPods dependency files to point to latest if necessary.
 # extract version and link from Package.swift
-submodule_info=$(sed -n '/.package/{s/let package = Package(//;s/.package(//;s/)//;p;}' $project_file)
+dependency_file="Package.swift"
+submodule_info=$(sed -n '/.package/{s/let package = Package(//;s/.package(//;s/)//;p;}' $dependency_file)
 submodule_name=$(jq -n "{$submodule_info}" | jq -r .name)
 submodule_url=$(jq -n "{$submodule_info}" | jq -r .url)
 submodule_current_version=$(jq -n "{$submodule_info}" | jq -r .from)
@@ -103,15 +105,14 @@ if [ $submodule_current_version != $submodule_latest_version ]; then
     echo "Please update the submodule $submodule_name before continuing with the release."
     echo
     echo "You must also edit the dependancy information in SmartDeviceLink-iOS.podspec"
-    echo
+    read user_input
 fi
 
-
 # 5 update changelog
-# IDEA - I should record the timestamp of the changelog, and then check after the user returns to see that they did touch the file.
-# IDEA - we could also insert a template into the changelog that includes the version the users have selected above.
+# TODO - insert a template into the changelog that includes the version the users have selected above.
+#echo "A template for this release has been inserted into the changelog.  Please update it."
 echo 
-echo "Please go update Changelog.md, then return here and press enter."
+echo "Please update Changelog.md, then return here and press enter."
 read user_input
 # Changelog.md
 
@@ -137,10 +138,11 @@ echo
 echo "The rpc spec site will be opened for you"
 echo "https://github.com/smartdevicelink/rpc_spec"
 echo "Please check if there is a new release of the RPC_SPEC to master."
-echo "If there is, please update the rpc_spec submodule to point to the new master, then return and press enter."
-read user_input # give user a chance to read before we throw a page at them.
+echo "If there is, please update the rpc_spec submodule to point to the new master, then press enter."
+read user_input
 open "https://github.com/smartdevicelink/rpc_spec"
-read user_input # wait for user to return
+read user_input
+#TODO - phase ? - can this be automated.  Check version.  Check version at site.
 
 echo
 echo "Please perform the following steps to push the release to master:"
@@ -186,6 +188,8 @@ if [[ ! $user_input == [Nn] ]]; then
 
     # TODO - phase 3 - this can be automated with gh
     # https://cli.github.com/manual/gh_release_create
+    # TODO - can we pull the list of changes from Changelog.md and automatically add those to the release (so we do not type the same things twice)
+    # TODO - if/when we automate this, make sure to open the releases page so the user can review it.
 fi
 
 
@@ -214,19 +218,19 @@ if [[ ! $user_input == [Nn] ]]; then
     xcodebuild archive -project 'SmartDeviceLink-iOS.xcodeproj/' -scheme 'SmartDeviceLink' -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath './SmartDeviceLink-Simulator.xcarchive' SKIP_INSTALL=NO
     xcodebuild -create-xcframework -framework './SmartDeviceLink-Device.xcarchive/Products/Library/Frameworks/SmartDeviceLink.framework/' -framework './SmartDeviceLink-Simulator.xcarchive/Products/Library/Frameworks/SmartDeviceLink.framework/' -output './SmartDeviceLink.xcframework'
 
-    file="SmartDeviceLink.xcframework"
-    zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip" #SmartDeviceLink-7.3.1.xcframework.zip
-    if [ ! -f "$zip_file_name" ]; then
+    folder="SmartDeviceLink.xcframework"
+    zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
+    if [ -f $zip_file_name ]; then
         #kill the old zip if present.  Useful for re-running the script
         rm $zip_file_name 
     fi
     #verify file exists before acting on it.
-    if [ ! -f "$file" ]; then
-        zip $zip_file_name $file
+    if [ -d "$folder" ]; then
+        zip $zip_file_name $folder
     fi
     #Check to see if the zip exists, and then remove old files.
-    if [ ! -f "$zip_file_name" ]; then
-        rm $file
+    if [ -f "$zip_file_name" ]; then
+        rm $folder
     fi
 fi
 
