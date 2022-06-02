@@ -24,6 +24,8 @@ prompt_user(){
     fi
 }
 
+# TODO - phase 4 - github cli "gh" needs to be installed before we can use those commands.
+#  gh commands are commented for now.
 
 
 # script start
@@ -40,8 +42,12 @@ if [[ $PWD != *"sdl_ios" ]]; then
     exit 0
 fi
 
-# TODO - For Phase3, this is probably the correct place to checkout develop
-# git checkout develop
+# setup branch variables
+develop_branch="develop"
+main_branch="master"
+
+# Checkout develop
+git checkout $develop_branch
 
 # 1 bump version in projectFile
 echo
@@ -113,14 +119,14 @@ if [ ! -z "$submodule_info" ]; then
             record_version=$(sed -n '/from:/{s/from://g;s/^[[:space:]]*//g;s/"//g;p;}' <<< "$record_info")
             
             # figure out latest version (visit link?)
-            submodule_latest_version=$(gh repo view $record_url --json latestRelease -q .latestRelease.tagName)
+            #submodule_latest_version=$(gh repo view $record_url --json latestRelease -q .latestRelease.tagName)
 
             # compare versions
-            if [ $record_version != $submodule_latest_version ]; then
+            #if [ $record_version != $submodule_latest_version ]; then
                 echo
                 echo "Current version of $record_name: "$record_version
-                echo "Latest version of $record_name: "$submodule_latest_version
-            fi
+                #echo "Latest version of $record_name: "$submodule_latest_version
+            #fi
         fi
     done <<< "$submodule_info"
     echo
@@ -158,7 +164,7 @@ echo
 echo "Please check if there is a new release of the RPC_SPEC on https://www.github.com/smartdevicelink/rpc_spec"
 echo "If there is, please update the rpc_spec submodule to point to the newest commit on the master branch. Press enter to continue..."
 read user_input
-#TODO - phase ? - can this be automated.  Check version.  Check version at site.
+#TODO - phase ? - can this be automated.  Check version here.  Check version at site.
 #record_url=https://www.github.com/smartdevicelink/rpc_spec
 #submodule_latest_version=$(gh repo view $record_url --json latestRelease -q .latestRelease.tagName)
 
@@ -170,8 +176,15 @@ echo "Please perform the following steps to set up the Github release."
 prompt_user "Would you like to commit these changes to the develop branch?"
 if [[ $? == 1 ]]; then
     #todo - phase 3 - run the commands automatically
-    echo "git commands here"
-    echo "Please Commit and push the changes to develop"
+    
+    # add changes to the commit
+    # -A is probably not correct.
+    git add -A
+    # create the commit
+    commit_message="Update for release $new_version_number"
+    git commit -m commit_message
+    # push the commit to develop
+    git push --set-upstream origin $develop_branch
 fi
 
 echo
@@ -179,7 +192,12 @@ echo
 prompt_user "Would you like to merge this release to master? (This will not push to master.)?"
 if [[ $? == 1 ]]; then
     echo "Please check that everything is correct. Then, assuming you have permissions, push to master, then press enter..."
-    #todo - phase 3 - run the commands automatically
+    
+    # checkout master
+    git checkout $main_branch
+
+    # merge develop with master
+    git merge $main_branch $develop_branch
 fi
 
 echo
@@ -187,17 +205,14 @@ echo
 prompt_user "Would you like to tag this release? (This will not push the tag)?"
 if [[ $? == 1 ]]; then
     echo "Tag with version from above"
-    # todo - look at old released to figure out tag format
-    # todo - phase 3 - run the commands automatically
+    git tag $new_version_number
 fi
 
 echo
 # 8 merge master back to develop
 prompt_user "Would you like to merge master back into develop? (This will not push the branch.)?"
 if [[ $? == 1 ]]; then
-    # git merge develop <master>
-    echo "git commands here"
-    #todo - phase 3 - run the commands automatically
+    git merge $develop_branch $main_branch
 fi
 
 echo
@@ -257,6 +272,7 @@ tar -czf $docset_tar_file_name $docset_directory
 echo 
 echo "Please add the docset at $docset_tar_file_name to the Github release, then press enter..."
 read user_input
+#todo - phase 4 - adding the docset to the release shoudl also be automatic
 
 echo
 echo "Release complete."
