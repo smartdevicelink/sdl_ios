@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # George Miller
-# 06-03-2022
+# 07-07-2022
 # If you don't have permission to run, try: chmod u+x create_framework.sh
 
-# a utility function for prompting the user Y/N
+
+# utility function for prompting the user Y/N
 # takes in a string promt for the input
 # returns 1 for yes/true or 0 for no/false
 prompt_user() {
@@ -34,28 +35,33 @@ if [[ $PWD != *"sdl_ios" ]]; then
     exit 0
 fi
 
-# 2 get the verison number
-# get the verison number
-# at this point the version in the project file should be correct, so use it.
-project_file="./SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
-current_version_number=$(sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' $project_file)
-if [ -z $current_version_number ]; then current_version_number="1.0.0"; fi
-echo "Current Version: "$current_version_number
 
-# todo - we can streamline this by trusting the project file to always have the correct version (bail out if project file missing)
-prompt_user "Is this version correct"
-if [[ $? == 0 ]]; then
-    # Prompt user for new version
-    echo "Enter the new version number (semantic versioning x.x.x format) or blank to skip: "
-    read new_version_number
+# if there is no command line ask for a version number
+if [ -z $1  ]; then
+    # 2 get the verison number
+    # get the verison number
+    # at this point the version in the project file should be correct, so use it.
+    project_file="./SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
+    current_version_number=$(sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' $project_file)
+    if [ -z $current_version_number ]; then current_version_number="1.0.0"; fi
+    echo "Current Version: "$current_version_number
 
-    # If blank or the same, then skip. Otherwise change the version number
-    if [ -z $new_version_number ]; then
-        echo "No version number entered. Skipping..."
-        new_version_number=$current_version_number
+    # todo - we can streamline this by trusting the project file to always have the correct version (bail out if project file missing)
+    prompt_user "Is this version correct"
+    if [[ $? == 0 ]]; then
+        # Prompt user for new version
+        echo "Enter the new version number (semantic versioning x.x.x format) or blank to skip: "
+        read new_version_number
+
+        # If blank or the same, then skip. Otherwise change the version number
+        if [ -z $new_version_number ]; then
+            echo "No version number entered. Skipping..."
+            new_version_number=$current_version_number
+        fi
     fi
+else
+    new_version_number=$1
 fi
-
 # 3 Add a binary xcframework archive for manual installation with the following commands
 echo
 echo "Creating a binary xcframework for manual installation"
@@ -68,31 +74,23 @@ xcodebuild -create-xcframework -framework './SmartDeviceLink-Device.xcarchive/Pr
 
 folder="SmartDeviceLink.xcframework"
 zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
-read user_input
 # kill the old zip if present.  Useful for re-running the script
 if [ -f $zip_file_name ]; then rm $zip_file_name; fi
-read user_input
-# verify file exists before acting on it.
-if [ -d "$folder" ]; then zip $zip_file_name $folder; fi
-read user_input
-# Check to see if the zip exists, and then remove old files.
-if [ -f "$zip_file_name" ]; then rm -r $folder; fi
-read user_input
+# verify folder exists before acting on it.
+if [ -d "$folder" ]; then 
+    zip $zip_file_name $folder
+    # Check to see if the zip exists, and then remove old files.
+    if [ -f "$zip_file_name" ]; then rm -r $folder; fi
+fi
+
+#cleanup artifacts
+folder="SmartDeviceLink-Device.xcarchive"
+if [ -d "$folder" ]; then rm -r $folder; fi
+
+folder="SmartDeviceLink-Simulator.xcarchive"
+if [ -d "$folder" ]; then rm -r $folder; fi
 
 echo
 echo "The xcframework zip file was created at $zip_file_name. Please add it to the Github Release, then press enter..."
 read user_input
 
-# 14 Rename the docset and pack it
-prompt_user "Would you like to create a the docset"
-if [[ $? == 1 ]]; then
-    # SmartDeviceLink-$new_version_number-docset.tgz
-    docset_directory="docs/docsets/"
-    docset_tar_file_name="SmartDeviceLink-$new_version_number-docset.tgz"
-    tar -czf $docset_tar_file_name $docset_directory
-
-    echo 
-    echo "Please add the docset at $docset_tar_file_name to the Github release, then press enter..."
-    read user_input
-    #todo - phase 4 - adding the docset to the release shoudl also be automatic
-fi

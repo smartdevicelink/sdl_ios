@@ -142,6 +142,7 @@ fi
 echo 
 echo "Please update CHANGELOG.md, then return here and press enter..."
 read user_input
+# TODO - check modified info before and after so we can detect if the user failed to update the file.
 
 
 # 5 generate documentation
@@ -194,8 +195,6 @@ if [[ $? == 1 ]]; then
     echo "Please check that everything is correct. Then, assuming you have permissions, push to master, then press enter..."
 fi
 
-
-
 echo
 # 9 tag it
 prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
@@ -232,37 +231,14 @@ if [[ $? == 1 ]]; then
     pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings
 fi
 
-# TODO - Chop here, and make everything for the framework into it's own script.
-
-# 13 Add a binary xcframework archive for manual installation with the following commands
 echo
 prompt_user "Would you like to create a binary xcframework for manual installation"
 if [[ $? == 1 ]]; then
-    xcodebuild archive -project 'SmartDeviceLink-iOS.xcodeproj/' -scheme 'SmartDeviceLink' -configuration Release -destination 'generic/platform=iOS' -archivePath './SmartDeviceLink-Device.xcarchive' SKIP_INSTALL=NO
-    xcodebuild archive -project 'SmartDeviceLink-iOS.xcodeproj/' -scheme 'SmartDeviceLink' -configuration Release -destination 'generic/platform=iOS Simulator' -archivePath './SmartDeviceLink-Simulator.xcarchive' SKIP_INSTALL=NO
-    xcodebuild -create-xcframework -framework './SmartDeviceLink-Device.xcarchive/Products/Library/Frameworks/SmartDeviceLink.framework/' -framework './SmartDeviceLink-Simulator.xcarchive/Products/Library/Frameworks/SmartDeviceLink.framework/' -output './SmartDeviceLink.xcframework'
-
-    folder="SmartDeviceLink.xcframework"
-    zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
-    if [ -f $zip_file_name ]; then
-        # kill the old zip if present.  Useful for re-running the script
-        rm $zip_file_name 
-    fi
-    
-    # verify file exists before acting on it.
-    if [ -d "$folder" ]; then
-        zip $zip_file_name $folder
-    fi
-
-    # Check to see if the zip exists, and then remove old files.
-    if [ -f "$zip_file_name" ]; then
-        rm -r $folder
-    fi
-    
-    echo
-    echo "The xcframework zip file was created at $zip_file_name. Please add it to the Github Release, then press enter..."
-    read user_input
-    #TODO - phase 4 - automate adding to release
+    # create framework
+    # we pass in the version so that the framework script does not need to ask
+    # remember the user will need to ahve permissions for the framework script
+    chmod u+x ./scripts/create_framework.sh #I don't know if this works?
+    ./scripts/create_framework.sh $new_version_number
 fi
 
 # 14 Rename the docset and pack it
