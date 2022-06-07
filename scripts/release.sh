@@ -2,7 +2,7 @@
 
 # George Miller
 # 05-17-2022
-# If you don't have permission to run, try: chmod u+x Release.sh
+# If you don't have permission to run, try: chmod u+x release.sh
 # numbering follows this document: https://github.com/smartdevicelink/sdl_ios/wiki/Release-Steps
 # The numbering does restart halfway because the document does.
 
@@ -11,7 +11,7 @@
 # returns 1 for yes/true or 0 for no/false
 prompt_user() {
     user_input="g"
-    echo $1" (Y/N)"
+    echo $1" (Y/N)?"
     read user_input
     while [[ ! $user_input == [YyNn] ]]; do
         echo $1" (Y/N)?"
@@ -101,7 +101,7 @@ current_rpc_version=$(sed -n '/SDLMaxProxyProtocolVersion/{s/^.*@//;s/[\;]//;s/[
 current_protocol_version=$(sed -n '/SDLMaxProxyRPCVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
 echo "Current RPC Version: "$current_rpc_version
 echo "Current Protocol Version: "$current_protocol_version
-echo "If these are not correct, please update protocol versions in /SmartDeviceLink/private/SDLGlobals.m. Then press enter."
+echo "If these are not correct, please update protocol versions in /SmartDeviceLink/private/SDLGlobals.m. Then press enter..."
 read user_input
 
 # 3 Update to the newest BSON submodule. Update Package.swift and CocoaPods dependency files to point to latest if necessary.
@@ -231,6 +231,8 @@ if [[ $? == 1 ]]; then
     pod trunk push SmartDeviceLink.podspec --allow-warnings
     pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings
 fi
+
+# TODO - Chop here, and make everything for the framework into it's own script.
 
 # 13 Add a binary xcframework archive for manual installation with the following commands
 echo
