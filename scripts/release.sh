@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# this line is a change for testing purposes.
+
 # George Miller
 # 05-17-2022
 # If you don't have permission to run, try: chmod u+x release.sh
@@ -58,6 +60,9 @@ if [[ $? == 1 ]]; then
     # stash local changes to prevent issues with checkout
     git stash
     echo "use \"git stash pop\" when this script is complete to restore your changes"
+else
+    # dump local changes to prevent issues with checkout
+    git reset --hard
 fi
 
 # Checkout develop
