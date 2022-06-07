@@ -11,6 +11,7 @@
 # returns 1 for yes/true or 0 for no/false
 prompt_user() {
     user_input="g"
+    echo
     echo $1" (Y/N)?"
     read user_input
     while [[ ! $user_input == [YyNn] ]]; do
@@ -24,9 +25,8 @@ prompt_user() {
     fi
 }
 
-# TODO - phase 4 - github cli "gh" needs to be installed before we can use those commands.
+# TODO - phase 4 - github cli "gh" needs to be installed before we can use those commands.  We could automate this or at least check if GH is installed.
 #  gh commands are commented for now.
-
 
 # script start
 echo 
@@ -46,12 +46,33 @@ fi
 develop_branch="develop"
 main_branch="master"
 
+
+#DEBUG - copy out framework script
+#this is necessary because the branch that these scripts are being developed on has not yet been merged into develop.  This will not be necessary in production.
+cp scripts/create_framework.sh ../create_framework.sh
+
+#stash any local changes to avoid errors during checkout
+git status
+prompt_user "Would you like to stash any local changes?"
+if [[ $? == 1 ]]; then
+    # stash local changes to prevent issues with checkout
+    git stash
+    echo "use \"git stash pop\" when this script is complete to restore your changes"
+fi
+
 # Checkout develop
-git checkout $develop_branch
+# we need to checkout the branch before we start modifying files.
+echo
+echo "Checking out $develop_branch"
+git -f checkout $develop_branch
+
+#DEBUG move framework script back in
+#like above, this will not be required after the release script branch is merged into develop
+mv ../create_framework.sh scripts/create_framework.sh
 
 # 1 bump version in projectFile
 echo
-echo "Step 1: Update version in Project File"
+echo "Updateing the version"
 
 # 1.1) get the current version and build from the podspec file
 project_file="./SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
@@ -93,9 +114,9 @@ if [ $current_version != $new_version_number ]; then
     mv -f $pod_spec_new_file $pod_spec_file
 fi
 
-# Step 2: Update RPC and protocol versions in /SmartDeviceLink/private/SDLGlobals.m
+# 2 Update RPC and protocol versions in /SmartDeviceLink/private/SDLGlobals.m
 echo 
-echo "Step 2: Checking SDLGlobals.m for RPC and Protocol versions"
+echo "Checking SDLGlobals.m for RPC and Protocol versions"
 file="SmartDeviceLink/private/SDLGlobals.m"
 current_rpc_version=$(sed -n '/SDLMaxProxyProtocolVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
 current_protocol_version=$(sed -n '/SDLMaxProxyRPCVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
@@ -146,7 +167,6 @@ read user_input
 
 
 # 5 generate documentation
-echo 
 prompt_user "Would you like to automatically generate documentation with Jazzy"
 if [[ $? == 1 ]]; then
     # Check if Jazzy is already installed, and if not then install jazzy
@@ -169,80 +189,89 @@ read user_input
 #record_url=https://www.github.com/smartdevicelink/rpc_spec
 #submodule_latest_version=$(gh repo view $record_url --json latestRelease -q .latestRelease.tagName)
 
-echo
-echo "Please perform the following steps to set up the Github release."
-
 # git commands
-# 7 commit release to develop
-prompt_user "Would you like to commit and push these changes to the develop branch"
+echo
+echo "$develop_branch has already been checked out for you."
+
+prompt_user "Would you like to automatically run the git commands for this release"
 if [[ $? == 1 ]]; then
-    # Add, commit, and push changes
-    git add -A
-    git commit -m "Update for release $new_version_number"
-    git push --set-upstream origin $develop_branch
+    
+    # 7 commit release to develop
+    prompt_user "Would you like to commit and push these changes to the develop branch"
+    if [[ $? == 1 ]]; then
+        # Add, commit, and push changes
+        git add -A
+        git commit -m "Update for release $new_version_number"
+        git push --set-upstream origin $develop_branch
+    else
+        echo "Aborting script!"
+        exit 0
+    fi
+
+    # 8 merge release to master
+    prompt_user "Would you like to merge this release to master? (This will not push to master)"
+    if [[ $? == 1 ]]; then
+        # checkout master
+        git checkout $main_branch
+
+        # merge develop with master
+        git merge $main_branch $develop_branch
+
+        echo "Please check that everything is correct. Then, assuming you have permissions, push to master, then press enter..."
+        #git push --set-upstream origin $main_branch
+    else
+        echo "Aborting script!"
+        exit 0
+    fi
+
+    # 9 tag it
+    prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
+    if [[ $? == 1 ]]; then
+        echo "Tag with version from above"
+        git tag $new_version_number
+        # IDEA - else condition that allows the user to enter a different tag
+    fi
+
+    # 10 merge master back to develop
+    prompt_user "Would you like to merge master back into develop (This will not push the branch)"
+    if [[ $? == 1 ]]; then
+        git merge $develop_branch $main_branch
+        #git push --set-upstream origin $develop_branch
+    else
+        echo "Aborting script!"
+        exit 0
+    fi
+
+    # 11 Create new release for tag
+    prompt_user "Would you like to open to the Github releases page to create a release"
+    if [[ $? == 1 ]]; then
+        open "https://github.com/smartdevicelink/sdl_ios/releases"
+
+        # TODO - phase 4 - this can be automated with gh
+        # https://cli.github.com/manual/gh_release_create
+        # TODO - can we pull the list of changes from Changelog.md and automatically add those to the release (so we do not type the same things twice)
+        # TODO - if/when we automate this, make sure to open the releases page so the user can review it.
+    fi
+
+    echo
+    # 12 push new release to primary and secondary cocoapod using command line:
+    prompt_user "Would you like to push the release to CocoaPods"
+    if [[ $? == 1 ]]; then
+        pod trunk push SmartDeviceLink.podspec --allow-warnings
+        pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings
+    fi
 fi
 
-echo
-# 8 merge release to master
-prompt_user "Would you like to merge this release to master? (This will not push to master)"
-if [[ $? == 1 ]]; then
-    # checkout master
-    git checkout $main_branch
-
-    # merge develop with master
-    git merge $main_branch $develop_branch
-
-    echo "Please check that everything is correct. Then, assuming you have permissions, push to master, then press enter..."
-fi
-
-echo
-# 9 tag it
-prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
-if [[ $? == 1 ]]; then
-    echo "Tag with version from above"
-    git tag $new_version_number
-    # IDEA - else condition that allows the user to enter a different tag
-fi
-
-echo
-# 10 merge master back to develop
-prompt_user "Would you like to merge master back into develop (This will not push the branch)"
-if [[ $? == 1 ]]; then
-    git merge $develop_branch $main_branch
-fi
-
-echo
-# 11 Create new release for tag
-prompt_user "Would you like to open to the Github releases page to create a release"
-if [[ $? == 1 ]]; then
-    open "https://github.com/smartdevicelink/sdl_ios/releases"
-
-    # TODO - phase 4 - this can be automated with gh
-    # https://cli.github.com/manual/gh_release_create
-    # TODO - can we pull the list of changes from Changelog.md and automatically add those to the release (so we do not type the same things twice)
-    # TODO - if/when we automate this, make sure to open the releases page so the user can review it.
-fi
-
-echo
-# 12 push new release to primary and secondary cocoapod using command line:
-prompt_user "Would you like to push the release to CocoaPods"
-if [[ $? == 1 ]]; then
-    pod trunk push SmartDeviceLink.podspec --allow-warnings
-    pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings
-fi
-
-echo
 prompt_user "Would you like to create a binary xcframework for manual installation"
 if [[ $? == 1 ]]; then
     # create framework
     # we pass in the version so that the framework script does not need to ask
-    # remember the user will need to ahve permissions for the framework script
-    chmod u+x ./scripts/create_framework.sh #I don't know if this works?
+    # give the user permissions to the framework script, then run the script.
+    chmod u+x ./scripts/create_framework.sh
     ./scripts/create_framework.sh $new_version_number
 fi
 
 # 14 Rename the docset and pack it
-echo
 prompt_user "Would you like to create a the docset"
 if [[ $? == 1 ]]; then
     # SmartDeviceLink-$new_version_number-docset.tgz
@@ -253,7 +282,7 @@ if [[ $? == 1 ]]; then
     echo 
     echo "Please add the docset at $docset_tar_file_name to the Github release, then press enter..."
     read user_input
-    #todo - phase 4 - adding the docset to the release shoudl also be automatic
+    #todo - phase 4 - adding the docset to the release should also be automatic
 fi
 echo
 echo "Release complete."
