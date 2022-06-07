@@ -67,7 +67,7 @@ fi
 # we need to checkout the branch before we start modifying files.
 echo
 echo "Checking out $develop_branch"
-git -f checkout $develop_branch
+git checkout $develop_branch
 
 #DEBUG move framework script back in
 #like above, this will not be required after the release script branch is merged into develop
