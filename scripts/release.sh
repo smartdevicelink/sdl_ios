@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# this line is a change for testing purposes.
-
 # George Miller
 # 05-17-2022
 # If you don't have permission to run, try: chmod u+x release.sh
