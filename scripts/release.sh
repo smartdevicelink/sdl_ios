@@ -175,9 +175,6 @@ echo
 echo "Please check if there is a new release of the RPC_SPEC on https://www.github.com/smartdevicelink/rpc_spec"
 echo "If there is, please update the rpc_spec submodule to point to the newest commit on the master branch. Press enter to continue..."
 read user_input
-# TODO - phase ? - can this be automated. Check version here. Check version at site.
-#record_url=https://www.github.com/smartdevicelink/rpc_spec
-#submodule_latest_version=$(gh repo view $record_url --json latestRelease -q .latestRelease.tagName)
 
 # Git commands
 echo
@@ -198,7 +195,7 @@ if [[ $? == 1 ]]; then
         exit 0
     fi
 
-    # merge release to master
+    # Merge release to master
     prompt_user "Would you like to merge this release to master? (This will not push to master)"
     if [[ $? == 1 ]]; then
         # Checkout master
@@ -208,24 +205,22 @@ if [[ $? == 1 ]]; then
         git merge $main_branch $develop_branch
 
         echo "Please check that everything is correct. Then, assuming you have permissions, push to master, then press enter..."
-        #git push --set-upstream origin $main_branch
     else
         echo "Aborting script!"
         exit 0
     fi
 
-    # tag it
+    # Tag it
     prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
     if [[ $? == 1 ]]; then
         git tag $new_version_number
         # IDEA - else condition that allows the user to enter a different tag
     fi
 
-    # merge master back to develop
+    # Merge master back to develop
     prompt_user "Would you like to merge master back into develop (This will not push the branch)"
     if [[ $? == 1 ]]; then
         git merge $develop_branch $main_branch
-        #git push --set-upstream origin $develop_branch
     else
         echo "Aborting script!"
         exit 0
@@ -236,15 +231,10 @@ fi
 prompt_user "Would you like to open to the Github releases page to create a release"
 if [[ $? == 1 ]]; then
     open "https://github.com/smartdevicelink/sdl_ios/releases"
-
-    # TODO - phase 4 - this can be automated with gh
-    # https://cli.github.com/manual/gh_release_create
-    # TODO - can we pull the list of changes from Changelog.md and automatically add those to the release (so we do not type the same things twice)
-    # TODO - if/when we automate this, make sure to open the releases page so the user can review it.
 fi
 
 echo
-# push new release to primary and secondary cocoapod using command line:
+# Push new release to primary and secondary cocoapod using command line:
 prompt_user "Would you like to push the release to CocoaPods"
 if [[ $? == 1 ]]; then
     pod trunk push SmartDeviceLink.podspec --allow-warnings
@@ -263,7 +253,6 @@ fi
 # Rename the docset and pack it
 prompt_user "Would you like to create the documentation docset for adding to a Github release"
 if [[ $? == 1 ]]; then
-    # SmartDeviceLink-$new_version_number-docset.tgz
     docset_directory="docs/docsets/"
     docset_tar_file_name="SmartDeviceLink-$new_version_number-docset.tgz"
     tar -czf $docset_tar_file_name $docset_directory
