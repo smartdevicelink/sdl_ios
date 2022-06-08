@@ -71,7 +71,7 @@ static const int SDLShowSoftButtonIDCount = 8;
     _systemCapabilityManager = systemCapabilityManager;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    _graphicsSupported = systemCapabilityManager.displayCapabilities.graphicSupported.boolValue;
+    _graphicsSupported = systemCapabilityManager.displayCapabilities.graphicSupported ? systemCapabilityManager.displayCapabilities.graphicSupported.boolValue : YES;
 #pragma clang diagnostic pop
     _softButtonObjects = @[];
 
