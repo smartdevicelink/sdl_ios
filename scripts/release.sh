@@ -2,13 +2,11 @@
 
 # George Miller
 # 05-17-2022
-# If you don't have permission to run, try: chmod u+x release.sh
-# numbering follows this document: https://github.com/smartdevicelink/sdl_ios/wiki/Release-Steps
-# The numbering does restart halfway because the document does.
+# If you do not have permission to run, try: chmod u+x release.sh
 
-# a utility function for prompting the user Y/N
-# takes in a string promt for the input
-# returns 1 for yes/true or 0 for no/false
+# A utility function for prompting the user Y/N
+# This takes in a string prompt for the input
+# This returns 1 for yes/true or 0 for no/false
 prompt_user() {
     user_input="g"
     echo
@@ -25,10 +23,9 @@ prompt_user() {
     fi
 }
 
-# TODO - phase 4 - github cli "gh" needs to be installed before we can use those commands.  We could automate this or at least check if GH is installed.
-#  gh commands are commented for now.
+# TODO - phase 4 - github cli "gh" needs to be installed before we can use those commands. We could automate this or at least check if gh is installed.
 
-# script start
+# Script start
 echo 
 echo "Starting SDL release script..."
 
@@ -42,48 +39,46 @@ if [[ $PWD != *"sdl_ios" ]]; then
     exit 0
 fi
 
-# setup branch variables
+# Setup branch variables
 develop_branch="develop"
 main_branch="master"
 
 
-#DEBUG - copy out framework script
-#this is necessary because the branch that these scripts are being developed on has not yet been merged into develop.  This will not be necessary in production.
+# DEBUG - copy out framework script
+# This is necessary because the branch that these scripts are being developed on has not yet been merged into develop. This will not be necessary in production.
 cp scripts/create_framework.sh ../create_framework.sh
 
-#stash any local changes to avoid errors during checkout
+# Stash any local changes to avoid errors during checkout
 git status
-prompt_user "Would you like to stash any local changes?"
+prompt_user "Would you like to stash any local changes"
 if [[ $? == 1 ]]; then
-    # stash local changes to prevent issues with checkout
+    # Stash local changes to prevent issues with checkout
     git stash
     echo "use \"git stash pop\" when this script is complete to restore your changes"
 else
-    # dump local changes to prevent issues with checkout
+    # Dump local changes to prevent issues with checkout
     git reset --hard
 fi
 
 # Checkout develop
-# we need to checkout the branch before we start modifying files.
+# We need to checkout the branch before we start modifying files.
 echo
 echo "Checking out $develop_branch"
 git checkout $develop_branch
 
-#DEBUG move framework script back in
-#like above, this will not be required after the release script branch is merged into develop
+# DEBUG move framework script back in
+# Like above, this will not be required after the release script branch is merged into develop
 mv ../create_framework.sh scripts/create_framework.sh
 
-# 1 bump version in projectFile
+# Bump version in projectFile
 echo
-echo "Updateing the version"
+echo "Updating the version"
 
-# 1.1) get the current version and build from the podspec file
+# Get the current version and build from the podspec file
 project_file="./SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
 new_file="./SmartDeviceLink-iOS.xcodeproj/new.pbxproj"
 current_version_number=$(sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' $project_file)
-current_build_number=$(sed -n '/CURRENT_PROJECT_VERSION/{s/CURRENT_PROJECT_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' $project_file)
 echo "Current Version: "$current_version_number
-echo "Current Build: "$current_build_number
 
 # Prompt user for new version
 echo "Enter the new version number (semantic versioning x.x.x format) or blank to skip: "
@@ -117,7 +112,7 @@ if [ $current_version != $new_version_number ]; then
     mv -f $pod_spec_new_file $pod_spec_file
 fi
 
-# 2 Update RPC and protocol versions in /SmartDeviceLink/private/SDLGlobals.m
+# Update RPC and protocol versions in /SmartDeviceLink/private/SDLGlobals.m
 echo 
 echo "Checking SDLGlobals.m for RPC and Protocol versions"
 file="SmartDeviceLink/private/SDLGlobals.m"
@@ -128,31 +123,23 @@ echo "Current Protocol Version: "$current_protocol_version
 echo "If these are not correct, please update protocol versions in /SmartDeviceLink/private/SDLGlobals.m. Then press enter..."
 read user_input
 
-# 3 Update to the newest BSON submodule. Update Package.swift and CocoaPods dependency files to point to latest if necessary.
-# extract version and link from Package.swift
+# Update to the newest BSON submodule. Update Package.swift and CocoaPods dependency files to point to latest if necessary.
+# Extract version and link from Package.swift
 package_file="Package.swift"
 package_dependency_info="$(sed -n '/.package/{s/let package = Package(//;s/.package(//;s/)//;s/^[[:space:]]*//g;p;}' $package_file)"
 if [ ! -z "$submodule_info" ]; then
-    #loop through the dependencies 
+    # Loop through the dependencies 
     while IFS= read -r dependency_record ;
     do
-        # if the dependency_record in the dependancies is not empty (the first one usually is due to string interpretation of a list)
+        # If the dependency_record in the dependancies is not empty (the first one usually is due to string interpretation of a list)
         if [ ! -z "$dependency_record" ]; then
-            # identify the fields of the record
+            # Identify the fields of the record
             record_info="$(sed 's/,/\n/g' <<< $dependency_record)"
             record_name=$(sed -n '/name:/{s/name://g;s/^[[:space:]]*//g;s/"//g;p;}' <<< "$record_info")
             record_url=$(sed -n '/url:/{s/url://g;s/^[[:space:]]*//g;s/"//g;p;}' <<< "$record_info")
             record_version=$(sed -n '/from:/{s/from://g;s/^[[:space:]]*//g;s/"//g;p;}' <<< "$record_info")
-            
-            # figure out latest version (visit link?)
-            #dependency_latest_version=$(gh repo view $record_url --json latestRelease -q .latestRelease.tagName)
-
-            # compare versions
-            #if [ $record_version != $dependency_latest_version ]; then
-                echo
-                echo "Current version of $record_name: "$record_version
-                #echo "Latest version of $record_name: "$dependency_latest_version
-            #fi
+            echo
+            echo "Current version of $record_name: "$record_version
         fi
     done <<< "$submodule_info"
     echo
@@ -160,16 +147,16 @@ if [ ! -z "$submodule_info" ]; then
     read user_input 
 fi
 
-# 4 update changelog
+# Update changelog
 # TODO - insert a template into the changelog that includes the version the users have selected above.
-#echo "A template for this release has been inserted into the changelog.  Please update it."
+#echo "A template for this release has been inserted into the changelog. Please update it."
 echo 
 echo "Please update CHANGELOG.md, then return here and press enter..."
 read user_input
 # TODO - check modified info before and after so we can detect if the user failed to update the file.
 
 
-# 5 generate documentation
+# Generate documentation
 prompt_user "Would you like to automatically generate documentation with Jazzy"
 if [[ $? == 1 ]]; then
     # Check if Jazzy is already installed, and if not then install jazzy
@@ -178,28 +165,28 @@ if [[ $? == 1 ]]; then
         sudo gem install jazzy
     fi
 
-    # this runs Jazzy to generate the documentation
+    # This runs Jazzy to generate the documentation.
     echo "Running Jazzy to generate documentation..."
     jazzy --clean --objc --framework-root SmartDeviceLink --sdk iphonesimulator --umbrella-header SmartDeviceLink/public/SmartDeviceLink.h --theme theme --output docs
 fi
 
-# 6 Ensure that the RPC_SPEC has released to the master branch and update the submodule to point to the new release tag (or to the HEAD of master, if no release of the RPC_SPEC is occurring).
+# Ensure that the RPC_SPEC has released to the master branch and update the submodule to point to the new release tag (or to the HEAD of master, if no release of the RPC_SPEC is occurring).
 echo 
 echo "Please check if there is a new release of the RPC_SPEC on https://www.github.com/smartdevicelink/rpc_spec"
 echo "If there is, please update the rpc_spec submodule to point to the newest commit on the master branch. Press enter to continue..."
 read user_input
-#TODO - phase ? - can this be automated.  Check version here.  Check version at site.
+# TODO - phase ? - can this be automated. Check version here. Check version at site.
 #record_url=https://www.github.com/smartdevicelink/rpc_spec
 #submodule_latest_version=$(gh repo view $record_url --json latestRelease -q .latestRelease.tagName)
 
-# git commands
+# Git commands
 echo
 echo "$develop_branch has already been checked out for you."
 
-prompt_user "Would you like to automatically run the git commands for this release"
+prompt_user "Would you like to walk through the git commands for this release"
 if [[ $? == 1 ]]; then
     
-    # 7 commit release to develop
+    # commit release to develop
     prompt_user "Would you like to commit and push these changes to the develop branch"
     if [[ $? == 1 ]]; then
         # Add, commit, and push changes
@@ -211,13 +198,13 @@ if [[ $? == 1 ]]; then
         exit 0
     fi
 
-    # 8 merge release to master
+    # merge release to master
     prompt_user "Would you like to merge this release to master? (This will not push to master)"
     if [[ $? == 1 ]]; then
-        # checkout master
+        # Checkout master
         git checkout $main_branch
 
-        # merge develop with master
+        # Merge develop with master
         git merge $main_branch $develop_branch
 
         echo "Please check that everything is correct. Then, assuming you have permissions, push to master, then press enter..."
@@ -227,15 +214,14 @@ if [[ $? == 1 ]]; then
         exit 0
     fi
 
-    # 9 tag it
+    # tag it
     prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
     if [[ $? == 1 ]]; then
-        echo "Tag with version from above"
         git tag $new_version_number
         # IDEA - else condition that allows the user to enter a different tag
     fi
 
-    # 10 merge master back to develop
+    # merge master back to develop
     prompt_user "Would you like to merge master back into develop (This will not push the branch)"
     if [[ $? == 1 ]]; then
         git merge $develop_branch $main_branch
@@ -244,38 +230,38 @@ if [[ $? == 1 ]]; then
         echo "Aborting script!"
         exit 0
     fi
-
-    # 11 Create new release for tag
-    prompt_user "Would you like to open to the Github releases page to create a release"
-    if [[ $? == 1 ]]; then
-        open "https://github.com/smartdevicelink/sdl_ios/releases"
-
-        # TODO - phase 4 - this can be automated with gh
-        # https://cli.github.com/manual/gh_release_create
-        # TODO - can we pull the list of changes from Changelog.md and automatically add those to the release (so we do not type the same things twice)
-        # TODO - if/when we automate this, make sure to open the releases page so the user can review it.
-    fi
-
-    echo
-    # 12 push new release to primary and secondary cocoapod using command line:
-    prompt_user "Would you like to push the release to CocoaPods"
-    if [[ $? == 1 ]]; then
-        pod trunk push SmartDeviceLink.podspec --allow-warnings
-        pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings
-    fi
 fi
 
-prompt_user "Would you like to create a binary xcframework for manual installation"
+# Create new release for tag
+prompt_user "Would you like to open to the Github releases page to create a release"
 if [[ $? == 1 ]]; then
-    # create framework
-    # we pass in the version so that the framework script does not need to ask
-    # give the user permissions to the framework script, then run the script.
+    open "https://github.com/smartdevicelink/sdl_ios/releases"
+
+    # TODO - phase 4 - this can be automated with gh
+    # https://cli.github.com/manual/gh_release_create
+    # TODO - can we pull the list of changes from Changelog.md and automatically add those to the release (so we do not type the same things twice)
+    # TODO - if/when we automate this, make sure to open the releases page so the user can review it.
+fi
+
+echo
+# push new release to primary and secondary cocoapod using command line:
+prompt_user "Would you like to push the release to CocoaPods"
+if [[ $? == 1 ]]; then
+    pod trunk push SmartDeviceLink.podspec --allow-warnings
+    pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings
+fi
+
+prompt_user "Would you like to create a binary xcframework adding to a Github release"
+if [[ $? == 1 ]]; then
+    # Create framework
+    # We pass in the version so that the framework script does not need to ask
+    # Give the user permissions to the framework script, then run the script.
     chmod u+x ./scripts/create_framework.sh
     ./scripts/create_framework.sh $new_version_number
 fi
 
-# 14 Rename the docset and pack it
-prompt_user "Would you like to create a the docset"
+# Rename the docset and pack it
+prompt_user "Would you like to create the documentation docset for adding to a Github release"
 if [[ $? == 1 ]]; then
     # SmartDeviceLink-$new_version_number-docset.tgz
     docset_directory="docs/docsets/"
@@ -285,7 +271,7 @@ if [[ $? == 1 ]]; then
     echo 
     echo "Please add the docset at $docset_tar_file_name to the Github release, then press enter..."
     read user_input
-    #todo - phase 4 - adding the docset to the release should also be automatic
+    # TODO - phase 4 - adding the docset to the release should also be automatic
 fi
 echo
 echo "Release complete."
