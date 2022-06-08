@@ -43,11 +43,6 @@ fi
 develop_branch="develop"
 main_branch="master"
 
-
-# DEBUG - copy out framework script
-# This is necessary because the branch that these scripts are being developed on has not yet been merged into develop. This will not be necessary in production.
-cp scripts/create_framework.sh ../create_framework.sh
-
 # Stash any local changes to avoid errors during checkout
 git status
 prompt_user "Would you like to stash any local changes"
@@ -65,10 +60,6 @@ fi
 echo
 echo "Checking out $develop_branch"
 git checkout $develop_branch
-
-# DEBUG move framework script back in
-# Like above, this will not be required after the release script branch is merged into develop
-mv ../create_framework.sh scripts/create_framework.sh
 
 # Bump version in projectFile
 echo
@@ -154,7 +145,6 @@ echo
 echo "Please update CHANGELOG.md, then return here and press enter..."
 read user_input
 # TODO - check modified info before and after so we can detect if the user failed to update the file.
-
 
 # Generate documentation
 prompt_user "Would you like to automatically generate documentation with Jazzy"
