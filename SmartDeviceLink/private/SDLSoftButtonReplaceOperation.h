@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mainField1 The primary text field of the system template
  @return The operation
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager capabilities:(nullable SDLSoftButtonCapabilities *)capabilities softButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects mainField1:(NSString *)mainField1;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager capabilities:(nullable SDLSoftButtonCapabilities *)capabilities graphicsEnabled:(BOOL)graphicsEnabled softButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects mainField1:(NSString *)mainField1;
 
 @end
 
