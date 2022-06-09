@@ -231,7 +231,7 @@ if [[ $? == 1 ]]; then
     pod trunk push SmartDeviceLink-iOS.podspec --allow-warnings
 fi
 
-prompt_user "Would you like to create a binary xcframework adding to a Github release"
+prompt_user "Would you like to create a binary xcframework for adding to a Github release"
 if [[ $? == 1 ]]; then
     # Create framework
     # We pass in the version so that the framework script does not need to ask

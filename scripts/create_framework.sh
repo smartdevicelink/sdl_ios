@@ -91,4 +91,3 @@ if [ -d "$folder" ]; then rm -r $folder; fi
 
 echo
 echo "The xcframework zip file was created at $zip_file_name."
-
