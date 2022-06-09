@@ -238,6 +238,11 @@ if [[ $? == 1 ]]; then
     # Give the user permissions to the framework script, then run the script.
     chmod u+x ./scripts/create_framework.sh
     ./scripts/create_framework.sh $new_version_number
+    
+    echo 
+    zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
+    echo "Please add the framework at $zip_file_name to the Github release, then press enter..."
+    read user_input
 fi
 
 # Rename the docset and pack it
