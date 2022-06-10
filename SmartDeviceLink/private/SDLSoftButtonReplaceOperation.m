@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Check if soft buttons have images and, if so, if the images need to be uploaded
     if (![self sdl_supportsSoftButtonImages]) {
         // The module does not support images
-        SDLLogD(@"Soft button images are not supported. Attempting to send text-only soft buttons. If any button does not contain text, no buttons will be sent.");
+        SDLLogW(@"Soft button images are not supported. Attempting to send text-only soft buttons. If any button does not contain text, no buttons will be sent.");
 
         // Send text-only buttons if all current states for the soft buttons have text
         __weak typeof(self) weakself = self;
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
         }];
     } else if (![self sdl_supportsDynamicSoftButtonImages]) {
         // The module does not support dynamic images but does support static images for soft buttons
-        SDLLogD(@"Soft button images are not supported. Attempting to send text and static image only soft buttons. If any button does not contain text and/or a static image, no buttons will be sent.");
+        SDLLogW(@"Soft button images are not supported. Attempting to send text and static image only soft buttons. If any button does not contain text and/or a static image, no buttons will be sent.");
 
         // Send text-only buttons if all current states for the soft buttons have text
         __weak typeof(self) weakself = self;
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
             [strongself finishOperation];
         }];
     } else if (![self sdl_allStateImagesAreUploaded]) {
-        // If there are images in the first soft button state that have not yet been uploaded, send a text-only version of the soft buttons (the text-only buttons will only be sent if all the first button states have text)
+        // If there are dynamic images in the first soft button state that have not yet been uploaded, send a text-only version of the soft buttons (the text-only buttons will only be sent if all the first button states have text)
         [self sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:^(BOOL success) {}];
 
         // Upload images used in the first soft button state
@@ -148,6 +148,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param stateName The name of the button states for which the images are being uploaded. Used for logs.
 /// @param completionHandler Called when all images have been uploaded
 - (void)sdl_uploadImages:(NSArray<SDLArtwork *> *)images forStateName:(NSString *)stateName completionHandler:(void (^)(void))completionHandler {
+    if (self.isCancelled) {
+        [self finishOperation];
+        return completionHandler();
+    }
+
     if (images.count == 0) {
         SDLLogV(@"No images to upload for %@ states", stateName);
         return completionHandler();
@@ -184,6 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_sendCurrentStateSoftButtonsWithCompletionHandler:(void (^)(void))handler {
     if (self.isCancelled) {
         [self finishOperation];
+        return handler();
     }
 
     SDLLogV(@"Preparing to send full soft buttons");
@@ -211,7 +217,10 @@ NS_ASSUME_NONNULL_BEGIN
  Returns text soft buttons representing the current states of the button objects, or returns if _any_ of the buttons' current states are image only buttons.
 */
 - (void)sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:(void (^)(BOOL success))handler {
-    if (self.isCancelled) { [self finishOperation]; }
+    if (self.isCancelled) {
+        [self finishOperation];
+        return handler(NO);
+    }
 
     SDLLogV(@"Preparing to send text-only soft buttons");
     NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
@@ -245,7 +254,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Send soft buttons for the current state that only contain text and static images only, if possible.
 /// @param handler The handler to be called when there's
 - (void)sdl_sendCurrentStateStaticImageOnlySoftButtonsWithCompletionHandler:(void (^)(BOOL success))handler {
-    if (self.isCancelled) { [self finishOperation]; }
+    if (self.isCancelled) {
+        [self finishOperation];
+        return handler(NO);
+    }
 
     SDLLogV(@"Preparing to send text and static image only soft buttons");
     NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
