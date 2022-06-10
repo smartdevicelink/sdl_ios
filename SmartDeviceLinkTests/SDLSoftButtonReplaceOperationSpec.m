@@ -26,6 +26,8 @@ describe(@"a soft button replace operation", ^{
     __block BOOL hasCalledOperationCompletionHandler = NO;
     __block NSError *resultError = nil;
 
+    __block BOOL dynamicGraphicsEnabled = YES;
+
     __block NSString *object1Name = @"O1 Name";
     __block NSString *object1State1Name = @"O1S1 Name";
     __block NSString *object1State2Name = @"O1S2 Name";
@@ -89,6 +91,8 @@ describe(@"a soft button replace operation", ^{
         resultError = nil;
         hasCalledOperationCompletionHandler = NO;
 
+        dynamicGraphicsEnabled = YES;
+
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = OCMStrictClassMock([SDLFileManager class]);
 
@@ -140,7 +144,7 @@ describe(@"a soft button replace operation", ^{
 
             beforeEach(^{
                 testSoftButtonObjects = @[buttonWithText];
-                testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
 
                 capabilities = [[SDLSoftButtonCapabilities alloc] init];
                 capabilities.imageSupported = @YES;
@@ -198,7 +202,7 @@ describe(@"a soft button replace operation", ^{
                     capabilities = [[SDLSoftButtonCapabilities alloc] init];
                     capabilities.imageSupported = @NO;
 
-                    testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                    testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
                 });
 
                 it(@"should only send the button text", ^{
@@ -246,8 +250,9 @@ describe(@"a soft button replace operation", ^{
                 beforeEach(^{
                     capabilities = [[SDLSoftButtonCapabilities alloc] init];
                     capabilities.imageSupported = @YES;
+                    dynamicGraphicsEnabled = NO;
 
-                    testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:NO softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                    testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
                 });
 
                 it(@"should only send the button text", ^{
@@ -298,7 +303,7 @@ describe(@"a soft button replace operation", ^{
                     capabilities = [[SDLSoftButtonCapabilities alloc] init];
                     capabilities.imageSupported = @NO;
 
-                    testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                    testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
                 });
 
                 it(@"should not send any buttons", ^{
@@ -315,7 +320,38 @@ describe(@"a soft button replace operation", ^{
                 });
             });
 
-            context(@"and the module supports artworks", ^{
+            context(@"and the module supports only static artwork", ^{
+                beforeEach(^{
+                    capabilities = [[SDLSoftButtonCapabilities alloc] init];
+                    capabilities.imageSupported = @YES;
+                    dynamicGraphicsEnabled = NO;
+                });
+
+                context(@"when attempting to show a soft button with static image and text", ^{
+                    beforeEach(^{
+                        OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+
+                        testSoftButtonObjects = @[buttonWithTextAndStaticImage];
+                        testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                    });
+
+                    it(@"should send the soft button", ^{
+                        [testOp start];
+
+                        NSArray<SDLShow *> *sentRequests = testConnectionManager.receivedRequests;
+                        expect(sentRequests).to(haveCount(1));
+                        expect(sentRequests.firstObject.mainField1).to(equal(testMainField1));
+                        expect(sentRequests.firstObject.mainField2).to(beNil());
+                        expect(sentRequests.firstObject.softButtons).to(haveCount(1));
+                        expect(sentRequests.firstObject.softButtons[0].text).to(equal(object3State1Text));
+                        expect(sentRequests.firstObject.softButtons[0].image.imageType).to(equal(SDLImageTypeStatic));
+                        expect(sentRequests.firstObject.softButtons[0].image.value).to(equal(object3State1IconName));
+                        expect(sentRequests.firstObject.softButtons[0].type).to(equal(SDLSoftButtonTypeBoth));
+                    });
+                });
+            });
+
+            context(@"and the module supports dynamic artworks", ^{
                 beforeEach(^{
                     capabilities = [[SDLSoftButtonCapabilities alloc] init];
                     capabilities.imageSupported = @YES;
@@ -326,7 +362,7 @@ describe(@"a soft button replace operation", ^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
 
                         testSoftButtonObjects = @[buttonWithText, buttonWithTextAndImage];
-                        testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities  graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                        testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities  graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
                     });
 
                     it(@"should not upload artworks", ^{
@@ -356,7 +392,7 @@ describe(@"a soft button replace operation", ^{
                         object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State11Art];
                         buttonWithTextAndImage = [[SDLSoftButtonObject alloc] initWithName:object2Name states:@[object2State1, object2State2] initialStateName:object2State1.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {}];
                         testSoftButtonObjects = @[buttonWithText, buttonWithTextAndImage];
-                        testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities  graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                        testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities  graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
                         OCMExpect([testFileManager fileNeedsUpload:[OCMArg any]]);
                         [testOp start];
                         OCMVerify([testFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
@@ -394,7 +430,7 @@ describe(@"a soft button replace operation", ^{
                             OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(NO);
                             testSoftButtonObjects = @[buttonWithTextAndStaticImage];
 
-                            testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                            testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
                         });
 
                         it(@"should skip uploading artwork", ^{
@@ -414,7 +450,7 @@ describe(@"a soft button replace operation", ^{
                             expect(sentRequests.firstObject.softButtons.firstObject.type).to(equal(SDLSoftButtonTypeBoth));
                         });
 
-                        context(@"When a response is received to the upload", ^{
+                        context(@"when a response is received to the upload", ^{
                             beforeEach(^{
                                 [testOp start];
                             });
@@ -442,7 +478,7 @@ describe(@"a soft button replace operation", ^{
                             OCMExpect([testFileManager fileNeedsUpload:[OCMArg any]]);
                             OCMStub([testFileManager fileNeedsUpload:[OCMArg isNotNil]]).andReturn(YES);
                             testSoftButtonObjects = @[buttonWithText, buttonWithTextAndImage];
-                            testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                            testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
                             OCMExpect([testFileManager fileNeedsUpload:[OCMArg any]]);
                             [testOp start];
                             OCMVerifyAllWithDelay(testFileManager, 0.5);
@@ -484,7 +520,7 @@ describe(@"a soft button replace operation", ^{
 
                             // buttonWithTextAndImage2 has text in the first state and an text and image in the second & third states
                             testSoftButtonObjects = @[buttonWithTextAndStaticImage, buttonWithTextAndImage2];
-                            testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                            testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
 
                             [testOp start];
                             OCMVerifyAllWithDelay(testFileManager, 0.5);
@@ -525,7 +561,7 @@ describe(@"a soft button replace operation", ^{
                                 OCMExpect([testFileManager uploadArtworks:[OCMArg isNotNil] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                                 testSoftButtonObjects = @[buttonWithTextAndImage];
-                                testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:YES softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
+                                testOp = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager capabilities:capabilities graphicsEnabled:dynamicGraphicsEnabled softButtonObjects:testSoftButtonObjects mainField1:testMainField1];
                                 [testOp start];
 
                                 OCMVerifyAllWithDelay(testFileManager, 0.5);

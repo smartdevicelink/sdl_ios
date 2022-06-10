@@ -260,7 +260,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLLogV(@"Preparing to send text and static image only soft buttons");
-    NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
+    NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
     for (SDLSoftButtonObject *buttonObject in self.softButtonObjects) {
         SDLSoftButton *button = buttonObject.currentStateSoftButton;
         if ((button.text == nil) && (button.image.imageType == SDLImageTypeDynamic)) {
@@ -270,14 +270,14 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (button.image.imageType == SDLImageTypeDynamic) {
             button.image = nil;
+            button.type = SDLSoftButtonTypeText;
         }
-        button.type = SDLSoftButtonTypeText;
-        [textButtons addObject:button];
+        [softButtons addObject:button];
     }
 
     SDLShow *show = [[SDLShow alloc] init];
     show.mainField1 = self.mainField1;
-    show.softButtons = [textButtons copy];
+    show.softButtons = [softButtons copy];
 
     [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
