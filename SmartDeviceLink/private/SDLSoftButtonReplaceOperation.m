@@ -11,6 +11,7 @@
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLFileManager.h"
+#import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -55,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Check if soft buttons have images and, if so, if the images need to be uploaded
     if (![self sdl_supportsSoftButtonImages]) {
         // The module does not support images
-        SDLLogW(@"Soft button images are not supported. Attempting to send text-only soft buttons. If any button does not contain text, no buttons will be sent.");
+        SDLLogD(@"Soft button images are not supported. Attempting to send text-only soft buttons. If any button does not contain text, no buttons will be sent.");
 
         // Send text-only buttons if all current states for the soft buttons have text
         __weak typeof(self) weakself = self;
@@ -63,6 +64,19 @@ NS_ASSUME_NONNULL_BEGIN
             __strong typeof(weakself) strongself = weakself;
             if (!success) {
                 SDLLogE(@"Buttons will not be sent because the module does not support images and some of the buttons do not have text");
+            }
+            [strongself finishOperation];
+        }];
+    } else if (![self sdl_supportsDynamicSoftButtonImages]) {
+        // The module does not support dynamic images but does support static images for soft buttons
+        SDLLogD(@"Soft button images are not supported. Attempting to send text and static image only soft buttons. If any button does not contain text and/or a static image, no buttons will be sent.");
+
+        // Send text-only buttons if all current states for the soft buttons have text
+        __weak typeof(self) weakself = self;
+        [self sdl_sendCurrentStateStaticImageOnlySoftButtonsWithCompletionHandler:^(BOOL success) {
+            __strong typeof(weakself) strongself = weakself;
+            if (!success) {
+                SDLLogE(@"Buttons will not be sent because the module does not support dynamic images and some of the buttons do not have text or static images");
             }
             [strongself finishOperation];
         }];
@@ -136,8 +150,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_uploadImages:(NSArray<SDLArtwork *> *)images forStateName:(NSString *)stateName completionHandler:(void (^)(void))completionHandler {
     if (images.count == 0) {
         SDLLogV(@"No images to upload for %@ states", stateName);
-        completionHandler();
-        return;
+        return completionHandler();
+    } else if (!self.sdl_supportsDynamicSoftButtonImages) {
+        SDLLogD(@"Head unit does not support dynamic images, skipping upload");
+        return completionHandler();
     }
 
     SDLLogD(@"Uploading images for %@ states", stateName);
@@ -195,9 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
  Returns text soft buttons representing the current states of the button objects, or returns if _any_ of the buttons' current states are image only buttons.
 */
 - (void)sdl_sendCurrentStateTextOnlySoftButtonsWithCompletionHandler:(void (^)(BOOL success))handler {
-    if (self.isCancelled) {
-        [self finishOperation];
-    }
+    if (self.isCancelled) { [self finishOperation]; }
 
     SDLLogV(@"Preparing to send text-only soft buttons");
     NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
@@ -205,8 +219,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLSoftButton *button = buttonObject.currentStateSoftButton;
         if (button.text == nil) {
             SDLLogW(@"Attempted to create text buttons, but some buttons don't support text, so no text-only soft buttons will be sent");
-            handler(NO);
-            return;
+            return handler(NO);
         }
 
         button.image = nil;
@@ -221,9 +234,46 @@ NS_ASSUME_NONNULL_BEGIN
     [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Failed to update soft buttons with text buttons: %@", error);
+            return handler(NO);
         }
 
         SDLLogD(@"Finished sending text only soft buttons");
+        handler(YES);
+    }];
+}
+
+/// Send soft buttons for the current state that only contain text and static images only, if possible.
+/// @param handler The handler to be called when there's
+- (void)sdl_sendCurrentStateStaticImageOnlySoftButtonsWithCompletionHandler:(void (^)(BOOL success))handler {
+    if (self.isCancelled) { [self finishOperation]; }
+
+    SDLLogV(@"Preparing to send text and static image only soft buttons");
+    NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
+    for (SDLSoftButtonObject *buttonObject in self.softButtonObjects) {
+        SDLSoftButton *button = buttonObject.currentStateSoftButton;
+        if ((button.text == nil) && (button.image.imageType == SDLImageTypeDynamic)) {
+            SDLLogW(@"Attempted to create text and static image only buttons, but some buttons don't support text and have dynamic images, so no soft buttons will be sent.");
+            return handler(NO);
+        }
+
+        if (button.image.imageType == SDLImageTypeDynamic) {
+            button.image = nil;
+        }
+        button.type = SDLSoftButtonTypeText;
+        [textButtons addObject:button];
+    }
+
+    SDLShow *show = [[SDLShow alloc] init];
+    show.mainField1 = self.mainField1;
+    show.softButtons = [textButtons copy];
+
+    [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogW(@"Failed to update soft buttons with text and static image only buttons: %@", error);
+            return handler(NO);
+        }
+
+        SDLLogD(@"Finished sending text and static image only soft buttons");
         handler(YES);
     }];
 }
@@ -244,8 +294,12 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (BOOL)sdl_supportsSoftButtonImages {
+- (BOOL)sdl_supportsDynamicSoftButtonImages {
     return self.graphicsEnabled && self.softButtonCapabilities.imageSupported.boolValue;
+}
+
+- (BOOL)sdl_supportsSoftButtonImages {
+    return self.softButtonCapabilities.imageSupported.boolValue;
 }
 
 #pragma mark - Property Overrides
