@@ -16,7 +16,7 @@
 project_directory="../sdl_ios/"
 project_file="SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
 path_pre="SmartDeviceLink/"
-#public_dir=$path_pre"/public"
+public_dir=$path_pre"/public"
 #private_dir=$path_pre"/private"
 
 
@@ -37,6 +37,7 @@ public_fileref_list=$(sed -n '/Public/{s/^.*fileRef//;s/^[[:space:]]*//;s/\/.*//
 # TODO - this loop is very slow compared to sed or cat.  Is there a faster way to do this?
 for public_fileref in $public_fileref_list
 do
+    
     # Pick out the lines with the file reference
     publicref_lines="$(sed -n "/$public_fileref/{p;}" $project_file)"
     # Trim everything before "path", then trim "=", " ", and quotes
@@ -44,16 +45,40 @@ do
     # Trim after the ";"
     publicref_path=$(sed -n 's/\;.*//p;' <<< "$publicref_path")
     
-    # Test to see if the file is at that path
-    # Some of the paths already have the pre on them
+    # Most of the paths in the project file do not have the full path from the project root.
+    # So we prepend the missing part if needed
     test_path=$publicref_path
     if [[ "$publicref_path" != *$path_pre* ]]; then
-        test_path=$path_pre$publicref_path
+        
+        # add the public folder if necessary
+        if [[ "$publicref_path" != *public* ]]; then
+            test_path="public/"$test_path
+        fi
+        test_path=$path_pre$test_path
     fi
+    
+    # this is excessively verbose
+    #echo
+    #echo "file "$publicref_path
+    #echo "should be located at "$test_path
+
+    # Test to see if the file is in the public folder (does the file exist at the specified path)
     if [ ! -f $test_path ]; then 
-        echo $publicref_path
-        echo $test_path
         echo "ALERT"
+
+        # If we did not find the file, lets see where it actually is.
+        file_found_location=$(find . -name "$publicref_path" -maxdepth 2)
+        if [ ! -z "$file_found_location" ]; then
+            echo "File found: "$file_found_location
+
+            # Move the file to the correct destination
+            echo "Copying file to correct destination"
+            cp -f $file_found_location $public_dir
+            # mv -f $file_found_location $test_path #DEBUG - copy is safer for testing.
+
+        else
+            echo "File could not be found in $PWD"
+        fi
     fi
 done
 
