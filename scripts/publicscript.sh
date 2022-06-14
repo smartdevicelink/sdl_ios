@@ -39,9 +39,9 @@ for public_fileref in $public_fileref_list
 do
     # Pick out the lines with the file reference
     publicref_lines="$(sed -n "/$public_fileref/{p;}" $project_file)"
-    # Trim everything before "path", then eliminate "=", " ", and quotes
+    # Trim everything before "path", then trim "=", " ", and quotes
     publicref_path=$(sed -n '/path/{s/^.*path//;s/=//;s/\"//g;s/^[[:space:]]*//g;p;}' <<< "$publicref_lines")
-    # Eliminate everything after the ";"
+    # Trim after the ";"
     publicref_path=$(sed -n 's/\;.*//p;' <<< "$publicref_path")
     
     # Test to see if the file is at that path
