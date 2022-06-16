@@ -11,6 +11,12 @@
 # "Ensure that all files marked public in the project.pbxproj file are in
 # the public folder and the same for non-public files (in the private folder). 
 # Public files should also be referenced in SmartDeviceLink.h"
+# Clarrification: If, for example, you change a headers target membership from "public" to "private" in xcode, it will change the project file but not move the physical header file.
+# so this script should identify these anomalies and repair them by moving the header file, and any associated code (.m file) into the correct directory.
+# We are not responsible for changign the project file.  let xcode do that.
+# if the anomaly is a file outside of the project target folder, don't worry about it.
+# to test, you can go into xcode and just change the target membership of a file, then run the script and see that the file was identified and moved.
+# use Fork to undo changes as needed.
 
 
 project_directory="../sdl_ios/"
@@ -52,6 +58,7 @@ do
         
         # add the public folder if necessary
         if [[ "$publicref_path" != *public* ]]; then
+            #echo $publicref_path
             test_path="public/"$test_path
         fi
         test_path=$path_pre$test_path
@@ -65,15 +72,18 @@ do
     # Test to see if the file is in the public folder (does the file exist at the specified path)
     if [ ! -f $test_path ]; then 
         echo "ALERT"
+        echo $test_path
+        echo 
 
         # If we did not find the file, lets see where it actually is.
+        # TODO - this is searching the project root (sdl_ios).  In needs to be limited to the target directory (smartdevicelink)
         file_found_location=$(find . -name "$publicref_path" -maxdepth 2)
         if [ ! -z "$file_found_location" ]; then
             echo "File found: "$file_found_location
 
             # Move the file to the correct destination
             echo "Copying file to correct destination"
-            cp -f $file_found_location $public_dir
+            # cp -f $file_found_location $public_dir
             # mv -f $file_found_location $test_path #DEBUG - copy is safer for testing.
 
         else
