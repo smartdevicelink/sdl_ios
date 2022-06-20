@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSoftButtonReplaceOperation ()
 
 @property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
-@property (assign, nonatomic) BOOL graphicsEnabled;
+@property (assign, nonatomic, getter=isDynamicGraphicSupported) BOOL dynamicGraphicSupported;
 @property (strong, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -35,14 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSoftButtonReplaceOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager capabilities:(nullable SDLSoftButtonCapabilities *)capabilities graphicsEnabled:(BOOL)graphicsEnabled softButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects mainField1:(NSString *)mainField1 {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager capabilities:(nullable SDLSoftButtonCapabilities *)capabilities dynamicGraphicSupported:(BOOL)dynamicGraphicSupported softButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects mainField1:(NSString *)mainField1 {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _softButtonCapabilities = capabilities;
-    _graphicsEnabled = graphicsEnabled;
+    _dynamicGraphicSupported = dynamicGraphicSupported;
     _softButtonObjects = softButtonObjects;
     _mainField1 = mainField1;
 
@@ -307,7 +307,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_supportsDynamicSoftButtonImages {
-    return self.graphicsEnabled && self.softButtonCapabilities.imageSupported.boolValue;
+    return self.isDynamicGraphicSupported && self.softButtonCapabilities.imageSupported.boolValue;
 }
 
 - (BOOL)sdl_supportsSoftButtonImages {

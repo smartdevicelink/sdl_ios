@@ -49,7 +49,7 @@ static const int SDLShowSoftButtonIDCount = 8;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 @property (weak, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
-@property (assign, nonatomic) BOOL graphicsSupported;
+@property (assign, nonatomic, getter=isDynamicGraphicSupported) BOOL dynamicGraphicSupported;
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
@@ -71,7 +71,7 @@ static const int SDLShowSoftButtonIDCount = 8;
     _systemCapabilityManager = systemCapabilityManager;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    _graphicsSupported = systemCapabilityManager.displayCapabilities.graphicSupported ? systemCapabilityManager.displayCapabilities.graphicSupported.boolValue : YES;
+    _dynamicGraphicSupported = systemCapabilityManager.displayCapabilities.graphicSupported ? systemCapabilityManager.displayCapabilities.graphicSupported.boolValue : YES;
 #pragma clang diagnostic pop
     _softButtonObjects = @[];
 
@@ -157,7 +157,7 @@ static const int SDLShowSoftButtonIDCount = 8;
     _softButtonObjects = softButtonObjects;
 
     // We only need to pass the first `softButtonCapabilities` in the array due to the fact that all soft button capabilities are the same (i.e. there is no way to assign a `softButtonCapabilities` to a specific soft button).
-    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities graphicsEnabled:self.graphicsSupported softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
+    SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities dynamicGraphicSupported:self.isDynamicGraphicSupported softButtonObjects:_softButtonObjects mainField1:self.currentMainField1];
 
     if (self.isBatchingUpdates) {
         [self.batchQueue removeAllObjects];
@@ -239,7 +239,7 @@ static const int SDLShowSoftButtonIDCount = 8;
     if (self.softButtonObjects.count > 0
         && self.softButtonCapabilities != nil
         && ![self.softButtonCapabilities isEqual:oldCapabilities]) {
-        SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities graphicsEnabled:self.graphicsSupported softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
+        SDLSoftButtonReplaceOperation *op = [[SDLSoftButtonReplaceOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager capabilities:self.softButtonCapabilities dynamicGraphicSupported:self.isDynamicGraphicSupported softButtonObjects:self.softButtonObjects mainField1:self.currentMainField1];
         [self.transactionQueue addOperation:op];
     }
 }

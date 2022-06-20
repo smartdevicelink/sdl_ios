@@ -34,11 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param connectionManager The manager that will send the resultant RPCs
  @param fileManager The file manager that will handle uploading any images
  @param capabilities The capabilites of the soft buttons on the current template
+ @param dynamicGraphicSupported Whether or not the connected system supports dynamic graphics. This is needed because the soft button image supported capability tells us if any graphics are supported, including static ones.
  @param softButtonObjects The soft buttons that should be sent
  @param mainField1 The primary text field of the system template
  @return The operation
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager capabilities:(nullable SDLSoftButtonCapabilities *)capabilities graphicsEnabled:(BOOL)graphicsEnabled softButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects mainField1:(NSString *)mainField1;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager capabilities:(nullable SDLSoftButtonCapabilities *)capabilities dynamicGraphicSupported:(BOOL)dynamicGraphicSupported softButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects mainField1:(NSString *)mainField1;
 
 @end
 
