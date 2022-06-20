@@ -20,6 +20,28 @@
 
 #TODO - rename this script
 
+
+# A utility function for prompting the user Y/N
+# This takes in a string prompt for the input
+# This returns 1 for yes/true or 0 for no/false
+prompt_user() {
+    user_input="g"
+    echo
+    echo $1" (Y/N)?"
+    read user_input
+    while [[ ! $user_input == [YyNn] ]]; do
+        echo $1" (Y/N)?"
+        read user_input
+    done
+    if [[ ! $user_input == [Nn] ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+
+
 project_file="SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
 target_path="SmartDeviceLink/"
 
@@ -35,12 +57,12 @@ if [[ $PWD != *"sdl_ios" ]]; then
     exit 0
 fi
 
+
 # Find the lines with "path".
 path_lines=$(sed -n '/path/{s/[[:space:]]*//;s/\/\*.*\*\///g;s/{.*path//;p;}' $project_file)
 # Filter to get only the lines with the header_filepath and fileref.
 header_files=$(sed -n '/\.h/{s/[[:space:]]*//g;s/\"//g;s/\;.*//g;s/==/=/;p;}' <<< "$path_lines")
 
-# For each line.
 for line in $header_files
 do
     # Pick out the fileref and the header_filepath.
@@ -53,24 +75,64 @@ do
     # Determine public or private.
     if [[ $attributes == *"Public"* ]]; then
         header_type="public"
+        header_opp="private"
     else
         header_type="private"
+        header_opp="public"
     fi
     
-    # Find the real location of the file.
-    file_found_location=$(find "$target_path" -name "$(basename "$header_filepath")" -maxdepth 2)
-    
-    # If file is found.
-    if [ ! -z "$file_found_location" ]; then
+    # Only look at entries where the attributes line is not empty.
+    if [ ! -z "$attributes" ]; then
+        # Find the real location of the file.
+        file_found_location=$(find "$target_path" -name "$(basename "$header_filepath")" -maxdepth 2)
         
-        # Test to see if the file is where it should be.
-        if [[ ! $file_found_location == *"/$header_type/"* ]]; then
+        # If file is found.
+        if [ ! -z "$file_found_location" ]; then
             
-            # The file is not where it should be: Alert the user.
-            echo "ALERT"
-            echo $header_filepath $header_type
-            echo $file_found_location
-            echo
+            # Test to see if the file is where it should be.
+            if [[ ! $file_found_location == *"/$header_type/"* ]]; then
+                
+                # The file is not where it should be: Alert the user.
+                echo "ALERT"
+                echo "Fileref: "$fileref
+                echo "line: "$line
+                echo "Attributes: "$attributes
+                echo "Path from Project File: "$header_filepath
+                echo "Type: "$header_type
+                echo "file found Location: "$file_found_location
+                
+                # Move the file to the correct destination
+                echo "Moving file to correct destination"
+                destiny=$target_path$header_type"/"
+                echo "Destiny: "$destiny
+                mv -f $file_found_location $destiny
+                echo
+
+                # TODO - if we move the file, we should also move any associated code files.
+
+                # TODO - if the path exists in the project file, it will need to be changed in the project file.
+                sed '/'$fileref'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
+                mv -f $project_file"2" $project_file
+
+                # Identify associated code.
+                codefile=$(sed -n 's/\.h/\.m/p' <<< "$header_filepath")
+                echo "code: "$codefile
+                code_file_found_location=$(find "$target_path" -name "$(basename "$codefile")" -maxdepth 2)
+                echo "code loc: "$code_file_found_location
+                if [ ! -z "$code_file_found_location" ]; then
+                    mv -f $code_file_found_location $destiny
+
+                    # TODO - change path in project file
+                    # changing $codefile
+                    # to the same, with the correct header type
+                    #except this time I don't have the file reference.
+                    codefileref=$(sed -n '/path[[:space:]]*=[[:space:]]*'$codefile'/{p;}' $project_file)
+                    echo $codefileref
+
+                fi
+
+            fi
         fi
     fi
 done
+
