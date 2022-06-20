@@ -108,29 +108,26 @@ do
                 mv -f $file_found_location $destiny
                 echo
 
-                # TODO - if we move the file, we should also move any associated code files.
-
-                # TODO - if the path exists in the project file, it will need to be changed in the project file.
+                # Fix path in the project file.
                 sed '/'$fileref'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
                 mv -f $project_file"2" $project_file
 
                 # Identify associated code.
                 codefile=$(sed -n 's/\.h/\.m/p' <<< "$header_filepath")
                 echo "code: "$codefile
-                code_file_found_location=$(find "$target_path" -name "$(basename "$codefile")" -maxdepth 2)
+                codefile_basename=$(basename "$codefile")
+                code_file_found_location=$(find "$target_path" -name "$codefile_basename" -maxdepth 2)
                 echo "code loc: "$code_file_found_location
                 if [ ! -z "$code_file_found_location" ]; then
+                    # Move associated code
                     mv -f $code_file_found_location $destiny
 
-                    # TODO - change path in project file
-                    # changing $codefile
-                    # to the same, with the correct header type
-                    #except this time I don't have the file reference.
-                    codefileref=$(sed -n '/path[[:space:]]*=[[:space:]]*'$codefile'/{p;}' $project_file)
-                    echo $codefileref
-
+                    # Fix path in the project file.
+                    sed '/'$codefile_basename'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
+                    mv -f $project_file"2" $project_file
                 fi
 
+                #TODO - do we need to change the attributes of the .m line to match the .h?
             fi
         fi
     fi
