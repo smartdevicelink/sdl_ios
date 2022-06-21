@@ -4,43 +4,10 @@
 # 6-10-2022
 # If you do not have permission to run, try: chmod u+x publicscript.sh
 #
-# The purpose of this script is to update the file locations of certain files in an xcode project
-# by their status as public or private.
-# a Ruby script exists for the facebook project.  We want a more robust script, for SDL_IOS
-
-# "Ensure that all files marked public in the project.pbxproj file are in
-# the public folder and the same for non-public files (in the private folder). 
-# Public files should also be referenced in SmartDeviceLink.h"
-# Clarrification: If, for example, you change a headers target membership from "public" to "private" in xcode, it will change the project file but not move the physical header file.
-# so this script should identify these anomalies and repair them by moving the header file, and any associated code (.m file) into the correct directory.
-# We are not responsible for changign the project file.  let xcode do that.
-# if the anomaly is a file outside of the project target folder, don't worry about it.
-# to test, you can go into xcode and just change the target membership of a file, then run the script and see that the file was identified and moved.
-# use Fork to undo changes as needed.
-
-#TODO - rename this script
-
-
-# A utility function for prompting the user Y/N
-# This takes in a string prompt for the input
-# This returns 1 for yes/true or 0 for no/false
-prompt_user() {
-    user_input="g"
-    echo
-    echo $1" (Y/N)?"
-    read user_input
-    while [[ ! $user_input == [YyNn] ]]; do
-        echo $1" (Y/N)?"
-        read user_input
-    done
-    if [[ ! $user_input == [Nn] ]]; then
-        return 1
-    else
-        return 0
-    fi
-}
-
-
+# The purpose of this script is to update the location of header files in an xcode project by their public attribute.
+# It goes backwards, finding the paths to the header files first, then backtracking to find the attributes for file.
+# This was more reliable because files marked private/project have a path, but do not always have attributes.
+# This script also identifies and moves any associated code files for the headers
 
 project_file="SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
 target_path="SmartDeviceLink/"
@@ -58,7 +25,7 @@ if [[ $PWD != *"sdl_ios" ]]; then
 fi
 
 
-# Find the lines with "path".
+# Find the lines in the project file with "path".
 path_lines=$(sed -n '/path/{s/[[:space:]]*//;s/\/\*.*\*\///g;s/{.*path//;p;}' $project_file)
 # Filter to get only the lines with the header_filepath and fileref.
 header_files=$(sed -n '/\.h/{s/[[:space:]]*//g;s/\"//g;s/\;.*//g;s/==/=/;p;}' <<< "$path_lines")
@@ -73,6 +40,7 @@ do
     attributes=$(sed -n '/fileRef[[:space:]]*=[[:space:]]*'$fileref'/{s/.*fileRef[[:space:]]*=[[:space:]]*'$fileref'//;s/\/\*.*\*\///g;p;};' $project_file)
     
     # Determine public or private.
+    # Save off the opposite for the file path change later.
     if [[ $attributes == *"Public"* ]]; then
         header_type="public"
         header_opp="private"
@@ -93,37 +61,31 @@ do
             if [[ ! $file_found_location == *"/$header_type/"* ]]; then
                 
                 # The file is not where it should be: Alert the user.
-                echo "ALERT"
-                echo "Fileref: "$fileref
-                echo "line: "$line
-                echo "Attributes: "$attributes
-                echo "Path from Project File: "$header_filepath
-                echo "Type: "$header_type
-                echo "file found Location: "$file_found_location
+                #echo "Header path from Project File: "$header_filepath
+                #echo "file found Location: "$file_found_location
                 
                 # Move the file to the correct destination
-                echo "Moving file to correct destination"
                 destiny=$target_path$header_type"/"
-                echo "Destiny: "$destiny
                 mv -f $file_found_location $destiny
-                echo
-
+                
                 # Fix path in the project file.
+                # TODO - this works by swapping "public" and "private".  Sed was not workign with full paths.  There should be a better way.
                 sed '/'$fileref'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
                 mv -f $project_file"2" $project_file
 
                 # Identify associated code.
-                codefile=$(sed -n 's/\.h/\.m/p' <<< "$header_filepath")
-                echo "code: "$codefile
-                codefile_basename=$(basename "$codefile")
-                code_file_found_location=$(find "$target_path" -name "$codefile_basename" -maxdepth 2)
-                echo "code loc: "$code_file_found_location
+                code_file=$(sed -n 's/\.h/\.m/p' <<< "$header_filepath")
+                #echo "code: "$code_file
+
+                code_file_basename=$(basename "$code_file")
+                code_file_found_location=$(find "$target_path" -name "$code_file_basename" -maxdepth 2)
                 if [ ! -z "$code_file_found_location" ]; then
-                    # Move associated code
+                    # Move associated code file.
                     mv -f $code_file_found_location $destiny
 
                     # Fix path in the project file.
-                    sed '/'$codefile_basename'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
+                    # TODO - this works by swapping "public" and "private".  Sed was not workign with full paths.  There should be a better way.
+                    sed '/'$code_file_basename'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
                     mv -f $project_file"2" $project_file
                 fi
 
