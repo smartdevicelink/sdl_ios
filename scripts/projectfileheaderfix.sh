@@ -57,19 +57,22 @@ do
         # If file is found.
         if [ ! -z "$file_found_location" ]; then
             
-            # Test to see if the file is where it should be.
+            # Test to see if the file is where it should be. (Does the path contain the correct folder)
             if [[ ! $file_found_location == *"/$header_type/"* ]]; then
                 
-                # The file is not where it should be: Alert the user.
-                #echo "Header path from Project File: "$header_filepath
-                #echo "file found Location: "$file_found_location
+                # The file is not where it should be
+                # echo "Header path from Project File: "$header_filepath
+                # echo "file found Location: "$file_found_location
                 
                 # Move the file to the correct destination
                 destiny=$target_path$header_type"/"
                 mv -f $file_found_location $destiny
                 
                 # Fix path in the project file.
-                # TODO - this works by swapping "public" and "private".  Sed was not workign with full paths.  There should be a better way.
+                # Output to a second file, then overwrite the first with the second.
+                # This is done because sed does not like writing to the file it is currently reading.
+                # TODO - this works by swapping "public" and "private".  Sed was not working with full paths.
+                # This will fail if there is a path that does not contain public/private.  There should be a better way.
                 sed '/'$fileref'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
                 mv -f $project_file"2" $project_file
 
@@ -84,7 +87,10 @@ do
                     mv -f $code_file_found_location $destiny
 
                     # Fix path in the project file.
-                    # TODO - this works by swapping "public" and "private".  Sed was not workign with full paths.  There should be a better way.
+                    # Output to a second file, then overwrite the first with the second.
+                    # This is done because sed does not like writing to the file it is currently reading.
+                    # TODO - this works by swapping "public" and "private".  Sed was not working with full paths.
+                    # This will fail if there is a path that does not contain public/private.  There should be a better way.
                     sed '/'$code_file_basename'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
                     mv -f $project_file"2" $project_file
                 fi
