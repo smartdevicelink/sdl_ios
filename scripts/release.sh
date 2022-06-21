@@ -55,7 +55,7 @@ else
     git reset --hard
 fi
 
-# Fix any header files that are in the wrong location accordign to the project file
+# Fix any header files that are in the wrong location according to the project file
 prompt_user "Would you like to run the project file header fixer"
 if [[ $? == 1 ]]; then
     chmod u+x ./scripts/projectfileheaderfix.sh
