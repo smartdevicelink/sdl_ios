@@ -55,6 +55,13 @@ else
     git reset --hard
 fi
 
+# Fix any header files that are in the wrong location accordign to the project file
+prompt_user "Would you like to run the project file header fixer"
+if [[ $? == 1 ]]; then
+    chmod u+x ./scripts/projectfileheaderfix.sh
+    ./scripts/projectfileheaderfix.sh
+fi
+
 # Checkout develop
 # We need to checkout the branch before we start modifying files.
 echo
