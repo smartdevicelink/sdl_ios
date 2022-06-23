@@ -64,7 +64,7 @@ do
     # Save off the opposite for the file path change later.
     if [[ $attributes == *"Public"* ]]; then
         header_type="public"
-        public_file_list=$header_filepath
+        public_file_list+=$header_filepath
     else
         header_type="private"
     fi
@@ -82,7 +82,7 @@ do
             if [[ ! $file_found_location == *"/$header_type/"* ]]; then
 
                 # add the file to the list of files that are in the wrong location.
-                broken_file_list=$header_filepath"=="$header_type
+                broken_file_list+=$header_filepath"=="$header_type
 
             fi
         fi
