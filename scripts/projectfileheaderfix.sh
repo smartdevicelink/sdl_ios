@@ -120,7 +120,7 @@ if [ ! -z "$broken_file_list" ]; then
             destiny=$target_path$header_type"/"
         
             # Move the file to the correct destination
-            #mv -f $file_found_location $destiny
+            mv -f $file_found_location $destiny
             echo "File "$header_filepath" moved to "$destiny"."
             
             # Figure out the opposite of the type
@@ -133,8 +133,8 @@ if [ ! -z "$broken_file_list" ]; then
             # Fix path in the project file.
             # Output to a second file, then overwrite the first with the second.
             # This is done because sed does not like writing to the file it is currently reading.
-            #sed '/'$fileref'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
-            #mv -f $project_file"2" $project_file
+            sed '/'$fileref'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
+            mv -f $project_file"2" $project_file
 
             # Identify associated code.
             code_file=$(sed -n 's/\.h/\.m/p' <<< "$header_filepath")
@@ -143,14 +143,14 @@ if [ ! -z "$broken_file_list" ]; then
             code_file_found_location=$(find "$target_path" -name "$code_file_basename" -maxdepth 2)
             if [ ! -z "$code_file_found_location" ]; then
                 # Move associated code file.
-                #mv -f $code_file_found_location $destiny
+                mv -f $code_file_found_location $destiny
                 echo "File "$code_file" moved to "$destiny"."
 
                 # Fix path in the project file.
                 # Output to a second file, then overwrite the first with the second.
                 # This is done because sed does not like writing to the file it is currently reading.
-                #sed '/'$code_file_basename'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
-                #mv -f $project_file"2" $project_file
+                sed '/'$code_file_basename'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
+                mv -f $project_file"2" $project_file
             fi
         done
     fi
