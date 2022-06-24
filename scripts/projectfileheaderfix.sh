@@ -8,6 +8,10 @@
 # It goes backwards, finding the paths to the header files first, then backtracking to find the attributes for file.
 # This was more reliable because files marked private/project have a path, but do not always have attributes.
 # This script also identifies and moves any associated code files for the headers
+# 
+# Also,
+# Any file in public/ needs to be referenced in the project header
+# Any file located in private/ needs to NOT be referenced in the project header
 
 project_file="SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
 target_path="SmartDeviceLink/"
@@ -50,7 +54,6 @@ path_lines=$(sed -n '/path/{s/[[:space:]]*//;s/\/\*.*\*\///g;s/{.*path//;p;}' $p
 # Filter to get only the lines with the header_filepath and fileref.
 header_files=$(sed -n '/\.h/{s/[[:space:]]*//g;s/\"//g;s/\;.*//g;s/==/=/;p;}' <<< "$path_lines")
 
-
 for line in $header_files
 do
     # Pick out the fileref and the header_filepath.
@@ -64,7 +67,7 @@ do
     # Save off the opposite for the file path change later.
     if [[ $attributes == *"Public"* ]]; then
         header_type="public"
-        public_file_list+=$header_filepath
+        #public_file_list+=$header_filepath" "
     else
         header_type="private"
     fi
@@ -82,21 +85,24 @@ do
             if [[ ! $file_found_location == *"/$header_type/"* ]]; then
 
                 # add the file to the list of files that are in the wrong location.
-                broken_file_list+=$header_filepath"=="$header_type
-
+                broken_file_list+=$header_filepath"=="$header_type" "
             fi
         fi
     fi
 done
 
-
 # If the file list is not empty.
 if [ ! -z "$broken_file_list" ]; then
-    
+    echo
     # List the files found for the user.
     for header_file in $broken_file_list
     do
-        echo $header_file
+        if [ ! -z "$header_file" ]; then
+            header_filepath="${header_file%%==*}"
+            header_type="${header_file##*==}"
+            code_file=$(sed -n 's/\.h/\.m/p' <<< "$header_filepath")
+            echo $header_filepath" and "$code_file" are marked "$header_type
+        fi
     done
     
     # Prompt the user to move the files.
@@ -104,12 +110,13 @@ if [ ! -z "$broken_file_list" ]; then
     if [[ $? == 1 ]]; then
         for header_file in $broken_file_list
         do
-            echo $header_file
+            echo
+            #echo $header_file
             header_filepath="${header_file%%==*}"
             header_type="${header_file##*==}"
             #echo $header_filepath"  "$header_type
 
-            # Figure otu where the file should be located
+            # Figure out where the file should be located
             destiny=$target_path$header_type"/"
         
             # Move the file to the correct destination
@@ -154,28 +161,58 @@ fi
 
 echo
 
-#then do a separate loop through of public header files and make sure they are all referenced in the project header
-#prompt user to add an entry
-
-# If the file list is not empty.
+# Find all header files in public/
+public_file_list=$(find "$target_path"public -name '*.h')
 if [ ! -z "$public_file_list" ]; then
-    
     for header_file in $public_file_list
     do
-        echo $header_file
+        # echo $header_file
         file_basename=$(basename "$header_file")
 
-        # Check to see if the file is in the project header
-        # Use sed to find the line
+        # Use sed to check to see if the file is in the project header
         found=$(sed -n '/'$file_basename'/{p;}' $project_header)
-        if [ ! -z "$found" ]; then
-            echo $file_basename" not found in "$project_header
-
-            #TODO - prompt use to add entry
-            # Add entry to Project Header
-
-        else
-            echo $file_basename
+        if [ -z "$found" ]; then
+            file_not_found_list+=$file_basename" "
         fi
     done
+fi
+
+# list the files found
+if [ ! -z "$file_not_found_list" ]; then
+    echo
+    echo "These files are public and were not found in "$project_header
+    for file_basename in $file_not_found_list
+    do
+        echo $file_basename
+    done
+else
+    echo "All public header files were found in "$project_header
+fi
+
+# Find all header files in private/
+private_file_list=$(find "$target_path"private -name '*.h')
+if [ ! -z "$private_file_list" ]; then
+    for header_file in $private_file_list
+    do
+        # echo $header_file
+        file_basename=$(basename "$header_file")
+
+        # Use sed to check to see if the file is NOT in the project header
+        found=$(sed -n '/'$file_basename'/{p;}' $project_header)
+        if [ ! -z "$found" ]; then
+            private_file_found_list+=$file_basename" "
+        fi
+    done
+fi
+
+# list the files found
+if [ ! -z "$private_file_found_list" ]; then
+    echo
+    echo "These files are private and were found in "$project_header
+    for file_basename in $private_file_found_list
+    do
+        echo $file_basename
+    done
+else
+    echo "No private header files were found in "$project_header
 fi
