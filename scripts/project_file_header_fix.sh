@@ -201,7 +201,7 @@ if [ ! -z "$private_file_list" ]; then
         # Use sed to check to see if the file is NOT in the project header
         found=$(sed -n '/'$file_basename'/{p;}' $project_header)
         if [ ! -z "$found" ]; then
-            private_file_found_list+=$headprivate_header_fileer_file" "
+            private_file_found_list+=$private_header_file" "
         fi
     done
 fi
