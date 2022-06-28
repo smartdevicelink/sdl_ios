@@ -2,7 +2,7 @@
 
 # George miller
 # 6-10-2022
-# If you do not have permission to run, try: chmod u+x publicscript.sh
+# If you do not have permission to run, try: chmod u+x project_file_header_fix.sh
 #
 # The purpose of this script is to update the location of header files in an xcode project by their public attribute.
 # It goes backwards, finding the paths to the header files first, then backtracking to find the attributes for file.
