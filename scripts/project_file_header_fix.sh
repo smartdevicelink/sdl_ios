@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# George miller
+# George Miller
 # 6-10-2022
 # If you do not have permission to run, try: chmod u+x project_file_header_fix.sh
 #
@@ -54,6 +54,8 @@ path_lines=$(sed -n '/path/{s/[[:space:]]*//;s/\/\*.*\*\///g;s/{.*path//;p;}' $p
 # Filter to get only the lines with the header_filepath and fileref.
 header_files=$(sed -n '/\.h/{s/[[:space:]]*//g;s/\"//g;s/\;.*//g;s/==/=/;p;}' <<< "$path_lines")
 
+echo "Checking files for public / private correctness..."
+
 for line in $header_files
 do
     # Pick out the fileref and the header_filepath.
@@ -67,7 +69,6 @@ do
     # Save off the opposite for the file path change later.
     if [[ $attributes == *"Public"* ]]; then
         header_type="public"
-        #public_file_list+=$header_filepath" "
     else
         header_type="private"
     fi
@@ -83,15 +84,14 @@ do
             
             # Test to see if the file is where it should be. (Does the path contain the correct folder)
             if [[ ! $file_found_location == *"/$header_type/"* ]]; then
-
-                # add the file to the list of files that are in the wrong location.
-                broken_file_list+=$header_filepath"=="$header_type" "
+                # Add the file to the list of files that are in the wrong location.
+                broken_file_list+=$file_found_location"=="$header_type" "
             fi
         fi
     fi
 done
 
-# If the file list is not empty.
+# If the broken file list is not empty.
 if [ ! -z "$broken_file_list" ]; then
     echo
     # List the files found for the user.
@@ -106,21 +106,19 @@ if [ ! -z "$broken_file_list" ]; then
     done
     
     # Prompt the user to move the files.
-    prompt_user "These files were found to be out of place.  Would you like to move them"
+    prompt_user "These files were found to be out of place. Would you like to move them automatically"
     if [[ $? == 1 ]]; then
         for header_file in $broken_file_list
         do
             echo
-            #echo $header_file
             header_filepath="${header_file%%==*}"
             header_type="${header_file##*==}"
-            #echo $header_filepath"  "$header_type
 
             # Figure out where the file should be located
             destiny=$target_path$header_type"/"
         
             # Move the file to the correct destination
-            mv -f $file_found_location $destiny
+            mv -f $header_filepath $destiny
             echo "File "$header_filepath" moved to "$destiny"."
             
             # Figure out the opposite of the type
@@ -136,83 +134,91 @@ if [ ! -z "$broken_file_list" ]; then
             sed '/'$fileref'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
             mv -f $project_file"2" $project_file
 
-            # Identify associated code.
+            # Identify associated implementation file.
             code_file=$(sed -n 's/\.h/\.m/p' <<< "$header_filepath")
             
             code_file_basename=$(basename "$code_file")
             code_file_found_location=$(find "$target_path" -name "$code_file_basename" -maxdepth 2)
             if [ ! -z "$code_file_found_location" ]; then
-                # Move associated code file.
-                mv -f $code_file_found_location $destiny
-                echo "File "$code_file" moved to "$destiny"."
+                if [[ ! $code_file_found_location -ef $destiny$code_file_basename ]]; then
+                    # Move associated implementation file.
+                    mv -f $code_file_found_location $destiny
+                    echo "File "$code_file" moved to "$destiny"."
 
-                # Fix path in the project file.
-                # Output to a second file, then overwrite the first with the second.
-                # This is done because sed does not like writing to the file it is currently reading.
-                sed '/'$code_file_basename'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
-                mv -f $project_file"2" $project_file
+                    # Fix path in the project file.
+                    # Output to a second file, then overwrite the first with the second.
+                    # This is done because sed does not like writing to the file it is currently reading.
+                    sed '/'$code_file_basename'/{s/'$header_opp'/'$header_type'/;}' $project_file > $project_file"2"
+                    mv -f $project_file"2" $project_file
+                else
+                    echo $code_file_found_location" does not need to be moved"
+                fi
             fi
         done
     fi
 
 else
-    echo "file list empty"
+    echo "All files are in the correct folder..."
 fi
-
-echo
 
 # Find all header files in public/
 public_file_list=$(find "$target_path"public -name '*.h')
+
 if [ ! -z "$public_file_list" ]; then
     for header_file in $public_file_list
     do
-        # echo $header_file
         file_basename=$(basename "$header_file")
-
         # Use sed to check to see if the file is in the project header
         found=$(sed -n '/'$file_basename'/{p;}' $project_header)
         if [ -z "$found" ]; then
-            file_not_found_list+=$file_basename" "
+            project_header_not_found_list+=$header_file" "
         fi
     done
 fi
 
-# list the files found
-if [ ! -z "$file_not_found_list" ]; then
+# List the files found.
+if [ ! -z "$project_header_not_found_list" ]; then
     echo
     echo "These files are public and were not found in "$project_header
-    for file_basename in $file_not_found_list
+    for header_file in $project_header_not_found_list
     do
-        echo $file_basename
+        echo $header_file
     done
+    echo "Please add them to the project header, then press enter to continue..."
+    read user_input
 else
     echo "All public header files were found in "$project_header
 fi
 
 # Find all header files in private/
 private_file_list=$(find "$target_path"private -name '*.h')
+
 if [ ! -z "$private_file_list" ]; then
-    for header_file in $private_file_list
+    for private_header_file in $private_file_list
     do
-        # echo $header_file
-        file_basename=$(basename "$header_file")
+        file_basename=$(basename "$private_header_file")
 
         # Use sed to check to see if the file is NOT in the project header
         found=$(sed -n '/'$file_basename'/{p;}' $project_header)
         if [ ! -z "$found" ]; then
-            private_file_found_list+=$file_basename" "
+            private_file_found_list+=$headprivate_header_fileer_file" "
         fi
     done
 fi
 
-# list the files found
+# List the files found.
 if [ ! -z "$private_file_found_list" ]; then
     echo
     echo "These files are private and were found in "$project_header
-    for file_basename in $private_file_found_list
+    for private_header_file in $private_file_found_list
     do
-        echo $file_basename
+        echo $private_header_file
     done
+    echo "Please remove them from the project header, then press enter to continue..."
+    read user_input
 else
     echo "No private header files were found in "$project_header
 fi
+
+echo "Done checking public / private headers for correctness..."
+read user_input
