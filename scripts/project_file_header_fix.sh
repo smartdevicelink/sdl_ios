@@ -119,7 +119,7 @@ if [ ! -z "$broken_file_list" ]; then
         
             # Move the file to the correct destination
             mv -f $header_filepath $destiny
-            echo "File "$header_filepath" moved to "$destiny"."
+            echo "File "$header_filepath" moved to "$destiny
             
             # Figure out the opposite of the type
             if [[ $header_type == "public" ]]; then
@@ -143,7 +143,7 @@ if [ ! -z "$broken_file_list" ]; then
                 if [[ ! $code_file_found_location -ef $destiny$code_file_basename ]]; then
                     # Move associated implementation file.
                     mv -f $code_file_found_location $destiny
-                    echo "File "$code_file" moved to "$destiny"."
+                    echo "File "$code_file" moved to "$destiny
 
                     # Fix path in the project file.
                     # Output to a second file, then overwrite the first with the second.
