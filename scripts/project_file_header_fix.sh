@@ -14,8 +14,8 @@
 # Any file located in private/ needs to NOT be referenced in the project header
 
 project_file="SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
-target_path="SmartDeviceLink/"
-project_header=$target_path"public/SmartDeviceLink.h"
+target_path="SmartDeviceLink"
+project_header=$target_path"/public/SmartDeviceLink.h"
 
 
 # A utility function for prompting the user Y/N
@@ -115,7 +115,7 @@ if [ ! -z "$broken_file_list" ]; then
             header_type="${header_file##*==}"
 
             # Figure out where the file should be located
-            destiny=$target_path$header_type"/"
+            destiny=$target_path"/"$header_type"/"
         
             # Move the file to the correct destination
             mv -f $header_filepath $destiny
@@ -162,7 +162,7 @@ else
 fi
 
 # Find all header files in public/
-public_file_list=$(find "$target_path"public -name '*.h')
+public_file_list=$(find "$target_path"/public -name '*.h')
 
 if [ ! -z "$public_file_list" ]; then
     for header_file in $public_file_list
@@ -191,7 +191,7 @@ else
 fi
 
 # Find all header files in private/
-private_file_list=$(find "$target_path"private -name '*.h')
+private_file_list=$(find "$target_path"/private -name '*.h')
 
 if [ ! -z "$private_file_list" ]; then
     for private_header_file in $private_file_list
@@ -220,5 +220,4 @@ else
     echo "No private header files were found in "$project_header
 fi
 
-echo "Done checking public / private headers for correctness..."
-read user_input
+echo "Done checking public / private headers for correctness"
