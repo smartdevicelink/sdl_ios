@@ -496,8 +496,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLFunctionID.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLNotificationConstants.h"
-#import "SDLSystemInfo.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLSystemInfo.h"
 #import "SDLVersion.h"
 
 #pragma mark Notifications
