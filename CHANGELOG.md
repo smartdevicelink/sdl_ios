@@ -14,7 +14,7 @@
 * Fix uploading dynamic soft button images on head units that only support static images (https://github.com/smartdevicelink/sdl_ios/issues/2093)
 
 ### Other
-* * Add a release script to make releases easier (https://github.com/smartdevicelink/sdl_ios/issues/312)
+* Add a release script to make releases easier (https://github.com/smartdevicelink/sdl_ios/issues/312)
 * Fix tests not running on Xcode 13.3+ (https://github.com/smartdevicelink/sdl_ios/issues/2077)
 * Fix failing tests in SDLPresentAlertOperationSpec (https://github.com/smartdevicelink/sdl_ios/issues/2082)
 * Update testing library dependencies (https://github.com/smartdevicelink/sdl_ios/issues/2085)
