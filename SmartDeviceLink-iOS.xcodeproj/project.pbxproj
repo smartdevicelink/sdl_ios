@@ -9453,7 +9453,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9475,7 +9475,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9528,7 +9528,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9585,7 +9585,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.smartdevicelink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9695,7 +9695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9721,7 +9721,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9772,7 +9772,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -9827,7 +9827,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;

@@ -1,4 +1,25 @@
 # Changelog
+## 7.5.0
+* Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
+
+### Testing
+* Xcode 13.4.1
+* iOS 15.5
+* Core:
+    * Core v8.1.0, Generic HMI v0.12.0, SDL HMI v5.7.0
+    * Core v7.1.1, Generic HMI v0.10.0, SDL HMI v5.5.0
+    * Ford Sync 3.4 (19353\_DEVTEST)
+    
+### Bug Fixes
+* Fix uploading dynamic soft button images on head units that only support static images (https://github.com/smartdevicelink/sdl_ios/issues/2093)
+
+### Other
+* * Add a release script to make releases easier (https://github.com/smartdevicelink/sdl_ios/issues/312)
+* Fix tests not running on Xcode 13.3+ (https://github.com/smartdevicelink/sdl_ios/issues/2077)
+* Fix failing tests in SDLPresentAlertOperationSpec (https://github.com/smartdevicelink/sdl_ios/issues/2082)
+* Update testing library dependencies (https://github.com/smartdevicelink/sdl_ios/issues/2085)
+
+
 ## 7.4.0
 * Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
 
