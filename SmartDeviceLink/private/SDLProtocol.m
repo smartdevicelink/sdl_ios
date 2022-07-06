@@ -508,6 +508,299 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_processMessages];
 }
 
+
+typedef NS_ENUM(NSUInteger, stateEnum){
+    START_STATE = 0x0,
+    SERVICE_TYPE_STATE = 0x02,
+    CONTROL_FRAME_INFO_STATE = 0x03,
+    SESSION_ID_STATE = 0x04,
+    DATA_SIZE_1_STATE = 0x05,
+    DATA_SIZE_2_STATE = 0x06,
+    DATA_SIZE_3_STATE = 0x07,
+    DATA_SIZE_4_STATE = 0x08,
+    MESSAGE_1_STATE = 0x09,
+    MESSAGE_2_STATE = 0x0A,
+    MESSAGE_3_STATE = 0x0B,
+    MESSAGE_4_STATE = 0x0C,
+    DATA_PUMP_STATE = 0x0D,
+    FINISHED_STATE = 0xFF,
+    ERROR_STATE = -1,
+};
+
+
+int VERSION_MASK = 0xF0; //4 highest bits    // b1111 0000
+int ENCRYPTION_MASK = 0x08; //4th lowest bit // b0000 1000
+int FRAME_TYPE_MASK = 0x07; //3 lowest bits  // b0000 0111
+
+
+// Loop through the buffer from transport.
+// Use a state machine to keep track of which part of the message we are on.
+// Break out the message parts and process them.
+// For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
+// TODO - can these cases be broken out as functions with closures?  Take mask and offset, return a state?
+- (void)sdl_processMessagesGeorge {
+    stateEnum state = START_STATE;
+    
+    UInt8 version = 0;
+    int maxMtuSize = 0;
+    int headerSize = 0;
+    Boolean encrypted = false;
+    int frameType = -1;
+    int serviceType;
+    int controlFrameInfo = 0; // "Frame Info" in the documentation
+    int sessionId;
+    int dumpSize = 0;
+    int dataLength = 0;
+    int messageId = 0;
+    
+    // TODO - Declare an array to hold our payload
+    //NSMutableArray *payload = [NSMutableArray new];
+    //NSMutableData *receiveBuffer;
+    //UInt8 payload [0];
+    NSMutableData *payload;
+    UInt8* payloadArray;
+    //int* array = [payload mutableBytes];
+    
+    SDLProtocolMessage *message = nil;
+    
+    
+    //basically, the length fo the recieve buffer could increase while this loop is running.  We don't want that to break us.
+    int messagelength =self.receiveBuffer.length;
+    
+    //loop for each byte in buffer
+    for(int i=0;i<messagelength; i++)
+    {
+        //get byte
+        UInt8 currentByte = ((UInt8 *)self.receiveBuffer.bytes)[i];
+        
+        //State template/pattern
+        //extract the data
+        //Data = (byte & mask) >> offest
+        //do light processing
+        //Set next state
+        //check for errors
+        
+        // State determines how we process the next byte, based on previous bytes.
+        switch(state){
+            case START_STATE:
+                // 4 bits for version
+                version = (currentByte & VERSION_MASK ) >> 4;
+
+                // 1 bit for either encryption or compression, depending on version.
+                encrypted = (currentByte & ENCRYPTION_MASK ) >> 3;
+                
+                // 3 bits for frameType
+                frameType = (currentByte & FRAME_TYPE_MASK ) >> 0;
+
+                // Set the next state
+                state = SERVICE_TYPE_STATE;
+                
+                // Check version for errors
+                if ((version < 1 || version > 5)) {
+                    state = ERROR_STATE;
+                }
+                
+                // Check for valid frameType
+                if((frameType < SDLFrameTypeControl) || (frameType > SDLFrameTypeConsecutive)){
+                    state = ERROR_STATE;
+                    break;
+                }
+                
+                break;
+                
+            case SERVICE_TYPE_STATE:
+                // 8 bits for service type
+                serviceType = (currentByte & 0xFF ) >> 0;
+
+                // Check for errors
+                switch (serviceType) {
+                    case 0x00: //SessionType.CONTROL:
+                    case 0x07: //SessionType.RPC:
+                    case 0x0A: //SessionType.PCM (Audio):
+                    case 0x0B: //SessionType.NAV (Video):
+                    case 0x0F: //SessionType.BULK (Hybrid):
+                        state = CONTROL_FRAME_INFO_STATE;
+                        break;
+                    default:
+                        state = ERROR_STATE;
+                        break;
+                }
+                break;
+                
+            case CONTROL_FRAME_INFO_STATE:
+                // 8 bits for frame information
+                controlFrameInfo = (currentByte & 0xFF ) >> 0;
+                
+                // Set the next state
+                state = SESSION_ID_STATE;
+                
+                // Check for errors.
+                //For these two frame types, the frame info should be 0x00
+                if ((frameType == SDLFrameTypeFirst) || (frameType == SDLFrameTypeSingle)){
+                    if (controlFrameInfo != 0x00) {
+                        state = ERROR_STATE;
+                    }
+                }
+                break;
+                
+            case SESSION_ID_STATE:
+                // 8 bits for frame information
+                sessionId = (currentByte & 0xFF ) >> 0;
+                
+                // Set the next state
+                state = SESSION_ID_STATE;
+                
+                break;
+            
+            //32 bits for data size
+            case DATA_SIZE_1_STATE:
+                dataLength += (currentByte & 0xFF ) << 24;
+                state = DATA_SIZE_2_STATE;
+                break;
+            case DATA_SIZE_2_STATE:
+                dataLength += (currentByte & 0xFF ) << 16;
+                state = DATA_SIZE_3_STATE;
+                break;
+            case DATA_SIZE_3_STATE:
+                dataLength += (currentByte & 0xFF ) << 8;
+                state = DATA_SIZE_4_STATE;
+                break;
+            case DATA_SIZE_4_STATE:
+                dataLength += (currentByte & 0xFF ) << 0;
+                
+                // TODO - The java logic was grossly bloated.  Chack carefully that I have reduced it properly.
+                
+                // Set the next state
+                state = MESSAGE_1_STATE;
+                
+                // This is pretty much always true
+                // This has to be set here because we will use this as a counter for looping the pump state
+                dumpSize = dataLength;
+                
+                // Version 1 does not have a message ID
+                if( version == 1){
+                    if (dataLength == 0) {
+                        state = FINISHED_STATE; //We are done if we don't have any payload
+                    } else {
+                        // Resize payload to what we need.
+                        payload = [NSMutableData dataWithCapacity:dataLength];
+                        // get the pointer to the mutableBytes in the payload
+                        payloadArray = [payload mutableBytes];
+                        
+                        //skip ahead to the data pump state
+                        state = DATA_PUMP_STATE;
+                    }
+                }
+                
+                //figure out headerSize
+                if( version == 1){
+                    headerSize = 8;
+                }else{
+                    headerSize = 12;
+                }
+                
+                // Figure out max MTU size
+                if (version <= 2){
+                    maxMtuSize = 1500;
+                } else{
+                    maxMtuSize = 131084;
+                }
+                
+                // Check data length (does it conform to spec?)
+                if (dataLength > (maxMtuSize - headerSize)) {
+                    state = ERROR_STATE;
+                    break;
+                }
+                
+                // There is a niche case we need to address.
+                // If this is the first frame, it is not encrypted, and the length is not 8 then error.
+                if ((frameType == SDLFrameTypeFirst) && (dataLength != 0x08) && (encrypted == false)) {
+                    state = ERROR_STATE;
+                    break;
+                }
+                
+                break;
+                
+            case MESSAGE_1_STATE:
+                messageId += (currentByte & 0xFF ) << 24;
+                state = MESSAGE_2_STATE;
+                break;
+            case MESSAGE_2_STATE:
+                messageId += (currentByte & 0xFF ) << 16;
+                state = MESSAGE_3_STATE;
+                break;
+            case MESSAGE_3_STATE:
+                messageId += (currentByte & 0xFF ) << 8;
+                state = MESSAGE_4_STATE;
+                break;
+            case MESSAGE_4_STATE:
+                // The 4 message states are responsible for changing the 4 byte message ID into a single value.
+                messageId += (currentByte & 0xFF ) << 0;
+                
+                // Set next state
+                if (dataLength == 0) {
+                    state = FINISHED_STATE;
+                } else {
+                    state = DATA_PUMP_STATE;
+                }
+                
+                // Resize payload to what we need.
+                payload = [NSMutableData dataWithCapacity:dataLength];
+                // get the pointer to the mutableBytes in the payload
+                payloadArray = [payload mutableBytes];
+                
+                // Check for errors
+                
+                break;
+            
+            case DATA_PUMP_STATE:
+                // The pump state takes bytes in and adds them to the payload array
+                
+                // Calculate index of next byte in payload array, and assign it.
+                //payload[dataLength - dumpSize] = currentByte;
+                payloadArray[dataLength - dumpSize] = currentByte;
+                
+                // Decrement dumpSize
+                dumpSize--;
+                
+                // State should already be DATA_PUMP_STATE
+                state = DATA_PUMP_STATE;
+
+                //Check if all the bytes have been read
+                if( dumpSize <= 0) {
+                    state = FINISHED_STATE;
+                }
+                
+                break;
+            case FINISHED_STATE:
+                break;
+                
+            case ERROR_STATE:
+            default:
+                //TODO - I'd like to knwo how we got here.  Maybe store off the state name from before the error.
+                break;
+        } // End of switch
+        
+    } // End of loop through bytes
+    
+    
+    // Need to maintain the receiveBuffer, remove the bytes from it which we just processed.
+    // More accurately, overwrite the whole thing with a new object made from just the stuff at the end of the buffer.
+    self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(messagelength, self.receiveBuffer.length - messagelength)] mutableCopy];
+
+    
+    //TODO - now that we have all the data read in, it needs to be formatted like sdl_processMessages was doing.
+    
+    // We need to build a header object
+    // and then a payload object
+    // and then a message object
+    // and then pass on the message object
+    
+    
+}
+
+// This can be called as many times as you like, but it will only extract a message from the queue IF there are enough bytes.
+// Otherwise it just returns.
 - (void)sdl_processMessages {
     UInt8 incomingVersion = [SDLProtocolHeader determineVersion:self.receiveBuffer];
 
