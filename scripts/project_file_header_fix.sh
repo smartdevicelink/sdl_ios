@@ -85,7 +85,7 @@ do
             # Test to see if the file is where it should be. (Does the path contain the correct folder)
             if [[ ! $file_found_location == *"/$header_type/"* ]]; then
                 # Add the file to the list of files that are in the wrong location.
-                broken_file_list+=$file_found_location"=="$header_type" "
+                broken_file_list+=$file_found_location"=="$header_type"=="$fileref" "
             fi
         fi
     fi
@@ -99,7 +99,9 @@ if [ ! -z "$broken_file_list" ]; then
     do
         if [ ! -z "$header_file" ]; then
             header_filepath="${header_file%%==*}"
-            header_type="${header_file##*==}"
+            header_type1="${header_file%==*}"
+            header_type="${header_type1##*==}"
+            fileref="${header_file##*==}"
             code_file=$(sed -n 's/\.h/\.m/p' <<< "$header_filepath")
             echo $header_filepath" and "$code_file" are marked "$header_type
         fi
@@ -112,8 +114,10 @@ if [ ! -z "$broken_file_list" ]; then
         do
             echo
             header_filepath="${header_file%%==*}"
-            header_type="${header_file##*==}"
-
+            header_type1="${header_file%==*}"
+            header_type="${header_type1##*==}"
+            fileref="${header_file##*==}"
+            
             # Figure out where the file should be located
             destiny=$target_path"/"$header_type"/"
         
