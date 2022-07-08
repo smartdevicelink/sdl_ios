@@ -528,51 +528,62 @@ typedef NS_ENUM(NSUInteger, stateEnum){
 };
 
 
-//used for error checking
-//but I will need them to persist between calls to this function.
+//state needs to persist betwween calls
+stateEnum state = START_STATE;
+//used for error checking.  Practically part of state.
 UInt8 version = 0;
-UInt8 maxMtuSize = 0;
-UInt8 headerSize = 0;
 Boolean encrypted = false;
 UInt8 frameType;
-UInt8 serviceType;
-UInt8 controlFrameInfo = 0; // "Frame Info" in the documentation
-UInt8 sessionId;
 UInt8 dataLength = 0;
 UInt8 dataBytesRemaining = 0; // used as a counter for indexing through the data.
-UInt8 messageId = 0;
+//UInt8 messageId = 0; //we don't need it for the state machine.
 
 //these will hold our header and payload bytes
-//these also need to persist between calls
+//these also need to persist between calls, so they are global.
 NSMutableData *headerBuffer;
 NSMutableData *payloadBuffer;
 //TODO - do I need to initialize these buffers?
 
-//state needs to persist betwween calls
-stateEnum state = START_STATE;
 
 
-// get's called when there is an update to the buffer.
-// this will recursively rip bytes out and process them with a state machine
-// It builds up a header buffer and a payload buffer
-// When the packet is complete, the message is processed
-// the state machine effectively tracks which byte of a message we are expecting.
-// For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
-// TODO - can these cases be broken out as functions with closures?  Take mask and offset, return a state?
-- (stateEnum)sdl_processMessagesGeorge:(stateEnum)state {
+
+// This should get called when there is an update to the buffer.
+// This will recursively pop bytes out of the buffer and process them with a state machine
+// Am I worried about two calls to this at the same time?
+// no, because the buffer and the state are global.  So two state machines could run simultaneous and they would alternate bytes until one completed.  At which point there would not be a byte for the other to take.
+(void)stateMachineManager{
     
-    //TODO - the pop thing only works if we have bytes there.
+    // Pop a byte out of the buffer
+    UInt8 nextByte = ((UInt8 *)self.receiveBuffer.bytes)[0];
     
-    //get the next byte from the buffer
-    UInt8 currentByte = ((UInt8 *)self.receiveBuffer.bytes)[0];
-    
-    // POP the next byte out (enact FIFO)
+    // shift the buffer
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(1, self.receiveBuffer.length - 1)] mutableCopy];
     
+    //hand the byte to the state machine
+    [self sdl_processMessagesStateMachine:nextByte]
+    
+    // Call recursively until the buffer is empty or incomplete message is encountered
+    if (self.receiveBuffer.length > 0) {
+        [self stateMachineManager];
+    }
+}
+
+// Takes a single byte, processes it using a state machine
+// State is global, as well as some other persistant variables
+// Builds up a header buffer and a payload buffer
+// When the packet is complete, the message is processed
+// The state of the state machine effectively tracks which byte of a message we are expecting next
+// For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
+// IF a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
+// TODO - can these cases be broken out as functions with closures?  Take mask and offset, return a state?
+- (void)sdl_processMessagesStateMachine:(UInt8)currentByte {
     
     // State determines how we process the next byte, based on previous bytes.
     switch(state){
         case START_STATE:
+            //Flush the buffers
+            [ResetState]
+            
             // 4 bits for version
             //4 highest bits    // b1111 0000
             version = (currentByte & 0xF0 ) >> 4;
@@ -604,6 +615,7 @@ stateEnum state = START_STATE;
             break;
             
         case SERVICE_TYPE_STATE:
+            UInt8 serviceType;
             // 8 bits for service type
             serviceType = (currentByte & 0xFF ) >> 0;
 
@@ -626,6 +638,7 @@ stateEnum state = START_STATE;
             break;
             
         case CONTROL_FRAME_INFO_STATE:
+            UInt8 controlFrameInfo = 0; // "Frame Info" in the documentation
             // 8 bits for frame information
             controlFrameInfo = (currentByte & 0xFF ) >> 0;
             
@@ -645,6 +658,7 @@ stateEnum state = START_STATE;
             break;
             
         case SESSION_ID_STATE:
+            UInt8 sessionId;
             // 8 bits for frame information
             sessionId = (currentByte & 0xFF ) >> 0;
             
@@ -652,7 +666,7 @@ stateEnum state = START_STATE;
             [headerBuffer appendData:currentByte];
             
             // Set the next state
-            state = SESSION_ID_STATE;
+            state = DATA_SIZE_1_STATE;
             
             break;
         
@@ -685,8 +699,6 @@ stateEnum state = START_STATE;
             [headerBuffer appendData:currentByte];
             
             // This is pretty much always true
-            // This has to be set here because we will use this as a counter for looping the pump state
-            // TODO - This is the only way we can detect the end of the packet.
             dataBytesRemaining = dataLength;
             
             // Version 1 does not have a message ID
@@ -694,16 +706,12 @@ stateEnum state = START_STATE;
                 if (dataLength == 0) {
                     state = FINISHED_STATE; //We are done if we don't have any payload
                 } else {
-                    // Resize payload to what we need.
-                    //payload = [NSMutableData dataWithCapacity:dataLength];
-                    // get the pointer to the mutableBytes in the payload
-                    //payloadArray = [payload mutableBytes];
-                    
                     //skip ahead to the data pump state
                     state = DATA_PUMP_STATE;
                 }
             }
             
+            UInt8 headerSize = 0;
             //figure out headerSize
             if( version == 1){
                 headerSize = 8;
@@ -711,6 +719,7 @@ stateEnum state = START_STATE;
                 headerSize = 12;
             }
             
+            UInt8 maxMtuSize = 0;
             // Figure out max MTU size
             if (version <= 2){
                 maxMtuSize = 1500;
@@ -734,26 +743,26 @@ stateEnum state = START_STATE;
             break;
             
         case MESSAGE_1_STATE:
-            messageId += (currentByte & 0xFF ) << 24;
+            //messageId += (currentByte & 0xFF ) << 24;
             state = MESSAGE_2_STATE;
             // Add the byte to the headerBuffer
             [headerBuffer appendData:currentByte];
             break;
         case MESSAGE_2_STATE:
-            messageId += (currentByte & 0xFF ) << 16;
+            //messageId += (currentByte & 0xFF ) << 16;
             state = MESSAGE_3_STATE;
             // Add the byte to the headerBuffer
             [headerBuffer appendData:currentByte];
             break;
         case MESSAGE_3_STATE:
-            messageId += (currentByte & 0xFF ) << 8;
+            //messageId += (currentByte & 0xFF ) << 8;
             state = MESSAGE_4_STATE;
             // Add the byte to the headerBuffer
             [headerBuffer appendData:currentByte];
             break;
         case MESSAGE_4_STATE:
             // The 4 message states are responsible for changing the 4 byte message ID into a single value.
-            messageId += (currentByte & 0xFF ) << 0;
+            //messageId += (currentByte & 0xFF ) << 0;
             
             // Set next state
             if (dataLength == 0) {
@@ -803,31 +812,23 @@ stateEnum state = START_STATE;
                 }
             }
             
-            // Build message
-            SDLProtocolMessage *message = nil;
-            message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
-            
-            // Pass on the message to the message router.
-            [self.messageRouter handleReceivedMessage:message protocol:self];
-            
-            // Reset Buffers
-            NSMutableData *headerBuffer = nil;
-            NSMutableData *payloadBuffer = nil;
-            dataBytesRemaining = 0
-            
-            // Reset state
-            state = START_STATE
+            if (state != Error_State){
+                // Build message
+                SDLProtocolMessage *message = nil;
+                message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
+                
+                // Pass on the message to the message router.
+                [self.messageRouter handleReceivedMessage:message protocol:self];
+                
+                //Reset state
+                [self ResetState]
+            }
             break;
             
         case ERROR_STATE:
         default:
-            // Reset Buffers
-            NSMutableData *headerBuffer = nil;
-            NSMutableData *payloadBuffer = nil;
-            dataBytesRemaining = 0
-            
             // Reset state
-            state = START_STATE
+            [self ResetState]
             //TODO - I'd like to know how we got here.  Maybe store off the state name from before the error.
             break;
     } // End of switch
@@ -838,6 +839,16 @@ stateEnum state = START_STATE;
             [self sdl_processMessagesGeorge];
         }
     }
+}
+
+(void)ResetState{
+    // Flush Buffers
+    NSMutableData *headerBuffer = nil;
+    NSMutableData *payloadBuffer = nil;
+    dataBytesRemaining = 0
+    
+    // Reset state
+    state = START_STATE
 }
 
 // This can be called as many times as you like, but it will only extract a message from the queue IF there are enough bytes.
