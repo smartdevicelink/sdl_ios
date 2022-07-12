@@ -46,25 +46,20 @@ main_branch="master"
 # Stash any local changes to avoid errors during checkout
 # TODO - we need to do a check to see if there are local changes to stash
 changes=$(git diff-files)
-if [ ! -z "$changes" ]; then
-    echo "There are changes to stash"
-    
+if [ ! -z "$changes" ]; then   
+    #git status
+    echo "There are unstaged changes in these files"
+    echo $changes
+    prompt_user "Would you like to stash these local changes"
+    if [[ $? == 1 ]]; then
+        # Stash local changes to prevent issues with checkout
+        git stash
+        echo "use \"git stash pop\" when this script is complete to restore your changes"
+    else
+        # Dump local changes to prevent issues with checkout
+        git reset --hard
+    fi
 fi
-echo $changes
-echo "done"
-
-exit 0
-git status
-prompt_user "Would you like to stash any local changes"
-if [[ $? == 1 ]]; then
-    # Stash local changes to prevent issues with checkout
-    git stash
-    echo "use \"git stash pop\" when this script is complete to restore your changes"
-else
-    # Dump local changes to prevent issues with checkout
-    git reset --hard
-fi
-
 # Checkout develop
 # We need to checkout the branch before we start modifying files.
 echo
