@@ -505,7 +505,12 @@ NS_ASSUME_NONNULL_BEGIN
     // Save the data
     [self.receiveBuffer appendData:receivedData];
 
-    [self sdl_processMessages];
+    //old function
+    //[self sdl_processMessages];
+    
+    //my new function
+    [self stateMachineManager];
+    
 }
 
 // TODO - move to SDLProtocolConstants?
@@ -528,6 +533,7 @@ typedef NS_ENUM(NSUInteger, stateEnum){
 };
 
 
+//TODO - where should I put these variables?
 //state needs to persist betwween calls
 stateEnum state = START_STATE;
 //used for error checking.  Practically part of state.
@@ -543,16 +549,10 @@ int dataBytesRemaining = 0; // used as a counter for indexing through the data.
 NSMutableData *headerBuffer;
 NSMutableData *payloadBuffer;
 
-
-
-
-// This should get called when there is an update to the buffer.
+// This should get called by sdl_handleBytesFromTransport
+// when there is an update to the receiveBuffer.
 // This will recursively pop bytes out of the buffer and process them with a state machine
-// Am I worried about two calls to this at the same time?
-// no, because the buffer and the state are global.  So two state machines could run simultaneous and they would alternate bytes until one completed.  At which point there would not be a byte for the other to take.
-// TODO - It should be safe to call this as a replacement for sdl_processMessages
 - (void)stateMachineManager{
-    
     // Pop a byte out of the buffer
     UInt8 nextByte = ((UInt8 *)self.receiveBuffer.bytes)[0];
     
