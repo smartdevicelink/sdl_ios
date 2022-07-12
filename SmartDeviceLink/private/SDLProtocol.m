@@ -508,7 +508,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_processMessages];
 }
 
-
+// TODO - move to SDLProtocolConstants?
 typedef NS_ENUM(NSUInteger, stateEnum){
     START_STATE = 0x0,
     SERVICE_TYPE_STATE = 0x02,
@@ -531,18 +531,17 @@ typedef NS_ENUM(NSUInteger, stateEnum){
 //state needs to persist betwween calls
 stateEnum state = START_STATE;
 //used for error checking.  Practically part of state.
-UInt8 version = 0;
+Byte version = 0;
 Boolean encrypted = false;
-UInt8 frameType;
-UInt8 dataLength = 0;
-UInt8 dataBytesRemaining = 0; // used as a counter for indexing through the data.
+int frameType;
+int dataLength = 0;
+int dataBytesRemaining = 0; // used as a counter for indexing through the data.
 //UInt8 messageId = 0; //we don't need it for the state machine.
 
 //these will hold our header and payload bytes
 //these also need to persist between calls, so they are global.
 NSMutableData *headerBuffer;
 NSMutableData *payloadBuffer;
-//TODO - do I need to initialize these buffers?
 
 
 
@@ -551,7 +550,8 @@ NSMutableData *payloadBuffer;
 // This will recursively pop bytes out of the buffer and process them with a state machine
 // Am I worried about two calls to this at the same time?
 // no, because the buffer and the state are global.  So two state machines could run simultaneous and they would alternate bytes until one completed.  At which point there would not be a byte for the other to take.
-(void)stateMachineManager{
+// TODO - It should be safe to call this as a replacement for sdl_processMessages
+- (void)stateMachineManager{
     
     // Pop a byte out of the buffer
     UInt8 nextByte = ((UInt8 *)self.receiveBuffer.bytes)[0];
@@ -560,7 +560,7 @@ NSMutableData *payloadBuffer;
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(1, self.receiveBuffer.length - 1)] mutableCopy];
     
     //hand the byte to the state machine
-    [self sdl_processMessagesStateMachine:nextByte]
+    [self sdl_processMessagesStateMachine:nextByte];
     
     // Call recursively until the buffer is empty or incomplete message is encountered
     if (self.receiveBuffer.length > 0) {
@@ -575,14 +575,20 @@ NSMutableData *payloadBuffer;
 // The state of the state machine effectively tracks which byte of a message we are expecting next
 // For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
 // IF a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
-// TODO - can these cases be broken out as functions with closures?  Take mask and offset, return a state?
-- (void)sdl_processMessagesStateMachine:(UInt8)currentByte {
+- (void)sdl_processMessagesStateMachine:(Byte)currentByte {
+    
+    //this is not required outside of an instance of this function
+    Byte serviceType = 0;
+    Byte controlFrameInfo = 0; // "Frame Info" in the documentation
+    Byte sessionId = 0;
+    SDLProtocolHeader *header = nil;  //Create a pointer that we can use later for an SDLProtocolHeader
+    NSData *payload = nil;
     
     // State determines how we process the next byte, based on previous bytes.
     switch(state){
         case START_STATE:
             //Flush the buffers
-            [ResetState]
+            [self ResetState];
             
             // 4 bits for version
             //4 highest bits    // b1111 0000
@@ -600,7 +606,7 @@ NSMutableData *payloadBuffer;
             state = SERVICE_TYPE_STATE;
             
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check version for errors
             if ((version < 1 || version > 5)) {
@@ -615,12 +621,11 @@ NSMutableData *payloadBuffer;
             break;
             
         case SERVICE_TYPE_STATE:
-            UInt8 serviceType;
             // 8 bits for service type
             serviceType = (currentByte & 0xFF ) >> 0;
 
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check for errors
             switch (serviceType) {
@@ -638,7 +643,6 @@ NSMutableData *payloadBuffer;
             break;
             
         case CONTROL_FRAME_INFO_STATE:
-            UInt8 controlFrameInfo = 0; // "Frame Info" in the documentation
             // 8 bits for frame information
             controlFrameInfo = (currentByte & 0xFF ) >> 0;
             
@@ -646,7 +650,7 @@ NSMutableData *payloadBuffer;
             state = SESSION_ID_STATE;
             
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check for errors.
             //For these two frame types, the frame info should be 0x00
@@ -658,36 +662,34 @@ NSMutableData *payloadBuffer;
             break;
             
         case SESSION_ID_STATE:
-            UInt8 sessionId;
             // 8 bits for frame information
             sessionId = (currentByte & 0xFF ) >> 0;
             
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Set the next state
             state = DATA_SIZE_1_STATE;
-            
             break;
         
-        //32 bits for data size
+        // 32 bits for data size
         case DATA_SIZE_1_STATE:
             dataLength += (currentByte & 0xFF ) << 24;
             state = DATA_SIZE_2_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case DATA_SIZE_2_STATE:
             dataLength += (currentByte & 0xFF ) << 16;
             state = DATA_SIZE_3_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case DATA_SIZE_3_STATE:
             dataLength += (currentByte & 0xFF ) << 8;
             state = DATA_SIZE_4_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case DATA_SIZE_4_STATE:
             dataLength += (currentByte & 0xFF ) << 0;
@@ -696,7 +698,7 @@ NSMutableData *payloadBuffer;
             state = MESSAGE_1_STATE;
             
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // This is pretty much always true
             dataBytesRemaining = dataLength;
@@ -711,7 +713,7 @@ NSMutableData *payloadBuffer;
                 }
             }
             
-            UInt8 headerSize = 0;
+            Byte headerSize = 0;
             //figure out headerSize
             if( version == 1){
                 headerSize = 8;
@@ -719,7 +721,7 @@ NSMutableData *payloadBuffer;
                 headerSize = 12;
             }
             
-            UInt8 maxMtuSize = 0;
+            int maxMtuSize = 0;
             // Figure out max MTU size
             if (version <= 2){
                 maxMtuSize = 1500;
@@ -746,19 +748,19 @@ NSMutableData *payloadBuffer;
             //messageId += (currentByte & 0xFF ) << 24;
             state = MESSAGE_2_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case MESSAGE_2_STATE:
             //messageId += (currentByte & 0xFF ) << 16;
             state = MESSAGE_3_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case MESSAGE_3_STATE:
             //messageId += (currentByte & 0xFF ) << 8;
             state = MESSAGE_4_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case MESSAGE_4_STATE:
             // The 4 message states are responsible for changing the 4 byte message ID into a single value.
@@ -771,7 +773,7 @@ NSMutableData *payloadBuffer;
                 state = DATA_PUMP_STATE;
             }
             // Add the byte to the headerBuffer
-            [headerBuffer appendData:currentByte];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             break;
         
@@ -781,8 +783,8 @@ NSMutableData *payloadBuffer;
             // State should already be DATA_PUMP_STATE
             state = DATA_PUMP_STATE;
             
-            // Add the byte to the headerBuffer
-            [payloadBuffer appendData:currentByte];
+            // Add the byte to the payloadBuffer
+            [payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
 
             // Decrement dataBytesRemaining
             dataBytesRemaining--;
@@ -794,12 +796,12 @@ NSMutableData *payloadBuffer;
             
             break;
         case FINISHED_STATE:
+            // Create a header
+            header = [SDLProtocolHeader headerForVersion:version];
             // Process headerBuffer
-            SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:incomingVersion];
             [header parse:headerBuffer];
-            
             // Process payloadBuffer
-            NSData *payload = [payloadBuffer];
+            //payload = [payloadBuffer];
             
             // If the message in encrypted and there is payload, try to decrypt it
             if (header.encrypted && payload.length) {
@@ -812,7 +814,7 @@ NSMutableData *payloadBuffer;
                 }
             }
             
-            if (state != Error_State){
+            if (state != ERROR_STATE){
                 // Build message
                 SDLProtocolMessage *message = nil;
                 message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
@@ -821,40 +823,41 @@ NSMutableData *payloadBuffer;
                 [self.messageRouter handleReceivedMessage:message protocol:self];
                 
                 //Reset state
-                [self ResetState]
+                [self ResetState];
             }
             break;
             
         case ERROR_STATE:
         default:
             // Reset state
-            [self ResetState]
+            [self ResetState];
             //TODO - I'd like to know how we got here.  Maybe store off the state name from before the error.
             break;
     } // End of switch
     
-    if ((state != ERROR_STATE) && (state != FINISHED_STATE)){
+    /*if ((state != ERROR_STATE) && (state != FINISHED_STATE)){
         // Call recursively until the buffer is empty or incomplete message is encountered
         if (self.receiveBuffer.length > 0) {
-            [self sdl_processMessagesGeorge];
+            [self sdl_processMessagesStateMachine:nextByte];
         }
-    }
+    }*/
 }
 
-(void)ResetState{
+- (void)ResetState{
     // Flush Buffers
-    NSMutableData *headerBuffer = nil;
-    NSMutableData *payloadBuffer = nil;
-    dataBytesRemaining = 0
+    headerBuffer = nil;
+    payloadBuffer = nil;
+    dataBytesRemaining = 0;
     
     // Reset state
-    state = START_STATE
+    state = START_STATE;
+    //TODO - reset other state variables, like verison
 }
 
 // This can be called as many times as you like, but it will only extract a message from the queue IF there are enough bytes.
 // Otherwise it just returns.
 - (void)sdl_processMessages {
-    UInt8 incomingVersion = [SDLProtocolHeader determineVersion:self.receiveBuffer];
+    Byte incomingVersion = [SDLProtocolHeader determineVersion:self.receiveBuffer];
 
     // If we have enough bytes, create the header.
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:incomingVersion];
