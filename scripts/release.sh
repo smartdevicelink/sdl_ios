@@ -44,6 +44,16 @@ develop_branch="develop"
 main_branch="master"
 
 # Stash any local changes to avoid errors during checkout
+# TODO - we need to do a check to see if there are local changes to stash
+changes=$(git diff-files)
+if [ ! -z "$changes" ]; then
+    echo "There are changes to stash"
+    
+fi
+echo $changes
+echo "done"
+
+exit 0
 git status
 prompt_user "Would you like to stash any local changes"
 if [[ $? == 1 ]]; then
@@ -107,11 +117,11 @@ fi
 echo 
 echo "Checking SDLGlobals.m for RPC and Protocol versions"
 file="SmartDeviceLink/private/SDLGlobals.m"
-current_rpc_version=$(sed -n '/SDLMaxProxyProtocolVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
-current_protocol_version=$(sed -n '/SDLMaxProxyRPCVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
+current_rpc_version=$(sed -n '/SDLMaxProxyRPCVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
+current_protocol_version=$(sed -n '/SDLMaxProxyProtocolVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
 echo "Current RPC Version: "$current_rpc_version
 echo "Current Protocol Version: "$current_protocol_version
-echo "If these are not correct, please update protocol versions in /SmartDeviceLink/private/SDLGlobals.m. Then press enter..."
+echo "If these are not correct, please update versions in /SmartDeviceLink/private/SDLGlobals.m. Then press enter..."
 read user_input
 
 # Update to the newest BSON submodule. Update Package.swift and CocoaPods dependency files to point to latest if necessary.
