@@ -39,38 +39,69 @@ if [[ $PWD != *"sdl_ios" ]]; then
     exit 0
 fi
 
+# TODO - We need to check the architecture and set a flag if it's M1 or later.
+# TODO - based on architecture flags, the commands for things liek Jazzy change (Need to use rosetta to run)
+
+
 # Setup branch variables
 develop_branch="develop"
 main_branch="master"
 
-# Stash any local changes to avoid errors during checkout
-# TODO - we need to do a check to see if there are local changes to stash
-changes=$(git diff-files)
-if [ ! -z "$changes" ]; then   
-    #git status
-    echo "There are unstaged changes in these files"
-    echo $changes
-    prompt_user "Would you like to stash these local changes"
-    if [[ $? == 1 ]]; then
-        # Stash local changes to prevent issues with checkout
-        git stash
-        echo "use \"git stash pop\" when this script is complete to restore your changes"
-    else
-        # Dump local changes to prevent issues with checkout
-        git reset --hard
-    fi
-fi
+
 # Checkout develop
 # We need to checkout the branch before we start modifying files.
-echo
-echo "Checking out $develop_branch"
-git checkout $develop_branch
+# TODO - make this optional.  Then set a flag that determines if you skip other operations because you dont' have this checked out.
+
+current_branch=$(git branch --show-current)
+if [ $current_branch == $develop_branch ]; then
+    develop_checked_out=1
+else
+    develop_checked_out=0
+    echo
+    prompt_user "Would you like to automatically checkout $develop_branch"
+    if [[ $? == 1 ]]; then
+
+        # Stash any local changes to avoid errors during checkout
+        changes=$(git diff-files)
+        if [ ! -z "$changes" ]; then   
+            #git status
+            echo "There are unstaged changes in these files"
+            echo $changes
+            prompt_user "Would you like to stash these local changes before checkout of $develop_branch"
+            if [[ $? == 1 ]]; then
+                # Stash local changes to prevent issues with checkout
+                git stash
+                echo "use \"git stash pop\" when this script is complete to restore your changes"
+            else
+                # Dump local changes to prevent issues with checkout
+                git reset --hard
+            fi
+        fi
+
+        echo "Checking out $develop_branch"
+        git checkout $develop_branch
+        # TODO - if checkout successful?
+        
+        current_branch=$(git branch --show-current)
+        if [ $current_branch == $develop_branch ]; then
+            develop_checked_out=1
+        else
+            echo "Automatic checkout has failed. Abort."
+            exit 0
+        fi
+    else
+        echo "checkout of $develop_branch is required for some steps. Please do so manually now."
+        echo "You may ignore this message if you already have $develop_branch checked out..."
+        read user_input
+    fi
+fi
 
 # Bump version in projectFile
 echo
 echo "Updating the version"
 
 # Get the current version and build from the podspec file
+# TODO - we failed to change the podspec file during release.  I think it got lost during a checkout.  Figure this out!
 project_file="./SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
 new_file="./SmartDeviceLink-iOS.xcodeproj/new.pbxproj"
 current_version_number=$(sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' $project_file)
@@ -213,6 +244,7 @@ if [[ $? == 1 ]]; then
     fi
 
     # Merge master back to develop
+    # TODO - this did not work durign the release.  Why?
     prompt_user "Would you like to merge master back into develop (This will not push the branch)"
     if [[ $? == 1 ]]; then
         git merge $develop_branch $main_branch
@@ -222,6 +254,10 @@ if [[ $? == 1 ]]; then
     fi
 fi
 
+# TODO - We need to push master and tag.
+
+# TODO - can we provide templates for the release based on the changelog?
+# TODO - can we open directories to facilitate drag'n'drop
 # Create new release for tag
 prompt_user "Would you like to open to the Github releases page to create a release"
 if [[ $? == 1 ]]; then
