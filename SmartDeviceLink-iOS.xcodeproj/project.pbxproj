@@ -1787,6 +1787,8 @@
 		EEB2537E2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */; };
 		EED5CA041F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */; };
 		EED5CA0A1F4D206800F04000 /* SDLRTPH264PacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */; };
+		EFEBDC9E287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBDC9D287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m */; };
+		EFEBDCA0287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = EFEBDC9F287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3710,6 +3712,8 @@
 		EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSecondaryTransportManagerSpec.m; path = ProxySpecs/SDLSecondaryTransportManagerSpec.m; sourceTree = "<group>"; };
 		EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRAWH264PacketizerSpec.m; path = DevAPISpecs/SDLRAWH264PacketizerSpec.m; sourceTree = "<group>"; };
 		EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRTPH264PacketizerSpec.m; path = DevAPISpecs/SDLRTPH264PacketizerSpec.m; sourceTree = "<group>"; };
+		EFEBDC9D287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLProtocolReceivedMessageProcessor.m; path = private/SDLProtocolReceivedMessageProcessor.m; sourceTree = "<group>"; };
+		EFEBDC9F287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLProtocolReceivedMessageProcessor.h; path = private/SDLProtocolReceivedMessageProcessor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4925,6 +4929,8 @@
 				4A8BD36824F94636000945E3 /* SDLProtocolMessageDisassembler.m */,
 				4A8BD37124F9465E000945E3 /* SDLProtocolReceivedMessageRouter.h */,
 				4A8BD37024F9465E000945E3 /* SDLProtocolReceivedMessageRouter.m */,
+				EFEBDC9D287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m */,
+				EFEBDC9F287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -7541,6 +7547,7 @@
 				B3A9DB2025D4BBB800CDFD21 /* SDLVideoStreamingCapability+StreamingVideoExtensions.h in Headers */,
 				4ABB257724F7E5E80061BF55 /* SDLDeleteChoicesOperation.h in Headers */,
 				4ABB24C124F592620061BF55 /* NSMapTable+Subscripting.h in Headers */,
+				EFEBDCA0287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h in Headers */,
 				4ABB2A2C24F847980061BF55 /* SDLChangeRegistrationResponse.h in Headers */,
 				4ABB264024F7F45B0061BF55 /* SDLSystemCapabilityObserver.h in Headers */,
 				4ABB27E524F800CA0061BF55 /* SDLPrimaryAudioSource.h in Headers */,
@@ -8632,6 +8639,7 @@
 				5D9FDA911F2A7D3400A495C8 /* bson_object.c in Sources */,
 				4A8BD26024F933C7000945E3 /* SDLNavigationCapability.m in Sources */,
 				4ABB29E024F846880061BF55 /* SDLSubscribeWayPoints.m in Sources */,
+				EFEBDC9E287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m in Sources */,
 				4ABB2B5824F84EF50061BF55 /* SDLButtonCapabilities.m in Sources */,
 				4A8BD32C24F9431B000945E3 /* SDLV2ProtocolHeader.m in Sources */,
 				4ABB2B4724F84EF50061BF55 /* SDLBeltStatus.m in Sources */,
