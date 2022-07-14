@@ -35,6 +35,7 @@ typedef void (^CompletionBlock)(BOOL, SDLProtocolHeader *, NSData *);
 @interface SDLProtocolReceivedMessageProcessor : NSObject{
     //state needs to persist between calls
     stateEnum state;
+    stateEnum prevState;
     
     //used for error checking.  Practically part of state.
     Byte version;
@@ -46,9 +47,11 @@ typedef void (^CompletionBlock)(BOOL, SDLProtocolHeader *, NSData *);
     
     //these will hold our header and payload bytes
     //these also need to persist between calls, so they are global.
-    NSMutableData *headerBuffer;
-    NSMutableData *payloadBuffer;
+    //NSMutableData *headerBuffer;
+    //NSMutableData *payloadBuffer;
 }
+@property (strong, nonatomic) NSMutableData *headerBuffer;
+@property (strong, nonatomic) NSMutableData *payloadBuffer;
 
 -(void)stateMachineManager:(NSMutableData *)receiveBuffer withBlock:(CompletionBlock)completionBlock;
 

@@ -12,6 +12,8 @@
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLSecurityType.h"
 
+
+
 @implementation SDLProtocolReceivedMessageProcessor
 
 -(id)init {
@@ -23,6 +25,10 @@
     dataBytesRemaining = 0;
     //messageId = 0; //we do not need it for the state machine.
     
+    //init my header buffer
+    //self.headerBuffer = [NSMutableData dataWithCapacity:0];
+    //self.payloadBuffer = [NSMutableData dataWithCapacity:0];
+    
     //Reset state
     [self ResetState];
    return self;
@@ -30,12 +36,13 @@
 
 - (void)ResetState{
     // Flush Buffers
-    headerBuffer = nil;
-    payloadBuffer = nil;
+    self.headerBuffer = [NSMutableData dataWithCapacity:0];
+    self.payloadBuffer = [NSMutableData dataWithCapacity:0];
     dataBytesRemaining = 0;
     
     // Reset state
     state = START_STATE;
+    prevState=nil;
 
 }
 
@@ -69,11 +76,11 @@
 // withMessageRouter:(SDLProtocolReceivedMessageRouter *)messagerouter
 - (void)sdl_processMessagesStateMachine:(Byte)currentByte withBlock:(CompletionBlock)completionBlock{
     
-    Byte serviceType = 0;
+    Byte serviceType = 0x00;
     Byte controlFrameInfo = 0; // "Frame Info" in the documentation
-    Byte sessionId = 0;
+    //Byte sessionId = 0;  //value is not used by the state machine
     SDLProtocolHeader *header = nil;
-    NSData *payload = nil;
+    NSData *payload;
     
     // State determines how we process the next byte, based on previous bytes.
     switch(state){
@@ -97,15 +104,17 @@
             state = SERVICE_TYPE_STATE;
             
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check version for errors
             if ((version < 1 || version > 5)) {
+                prevState=state;
                 state = ERROR_STATE;
             }
             
             // Check for valid frameType
             if((frameType < SDLFrameTypeControl) || (frameType > SDLFrameTypeConsecutive)){
+                prevState=state;
                 state = ERROR_STATE;
                 break;
             }
@@ -113,10 +122,11 @@
             
         case SERVICE_TYPE_STATE:
             // 8 bits for service type
-            serviceType = (currentByte & 0xFF ) >> 0;
+            //serviceType = (currentByte & 0xFF ) >> 0;
+            serviceType = currentByte;
 
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check for errors
             switch (serviceType) {
@@ -128,6 +138,7 @@
                     state = CONTROL_FRAME_INFO_STATE;
                     break;
                 default:
+                    prevState=state;
                     state = ERROR_STATE;
                     break;
             }
@@ -135,18 +146,20 @@
             
         case CONTROL_FRAME_INFO_STATE:
             // 8 bits for frame information
-            controlFrameInfo = (currentByte & 0xFF ) >> 0;
+            //controlFrameInfo = (currentByte & 0xFF ) >> 0;
+            controlFrameInfo = currentByte;
             
             // Set the next state
             state = SESSION_ID_STATE;
             
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check for errors.
             //For these two frame types, the frame info should be 0x00
             if ((frameType == SDLFrameTypeFirst) || (frameType == SDLFrameTypeSingle)){
                 if (controlFrameInfo != 0x00) {
+                    prevState=state;
                     state = ERROR_STATE;
                 }
             }
@@ -154,10 +167,10 @@
             
         case SESSION_ID_STATE:
             // 8 bits for frame information
-            sessionId = (currentByte & 0xFF ) >> 0;
+            //sessionId = (currentByte & 0xFF ) >> 0;
             
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Set the next state
             state = DATA_SIZE_1_STATE;
@@ -165,22 +178,23 @@
         
         // 32 bits for data size
         case DATA_SIZE_1_STATE:
+            dataLength = 0;
             dataLength += (currentByte & 0xFF ) << 24;
             state = DATA_SIZE_2_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case DATA_SIZE_2_STATE:
             dataLength += (currentByte & 0xFF ) << 16;
             state = DATA_SIZE_3_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case DATA_SIZE_3_STATE:
             dataLength += (currentByte & 0xFF ) << 8;
             state = DATA_SIZE_4_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case DATA_SIZE_4_STATE:
             dataLength += (currentByte & 0xFF ) << 0;
@@ -189,7 +203,7 @@
             state = MESSAGE_1_STATE;
             
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // This is pretty much always true
             dataBytesRemaining = dataLength;
@@ -222,6 +236,7 @@
             
             // Check data length (does it conform to spec?)
             if (dataLength > (maxMtuSize - headerSize)) {
+                prevState=state;
                 state = ERROR_STATE;
                 break;
             }
@@ -229,6 +244,7 @@
             // There is a niche case we need to address.
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
             if ((frameType == SDLFrameTypeFirst) && (dataLength != 0x08) && (encrypted == false)) {
+                prevState=state;
                 state = ERROR_STATE;
                 break;
             }
@@ -240,19 +256,19 @@
             //messageId += (currentByte & 0xFF ) << 24;
             state = MESSAGE_2_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case MESSAGE_2_STATE:
             //messageId += (currentByte & 0xFF ) << 16;
             state = MESSAGE_3_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case MESSAGE_3_STATE:
             //messageId += (currentByte & 0xFF ) << 8;
             state = MESSAGE_4_STATE;
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         case MESSAGE_4_STATE:
             // The 4 message states are responsible for changing the 4 byte message ID into a single value.
@@ -265,7 +281,7 @@
                 state = DATA_PUMP_STATE;
             }
             // Add the byte to the headerBuffer
-            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             break;
         
@@ -276,14 +292,30 @@
             state = DATA_PUMP_STATE;
             
             // Add the byte to the payloadBuffer
-            [payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
 
             // Decrement dataBytesRemaining
             dataBytesRemaining--;
             
             //Check if all the bytes have been read
             if( dataBytesRemaining <= 0) {
-                state = FINISHED_STATE;
+                //state = FINISHED_STATE;
+                
+                //Try the finished state stuff here, since the outer loop prevents us from ever getting to finished state.  it stops short.
+                // Create a header
+                header = [SDLProtocolHeader headerForVersion:version];
+                // Process headerBuffer
+                [header parse:self.headerBuffer];
+                // process payload
+                payload = [NSData dataWithData:self.payloadBuffer];
+                
+                // At this point we could output the header buffer and the payload buffer.
+                // that means calling some function to process those.
+                completionBlock(header.encrypted, header, payload);
+                
+                //Reset state
+                [self ResetState];
+                
             }
             
             break;
@@ -291,9 +323,9 @@
             // Create a header
             header = [SDLProtocolHeader headerForVersion:version];
             // Process headerBuffer
-            [header parse:headerBuffer];
+            [header parse:self.headerBuffer];
             // process payload
-            payload = [NSData dataWithData:payloadBuffer];
+            payload = [NSData dataWithData:self.payloadBuffer];
             
             // At this point we could output the header buffer and the payload buffer.
             // that means calling some function to process those.
@@ -305,6 +337,7 @@
             break;
             
         case ERROR_STATE:
+            prevState = prevState;
         default:
             // Reset state
             [self ResetState];
