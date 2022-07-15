@@ -512,8 +512,25 @@ NS_ASSUME_NONNULL_BEGIN
     //[self sdl_processMessages];
     
     // New
+    [self sdl_processMessages_george];
+    
+}
+
+// new plan: rip everything out of the buffer, then loop through the bytes
+// This must be done instantly because receiveBuffer.length will change
+- (void)sdl_processMessages_george {
+    //get length of bytes we want to grab
+    NSUInteger nextbyteslength = self.receiveBuffer.length;
+    //grab those bytes
+    NSMutableData *nextbytes = [self.receiveBuffer subdataWithRange:NSMakeRange(0, nextbyteslength)];
+    
+    // Maintain buffer
+    self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(nextbyteslength, self.receiveBuffer.length - nextbyteslength)] mutableCopy];
+    
+    
+    //hand the byte to the state machine
     // call the manager function from our instance of process message byte
-    [ _receiveProcesser stateMachineManager:self.receiveBuffer withBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
+    [ _receiveProcesser stateMachineManager:nextbytes withBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
         
         // If the message in encrypted and there is payload, try to decrypt it
         NSError *decryptError = nil;
@@ -532,7 +549,9 @@ NS_ASSUME_NONNULL_BEGIN
             
         }
     }];
+    
 }
+
 
 
 // This can be called as many times as you like, but it will only extract a message from the queue IF there are enough bytes.

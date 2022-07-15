@@ -45,11 +45,10 @@ typedef void (^CompletionBlock)(BOOL, SDLProtocolHeader *, NSData *);
     int dataBytesRemaining;
     //UInt8 messageId; // we do not need it for the state machine.
     
-    //these will hold our header and payload bytes
-    //these also need to persist between calls, so they are global.
-    //NSMutableData *headerBuffer;
-    //NSMutableData *payloadBuffer;
 }
+
+//these will hold our header and payload bytes
+//these also need to persist between calls
 @property (strong, nonatomic) NSMutableData *headerBuffer;
 @property (strong, nonatomic) NSMutableData *payloadBuffer;
 

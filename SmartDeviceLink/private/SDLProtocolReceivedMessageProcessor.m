@@ -23,11 +23,8 @@
     frameType = 0;
     dataLength = 0;
     dataBytesRemaining = 0;
+    //nextByte = 0;
     //messageId = 0; //we do not need it for the state machine.
-    
-    //init my header buffer
-    //self.headerBuffer = [NSMutableData dataWithCapacity:0];
-    //self.payloadBuffer = [NSMutableData dataWithCapacity:0];
     
     //Reset state
     [self ResetState];
@@ -48,21 +45,26 @@
 
 // This should get called by sdl_handleBytesFromTransport
 // when there is an update to the receiveBuffer.
-// This will recursively pop bytes out of the buffer and process them with a state machine
+// It will rip everythign out of thebuffer that is currently there, and look through those bytes, calling the state machine on each one.
 // Needs to take in a pointer to the receiveBuffer
 
 - (void)stateMachineManager:(NSMutableData *)receiveBuffer withBlock:(CompletionBlock)completionBlock{
-    Byte nextByte = 0;
-    // Loop until we run out of bytes in the buffer
-    while (receiveBuffer.length > 0) {
-        // Pop a byte out of the buffer
-        nextByte = ((Byte *)receiveBuffer.bytes)[0];
-        
-        // shift the buffer for proper FIFO
-        receiveBuffer = [[receiveBuffer subdataWithRange:NSMakeRange(1, receiveBuffer.length - 1)] mutableCopy];
-        
+    
+    // new plan: rip everything out of the buffer, then loop through the bytes
+    // This must be done instantly because receiveBuffer.length will change
+    //NSUInteger nextbyteslength = receiveBuffer.length;
+    //NSMutableData *nextbytes = [receiveBuffer subdataWithRange:NSMakeRange(0, nextbyteslength)];
+    // Maintain buffer
+    //receiveBuffer = [[receiveBuffer subdataWithRange:NSMakeRange(nextbyteslength, receiveBuffer.length - nextbyteslength)] mutableCopy];
+    
+    //get a pointer to the bytes
+    const char *bytes = [receiveBuffer bytes];
+    
+    //now loop through the bytes
+    for (int i = 0; i < [receiveBuffer length]; i++)
+    {
         //hand the byte to the state machine
-        [self sdl_processMessagesStateMachine:nextByte withBlock:completionBlock];
+        [self sdl_processMessagesStateMachine:bytes[i] withBlock:completionBlock];
     }
 }
 
@@ -80,7 +82,7 @@
     Byte controlFrameInfo = 0; // "Frame Info" in the documentation
     //Byte sessionId = 0;  //value is not used by the state machine
     SDLProtocolHeader *header = nil;
-    NSData *payload;
+    //NSData *payload;
     
     // State determines how we process the next byte, based on previous bytes.
     switch(state){
@@ -307,11 +309,11 @@
                 // Process headerBuffer
                 [header parse:self.headerBuffer];
                 // process payload
-                payload = [NSData dataWithData:self.payloadBuffer];
+                //payload = [NSData dataWithData:self.payloadBuffer];
                 
                 // At this point we could output the header buffer and the payload buffer.
                 // that means calling some function to process those.
-                completionBlock(header.encrypted, header, payload);
+                completionBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
                 
                 //Reset state
                 [self ResetState];
@@ -319,25 +321,8 @@
             }
             
             break;
-        case FINISHED_STATE:
-            // Create a header
-            header = [SDLProtocolHeader headerForVersion:version];
-            // Process headerBuffer
-            [header parse:self.headerBuffer];
-            // process payload
-            payload = [NSData dataWithData:self.payloadBuffer];
-            
-            // At this point we could output the header buffer and the payload buffer.
-            // that means calling some function to process those.
-            completionBlock(header.encrypted, header, payload);
-            
-            //Reset state
-            [self ResetState];
-            
-            break;
-            
         case ERROR_STATE:
-            prevState = prevState;
+            prevState = prevState; //this is onyl here so I have a variable to check for debugging.
         default:
             // Reset state
             [self ResetState];
