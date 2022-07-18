@@ -12,23 +12,19 @@
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLSecurityType.h"
 
-
-
 @implementation SDLProtocolReceivedMessageProcessor
 
 -(id)init {
-   self = [super init];
+    self = [super init];
     version = 0;
     encrypted = false;
     frameType = 0;
     dataLength = 0;
-    dataBytesRemaining = 0;
-    //nextByte = 0;
-    //messageId = 0; //we do not need it for the state machine.
-    
+    dataBytesRemaining = 0; //Counter for the data pump
+
     //Reset state
     [self ResetState];
-   return self;
+    return self;
 }
 
 - (void)ResetState{
@@ -39,25 +35,13 @@
     
     // Reset state
     state = START_STATE;
-    prevState=nil;
+    prevState = ERROR_STATE;
 
 }
 
-// This should get called by sdl_handleBytesFromTransport
-// when there is an update to the receiveBuffer.
-// It will rip everythign out of thebuffer that is currently there, and look through those bytes, calling the state machine on each one.
-// Needs to take in a pointer to the receiveBuffer
-
+// Loop through the given bytes and call the state machien to process each byte.
 - (void)stateMachineManager:(NSMutableData *)receiveBuffer withBlock:(CompletionBlock)completionBlock{
-    
-    // new plan: rip everything out of the buffer, then loop through the bytes
-    // This must be done instantly because receiveBuffer.length will change
-    //NSUInteger nextbyteslength = receiveBuffer.length;
-    //NSMutableData *nextbytes = [receiveBuffer subdataWithRange:NSMakeRange(0, nextbyteslength)];
-    // Maintain buffer
-    //receiveBuffer = [[receiveBuffer subdataWithRange:NSMakeRange(nextbyteslength, receiveBuffer.length - nextbyteslength)] mutableCopy];
-    
-    //get a pointer to the bytes
+    //get a pointer to the bytes because NSMutableData is layered
     const char *bytes = [receiveBuffer bytes];
     
     //now loop through the bytes
@@ -68,21 +52,19 @@
     }
 }
 
-// Takes a single byte, processes it using a state machine
-// State is global, as well as some other persistant variables
-// Builds up a header buffer and a payload buffer
-// When the packet is complete, the message is processed
+// This is the state machine
+// It processes a single byte of a message, checks for errors,
+// and builds up a header buffer and a payload buffer
+// When the header and payload are complete, the message is processed
 // The state of the state machine effectively tracks which byte of a message we are expecting next
 // For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
-// IF a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
-// withMessageRouter:(SDLProtocolReceivedMessageRouter *)messagerouter
+// If a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
 - (void)sdl_processMessagesStateMachine:(Byte)currentByte withBlock:(CompletionBlock)completionBlock{
     
     Byte serviceType = 0x00;
     Byte controlFrameInfo = 0; // "Frame Info" in the documentation
-    //Byte sessionId = 0;  //value is not used by the state machine
     SDLProtocolHeader *header = nil;
-    //NSData *payload;
+
     
     // State determines how we process the next byte, based on previous bytes.
     switch(state){
@@ -95,11 +77,11 @@
             version = (currentByte & 0xF0 ) >> 4;
 
             // 1 bit for either encryption or compression, depending on version.
-            //4th lowest bit // b0000 1000
+            // 4th lowest bit // b0000 1000
             encrypted = (currentByte & 0x08 ) >> 3;
             
             // 3 bits for frameType
-            //3 lowest bits  // b0000 0111
+            // 3 lowest bits  // b0000 0111
             frameType = (currentByte & 0x07 ) >> 0;
 
             // Set the next state
@@ -124,7 +106,6 @@
             
         case SERVICE_TYPE_STATE:
             // 8 bits for service type
-            //serviceType = (currentByte & 0xFF ) >> 0;
             serviceType = currentByte;
 
             // Add the byte to the headerBuffer
@@ -148,7 +129,6 @@
             
         case CONTROL_FRAME_INFO_STATE:
             // 8 bits for frame information
-            //controlFrameInfo = (currentByte & 0xFF ) >> 0;
             controlFrameInfo = currentByte;
             
             // Set the next state
@@ -168,8 +148,7 @@
             break;
             
         case SESSION_ID_STATE:
-            // 8 bits for frame information
-            //sessionId = (currentByte & 0xFF ) >> 0;
+            // 8 bits for frame information (SessionID)
             
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
@@ -207,7 +186,7 @@
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
-            // This is pretty much always true
+            // Set the counter for the data pump.
             dataBytesRemaining = dataLength;
             
             // Version 1 does not have a message ID
@@ -221,7 +200,7 @@
             }
             
             Byte headerSize = 0;
-            //figure out headerSize
+            // Figure out headerSize
             if( version == 1){
                 headerSize = 8;
             }else{
@@ -243,7 +222,6 @@
                 break;
             }
             
-            // There is a niche case we need to address.
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
             if ((frameType == SDLFrameTypeFirst) && (dataLength != 0x08) && (encrypted == false)) {
                 prevState=state;
@@ -290,9 +268,6 @@
         case DATA_PUMP_STATE:
             // The pump state takes bytes in and adds them to the payload array
             
-            // State should already be DATA_PUMP_STATE
-            state = DATA_PUMP_STATE;
-            
             // Add the byte to the payloadBuffer
             [self.payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
 
@@ -301,36 +276,24 @@
             
             //Check if all the bytes have been read
             if( dataBytesRemaining <= 0) {
-                //state = FINISHED_STATE;
                 
-                //Try the finished state stuff here, since the outer loop prevents us from ever getting to finished state.  it stops short.
                 // Create a header
                 header = [SDLProtocolHeader headerForVersion:version];
                 // Process headerBuffer
                 [header parse:self.headerBuffer];
-                // process payload
-                //payload = [NSData dataWithData:self.payloadBuffer];
                 
-                // At this point we could output the header buffer and the payload buffer.
-                // that means calling some function to process those.
+                //pass the header and payload to the completion
                 completionBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
                 
-                //Reset state
+                //Reset state for the next message
                 [self ResetState];
-                
             }
-            
             break;
         case ERROR_STATE:
-            prevState = prevState; //this is onyl here so I have a variable to check for debugging.
         default:
             // Reset state
             [self ResetState];
-            // TODO - I'd like to know how we got here.  Maybe store off the state name from before the error.
             break;
     } // End of switch
-    
 }
-
-
 @end

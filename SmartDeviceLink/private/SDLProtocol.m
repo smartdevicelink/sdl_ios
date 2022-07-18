@@ -512,24 +512,23 @@ NS_ASSUME_NONNULL_BEGIN
     //[self sdl_processMessages];
     
     // New
-    [self sdl_processMessages_george];
+    // TODO - rename
+    [self sdl_processMessages_new];
     
 }
 
-// new plan: rip everything out of the buffer, then loop through the bytes
-// This must be done instantly because receiveBuffer.length will change
-- (void)sdl_processMessages_george {
-    //get length of bytes we want to grab
+// Pull everything out of the buffer, then loop through the bytes
+- (void)sdl_processMessages_new {
+    // Get length of bytes we want to grab
     NSUInteger nextbyteslength = self.receiveBuffer.length;
-    //grab those bytes
+    // Grab those bytes
     NSMutableData *nextbytes = [self.receiveBuffer subdataWithRange:NSMakeRange(0, nextbyteslength)];
     
     // Maintain buffer
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(nextbyteslength, self.receiveBuffer.length - nextbyteslength)] mutableCopy];
     
     
-    //hand the byte to the state machine
-    // call the manager function from our instance of process message byte
+    // Call the manager function for that state machine, and pass it the new bytes.
     [ _receiveProcesser stateMachineManager:nextbytes withBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
         
         // If the message in encrypted and there is payload, try to decrypt it
@@ -539,14 +538,13 @@ NS_ASSUME_NONNULL_BEGIN
         }
         if (decryptError != nil) {
             SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
-        }else{
+        } else {
             // Build message
             SDLProtocolMessage *message = nil;
             message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
             
             // Pass on the message to the message router.
             [self.messageRouter handleReceivedMessage:message protocol:self];
-            
         }
     }];
     
