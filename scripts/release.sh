@@ -40,7 +40,15 @@ if [[ $PWD != *"sdl_ios" ]]; then
 fi
 
 # TODO - We need to check the architecture and set a flag if it's M1 or later.
-# TODO - based on architecture flags, the commands for things liek Jazzy change (Need to use rosetta to run)
+arch=$(uname -m)
+if [ $arch == "x86_64" ]; then
+    echo "proceed as normal"
+else
+    echo "what a lovely M1 you have."
+    # to run things we need to use arch -x86_64
+fi
+# TODO - based on architecture flags, the commands for things like Jazzy change
+# Rosetta is homebrew crap, so lets avoid it.  Same problem as the GH commands.
 
 
 # Setup branch variables
@@ -50,13 +58,11 @@ main_branch="master"
 
 # Checkout develop
 # We need to checkout the branch before we start modifying files.
-# TODO - make this optional.  Then set a flag that determines if you skip other operations because you dont' have this checked out.
+# TODO - make this optional.  Then set a flag that determines if you skip other operations because you don't have this checked out.
 
 current_branch=$(git branch --show-current)
 if [ $current_branch == $develop_branch ]; then
-    develop_checked_out=1
 else
-    develop_checked_out=0
     echo
     prompt_user "Would you like to automatically checkout $develop_branch"
     if [[ $? == 1 ]]; then
@@ -80,7 +86,6 @@ else
 
         echo "Checking out $develop_branch"
         git checkout $develop_branch
-        # TODO - if checkout successful?
         
         current_branch=$(git branch --show-current)
         if [ $current_branch == $develop_branch ]; then
@@ -96,12 +101,20 @@ else
     fi
 fi
 
+# This is a redundant check to make sure the correct branch is checked out.
+current_branch=$(git branch --show-current)
+if [ ! $current_branch == $develop_branch ]; then
+    echo "You do not have $develop_branch currently checked out.  Any changes you make now will be lost when you check out $develop_branch."
+fi
+
 # Bump version in projectFile
 echo
 echo "Updating the version"
 
 # Get the current version and build from the podspec file
 # TODO - we failed to change the podspec file during release.  I think it got lost during a checkout.  Figure this out!
+# No seriously, I don't think Joel had things checked otu properly when we made changes.  I think that's why the changes got lost.
+# to test this, I need to run through a mock run, make the podspec changes, and see that they are good and not lost
 project_file="./SmartDeviceLink-iOS.xcodeproj/project.pbxproj"
 new_file="./SmartDeviceLink-iOS.xcodeproj/new.pbxproj"
 current_version_number=$(sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' $project_file)
@@ -203,8 +216,16 @@ echo "If there is, please update the rpc_spec submodule to point to the newest c
 read user_input
 
 # Git commands
-echo
-echo "$develop_branch has already been checked out for you."
+
+# This is a redundant check to make sure the correct branch is checked out.
+current_branch=$(git branch --show-current)
+if [ $current_branch == $develop_branch ]; then
+    echo
+    echo "$develop_branch has already been checked out for you."
+else
+    echo "You do not have $develop_branch currently checked out.  Any changes you make now will be lost when you check out $develop_branch."
+fi
+
 
 prompt_user "Would you like to walk through the git commands for this release"
 if [[ $? == 1 ]]; then
@@ -244,7 +265,7 @@ if [[ $? == 1 ]]; then
     fi
 
     # Merge master back to develop
-    # TODO - this did not work durign the release.  Why?
+    # TODO - this did not work during the release.  Why?
     prompt_user "Would you like to merge master back into develop (This will not push the branch)"
     if [[ $? == 1 ]]; then
         git merge $develop_branch $main_branch
