@@ -56,7 +56,7 @@ develop_branch="develop"
 main_branch="master"
 
 
-# Checkout develop
+# Checkout develop - so we can update versions.
 # We need to checkout the branch before we start modifying files.
 # TODO - make this optional.  Then set a flag that determines if you skip other operations because you don't have this checked out.
 
@@ -226,14 +226,12 @@ else
     echo "You do not have $develop_branch currently checked out.  Any changes you make now will be lost when you check out $develop_branch."
 fi
 
-
 prompt_user "Would you like to walk through the git commands for this release"
 if [[ $? == 1 ]]; then
     
-    # commit release to develop
     prompt_user "Would you like to commit and push these changes to the develop branch"
     if [[ $? == 1 ]]; then
-        # Add, commit, and push changes
+        # Add, commit, and push changes to develop
         git add -A
         git commit -m "Update for release $new_version_number"
         git push --set-upstream origin $develop_branch
@@ -242,40 +240,58 @@ if [[ $? == 1 ]]; then
         exit 0
     fi
 
-    # Merge release to master
+
+    # Merge release to master (update master from)
     prompt_user "Would you like to merge this release to master? (This will not push to master)"
     if [[ $? == 1 ]]; then
         # Checkout master
         git checkout $main_branch
 
-        # Merge develop with master
-        git merge $main_branch $develop_branch
+        # Merge develop with master.
+        # This udpates the checked out master with the contents of develop
+        # This is the where we put the new changes into the release.
+        git merge $develop_branch $main_branch
 
-        echo "Please check that everything is correct. Then, assuming you have permissions, push to master, then press enter..."
+        echo "Please check that everything is correct. "
+       
+        
+
+        echo "If these changes are correct, please commit them manually and then push them to master..."
+        # Now that everything is ready, 
+        # TODO - this is where the changes should be committed and pushed
+        #git commit -m "commit message here "
+        #git push --set-upstream origin $main_branch
+        
+        # Tag it
+        prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
+        if [[ $? == 1 ]]; then
+            git tag $new_version_number
+            # IDEA - else condition that allows the user to enter a different tag
+            # TODO - do you need to push a tag?
+            # git push --set-upstream origin $main_branch
+        fi
+        
+        
     else
         echo "Aborting script!"
         exit 0
     fi
 
-    # Tag it
-    prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
-    if [[ $? == 1 ]]; then
-        git tag $new_version_number
-        # IDEA - else condition that allows the user to enter a different tag
-    fi
-
     # Merge master back to develop
-    # TODO - this did not work during the release.  Why?
+    # TODO - this did not work during the release.  Why? DONE - it was backwards!!!!
     prompt_user "Would you like to merge master back into develop (This will not push the branch)"
     if [[ $? == 1 ]]; then
-        git merge $develop_branch $main_branch
+        git checkout $develop_branch
+        git merge $main_branch $develop_branch
     else
         echo "Aborting script!"
         exit 0
     fi
 fi
 
-# TODO - We need to push master and tag.
+# TODO - at this point the release is technically done.  IE the master branch is correct.
+# but we need the release notes published, and we need to publish the framework.
+
 
 # TODO - can we provide templates for the release based on the changelog?
 # TODO - can we open directories to facilitate drag'n'drop
