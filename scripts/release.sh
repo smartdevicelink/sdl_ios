@@ -74,7 +74,8 @@ else
         
         # Do a fetch to make sure we are up to date.
         # git fetch
-        git pull -ff
+        git config pull.ff only
+        git pull
         
         # Now do the checkout
         git checkout $develop_branch
