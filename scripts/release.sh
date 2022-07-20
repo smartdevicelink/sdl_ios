@@ -37,25 +37,14 @@ if [[ $PWD != *"sdl_ios" ]]; then
     exit 0
 fi
 
-# TODO - We need to check the architecture and set a flag if it's M1 or later.
-if [ $(uname -m) == "x86_64" ]; then
-    echo "proceed as normal"
-else
-    echo "what a lovely M1 you have."
-    # use this for running scripts
-    # arch -x86_64 /bin/bash <script>
-    # and this for executables
-    # arch -x86_64 <executable>
-fi
-# TODO - based on architecture flags, the commands for things like Jazzy change
-
 # Setup branch variables
 develop_branch="develop"
 main_branch="master"
 
+
+
 # Checkout develop - so we can update versions.
 # We need to checkout the branch before we start modifying files.
-
 current_branch=$(git branch --show-current)
 if [ $current_branch == $develop_branch ]; then
     echo
@@ -82,10 +71,14 @@ else
                 git reset --hard
             fi
         fi
-
-        echo "Checking out $develop_branch"
+        
+        # Do a fetch to make sure we are up to date.
+        git fetch -ff
+        
+        # Now do the checkout
         git checkout $develop_branch
         
+        # check if the checkout was successful
         current_branch=$(git branch --show-current)
         if [ $current_branch == $develop_branch ]; then
             develop_checked_out=1
@@ -214,7 +207,7 @@ if [ $current_branch == $develop_branch ]; then
     prompt_user "Would you like to walk through the git commands for this release"
     if [[ $? == 1 ]]; then
         
-        prompt_user "Would you like to commit and push these changes to the develop branch"
+        prompt_user "Would you like to commit and push the changes made so far to the develop branch"
         if [[ $? == 1 ]]; then
             # Add, commit, and push changes to develop
             git add -A
