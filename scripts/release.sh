@@ -73,7 +73,8 @@ else
         fi
         
         # Do a fetch to make sure we are up to date.
-        git fetch -ff
+        # git fetch
+        git pull -ff
         
         # Now do the checkout
         git checkout $develop_branch
