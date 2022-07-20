@@ -275,7 +275,6 @@ if [[ $? == 1 ]]; then
     open "https://github.com/smartdevicelink/sdl_ios/releases"
 fi
 
-echo
 # Push new release to primary and secondary cocoapod using command line:
 prompt_user "Would you like to push the release to CocoaPods"
 if [[ $? == 1 ]]; then
