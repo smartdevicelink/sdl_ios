@@ -77,10 +77,10 @@ zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
 if [ -f $zip_file_name ]; then rm $zip_file_name; fi
 # Verify folder exists before acting on it.
 if [ -d "$folder" ]; then 
-    folder=$folder"/*"
+    folder=$folder"/*" # this is necessary to trick the zip command into working on the .xcframework
     zip $zip_file_name $folder
     # Check to see if the zip exists, and then remove old files.
-    #if [ -f "$zip_file_name" ]; then rm -r $folder; fi
+    if [ -f "$zip_file_name" ]; then rm -r $folder; fi
 fi
 
 # Cleanup artifacts
