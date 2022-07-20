@@ -38,12 +38,14 @@ if [[ $PWD != *"sdl_ios" ]]; then
 fi
 
 # TODO - We need to check the architecture and set a flag if it's M1 or later.
-arch=$(uname -m)
-if [ $arch == "x86_64" ]; then
+if [ $(uname -m) == "x86_64" ]; then
     echo "proceed as normal"
 else
     echo "what a lovely M1 you have."
-    # to run things we need to use arch -x86_64
+    # use this for running scripts
+    # arch -x86_64 /bin/bash <script>
+    # and this for executables
+    # arch -x86_64 <executable>
 fi
 # TODO - based on architecture flags, the commands for things like Jazzy change
 
@@ -188,7 +190,12 @@ if [[ $? == 1 ]]; then
 
     # This runs Jazzy to generate the documentation.
     echo "Running Jazzy to generate documentation..."
-    jazzy --clean --objc --framework-root SmartDeviceLink --sdk iphonesimulator --umbrella-header SmartDeviceLink/public/SmartDeviceLink.h --theme theme --output docs
+    # TODO - I do not know if this will work as intended.
+    if [ $(uname -m) == "x86_64" ]; then
+        jazzy --clean --objc --framework-root SmartDeviceLink --sdk iphonesimulator --umbrella-header SmartDeviceLink/public/SmartDeviceLink.h --theme theme --output docs
+    else
+        arch -x86_64 jazzy --clean --objc --framework-root SmartDeviceLink --sdk iphonesimulator --umbrella-header SmartDeviceLink/public/SmartDeviceLink.h --theme theme --output docs
+    fi
 fi
 
 # Ensure that the RPC_SPEC has released to the master branch and update the submodule to point to the new release tag (or to the HEAD of master, if no release of the RPC_SPEC is occurring).
@@ -287,7 +294,11 @@ if [[ $? == 1 ]]; then
     # We pass in the version so that the framework script does not need to ask
     # Give the user permissions to the framework script, then run the script.
     chmod u+x ./scripts/create_framework.sh
-    ./scripts/create_framework.sh $new_version_number
+    if [ $(uname -m) == "x86_64" ]; then
+        ./scripts/create_framework.sh $new_version_number
+    else
+        arch -x86_64 /bin/bash ./scripts/create_framework.sh $new_version_number
+    fi
     
     echo 
     zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
