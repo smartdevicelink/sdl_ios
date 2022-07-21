@@ -317,6 +317,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLButtonEventMode.h"
 #import "SDLButtonName.h"
 #import "SDLButtonPressMode.h"
+#import "SDLCapacityUnit.h"
 #import "SDLCarModeStatus.h"
 #import "SDLCharacterSet.h"
 #import "SDLCompassDirection.h"
@@ -496,6 +497,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLRPCFunctionNames.h"
 #import "SDLNotificationConstants.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLSystemInfo.h"
 #import "SDLVersion.h"
 
 #pragma mark Notifications

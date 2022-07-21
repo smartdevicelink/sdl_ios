@@ -91,6 +91,20 @@ else
     fi
 fi
 
+# Fix any header files that are in the wrong location according to the project file
+prompt_user "Would you like to run the project file header fixer"
+if [[ $? == 1 ]]; then
+    chmod u+x ./scripts/projectfileheaderfix.sh
+    ./scripts/projectfileheaderfix.sh
+fi
+
+# Checkout develop
+# We need to checkout the branch before we start modifying files.
+echo
+echo "Checking out $develop_branch"
+git checkout $develop_branch
+
+# Bump version in projectFile
 echo
 echo "Updating the version"
 
