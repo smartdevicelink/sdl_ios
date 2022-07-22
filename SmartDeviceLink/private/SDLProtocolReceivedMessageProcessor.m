@@ -138,7 +138,7 @@
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check for errors.
-            //For these two frame types, the frame info should be 0x00
+            // For these two frame types, the frame info should be 0x00
             if ((frameType == SDLFrameTypeFirst) || (frameType == SDLFrameTypeSingle)){
                 if (controlFrameInfo != 0x00) {
                     prevState=state;
@@ -148,8 +148,6 @@
             break;
             
         case SESSION_ID_STATE:
-            // 8 bits for frame information (SessionID)
-            
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
@@ -165,18 +163,21 @@
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
+            
         case DATA_SIZE_2_STATE:
             dataLength += (currentByte & 0xFF ) << 16;
             state = DATA_SIZE_3_STATE;
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
+            
         case DATA_SIZE_3_STATE:
             dataLength += (currentByte & 0xFF ) << 8;
             state = DATA_SIZE_4_STATE;
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
+            
         case DATA_SIZE_4_STATE:
             dataLength += (currentByte & 0xFF ) << 0;
             
@@ -189,12 +190,12 @@
             // Set the counter for the data pump.
             dataBytesRemaining = dataLength;
             
-            // Version 1 does not have a message ID
+            // Version 1 does not have a message ID so we skip to the data pump, or the end.
             if( version == 1){
                 if (dataLength == 0) {
-                    state = FINISHED_STATE; //We are done if we don't have any payload
+                    state = FINISHED_STATE; //We are done if we do not have any payload
                 } else {
-                    //skip ahead to the data pump state
+                    // skip ahead to the data pump state
                     state = DATA_PUMP_STATE;
                 }
             }
