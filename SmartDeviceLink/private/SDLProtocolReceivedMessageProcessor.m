@@ -45,7 +45,7 @@
 }
 
 // Loop through the given bytes and call the state machien to process each byte.
-- (void)stateMachineManager:(NSData *)receiveBuffer withBlock:(CompletionBlock)completionBlock{
+- (void)stateMachineManager:(NSMutableData *)receiveBuffer withBlock:(CompletionBlock)completionBlock{
     //get a pointer to the bytes because NSMutableData is layered
     const char *bytes = [receiveBuffer bytes];
     
