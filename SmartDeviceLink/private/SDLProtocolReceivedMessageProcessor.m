@@ -21,6 +21,11 @@
     frameType = 0;
     dataLength = 0;
     dataBytesRemaining = 0; //Counter for the data pump
+    
+
+    // Message management
+    endOfMessage = 0;
+    header = nil;
 
     //Reset state
     [self ResetState];
@@ -48,8 +53,20 @@
     for (int i = 0; i < [receiveBuffer length]; i++)
     {
         //hand the byte to the state machine
-        [self sdl_processMessagesStateMachine:bytes[i] withBlock:completionBlock];
+        endOfMessage = [self sdl_processMessagesStateMachine:(Byte)bytes[i]];
+        // If we have reached the end of a message, we need to imediatly process that completion block, then reset the buffers and keep pumping data
+        if (endOfMessage){
+            // Pass the header and payload to the completion
+            completionBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
+            
+            //Reset state for the next message
+            [self ResetState];
+
+            // Reset flag
+            endOfMessage = 0;
+        }
     }
+    
 }
 
 // This is the state machine
@@ -59,12 +76,11 @@
 // The state of the state machine effectively tracks which byte of a message we are expecting next
 // For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
 // If a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
-- (void)sdl_processMessagesStateMachine:(Byte)currentByte withBlock:(CompletionBlock)completionBlock{
+- (Boolean)sdl_processMessagesStateMachine:(Byte)currentByte {
     
     Byte serviceType = 0x00;
     Byte controlFrameInfo = 0; // "Frame Info" in the documentation
-    SDLProtocolHeader *header = nil;
-
+    Boolean endOfMessageFlag = 0;
     
     // State determines how we process the next byte, based on previous bytes.
     switch(state){
@@ -239,18 +255,21 @@
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
+            
         case MESSAGE_2_STATE:
             //messageId += (currentByte & 0xFF ) << 16;
             state = MESSAGE_3_STATE;
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
+            
         case MESSAGE_3_STATE:
             //messageId += (currentByte & 0xFF ) << 8;
             state = MESSAGE_4_STATE;
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
+            
         case MESSAGE_4_STATE:
             // The 4 message states are responsible for changing the 4 byte message ID into a single value.
             //messageId += (currentByte & 0xFF ) << 0;
@@ -283,11 +302,8 @@
                 // Process headerBuffer
                 [header parse:self.headerBuffer];
                 
-                //pass the header and payload to the completion
-                completionBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
-                
-                //Reset state for the next message
-                [self ResetState];
+                // Flag that we have reached the end of a message
+                endOfMessageFlag = 1;
             }
             break;
         case ERROR_STATE:
@@ -296,5 +312,7 @@
             [self ResetState];
             break;
     } // End of switch
+    
+    return endOfMessageFlag;
 }
 @end

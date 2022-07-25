@@ -33,17 +33,21 @@ typedef NS_ENUM(NSUInteger, stateEnum){
 typedef void (^CompletionBlock)(BOOL, SDLProtocolHeader *, NSData *);
 
 @interface SDLProtocolReceivedMessageProcessor : NSObject{
-    //state needs to persist between calls
+    // State management
     stateEnum state;
     stateEnum prevState;
     
-    //used for error checking.  Practically part of state.
+    // Message management
+    Boolean endOfMessage;
+    SDLProtocolHeader *header;
+    
+    // Used for error checking.  Practically part of state.
     Byte version;
     Boolean encrypted;
     int frameType;
     int dataLength;
     int dataBytesRemaining;
-    //UInt8 messageId; // we do not need it for the state machine.
+
     
 }
 
