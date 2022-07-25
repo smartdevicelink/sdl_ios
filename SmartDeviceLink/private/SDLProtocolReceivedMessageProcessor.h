@@ -25,7 +25,6 @@ typedef NS_ENUM(NSUInteger, stateEnum){
     MESSAGE_3_STATE = 0x0B,
     MESSAGE_4_STATE = 0x0C,
     DATA_PUMP_STATE = 0x0D,
-    FINISHED_STATE = 0xFF,
     ERROR_STATE = -1,
 };
 

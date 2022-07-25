@@ -45,7 +45,7 @@
 }
 
 // Loop through the given bytes and call the state machien to process each byte.
-- (void)stateMachineManager:(NSMutableData *)receiveBuffer withBlock:(CompletionBlock)completionBlock{
+- (void)stateMachineManager:(NSData *)receiveBuffer withBlock:(CompletionBlock)completionBlock{
     //get a pointer to the bytes because NSMutableData is layered
     const char *bytes = [receiveBuffer bytes];
     
@@ -209,7 +209,7 @@
             // Version 1 does not have a message ID so we skip to the data pump, or the end.
             if( version == 1){
                 if (dataLength == 0) {
-                    state = FINISHED_STATE; //We are done if we do not have any payload
+                    [self ResetState];
                 } else {
                     // skip ahead to the data pump state
                     state = DATA_PUMP_STATE;
@@ -233,7 +233,7 @@
             }
             
             // Check data length (does it conform to spec?)
-            if (dataLength > (maxMtuSize - headerSize)) {
+            if (dataLength >= (maxMtuSize - headerSize)) {
                 prevState=state;
                 state = ERROR_STATE;
                 break;
@@ -250,33 +250,28 @@
             
         // 32 bits for data size (version 2+)
         case MESSAGE_1_STATE:
-            //messageId += (currentByte & 0xFF ) << 24;
             state = MESSAGE_2_STATE;
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_2_STATE:
-            //messageId += (currentByte & 0xFF ) << 16;
             state = MESSAGE_3_STATE;
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_3_STATE:
-            //messageId += (currentByte & 0xFF ) << 8;
             state = MESSAGE_4_STATE;
             // Add the byte to the headerBuffer
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_4_STATE:
-            // The 4 message states are responsible for changing the 4 byte message ID into a single value.
-            //messageId += (currentByte & 0xFF ) << 0;
             
             // Set next state
             if (dataLength == 0) {
-                state = FINISHED_STATE;
+                [self ResetState];
             } else {
                 state = DATA_PUMP_STATE;
             }
@@ -287,6 +282,10 @@
         
         case DATA_PUMP_STATE:
             // The pump state takes bytes in and adds them to the payload array
+            
+            // Note that we do not set state here.
+            // If we are pumping, state won't change.
+            // If we are done pumping, the stateManager will reset the state.
             
             // Add the byte to the payloadBuffer
             [self.payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];

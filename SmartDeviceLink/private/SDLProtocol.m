@@ -514,17 +514,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (void)sdl_processMessages {
-    // Get length of bytes we want to grab
+    // Get current length of buffer, because this may change while we are processing.
     NSUInteger nextbyteslength = self.receiveBuffer.length;
     
-    // Grab those bytes
-    NSMutableData *nextbytes = [self.receiveBuffer subdataWithRange:NSMakeRange(0, nextbyteslength)];
+    // Grab those bytes from the buffer.
+    NSData *nextbytes = [self.receiveBuffer subdataWithRange:NSMakeRange(0, nextbyteslength)];
     
     // Maintain buffer
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(nextbyteslength, self.receiveBuffer.length - nextbyteslength)] mutableCopy];
     
     
-    // Call the manager function for that state machine, and pass it the new bytes.
+    // Call the manager function for that state machine, and pass it the bytes from the buffer.
     [ _receiveProcesser stateMachineManager:nextbytes withBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
         
         // If the message in encrypted and there is payload, try to decrypt it
