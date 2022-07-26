@@ -74,8 +74,9 @@ else
         
         # Do a fetch to make sure we are up to date.
         # git fetch
-        git config pull.ff only
-        git pull
+        # git config pull.ff only
+        # git pull
+        git pull --ff
         
         # Now do the checkout
         git checkout $develop_branch
@@ -186,7 +187,7 @@ fi
 echo 
 echo "Please update CHANGELOG.md, then return here and press enter..."
 read user_input
-# TODO - check modified info before and after so we can detect if the user did update the file.
+# TODO - check modified info before and after so we can detect if the user updated the file.
 
 # Generate documentation
 prompt_user "Would you like to automatically generate documentation with Jazzy"
@@ -199,11 +200,11 @@ if [[ $? == 1 ]]; then
 
     # This runs Jazzy to generate the documentation.
     echo "Running Jazzy to generate documentation..."
-    # TODO - I do not know if this will work as intended.
+    chmod u+x ./scripts/generate-documentation.sh
     if [ $(uname -m) == "x86_64" ]; then
-        jazzy --clean --objc --framework-root SmartDeviceLink --sdk iphonesimulator --umbrella-header SmartDeviceLink/public/SmartDeviceLink.h --theme theme --output docs
+        ./scripts/generate-documentation.sh
     else
-        arch -x86_64 jazzy --clean --objc --framework-root SmartDeviceLink --sdk iphonesimulator --umbrella-header SmartDeviceLink/public/SmartDeviceLink.h --theme theme --output docs
+        arch -x86_64 /bin/bash ./scripts/generate-documentation.sh
     fi
 fi
 
@@ -235,8 +236,8 @@ if [ $current_branch == $develop_branch ]; then
         fi
 
 
-        # Merge release to master (update master from)
-        prompt_user "Would you like to merge this release to master? (This will not push to master)"
+        # Merge release to master (update master from develop)
+        prompt_user "Would you like to merge this release from develop to master? (This will not push to master)"
         if [[ $? == 1 ]]; then
             # Checkout master
             git checkout $main_branch
@@ -245,13 +246,12 @@ if [ $current_branch == $develop_branch ]; then
             # This updates the checked out master with the contents of develop
             git merge $develop_branch $main_branch
 
-            echo "Please check that everything is correct. "
+            echo "Please check that everything is correct."
         
             # Tag it
             prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
             if [[ $? == 1 ]]; then
                 git tag $new_version_number
-                # git push --set-upstream origin $main_branch
             fi
             
 
@@ -267,7 +267,7 @@ if [ $current_branch == $develop_branch ]; then
         fi
 
         # Merge master back to develop
-        prompt_user "Would you like to merge master back into develop (This will not push the branch)"
+        prompt_user "Would you like to merge master back into develop (You will need to push manually)"
         if [[ $? == 1 ]]; then
             git checkout $develop_branch
             git merge $main_branch $develop_branch
