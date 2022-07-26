@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, stateEnum){
 };
 
 // going to use this to call the router when a message is complete
-typedef void (^CompletionBlock)(BOOL, SDLProtocolHeader *, NSData *);
+typedef void (^stateMachineMessageReadyBlock)(BOOL, SDLProtocolHeader *, NSData *);
 
 @interface SDLProtocolReceivedMessageProcessor : NSObject{
     // State management
@@ -51,11 +51,10 @@ typedef void (^CompletionBlock)(BOOL, SDLProtocolHeader *, NSData *);
 }
 
 //these will hold our header and payload bytes
-//these also need to persist between calls
 @property (strong, nonatomic) NSMutableData *headerBuffer;
 @property (strong, nonatomic) NSMutableData *payloadBuffer;
 
--(void)stateMachineManager:(NSMutableData *)receiveBuffer withBlock:(CompletionBlock)completionBlock;
+-(void)stateMachineManager:(NSData *)receiveBuffer withBlock:(stateMachineMessageReadyBlock)completionBlock;
 
 @end
 

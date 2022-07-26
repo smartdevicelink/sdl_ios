@@ -45,7 +45,7 @@
 }
 
 // Loop through the given bytes and call the state machien to process each byte.
-- (void)stateMachineManager:(NSMutableData *)receiveBuffer withBlock:(CompletionBlock)completionBlock{
+- (void)stateMachineManager:(NSData *)receiveBuffer withBlock:(stateMachineMessageReadyBlock)messageReadyBlock{
     //get a pointer to the bytes because NSMutableData is layered
     const char *bytes = [receiveBuffer bytes];
     
@@ -56,14 +56,14 @@
         endOfMessage = [self sdl_processMessagesStateMachine:(Byte)bytes[i]];
         // If we have reached the end of a message, we need to imediatly process that completion block, then reset the buffers and keep pumping data
         if (endOfMessage){
+            // Reset flag
+            endOfMessage = 0;
+            
             // Pass the header and payload to the completion
-            completionBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
+            messageReadyBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
             
             //Reset state for the next message
             [self ResetState];
-
-            // Reset flag
-            endOfMessage = 0;
         }
     }
     

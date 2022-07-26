@@ -518,7 +518,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSUInteger nextbyteslength = self.receiveBuffer.length;
     
     // Grab those bytes from the buffer.
-    NSMutableData *nextbytes = [self.receiveBuffer subdataWithRange:NSMakeRange(0, nextbyteslength)];
+    NSData *nextbytes = [self.receiveBuffer subdataWithRange:NSMakeRange(0, nextbyteslength)];
     
     // Maintain buffer
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(nextbyteslength, self.receiveBuffer.length - nextbyteslength)] mutableCopy];
