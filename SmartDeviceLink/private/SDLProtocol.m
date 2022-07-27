@@ -504,10 +504,8 @@ NS_ASSUME_NONNULL_BEGIN
         self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC])];
     }
 
-    // Save the data
+    // Save and process the buffer
     [self.receiveBuffer appendData:receivedData];
-
-    // Process the buffer
     [self sdl_processMessages];
 }
 
