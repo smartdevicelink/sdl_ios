@@ -528,6 +528,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (encrypted && payload.length) {
             payload = [self.securityManager decryptData:payload withError:&decryptError];
         }
+
         if (decryptError != nil) {
             SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
         } else {
