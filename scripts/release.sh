@@ -192,12 +192,15 @@ if [[ $? == 1 ]]; then
 
     # This runs Jazzy to generate the documentation.
     echo "Running Jazzy to generate documentation..."
-    chmod u+x ./scripts/generate-documentation.sh
+    # generate-documentation.sh throws an error if we are not in the correct directorywhen we run it.
+    cd scripts
+    chmod u+x ./generate-documentation.sh
     if [ $(uname -m) == "x86_64" ]; then
-        ./scripts/generate-documentation.sh
+        ./generate-documentation.sh
     else
         arch -x86_64 /bin/bash ./scripts/generate-documentation.sh
     fi
+    cd ..
 fi
 
 # Ensure that the RPC_SPEC has released to the master branch and update the submodule to point to the new release tag (or to the HEAD of master, if no release of the RPC_SPEC is occurring).
