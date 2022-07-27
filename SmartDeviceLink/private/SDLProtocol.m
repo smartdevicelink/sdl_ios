@@ -509,7 +509,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_processMessages];
 }
 
-
 - (void)sdl_processMessages {
     // Get current length of buffer, because this may change while we are processing.
     NSUInteger nextbyteslength = self.receiveBuffer.length;
