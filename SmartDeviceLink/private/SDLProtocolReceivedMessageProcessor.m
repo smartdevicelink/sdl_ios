@@ -12,6 +12,42 @@
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLSecurityType.h"
 
+typedef NS_ENUM(NSUInteger, StateEnum) {
+    START_STATE = 0x0,
+    SERVICE_TYPE_STATE = 0x02,
+    CONTROL_FRAME_INFO_STATE = 0x03,
+    SESSION_ID_STATE = 0x04,
+    DATA_SIZE_1_STATE = 0x05,
+    DATA_SIZE_2_STATE = 0x06,
+    DATA_SIZE_3_STATE = 0x07,
+    DATA_SIZE_4_STATE = 0x08,
+    MESSAGE_1_STATE = 0x09,
+    MESSAGE_2_STATE = 0x0A,
+    MESSAGE_3_STATE = 0x0B,
+    MESSAGE_4_STATE = 0x0C,
+    DATA_PUMP_STATE = 0x0D,
+    ERROR_STATE = -1,
+};
+
+@interface SDLProtocolReceivedMessageProcessor(){
+    // State management
+    StateEnum state;
+    StateEnum prevState;
+    
+    // Message management
+    BOOL endOfMessage;
+    SDLProtocolHeader *header;
+    
+    // Used for error checking.  Practically part of state.
+    UInt8 version;
+    BOOL encrypted;
+    int frameType;
+    int dataLength;
+    int dataBytesRemaining;
+}
+
+@end
+
 @implementation SDLProtocolReceivedMessageProcessor
 
 -(id)init {
@@ -43,8 +79,8 @@
     prevState = ERROR_STATE;
 }
 
-// Loop through the given bytes and call the state machien to process each byte.
-- (void)stateMachineManager:(NSData *)receiveBuffer withBlock:(stateMachineMessageReadyBlock)messageReadyBlock{
+// Loop through the given bytes and call the state machine to process each byte.
+- (void)stateMachineManager:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock{
     //get a pointer to the bytes because NSMutableData is layered
     const char *bytes = [receiveBuffer bytes];
     

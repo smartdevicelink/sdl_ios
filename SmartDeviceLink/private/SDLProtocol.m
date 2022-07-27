@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
     _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
     _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
     _serviceHeaders = [[NSMutableDictionary alloc] init];
-    _receiveProcesser = [[SDLProtocolReceivedMessageProcessor alloc] init];
+    _receiveProcessor = [[SDLProtocolReceivedMessageProcessor alloc] init];
     _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
     _messageRouter.delegate = self;
     _transport = transport;
@@ -521,7 +521,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     
     // Call the manager function for that state machine, and pass it the bytes from the buffer.
-    [ _receiveProcessor stateMachineManager:nextbytes withBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
+    [ _receiveProcessor stateMachineManager:nextbytes withMessageReadyBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
         
         // If the message in encrypted and there is payload, try to decrypt it
         NSError *decryptError = nil;
