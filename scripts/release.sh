@@ -41,8 +41,6 @@ fi
 develop_branch="develop"
 main_branch="master"
 
-
-
 # Checkout develop - so we can update versions.
 # We need to checkout the branch before we start modifying files.
 current_branch=$(git branch --show-current)
@@ -95,15 +93,9 @@ fi
 # Fix any header files that are in the wrong location according to the project file
 prompt_user "Would you like to run the project file header fixer"
 if [[ $? == 1 ]]; then
-    chmod u+x ./scripts/projectfileheaderfix.sh
-    ./scripts/projectfileheaderfix.sh
+    chmod u+x ./scripts/project_file_header_fix.sh
+    ./scripts/project_file_header_fix.sh  
 fi
-
-# Checkout develop
-# We need to checkout the branch before we start modifying files.
-echo
-echo "Checking out $develop_branch"
-git checkout $develop_branch
 
 # Bump version in projectFile
 echo
