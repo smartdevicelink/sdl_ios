@@ -530,13 +530,10 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if (decryptError != nil) {
-            SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
+            return SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
         } else {
-            // Build message
-            SDLProtocolMessage *message = nil;
-            message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
-            
-            // Pass on the message to the message router.
+            // Build the message and send it on to the router
+            SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
             [self.messageRouter handleReceivedMessage:message protocol:self];
         }
     }];

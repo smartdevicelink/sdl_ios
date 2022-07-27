@@ -11,7 +11,7 @@
 #ifndef SDLProtocolReceivedMessageProcessor_h
 #define SDLProtocolReceivedMessageProcessor_h
 
-typedef NS_ENUM(NSUInteger, stateEnum){
+typedef NS_ENUM(NSUInteger, StateEnum) {
     START_STATE = 0x0,
     SERVICE_TYPE_STATE = 0x02,
     CONTROL_FRAME_INFO_STATE = 0x03,
@@ -37,12 +37,12 @@ typedef void (^stateMachineMessageReadyBlock)(BOOL, SDLProtocolHeader *, NSData 
     stateEnum prevState;
     
     // Message management
-    Boolean endOfMessage;
+    BOOL endOfMessage;
     SDLProtocolHeader *header;
     
     // Used for error checking.  Practically part of state.
-    Byte version;
-    Boolean encrypted;
+    UInt8 version;
+    BOOL encrypted;
     int frameType;
     int dataLength;
     int dataBytesRemaining;
@@ -50,7 +50,6 @@ typedef void (^stateMachineMessageReadyBlock)(BOOL, SDLProtocolHeader *, NSData 
     
 }
 
-//these will hold our header and payload bytes
 @property (strong, nonatomic) NSMutableData *headerBuffer;
 @property (strong, nonatomic) NSMutableData *payloadBuffer;
 
