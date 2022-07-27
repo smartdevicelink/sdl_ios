@@ -83,7 +83,6 @@ NS_ASSUME_NONNULL_BEGIN
     _receiveProcesser = [[SDLProtocolReceivedMessageProcessor alloc] init];
     _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
     _messageRouter.delegate = self;
-    
     _transport = transport;
     _transport.delegate = self;
 
