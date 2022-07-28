@@ -6,11 +6,10 @@
 //  Copyright © 2022 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "SDLProtocolHeader.h"
+
 #import "SDLProtocolReceivedMessageProcessor.h"
 #import "SDLProtocolReceivedMessageRouter.h"
-#import "SDLSecurityType.h"
 
 typedef NS_ENUM(NSUInteger, StateEnum) {
     START_STATE = 0x0,
@@ -41,16 +40,16 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     // Used for error checking.  Practically part of state.
     UInt8 version;
     BOOL encrypted;
-    int frameType;
-    int dataLength;
-    int dataBytesRemaining;
+    SDLFrameType frameType;
+    UInt32 dataLength;
+    UInt32 dataBytesRemaining;
 }
 
 @end
 
 @implementation SDLProtocolReceivedMessageProcessor
 
--(id)init {
+-(instancetype)init {
     self = [super init];
     if (!self) { return nil; }
 
@@ -64,11 +63,11 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     endOfMessage = 0;
 
     //Reset state
-    [self ResetState];
+    [self resetState];
     return self;
 }
 
-- (void)ResetState{
+- (void)resetState{
     // Flush Buffers
     self.headerBuffer = [NSMutableData dataWithCapacity:0];
     self.payloadBuffer = [NSMutableData dataWithCapacity:0];
@@ -91,7 +90,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
         if (endOfMessage){
             endOfMessage = 0;
             messageReadyBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
-            [self ResetState];
+            [self resetState];
             return;
         }
     }
@@ -113,7 +112,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     switch (state){
         case START_STATE:
             //Flush the buffers
-            [self ResetState];
+            [self resetState];
             
             // 4 bits for version
             // 4 highest bits (b1111 0000)
@@ -212,7 +211,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             // Version 1 does not have a message ID so we skip to the data pump, or the end.
             if( version == 1) {
                 if (dataLength == 0) {
-                    [self ResetState];
+                    [self resetState];
                 } else {
                     state = DATA_PUMP_STATE;
                 }
@@ -266,7 +265,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             
         case MESSAGE_4_STATE:
             if (dataLength == 0) {
-                [self ResetState];
+                [self resetState];
             } else {
                 state = DATA_PUMP_STATE;
             }
@@ -297,7 +296,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 
         case ERROR_STATE:
         default:
-            [self ResetState];
+            [self resetState];
             break;
     }
     
