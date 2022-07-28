@@ -94,6 +94,7 @@ private extension ProxyManager {
         let appIcon = UIImage(named: ExampleAppLogoName)?.withRenderingMode(.alwaysOriginal)
         lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
         lifecycleConfiguration.appType = .default
+        lifecycleConfiguration.additionalAppTypes = [.remoteControl]
         lifecycleConfiguration.language = .enUs
         lifecycleConfiguration.languagesSupported = [.enUs, .esMx, .frCa]
         lifecycleConfiguration.ttsName = [SDLTTSChunk(text: "S D L", type: .text)]

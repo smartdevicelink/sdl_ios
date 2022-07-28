@@ -24,7 +24,8 @@ class MenuManager: NSObject {
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
                 menuCellChangeTemplate(with: manager),
-                menuCellWithSubmenu(with: manager)]
+                menuCellWithSubmenu(with: manager),
+                menuCellRemoteControl(with: manager)]
     }
 
     /// Creates and returns the voice commands. The voice commands are menu items that are selected using the voice recognition system.
@@ -205,6 +206,42 @@ private extension MenuManager {
                 }
             })
         })
+    }
+    
+    /// Menu item that shows remote control example
+    ///
+    /// - Parameter manager: The SDL Manager
+    /// - Returns: A SDLMenuCell object
+    class func menuCellRemoteControl(with manager: SDLManager) -> SDLMenuCell {
+    
+        /// Lets give an example of 2 templates
+        var submenuItems = [SDLMenuCell]()
+        let errorMessage = "Changing the template failed"
+        
+        /// Non-Media
+        let submenuTitleNonMedia = "Climate Control"
+        submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
+            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia)) { err in
+                if err != nil {
+                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
+                    return
+                }
+                let remoteControlManager = RemoteControlManager(sdlManager: manager)
+            }
+        }))
+        
+        /// Graphic with Text
+        let submenuTitleGraphicText = "Radio Control"
+        submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
+            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .graphicWithText)) { err in
+                if err != nil {
+                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
+                    return
+                }
+            }
+        }))
+        
+        return SDLMenuCell(title: "Remote Control", secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, submenuLayout: .list, subCells: submenuItems)
     }
 }
 

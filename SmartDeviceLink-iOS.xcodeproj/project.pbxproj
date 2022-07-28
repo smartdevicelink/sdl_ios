@@ -234,6 +234,7 @@
 		1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */; };
 		1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */; };
 		1680B11E1A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1121A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m */; };
+		1CFDAAA72893181200332B84 /* RemoteControlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFDAAA62893181200332B84 /* RemoteControlManager.swift */; };
 		1E89B0DE2031636000A47992 /* SDLSeatControlDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E89B0DD2031636000A47992 /* SDLSeatControlDataSpec.m */; };
 		1E89B0E2203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E89B0E1203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m */; };
 		1EAA470E2032BF1D000FE74B /* SDLOnRCStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */; };
@@ -2100,6 +2101,7 @@
 		1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageAssemblerSpec.m; sourceTree = "<group>"; };
 		1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageDisassemblerSpec.m; sourceTree = "<group>"; };
 		1680B1121A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolReceivedMessageRouterSpec.m; sourceTree = "<group>"; };
+		1CFDAAA62893181200332B84 /* RemoteControlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlManager.swift; sourceTree = SOURCE_ROOT; };
 		1E89B0DD2031636000A47992 /* SDLSeatControlDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlDataSpec.m; sourceTree = "<group>"; };
 		1E89B0E1203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlCapabilitiesSpec.m; sourceTree = "<group>"; };
 		1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnRCStatusSpec.m; sourceTree = "<group>"; };
@@ -6866,6 +6868,7 @@
 				5D1FF2D521304746000EB9B4 /* RPCPermissionsManager.swift */,
 				4A402558250026430080E159 /* SubscribeButtonManager.swift */,
 				5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */,
+				1CFDAAA62893181200332B84 /* RemoteControlManager.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -9249,6 +9252,7 @@
 				5D1FF2DF21304746000EB9B4 /* PerformInteractionManager.swift in Sources */,
 				5D1FF2ED2130479C000EB9B4 /* ConnectionIAPTableViewController.swift in Sources */,
 				5D1FF2DD21304746000EB9B4 /* RPCPermissionsManager.swift in Sources */,
+				1CFDAAA72893181200332B84 /* RemoteControlManager.swift in Sources */,
 				5D1FF2E721304761000EB9B4 /* TextValidator.swift in Sources */,
 				4A402559250026430080E159 /* SubscribeButtonManager.swift in Sources */,
 				5D1FF2F8213047C1000EB9B4 /* AppDelegate.swift in Sources */,
