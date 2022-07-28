@@ -16,6 +16,6 @@ typedef void (^StateMachineMessageReadyBlock)(BOOL, SDLProtocolHeader *, NSData 
 @property (strong, nonatomic) NSMutableData *headerBuffer;
 @property (strong, nonatomic) NSMutableData *payloadBuffer;
 
--(void)stateMachineManager:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)completionBlock;
+-(void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)completionBlock;
 
 @end

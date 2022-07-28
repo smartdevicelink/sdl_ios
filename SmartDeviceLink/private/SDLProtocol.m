@@ -521,7 +521,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     
     // Call the manager function for that state machine, and pass it the bytes from the buffer.
-    [ _receiveProcessor stateMachineManager:nextbytes withMessageReadyBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
+    [ _receiveProcessor processReceiveBuffer:nextbytes withMessageReadyBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
         
         // If the message in encrypted and there is payload, try to decrypt it
         NSError *decryptError = nil;

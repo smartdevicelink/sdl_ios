@@ -80,7 +80,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 }
 
 // Loop through the given bytes and call the state machine to process each byte.
-- (void)stateMachineManager:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock{
+- (void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock{
     //get a pointer to the bytes because NSMutableData is layered
     const char *bytes = [receiveBuffer bytes];
     
