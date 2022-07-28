@@ -81,7 +81,6 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 
 
 - (void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock{
-    //const char *bytes = [receiveBuffer bytes];
     const BytePtr bytes = (BytePtr)receiveBuffer.bytes;
     
     for (int i = 0; i < [receiveBuffer length]; i++) {
