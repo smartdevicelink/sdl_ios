@@ -30,11 +30,12 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 
 @interface SDLProtocolReceivedMessageProcessor(){
     // State management
+    // The state of the state machine effectively tracks which byte of a message we are expecting next
     StateEnum state;
     StateEnum prevState;
     
     // Message management
-    BOOL endOfMessage;
+    BOOL messageDidEnd;
     SDLProtocolHeader *header;
     
     // Used for error checking.  Practically part of state.
@@ -60,7 +61,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     dataBytesRemaining = 0; //Counter for the data pump
 
     // Message management
-    endOfMessage = 0;
+    messageDidEnd = 0;
 
     //Reset state
     [self resetState];
@@ -78,17 +79,17 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     prevState = ERROR_STATE;
 }
 
-// Loop through the given bytes and call the state machine to process each byte.
+
 - (void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock{
-    //get a pointer to the bytes because NSMutableData is layered
-    const char *bytes = [receiveBuffer bytes];
+    //const char *bytes = [receiveBuffer bytes];
+    const BytePtr bytes = (BytePtr)receiveBuffer.bytes;
     
     for (int i = 0; i < [receiveBuffer length]; i++) {
-        endOfMessage = [self sdl_processMessagesStateMachine:(Byte)bytes[i]];
+        messageDidEnd = [self sdl_processMessagesStateMachine:(Byte)bytes[i]];
 
         // If we have reached the end of a message, we need to immediately call the message ready block with the completed data, then reset the buffers and keep pumping data into the state machine
-        if (endOfMessage){
-            endOfMessage = 0;
+        if (messageDidEnd){
+            messageDidEnd = 0;
             messageReadyBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
             [self resetState];
             return;
@@ -97,13 +98,11 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     
 }
 
-// This is the state machine
-// It processes a single byte of a message, checks for errors,
-// and builds up a header buffer and a payload buffer
-// When the header and payload are complete, the message is processed
-// The state of the state machine effectively tracks which byte of a message we are expecting next
-// For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
-// If a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
+/// This is the state machine. It processes a single byte of a message, checks for errors, and builds up a header buffer and a payload buffer.
+/// When the header and payload are complete, this returns true to notify the calling funciton.
+/// For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
+/// If a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
+/// @param currentByte The byte currently beign processed
 - (BOOL)sdl_processMessagesStateMachine:(Byte)currentByte {
     Byte serviceType = 0x00;
     Byte controlFrameInfo = 0; // "Frame Info" in the documentation
