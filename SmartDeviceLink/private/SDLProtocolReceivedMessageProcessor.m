@@ -181,25 +181,25 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
         // 32 bits for data size
         case DATA_SIZE_1_STATE:
             dataLength = 0;
-            dataLength += (currentByte & 0xFF) << 24;
+            dataLength += (UInt32)(currentByte & 0xFF) << 24;
             state = DATA_SIZE_2_STATE;
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_2_STATE:
-            dataLength += (currentByte & 0xFF) << 16;
+            dataLength += (UInt32)(currentByte & 0xFF) << 16;
             state = DATA_SIZE_3_STATE;
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_3_STATE:
-            dataLength += (currentByte & 0xFF) << 8;
+            dataLength += (UInt32)(currentByte & 0xFF) << 8;
             state = DATA_SIZE_4_STATE;
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_4_STATE:
-            dataLength += (currentByte & 0xFF) << 0;
+            dataLength += (UInt32)(currentByte & 0xFF) << 0;
             state = MESSAGE_1_STATE;
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
@@ -264,6 +264,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
         case MESSAGE_4_STATE:
             if (dataLength == 0) {
                 [self resetState];
+                break;
             } else {
                 state = DATA_PUMP_STATE;
             }
