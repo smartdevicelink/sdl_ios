@@ -120,7 +120,27 @@ class RemoteControlManager {
             self.turnOffAC()
         }
         
-        screenManager.softButtonObjects = [acOnButton, acOffButton]
+        let temperatureDecreaseButton = SDLSoftButtonObject(name: "Temperature Decrease", text: "Temperature -", artwork: nil) { (buttonPress, buttonEvent) in
+            guard buttonPress != nil else { return }
+                        
+            let buttonPress = SDLButtonPress(buttonName: .tempDown, moduleType: .climate, moduleId: self.climateModuleId, buttonPressMode: .short)
+
+            self.sdlManager.send(request: buttonPress) { (request, response, error) in
+                guard response?.success.boolValue == true else { return }
+            }
+        }
+        
+        let temperatureIncreaseButton = SDLSoftButtonObject(name: "Temperature Increase", text: "Temperature +", artwork: nil) { (buttonPress, buttonEvent) in
+            guard buttonPress != nil else { return }
+                        
+            let buttonPress = SDLButtonPress(buttonName: .tempUp, moduleType: .climate, moduleId: self.climateModuleId, buttonPressMode: .short)
+
+            self.sdlManager.send(request: buttonPress) { (request, response, error) in
+                guard response?.success.boolValue == true else { return }
+            }
+        }
+        
+        screenManager.softButtonObjects = [acOnButton, acOffButton, temperatureDecreaseButton, temperatureIncreaseButton]
                 
         screenManager.endUpdates { error in
             if error != nil {

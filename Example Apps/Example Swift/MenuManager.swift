@@ -218,7 +218,7 @@ private extension MenuManager {
         var submenuItems = [SDLMenuCell]()
         let errorMessage = "Changing the template failed"
         
-        /// Non-Media
+        /// Climate Control Menu
         let submenuTitleNonMedia = "Climate Control"
         submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
             manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia)) { err in
@@ -226,7 +226,7 @@ private extension MenuManager {
                     AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
                     return
                 }
-                let remoteControlManager = RemoteControlManager(sdlManager: manager)
+                RemoteControlManager(sdlManager: manager)
             }
         }))
         
