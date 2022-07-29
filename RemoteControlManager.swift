@@ -62,16 +62,8 @@ class RemoteControlManager {
         
         let screenManager = self.sdlManager.screenManager
         screenManager.beginUpdates()
-        
         screenManager.softButtonObjects = climateButtons
-                
-        screenManager.endUpdates { error in
-            if error != nil {
-                // Print out the error if there is one and return early
-                print("Issue updating UI")
-                return
-            }
-        }
+        screenManager.endUpdates()
     }
     
     /// Retrieve a formatted string containing climate data
@@ -120,8 +112,6 @@ class RemoteControlManager {
             // This block will now be called whenever vehicle data changes
             // NOTE: If you subscribe to multiple modules, all the data will be sent here. You will have to split it out based on `onInteriorVehicleData.moduleData.moduleType` yourself.
             self.climateData = onInteriorVehicleData.moduleData.climateControlData
-            print("Is data changing")
-            print(self.climateData as Any)
         }
     }
     
@@ -129,8 +119,6 @@ class RemoteControlManager {
         let getInteriorVehicleData = SDLGetInteriorVehicleData(andSubscribeToModuleType: .climate, moduleId: self.climateModuleId)
         sdlManager.send(request: getInteriorVehicleData) { (req, res, err) in
             guard let response = res as? SDLGetInteriorVehicleDataResponse else { return }
-            // This can now be used to retrieve data
-            print(response)
         }
     }
     
