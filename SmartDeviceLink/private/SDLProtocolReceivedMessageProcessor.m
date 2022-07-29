@@ -103,8 +103,8 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 /// If a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
 /// @param currentByte The byte currently beign processed
 - (BOOL)sdl_processMessagesStateMachine:(Byte)currentByte {
-    Byte serviceType = 0x00;
-    Byte controlFrameInfo = 0; // "Frame Info" in the documentation
+    SDLServiceType serviceType = 0x00;
+    SDLFrameInfo controlFrameInfo = 0x00;
     BOOL endOfMessageFlag = NO;
     
     switch (state){
@@ -144,13 +144,13 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             serviceType = currentByte;
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
-            // Check for errors
+            // ServiceType must be one of the defined types, else error.
             switch (serviceType) {
-                case 0x00: //SessionType.CONTROL:
-                case 0x07: //SessionType.RPC:
-                case 0x0A: //SessionType.PCM (Audio):
-                case 0x0B: //SessionType.NAV (Video):
-                case 0x0F: //SessionType.BULK (Hybrid):
+                case SDLServiceTypeControl:
+                case SDLServiceTypeRPC:
+                case SDLServiceTypeAudio:
+                case SDLServiceTypeVideo: //Nav
+                case SDLServiceTypeBulkData:
                     state = CONTROL_FRAME_INFO_STATE;
                     break;
                 default:
@@ -222,14 +222,14 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
                 headerSize = 12;
             }
             
-            int maxMtuSize = 0;
+            UInt32 maxMtuSize = 0;
             if (version <= 2) {
                 maxMtuSize = 1500;
             } else {
                 maxMtuSize = 131084;
             }
             
-            // Check data length (does it conform to spec?)
+            // Error if the data length is greater than the MTU size for this version
             if (dataLength >= (maxMtuSize - headerSize)) {
                 prevState = state;
                 state = ERROR_STATE;
@@ -273,10 +273,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
         
         case DATA_PUMP_STATE:
             // The pump state takes bytes in and adds them to the payload array
-            
-            // Note that we do not set state here.
-            // If we are pumping, state won't change.
-            // If we are done pumping, the stateManager will reset the state.
+            // Note that we do not set state here. If we are pumping, state will not change. If we are done pumping, we return the endOfMessageFlag and state will be reset externally.
             
             [self.payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             dataBytesRemaining--;
@@ -291,7 +288,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
                 endOfMessageFlag = 1;
             }
             break;
-
+            
         case ERROR_STATE:
         default:
             [self resetState];
