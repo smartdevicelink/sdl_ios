@@ -51,3 +51,8 @@ docs/docsets/
 **htmlcov
 **.coverage
 _debug*
+
+# User Files
+.swiftpm/
+Package.resolved
+SmartDeviceLink-iOS.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings

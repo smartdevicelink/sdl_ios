@@ -132,6 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
     config.language = SDLLanguageEnUs;
     config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
     config.appType = SDLAppHMITypeDefault;
+    config.additionalAppTypes = @[SDLAppHMITypeRemoteControl];
 
     SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
     SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
