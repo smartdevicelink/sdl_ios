@@ -21,6 +21,9 @@
 - (void)subscribeVehicleData;
 - (void)initializeClimateData;
 - (void)subscribeClimateControlData;
+- (void)turnOnAc;
+- (void)turnOffAc;
+- (void)setClimate;
 - (NSArray*)getButtons;
 
 @end
@@ -38,7 +41,6 @@
     [_sdlManager.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeRemoteControl withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
         if (!capability.remoteControlCapability) { return; }
         
-        NSLog(@"Retrieving Remote Control Capabilities");
         self->_remoteControlCapabilities = capability.remoteControlCapability;
         self->_climateModuleId = self->_remoteControlCapabilities.climateControlCapabilities.firstObject.moduleInfo.moduleId;
                 
@@ -47,8 +49,6 @@
         [self->_sdlManager sendRequest:getInteriorVehicleDataConsent withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (!response.success) { return; }
             
-            NSLog(@"Retrieving Consent");
-            NSLog(@"Bool Array %@", response.success);
             self->_consent = response.success;
             
             /// Initialize climate data and setup subscription
@@ -135,39 +135,88 @@
 - (void)subscribeClimateControlData {
     SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData alloc] initAndSubscribeToModuleType:SDLModuleTypeClimate moduleId:_climateModuleId];
     [_sdlManager sendRequest:getInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        SDLGetInteriorVehicleDataResponse *dataResponse = (SDLGetInteriorVehicleDataResponse *)response;
+    }];
+}
+
+- (void)turnOnAc {
+    NSDictionary<NSString *, id> *climateDictionary = @{@"acEnable": @YES};
+    SDLClimateControlData *climateControlData = [[SDLClimateControlData alloc] initWithDictionary:climateDictionary];
+    SDLModuleData *moduleData = [[SDLModuleData alloc] initWithClimateControlData:climateControlData];
+    SDLSetInteriorVehicleData *setInteriorVehicleData = [[SDLSetInteriorVehicleData alloc] initWithModuleData:moduleData];
+    
+    [self.sdlManager sendRequest:setInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if(!response.success) { return; }
+    }];
+}
+
+- (void)turnOffAc {
+    NSDictionary<NSString *, id> *climateDictionary = @{@"acEnable": @NO};
+    SDLClimateControlData *climateControlData = [[SDLClimateControlData alloc] initWithDictionary:climateDictionary];
+    SDLModuleData *moduleData = [[SDLModuleData alloc] initWithClimateControlData:climateControlData];
+    SDLSetInteriorVehicleData *setInteriorVehicleData = [[SDLSetInteriorVehicleData alloc] initWithModuleData:moduleData];
+    
+    [self.sdlManager sendRequest:setInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if(!response.success) { return; }
+    }];
+}
+
+- (void)setClimate {
+    SDLTemperature *temperature = [[SDLTemperature alloc] initWithFahrenheitValue:73];
+    NSDictionary<NSString *, id> *climateDictionary = @{@"acEnable": @YES, @"fanSpeed": @100, @"desiredTemperature": temperature, @"ventilationMode": SDLVentilationModeBoth };
+    
+    SDLClimateControlData *climateControlData = [[SDLClimateControlData alloc] initWithDictionary:climateDictionary];
+    SDLModuleData *moduleData = [[SDLModuleData alloc] initWithClimateControlData:climateControlData];
+    SDLSetInteriorVehicleData *setInteriorVehicleData = [[SDLSetInteriorVehicleData alloc] initWithModuleData:moduleData];
+    
+    [self.sdlManager sendRequest:setInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if(!response.success) { return; }
     }];
 }
 
 - (NSArray*)getButtons {
     SDLSoftButtonObject *acOnButton = [[SDLSoftButtonObject alloc] initWithName:@"AC On" text:@"AC On" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
-        NSLog(@"Turn AC On");
+        [self turnOnAc];
     }];
     
     SDLSoftButtonObject *acOffButton = [[SDLSoftButtonObject alloc] initWithName:@"AC Off" text:@"AC Off" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
-        NSLog(@"Turn AC Off");
+        [self turnOffAc];
     }];
     
     SDLSoftButtonObject *acMaxToggle = [[SDLSoftButtonObject alloc] initWithName:@"AC Max" text:@"AC Max" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
-        NSLog(@"Toggle AC Max");
+        
+        SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameACMax moduleType:SDLModuleTypeClimate moduleId:self->_climateModuleId buttonPressMode:SDLButtonPressModeShort];
+
+        [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if(!response.success) { return; }
+        }];
     }];
     
     SDLSoftButtonObject *temperatureDecreaseButton = [[SDLSoftButtonObject alloc] initWithName:@"Temperature Decrease" text:@"Temperature -" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
-        NSLog(@"Temperature -");
+        
+        SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameTempDown moduleType:SDLModuleTypeClimate moduleId:self->_climateModuleId buttonPressMode:SDLButtonPressModeShort];
+
+        [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if(!response.success) { return; }
+        }];
     }];
     
     SDLSoftButtonObject *temperatureIncreaseButton = [[SDLSoftButtonObject alloc] initWithName:@"Temperature Increase" text:@"Temperature +" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
-        NSLog(@"Temperature +");
+        
+        SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameTempUp moduleType:SDLModuleTypeClimate moduleId:self->_climateModuleId buttonPressMode:SDLButtonPressModeShort];
+
+        [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if(!response.success) { return; }
+        }];
     }];
     
     SDLSoftButtonObject *setClimateButton = [[SDLSoftButtonObject alloc] initWithName:@"Set Climate" text:@"Set Climate" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
-        NSLog(@"Set Climate");
+        [self setClimate];
     }];
     
     return @[acOnButton, acOffButton, acMaxToggle, temperatureDecreaseButton, temperatureIncreaseButton, setClimateButton];
