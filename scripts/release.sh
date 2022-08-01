@@ -56,7 +56,6 @@ else
         # Stash any local changes to avoid errors during checkout
         changes=$(git diff-files)
         if [ ! -z "$changes" ]; then   
-            #git status
             echo "There are unstaged changes in these files"
             echo $changes
             prompt_user "Would you like to stash these local changes before checkout of $develop_branch"
@@ -70,10 +69,7 @@ else
             fi
         fi
         
-        # Do a fetch to make sure we are up to date.
-        # git fetch
-        # git config pull.ff only
-        # git pull
+        # Do a pull to make sure we are up to date.
         git pull --ff
         
         # Now do the checkout
@@ -192,7 +188,7 @@ if [[ $? == 1 ]]; then
 
     # This runs Jazzy to generate the documentation.
     echo "Running Jazzy to generate documentation..."
-    # generate-documentation.sh throws an error if we are not in the correct directorywhen we run it.
+    # generate-documentation.sh throws an error if we are not in the correct directory when we run it.
     cd scripts
     chmod u+x ./generate-documentation.sh
     if [ $(uname -m) == "x86_64" ]; then
@@ -218,7 +214,6 @@ if [ $current_branch == $develop_branch ]; then
 
     prompt_user "Would you like to walk through the git commands for this release"
     if [[ $? == 1 ]]; then
-        
         prompt_user "Would you like to commit and push the changes made so far to the develop branch"
         if [[ $? == 1 ]]; then
             # Add, commit, and push changes to develop
@@ -249,13 +244,11 @@ if [ $current_branch == $develop_branch ]; then
                 git tag $new_version_number
             fi
             
-
             echo "If these changes are correct, please commit them manually and then push them to master..."
             read user_input
             # TODO - here are the commands if we decide to automate this.
             # git commit -m "commit message here "
             # git push --set-upstream origin $main_branch
-
         else
             echo "Aborting script!"
             exit 0
