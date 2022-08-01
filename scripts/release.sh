@@ -194,7 +194,7 @@ if [[ $? == 1 ]]; then
     if [ $(uname -m) == "x86_64" ]; then
         ./generate-documentation.sh
     else
-        arch -x86_64 /bin/bash ./scripts/generate-documentation.sh
+        arch -x86_64 /bin/bash ./generate-documentation.sh
     fi
     cd ..
 fi
