@@ -71,24 +71,23 @@ xcodebuild -create-xcframework -framework './SmartDeviceLink-Device.xcarchive/Pr
 
 # TODO - is there a way we can test that the build was successful.
 
-folder="SmartDeviceLink.xcframework"
+framework_folder="SmartDeviceLink.xcframework"
 zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
 # Kill the old zip if present. Useful for re-running the script
 if [ -f $zip_file_name ]; then rm $zip_file_name; fi
-# Verify folder exists before acting on it.
-if [ -d "$folder" ]; then 
-    folder=$folder"/*" # this is necessary to trick the zip command into working on the .xcframework
-    zip $zip_file_name $folder
+# Verify framework_folder exists and create a zip from it.
+if [ -d "$framework_folder" ]; then 
+    tar -cf $zip_file_name $framework_folder
     # Check to see if the zip exists, and then remove old files.
-    if [ -f "$zip_file_name" ]; then rm -r $folder; fi
+    if [ -f "$zip_file_name" ]; then rm -r $framework_folder; fi
 fi
 
 # Cleanup artifacts
 folder="SmartDeviceLink-Device.xcarchive"
-if [ -d "$folder" ]; then rm -r $folder; fi
+if [ -d "$framework_folder" ]; then rm -r $framework_folder; fi
 
 folder="SmartDeviceLink-Simulator.xcarchive"
-if [ -d "$folder" ]; then rm -r $folder; fi
+if [ -d "$framework_folder" ]; then rm -r $framework_folder; fi
 
 echo
 echo "The xcframework zip file was created at $zip_file_name."
