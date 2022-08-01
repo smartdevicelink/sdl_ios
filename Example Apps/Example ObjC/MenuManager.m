@@ -178,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Climate Control
     NSString *titleControl = @"Climate Control";
     SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:titleControl secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:^(NSError * _Nullable error) {
+        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutTilesOnly] withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
                 [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
             }
