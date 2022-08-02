@@ -213,7 +213,6 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellRemoteControl(with manager: SDLManager) -> SDLMenuCell {
-
         /// Initialize Remote Control Manager
         let remoteControlManager = RemoteControlManager(sdlManager: manager)
 
