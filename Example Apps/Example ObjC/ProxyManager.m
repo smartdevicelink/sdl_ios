@@ -9,6 +9,7 @@
 #import "PerformInteractionManager.h"
 #import "Preferences.h"
 #import "ProxyManager.h"
+#import "RemoteControlManager.h"
 #import "RPCPermissionsManager.h"
 #import "SmartDeviceLink.h"
 #import "SubscribeButtonManager.h"
@@ -22,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMILevel firstHMILevel;
 
+@property (strong, nonatomic) RemoteControlManager *remoteControlManager;
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
 @property (strong, nonatomic) PerformInteractionManager *performManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
@@ -65,6 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
+        self.remoteControlManager = [[RemoteControlManager alloc] initWithManager:self.sdlManager];
         self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
         self.performManager = [[PerformInteractionManager alloc] initWithManager:self.sdlManager];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
@@ -157,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Screen UI Helpers
 
 - (void)sdlex_createMenus {
-    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager performManager:self.performManager];
+    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager performManager:self.performManager remoteManager:self.remoteControlManager];
     self.sdlManager.screenManager.voiceCommands = [MenuManager allVoiceMenuItemsWithManager:self.sdlManager];
 }
 
@@ -243,9 +246,12 @@ NS_ASSUME_NONNULL_BEGIN
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && ([self.firstHMILevel isEqualToEnum:SDLHMILevelNone])) {
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
-        
+
         // Subscribe to vehicle data.
         [self.vehicleDataManager subscribeToVehicleOdometer];
+
+        // Start Remote Control Connection
+        [self.remoteControlManager start];
 
         //Handle initial launch
         [self sdlex_showInitialData];

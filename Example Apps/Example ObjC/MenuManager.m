@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation MenuManager
 
-+ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager {
++ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager remoteManager:(RemoteControlManager *)remoteControlManager {
     return @[[self sdlex_menuCellSpeakNameWithManager:manager],
              [self sdlex_menuCellGetAllVehicleDataWithManager:manager],
              [self sdlex_menuCellShowPerformInteractionWithManager:manager performManager:performManager],
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
              [self sdlex_menuCellDialNumberWithManager:manager],
              [self sdlex_menuCellChangeTemplateWithManager:manager],
              [self sdlex_menuCellWithSubmenuWithManager:manager],
-             [self sdlex_menuCellRemote:manager]];
+             [self sdlex_menuCellRemoteWithManager:manager remoteManager:remoteControlManager]];
 }
 
 + (NSArray<SDLVoiceCommand *> *)allVoiceMenuItemsWithManager:(SDLManager *)manager {
@@ -166,31 +166,26 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-+ (SDLMenuCell *)sdlex_menuCellRemote:(SDLManager *)manager {
-    
-    RemoteControlManager *remoteControlManager = [[RemoteControlManager alloc] initWithManager:manager];
-    //[remoteControlManager setupRemoteData];
-        
++ (SDLMenuCell *)sdlex_menuCellRemoteWithManager:(SDLManager *)manager remoteManager:(RemoteControlManager *)remoteManager {
     /// Lets give an example of 2 templates
     NSMutableArray *submenuItems = [NSMutableArray array];
     NSString *errorMessage = @"Changing the template failed";
-    
+
     // Climate Control
-    NSString *titleControl = @"Climate Control";
-    SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:titleControl secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *climateControlCell = [[SDLMenuCell alloc] initWithTitle:ACRemoteControlClimateMenuName secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutTilesOnly] withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
                 [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
+                return;
             }
-            [remoteControlManager showClimateControl];
+            [remoteManager showClimateControl];
         }];
     }];
-    [submenuItems addObject:cell];
-    
+    [submenuItems addObject:climateControlCell];
+
     // View Climate
-    NSString *titleView = @"View Climate";
-    SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:titleView secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:[remoteControlManager getClimateData]];
+    SDLMenuCell *viewClimateCell = [[SDLMenuCell alloc] initWithTitle:ACRemoteViewClimateMenuName secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:remoteManager.climateDataString];
         [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
            if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
                 if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
@@ -203,9 +198,9 @@ NS_ASSUME_NONNULL_BEGIN
            }
         }];
     }];
-    [submenuItems addObject:cell2];
-    
-    return [[SDLMenuCell alloc] initWithTitle:@"Remote Control" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
+    [submenuItems addObject:viewClimateCell];
+
+    return [[SDLMenuCell alloc] initWithTitle:ACRemoteMenuName secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
 }
 
 #pragma mark - Voice Commands

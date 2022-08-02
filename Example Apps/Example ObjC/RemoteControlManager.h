@@ -14,11 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RemoteControlManager : NSObject
 
-- (instancetype)init NS_UNAVAILABLE;;
+@property (copy, nonatomic, readonly) NSString *climateDataString;
+
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithManager:(SDLManager *)manager;
 
+- (void)start;
 - (void)showClimateControl;
-- (NSString*)getClimateData;
 
 @end
 
