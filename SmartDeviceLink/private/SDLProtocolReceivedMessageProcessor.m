@@ -6,10 +6,10 @@
 //  Copyright © 2022 smartdevicelink. All rights reserved.
 //
 
-
-#import "SDLProtocolHeader.h"
-
 #import "SDLProtocolReceivedMessageProcessor.h"
+
+//if I do things correct, I should not need this?
+#import "SDLProtocolHeader.h"
 
 typedef NS_ENUM(NSUInteger, StateEnum) {
     START_STATE = 0x0,
@@ -44,6 +44,9 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     SDLFrameType frameType;
     UInt32 dataLength;
     UInt32 dataBytesRemaining;
+    
+    NSMutableData *headerBuffer;
+    NSMutableData *payloadBuffer;
 }
 
 @end
@@ -70,8 +73,8 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 
 - (void)resetState{
     // Flush Buffers
-    self.headerBuffer = [NSMutableData dataWithCapacity:0];
-    self.payloadBuffer = [NSMutableData dataWithCapacity:0];
+    headerBuffer = [NSMutableData dataWithCapacity:0];
+    payloadBuffer = [NSMutableData dataWithCapacity:0];
     dataBytesRemaining = 0;
     
     // Reset state
@@ -89,7 +92,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
         // If we have reached the end of a message, we need to immediately call the message ready block with the completed data, then reset the buffers and keep pumping data into the state machine
         if (messageDidEnd){
             messageDidEnd = 0;
-            messageReadyBlock(header.encrypted, header, [NSData dataWithData:self.payloadBuffer]);
+            messageReadyBlock(header.encrypted, header, [NSData dataWithData:payloadBuffer]);
             [self resetState];
             return;
         }
@@ -123,7 +126,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             frameType = (currentByte & 0x07) >> 0;
 
             state = SERVICE_TYPE_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check version for errors
             if ((version < 1 || version > 5)) {
@@ -142,7 +145,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
         case SERVICE_TYPE_STATE:
             // 8 bits for service type
             serviceType = currentByte;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // ServiceType must be one of the defined types, else error.
             switch (serviceType) {
@@ -164,7 +167,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             // 8 bits for frame information
             controlFrameInfo = currentByte;
             state = SESSION_ID_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check for errors. For these two frame types, the frame info should be 0x00
             if (((frameType == SDLFrameTypeFirst) || (frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
@@ -174,7 +177,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             break;
             
         case SESSION_ID_STATE:
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             state = DATA_SIZE_1_STATE;
             break;
         
@@ -183,25 +186,25 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             dataLength = 0;
             dataLength += (UInt32)(currentByte & 0xFF) << 24;
             state = DATA_SIZE_2_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_2_STATE:
             dataLength += (UInt32)(currentByte & 0xFF) << 16;
             state = DATA_SIZE_3_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_3_STATE:
             dataLength += (UInt32)(currentByte & 0xFF) << 8;
             state = DATA_SIZE_4_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_4_STATE:
             dataLength += (UInt32)(currentByte & 0xFF) << 0;
             state = MESSAGE_1_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Set the counter for the data pump.
             dataBytesRemaining = dataLength;
@@ -248,17 +251,17 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
         // 32 bits for data size (version 2+)
         case MESSAGE_1_STATE:
             state = MESSAGE_2_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_2_STATE:
             state = MESSAGE_3_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_3_STATE:
             state = MESSAGE_4_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_4_STATE:
@@ -268,7 +271,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             } else {
                 state = DATA_PUMP_STATE;
             }
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             break;
         
@@ -276,14 +279,14 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             // The pump state takes bytes in and adds them to the payload array
             // Note that we do not set state here. If we are pumping, state will not change. If we are done pumping, we return the endOfMessageFlag and state will be reset externally.
             
-            [self.payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             dataBytesRemaining--;
             
             // Check if all the bytes have been read
             if (dataBytesRemaining <= 0) {
                 // Create a header
                 header = [SDLProtocolHeader headerForVersion:version];
-                [header parse:self.headerBuffer];
+                [header parse:headerBuffer];
                 
                 // Flag that we have reached the end of a message
                 endOfMessageFlag = 1;
