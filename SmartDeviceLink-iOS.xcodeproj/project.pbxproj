@@ -2102,9 +2102,9 @@
 		1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageAssemblerSpec.m; sourceTree = "<group>"; };
 		1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageDisassemblerSpec.m; sourceTree = "<group>"; };
 		1680B1121A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolReceivedMessageRouterSpec.m; sourceTree = "<group>"; };
-		1C87BFB028981328006E79F1 /* RemoteControlManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RemoteControlManager.h; sourceTree = SOURCE_ROOT; };
-		1C87BFB128981328006E79F1 /* RemoteControlManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemoteControlManager.m; sourceTree = SOURCE_ROOT; };
-		1CFDAAA62893181200332B84 /* RemoteControlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlManager.swift; sourceTree = SOURCE_ROOT; };
+		1C87BFB028981328006E79F1 /* RemoteControlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteControlManager.h; path = "Example Apps/Example ObjC/RemoteControlManager.h"; sourceTree = SOURCE_ROOT; };
+		1C87BFB128981328006E79F1 /* RemoteControlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteControlManager.m; path = "Example Apps/Example ObjC/RemoteControlManager.m"; sourceTree = SOURCE_ROOT; };
+		1CFDAAA62893181200332B84 /* RemoteControlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RemoteControlManager.swift; path = "Example Apps/Example Swift/RemoteControlManager.swift"; sourceTree = SOURCE_ROOT; };
 		1E89B0DD2031636000A47992 /* SDLSeatControlDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlDataSpec.m; sourceTree = "<group>"; };
 		1E89B0E1203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlCapabilitiesSpec.m; sourceTree = "<group>"; };
 		1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnRCStatusSpec.m; sourceTree = "<group>"; };
@@ -4794,7 +4794,7 @@
 				88295677207CF46C00EF056C /* Objective-C */,
 			);
 			name = Examples;
-			path = SmartDeviceLink_Example;
+			path = "Example Apps";
 			sourceTree = "<group>";
 		};
 		5D4019B21A76EC350006B0C2 /* Supporting Files */ = {
