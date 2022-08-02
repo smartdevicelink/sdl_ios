@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     ERROR_STATE = -1,
 };
 
+//todo - this is wrong.  Other than comments, I don't understand why.  Mechanically looks just like the interface of SDLProtocol.m
 @interface SDLProtocolReceivedMessageProcessor(){
     // State management
     // The state of the state machine effectively tracks which byte of a message we are expecting next

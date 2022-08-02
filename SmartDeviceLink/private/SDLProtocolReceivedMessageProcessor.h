@@ -6,6 +6,7 @@
 //  Copyright © 2022 smartdevicelink. All rights reserved.
 //
 
+#import "SDLProtocolReceivedMessageRouter.h"
 #import <Foundation/Foundation.h>
 
 @class SDLProtocolHeader;
@@ -16,16 +17,6 @@
 typedef void (^StateMachineMessageReadyBlock)(BOOL, SDLProtocolHeader *, NSData *);
 
 @interface SDLProtocolReceivedMessageProcessor : NSObject
-
-/**
- * Buffer for holding the header of a message
- */
-//@property (strong, nonatomic) NSMutableData *headerBuffer;
-
-/**
- * Buffer for holding the payload of a message
- */
-//@property (strong, nonatomic) NSMutableData *payloadBuffer;
 
 /**
  * Processes the reveive buffer into the state machine.
