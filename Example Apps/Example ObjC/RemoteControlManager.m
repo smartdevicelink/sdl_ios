@@ -83,6 +83,7 @@
     if (self.climateModuleId == NULL && self.hasConsent) {
         NSString *errorMessage = @"The climate module id was not set or consent was not given";
         [AlertManager sendAlertWithManager:self.sdlManager image:nil textField1:errorMessage textField2:nil];
+        return;
     }
     self.sdlManager.screenManager.softButtonObjects = self.remoteButtons;
 }
@@ -244,7 +245,7 @@
             }
         }];
     }];
-    
+
     SDLSoftButtonObject *setClimateButton = [[SDLSoftButtonObject alloc] initWithName:@"Set Climate" text:@"Set Climate" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
         [self sdlex_setClimate];

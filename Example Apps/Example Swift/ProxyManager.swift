@@ -26,6 +26,7 @@ class ProxyManager: NSObject {
     private var subscribeButtonManager: SubscribeButtonManager!
     private var vehicleDataManager: VehicleDataManager!
     private var performInteractionManager: PerformInteractionManager!
+    private var remoteControlManager: RemoteControlManager!
     private var firstHMILevelState: SDLHMILevel
     weak var delegate: ProxyManagerDelegate?
 
@@ -137,6 +138,7 @@ private extension ProxyManager {
             self.subscribeButtonManager = SubscribeButtonManager(sdlManager: self.sdlManager)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
+            self.remoteControlManager = RemoteControlManager(sdlManager: self.sdlManager)
 
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
@@ -169,6 +171,9 @@ extension ProxyManager: SDLManagerDelegate {
 
             // Subscribe to vehicle data.
             vehicleDataManager.subscribeToVehicleOdometer()
+
+            // Start Remote Control Connection
+            remoteControlManager.start()
 
             //Handle initial launch
             showInitialData()
@@ -307,7 +312,7 @@ private extension ProxyManager {
     func createMenuAndGlobalVoiceCommands() {
         // Send the root menu items
         let screenManager = sdlManager.screenManager
-        let menuItems = MenuManager.allMenuItems(with: sdlManager, choiceSetManager: performInteractionManager)
+        let menuItems = MenuManager.allMenuItems(with: sdlManager, choiceSetManager: performInteractionManager, remoteManager: remoteControlManager)
         let voiceMenuItems = MenuManager.allVoiceMenuItems(with: sdlManager)
 
         if !menuItems.isEmpty { screenManager.menu = menuItems }

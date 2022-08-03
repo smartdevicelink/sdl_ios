@@ -8,6 +8,7 @@
 
 import Foundation
 import SmartDeviceLink
+import SmartDeviceLinkSwift
 
 class RemoteControlManager {
     private var sdlManager: SDLManager!
@@ -44,9 +45,15 @@ class RemoteControlManager {
     /// - Parameter sdlManager: The SDL Manager
     init(sdlManager: SDLManager) {
         self.sdlManager = sdlManager
+    }
+
+    func start() {
         /// Retrieve remote control information and store module ids
         self.sdlManager.systemCapabilityManager.subscribe(capabilityType: .remoteControl) { (capability, subscribed, error) in
-            guard capability?.remoteControlCapability != nil else { return }
+            guard capability?.remoteControlCapability != nil else {
+                SDLLog.e("SDL errored getting remote control module information: \(String(describing: error))")
+                return
+            }
             self.remoteControlCapabilities = capability?.remoteControlCapability
 
             let firstClimateModule = self.remoteControlCapabilities.climateControlCapabilities?.first
@@ -56,7 +63,10 @@ class RemoteControlManager {
             /// Get Consent to control module
             let getInteriorVehicleDataConsent = SDLGetInteriorVehicleDataConsent(moduleType: .climate, moduleIds: [self.climateModuleId])
             self.sdlManager.send(request: getInteriorVehicleDataConsent, responseHandler: { (request, response, error) in
-                guard let res = response as? SDLGetInteriorVehicleDataConsentResponse else { return }
+                guard let res = response as? SDLGetInteriorVehicleDataConsentResponse else {
+                    SDLLog.e("SDL errored getting interior vehicle data consent: \(String(describing: error))");
+                    return
+                }
                 guard let allowed = res.allowed else { return }
                 let boolAllowed = allowed.map({ (bool) -> Bool in
                     return bool.boolValue
@@ -80,11 +90,7 @@ class RemoteControlManager {
         if climateModuleId == nil && consent[0] == false {
             AlertManager.sendAlert(textField1: "The climate module id was not set or consent was not given", sdlManager: self.sdlManager)
         }
-
-        let screenManager = self.sdlManager.screenManager
-        screenManager.beginUpdates()
-        screenManager.softButtonObjects = climateButtons
-        screenManager.endUpdates()
+        self.sdlManager.screenManager.softButtonObjects = climateButtons
     }
 
     private func initializeClimateData() {
@@ -102,7 +108,10 @@ class RemoteControlManager {
 
     private func subscribeVehicleData() {
         sdlManager.subscribe(to: .SDLDidReceiveInteriorVehicleData) { (message) in
-            guard let onInteriorVehicleData = message as? SDLOnInteriorVehicleData else { return }
+            guard let onInteriorVehicleData = message as? SDLOnInteriorVehicleData else {
+                SDLLog.e("SDL onInteriorVehicleData was set to NULL when trying to subscribe to vehicle data")
+                return
+            }
             self.climateData = onInteriorVehicleData.moduleData.climateControlData
         }
     }
@@ -110,35 +119,42 @@ class RemoteControlManager {
     private func subscribeClimateControlData() {
         let getInteriorVehicleData = SDLGetInteriorVehicleData(andSubscribeToModuleType: .climate, moduleId: self.climateModuleId)
         sdlManager.send(request: getInteriorVehicleData) { (req, res, err) in
-            guard let response = res as? SDLGetInteriorVehicleDataResponse else { return }
+            guard let response = res as? SDLGetInteriorVehicleDataResponse else {return}
+            if (response.success.boolValue == false) {
+                SDLLog.e("SDL errored trying to subscribe to climate data: \(String(describing: err))")
+                return
+            }
+            SDLLog.d("SDL Subscribing to Climate Control Data. Data should appear in SDLDidReceiveInteriorVehicleDataNotification");
         }
     }
 
     private func turnOnAC() {
-        let climateDictionary: [String: Any] = [
+        let climateControlData = SDLClimateControlData(dictionary: [
             "acEnable": true as NSNumber & SDLBool
-        ]
-
-        let climateControlData = SDLClimateControlData(dictionary: climateDictionary)
+        ])
         let moduleData = SDLModuleData(climateControlData: climateControlData)
         let setInteriorVehicleData = SDLSetInteriorVehicleData(moduleData: moduleData)
 
         self.sdlManager.send(request: setInteriorVehicleData) { (request, response, error) in
-            guard response?.success.boolValue == true else { return }
+            guard response?.success.boolValue == true else {
+                SDLLog.e("SDL errored trying to set interior vehicle data: \(String(describing: error))")
+                return
+            }
         }
     }
 
     private func turnOffAC() {
-        let climateDictionary: [String: Any] = [
+        let climateControlData = SDLClimateControlData(dictionary: [
             "acEnable": false as NSNumber & SDLBool
-        ]
-
-        let climateControlData = SDLClimateControlData(dictionary: climateDictionary)
+        ])
         let moduleData = SDLModuleData(climateControlData: climateControlData)
         let setInteriorVehicleData = SDLSetInteriorVehicleData(moduleData: moduleData)
 
         self.sdlManager.send(request: setInteriorVehicleData) { (request, response, error) in
-            guard response?.success.boolValue == true else { return }
+            guard response?.success.boolValue == true else {
+                SDLLog.e("SDL errored trying to set interior vehicle data: \(String(describing: error))")
+                return
+            }
         }
     }
 
@@ -151,13 +167,15 @@ class RemoteControlManager {
             "ventilationMode": SDLVentilationMode(rawValue: SDLVentilationMode.both.rawValue)
         ]
 
-
         let climateControlData = SDLClimateControlData(dictionary: climateDictionary)
         let moduleData = SDLModuleData(climateControlData: climateControlData)
         let setInteriorVehicleData = SDLSetInteriorVehicleData(moduleData: moduleData)
 
         self.sdlManager.send(request: setInteriorVehicleData) { (request, response, error) in
-            guard response?.success.boolValue == true else { return }
+            guard response?.success.boolValue == true else {
+                SDLLog.e("SDL errored trying to set interior vehicle data: \(String(describing: error))")
+                return
+            }
         }
     }
 
@@ -177,7 +195,10 @@ class RemoteControlManager {
             guard buttonPress != nil else { return }
             let buttonPress = SDLButtonPress(buttonName: .acMax, moduleType: .climate, moduleId: self.climateModuleId, buttonPressMode: .short)
             self.sdlManager.send(request: buttonPress) { (request, response, error) in
-                guard response?.success.boolValue == true else { return }
+                guard response?.success.boolValue == true else {
+                    SDLLog.e("SDL errored handling remote button: \(String(describing: error))")
+                    return
+                }
             }
         }
 
@@ -185,7 +206,10 @@ class RemoteControlManager {
             guard buttonPress != nil else { return }
             let buttonPress = SDLButtonPress(buttonName: .tempDown, moduleType: .climate, moduleId: self.climateModuleId, buttonPressMode: .short)
             self.sdlManager.send(request: buttonPress) { (request, response, error) in
-                guard response?.success.boolValue == true else { return }
+                guard response?.success.boolValue == true else {
+                    SDLLog.e("SDL errored handling remote button: \(String(describing: error))")
+                    return
+                }
             }
         }
 
@@ -193,7 +217,10 @@ class RemoteControlManager {
             guard buttonPress != nil else { return }
             let buttonPress = SDLButtonPress(buttonName: .tempUp, moduleType: .climate, moduleId: self.climateModuleId, buttonPressMode: .short)
             self.sdlManager.send(request: buttonPress) { (request, response, error) in
-                guard response?.success.boolValue == true else { return }
+                guard response?.success.boolValue == true else {
+                    SDLLog.e("SDL errored handling remote button: \(String(describing: error))")
+                    return
+                }
             }
         }
 

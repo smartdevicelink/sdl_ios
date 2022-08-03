@@ -15,7 +15,7 @@ class MenuManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand objects
-    class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> [SDLMenuCell] {
+    class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager, remoteManager: RemoteControlManager) -> [SDLMenuCell] {
         return [menuCellSpeakName(with: manager),
                 menuCellGetAllVehicleData(with: manager),
                 menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
@@ -25,7 +25,7 @@ class MenuManager: NSObject {
                 menuCellDialNumber(with: manager),
                 menuCellChangeTemplate(with: manager),
                 menuCellWithSubmenu(with: manager),
-                menuCellRemoteControl(with: manager)]
+                menuCellRemoteControl(with: manager, remoteManager: remoteManager)]
     }
 
     /// Creates and returns the voice commands. The voice commands are menu items that are selected using the voice recognition system.
@@ -207,16 +207,12 @@ private extension MenuManager {
             })
         })
     }
-    
+
     /// Menu item that shows remote control example
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellRemoteControl(with manager: SDLManager) -> SDLMenuCell {
-        /// Initialize Remote Control Manager
-        let remoteControlManager = RemoteControlManager(sdlManager: manager)
-
-        /// Lets give an example of 2 templates
+    class func menuCellRemoteControl(with manager: SDLManager, remoteManager: RemoteControlManager) -> SDLMenuCell {
         var submenuItems = [SDLMenuCell]()
         let errorMessage = "Changing the template failed"
 
@@ -227,13 +223,13 @@ private extension MenuManager {
                     AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
                     return
                 }
-                remoteControlManager.showClimateControl()
+                remoteManager.showClimateControl()
             }
         }))
 
         /// View Climate Data
         submenuItems.append(SDLMenuCell(title: ACRemoteViewClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { _ in
-            let climateDataMessage = SDLScrollableMessage(message: remoteControlManager.climateDataString)
+            let climateDataMessage = SDLScrollableMessage(message: remoteManager.climateDataString)
             manager.send(request: climateDataMessage, responseHandler: { (request, response, error) in
                 guard let response = response else { return }
                 guard response.resultCode == .success else {
