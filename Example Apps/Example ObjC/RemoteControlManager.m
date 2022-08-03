@@ -35,6 +35,7 @@
 @property (strong, nonatomic) NSNumber<SDLBool> *hasConsent;
 @property (strong, nonatomic) SDLClimateControlData *climateData;
 @property (copy, nonatomic, readwrite) NSString *climateDataString;
+@property (strong, nonatomic, readonly) NSArray<SDLSoftButtonObject *> *remoteButtons;
 
 @end
 
@@ -83,7 +84,7 @@
         NSString *errorMessage = @"The climate module id was not set or consent was not given";
         [AlertManager sendAlertWithManager:self.sdlManager image:nil textField1:errorMessage textField2:nil];
     }
-    self.sdlManager.screenManager.softButtonObjects = [self sdlex_getButtons];
+    self.sdlManager.screenManager.softButtonObjects = self.remoteButtons;
 }
 
 - (NSString *)climateDataString {
@@ -194,7 +195,7 @@
     }];
 }
 
-- (NSArray*)sdlex_getButtons {
+- (NSArray *)remoteButtons {
     SDLSoftButtonObject *acOnButton = [[SDLSoftButtonObject alloc] initWithName:@"AC On" text:@"AC On" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
         [self sdlex_turnOnAC];
