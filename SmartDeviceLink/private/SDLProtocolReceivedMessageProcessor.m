@@ -76,43 +76,41 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 - (void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock {
     const BytePtr bytes = (BytePtr)receiveBuffer.bytes;
     
-    for (int i = 0; i < [receiveBuffer length]; i++) {
+    for (int i = 0; i < receiveBuffer.length; i++) {
         // If we have reached the end of a message, we need to immediately call the message ready block with the completed data, then reset the buffers and keep pumping data into the state machine
-        if ([self sdl_processMessagesStateMachine:(Byte)bytes[i]]) {
+        if ([self sdl_processByte:(Byte)bytes[i]]) {
             messageReadyBlock(_header, [_payloadBuffer copy]);
             [self resetState];
         }
     }
-    
 }
 
 /// This is the state machine. It processes a single byte of a message, checks for errors, and builds up a header buffer and a payload buffer.
 /// When the header and payload are complete, this returns true to notify the calling funciton.
 /// For reference: https://smartdevicelink.com/en/guides/sdl-overview-guides/protocol-spec/
 /// If a byte comes in that does not conform to spec, the buffers are flushed and state is reset.
-/// @param currentByte The byte currently beign processed
-- (BOOL)sdl_processMessagesStateMachine:(Byte)currentByte {
+/// @param currentByte The byte currently being processed
+/// @return YES if the byte processed is the last byte of a message, else NO
+- (BOOL)sdl_processByte:(Byte)currentByte {
     SDLServiceType serviceType = 0x00;
     SDLFrameInfo controlFrameInfo = 0x00;
     BOOL messageHasEnded = NO;
     
     switch (_state) {
         case START_STATE:
-            //Flush the buffers
             [self resetState];
             
-            // 4 highest bits for version. (b1111 0000)
+            // bits 0-3 for version. (b1111 0000)
             _version = (currentByte & 0xF0 ) >> 4;
 
-            // 1 bit, 4th lowest, for either encryption or compression, depending on version. (b0000 1000)
-            //_encrypted = (currentByte & 0x08 ) >> 3;
+            // bit 4 for either encryption or compression, depending on version. (b0000 1000)
             if ((currentByte & 0x08 ) >> 3 == 1) {
                 _encrypted = YES;
             } else {
                 _encrypted = NO;
             }
             
-            // 3 lowest bits for frameType. (b0000 0111)
+            // bits 5-7 for frameType. (b0000 0111)
             _frameType = (currentByte & 0x07) >> 0;
 
             _state = SERVICE_TYPE_STATE;
@@ -122,6 +120,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             if ((_version < 1 || _version > 5)) {
                 _prevState = _state;
                 _state = ERROR_STATE;
+                break;
             }
             
             // Check for valid frameType
