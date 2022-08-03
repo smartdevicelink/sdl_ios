@@ -498,24 +498,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Turn received bytes into message objects.
 - (void)sdl_handleBytesFromTransport:(NSData *)receivedData {
-    // Initialize the receive buffer which will contain bytes while messages are constructed.
-    //if (self.receiveBuffer == nil) {
-    //    self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC])];
-    //}
-
-    // Save and process the buffer
-    //[self.receiveBuffer appendData:receivedData];
-    [self sdl_processMessages:receivedData];
-}
-
-- (void)sdl_processMessages:(NSData *)processBytes {
-    // Create immutable object from the bytes currently in the buffer
-    //NSData *processBytes = [NSData dataWithData:self.receiveBuffer];
-    //self.receiveBuffer.length = 0;
-    
     // Call the state machine, and pass it the bytes to be processed
-    [ _receiveProcessor processReceiveBuffer:processBytes withMessageReadyBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload){
-        
+    [ _receiveProcessor processReceiveBuffer:receivedData withMessageReadyBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload) {
         // If the message in encrypted and there is payload, try to decrypt it
         NSError *decryptError = nil;
         if (encrypted && payload.length) {

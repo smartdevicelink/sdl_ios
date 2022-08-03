@@ -55,13 +55,13 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     _encrypted = NO;
     _frameType = 0x00;
     _dataLength = 0;
-    _dataBytesRemaining = 0; //Counter for the data pump
+    _dataBytesRemaining = 0;
 
     [self resetState];
     return self;
 }
 
-- (void)resetState{
+- (void)resetState {
     // Flush Buffers
     _headerBuffer = [NSMutableData dataWithCapacity:0];
     _payloadBuffer = [NSMutableData dataWithCapacity:0];
@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 }
 
 
-- (void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock{
+- (void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock {
     const BytePtr bytes = (BytePtr)receiveBuffer.bytes;
     
     for (int i = 0; i < [receiveBuffer length]; i++) {
@@ -97,7 +97,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     SDLFrameInfo controlFrameInfo = 0x00;
     BOOL messageHasEnded = NO;
     
-    switch (_state){
+    switch (_state) {
         case START_STATE:
             //Flush the buffers
             [self resetState];
