@@ -227,6 +227,16 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
 
+    // Check for cloned cell
+    if (cell != nil) {
+        for(id clonedCell in self.menuCells) {
+            if ([cell isEqual:clonedCell]) {
+                cell = clonedCell;
+                break;
+            }
+        }
+    }
+    
     // Create the operation
     SDLMenuShowOperation *showMenuOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:self.connectionManager toMenuCell:cell completionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
