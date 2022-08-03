@@ -229,7 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Check if a passed cell is a "re-created" cell without a cellID. If it is, then try to find the equivalent cell and use it instead
     if (cell != nil && cell.cellId == UINT32_MAX) {
-        for(id clonedCell in self.menuCells) {
+        for (SDLMenuCell *headUnitCell in self.menuCells) {
             if ([cell isEqual:clonedCell]) {
                 cell = clonedCell;
                 break;
