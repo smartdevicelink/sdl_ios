@@ -58,7 +58,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     encrypted = false;
     frameType = 0x00;
     dataLength = 0;
-    dataBytesRemaining = 0; //Counter for the data pump
+    dataBytesRemaining = 0;
 
     // Message management
     messageDidEnd = 0;
