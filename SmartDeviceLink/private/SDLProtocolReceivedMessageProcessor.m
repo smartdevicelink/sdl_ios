@@ -63,8 +63,8 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 
 - (void)resetState {
     // Flush Buffers
-    _headerBuffer = [NSMutableData dataWithCapacity:0];
-    _payloadBuffer = [NSMutableData dataWithCapacity:0];
+    _headerBuffer = [NSMutableData data];
+    _payloadBuffer = [NSMutableData data];
     _dataBytesRemaining = 0;
     
     // Reset state
@@ -145,7 +145,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                     _state = CONTROL_FRAME_INFO_STATE;
                     break;
                 default:
-                    _prevState=_state;
+                    _prevState = _state;
                     _state = ERROR_STATE;
                     break;
             }
@@ -159,7 +159,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             
             // Check for errors. For these two frame types, the frame info should be 0x00
             if (((_frameType == SDLFrameTypeFirst) || (_frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
-                _prevState=_state;
+                _prevState = _state;
                 _state = ERROR_STATE;
             }
             break;
@@ -198,7 +198,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             _dataBytesRemaining = _dataLength;
             
             // Version 1 does not have a message ID so we skip to the data pump or the end.
-            if( _version == 1) {
+            if (_version == 1) {
                 if (_dataLength == 0) {
                     [self resetState];
                 } else {
@@ -265,18 +265,14 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
         
         case DATA_PUMP_STATE:
             // The pump state takes bytes in and adds them to the payload array
-            // Note that we do not set state here. If we are pumping, state will not change. If we are done pumping, we return the endOfMessageFlag and state will be reset externally.
-            
+            // Note that we do not set state here. If we are pumping, state will not change. If we are done pumping, we return the messageHasEnded and state will be reset externally.
             [_payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             _dataBytesRemaining--;
             
             // If all the bytes have been read, then parse the header into an object and return the end of message
             if (_dataBytesRemaining <= 0) {
-                // Create a header
                 _header = [SDLProtocolHeader headerForVersion:_version];
                 [_header parse:_headerBuffer];
-                
-                // Flag that we have reached the end of a message
                 messageHasEnded = YES;
             }
             break;
