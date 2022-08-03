@@ -78,10 +78,9 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
     
     for (int i = 0; i < [receiveBuffer length]; i++) {
         // If we have reached the end of a message, we need to immediately call the message ready block with the completed data, then reset the buffers and keep pumping data into the state machine
-        if ([self sdl_processMessagesStateMachine:(Byte)bytes[i]]){
-            messageReadyBlock(_header.encrypted, _header, [NSData dataWithData:_payloadBuffer]);
+        if ([self sdl_processMessagesStateMachine:(Byte)bytes[i]]) {
+            messageReadyBlock(_header, [_payloadBuffer copy]);
             [self resetState];
-            return;
         }
     }
     

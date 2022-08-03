@@ -13,9 +13,11 @@
 //@class SDLProtocolHeader;
 
 /**
- * Handles decryption and creation of the message from header and payload
+ * Handles decryption and creation of the message from header and payload.  Decryption needed to be handled outside of the MessageProcessor because of access to the securitymanager.
+ * @param header Pointer to the header for the message
+ * @param payload Pointer to the payload of the message
  */
-typedef void (^StateMachineMessageReadyBlock)(BOOL, SDLProtocolHeader *, NSData *);
+typedef void (^StateMachineMessageReadyBlock)(SDLProtocolHeader *header, NSData *payload);
 
 /// Class for processing received messages
 @interface SDLProtocolReceivedMessageProcessor : NSObject
