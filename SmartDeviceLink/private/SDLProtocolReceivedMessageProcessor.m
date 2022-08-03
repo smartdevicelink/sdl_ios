@@ -10,7 +10,7 @@
 
 //#import "SDLProtocolHeader.h"
 
-typedef NS_ENUM(NSUInteger, StateEnum) {
+typedef NS_ENUM(NSUInteger, ProcessorState) {
     START_STATE = 0x0,
     SERVICE_TYPE_STATE = 0x02,
     CONTROL_FRAME_INFO_STATE = 0x03,
@@ -29,8 +29,8 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 
 @interface SDLProtocolReceivedMessageProcessor(){}
 // State management
-@property (nonatomic) StateEnum state;
-@property (nonatomic) StateEnum prevState;
+@property (nonatomic) ProcessorState state;
+@property (nonatomic) ProcessorState prevState;
 
 // Message management
 @property (nonatomic) SDLProtocolHeader *header;

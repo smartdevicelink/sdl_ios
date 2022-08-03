@@ -499,20 +499,20 @@ NS_ASSUME_NONNULL_BEGIN
 // Turn received bytes into message objects.
 - (void)sdl_handleBytesFromTransport:(NSData *)receivedData {
     // Call the state machine, and pass it the bytes to be processed
-    [ _receiveProcessor processReceiveBuffer:receivedData withMessageReadyBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload) {
+    [_receiveProcessor processReceiveBuffer:receivedData withMessageReadyBlock:^(BOOL encrypted, SDLProtocolHeader *header, NSData *payload) {
         // If the message in encrypted and there is payload, try to decrypt it
         NSError *decryptError = nil;
-        if (encrypted && payload.length) {
+        if (encrypted && (payload.length > 0)) {
             payload = [self.securityManager decryptData:payload withError:&decryptError];
         }
 
         if (decryptError != nil) {
             return SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
-        } else {
-            // Build the message and send it on to the router
-            SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
-            [self.messageRouter handleReceivedMessage:message protocol:self];
         }
+        
+        // Build the message and send it on to the router
+        SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
+        [self.messageRouter handleReceivedMessage:message protocol:self];
     }];
 }
 
