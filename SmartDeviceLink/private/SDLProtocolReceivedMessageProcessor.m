@@ -33,7 +33,6 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 @property (nonatomic) StateEnum prevState;
 
 // Message management
-@property (nonatomic) BOOL messageDidEnd;
 @property (nonatomic) SDLProtocolHeader *header;
 @property (nonatomic) NSMutableData *headerBuffer;
 @property (nonatomic) NSMutableData *payloadBuffer;
@@ -48,20 +47,16 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 
 @implementation SDLProtocolReceivedMessageProcessor
 
--(instancetype)init {
+- (instancetype)init {
     self = [super init];
     if (!self) { return nil; }
 
     _version = 0;
-    _encrypted = false;
+    _encrypted = NO;
     _frameType = 0x00;
     _dataLength = 0;
     _dataBytesRemaining = 0; //Counter for the data pump
 
-    // Message management
-    _messageDidEnd = 0;
-
-    //Reset state
     [self resetState];
     return self;
 }
@@ -82,11 +77,8 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
     const BytePtr bytes = (BytePtr)receiveBuffer.bytes;
     
     for (int i = 0; i < [receiveBuffer length]; i++) {
-        _messageDidEnd = [self sdl_processMessagesStateMachine:(Byte)bytes[i]];
-
         // If we have reached the end of a message, we need to immediately call the message ready block with the completed data, then reset the buffers and keep pumping data into the state machine
-        if (_messageDidEnd){
-            _messageDidEnd = 0;
+        if ([self sdl_processMessagesStateMachine:(Byte)bytes[i]]){
             messageReadyBlock(_header.encrypted, _header, [NSData dataWithData:_payloadBuffer]);
             [self resetState];
             return;
@@ -103,21 +95,25 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
 - (BOOL)sdl_processMessagesStateMachine:(Byte)currentByte {
     SDLServiceType serviceType = 0x00;
     SDLFrameInfo controlFrameInfo = 0x00;
-    BOOL endOfMessageFlag = NO;
+    BOOL messageHasEnded = NO;
     
     switch (_state){
         case START_STATE:
             //Flush the buffers
             [self resetState];
             
-            // 4 bits for version
-            // 4 highest bits (b1111 0000)
+            // 4 highest bits for version. (b1111 0000)
             _version = (currentByte & 0xF0 ) >> 4;
 
-            // 1 bit for either encryption or compression, depending on version. 4th lowest bit (b0000 1000)
-            _encrypted = (currentByte & 0x08 ) >> 3;
+            // 1 bit, 4th lowest, for either encryption or compression, depending on version. (b0000 1000)
+            //_encrypted = (currentByte & 0x08 ) >> 3;
+            if ((currentByte & 0x08 ) >> 3 == 1) {
+                _encrypted = YES;
+            } else {
+                _encrypted = NO;
+            }
             
-            // 3 bits for frameType. 3 lowest bits (b0000 0111)
+            // 3 lowest bits for frameType. (b0000 0111)
             _frameType = (currentByte & 0x07) >> 0;
 
             _state = SERVICE_TYPE_STATE;
@@ -133,7 +129,6 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             if ((_frameType < SDLFrameTypeControl) || (_frameType > SDLFrameTypeConsecutive)) {
                 _prevState = _state;
                 _state = ERROR_STATE;
-                break;
             }
             break;
             
@@ -204,7 +199,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             // Set the counter for the data pump.
             _dataBytesRemaining = _dataLength;
             
-            // Version 1 does not have a message ID so we skip to the data pump, or the end.
+            // Version 1 does not have a message ID so we skip to the data pump or the end.
             if( _version == 1) {
                 if (_dataLength == 0) {
                     [self resetState];
@@ -235,7 +230,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             }
             
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
-            if ((_frameType == SDLFrameTypeFirst) && (_dataLength != 0x08) && (_encrypted == false)) {
+            if ((_frameType == SDLFrameTypeFirst) && (_dataLength != 0x08) && (_encrypted == NO)) {
                 _prevState = _state;
                 _state = ERROR_STATE;
                 break;
@@ -284,7 +279,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
                 [_header parse:_headerBuffer];
                 
                 // Flag that we have reached the end of a message
-                endOfMessageFlag = 1;
+                messageHasEnded = YES;
             }
             break;
             
@@ -294,7 +289,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             break;
     }
     
-    return endOfMessageFlag;
+    return messageHasEnded;
 }
 
 @end
