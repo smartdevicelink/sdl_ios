@@ -279,7 +279,7 @@ typedef NS_ENUM(NSUInteger, StateEnum) {
             [self.payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             dataBytesRemaining--;
             
-            // Check if all the bytes have been read
+            // If all the bytes have been read, then parse the header into an object and return the end of message
             if (dataBytesRemaining <= 0) {
                 // Create a header
                 header = [SDLProtocolHeader headerForVersion:version];
