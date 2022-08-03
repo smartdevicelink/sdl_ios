@@ -6,10 +6,11 @@
 //  Copyright © 2022 smartdevicelink. All rights reserved.
 //
 
-#import "SDLProtocolReceivedMessageRouter.h"
+//#import "SDLProtocolReceivedMessageRouter.h"
 #import <Foundation/Foundation.h>
 
-@class SDLProtocolHeader;
+#import "SDLProtocolHeader.h"
+//@class SDLProtocolHeader;
 
 /**
  * Handles decryption and creation of the message from header and payload
