@@ -269,6 +269,17 @@ describe(@"menu manager", ^{
                     expect(canSendRPC).to(equal(YES));
                 });
 
+                // should queue an open menu operation for a copied submenu cell
+                it(@"should queue an open menu operation for a copied submenu cell", ^ {
+                    testManager.menuCells = @[submenuCell];
+                    SDLMenuCell *copiedCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[textOnlyCell]];
+                    
+                    BOOL canSendRPC = [testManager openMenu:copiedCell];
+                    
+                    expect(testManager.transactionQueue.operationCount).to(equal(2));
+                    expect(canSendRPC).to(equal(YES));
+                });
+
                 it(@"should cancel the first task if a second is queued", ^{
                     testManager.menuCells = @[submenuCell];
                     [testManager openMenu:nil];
