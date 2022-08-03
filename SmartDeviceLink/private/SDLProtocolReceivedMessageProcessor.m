@@ -8,7 +8,7 @@
 
 #import "SDLProtocolReceivedMessageProcessor.h"
 
-//#import "SDLProtocolHeader.h"
+#import "SDLProtocolReceivedMessageRouter.h"
 
 typedef NS_ENUM(NSUInteger, ProcessorState) {
     START_STATE = 0x0,

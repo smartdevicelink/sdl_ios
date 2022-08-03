@@ -6,11 +6,9 @@
 //  Copyright © 2022 smartdevicelink. All rights reserved.
 //
 
-//#import "SDLProtocolReceivedMessageRouter.h"
 #import <Foundation/Foundation.h>
 
-#import "SDLProtocolHeader.h"
-//@class SDLProtocolHeader;
+@class SDLProtocolHeader;
 
 /**
  * Handles decryption and creation of the message from header and payload.  Decryption needed to be handled outside of the MessageProcessor because of access to the securitymanager.
