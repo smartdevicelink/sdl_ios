@@ -54,13 +54,13 @@ else
     if [[ $? == 1 ]]; then
 
         # Stash any local changes to avoid errors during checkout
-        #changes=$(git diff-files)
-        #if [ ! -z "$changes" ]; then   
         git_status=$(git status)
         git_uncommitted_changes=$(sed -n '/Changes not staged for commit:/{p;}' <<< "$git_status")
         if [ ! -z "$git_uncommitted_changes" ]; then 
             echo "There are uncommitted changes in these files"
-            echo $changes
+            file_changes=$(git diff-files)
+            file_changes=$(sed -n '/^[[:space:]]*/{s/^.*[[:space:]]//g;p;q;}' <<< "$file_changes")
+            echo $file_changes
             prompt_user "Would you like to stash these local changes before checkout of $develop_branch"
             if [[ $? == 1 ]]; then
                 # Stash local changes to prevent issues with checkout
@@ -68,10 +68,9 @@ else
                 echo "Local changes have been stashed."
                 echo "Use \"git stash pop\" when this script is complete to restore your changes"
             else
-                # Dump local changes to prevent issues with checkout.  Reset cleans up any uncommitted changes to the index.  Clean takes care of non-indexed files.
+                # Dump local changes to prevent issues with checkout.  Reset cleans up any uncommitted changes to the index.
                 echo "Local changes were not stashed."
                 git reset --hard
-                git clean -fxd
             fi
         fi
         
