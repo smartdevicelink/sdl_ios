@@ -54,9 +54,12 @@ else
     if [[ $? == 1 ]]; then
 
         # Stash any local changes to avoid errors during checkout
-        changes=$(git diff-files)
-        if [ ! -z "$changes" ]; then   
-            echo "There are unstaged changes in these files"
+        #changes=$(git diff-files)
+        #if [ ! -z "$changes" ]; then   
+        git_status=$(git status)
+        git_uncommitted_changes=$(sed -n '/Changes not staged for commit:/{p;}' <<< "$git_status")
+        if [ ! -z "$git_uncommitted_changes" ]; then 
+            echo "There are uncommitted changes in these files"
             echo $changes
             prompt_user "Would you like to stash these local changes before checkout of $develop_branch"
             if [[ $? == 1 ]]; then
