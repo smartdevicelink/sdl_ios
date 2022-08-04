@@ -75,8 +75,14 @@ else
         fi
         
         # Do a pull to make sure we are up to date.
-        git pull --ff
+        pull_response=$(git pull --ff)
         
+        # Check that the pull was successful  If we did not get a response, then we know the pull failed.
+        if [ -z "$pull_response" ]; then 
+            echo "git pull for automatic checkout has failed. Abort."
+            exit 0
+        fi
+
         # Now do the checkout
         git checkout $develop_branch
         
