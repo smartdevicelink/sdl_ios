@@ -65,9 +65,10 @@ else
                 echo "Local changes have been stashed."
                 echo "Use \"git stash pop\" when this script is complete to restore your changes"
             else
-                # Dump local changes to prevent issues with checkout
+                # Dump local changes to prevent issues with checkout.  Reset cleans up any uncommitted changes to the index.  Clean takes care of non-indexed files.
                 echo "Local changes were not stashed."
                 git reset --hard
+                git clean -fxd
             fi
         fi
         
