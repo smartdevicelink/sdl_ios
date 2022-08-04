@@ -139,6 +139,7 @@ extern NSString * const PhoneBWIconImageName;
 extern NSString * const SpeakBWIconImageName;
 extern NSString * const BatteryEmptyBWIconName;
 extern NSString * const BatteryFullBWIconName;
+extern NSString * const RemoteControlIconName;
 
 #pragma mark - SDL App Name in Different Languages
 extern NSString * const ExampleAppNameSpanish;

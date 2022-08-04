@@ -6,26 +6,10 @@
 //  Copyright © 2022 smartdevicelink. All rights reserved.
 //
 
-#import <SmartDeviceLink/SDLButtonPress.h>
-#import <SmartDeviceLink/SDLClimateControlCapabilities.h>
-#import <SmartDeviceLink/SDLClimateControlData.h>
-#import <SmartDeviceLink/SDLGetInteriorVehicleData.h>
-#import <SmartDeviceLink/SDLGetInteriorVehicleDataConsent.h>
-#import <SmartDeviceLink/SDLGetInteriorVehicleDataResponse.h>
-#import <SmartDeviceLink/SDLLogMacros.h>
-#import <SmartDeviceLink/SDLManager.h>
-#import <SmartDeviceLink/SDLModuleData.h>
-#import <SmartDeviceLink/SDLOnInteriorVehicleData.h>
-#import <SmartDeviceLink/SDLRPCResponse.h>
-#import <SmartDeviceLink/SDLRemoteControlCapabilities.h>
-#import <SmartDeviceLink/SDLScreenManager.h>
-#import <SmartDeviceLink/SDLSetInteriorVehicleData.h>
-#import <SmartDeviceLink/SDLSoftButtonObject.h>
-#import <SmartDeviceLink/SDLSystemCapability.h>
-#import <SmartDeviceLink/SDLSystemCapabilityManager.h>
-#import <SmartDeviceLink/SDLTemperature.h>
-#import "AlertManager.h"
 #import "RemoteControlManager.h"
+
+#import "AlertManager.h"
+#import "SmartDeviceLink.h"
 
 @interface RemoteControlManager()
 
@@ -57,22 +41,21 @@
             return;
         }
 
-        self->_remoteControlCapabilities = capability.remoteControlCapability;
-        self->_climateModuleId = self.remoteControlCapabilities.climateControlCapabilities.firstObject.moduleInfo.moduleId;
+        self.remoteControlCapabilities = capability.remoteControlCapability;
+        self.climateModuleId = self.remoteControlCapabilities.climateControlCapabilities.firstObject.moduleInfo.moduleId;
 
         /// Get consent to control modules
         SDLGetInteriorVehicleDataConsent *getInteriorVehicleDataConsent = [[SDLGetInteriorVehicleDataConsent alloc] initWithModuleType:SDLModuleTypeClimate moduleIds:@[self.climateModuleId]];
         [self.sdlManager sendRequest:getInteriorVehicleDataConsent withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (!response.success) {
-                SDLLogE(@"SDL errored getting interior vehicle data consent: %@", error);
+                SDLLogE(@"SDL errored getting remote control consent: %@", error);
                 return;
             }
-            self->_hasConsent = response.success;
+            self.hasConsent = response.success;
 
             /// Initialize climate data and setup subscription
             if (self.hasConsent) {
                 [self sdlex_initializeClimateData];
-                [self sdlex_subscribeVehicleData];
                 [self sdlex_subscribeClimateControlData];
             }
         }];
@@ -80,48 +63,50 @@
 }
 
 - (void)showClimateControl {
-    if (self.climateModuleId == NULL && self.hasConsent) {
+    if (self.climateModuleId == nil && self.hasConsent) {
         NSString *errorMessage = @"The climate module id was not set or consent was not given";
         [AlertManager sendAlertWithManager:self.sdlManager image:nil textField1:errorMessage textField2:nil];
         return;
     }
+
+    // Set the soft buttons to change remote control parameters
     self.sdlManager.screenManager.softButtonObjects = self.remoteButtons;
 }
 
 - (NSString *)climateDataString {
-    return [NSString stringWithFormat:@"AC Enable %@\n"
-            "AC Max Enabled %@\n"
-            "Auto Mode Enable %@\n"
-            "Circulate Air Enable %@\n"
-            "Climate Enable %@\n"
-            "Current Temperature %@\n"
-            "Defrost Zone %@\n"
-            "Desired Temperature %@\n"
-            "Dual Mode Enable %@\n"
-            "Heated Mirrors Enable %@\n"
-            "Heated Rears Window Enable %@\n"
-            "Heated Steering Enable %@\n"
-            "Heated Windshield Enable %@\n"
-            "Ventilation %@\n",
+    return [NSString stringWithFormat:@"AC: %@\n"
+            "AC Max: %@\n"
+            "Auto Mode: %@\n"
+            "Circulate Air: %@\n"
+            "Climate: %@\n"
+            "Current Temperature: %@\n"
+            "Defrost Zone: %@\n"
+            "Desired Temperature: %@\n"
+            "Dual Mode: %@\n"
+            "Heated Mirrors: %@\n"
+            "Heated Rears Window: %@\n"
+            "Heated Steering: %@\n"
+            "Heated Windshield: %@\n"
+            "Ventilation: %@\n",
             self.climateData.acEnable.boolValue ? @"On" : @"Off",
             self.climateData.acMaxEnable.boolValue ? @"On" : @"Off",
             self.climateData.autoModeEnable.boolValue ? @"On" : @"Off",
             self.climateData.circulateAirEnable.boolValue ? @"On" : @"Off",
             self.climateData.climateEnable.boolValue ? @"On" : @"Off",
-            self.climateData.currentTemperature.description,
-            self.climateData.defrostZone.description,
-            self.climateData.desiredTemperature.description,
+            self.climateData.currentTemperature,
+            self.climateData.defrostZone,
+            self.climateData.desiredTemperature,
             self.climateData.dualModeEnable.boolValue ? @"On" : @"Off",
             self.climateData.heatedMirrorsEnable.boolValue ? @"On" : @"Off",
             self.climateData.heatedRearWindowEnable.boolValue ? @"On" : @"Off",
             self.climateData.heatedSteeringWheelEnable.boolValue ? @"On" : @"Off",
             self.climateData.heatedWindshieldEnable.boolValue ? @"On" : @"Off",
-            self.climateData.ventilationMode.description
+            self.climateData.ventilationMode
     ];
 }
 
 - (void)sdlex_initializeClimateData {
-    if (self.climateModuleId == NULL && self.hasConsent == 0) {
+    if (self.climateModuleId == nil && !self.hasConsent.boolValue) {
         NSString *errorMessage = @"The climate module id was not set or consent was not given";
         [AlertManager sendAlertWithManager:self.sdlManager image:nil textField1:errorMessage textField2:nil];
     }
@@ -129,28 +114,24 @@
     SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData alloc] initWithModuleType:SDLModuleTypeClimate moduleId:self.climateModuleId];
     [self.sdlManager sendRequest:getInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         SDLGetInteriorVehicleDataResponse *dataResponse = (SDLGetInteriorVehicleDataResponse *)response;
-        self->_climateData = dataResponse.moduleData.climateControlData;
-    }];
-}
-
-- (void)sdlex_subscribeVehicleData {
-    [self.sdlManager subscribeToRPC:SDLDidReceiveInteriorVehicleDataNotification withBlock:^(__kindof SDLRPCMessage * _Nonnull message) {
-        SDLOnInteriorVehicleData *onInteriorVehicleData = (SDLOnInteriorVehicleData *)message;
-        if (onInteriorVehicleData == nil) {
-            SDLLogE(@"SDL onInteriorVehicleData was set to NULL when trying to subscribe to vehicle data");
-            return;
-        }
-        self.climateData = onInteriorVehicleData.moduleData.climateControlData;
+        self.climateData = dataResponse.moduleData.climateControlData;
     }];
 }
 
 - (void)sdlex_subscribeClimateControlData {
+    // Start the subscription to remote control data
+    [self.sdlManager subscribeToRPC:SDLDidReceiveInteriorVehicleDataNotification withBlock:^(__kindof SDLRPCMessage * _Nonnull message) {
+        SDLOnInteriorVehicleData *onInteriorVehicleData = (SDLOnInteriorVehicleData *)message;
+        self.climateData = onInteriorVehicleData.moduleData.climateControlData;
+    }];
+
+    // Start the subscriptin to climate data
     SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData alloc] initAndSubscribeToModuleType:SDLModuleTypeClimate moduleId:self.climateModuleId];
     [self.sdlManager sendRequest:getInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogE(@"SDL errored trying to subscribe to climate data: %@", error);
+            return SDLLogE(@"SDL errored trying to subscribe to climate data: %@", error);
         }
-        SDLLogD(@"SDL Subscribing to Climate Control Data. Data should appear in SDLDidReceiveInteriorVehicleDataNotification");
+        SDLLogD(@"SDL Subscribing to climate control data");
     }];
 }
 
@@ -160,8 +141,8 @@
     SDLSetInteriorVehicleData *setInteriorVehicleData = [[SDLSetInteriorVehicleData alloc] initWithModuleData:moduleData];
 
     [self.sdlManager sendRequest:setInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if(!response.success) {
-            SDLLogE(@"SDL errored trying to set interior vehicle data: %@", error);
+        if (!response.success) {
+            SDLLogE(@"SDL errored trying to turn on climate AC: %@", error);
             return;
         }
     }];
@@ -174,13 +155,13 @@
 
     [self.sdlManager sendRequest:setInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if(!response.success) {
-            SDLLogE(@"SDL errored trying to set interior vehicle data: %@", error);
+            SDLLogE(@"SDL errored trying to turn off climate AC: %@", error);
             return;
         }
     }];
 }
 
-- (void)sdlex_setClimate {
+- (void)sdlex_setClimateTemperature {
     SDLTemperature *temperature = [[SDLTemperature alloc] initWithFahrenheitValue:73];
     NSDictionary<NSString *, id> *climateDictionary = @{@"acEnable": @YES, @"fanSpeed": @100, @"desiredTemperature": temperature, @"ventilationMode": SDLVentilationModeBoth };
 
@@ -190,7 +171,7 @@
 
     [self.sdlManager sendRequest:setInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if(!response.success) {
-            SDLLogE(@"SDL errored trying to set interior vehicle data: %@", error);
+            SDLLogE(@"SDL errored trying to set climate temperature to 73 degrees: %@", error);
             return;
         }
     }];
@@ -211,10 +192,9 @@
         if (buttonPress == nil) { return; }
 
         SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameACMax moduleType:SDLModuleTypeClimate moduleId:self.climateModuleId buttonPressMode:SDLButtonPressModeShort];
-
         [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if(!response.success) {
-                SDLLogE(@"SDL errored handling remote button: %@", error);
+                SDLLogE(@"SDL errored toggle AC Max with remote button press: %@", error);
                 return;
             }
         }];
@@ -224,10 +204,9 @@
         if (buttonPress == nil) { return; }
 
         SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameTempDown moduleType:SDLModuleTypeClimate moduleId:self.climateModuleId buttonPressMode:SDLButtonPressModeShort];
-
         [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if(!response.success) {
-                SDLLogE(@"SDL errored handling remote button: %@", error);
+                SDLLogE(@"SDL errored decreasing target climate temperature with remote button: %@", error);
                 return;
             }
         }];
@@ -237,18 +216,17 @@
         if (buttonPress == nil) { return; }
 
         SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameTempUp moduleType:SDLModuleTypeClimate moduleId:self.climateModuleId buttonPressMode:SDLButtonPressModeShort];
-
         [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if(!response.success) {
-                SDLLogE(@"SDL errored handling remote button: %@", error);
+                SDLLogE(@"SDL errored increasing target climate temperature with remote button:: %@", error);
                 return;
             }
         }];
     }];
 
-    SDLSoftButtonObject *setClimateButton = [[SDLSoftButtonObject alloc] initWithName:@"Set Climate" text:@"Set Climate" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonObject *setClimateButton = [[SDLSoftButtonObject alloc] initWithName:@"Set Climate" text:@"Set 73 degrees" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
-        [self sdlex_setClimate];
+        [self sdlex_setClimateTemperature];
     }];
 
     return @[acOnButton, acOffButton, acMaxToggle, temperatureDecreaseButton, temperatureIncreaseButton, setClimateButton];

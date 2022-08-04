@@ -23,14 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager remoteManager:(RemoteControlManager *)remoteControlManager {
     return @[[self sdlex_menuCellSpeakNameWithManager:manager],
              [self sdlex_menuCellGetAllVehicleDataWithManager:manager],
+             [self sdlex_menuCellRemoteWithManager:manager remoteManager:remoteControlManager],
              [self sdlex_menuCellShowPerformInteractionWithManager:manager performManager:performManager],
              [self sdlex_sliderMenuCellWithManager:manager],
              [self sdlex_scrollableMessageMenuCellWithManager:manager],
              [self sdlex_menuCellRecordInCarMicrophoneAudioWithManager:manager],
              [self sdlex_menuCellDialNumberWithManager:manager],
              [self sdlex_menuCellChangeTemplateWithManager:manager],
-             [self sdlex_menuCellWithSubmenuWithManager:manager],
-             [self sdlex_menuCellRemoteWithManager:manager remoteManager:remoteControlManager]];
+             [self sdlex_menuCellWithSubmenuWithManager:manager]];
 }
 
 + (NSArray<SDLVoiceCommand *> *)allVoiceMenuItemsWithManager:(SDLManager *)manager {
@@ -167,12 +167,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLMenuCell *)sdlex_menuCellRemoteWithManager:(SDLManager *)manager remoteManager:(RemoteControlManager *)remoteManager {
-    /// Lets give an example of 2 templates
+    // Let's give an example of 2 templates
     NSMutableArray *submenuItems = [NSMutableArray array];
     NSString *errorMessage = @"Changing the template failed";
 
     // Climate Control
-    SDLMenuCell *climateControlCell = [[SDLMenuCell alloc] initWithTitle:ACRemoteControlClimateMenuName secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *climateControlCell = [[SDLMenuCell alloc] initWithTitle:ACRemoteControlClimateMenuName secondaryText:nil tertiaryText:nil icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:RemoteControlIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutTilesOnly] withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
                 [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
@@ -187,15 +187,13 @@ NS_ASSUME_NONNULL_BEGIN
     SDLMenuCell *viewClimateCell = [[SDLMenuCell alloc] initWithTitle:ACRemoteViewClimateMenuName secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:remoteManager.climateDataString];
         [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-           if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
-                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageTimedOutWarningText textField2:nil];
-                } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
-                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageCancelledWarningText textField2:nil];
-                } else {
-                    [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageGeneralWarningText textField2:nil];
-                }
-           }
+            if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageTimedOutWarningText textField2:nil];
+            } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageCancelledWarningText textField2:nil];
+            } else if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageGeneralWarningText textField2:nil];
+            }
         }];
     }];
     [submenuItems addObject:viewClimateCell];

@@ -136,6 +136,7 @@ NSString * const PhoneBWIconImageName = @"phone";
 NSString * const SpeakBWIconImageName = @"speak";
 NSString * const BatteryEmptyBWIconName = @"toggle_off";
 NSString * const BatteryFullBWIconName = @"toggle_on";
+NSString * const RemoteControlIconName = @"remote_control";
 
 #pragma mark - SDL App Name in Different Languages
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";

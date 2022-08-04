@@ -18,14 +18,14 @@ class MenuManager: NSObject {
     class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager, remoteManager: RemoteControlManager) -> [SDLMenuCell] {
         return [menuCellSpeakName(with: manager),
                 menuCellGetAllVehicleData(with: manager),
+                menuCellRemoteControl(with: manager, remoteManager: remoteManager),
                 menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
                 sliderMenuCell(with: manager),
                 scrollableMessageMenuCell(with: manager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
                 menuCellChangeTemplate(with: manager),
-                menuCellWithSubmenu(with: manager),
-                menuCellRemoteControl(with: manager, remoteManager: remoteManager)]
+                menuCellWithSubmenu(with: manager)]
     }
 
     /// Creates and returns the voice commands. The voice commands are menu items that are selected using the voice recognition system.
@@ -214,20 +214,19 @@ private extension MenuManager {
     /// - Returns: A SDLMenuCell object
     class func menuCellRemoteControl(with manager: SDLManager, remoteManager: RemoteControlManager) -> SDLMenuCell {
         var submenuItems = [SDLMenuCell]()
-        let errorMessage = "Changing the template failed"
 
-        /// Climate Control Menu
-        submenuItems.append(SDLMenuCell(title: ACRemoteControlClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
+        // Climate Control Menu
+        submenuItems.append(SDLMenuCell(title: ACRemoteControlClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: SDLArtwork(image: UIImage(named: RemoteControlIconName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
             manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .tilesOnly)) { err in
-                if err != nil {
-                    AlertManager.sendAlert(textField1: errorMessage, sdlManager: manager)
+                if let error = err {
+                    AlertManager.sendAlert(textField1: error.localizedDescription, sdlManager: manager)
                     return
                 }
                 remoteManager.showClimateControl()
             }
         }))
 
-        /// View Climate Data
+        // View Climate Data
         submenuItems.append(SDLMenuCell(title: ACRemoteViewClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { _ in
             let climateDataMessage = SDLScrollableMessage(message: remoteManager.climateDataString)
             manager.send(request: climateDataMessage, responseHandler: { (request, response, error) in
