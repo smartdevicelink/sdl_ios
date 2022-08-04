@@ -90,7 +90,7 @@ fi
 prompt_user "Would you like to run the project file header fixer"
 if [[ $? == 1 ]]; then
     chmod u+x ./scripts/project_file_header_fix.sh
-    ./scripts/project_file_header_fix.sh  
+    ./scripts/project_file_header_fix.sh
 fi
 
 # Bump version in projectFile
