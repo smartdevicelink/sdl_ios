@@ -62,9 +62,11 @@ else
             if [[ $? == 1 ]]; then
                 # Stash local changes to prevent issues with checkout
                 git stash
-                echo "use \"git stash pop\" when this script is complete to restore your changes"
+                echo "Local changes have been stashed."
+                echo "Use \"git stash pop\" when this script is complete to restore your changes"
             else
                 # Dump local changes to prevent issues with checkout
+                echo "Local changes were not stashed."
                 git reset --hard
             fi
         fi
