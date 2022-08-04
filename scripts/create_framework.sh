@@ -57,6 +57,8 @@ if [ -z $1  ]; then
             echo "No version number entered. Skipping..."
             new_version_number=$current_version_number
         fi
+    else
+        new_version_number=$current_version_number
     fi
 else
     new_version_number=$1
@@ -84,10 +86,10 @@ fi
 
 # Cleanup artifacts
 folder="SmartDeviceLink-Device.xcarchive"
-if [ -d "$framework_folder" ]; then rm -r $framework_folder; fi
+if [ -d "$folder" ]; then rm -r $framework_folder; fi
 
 folder="SmartDeviceLink-Simulator.xcarchive"
-if [ -d "$framework_folder" ]; then rm -r $framework_folder; fi
+if [ -d "$folder" ]; then rm -r $framework_folder; fi
 
 echo
 echo "The xcframework zip file was created at $zip_file_name."
