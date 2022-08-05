@@ -21,7 +21,7 @@ typedef void (^StateMachineMessageReadyBlock)(SDLProtocolHeader *header, NSData 
 @interface SDLProtocolReceivedMessageProcessor : NSObject
 
 /**
- * Processes the reveive buffer into the state machine.
+ * Processes a data buffer into the state machine.
  * Loop through the given bytes and call the state machine to process each byte.
  * @param receiveBuffer Holds the incoming bytes from the receive buffer
  * @param messageReadyBlock Passes back a completed protocol message when one has been assembled
