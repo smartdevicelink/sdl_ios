@@ -193,7 +193,7 @@
 
         SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameACMax moduleType:SDLModuleTypeClimate moduleId:self.climateModuleId buttonPressMode:SDLButtonPressModeShort];
         [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if(!response.success) {
+            if (!response.success) {
                 SDLLogE(@"SDL errored toggle AC Max with remote button press: %@", error);
                 return;
             }
