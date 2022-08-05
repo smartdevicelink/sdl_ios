@@ -217,7 +217,7 @@
 
         SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameTempUp moduleType:SDLModuleTypeClimate moduleId:self.climateModuleId buttonPressMode:SDLButtonPressModeShort];
         [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if(!response.success) {
+            if (!response.success) {
                 SDLLogE(@"SDL errored increasing target climate temperature with remote button:: %@", error);
                 return;
             }
