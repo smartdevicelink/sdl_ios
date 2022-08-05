@@ -227,7 +227,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             }
             
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
-            if ((_frameType == SDLFrameTypeFirst) && (_dataLength != 0x08) && (_encrypted == NO)) {
+            if ((_frameType == SDLFrameTypeFirst) && (_dataLength != 8) && (_encrypted == NO)) {
                 _prevState = _state;
                 _state = ERROR_STATE;
                 break;
