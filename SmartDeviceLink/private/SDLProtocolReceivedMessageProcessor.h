@@ -17,7 +17,7 @@
  */
 typedef void (^StateMachineMessageReadyBlock)(SDLProtocolHeader *header, NSData *payload);
 
-/// Class for processing received messages
+/// Class for processing received byte data into protocol messages
 @interface SDLProtocolReceivedMessageProcessor : NSObject
 
 /**
