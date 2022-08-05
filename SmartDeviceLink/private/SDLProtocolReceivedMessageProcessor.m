@@ -32,12 +32,12 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 @property (assign, nonatomic) ProcessorState state;
 @property (assign, nonatomic) ProcessorState prevState;
 
-// Message management
+// Message assembly state
 @property (strong, nonatomic) SDLProtocolHeader *header;
 @property (strong, nonatomic) NSMutableData *headerBuffer;
 @property (strong, nonatomic) NSMutableData *payloadBuffer;
 
-//Error checking
+// Error checking
 @property (assign, nonatomic) UInt8 version;
 @property (assign, nonatomic) BOOL encrypted;
 @property (assign, nonatomic) SDLFrameType frameType;
