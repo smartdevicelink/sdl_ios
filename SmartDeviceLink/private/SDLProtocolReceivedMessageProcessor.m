@@ -80,7 +80,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
         // If we have reached the end of a message, we need to immediately call the message ready block with the completed data, then reset the buffers and keep pumping data into the state machine
         messageIsComplete = [self sdl_processByte:(Byte)bytes[i]];
         if (messageIsComplete) {
-            messageReadyBlock(_header, [_payloadBuffer copy]);
+            messageReadyBlock(_header, [self.payloadBuffer copy]);
             [self resetState];
         }
     }
@@ -97,43 +97,43 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
     SDLFrameInfo controlFrameInfo = 0x00;
     BOOL messageHasEnded = NO;
     
-    switch (_state) {
+    switch (self.state) {
         case START_STATE:
             [self resetState];
             
             // bits 0-3 for version. (b1111 0000)
-            _version = (currentByte & 0xF0 ) >> 4;
+            self.version = (currentByte & 0xF0 ) >> 4;
 
             // bit 4 for either encryption or compression, depending on version. (b0000 1000)
             if ((currentByte & 0x08 ) >> 3 == 1) {
-                _encrypted = YES;
+                self.encrypted = YES;
             } else {
-                _encrypted = NO;
+                self.encrypted = NO;
             }
             
             // bits 5-7 for frameType. (b0000 0111)
-            _frameType = (currentByte & 0x07) >> 0;
+            self.frameType = (currentByte & 0x07) >> 0;
 
-            _state = SERVICE_TYPE_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.state = SERVICE_TYPE_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
-            if ((_version < 1 || _version > 5)) {
-                _prevState = _state;
-                _state = ERROR_STATE;
+            if ((self.version < 1 || self.version > 5)) {
+                _prevState = self.state;
+                self.state = ERROR_STATE;
                 break;
             }
             
             // Check for valid frameType
-            if ((_frameType < SDLFrameTypeControl) || (_frameType > SDLFrameTypeConsecutive)) {
-                _prevState = _state;
-                _state = ERROR_STATE;
+            if ((self.frameType < SDLFrameTypeControl) || (self.frameType > SDLFrameTypeConsecutive)) {
+                _prevState = self.state;
+                self.state = ERROR_STATE;
             }
             break;
             
         case SERVICE_TYPE_STATE:
             // 8 bits for service type
             serviceType = currentByte;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // ServiceType must be one of the defined types, else error.
             switch (serviceType) {
@@ -142,11 +142,11 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                 case SDLServiceTypeAudio:
                 case SDLServiceTypeVideo: //Nav
                 case SDLServiceTypeBulkData:
-                    _state = CONTROL_FRAME_INFO_STATE;
+                    self.state = CONTROL_FRAME_INFO_STATE;
                     break;
                 default:
-                    _prevState = _state;
-                    _state = ERROR_STATE;
+                    _prevState = self.state;
+                    self.state = ERROR_STATE;
                     break;
             }
             break;
@@ -154,83 +154,83 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
         case CONTROL_FRAME_INFO_STATE:
             // 8 bits for frame information
             controlFrameInfo = currentByte;
-            _state = SESSION_ID_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.state = SESSION_ID_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Check for errors. For these two frame types, the frame info should be 0x00
-            if (((_frameType == SDLFrameTypeFirst) || (_frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
-                _prevState = _state;
-                _state = ERROR_STATE;
+            if (((self.frameType == SDLFrameTypeFirst) || (self.frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
+                _prevState = self.state;
+                self.state = ERROR_STATE;
             }
             break;
             
         case SESSION_ID_STATE:
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
-            _state = DATA_SIZE_1_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.state = DATA_SIZE_1_STATE;
             break;
         
         // 32 bits for data size
         case DATA_SIZE_1_STATE:
-            _dataLength = 0;
-            _dataLength += (UInt32)(currentByte & 0xFF) << 24;
-            _state = DATA_SIZE_2_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.dataLength = 0;
+            self.dataLength += (UInt32)(currentByte & 0xFF) << 24;
+            self.state = DATA_SIZE_2_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_2_STATE:
-            _dataLength += (UInt32)(currentByte & 0xFF) << 16;
-            _state = DATA_SIZE_3_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.dataLength += (UInt32)(currentByte & 0xFF) << 16;
+            self.state = DATA_SIZE_3_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_3_STATE:
-            _dataLength += (UInt32)(currentByte & 0xFF) << 8;
-            _state = DATA_SIZE_4_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.dataLength += (UInt32)(currentByte & 0xFF) << 8;
+            self.state = DATA_SIZE_4_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case DATA_SIZE_4_STATE:
-            _dataLength += (UInt32)(currentByte & 0xFF) << 0;
-            _state = MESSAGE_1_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.dataLength += (UInt32)(currentByte & 0xFF) << 0;
+            self.state = MESSAGE_1_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             // Set the counter for the data pump.
-            _dataBytesRemaining = _dataLength;
+            self.dataBytesRemaining = self.dataLength;
             
             // Version 1 does not have a message ID so we skip to the data pump or the end.
-            if (_version == 1) {
-                if (_dataLength == 0) {
+            if (self.version == 1) {
+                if (self.dataLength == 0) {
                     [self resetState];
                 } else {
-                    _state = DATA_PUMP_STATE;
+                    self.state = DATA_PUMP_STATE;
                 }
             }
             
             Byte headerSize = 0;
-            if (_version == 1) {
+            if (self.version == 1) {
                 headerSize = 8;
             } else {
                 headerSize = 12;
             }
             
             UInt32 maxMtuSize = 0;
-            if (_version <= 2) {
+            if (self.version <= 2) {
                 maxMtuSize = 1500;
             } else {
                 maxMtuSize = 131084;
             }
             
             // Error if the data length is greater than the MTU size for this version
-            if (_dataLength >= (maxMtuSize - headerSize)) {
-                _prevState = _state;
-                _state = ERROR_STATE;
+            if (self.dataLength >= (maxMtuSize - headerSize)) {
+                _prevState = self.state;
+                self.state = ERROR_STATE;
                 break;
             }
             
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
-            if ((_frameType == SDLFrameTypeFirst) && (_dataLength != 8) && (_encrypted == NO)) {
-                _prevState = _state;
-                _state = ERROR_STATE;
+            if ((self.frameType == SDLFrameTypeFirst) && (self.dataLength != 8) && (self.encrypted == NO)) {
+                _prevState = self.state;
+                self.state = ERROR_STATE;
                 break;
             }
             
@@ -238,41 +238,41 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             
         // 32 bits for data size (version 2+)
         case MESSAGE_1_STATE:
-            _state = MESSAGE_2_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.state = MESSAGE_2_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_2_STATE:
-            _state = MESSAGE_3_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.state = MESSAGE_3_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_3_STATE:
-            _state = MESSAGE_4_STATE;
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.state = MESSAGE_4_STATE;
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
             
         case MESSAGE_4_STATE:
-            if (_dataLength == 0) {
+            if (self.dataLength == 0) {
                 [self resetState];
                 break;
             } else {
-                _state = DATA_PUMP_STATE;
+                self.state = DATA_PUMP_STATE;
             }
-            [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             break;
         
         case DATA_PUMP_STATE:
             // The pump state takes bytes in and adds them to the payload array
             // Note that we do not set state here. If we are pumping, state will not change. If we are done pumping, we return the messageHasEnded and state will be reset externally.
-            [_payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
-            _dataBytesRemaining--;
+            [self.payloadBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+            self.dataBytesRemaining--;
             
             // If all the bytes have been read, then parse the header into an object and return the end of message
-            if (_dataBytesRemaining <= 0) {
-                _header = [SDLProtocolHeader headerForVersion:_version];
-                [_header parse:_headerBuffer];
+            if (self.dataBytesRemaining <= 0) {
+                self.header = [SDLProtocolHeader headerForVersion:self.version];
+                [self.header parse:self.headerBuffer];
                 messageHasEnded = YES;
             }
             break;
