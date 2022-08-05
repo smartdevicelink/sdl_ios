@@ -17,7 +17,7 @@ class RemoteControlManager {
     private var hasConsent: Bool?
     private var climateData: SDLClimateControlData?
 
-    public var climateDataString: String! {
+    public var climateDataString: String {
         get {
             """
             AC: \(optionalNumberBoolToString(climateData?.acEnable))
