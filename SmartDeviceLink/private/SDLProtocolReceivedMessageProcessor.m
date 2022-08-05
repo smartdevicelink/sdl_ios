@@ -75,12 +75,14 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 
 - (void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock {
     const BytePtr bytes = (BytePtr)receiveBuffer.bytes;
-    
+    BOOL messageIsComplete = NO;
     for (int i = 0; i < receiveBuffer.length; i++) {
         // If we have reached the end of a message, we need to immediately call the message ready block with the completed data, then reset the buffers and keep pumping data into the state machine
-        if ([self sdl_processByte:(Byte)bytes[i]]) {
+        messageIsComplete = [self sdl_processByte:(Byte)bytes[i]];
+        if (messageIsComplete) {
             messageReadyBlock(_header, [_payloadBuffer copy]);
             [self resetState];
+            messageIsComplete = NO;
         }
     }
 }
