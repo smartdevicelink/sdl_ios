@@ -82,7 +82,6 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
         if (messageIsComplete) {
             messageReadyBlock(_header, [_payloadBuffer copy]);
             [self resetState];
-            messageIsComplete = NO;
         }
     }
 }
