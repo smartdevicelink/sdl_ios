@@ -22,7 +22,6 @@
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessageDisassembler.h"
-#import "SDLProtocolReceivedMessageProcessor.h"
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLRPCNotification.h"
 #import "SDLRPCPayload.h"
@@ -35,6 +34,7 @@
 #import "SDLTimer.h"
 #import "SDLVersion.h"
 #import "SDLV2ProtocolHeader.h"
+#import "SDLProtocolReceivedMessageProcessor.h"
 
 NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 static const NSUInteger TLSMaxDataSize = 16834;
