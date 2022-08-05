@@ -23,7 +23,7 @@ typedef void (^StateMachineMessageReadyBlock)(SDLProtocolHeader *header, NSData 
 /**
  * Processes a data buffer into the state machine.
  * Loop through the given bytes and call the state machine to process each byte.
- * @param receiveBuffer Holds the incoming bytes from the receive buffer
+ * @param receiveBuffer The data to process
  * @param messageReadyBlock Passes back a completed protocol message when one has been assembled
  */
 -(void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock;
