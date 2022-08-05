@@ -502,7 +502,7 @@ NS_ASSUME_NONNULL_BEGIN
     [_receiveProcessor processReceiveBuffer:receivedData withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
         // If the message in encrypted and there is payload, try to decrypt it
         NSError *decryptError = nil;
-        if ([header encrypted] && (payload.length > 0)) {
+        if (header.encrypted && (payload.length > 0)) {
             payload = [self.securityManager decryptData:payload withError:&decryptError];
         }
 
