@@ -29,20 +29,20 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 
 @interface SDLProtocolReceivedMessageProcessor(){}
 // State management
-@property (nonatomic) ProcessorState state;
-@property (nonatomic) ProcessorState prevState;
+@property (assign, nonatomic) ProcessorState state;
+@property (assign, nonatomic) ProcessorState prevState;
 
 // Message management
-@property (nonatomic) SDLProtocolHeader *header;
-@property (nonatomic) NSMutableData *headerBuffer;
-@property (nonatomic) NSMutableData *payloadBuffer;
+@property (strong, nonatomic) SDLProtocolHeader *header;
+@property (strong, nonatomic) NSMutableData *headerBuffer;
+@property (strong, nonatomic) NSMutableData *payloadBuffer;
 
 //Error checking
-@property (nonatomic) UInt8 version;
-@property (nonatomic) BOOL encrypted;
-@property (nonatomic) SDLFrameType frameType;
-@property (nonatomic) UInt32 dataLength;
-@property (nonatomic) UInt32 dataBytesRemaining;
+@property (assign, nonatomic) UInt8 version;
+@property (assign, nonatomic) BOOL encrypted;
+@property (assign, nonatomic) SDLFrameType frameType;
+@property (assign, nonatomic) UInt32 dataLength;
+@property (assign, nonatomic) UInt32 dataBytesRemaining;
 @end
 
 @implementation SDLProtocolReceivedMessageProcessor
