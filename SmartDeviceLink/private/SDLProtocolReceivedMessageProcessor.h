@@ -26,6 +26,6 @@ typedef void (^StateMachineMessageReadyBlock)(SDLProtocolHeader *header, NSData 
  * @param receiveBuffer The data to process
  * @param messageReadyBlock Passes back a completed protocol message when one has been assembled
  */
--(void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock;
+- (void)processReceiveBuffer:(NSData *)receiveBuffer withMessageReadyBlock:(StateMachineMessageReadyBlock)messageReadyBlock;
 
 @end
