@@ -116,7 +116,6 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             _state = SERVICE_TYPE_STATE;
             [_headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
-            // Check version for errors
             if ((_version < 1 || _version > 5)) {
                 _prevState = _state;
                 _state = ERROR_STATE;
