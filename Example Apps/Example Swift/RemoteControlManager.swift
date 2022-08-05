@@ -18,7 +18,6 @@ class RemoteControlManager {
     private var climateData: SDLClimateControlData?
 
     public var climateDataString: String {
-        get {
             """
             AC: \(optionalNumberBoolToString(climateData?.acEnable))
             AC Max: \(optionalNumberBoolToString(climateData?.acMaxEnable))
