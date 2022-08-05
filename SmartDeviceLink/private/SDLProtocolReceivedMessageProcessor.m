@@ -8,6 +8,7 @@
 
 #import "SDLProtocolReceivedMessageProcessor.h"
 
+#import "SDLLogMacros.h"
 #import "SDLProtocolReceivedMessageRouter.h"
 
 typedef NS_ENUM(NSUInteger, ProcessorState) {
@@ -30,7 +31,6 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 @interface SDLProtocolReceivedMessageProcessor(){}
 // State management
 @property (assign, nonatomic) ProcessorState state;
-@property (assign, nonatomic) ProcessorState prevState;
 
 // Message assembly state
 @property (strong, nonatomic) SDLProtocolHeader *header;
@@ -69,7 +69,6 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
     
     // Reset state
     _state = START_STATE;
-    _prevState = ERROR_STATE;
 }
 
 
@@ -118,15 +117,14 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
             if ((self.version < 1 || self.version > 5)) {
-                _prevState = self.state;
                 self.state = ERROR_STATE;
+                SDLLogD(@"Message Version is out of spec");
                 break;
             }
             
-            // Check for valid frameType
             if ((self.frameType < SDLFrameTypeControl) || (self.frameType > SDLFrameTypeConsecutive)) {
-                _prevState = self.state;
                 self.state = ERROR_STATE;
+                SDLLogD(@"Message frameType is out of spec");
             }
             break;
             
@@ -140,13 +138,13 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                 case SDLServiceTypeControl:
                 case SDLServiceTypeRPC:
                 case SDLServiceTypeAudio:
-                case SDLServiceTypeVideo: //Nav
+                case SDLServiceTypeVideo:
                 case SDLServiceTypeBulkData:
                     self.state = CONTROL_FRAME_INFO_STATE;
                     break;
                 default:
-                    _prevState = self.state;
                     self.state = ERROR_STATE;
+                    SDLLogD(@"Message serviceType is out of spec");
                     break;
             }
             break;
@@ -159,8 +157,8 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             
             // Check for errors. For these two frame types, the frame info should be 0x00
             if (((self.frameType == SDLFrameTypeFirst) || (self.frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
-                _prevState = self.state;
                 self.state = ERROR_STATE;
+                SDLLogD(@"Message frameType is out of spec");
             }
             break;
             
@@ -222,15 +220,15 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             
             // Error if the data length is greater than the MTU size for this version
             if (self.dataLength >= (maxMtuSize - headerSize)) {
-                _prevState = self.state;
                 self.state = ERROR_STATE;
+                SDLLogD(@"Data length exceeds MTU size");
                 break;
             }
             
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
             if ((self.frameType == SDLFrameTypeFirst) && (self.dataLength != 8) && (self.encrypted == NO)) {
-                _prevState = self.state;
                 self.state = ERROR_STATE;
+                SDLLogD(@"Data length may not exceed 8 for non encrypted first frame");
                 break;
             }
             
