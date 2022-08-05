@@ -44,7 +44,7 @@
         self.remoteControlCapabilities = capability.remoteControlCapability;
         self.climateModuleId = self.remoteControlCapabilities.climateControlCapabilities.firstObject.moduleInfo.moduleId;
 
-        /// Get consent to control modules
+        // Get consent to control modules
         SDLGetInteriorVehicleDataConsent *getInteriorVehicleDataConsent = [[SDLGetInteriorVehicleDataConsent alloc] initWithModuleType:SDLModuleTypeClimate moduleIds:@[self.climateModuleId]];
         [self.sdlManager sendRequest:getInteriorVehicleDataConsent withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (!response.success) {
@@ -53,7 +53,7 @@
             }
             self.hasConsent = response.success;
 
-            /// Initialize climate data and setup subscription
+            // Initialize climate data and setup subscription
             if (self.hasConsent) {
                 [self sdlex_initializeClimateData];
                 [self sdlex_subscribeClimateControlData];
