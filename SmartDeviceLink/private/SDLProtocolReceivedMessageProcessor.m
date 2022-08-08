@@ -92,8 +92,6 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 /// @param currentByte The byte currently being processed
 /// @return YES if the byte processed is the last byte of a message, else NO
 - (BOOL)sdl_processByte:(Byte)currentByte {
-    SDLServiceType serviceType = 0x00;
-    SDLFrameInfo controlFrameInfo = 0x00;
     BOOL messageHasEnded = NO;
     
     switch (self.state) {
@@ -128,37 +126,41 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             }
             break;
             
-        case SERVICE_TYPE_STATE:
-            // 8 bits for service type
-            serviceType = currentByte;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
-            
-            // ServiceType must be one of the defined types, else error.
-            switch (serviceType) {
-                case SDLServiceTypeControl:
-                case SDLServiceTypeRPC:
-                case SDLServiceTypeAudio:
-                case SDLServiceTypeVideo:
-                case SDLServiceTypeBulkData:
-                    self.state = CONTROL_FRAME_INFO_STATE;
-                    break;
-                default:
-                    self.state = ERROR_STATE;
-                    SDLLogD(@"Message serviceType is out of spec");
-                    break;
+        case SERVICE_TYPE_STATE: {
+                SDLServiceType serviceType = 0x00;
+                // 8 bits for service type
+                serviceType = currentByte;
+                [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+                
+                // ServiceType must be one of the defined types, else error.
+                switch (serviceType) {
+                    case SDLServiceTypeControl:
+                    case SDLServiceTypeRPC:
+                    case SDLServiceTypeAudio:
+                    case SDLServiceTypeVideo:
+                    case SDLServiceTypeBulkData:
+                        self.state = CONTROL_FRAME_INFO_STATE;
+                        break;
+                    default:
+                        self.state = ERROR_STATE;
+                        SDLLogD(@"Message serviceType is out of spec");
+                        break;
+                }
             }
             break;
             
-        case CONTROL_FRAME_INFO_STATE:
-            // 8 bits for frame information
-            controlFrameInfo = currentByte;
-            self.state = SESSION_ID_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
-            
-            // Check for errors. For these two frame types, the frame info should be 0x00
-            if (((self.frameType == SDLFrameTypeFirst) || (self.frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
-                self.state = ERROR_STATE;
-                SDLLogD(@"Message frameType is out of spec");
+        case CONTROL_FRAME_INFO_STATE: {
+                SDLFrameInfo controlFrameInfo = 0x00;
+                // 8 bits for frame information
+                controlFrameInfo = currentByte;
+                self.state = SESSION_ID_STATE;
+                [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
+                
+                // Check for errors. For these two frame types, the frame info should be 0x00
+                if (((self.frameType == SDLFrameTypeFirst) || (self.frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
+                    self.state = ERROR_STATE;
+                    SDLLogD(@"Message frameType is out of spec");
+                }
             }
             break;
             
