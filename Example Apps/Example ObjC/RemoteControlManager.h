@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSString *climateDataString;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithManager:(SDLManager *)manager andButtons:(NSArray<SDLSoftButtonObject *> *)buttons;
+- (instancetype)initWithManager:(SDLManager *)manager softButtons:(NSArray<SDLSoftButtonObject *> *)buttons;
 
 - (void)start;
 - (void)showClimateControl;

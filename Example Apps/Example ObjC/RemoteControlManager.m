@@ -26,7 +26,7 @@
 
 @implementation RemoteControlManager
 
-- (instancetype)initWithManager:(SDLManager *)manager andButtons:(NSArray<SDLSoftButtonObject *> *)buttons  {
+- (instancetype)initWithManager:(SDLManager *)manager softButtons:(NSArray<SDLSoftButtonObject *> *)buttons  {
     self = [super init];
     if (!self) {
         return nil;

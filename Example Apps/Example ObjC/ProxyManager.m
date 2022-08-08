@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.performManager = [[PerformInteractionManager alloc] initWithManager:self.sdlManager];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
         self.subscribeButtonManager = [[SubscribeButtonManager alloc] initWithManager:self.sdlManager];
-        self.remoteControlManager = [[RemoteControlManager alloc] initWithManager:self.sdlManager andButtons:[self.buttonManager allScreenSoftButtons]];
+        self.remoteControlManager = [[RemoteControlManager alloc] initWithManager:self.sdlManager softButtons:[self.buttonManager allScreenSoftButtons]];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
