@@ -14,6 +14,7 @@
 @interface RemoteControlManager()
 
 @property (strong, nonatomic) SDLManager *sdlManager;
+@property (strong, nonatomic) NSArray<SDLSoftButtonObject *> *homeButtons;
 @property (strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapabilities;
 @property (strong, nonatomic) NSString *climateModuleId;
 @property (strong, nonatomic) NSNumber<SDLBool> *hasConsent;
@@ -25,12 +26,13 @@
 
 @implementation RemoteControlManager
 
-- (instancetype)initWithManager:(SDLManager *)manager {
+- (instancetype)initWithManager:(SDLManager *)manager andButtons:(NSArray<SDLSoftButtonObject *> *)buttons  {
     self = [super init];
     if (!self) {
         return nil;
     }
     _sdlManager = manager;
+    _homeButtons = buttons;
     return self;
 }
 
@@ -83,6 +85,7 @@
             "Defrost Zone: %@\n"
             "Desired Temperature: %@\n"
             "Dual Mode: %@\n"
+            "Fan Speed: %@\n"
             "Heated Mirrors: %@\n"
             "Heated Rears Window: %@\n"
             "Heated Steering: %@\n"
@@ -97,6 +100,7 @@
             self.climateData.defrostZone,
             self.climateData.desiredTemperature,
             self.climateData.dualModeEnable.boolValue ? @"On" : @"Off",
+            self.climateData.fanSpeed,
             self.climateData.heatedMirrorsEnable.boolValue ? @"On" : @"Off",
             self.climateData.heatedRearWindowEnable.boolValue ? @"On" : @"Off",
             self.climateData.heatedSteeringWheelEnable.boolValue ? @"On" : @"Off",
@@ -154,7 +158,7 @@
     SDLSetInteriorVehicleData *setInteriorVehicleData = [[SDLSetInteriorVehicleData alloc] initWithModuleData:moduleData];
 
     [self.sdlManager sendRequest:setInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if(!response.success) {
+        if (!response.success) {
             SDLLogE(@"SDL errored trying to turn off climate AC: %@", error);
             return;
         }
@@ -170,7 +174,7 @@
     SDLSetInteriorVehicleData *setInteriorVehicleData = [[SDLSetInteriorVehicleData alloc] initWithModuleData:moduleData];
 
     [self.sdlManager sendRequest:setInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if(!response.success) {
+        if (!response.success) {
             SDLLogE(@"SDL errored trying to set climate temperature to 73 degrees: %@", error);
             return;
         }
@@ -205,7 +209,7 @@
 
         SDLButtonPress *buttonTouch = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameTempDown moduleType:SDLModuleTypeClimate moduleId:self.climateModuleId buttonPressMode:SDLButtonPressModeShort];
         [self.sdlManager sendRequest:buttonTouch withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if(!response.success) {
+            if (!response.success) {
                 SDLLogE(@"SDL errored decreasing target climate temperature with remote button: %@", error);
                 return;
             }
@@ -224,12 +228,13 @@
         }];
     }];
 
-    SDLSoftButtonObject *setClimateButton = [[SDLSoftButtonObject alloc] initWithName:@"Set Climate" text:@"Set 73 degrees" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonObject *backToHomeButton = [[SDLSoftButtonObject alloc] initWithName:@"Home" text:@"Back to Home" artwork:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
-        [self sdlex_setClimateTemperature];
+        self.sdlManager.screenManager.softButtonObjects = self.homeButtons;
+        [self.sdlManager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia] withCompletionHandler:nil];
     }];
 
-    return @[acOnButton, acOffButton, acMaxToggle, temperatureDecreaseButton, temperatureIncreaseButton, setClimateButton];
+    return @[acOnButton, acOffButton, acMaxToggle, temperatureDecreaseButton, temperatureIncreaseButton, backToHomeButton];
 }
 
 @end

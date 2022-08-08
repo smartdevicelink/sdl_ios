@@ -138,7 +138,7 @@ private extension ProxyManager {
             self.subscribeButtonManager = SubscribeButtonManager(sdlManager: self.sdlManager)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
-            self.remoteControlManager = RemoteControlManager(sdlManager: self.sdlManager)
+            self.remoteControlManager = RemoteControlManager(sdlManager: self.sdlManager, homeButtons: self.buttonManager.allScreenSoftButtons())
 
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 

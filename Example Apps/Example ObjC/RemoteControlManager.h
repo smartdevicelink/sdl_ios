@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class SDLManager;
+@class SDLSoftButtonObject;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSString *climateDataString;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithManager:(SDLManager *)manager;
+- (instancetype)initWithManager:(SDLManager *)manager andButtons:(NSArray<SDLSoftButtonObject *> *)buttons;
 
 - (void)start;
 - (void)showClimateControl;

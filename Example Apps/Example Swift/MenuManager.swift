@@ -118,11 +118,11 @@ private extension MenuManager {
     /// - Returns: A SDLMenuCell object
     class func menuCellChangeTemplate(with manager: SDLManager) -> SDLMenuCell {
     
-        /// Lets give an example of 2 templates
+        // Lets give an example of 2 templates
         var submenuItems = [SDLMenuCell]()
         let errorMessage = "Changing the template failed"
         
-        /// Non-Media
+        // Non-Media
         let submenuTitleNonMedia = "Non - Media (Default)"
         submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
             manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia)) { err in
@@ -133,7 +133,7 @@ private extension MenuManager {
             }
         }))
         
-        /// Graphic with Text
+        // Graphic with Text
         let submenuTitleGraphicText = "Graphic With Text"
         submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
             manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .graphicWithText)) { err in
@@ -216,7 +216,7 @@ private extension MenuManager {
         var submenuItems = [SDLMenuCell]()
 
         // Climate Control Menu
-        submenuItems.append(SDLMenuCell(title: ACRemoteControlClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: SDLArtwork(image: UIImage(named: RemoteControlIconName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
+        submenuItems.append(SDLMenuCell(title: ACRemoteControlClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
             manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .tilesOnly)) { err in
                 if let error = err {
                     AlertManager.sendAlert(textField1: error.localizedDescription, sdlManager: manager)
@@ -244,7 +244,7 @@ private extension MenuManager {
             })
         }))
 
-        return SDLMenuCell(title: ACRemoteMenuName, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, submenuLayout: .list, subCells: submenuItems)
+        return SDLMenuCell(title: ACRemoteMenuName, secondaryText: nil, tertiaryText: nil, icon: SDLArtwork(image: UIImage(named: RemoteControlIconName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), secondaryArtwork: nil, submenuLayout: .list, subCells: submenuItems)
     }
 }
 
