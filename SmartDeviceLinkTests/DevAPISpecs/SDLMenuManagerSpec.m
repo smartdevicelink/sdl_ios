@@ -6,6 +6,7 @@
 
 #import "SDLGlobals.h"
 #import "SDLMenuManager.h"
+#import "SDLMenuShowOperation.h"
 #import "SDLMenuReplaceOperation.h"
 #import "TestConnectionManager.h"
 
@@ -14,6 +15,12 @@
 
 @property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
+
+@end
+
+@interface SDLMenuShowOperation()
+
+@property (strong, nonatomic, nullable) SDLMenuCell *submenuCell;
 
 @end
 
@@ -270,12 +277,17 @@ describe(@"menu manager", ^{
                 });
 
                 // should queue an open menu operation for a copied submenu cell
-                it(@"should queue an open menu operation for a copied submenu cell", ^ {
+                it(@"should queue an open menu operation for a copied submenu cell and match the original cell id", ^ {
+                    submenuCell.cellId = 1;
                     testManager.menuCells = @[submenuCell];
+
                     SDLMenuCell *copiedCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil submenuLayout:nil subCells:@[textOnlyCell]];
                     
                     BOOL canSendRPC = [testManager openMenu:copiedCell];
-                    
+                    SDLMenuShowOperation *showOperation = (SDLMenuShowOperation *)testManager.transactionQueue.operations[1];
+
+                    expect(showOperation.submenuCell.cellId).to(equal(submenuCell.cellId));
+                    expect(showOperation.submenuCell.cellId).toNot(equal(copiedCell.cellId));
                     expect(testManager.transactionQueue.operationCount).to(equal(2));
                     expect(canSendRPC).to(equal(YES));
                 });
