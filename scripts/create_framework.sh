@@ -80,8 +80,6 @@ if [ -f $zip_file_name ]; then rm $zip_file_name; fi
 # Verify framework_folder exists and create a zip from it.
 if [ -d "$framework_folder" ]; then 
     tar -cf $zip_file_name $framework_folder
-    # Check to see if the zip exists, and then remove old files.
-    #if [ -f "$zip_file_name" ]; then rm -r $framework_folder; fi
 fi
 
 # Cleanup artifacts
@@ -90,6 +88,9 @@ if [ -d "$folder" ]; then rm -r $folder; fi
 
 folder="SmartDeviceLink-Simulator.xcarchive"
 if [ -d "$folder" ]; then rm -r $folder; fi
+
+# Check to see if the zip exists, and then remove old files.
+if [ -f "$zip_file_name" ]; then rm -r $framework_folder; fi
 
 echo
 echo "The xcframework zip file was created at $zip_file_name."
