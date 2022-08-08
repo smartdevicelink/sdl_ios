@@ -57,6 +57,8 @@ if [ -z $1  ]; then
             echo "No version number entered. Skipping..."
             new_version_number=$current_version_number
         fi
+    else
+        new_version_number=$current_version_number
     fi
 else
     new_version_number=$1
@@ -71,15 +73,13 @@ xcodebuild -create-xcframework -framework './SmartDeviceLink-Device.xcarchive/Pr
 
 # TODO - is there a way we can test that the build was successful.
 
-folder="SmartDeviceLink.xcframework"
+framework_folder="SmartDeviceLink.xcframework"
 zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
 # Kill the old zip if present. Useful for re-running the script
 if [ -f $zip_file_name ]; then rm $zip_file_name; fi
-# Verify folder exists before acting on it.
-if [ -d "$folder" ]; then 
-    zip $zip_file_name $folder
-    # Check to see if the zip exists, and then remove old files.
-    if [ -f "$zip_file_name" ]; then rm -r $folder; fi
+# Verify framework_folder exists and create a zip from it.
+if [ -d "$framework_folder" ]; then 
+    tar -cf $zip_file_name $framework_folder
 fi
 
 # Cleanup artifacts
@@ -88,6 +88,9 @@ if [ -d "$folder" ]; then rm -r $folder; fi
 
 folder="SmartDeviceLink-Simulator.xcarchive"
 if [ -d "$folder" ]; then rm -r $folder; fi
+
+# Check to see if the zip exists, and then remove old files.
+if [ -f "$zip_file_name" ]; then rm -r $framework_folder; fi
 
 echo
 echo "The xcframework zip file was created at $zip_file_name."
