@@ -79,7 +79,7 @@ if [ -f $zip_file_name ]; then rm $zip_file_name; fi
 if [ -d "$folder" ]; then 
     zip $zip_file_name $folder
     # Check to see if the zip exists, and then remove old files.
-    #if [ -f "$zip_file_name" ]; then rm -r $folder; fi
+    if [ -f "$zip_file_name" ]; then rm -r $folder; fi
 fi
 
 # Cleanup artifacts
