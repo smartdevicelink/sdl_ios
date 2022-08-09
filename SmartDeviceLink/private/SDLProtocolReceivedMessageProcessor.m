@@ -102,11 +102,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             self.version = (currentByte & 0xF0 ) >> 4;
 
             // bit 4 for either encryption or compression, depending on version. (b0000 1000)
-            if ((currentByte & 0x08 ) >> 3 == 1) {
-                self.encrypted = YES;
-            } else {
-                self.encrypted = NO;
-            }
+            self.encrypted = ((currentByte & 0x08 ) >> 3 == 1)
             
             // bits 5-7 for frameType. (b0000 0111)
             self.frameType = (currentByte & 0x07) >> 0;
@@ -221,10 +217,13 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             }
             
             // Error if the data length is greater than the MTU size for this version
-            if (self.dataLength >= (maxMtuSize - headerSize)) {
-                self.state = ERROR_STATE;
-                SDLLogE(@"Data length \(self.dataLength) exceeds maximum MTU size \(maxMTUSize), skipping message");
-                break;
+            // For version 5, we should not do this check.  
+            if (self.version != 5) {
+                if (self.dataLength >= (maxMtuSize - headerSize)) {
+                    self.state = ERROR_STATE;
+                    SDLLogE(@"Data length \(self.dataLength) exceeds maximum MTU size \(maxMTUSize), skipping message");
+                    break;
+                }
             }
             
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
