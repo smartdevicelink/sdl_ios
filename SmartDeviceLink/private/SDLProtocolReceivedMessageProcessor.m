@@ -217,7 +217,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             }
             
             // Error if the data length is greater than the MTU size for this version
-            // For version 5, we should not do this check.  
+            // For version 5, we should not do this check.
             if (self.version != 5) {
                 if (self.dataLength >= (maxMtuSize - headerSize)) {
                     self.state = ERROR_STATE;
