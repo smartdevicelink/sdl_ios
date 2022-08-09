@@ -1787,6 +1787,7 @@
 		EEB2537E2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */; };
 		EED5CA041F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */; };
 		EED5CA0A1F4D206800F04000 /* SDLRTPH264PacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */; };
+		EF44EC2328A2F37E007BAA2B /* SDLProtocolReceivedMessageProcessorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EF44EC2228A2F37E007BAA2B /* SDLProtocolReceivedMessageProcessorSpec.m */; };
 		EFEBDC9E287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBDC9D287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m */; };
 		EFEBDCA0287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = EFEBDC9F287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h */; };
 /* End PBXBuildFile section */
@@ -3712,6 +3713,7 @@
 		EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSecondaryTransportManagerSpec.m; path = ProxySpecs/SDLSecondaryTransportManagerSpec.m; sourceTree = "<group>"; };
 		EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRAWH264PacketizerSpec.m; path = DevAPISpecs/SDLRAWH264PacketizerSpec.m; sourceTree = "<group>"; };
 		EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRTPH264PacketizerSpec.m; path = DevAPISpecs/SDLRTPH264PacketizerSpec.m; sourceTree = "<group>"; };
+		EF44EC2228A2F37E007BAA2B /* SDLProtocolReceivedMessageProcessorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolReceivedMessageProcessorSpec.m; sourceTree = "<group>"; };
 		EFEBDC9D287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLProtocolReceivedMessageProcessor.m; path = private/SDLProtocolReceivedMessageProcessor.m; sourceTree = "<group>"; };
 		EFEBDC9F287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLProtocolReceivedMessageProcessor.h; path = private/SDLProtocolReceivedMessageProcessor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -4303,6 +4305,7 @@
 				1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */,
 				1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */,
 				1680B1121A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m */,
+				EF44EC2228A2F37E007BAA2B /* SDLProtocolReceivedMessageProcessorSpec.m */,
 			);
 			path = ProtocolSpecs;
 			sourceTree = "<group>";
@@ -8901,6 +8904,7 @@
 				1680B1141A9CD7AD00DBD79E /* SDLV1ProtocolHeaderSpec.m in Sources */,
 				B3DF19F3251225AA0090D7BA /* TestSmartConnection.m in Sources */,
 				B3838A15257C4EFD00420C11 /* SDLRoofStatusSpec.m in Sources */,
+				EF44EC2328A2F37E007BAA2B /* SDLProtocolReceivedMessageProcessorSpec.m in Sources */,
 				880D2680220E038800B3F496 /* SDLWeatherServiceManifestSpec.m in Sources */,
 				88EEC5BE220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m in Sources */,
 				1680B1161A9CD7AD00DBD79E /* SDLProtocolMessageSpec.m in Sources */,
