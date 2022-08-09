@@ -59,6 +59,7 @@ extern NSString * const AlertScrollableMessageCancelledWarningText;
 extern NSString * const AlertScrollableMessageGeneralWarningText;
 extern NSString * const AlertVehicleDataPermissionsWarningText;
 extern NSString * const AlertVehicleDataGeneralWarningText;
+extern NSString * const AlertRemoteControlPermissionWarningText;
 extern NSString * const AlertSpeechPermissionsWarningText;
 
 #pragma mark - SDL Text-To-Speech

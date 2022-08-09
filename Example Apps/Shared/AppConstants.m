@@ -56,6 +56,7 @@ NSString * const AlertScrollableMessageCancelledWarningText = @"Scrollable Messa
 NSString * const AlertScrollableMessageGeneralWarningText = @"Scrollable Message could not be displayed";
 NSString * const AlertVehicleDataPermissionsWarningText = @"This app does not have the required permissions to access vehicle data";
 NSString * const AlertVehicleDataGeneralWarningText = @"Something went wrong while getting vehicle data";
+NSString * const AlertRemoteControlPermissionWarningText = @"This app does not have the required permissions to access remote control data";
 NSString * const AlertSpeechPermissionsWarningText = @"You must give this app permission to access Speech Recognition";
 
 #pragma mark - SDL Text-To-Speech

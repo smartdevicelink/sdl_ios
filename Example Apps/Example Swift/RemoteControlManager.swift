@@ -18,6 +18,7 @@ class RemoteControlManager {
     private var hasConsent: Bool?
     private var climateData: SDLClimateControlData?
 
+    public let isPermissionEnabled: Bool
     public var climateDataString: String {
             """
             AC: \(optionalNumberBoolToString(climateData?.acEnable))
@@ -42,13 +43,20 @@ class RemoteControlManager {
     ///
     /// - Parameters:
     ///     - sdlManager: The SDL Manager.
+    ///     - permission: Permission from the proxy manager to access remote control data
     ///     - homeButton: An array of SDLSoftButtonObjects that remote control manager can reset to.
-    init(sdlManager: SDLManager, homeButtons: [SDLSoftButtonObject]) {
+    init(sdlManager: SDLManager, permission: Bool, homeButtons: [SDLSoftButtonObject]) {
         self.sdlManager = sdlManager
+        self.isPermissionEnabled = permission
         self.homeButtons = homeButtons
     }
 
     func start() {
+        if (!self.isPermissionEnabled) {
+            SDLLog.d("Missing permissions for Remote Control Manager. Example remote control works only on TCP.")
+            return
+        }
+
         // Retrieve remote control information and store module ids
         self.sdlManager.systemCapabilityManager.subscribe(capabilityType: .remoteControl) { (capability, subscribed, error) in
             guard capability?.remoteControlCapability != nil else {

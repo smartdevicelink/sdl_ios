@@ -168,6 +168,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLMenuCell *)sdlex_menuCellRemoteWithManager:(SDLManager *)manager remoteManager:(RemoteControlManager *)remoteManager {
+    SDLArtwork * _Nonnull remoteControlIcon = [SDLArtwork artworkWithImage:[[UIImage imageNamed:RemoteControlIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG];
+
+    // Clicking on cell shows alert message when remote control permissions are disabled
+    if (![remoteManager isPermissionEnabled]) {
+        return [[SDLMenuCell alloc] initWithTitle: ACRemoteMenuName secondaryText:nil tertiaryText:nil icon:remoteControlIcon secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+            [AlertManager sendAlertWithManager:manager image:nil textField1:AlertRemoteControlPermissionWarningText textField2:nil];
+        }];
+    }
+
     // Let's give an example of 2 templates
     NSMutableArray *submenuItems = [NSMutableArray array];
     NSString *errorMessage = @"Changing the template failed";
@@ -199,7 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
     [submenuItems addObject:viewClimateCell];
 
-    return [[SDLMenuCell alloc] initWithTitle:ACRemoteMenuName secondaryText:nil tertiaryText:nil icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:RemoteControlIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] secondaryArtwork:nil submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
+    return [[SDLMenuCell alloc] initWithTitle:ACRemoteMenuName secondaryText:nil tertiaryText:nil icon:remoteControlIcon secondaryArtwork:nil submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
 }
 
 #pragma mark - Voice Commands

@@ -210,11 +210,21 @@ private extension MenuManager {
 
     /// Menu item that shows remote control example
     ///
-    /// - Parameter manager: The SDL Manager
+    /// - Parameters:
+    ///      - manager: The SDL Manager
+    ///      - remoteManager: The manager for controling and viewing remote control data
     /// - Returns: A SDLMenuCell object
     class func menuCellRemoteControl(with manager: SDLManager, remoteManager: RemoteControlManager) -> SDLMenuCell {
-        var submenuItems = [SDLMenuCell]()
+        let remoteControlIcon = SDLArtwork(image: UIImage(named: RemoteControlIconName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG)
 
+        // Clicking on cell shows alert message when remote control permissions are disabled
+        if (!remoteManager.isPermissionEnabled) {
+            return SDLMenuCell(title: ACRemoteMenuName, secondaryText: nil, tertiaryText: nil, icon: remoteControlIcon, secondaryArtwork: nil, voiceCommands: nil, handler: { _ in
+                AlertManager.sendAlert(textField1: AlertRemoteControlPermissionWarningText, sdlManager: manager)
+            })
+        }
+
+        var submenuItems = [SDLMenuCell]()
         // Climate Control Menu
         submenuItems.append(SDLMenuCell(title: ACRemoteControlClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
             manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .tilesOnly)) { err in
@@ -244,7 +254,7 @@ private extension MenuManager {
             })
         }))
 
-        return SDLMenuCell(title: ACRemoteMenuName, secondaryText: nil, tertiaryText: nil, icon: SDLArtwork(image: UIImage(named: RemoteControlIconName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), secondaryArtwork: nil, submenuLayout: .list, subCells: submenuItems)
+        return SDLMenuCell(title: ACRemoteMenuName, secondaryText: nil, tertiaryText: nil, icon: remoteControlIcon, secondaryArtwork: nil, submenuLayout: .list, subCells: submenuItems)
     }
 }
 

@@ -14,7 +14,9 @@
 @interface RemoteControlManager()
 
 @property (strong, nonatomic) SDLManager *sdlManager;
+@property (assign, nonatomic, getter=isPermissionEnabled, readwrite) BOOL permissionEnabled;
 @property (strong, nonatomic) NSArray<SDLSoftButtonObject *> *homeButtons;
+
 @property (strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapabilities;
 @property (strong, nonatomic) NSString *climateModuleId;
 @property (strong, nonatomic) NSNumber<SDLBool> *hasConsent;
@@ -26,17 +28,23 @@
 
 @implementation RemoteControlManager
 
-- (instancetype)initWithManager:(SDLManager *)manager softButtons:(NSArray<SDLSoftButtonObject *> *)buttons  {
+- (instancetype)initWithManager:(SDLManager *)manager hasPermission:(BOOL)permission softButtons:(NSArray<SDLSoftButtonObject *> *)buttons  {
     self = [super init];
     if (!self) {
         return nil;
     }
     _sdlManager = manager;
+    _permissionEnabled = permission;
     _homeButtons = buttons;
     return self;
 }
 
 - (void)start {
+    if (![self isPermissionEnabled]) {
+        SDLLogD(@"Missing permissions for Remote Control Manager. Example remote control works only on TCP.");
+        return;
+    }
+
     [self.sdlManager.systemCapabilityManager subscribeToCapabilityType:SDLSystemCapabilityTypeRemoteControl withUpdateHandler:^(SDLSystemCapability * _Nullable capability, BOOL subscribed, NSError * _Nullable error) {
         if (!capability.remoteControlCapability) {
             SDLLogE(@"SDL errored getting remote control module information: %@", error);

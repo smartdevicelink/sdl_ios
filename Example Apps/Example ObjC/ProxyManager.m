@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMILevel firstHMILevel;
 
+@property (assign, nonatomic, getter=isRemoteControlEnabled) BOOL remoteControlEnabled;
 @property (strong, nonatomic) RemoteControlManager *remoteControlManager;
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
 @property (strong, nonatomic) PerformInteractionManager *performManager;
@@ -52,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
+    _remoteControlEnabled = NO;
     _state = ProxyStateStopped;
     _firstHMILevel = SDLHMILevelNone;
 
@@ -71,8 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.performManager = [[PerformInteractionManager alloc] initWithManager:self.sdlManager];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
         self.subscribeButtonManager = [[SubscribeButtonManager alloc] initWithManager:self.sdlManager];
-        self.remoteControlManager = [[RemoteControlManager alloc] initWithManager:self.sdlManager softButtons:[self.buttonManager allScreenSoftButtons]];
-
+        self.remoteControlManager = [[RemoteControlManager alloc] initWithManager:self.sdlManager hasPermission:[self isRemoteControlEnabled] softButtons:[self.buttonManager allScreenSoftButtons]];
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
 
@@ -102,18 +103,19 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
 
     SDLConfiguration *config = (proxyTransportType == ProxyTransportTypeIAP) ? [self.class sdlex_iapConfiguration] : [self.class sdlex_tcpConfiguration];
+    self.remoteControlEnabled = (proxyTransportType == ProxyTransportTypeTCP) ? YES : NO;
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     [self sdlex_startManager];
 }
 
 + (SDLConfiguration *)sdlex_iapConfiguration {
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId] enableRemote:NO];
 
     return [self sdlex_setupManagerConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
 + (SDLConfiguration *)sdlex_tcpConfiguration {
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port] enableRemote:YES];
 
     return [self sdlex_setupManagerConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
@@ -124,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
 }
 
-+ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
++ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config enableRemote:(BOOL)hasRemote {
     UIImage *appLogo = [[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:appLogo asImageFormat:SDLArtworkImageFormatPNG];
 
@@ -135,7 +137,12 @@ NS_ASSUME_NONNULL_BEGIN
     config.language = SDLLanguageEnUs;
     config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
     config.appType = SDLAppHMITypeDefault;
-    config.additionalAppTypes = @[SDLAppHMITypeRemoteControl];
+
+    // On actional hardware, the app requires permissions to do remote control which this example app will not have.
+    // Only use the remote control type on the TCP connection.
+    if (hasRemote) {
+        config.additionalAppTypes = @[SDLAppHMITypeRemoteControl];
+    }
 
     SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
     SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
