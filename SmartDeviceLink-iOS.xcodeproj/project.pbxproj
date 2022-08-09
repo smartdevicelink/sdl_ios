@@ -1787,6 +1787,7 @@
 		EEB2537E2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */; };
 		EED5CA041F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */; };
 		EED5CA0A1F4D206800F04000 /* SDLRTPH264PacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */; };
+		EF44EC2128A1AD66007BAA2B /* SDLManagerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44EC2028A1AD66007BAA2B /* SDLManagerSwift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3710,6 +3711,7 @@
 		EEB2537D2067D3E80069584E /* SDLSecondaryTransportManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSecondaryTransportManagerSpec.m; path = ProxySpecs/SDLSecondaryTransportManagerSpec.m; sourceTree = "<group>"; };
 		EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRAWH264PacketizerSpec.m; path = DevAPISpecs/SDLRAWH264PacketizerSpec.m; sourceTree = "<group>"; };
 		EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRTPH264PacketizerSpec.m; path = DevAPISpecs/SDLRTPH264PacketizerSpec.m; sourceTree = "<group>"; };
+		EF44EC2028A1AD66007BAA2B /* SDLManagerSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDLManagerSwift.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4823,6 +4825,7 @@
 				5D4346851E771B5700B639C6 /* SDLLog.swift */,
 				5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */,
 				5D4346641E6F38E600B639C6 /* Info.plist */,
+				EF44EC2028A1AD66007BAA2B /* SDLManagerSwift.swift */,
 			);
 			path = SmartDeviceLinkSwift;
 			sourceTree = "<group>";
@@ -9261,6 +9264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88802FF120853BB700E9EBC6 /* SDLLog.swift in Sources */,
+				EF44EC2128A1AD66007BAA2B /* SDLManagerSwift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
