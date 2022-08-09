@@ -79,7 +79,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
         // If we have reached the end of a message, we need to immediately call the message ready block with the completed data, then reset the buffers and keep pumping data into the state machine
         messageIsComplete = [self sdl_processByte:(Byte)bytes[i]];
         if (messageIsComplete) {
-            messageReadyBlock(_header, [self.payloadBuffer copy]);
+            messageReadyBlock(self.header, [self.payloadBuffer copy]);
             [self resetState];
         }
     }
@@ -116,13 +116,13 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             
             if ((self.version < 1 || self.version > 5)) {
                 self.state = ERROR_STATE;
-                SDLLogD(@"Message Version is out of spec");
+                SDLLogE(@"Message version is out of spec: \(self.version), skipping message");
                 break;
             }
             
             if ((self.frameType < SDLFrameTypeControl) || (self.frameType > SDLFrameTypeConsecutive)) {
                 self.state = ERROR_STATE;
-                SDLLogD(@"Message frameType is out of spec");
+                SDLLogE(@"Message frameType is out of spec: \(self.frameType), skipping message");
             }
             break;
             
@@ -143,7 +143,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                         break;
                     default:
                         self.state = ERROR_STATE;
-                        SDLLogD(@"Message serviceType is out of spec");
+                        SDLLogE(@"Message serviceType is out of spec: \(serviceType), skipping message");
                         break;
                 }
             }
@@ -159,7 +159,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                 // Check for errors. For these two frame types, the frame info should be 0x00
                 if (((self.frameType == SDLFrameTypeFirst) || (self.frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
                     self.state = ERROR_STATE;
-                    SDLLogD(@"Message frameType is out of spec");
+                    SDLLogD(@"Message frameType is out of spec. FrameType: \(self.frameType), frameInfo: \(controlFrameInfo), skipping message");
                 }
             }
             break;
@@ -223,14 +223,14 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             // Error if the data length is greater than the MTU size for this version
             if (self.dataLength >= (maxMtuSize - headerSize)) {
                 self.state = ERROR_STATE;
-                SDLLogD(@"Data length exceeds MTU size");
+                SDLLogE(@"Data length \(self.dataLength) exceeds maximum MTU size \(maxMTUSize), skipping message");
                 break;
             }
             
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
             if ((self.frameType == SDLFrameTypeFirst) && (self.dataLength != 8) && (self.encrypted == NO)) {
                 self.state = ERROR_STATE;
-                SDLLogD(@"Data length may not exceed 8 for non encrypted first frame");
+                SDLLogE(@"Data length may not exceed 8 for non encrypted first frame, skipping message");
                 break;
             }
             
