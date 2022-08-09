@@ -102,7 +102,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             self.version = (currentByte & 0xF0 ) >> 4;
 
             // bit 4 for either encryption or compression, depending on version. (b0000 1000)
-            self.encrypted = ((currentByte & 0x08 ) >> 3 == 1)
+            self.encrypted = ((currentByte & 0x08 ) >> 3 == 1);
             
             // bits 5-7 for frameType. (b0000 0111)
             self.frameType = (currentByte & 0x07) >> 0;
