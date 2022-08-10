@@ -55,7 +55,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     if (!self) {
         return nil;
     }
-    
+
     _compressionSession = NULL;
     _currentFrameNumber = 0;
     _videoEncoderSettings = properties;
@@ -111,7 +111,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         if (self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] != nil) {
             timeRate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).intValue;
         }
-        
+
         presentationTimestamp = CMTimeMake((int64_t)self.currentFrameNumber, timeRate);
     }
     self.currentFrameNumber++;
@@ -130,7 +130,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     if (self.pixelBufferPool == NULL) {
         return NULL;
     }
-    
+
     CVPixelBufferRef pixelBuffer;
     CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault,
                                        self.pixelBufferPool,
@@ -174,11 +174,11 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         SDLLogW(@"Error encoding video frame: %d", (int)status);
         return;
     }
-    
+
     if (outputCallbackRefCon == NULL || sourceFrameRefCon == NULL || sampleBuffer == NULL) {
         return;
     }
-    
+
     SDLH264VideoEncoder *encoder = (__bridge SDLH264VideoEncoder *)sourceFrameRefCon;
     NSArray *nalUnits = [encoder.class sdl_extractNalUnitsFromSampleBuffer:sampleBuffer];
 
@@ -194,7 +194,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
 
     NSArray *packets = [encoder.packetizer createPackets:nalUnits
                                    presentationTimestamp:(presentationTimestamp - encoder.timestampOffset)];
-    
+
     if ([encoder.delegate respondsToSelector:@selector(videoEncoder:hasEncodedFrame:)]) {
         for (NSData *packet in packets) {
             [encoder.delegate videoEncoder:encoder hasEncodedFrame:packet];
@@ -206,17 +206,17 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
 - (CFDictionaryRef _Nullable)pixelBufferOptions {
     if (_pixelBufferOptions == nil) {
         CFMutableDictionaryRef pixelBufferOptions = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-        
+
         OSType pixelFormatType = kCVPixelFormatType_32BGRA;
-        
+
         CFNumberRef pixelFormatNumberRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &pixelFormatType);
-        
+
         CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferCGImageCompatibilityKey, kCFBooleanFalse);
         CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferCGBitmapContextCompatibilityKey, kCFBooleanFalse);
         CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferPixelFormatTypeKey, pixelFormatNumberRef);
-        
+
         CFRelease(pixelFormatNumberRef);
-        
+
         _pixelBufferOptions = pixelBufferOptions;
     }
 
@@ -229,20 +229,20 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     NSMutableArray *nalUnits = [NSMutableArray array];
     BOOL isIFrame = NO;
     CFArrayRef attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, 0);
-    
+
     if (CFArrayGetCount(attachmentsArray)) {
         CFBooleanRef notSync;
         CFDictionaryRef dict = CFArrayGetValueAtIndex(attachmentsArray, 0);
         BOOL keyExists = CFDictionaryGetValueIfPresent(dict, kCMSampleAttachmentKey_NotSync, (const void **)&notSync);
-        
+
         // Find out if the sample buffer contains an I-Frame (sync frame). If so we will write the SPS and PPS NAL units to the elementary stream.
         isIFrame = !keyExists || !CFBooleanGetValue(notSync);
     }
-    
+
     // Write the SPS and PPS NAL units to the elementary stream before every I-Frame
     if (isIFrame) {
         CMFormatDescriptionRef description = CMSampleBufferGetFormatDescription(sampleBuffer);
-        
+
         // Find out how many parameter sets there are
         size_t numberOfParameterSets;
         CMVideoFormatDescriptionGetH264ParameterSetAtIndex(description,
@@ -251,7 +251,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
                                                            NULL,
                                                            &numberOfParameterSets,
                                                            NULL);
-        
+
         // Write each parameter set to the elementary stream
         for (int i = 0; i < numberOfParameterSets; i++) {
             const uint8_t *parameterSetPointer;
@@ -262,20 +262,20 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
                                                                &parameterSetLength,
                                                                NULL,
                                                                NULL);
-            
+
             // Output the parameter set
             NSData *nalUnit = [NSData dataWithBytesNoCopy:(uint8_t *)parameterSetPointer length:parameterSetLength freeWhenDone:NO];
             [nalUnits addObject:nalUnit];
         }
     }
-    
+
     // Get a pointer to the raw AVCC NAL unit data in the sample buffer
     size_t blockBufferLength = 0;
     char *bufferDataPointer = NULL;
     CMBlockBufferRef blockBufferRef = CMSampleBufferGetDataBuffer(sampleBuffer);
-    
+
     CMBlockBufferGetDataPointer(blockBufferRef, 0, NULL, &blockBufferLength, &bufferDataPointer);
-    
+
     // Loop through all the NAL units in the block buffer and write them to the elementary stream with start codes instead of AVCC length headers
     size_t bufferOffset = 0;
     static const int AVCCHeaderLength = 4;
@@ -283,14 +283,14 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         // Read the NAL unit length
         uint32_t NALUnitLength = 0;
         memcpy(&NALUnitLength, bufferDataPointer + bufferOffset, AVCCHeaderLength);
-        
+
         // Convert the length value from Big-endian to Little-endian
         NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);
-        
+
         // Write the NAL unit without the AVCC length header to the elementary stream
         NSData *nalUnit = [NSData dataWithBytesNoCopy:bufferDataPointer + bufferOffset + AVCCHeaderLength length:NALUnitLength freeWhenDone:NO];
         [nalUnits addObject:nalUnit];
-        
+
         // Move to the next NAL unit in the block buffer
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
@@ -304,6 +304,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
 
     VTCompressionSessionCompleteFrames(self.compressionSession, kCMTimeInvalid);
     VTCompressionSessionInvalidate(self.compressionSession);
+    if (self.compressionSession == NULL) { return; }
     CFRelease(self.compressionSession);
     self.compressionSession = NULL;
 }

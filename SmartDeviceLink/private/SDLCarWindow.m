@@ -23,9 +23,12 @@
 #import "SDLStreamingVideoScaleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
 #import "SDLVideoStreamingCapability.h"
+#import <Accelerate/Accelerate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@import MetalKit;
+@import ReplayKit;
 @interface SDLCarWindow ()
 
 @property (weak, nonatomic, nullable) SDLStreamingVideoLifecycleManager *streamManager;
@@ -78,34 +81,170 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
-    switch (self.renderingType) {
-        case SDLCarWindowRenderingTypeLayer: {
-            [self.rootViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-        } break;
-        case SDLCarWindowRenderingTypeViewAfterScreenUpdates: {
-            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
-        } break;
-        case SDLCarWindowRenderingTypeViewBeforeScreenUpdates: {
-            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:NO];
-        } break;
-    }
+    BOOL recordingScreen = false;
+    if (@available(iOS 11.0, *)) {
+        if (![[RPScreenRecorder sharedRecorder] isRecording] && !recordingScreen) {
+            recordingScreen = true;
+            [[RPScreenRecorder sharedRecorder] startCaptureWithHandler:^(CMSampleBufferRef  _Nonnull sampleBuffer, RPSampleBufferType bufferType, NSError * _Nullable error) {
+                if (error) {
+                    SDLLogD(@"Video stream error %@", error.debugDescription);
+                } else {
+//                    [self.streamManager sendVideoData:CMSampleBufferGetImageBuffer(sampleBuffer)];
+                    int outWidth = bounds.size.width, outHeight = bounds.size.height;
 
-    UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+                    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+                    CVPixelBufferLockBaseAddress(imageBuffer,0);
+                    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+                    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
 
-    CGImageRef imageRef = screenshot.CGImage;
-    CVPixelBufferRef pixelBuffer = [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
-    if (pixelBuffer != nil) {
-        BOOL success = [self.streamManager sendVideoData:pixelBuffer];
-        if (!success) {
-            SDLLogE(@"Video frame will not be sent because the video frame encoding failed");
-            return;
+                    vImage_Buffer inBuff;
+                    inBuff.height = 812;
+                    inBuff.width = 375;
+                    inBuff.rowBytes = bytesPerRow;
+
+                    inBuff.data = baseAddress;
+
+                    unsigned char *outImg= (unsigned char*)malloc(4*outWidth*outHeight);
+                    vImage_Buffer outBuff = {outImg, outHeight, outWidth, 4*outWidth};
+
+                    CVPixelBufferRef bufferRef;
+                    CVPixelBufferCreateWithBytes(kCFAllocatorDefault, bounds.size.width, bounds.size.height, kCVPixelFormatType_64RGBAHalf, outImg, bytesPerRow, nil, nil, nil, bufferRef);
+                    vImage_Error err = vImageScale_ARGB8888(&inBuff, &outBuff, NULL, 0);
+                    if (err != kvImageNoError) NSLog(@" error %ld", err);
+                }
+            } completionHandler:^(NSError * _Nullable error) {
+                if (error) {
+                    SDLLogD(@"Video stream error %@", error.debugDescription);
+                }
+            }];
         }
-        CVPixelBufferRelease(pixelBuffer);
     } else {
-        SDLLogE(@"Video frame will not be sent because the pixelBuffer is nil");
+        // Fallback on earlier versions
+        UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
+        switch (self.renderingType) {
+            case SDLCarWindowRenderingTypeLayer: {
+                [self.rootViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+            } break;
+            case SDLCarWindowRenderingTypeViewAfterScreenUpdates: {
+                [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
+            } break;
+            case SDLCarWindowRenderingTypeViewBeforeScreenUpdates: {
+                [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:NO];
+            } break;
+        }
+
+        UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+
+        CGImageRef imageRef = screenshot.CGImage;
+//        CVPixelBufferRef pixelBuffer = [self.class sdl_pixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
+        CVPixelBufferRef pixelBuffer = [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
+        if (pixelBuffer != nil) {
+            [self.streamManager sendVideoData:pixelBuffer];
+            CVPixelBufferRelease(pixelBuffer);
+        }
     }
+//    BOOL metalViewIsThere  = false;
+//    UIView *viewToBeRendered;
+//    MTKView *metalView;
+//    for (UIView *subView in self.rootViewController.view.subviews) {
+//        for (UIView *subView2 in subView.subviews) {
+//            if ([subView2 isKindOfClass:[MTKView class]]) {
+//                NSLog(@"we landed on the moon");
+//                metalViewIsThere = true;
+//                metalView = (MTKView *)subView2;
+//                break;
+//            }
+//        }
+//    }
+
+//    CGImageRef imageRef;
+//    CVPixelBufferRef pixelBuffer = NULL;
+//    if (metalView != nil) {
+//        metalView.framebufferOnly = NO;
+//        id<MTLTexture> lastDrawableDisplayed = metalView.currentDrawable.texture;
+//        if  (lastDrawableDisplayed.buffer != nil) {
+//            CVPixelBufferCreateWithBytes(kCFAllocatorDefault, lastDrawableDisplayed.width, lastDrawableDisplayed.height, kCVPixelFormatType_64RGBALE, [lastDrawableDisplayed.buffer contents], lastDrawableDisplayed.bufferBytesPerRow, nil, nil, nil, &pixelBuffer);
+//            CVPixelBufferCreate(kCFAllocatorDefault, lastDrawableDisplayed.width, lastDrawableDisplayed.height, kCVPixelFormatType_64RGBALE, nil, &pixelBuffer);
+//        }
+//        if let datas = targetTexture.texture.buffer?.contents() {
+//            CVPixelBufferCreateWithBytes(kCFAllocatorDefault, targetTexture.width,
+//            targetTexture.height, kCVPixelFormatType_64RGBAHalf, datas,
+//            targetTexture.texture.bufferBytesPerRow, nil, nil, nil, &outPixelbuffer);
+//        }
+//        int width = (int)[lastDrawableDisplayed width];
+//        int height = (int)[lastDrawableDisplayed height];
+//        int rowBytes = width;
+//        int selfturesize = width * height;
+//
+//        void *p = malloc(selfturesize);
+//
+//        [lastDrawableDisplayed getBytes:p bytesPerRow:rowBytes fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
+//
+//        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//        CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Little | kCGImageAlphaFirst;
+//        CGDataProviderRef provider = CGDataProviderCreateWithData(nil, p, selfturesize, nil);
+//        imageRef = CGImageCreate(width, height, 8, 32, rowBytes, colorSpace, bitmapInfo, provider, nil, true, (CGColorRenderingIntent)kCGRenderingIntentDefault);
+        //        metalView.framebufferOnly = YES;
+
+//        CFRelease(imageRef);
+//        free(p);
+
+//        [[RPScreenRecorder sharedRecorder] startCaptureWithHandler:^(CMSampleBufferRef  _Nonnull sampleBuffer, RPSampleBufferType bufferType, NSError * _Nullable error) {
+//            switch (bufferType) {
+//                case RPSampleBufferTypeVideo:
+//                    NSLog(@"something");
+//                    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        } completionHandler:^(NSError * _Nullable error) {
+//            NSLog(@"error  while capturing the window while streming the cardwindow");
+//        }];
+//    } else {
+//        UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
+//        switch (self.renderingType) {
+//            case SDLCarWindowRenderingTypeLayer: {
+//                [self.rootViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+//            } break;
+//            case SDLCarWindowRenderingTypeViewAfterScreenUpdates: {
+//                viewToBeRendered = [self.rootViewController.view snapshotViewAfterScreenUpdates:YES];
+//    //            [viewToBeRendered drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
+//    //            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
+//            } break;
+//            case SDLCarWindowRenderingTypeViewBeforeScreenUpdates: {
+//                viewToBeRendered = [self.rootViewController.view snapshotViewAfterScreenUpdates:NO];
+//    //            [viewToBeRendered drawViewHierarchyInRect:bounds afterScreenUpdates:NO];
+//    //            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:NO];
+//            } break;
+//        }
+
+//        UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+//        imageRef = screenshot.CGImage;
+//
+//        pixelBuffer = [self.class sdl_createPixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
+
+//    if (pixelBuffer != nil) {
+//        BOOL success = [self.streamManager sendVideoData:pixelBuffer];
+//        if (!success) {
+//            SDLLogE(@"Video frame will not be sent because the video frame encoding failed");
+//            return;
+//        }
+//        CVPixelBufferRelease(pixelBuffer);
+//    } else {
+//        SDLLogE(@"Video frame will not be sent because the pixelBuffer is nil");
+//    }
+}
+
+- (BOOL)viewControllerContainsMetalView:(UIView *)view {
+    if (view.subviews == 0) {
+        return NO;
+    } else if ([view isKindOfClass:[MTKView class]]) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)updateVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
