@@ -51,7 +51,7 @@ extension ProxyManager {
         delegate?.didChangeProxyState(ProxyState.searching)
 
         sdlManager = SDLManager(configuration: (proxyTransportType == .iap) ? ProxyManager.iapConfiguration : ProxyManager.tcpConfiguration, delegate: self)
-        self.isRemoteControlEnabled = proxyTransportType == .tcp ? true : false
+        self.isRemoteControlEnabled = (proxyTransportType == .tcp)
         startManager()
     }
 
@@ -99,9 +99,9 @@ private extension ProxyManager {
         lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
         lifecycleConfiguration.appType = .default
 
-        // On actional hardware, the app requires permissions to do remote control which this example app will not have.
+        // On actual hardware, the app requires permissions to do remote control which this example app will not have.
         // Only use the remote control type on the TCP connection.
-        if (enableRemote) {
+        if enableRemote {
             lifecycleConfiguration.additionalAppTypes = [.remoteControl]
         }
 
@@ -125,7 +125,7 @@ private extension ProxyManager {
     /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
-        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "AlertManager", "AudioManager", "ButtonManager", "SubscribeButtonManager", "MenuManager", "PerformInteractionManager", "RPCPermissionsManager", "VehicleDataManager"])
+        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "AlertManager", "AudioManager", "ButtonManager", "SubscribeButtonManager", "MenuManager", "PerformInteractionManager", "RPCPermissionsManager", "VehicleDataManager", "RemoteControlManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
         logConfig.globalLogLevel = .debug // Filters the logs
@@ -147,7 +147,7 @@ private extension ProxyManager {
             self.subscribeButtonManager = SubscribeButtonManager(sdlManager: self.sdlManager)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
-            self.remoteControlManager = RemoteControlManager(sdlManager: self.sdlManager, permission: self.isRemoteControlEnabled, homeButtons: self.buttonManager.allScreenSoftButtons())
+            self.remoteControlManager = RemoteControlManager(sdlManager: self.sdlManager, enabled: self.isRemoteControlEnabled, homeButtons: self.buttonManager.allScreenSoftButtons())
 
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 

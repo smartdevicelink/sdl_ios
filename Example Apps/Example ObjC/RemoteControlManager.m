@@ -14,7 +14,6 @@
 @interface RemoteControlManager()
 
 @property (strong, nonatomic) SDLManager *sdlManager;
-@property (assign, nonatomic, getter=isPermissionEnabled, readwrite) BOOL permissionEnabled;
 @property (strong, nonatomic) NSArray<SDLSoftButtonObject *> *homeButtons;
 
 @property (strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapabilities;
@@ -30,18 +29,18 @@
 
 - (instancetype)initWithManager:(SDLManager *)manager hasPermission:(BOOL)permission softButtons:(NSArray<SDLSoftButtonObject *> *)buttons  {
     self = [super init];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
+
     _sdlManager = manager;
-    _permissionEnabled = permission;
+    _enabled = permission;
     _homeButtons = buttons;
+
     return self;
 }
 
 - (void)start {
-    if (![self isPermissionEnabled]) {
-        SDLLogD(@"Missing permissions for Remote Control Manager. Example remote control works only on TCP.");
+    if (!self.isEnabled) {
+        SDLLogW(@"Missing permissions for Remote Control Manager. Example remote control works only on TCP.");
         return;
     }
 

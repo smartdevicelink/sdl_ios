@@ -168,12 +168,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLMenuCell *)sdlex_menuCellRemoteWithManager:(SDLManager *)manager remoteManager:(RemoteControlManager *)remoteManager {
-    SDLArtwork * _Nonnull remoteControlIcon = [SDLArtwork artworkWithImage:[[UIImage imageNamed:RemoteControlIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG];
+    SDLArtwork *remoteControlIcon = [SDLArtwork artworkWithImage:[[UIImage imageNamed:RemoteControlIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG];
 
     // Clicking on cell shows alert message when remote control permissions are disabled
-    if (![remoteManager isPermissionEnabled]) {
-        return [[SDLMenuCell alloc] initWithTitle: ACRemoteMenuName secondaryText:nil tertiaryText:nil icon:remoteControlIcon secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-            [AlertManager sendAlertWithManager:manager image:nil textField1:AlertRemoteControlPermissionWarningText textField2:nil];
+    if (!remoteManager.isEnabled) {
+        return [[SDLMenuCell alloc] initWithTitle:ACRemoteMenuName secondaryText:nil tertiaryText:nil icon:remoteControlIcon secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+            [AlertManager sendAlertWithManager:manager image:nil textField1:AlertRemoteControlNotEnabledWarningText textField2:nil];
         }];
     }
 

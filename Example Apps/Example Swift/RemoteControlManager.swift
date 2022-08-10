@@ -18,8 +18,8 @@ class RemoteControlManager {
     private var hasConsent: Bool?
     private var climateData: SDLClimateControlData?
 
-    public let isPermissionEnabled: Bool
-    public var climateDataString: String {
+    let isEnabled: Bool
+    var climateDataString: String {
             """
             AC: \(optionalNumberBoolToString(climateData?.acEnable))
             AC Max: \(optionalNumberBoolToString(climateData?.acMaxEnable))
@@ -43,25 +43,23 @@ class RemoteControlManager {
     ///
     /// - Parameters:
     ///     - sdlManager: The SDL Manager.
-    ///     - permission: Permission from the proxy manager to access remote control data
+    ///     - enabled: Permission from the proxy manager to access remote control data
     ///     - homeButton: An array of SDLSoftButtonObjects that remote control manager can reset to.
-    init(sdlManager: SDLManager, permission: Bool, homeButtons: [SDLSoftButtonObject]) {
+    init(sdlManager: SDLManager, enabled: Bool, homeButtons: [SDLSoftButtonObject]) {
         self.sdlManager = sdlManager
-        self.isPermissionEnabled = permission
+        self.isEnabled = enabled
         self.homeButtons = homeButtons
     }
 
     func start() {
-        if (!self.isPermissionEnabled) {
-            SDLLog.d("Missing permissions for Remote Control Manager. Example remote control works only on TCP.")
-            return
+        if !self.isEnabled {
+            return SDLLog.d("Missing permissions for Remote Control Manager. Example remote control works only on TCP.")
         }
 
         // Retrieve remote control information and store module ids
         self.sdlManager.systemCapabilityManager.subscribe(capabilityType: .remoteControl) { (capability, subscribed, error) in
             guard capability?.remoteControlCapability != nil else {
-                SDLLog.e("SDL errored getting remote control module information: \(String(describing: error))")
-                return
+                return SDLLog.e("SDL errored getting remote control module information: \(String(describing: error))")
             }
             self.remoteControlCapabilities = capability?.remoteControlCapability
 
@@ -73,8 +71,7 @@ class RemoteControlManager {
             let getInteriorVehicleDataConsent = SDLGetInteriorVehicleDataConsent(moduleType: .climate, moduleIds: [self.climateModuleId!])
             self.sdlManager.send(request: getInteriorVehicleDataConsent, responseHandler: { (request, response, error) in
                 guard let response = response as? SDLGetInteriorVehicleDataConsentResponse else {
-                    SDLLog.e("SDL errored getting remote control consent: \(String(describing: error))");
-                    return
+                    return SDLLog.e("SDL errored getting remote control consent: \(String(describing: error))");
                 }
                 guard let allowed = response.allowed?.first?.boolValue else { return }
 
@@ -93,8 +90,7 @@ class RemoteControlManager {
     func showClimateControl() {
         // Check that the climate module id has been set and consent has been given
         guard climateModuleId != nil && hasConsent == true else {
-            AlertManager.sendAlert(textField1: "The climate module id was not set or consent was not given", sdlManager: self.sdlManager)
-            return
+            return AlertManager.sendAlert(textField1: "The climate module id was not set or consent was not given", sdlManager: self.sdlManager)
         }
         self.sdlManager.screenManager.softButtonObjects = climateButtons
     }
@@ -122,8 +118,7 @@ class RemoteControlManager {
     private func initializeClimateData() {
         // Check that the climate module id has been set and consent has been given
         guard climateModuleId != nil && hasConsent == true else {
-            AlertManager.sendAlert(textField1: "The climate module id was not set or consent was not given", sdlManager: self.sdlManager)
-            return
+            return AlertManager.sendAlert(textField1: "The climate module id was not set or consent was not given", sdlManager: self.sdlManager)
         }
 
         let getInteriorVehicleData =  SDLGetInteriorVehicleData(moduleType: .climate, moduleId: self.climateModuleId!)
@@ -144,8 +139,7 @@ class RemoteControlManager {
         let getInteriorVehicleData = SDLGetInteriorVehicleData(andSubscribeToModuleType: .climate, moduleId: self.climateModuleId!)
         sdlManager.send(request: getInteriorVehicleData) { (req, res, err) in
             guard let response = res as? SDLGetInteriorVehicleDataResponse, response.success.boolValue == true else {
-                SDLLog.e("SDL errored trying to subscribe to climate data: \(String(describing: err))")
-                return
+                return SDLLog.e("SDL errored trying to subscribe to climate data: \(String(describing: err))")
             }
             SDLLog.d("Subscribed to climate control data");
         }
@@ -160,8 +154,7 @@ class RemoteControlManager {
 
         self.sdlManager.send(request: setInteriorVehicleData) { (request, response, error) in
             guard response?.success.boolValue == true else {
-                SDLLog.e("SDL errored trying to turn on climate AC: \(String(describing: error))")
-                return
+                return SDLLog.e("SDL errored trying to turn on climate AC: \(String(describing: error))")
             }
         }
     }
@@ -175,8 +168,7 @@ class RemoteControlManager {
 
         self.sdlManager.send(request: setInteriorVehicleData) { (request, response, error) in
             guard response?.success.boolValue == true else {
-                SDLLog.e("SDL errored trying to turn off climate AC: \(String(describing: error))")
-                return
+                return SDLLog.e("SDL errored trying to turn off climate AC: \(String(describing: error))")
             }
         }
     }
@@ -198,8 +190,7 @@ class RemoteControlManager {
             let remoteButtonPress = SDLButtonPress(buttonName: .acMax, moduleType: .climate, moduleId: self.climateModuleId, buttonPressMode: .short)
             self.sdlManager.send(request: remoteButtonPress) { (request, response, error) in
                 guard response?.success.boolValue == true else {
-                    SDLLog.e("SDL errored toggling AC Max with remote button press: \(String(describing: error))")
-                    return
+                    return SDLLog.e("SDL errored toggling AC Max with remote button press: \(String(describing: error))")
                 }
             }
         }
@@ -209,8 +200,7 @@ class RemoteControlManager {
             let remoteButtonPress = SDLButtonPress(buttonName: .tempDown, moduleType: .climate, moduleId: self.climateModuleId, buttonPressMode: .short)
             self.sdlManager.send(request: remoteButtonPress) { (request, response, error) in
                 guard response?.success.boolValue == true else {
-                    SDLLog.e("SDL errored decreasing target climate temperature with remote button: \(String(describing: error))")
-                    return
+                    return SDLLog.e("SDL errored decreasing target climate temperature with remote button: \(String(describing: error))")
                 }
             }
         }
@@ -220,8 +210,7 @@ class RemoteControlManager {
             let remoteButtonPress = SDLButtonPress(buttonName: .tempUp, moduleType: .climate, moduleId: self.climateModuleId, buttonPressMode: .short)
             self.sdlManager.send(request: remoteButtonPress) { (request, response, error) in
                 guard response?.success.boolValue == true else {
-                    SDLLog.e("SDL errored increasing target climate temperature with remote button:: \(String(describing: error))")
-                    return
+                    return SDLLog.e("SDL errored increasing target climate temperature with remote button:: \(String(describing: error))")
                 }
             }
         }

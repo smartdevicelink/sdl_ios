@@ -218,9 +218,9 @@ private extension MenuManager {
         let remoteControlIcon = SDLArtwork(image: UIImage(named: RemoteControlIconName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG)
 
         // Clicking on cell shows alert message when remote control permissions are disabled
-        if (!remoteManager.isPermissionEnabled) {
+        guard remoteManager.isEnabled else {
             return SDLMenuCell(title: ACRemoteMenuName, secondaryText: nil, tertiaryText: nil, icon: remoteControlIcon, secondaryArtwork: nil, voiceCommands: nil, handler: { _ in
-                AlertManager.sendAlert(textField1: AlertRemoteControlPermissionWarningText, sdlManager: manager)
+                AlertManager.sendAlert(textField1: AlertRemoteControlNotEnabledWarningText, sdlManager: manager)
             })
         }
 
