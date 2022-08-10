@@ -27,12 +27,12 @@
 
 @implementation RemoteControlManager
 
-- (instancetype)initWithManager:(SDLManager *)manager hasPermission:(BOOL)permission softButtons:(NSArray<SDLSoftButtonObject *> *)buttons  {
+- (instancetype)initWithManager:(SDLManager *)manager isEnabled:(BOOL)enabled softButtons:(NSArray<SDLSoftButtonObject *> *)buttons  {
     self = [super init];
     if (!self) { return nil; }
 
     _sdlManager = manager;
-    _enabled = permission;
+    _enabled = enabled;
     _homeButtons = buttons;
 
     return self;

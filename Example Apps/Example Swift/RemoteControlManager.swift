@@ -53,7 +53,7 @@ class RemoteControlManager {
 
     func start() {
         if !self.isEnabled {
-            return SDLLog.d("Missing permissions for Remote Control Manager. Example remote control works only on TCP.")
+            return SDLLog.w("Missing permissions for Remote Control Manager. Example remote control works only on TCP.")
         }
 
         // Retrieve remote control information and store module ids
