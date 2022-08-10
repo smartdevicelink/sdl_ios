@@ -15,9 +15,10 @@ class MenuManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand objects
-    class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> [SDLMenuCell] {
+    class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager, remoteManager: RemoteControlManager) -> [SDLMenuCell] {
         return [menuCellSpeakName(with: manager),
                 menuCellGetAllVehicleData(with: manager),
+                menuCellRemoteControl(with: manager, remoteManager: remoteManager),
                 menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
                 sliderMenuCell(with: manager),
                 scrollableMessageMenuCell(with: manager),
@@ -117,11 +118,11 @@ private extension MenuManager {
     /// - Returns: A SDLMenuCell object
     class func menuCellChangeTemplate(with manager: SDLManager) -> SDLMenuCell {
     
-        /// Lets give an example of 2 templates
+        // Lets give an example of 2 templates
         var submenuItems = [SDLMenuCell]()
         let errorMessage = "Changing the template failed"
         
-        /// Non-Media
+        // Non-Media
         let submenuTitleNonMedia = "Non - Media (Default)"
         submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
             manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .nonMedia)) { err in
@@ -132,7 +133,7 @@ private extension MenuManager {
             }
         }))
         
-        /// Graphic with Text
+        // Graphic with Text
         let submenuTitleGraphicText = "Graphic With Text"
         submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
             manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .graphicWithText)) { err in
@@ -205,6 +206,55 @@ private extension MenuManager {
                 }
             })
         })
+    }
+
+    /// Menu item that shows remote control example
+    ///
+    /// - Parameters:
+    ///      - manager: The SDL Manager
+    ///      - remoteManager: The manager for controling and viewing remote control data
+    /// - Returns: A SDLMenuCell object
+    class func menuCellRemoteControl(with manager: SDLManager, remoteManager: RemoteControlManager) -> SDLMenuCell {
+        let remoteControlIcon = SDLArtwork(image: UIImage(named: RemoteControlIconName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG)
+
+        // Clicking on cell shows alert message when remote control permissions are disabled
+        guard remoteManager.isEnabled else {
+            return SDLMenuCell(title: ACRemoteMenuName, secondaryText: nil, tertiaryText: nil, icon: remoteControlIcon, secondaryArtwork: nil, voiceCommands: nil, handler: { _ in
+                AlertManager.sendAlert(textField1: AlertRemoteControlNotEnabledWarningText, sdlManager: manager)
+            })
+        }
+
+        var submenuItems = [SDLMenuCell]()
+        // Climate Control Menu
+        submenuItems.append(SDLMenuCell(title: ACRemoteControlClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { (triggerSource) in
+            manager.screenManager.changeLayout(SDLTemplateConfiguration(predefinedLayout: .tilesOnly)) { err in
+                if let error = err {
+                    AlertManager.sendAlert(textField1: error.localizedDescription, sdlManager: manager)
+                    return
+                }
+                remoteManager.showClimateControl()
+            }
+        }))
+
+        // View Climate Data
+        submenuItems.append(SDLMenuCell(title: ACRemoteViewClimateMenuName, secondaryText: nil, tertiaryText: nil, icon: nil, secondaryArtwork: nil, voiceCommands: nil, handler: { _ in
+            let climateDataMessage = SDLScrollableMessage(message: remoteManager.climateDataString)
+            manager.send(request: climateDataMessage, responseHandler: { (request, response, error) in
+                guard let response = response else { return }
+                guard response.resultCode == .success else {
+                    if response.resultCode == .timedOut {
+                        AlertManager.sendAlert(textField1: AlertScrollableMessageTimedOutWarningText, sdlManager: manager)
+                    } else if response.resultCode == .aborted {
+                        AlertManager.sendAlert(textField1: AlertScrollableMessageCancelledWarningText, sdlManager: manager)
+                    } else {
+                        AlertManager.sendAlert(textField1: AlertScrollableMessageGeneralWarningText, sdlManager: manager)
+                    }
+                    return
+                }
+            })
+        }))
+
+        return SDLMenuCell(title: ACRemoteMenuName, secondaryText: nil, tertiaryText: nil, icon: remoteControlIcon, secondaryArtwork: nil, submenuLayout: .list, subCells: submenuItems)
     }
 }
 

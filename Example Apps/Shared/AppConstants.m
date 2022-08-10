@@ -56,6 +56,7 @@ NSString * const AlertScrollableMessageCancelledWarningText = @"Scrollable Messa
 NSString * const AlertScrollableMessageGeneralWarningText = @"Scrollable Message could not be displayed";
 NSString * const AlertVehicleDataPermissionsWarningText = @"This app does not have the required permissions to access vehicle data";
 NSString * const AlertVehicleDataGeneralWarningText = @"Something went wrong while getting vehicle data";
+NSString * const AlertRemoteControlNotEnabledWarningText = @"Remote Control is disabled on hardware. Connect this app to Manticore to test Remote Control.";
 NSString * const AlertSpeechPermissionsWarningText = @"You must give this app permission to access Speech Recognition";
 
 #pragma mark - SDL Text-To-Speech
@@ -116,6 +117,9 @@ NSString * const ACMyKeyMenuName = @"MyKey";
 NSString * const ACOdometerMenuName = @"Odometer";
 NSString * const ACPRNDLMenuName = @"PRNDL";
 NSString * const ACRPMMenuName = @"RPM";
+NSString * const ACRemoteMenuName = @"Remote Control";
+NSString * const ACRemoteControlClimateMenuName = @"Climate Control";
+NSString * const ACRemoteViewClimateMenuName = @"View Climate";
 NSString * const ACSpeedMenuName = @"Speed";
 NSString * const ACSteeringWheelAngleMenuName = @"Steering Wheel Angle";
 NSString * const ACTirePressureMenuName = @"Tire Pressure";
@@ -133,6 +137,7 @@ NSString * const PhoneBWIconImageName = @"phone";
 NSString * const SpeakBWIconImageName = @"speak";
 NSString * const BatteryEmptyBWIconName = @"toggle_off";
 NSString * const BatteryFullBWIconName = @"toggle_on";
+NSString * const RemoteControlIconName = @"remote_control";
 
 #pragma mark - SDL App Name in Different Languages
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";
