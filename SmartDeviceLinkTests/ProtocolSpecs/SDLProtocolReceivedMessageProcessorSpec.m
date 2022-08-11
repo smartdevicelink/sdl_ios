@@ -17,9 +17,76 @@
 #import "SDLV2ProtocolMessage.h"
 
 
+
+@interface SDLProtocolReceivedMessageProcessor(){}
+// State management
+@property (assign, nonatomic) NSUInteger state; //todo - I changed type to avoid issues with the enum
+
+// Message assembly state
+@property (strong, nonatomic) SDLProtocolHeader *header;
+@property (strong, nonatomic) NSMutableData *headerBuffer;
+@property (strong, nonatomic) NSMutableData *payloadBuffer;
+
+// Error checking
+@property (assign, nonatomic) UInt8 version;
+@property (assign, nonatomic) BOOL encrypted;
+@property (assign, nonatomic) SDLFrameType frameType;
+@property (assign, nonatomic) UInt32 dataLength;
+@property (assign, nonatomic) UInt32 dataBytesRemaining;
+@end
+
 QuickSpecBegin(SDLProtocolReceivedMessageProcessorSpec)
 
-describe(@"State Machine START_STATE", ^{
+describe(@"The recieved message processor", ^{
+    __block SDLProtocolReceivedMessageProcessor *testProcessor = nil;
+    __block NSMutableData *testBuffer;
+    
+    beforeEach(^{
+        testProcessor = [[SDLProtocolReceivedMessageProcessor alloc] init];
+        testBuffer = [NSMutableData data];
+    });
+    
+
+    context(@"When it recieves a byte while in the START_STATE", ^{
+        it(@"transitions to SERVICE_TYPE_STATE if the byte is valid", ^{
+            testProcessor.state = 0x00;
+            //Byte testByte = 17;
+            Byte testByte = 0x11;
+            [testBuffer appendBytes:&testByte length:1];
+            
+            [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                //do nothing?
+            }];
+            expect(testProcessor.state).to(equal(0x01));
+        });
+        it(@"transitions to ERROR_STATE if the byte is notvalid", ^{
+            testProcessor.state = 0x00;
+            //Byte testByte = 17;
+            Byte testByte = 0x00;
+            [testBuffer appendBytes:&testByte length:1];
+            
+            [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                //do nothing?
+            }];
+            expect(testProcessor.state).to(equal(-1));  //TODO - this doesn't work right
+        });
+    });
+    context(@"When it recieves a valid byte while in the SERVICE_TYPE_STATE", ^{
+        it(@"transitions to CONTROL_FRAME_INFO_STATE", ^{
+            testProcessor.state = 0x01;
+            Byte testByte = 0x0b;
+            [testBuffer appendBytes:&testByte length:1];
+            
+            [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                //do nothing?
+            }];
+            expect(testProcessor.state).to(equal(0x02));
+        });
+    });
+});
+
+
+describe(@"FAIL State Machine START_STATE", ^{
     
     __block SDLProtocolReceivedMessageProcessor *testReceiveProcessor;
     __block SDLProtocolMessage *testMessage;
@@ -31,7 +98,7 @@ describe(@"State Machine START_STATE", ^{
         testReceiveProcessor = [[SDLProtocolReceivedMessageProcessor alloc] init];
     });
     
-    it(@"can pass a good message", ^{
+    it(@"can pass a good message version 1, frame type ", ^{
         // setup the test
         UInt8 version = 1;
         BOOL encrypted = 0;
@@ -62,7 +129,6 @@ describe(@"State Machine START_STATE", ^{
         }];
         //TODO - how will tests end for cases where it doesn't call the block?
     });
-    
     
 });
 
