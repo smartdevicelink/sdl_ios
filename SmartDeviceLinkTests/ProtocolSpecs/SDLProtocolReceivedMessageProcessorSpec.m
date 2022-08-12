@@ -500,7 +500,7 @@ describe(@"The processor", ^{
             testProcessor.state = DATA_PUMP_STATE;
             testProcessor.version = 5;
             //need a valid headerbuffer.  TODO - Lots of magic numbers here.
-            Byte firstByte = ((5 & 0x0f) << 4) + (0 << 3) + (1 & 0x07);
+            Byte firstByte = ((5 & 0x0f) << 4) + (0 << 3) + (1 & 0x07); //version 5 with no encryption, frametype 1
             const Byte testBytes[8] = {firstByte, 0x00, 0x00, 0x00, (3 >> 24) & 0xff, (3 >> 16) & 0xff, (3 >> 8) & 0xff, (3) & 0xff };
             [testHeaderBuffer appendBytes:&testBytes length:8];
             UInt32 messageID = 0;
