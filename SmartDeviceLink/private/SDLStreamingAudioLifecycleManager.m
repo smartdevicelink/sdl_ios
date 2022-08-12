@@ -101,6 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)secondaryTransportDidDisconnect {
+    [self.audioTranscodingManager stop];
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 

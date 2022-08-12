@@ -408,6 +408,20 @@ describe(@"the streaming audio manager", ^{
         });
     });
 
+    describe(@"when secondary transport disconnects", ^{
+        beforeEach(^{
+            [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamManagerStateReady fromOldState:nil callEnterTransition:NO];
+            [streamingLifecycleManager secondaryTransportDidDisconnect];
+        });
+
+        it(@"should transition to the stopped state and stop transcoding", ^{
+            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
+
+            expect(streamingLifecycleManager.protocol).to(beNil());
+            OCMVerify([mockAudioStreamManager stop]);
+        });
+    });
+
     describe(@"starting the manager when it's STOPPED", ^{
         __block SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
 
