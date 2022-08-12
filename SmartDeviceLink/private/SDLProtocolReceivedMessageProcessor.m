@@ -82,6 +82,10 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             messageReadyBlock(self.header, [self.payloadBuffer copy]);
             [self resetState];
         }
+        //If we end up in error state, trigger the reset so we can properly handle the next byte
+        if (_state == ERROR_STATE) {
+            [self resetState];
+        }
     }
 }
 
