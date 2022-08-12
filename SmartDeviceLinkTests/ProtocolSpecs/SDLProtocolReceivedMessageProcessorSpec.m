@@ -144,14 +144,70 @@ describe(@"The processor", ^{
                     expect(@(testProcessor.state)).to(equal(START_STATE));  //TODO - this doesn't work right
                 });
             });
-            
+            context(@"with a frameType of SDLFrameTypeControl", ^{
+                it(@"transitions to SERVICE_TYPE_STATE", ^{
+                    Byte testByte = 0x10;
+                    [testBuffer appendBytes:&testByte length:1];
+                    
+                    [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                        //do nothing?
+                    }];
+                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));  //TODO - this doesn't work right
+                });
+            });
+            context(@"with a frameType of SDLFrameTypeSingle", ^{
+                it(@"transitions to SERVICE_TYPE_STATE", ^{
+                    Byte testByte = 0x11;
+                    [testBuffer appendBytes:&testByte length:1];
+                    
+                    [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                        //do nothing?
+                    }];
+                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));  //TODO - this doesn't work right
+                });
+            });
+            context(@"with a frameType of SDLFrameTypeFirst", ^{
+                it(@"transitions to SERVICE_TYPE_STATE", ^{
+                    Byte testByte = 0x12;
+                    [testBuffer appendBytes:&testByte length:1];
+                    
+                    [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                        //do nothing?
+                    }];
+                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));  //TODO - this doesn't work right
+                });
+            });
+            context(@"with a frameType of SDLFrameTypeConsecutive", ^{
+                it(@"transitions to SERVICE_TYPE_STATE", ^{
+                    Byte testByte = 0x13;
+                    [testBuffer appendBytes:&testByte length:1];
+                    
+                    [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                        //do nothing?
+                    }];
+                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));  //TODO - this doesn't work right
+                });
+            });
+            context(@"with an invalid frameType of 6", ^{
+                it(@"resets state to START_STATE", ^{
+                    Byte testByte = 0x66;
+                    [testBuffer appendBytes:&testByte length:1];
+                    
+                    [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                        //do nothing?
+                    }];
+                    expect(@(testProcessor.state)).to(equal(START_STATE));  //TODO - this doesn't work right
+                });
+            });
         });
     });
     context(@"in SERVICE_TYPE_STATE", ^{
-        context(@"When it recieves a byte", ^{
+        beforeEach(^{
+            testProcessor.state = SERVICE_TYPE_STATE;
+        });
+        context(@"When it recieves a SDLServiceTypeControl byte", ^{
             it(@"transitions to CONTROL_FRAME_INFO_STATE", ^{
-                testProcessor.state = SERVICE_TYPE_STATE;
-                Byte testByte = 0x0b;
+                Byte testByte = SDLServiceTypeControl;
                 [testBuffer appendBytes:&testByte length:1];
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
@@ -160,58 +216,70 @@ describe(@"The processor", ^{
                 expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
             });
         });
-    });
-    context(@"in CONTROL_FRAME_INFO_STATE", ^{
-        beforeEach(^{
-            testProcessor.state = CONTROL_FRAME_INFO_STATE;
-        });
-        context(@"recieves a SDLServiceTypeControl byte", ^{
-            it(@"transitions to SESSION_ID_STATE", ^{
-                Byte testByte = SDLServiceTypeControl;
-                [testBuffer appendBytes:&testByte length:1];
-                
-                [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
-                    //do nothing?
-                }];
-                expect(@(testProcessor.state)).to(equal(SESSION_ID_STATE));
-            });
-        });
-        context(@"recieves a SDLServiceTypeRPC byte", ^{
-            it(@"transitions to SESSION_ID_STATE", ^{
+        context(@"When it recieves a SDLServiceTypeRPC byte", ^{
+            it(@"transitions to CONTROL_FRAME_INFO_STATE", ^{
                 Byte testByte = SDLServiceTypeRPC;
                 [testBuffer appendBytes:&testByte length:1];
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                     //do nothing?
                 }];
-                expect(@(testProcessor.state)).to(equal(SESSION_ID_STATE));
+                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
             });
         });
-        context(@"recieves a SDLServiceTypeAudio byte", ^{
-            it(@"transitions to SESSION_ID_STATE", ^{
+        context(@"When it recieves a SDLServiceTypeAudio byte", ^{
+            it(@"transitions to CONTROL_FRAME_INFO_STATE", ^{
                 Byte testByte = SDLServiceTypeAudio;
                 [testBuffer appendBytes:&testByte length:1];
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                     //do nothing?
                 }];
-                expect(@(testProcessor.state)).to(equal(SESSION_ID_STATE));
+                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
             });
         });
-        context(@"recieves a SDLServiceTypeVideo byte", ^{
-            it(@"transitions to SESSION_ID_STATE", ^{
+        context(@"When it recieves a SDLServiceTypeVideo byte", ^{
+            it(@"transitions to CONTROL_FRAME_INFO_STATE", ^{
                 Byte testByte = SDLServiceTypeVideo;
                 [testBuffer appendBytes:&testByte length:1];
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                     //do nothing?
                 }];
-                expect(@(testProcessor.state)).to(equal(SESSION_ID_STATE));
+                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
             });
         });
-        context(@"recieves a SDLServiceTypeBulkData byte", ^{
-            it(@"transitions to SESSION_ID_STATE", ^{
+        context(@"When it recieves a SDLServiceTypeBulkData byte", ^{
+            it(@"transitions to CONTROL_FRAME_INFO_STATE", ^{
                 Byte testByte = SDLServiceTypeBulkData;
+                [testBuffer appendBytes:&testByte length:1];
+                
+                [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                    //do nothing?
+                }];
+                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
+            });
+        });
+        context(@"recieves an invalid byte", ^{
+            it(@"resets state to START_STATE", ^{
+                Byte testByte = 0xFF;
+                [testBuffer appendBytes:&testByte length:1];
+                
+                [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                    //do nothing?
+                }];
+                expect(@(testProcessor.state)).to(equal(START_STATE));
+            });
+        });
+    });
+    context(@"in CONTROL_FRAME_INFO_STATE", ^{
+        beforeEach(^{
+            testProcessor.state = CONTROL_FRAME_INFO_STATE;
+        });
+        context(@"recieves a valid byte", ^{
+            it(@"transitions to SESSION_ID_STATE", ^{
+                Byte testByte = 0x00;
+                testProcessor.frameType = SDLFrameTypeFirst;
                 [testBuffer appendBytes:&testByte length:1];
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
@@ -220,6 +288,31 @@ describe(@"The processor", ^{
                 expect(@(testProcessor.state)).to(equal(SESSION_ID_STATE));
             });
         });
+        context(@"controlFrameInfo is not 0 for a SDLFrameTypeFirst", ^{
+            it(@"resets to START_STATE", ^{
+                Byte testByte = 0x01;
+                testProcessor.frameType = SDLFrameTypeFirst;
+                [testBuffer appendBytes:&testByte length:1];
+                
+                [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                    //do nothing?
+                }];
+                expect(@(testProcessor.state)).to(equal(START_STATE));
+            });
+        });
+        context(@"controlFrameInfo is not 0 for a SDLFrameTypeSingle", ^{
+            it(@"resets to START_STATE", ^{
+                Byte testByte = 0x01;
+                testProcessor.frameType = SDLFrameTypeSingle;
+                [testBuffer appendBytes:&testByte length:1];
+                
+                [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                    //do nothing?
+                }];
+                expect(@(testProcessor.state)).to(equal(START_STATE));
+            });
+        });
+        
     });
     context(@"in SESSION_ID_STATE", ^{
         context(@"recieves a byte", ^{
