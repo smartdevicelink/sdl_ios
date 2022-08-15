@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, ProcessorState) {
 @property (assign, nonatomic) SDLFrameType frameType;
 @property (assign, nonatomic) UInt32 dataLength;
 @property (assign, nonatomic) UInt32 dataBytesRemaining;
+@property (assign, nonatomic) SDLServiceType serviceType;
 @end
 
 QuickSpecBegin(SDLProtocolReceivedMessageProcessorSpec)
@@ -130,7 +131,7 @@ describe(@"The processor", ^{
                     [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                         //do nothing?
                     }];
-                    expect(@(testProcessor.state)).to(equal(START_STATE));  //TODO - this doesn't work right
+                    expect(@(testProcessor.state)).to(equal(START_STATE));
                 });
             });
             context(@"with a bad version 6", ^{
@@ -141,7 +142,7 @@ describe(@"The processor", ^{
                     [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                         //do nothing?
                     }];
-                    expect(@(testProcessor.state)).to(equal(START_STATE));  //TODO - this doesn't work right
+                    expect(@(testProcessor.state)).to(equal(START_STATE));
                 });
             });
             context(@"with a frameType of SDLFrameTypeControl", ^{
@@ -152,7 +153,7 @@ describe(@"The processor", ^{
                     [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                         //do nothing?
                     }];
-                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));  //TODO - this doesn't work right
+                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                 });
             });
             context(@"with a frameType of SDLFrameTypeSingle", ^{
@@ -163,7 +164,7 @@ describe(@"The processor", ^{
                     [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                         //do nothing?
                     }];
-                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));  //TODO - this doesn't work right
+                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                 });
             });
             context(@"with a frameType of SDLFrameTypeFirst", ^{
@@ -174,7 +175,7 @@ describe(@"The processor", ^{
                     [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                         //do nothing?
                     }];
-                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));  //TODO - this doesn't work right
+                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                 });
             });
             context(@"with a frameType of SDLFrameTypeConsecutive", ^{
@@ -185,7 +186,7 @@ describe(@"The processor", ^{
                     [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                         //do nothing?
                     }];
-                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));  //TODO - this doesn't work right
+                    expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                 });
             });
             context(@"with an invalid frameType of 6", ^{
@@ -196,7 +197,7 @@ describe(@"The processor", ^{
                     [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                         //do nothing?
                     }];
-                    expect(@(testProcessor.state)).to(equal(START_STATE));  //TODO - this doesn't work right
+                    expect(@(testProcessor.state)).to(equal(START_STATE));
                 });
             });
         });
@@ -405,6 +406,20 @@ describe(@"The processor", ^{
                     });
                 });
             });
+            context(@"datalength is greater than maxMtuSize", ^{
+                context(@"recieves a byte", ^{
+                    it(@"transitions to DATA_PUMP_STATE", ^{
+                        testProcessor.serviceType = SDLServiceTypeControl;
+                        testProcessor.dataLength = 200000;
+                        
+                        [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
+                            //do nothing?
+                        }];
+                        expect(@(testProcessor.state)).to(equal(START_STATE));
+                    });
+                });
+            });
+            
         });
         context(@"if version greater than 1", ^{
             context(@"recieves a byte", ^{

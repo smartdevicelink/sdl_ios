@@ -8,8 +8,10 @@
 
 #import "SDLProtocolReceivedMessageProcessor.h"
 
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLProtocolReceivedMessageRouter.h"
+
 
 typedef NS_ENUM(NSUInteger, ProcessorState) {
     START_STATE = 0x0,
@@ -43,6 +45,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 @property (assign, nonatomic) SDLFrameType frameType;
 @property (assign, nonatomic) UInt32 dataLength;
 @property (assign, nonatomic) UInt32 dataBytesRemaining;
+@property (assign, nonatomic) SDLServiceType serviceType;
 @end
 
 @implementation SDLProtocolReceivedMessageProcessor
@@ -127,13 +130,13 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             break;
             
         case SERVICE_TYPE_STATE: {
-                SDLServiceType serviceType = 0x00;
+                _serviceType = 0x00;
                 // 8 bits for service type
-                serviceType = currentByte;
+                _serviceType = currentByte;
                 [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
                 
                 // ServiceType must be one of the defined types, else error.
-                switch (serviceType) {
+                switch (_serviceType) {
                     case SDLServiceTypeControl:
                     case SDLServiceTypeRPC:
                     case SDLServiceTypeAudio:
@@ -143,7 +146,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                         break;
                     default:
                         self.state = ERROR_STATE;
-                        SDLLogE(@"Message serviceType is out of spec: %u, skipping message", serviceType);
+                        SDLLogE(@"Message serviceType is out of spec: %u, skipping message", _serviceType);
                         break;
                 }
             }
@@ -213,21 +216,13 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                 headerSize = 12;
             }
             
-            UInt32 maxMtuSize = 0;
-            if (self.version <= 2) {
-                maxMtuSize = 1500;
-            } else {
-                maxMtuSize = 131084;
-            }
+            NSUInteger maxMtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:_serviceType];
             
             // Error if the data length is greater than the MTU size for this version
-            // For version 5, we should not do this check.
-            if (self.version != 5) {
-                if (self.dataLength >= (maxMtuSize - headerSize)) {
-                    self.state = ERROR_STATE;
-                    SDLLogE(@"Data length %u exceeds maximum MTU size %u, skipping message",(unsigned int) self.dataLength, maxMtuSize);
-                    break;
-                }
+            if (self.dataLength >= (maxMtuSize - headerSize)) {
+                self.state = ERROR_STATE;
+                SDLLogE(@"Data length %u exceeds maximum MTU size %lu, skipping message", self.dataLength, (unsigned long)maxMtuSize);
+                break;
             }
             
             // If this is the first frame, it is not encrypted, and the length is not 8 then error.
@@ -236,7 +231,6 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                 SDLLogE(@"Data length may not exceed 8 (%u) for non encrypted first frame, skipping message", self.dataLength);
                 break;
             }
-            
             break;
             
         // 32 bits for data size (version 2+)
