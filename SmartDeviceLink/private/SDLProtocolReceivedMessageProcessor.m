@@ -204,7 +204,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             // Version 1 does not have a message ID so we skip to the data pump or the end.
             if (self.version == 1) {
                 if (self.dataLength == 0) {
-                    [self resetState];
+                    messageHasEnded = YES; //TODO - test this
                 } else {
                     self.state = DATA_PUMP_STATE;
                 }
@@ -251,8 +251,9 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             break;
             
         case MESSAGE_4_STATE:
+            // If there is no payload, we are done.
             if (self.dataLength == 0) {
-                [self resetState];
+                messageHasEnded = YES;
                 break;
             } else {
                 self.state = DATA_PUMP_STATE;
