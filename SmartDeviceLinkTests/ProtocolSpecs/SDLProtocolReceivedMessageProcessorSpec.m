@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, ProcessorState) {
     ERROR_STATE = -1,
 };
 
-@interface SDLProtocolReceivedMessageProcessor(){}
+@interface SDLProtocolReceivedMessageProcessor ()
 // State management
 @property (assign, nonatomic) ProcessorState state;
 
