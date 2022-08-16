@@ -30,7 +30,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
     ERROR_STATE = -1,
 };
 
-@interface SDLProtocolReceivedMessageProcessor(){}
+@interface SDLProtocolReceivedMessageProcessor ()
 // State management
 @property (assign, nonatomic) ProcessorState state;
 
@@ -85,7 +85,8 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             messageReadyBlock(self.header, [self.payloadBuffer copy]);
             [self resetState];
         }
-        //If we end up in error state, trigger the reset so we can properly handle the next byte
+
+        // If we end up in error state, trigger the reset so we can properly handle the next byte
         if (_state == ERROR_STATE) {
             [self resetState];
         }
@@ -117,7 +118,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             self.state = SERVICE_TYPE_STATE;
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             
-            if ((self.version < 1 || self.version > 5)) {
+            if ((self.version < 1) || (self.version > 5)) {
                 self.state = ERROR_STATE;
                 SDLLogE(@"Message version is out of spec: %hhu, skipping message", self.version);
                 break;
@@ -162,7 +163,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                 // Check for errors. For these two frame types, the frame info should be 0x00
                 if (((self.frameType == SDLFrameTypeFirst) || (self.frameType == SDLFrameTypeSingle)) && (controlFrameInfo != 0x00)){
                     self.state = ERROR_STATE;
-                    SDLLogD(@"Message frameType is out of spec. FrameType: %hhu, frameInfo: %hhu, skipping message",self.frameType, controlFrameInfo);
+                    SDLLogE(@"Message frameType is out of spec. FrameType: %hhu, frameInfo: %hhu, skipping message", self.frameType, controlFrameInfo);
                 }
             }
             break;
