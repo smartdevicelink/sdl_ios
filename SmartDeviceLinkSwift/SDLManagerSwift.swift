@@ -7,28 +7,30 @@
 //
 
 import Foundation
-
 import SmartDeviceLink
 
 public class SDLManagerSwift {
-    
-    public class func sendRPC(rpc: SDLRPCMessage) -> Void{
-        do {
-            try await(SDLManager.send(rpc));
-        } catch {
-            //my dude, an error has occured
+    @available(iOS 13.0.0, *)
+    //pass in the request.
+    //instead of passing in the response handler, the response handler is done in the continueation, which is called when the internal send returns
+    public class func sendRPCRequest(_ request: SDLRPCRequest, using manager: SDLManager) async throws -> (SDLRPCRequest, SDLRPCResponse){
+        try await withCheckedThrowingContinuation{ continuation in
+            manager.send(request: request) {req, res, err in
+                if let error = err {
+                    continuation.resume(throwing: error)
+                } else if let request = req, let response = res {
+                    continuation.resume(returning: (request, response))
+                } else {
+                    continuation.resume(throwing: SendError.unknownError)
+                }
+            }
         }
     }
-
-    public class func sendRequest(request:SDLRPCRequest){
-        sendRequest(request: request, responseHandler: nil)
+    
+    
+    
+    enum SendError: Error {
+        case unknownError
     }
     
-    public class func sendRequest(request: SDLRPCRequest, responseHandler:handler()->Void){
-        SDLManager.send(request: request, responseHandler: responseHandler);
-    }
-    
-    public class func sendRequest(request: SDLRPCRequest, progressHandler: progressHandler()->Void ,responseHandler:handler()->Void){
-        SDLManager.send(request: request, progressHandler: progressHandler  responseHandler: responseHandler);
-    }
 }
