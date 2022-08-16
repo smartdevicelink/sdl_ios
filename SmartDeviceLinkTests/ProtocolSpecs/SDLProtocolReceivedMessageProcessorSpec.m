@@ -53,7 +53,7 @@ typedef NS_ENUM(NSInteger, ProcessorState) {
 
 QuickSpecBegin(SDLProtocolReceivedMessageProcessorSpec)
 
-describe(@"The processor", ^{
+describe(@"The received message processor", ^{
     __block SDLProtocolReceivedMessageProcessor *testProcessor = nil;
     __block NSMutableData *testBuffer;
     __block NSMutableData *testHeaderBuffer;
@@ -63,6 +63,7 @@ describe(@"The processor", ^{
         testBuffer = [NSMutableData data];
         testHeaderBuffer = [NSMutableData data];
     });
+    
     context(@"in START_STATE", ^{
         beforeEach(^{
             testProcessor.state = START_STATE;
@@ -202,6 +203,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in SERVICE_TYPE_STATE", ^{
         beforeEach(^{
             testProcessor.state = SERVICE_TYPE_STATE;
@@ -273,6 +275,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in CONTROL_FRAME_INFO_STATE", ^{
         beforeEach(^{
             testProcessor.state = CONTROL_FRAME_INFO_STATE;
@@ -315,6 +318,7 @@ describe(@"The processor", ^{
         });
         
     });
+    
     context(@"in SESSION_ID_STATE", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to DATA_SIZE_1_STATE", ^{
@@ -329,6 +333,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in DATA_SIZE_1_STATE", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to DATA_SIZE_2_STATE", ^{
@@ -343,6 +348,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in DATA_SIZE_2_STATE", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to DATA_SIZE_3_STATE", ^{
@@ -357,6 +363,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in DATA_SIZE_3_STATE", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to DATA_SIZE_4_STATE", ^{
@@ -371,6 +378,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in DATA_SIZE_4_STATE", ^{
         beforeEach(^{
             testProcessor.state = DATA_SIZE_4_STATE;
@@ -436,6 +444,7 @@ describe(@"The processor", ^{
     
         });
     });
+    
     context(@"in MESSAGE_1_STATE", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to MESSAGE_2_STATE", ^{
@@ -450,6 +459,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in MESSAGE_2_STATE", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to MESSAGE_3_STATE", ^{
@@ -464,6 +474,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in MESSAGE_3_STATE", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to MESSAGE_4_STATE", ^{
@@ -478,6 +489,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in MESSAGE_4_STATE", ^{
         beforeEach(^{
             testProcessor.state = MESSAGE_4_STATE;
@@ -510,6 +522,7 @@ describe(@"The processor", ^{
             });
         });
     });
+    
     context(@"in DATA_PUMP_STATE", ^{
         beforeEach(^{
             testProcessor.state = DATA_PUMP_STATE;
