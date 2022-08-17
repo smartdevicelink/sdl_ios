@@ -204,6 +204,9 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             // Version 1 does not have a message ID so we skip to the data pump or the end.
             if (self.version == 1) {
                 if (self.dataLength == 0) {
+                    self.header = [SDLProtocolHeader headerForVersion:self.version];
+                    [self.header parse:self.headerBuffer];
+                    //todo - Payload!
                     messageHasEnded = YES; //TODO - test this
                 } else {
                     self.state = DATA_PUMP_STATE;
@@ -253,6 +256,10 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
         case MESSAGE_4_STATE:
             // If there is no payload, we are done.
             if (self.dataLength == 0) {
+                //TODO - what does the header and payload look like at this point.  What should they look like?
+                self.header = [SDLProtocolHeader headerForVersion:self.version];
+                [self.header parse:self.headerBuffer];
+                //todo - still missing the payload
                 messageHasEnded = YES;
                 break;
             } else {
