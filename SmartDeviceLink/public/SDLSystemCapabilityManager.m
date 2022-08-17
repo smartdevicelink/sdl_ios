@@ -255,8 +255,10 @@ typedef NSString * SDLServiceID;
     convertedCapabilities.imageFields = [defaultMainWindowCapabilities.imageFields copy];
     convertedCapabilities.templatesAvailable = [defaultMainWindowCapabilities.templatesAvailable copy];
     convertedCapabilities.numCustomPresetsAvailable = [defaultMainWindowCapabilities.numCustomPresetsAvailable copy];
-    convertedCapabilities.mediaClockFormats = @[]; // mandatory field but allows empty array
+    // Set to an empty list if no formats are available
+    convertedCapabilities.mediaClockFormats = self.displayCapabilities.mediaClockFormats ? self.displayCapabilities.mediaClockFormats : @[];
     convertedCapabilities.graphicSupported = @([defaultMainWindowCapabilities.imageTypeSupported containsObject:SDLImageTypeDynamic]);
+    convertedCapabilities.screenParams = self.displayCapabilities.screenParams;
 
     self.displayCapabilities = convertedCapabilities;
     self.buttonCapabilities = defaultMainWindowCapabilities.buttonCapabilities;
