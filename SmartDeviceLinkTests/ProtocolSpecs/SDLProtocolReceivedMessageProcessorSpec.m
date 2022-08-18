@@ -53,6 +53,10 @@ typedef NS_ENUM(NSInteger, ProcessorState) {
 
 QuickSpecBegin(SDLProtocolReceivedMessageProcessorSpec)
 
+// set up all test constants
+
+
+
 describe(@"The received message processor", ^{
     __block SDLProtocolReceivedMessageProcessor *testProcessor = nil;
     __block NSMutableData *testBuffer;
@@ -60,6 +64,7 @@ describe(@"The received message processor", ^{
     __block SDLProtocolHeader *messageReadyHeader = nil;
     __block SDLProtocolHeader *expectedMessageReadyHeader = nil;
     __block NSData *messageReadyPayload = nil;
+    __block NSData *expectedPayloadBuffer = nil;
     
     beforeEach(^{
         testProcessor = [[SDLProtocolReceivedMessageProcessor alloc] init];
@@ -485,6 +490,11 @@ describe(@"The received message processor", ^{
                 [testHeaderBuffer appendBytes:&messageIDBytes length:4];
                 
                 testProcessor.headerBuffer = testHeaderBuffer;
+                expectedMessageReadyHeader= [SDLProtocolHeader headerForVersion:testProcessor.version];
+                [expectedMessageReadyHeader parse:testHeaderBuffer];
+                
+                expectedPayloadBuffer = [NSData data];
+                
             });
             context(@"datalength is 0", ^{
                 context(@"recieves a byte", ^{
@@ -493,12 +503,12 @@ describe(@"The received message processor", ^{
                         messageReadyHeader = [SDLProtocolHeader headerForVersion:1];
                         
                         [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
-                            messageReadyHeader = [header copy];
-                            messageReadyPayload = [payload copy];
+                            messageReadyHeader = header;
+                            messageReadyPayload = payload;
                         }];
                         expect(@(testProcessor.state)).to(equal(START_STATE));
-                        //expect(messageReadyHeader).toEventually(beNil());  //TODO - these will have values here!!!
-                        //expect(messageReadyPayload).toEventually(beNil());
+                        expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
+                        expect(messageReadyPayload).toEventually(equal(expectedPayloadBuffer));
                     });
                 });
             });
@@ -621,7 +631,10 @@ describe(@"The received message processor", ^{
             [testHeaderBuffer appendBytes:&messageIDBytes length:4];
             
             testProcessor.headerBuffer = testHeaderBuffer;
+            expectedMessageReadyHeader= [SDLProtocolHeader headerForVersion:testProcessor.version];
             [expectedMessageReadyHeader parse:testHeaderBuffer];
+            
+            expectedPayloadBuffer = [NSData data];
             
             messageReadyHeader = nil;
             messageReadyPayload = nil;
@@ -639,7 +652,7 @@ describe(@"The received message processor", ^{
                     }];
                     expect(@(testProcessor.state)).to(equal(START_STATE));
                     expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
-                    //expect(messageReadyPayload).toEventually(equal(testBuffer));
+                    expect(messageReadyPayload).toEventually(equal(expectedPayloadBuffer));
                 });
             });
         });
@@ -690,7 +703,7 @@ describe(@"The received message processor", ^{
                 }];
                 expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
-                //expect(messageReadyPayload).toEventually(beNil());
+                expect(messageReadyPayload).toEventually(beNil());
             });
         });
         context(@"dataBytesRemaining is 1", ^{
@@ -699,12 +712,11 @@ describe(@"The received message processor", ^{
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                     messageReadyHeader = header;
-                    //messageReadyPayload = payload;
+                    messageReadyPayload = payload;
                 }];
                 expect(@(testProcessor.state)).to(equal(START_STATE));
-                expect(messageReadyHeader).to(equal(expectedMessageReadyHeader));
-                //expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
-                //expect(messageReadyPayload).toEventually(equal(testBuffer));
+                expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
+                expect(messageReadyPayload).toEventually(equal(testBuffer));
             });
         });
     });
