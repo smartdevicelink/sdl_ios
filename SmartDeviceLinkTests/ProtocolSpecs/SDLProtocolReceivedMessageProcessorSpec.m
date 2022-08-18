@@ -94,6 +94,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(1));
                 });
             });
             context(@"with a good version 2", ^{
@@ -106,8 +107,10 @@ describe(@"The received message processor", ^{
                         messageReadyPayload = payload;
                     }];
                     expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
+                    
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(2));
                 });
             });
             context(@"with a good version 3", ^{
@@ -122,6 +125,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(3));
                 });
             });
             context(@"with a good version 4", ^{
@@ -136,6 +140,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(4));
                 });
             });
             context(@"with a good version 5", ^{
@@ -150,6 +155,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(5));
                 });
             });
             context(@"with a bad version 0", ^{
@@ -164,6 +170,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(START_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(0));
                 });
             });
             context(@"with a bad version 6", ^{
@@ -178,6 +185,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(START_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(0));
                 });
             });
             context(@"with a frameType of SDLFrameTypeControl", ^{
@@ -558,6 +566,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(MESSAGE_1_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(2));
                 });
             });
     
@@ -704,6 +713,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(testProcessor.dataBytesRemaining).toEventually(equal(1));
             });
         });
         context(@"dataBytesRemaining is 1", ^{
@@ -717,6 +727,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
                 expect(messageReadyPayload).toEventually(equal(testBuffer));
+                expect(testProcessor.dataBytesRemaining).toEventually(equal(0));
             });
         });
     });

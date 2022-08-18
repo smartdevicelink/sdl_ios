@@ -68,6 +68,10 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
     // Flush Buffers
     _headerBuffer = [NSMutableData data];
     _payloadBuffer = [NSMutableData data];
+    _version = 0;
+    _encrypted = NO;
+    _frameType = 0x00;
+    _dataLength = 0;
     _dataBytesRemaining = 0;
     
     // Reset state
