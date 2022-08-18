@@ -713,6 +713,14 @@ describe(@"a system capability manager", ^{
                 expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(38));
                 expect(testSystemCapabilityManager.defaultMainWindowCapability.imageFields).to(haveCount(18));
             });
+
+            it(@"should retrieve window id if window id is missing in window capabilities", ^{
+                // set window id to nil. windowID can be potentialy nil in real applications
+                testSystemCapabilityManager.displays[0].windowCapabilities[0].windowID = nil;
+
+                expect(testSystemCapabilityManager.defaultMainWindowCapability.windowID).to(equal(0));
+                expect([testSystemCapabilityManager windowCapabilityWithWindowID:0].windowID).to(equal(0));
+            });
         });
     });
 

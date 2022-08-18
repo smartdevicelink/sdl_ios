@@ -157,6 +157,7 @@ typedef NSString * SDLServiceID;
         NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
         if (currentWindowID != windowID) { continue; }
 
+        windowCapability.windowID = [NSNumber<SDLUInt> numberWithUnsignedLong:windowID];
         return windowCapability;
     }
 
