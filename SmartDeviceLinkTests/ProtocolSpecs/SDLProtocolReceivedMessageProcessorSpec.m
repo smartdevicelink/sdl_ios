@@ -214,6 +214,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(@(testProcessor.frameType)).toEventually(equal(SDLFrameTypeSingle));
                 });
             });
             context(@"with a frameType of SDLFrameTypeFirst", ^{
@@ -228,6 +229,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(@(testProcessor.frameType)).toEventually(equal(SDLFrameTypeFirst));
                 });
             });
             context(@"with a frameType of SDLFrameTypeConsecutive", ^{
@@ -242,6 +244,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(@(testProcessor.frameType)).toEventually(equal(SDLFrameTypeConsecutive));
                 });
             });
             context(@"with an invalid frameType of 6", ^{
@@ -256,6 +259,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(START_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(@(testProcessor.frameType)).toEventually(equal(0));
                 });
             });
         });
@@ -277,6 +281,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.serviceType)).toEventually(equal(SDLServiceTypeControl));
             });
         });
         context(@"When it recieves a SDLServiceTypeRPC byte", ^{
@@ -291,6 +296,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.serviceType)).toEventually(equal(SDLServiceTypeRPC));
             });
         });
         context(@"When it recieves a SDLServiceTypeAudio byte", ^{
@@ -305,6 +311,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.serviceType)).toEventually(equal(SDLServiceTypeAudio));
             });
         });
         context(@"When it recieves a SDLServiceTypeVideo byte", ^{
@@ -319,6 +326,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.serviceType)).toEventually(equal(SDLServiceTypeVideo));
             });
         });
         context(@"When it recieves a SDLServiceTypeBulkData byte", ^{
@@ -333,6 +341,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.serviceType)).toEventually(equal(SDLServiceTypeBulkData));
             });
         });
         context(@"recieves an invalid byte", ^{
@@ -347,16 +356,15 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.serviceType)).toEventually(equal(0));
             });
         });
     });
     
     context(@"in CONTROL_FRAME_INFO_STATE", ^{
-        beforeEach(^{
-            testProcessor.state = CONTROL_FRAME_INFO_STATE;
-        });
         context(@"recieves a valid byte", ^{
             it(@"transitions to SESSION_ID_STATE", ^{
+                testProcessor.state = CONTROL_FRAME_INFO_STATE;
                 Byte testByte = 0x00;
                 testProcessor.frameType = SDLFrameTypeFirst;
                 [testBuffer appendBytes:&testByte length:1];
@@ -368,10 +376,12 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(SESSION_ID_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.frameType)).toEventually(equal(SDLFrameTypeFirst));
             });
         });
         context(@"controlFrameInfo is not 0 for a SDLFrameTypeFirst", ^{
             it(@"resets to START_STATE", ^{
+                testProcessor.state = CONTROL_FRAME_INFO_STATE;
                 Byte testByte = 0x01;
                 testProcessor.frameType = SDLFrameTypeFirst;
                 [testBuffer appendBytes:&testByte length:1];
@@ -383,10 +393,12 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.frameType)).toEventually(equal(0x00));
             });
         });
         context(@"controlFrameInfo is not 0 for a SDLFrameTypeSingle", ^{
             it(@"resets to START_STATE", ^{
+                testProcessor.state = CONTROL_FRAME_INFO_STATE;
                 Byte testByte = 0x01;
                 testProcessor.frameType = SDLFrameTypeSingle;
                 [testBuffer appendBytes:&testByte length:1];
@@ -398,6 +410,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.frameType)).toEventually(equal(0x00));
             });
         });
         
@@ -417,6 +430,8 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(DATA_SIZE_1_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.dataLength)).toEventually(equal(0));
+                
             });
         });
     });
@@ -425,7 +440,7 @@ describe(@"The received message processor", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to DATA_SIZE_2_STATE", ^{
                 testProcessor.state = DATA_SIZE_1_STATE;
-                Byte testByte = 0x00;
+                Byte testByte = 0x02;
                 [testBuffer appendBytes:&testByte length:1];
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
@@ -435,6 +450,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(DATA_SIZE_2_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.dataLength)).toEventually(equal((UInt32)(testByte & 0xFF) << 24));
             });
         });
     });
@@ -443,7 +459,7 @@ describe(@"The received message processor", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to DATA_SIZE_3_STATE", ^{
                 testProcessor.state = DATA_SIZE_2_STATE;
-                Byte testByte = 0x00;
+                Byte testByte = 0x02;
                 [testBuffer appendBytes:&testByte length:1];
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
@@ -453,6 +469,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(DATA_SIZE_3_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.dataLength)).toEventually(equal((UInt32)(testByte & 0xFF) << 16));
             });
         });
     });
@@ -461,7 +478,7 @@ describe(@"The received message processor", ^{
         context(@"recieves a byte", ^{
             it(@"transitions to DATA_SIZE_4_STATE", ^{
                 testProcessor.state = DATA_SIZE_3_STATE;
-                Byte testByte = 0x00;
+                Byte testByte = 0x02;
                 [testBuffer appendBytes:&testByte length:1];
                 
                 [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
@@ -471,6 +488,7 @@ describe(@"The received message processor", ^{
                 expect(@(testProcessor.state)).to(equal(DATA_SIZE_4_STATE));
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
+                expect(@(testProcessor.dataLength)).toEventually(equal((UInt32)(testByte & 0xFF) << 8));
             });
         });
     });
@@ -478,12 +496,8 @@ describe(@"The received message processor", ^{
     context(@"in DATA_SIZE_4_STATE", ^{
         beforeEach(^{
             testProcessor.state = DATA_SIZE_4_STATE;
-            testProcessor.version = 3;
             messageReadyHeader = nil;
             messageReadyPayload = nil;
-            
-            Byte testByte = 0x00;
-            [testBuffer appendBytes:&testByte length:1];
         });
         context(@"if version is 1", ^{
             beforeEach(^{
@@ -507,7 +521,10 @@ describe(@"The received message processor", ^{
             context(@"datalength is 0", ^{
                 context(@"recieves a byte", ^{
                     it(@"resets state to START_STATE", ^{
-                        testProcessor.dataLength = 0;
+                        //testProcessor.dataLength = 0;  //can't jsut assign this, since this state changes this value
+
+                        Byte testByte = 0x00;
+                        [testBuffer appendBytes:&testByte length:1];
                         messageReadyHeader = [SDLProtocolHeader headerForVersion:1];
                         
                         [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
@@ -517,13 +534,18 @@ describe(@"The received message processor", ^{
                         expect(@(testProcessor.state)).to(equal(START_STATE));
                         expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
                         expect(messageReadyPayload).toEventually(equal(expectedPayloadBuffer));
+                        expect(@(testProcessor.dataLength)).toEventually(equal(0));
+                        expect(@(testProcessor.version)).toEventually(equal(0));
                     });
                 });
             });
             context(@"datalength is greater than 0", ^{
                 context(@"recieves a byte", ^{
                     it(@"transitions to DATA_PUMP_STATE", ^{
-                        testProcessor.dataLength = 1;
+                        //testProcessor.dataLength = 0;  //can't jsut assign this, since this state changes this value
+
+                        Byte testByte = 0x01;
+                        [testBuffer appendBytes:&testByte length:1];
                         
                         [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                             messageReadyHeader = header;
@@ -532,14 +554,19 @@ describe(@"The received message processor", ^{
                         expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
                         expect(messageReadyHeader).toEventually(beNil());
                         expect(messageReadyPayload).toEventually(beNil());
+                        expect(@(testProcessor.dataLength)).toEventually(equal(1));
+                        expect(@(testProcessor.version)).toEventually(equal(1));
                     });
                 });
             });
             context(@"datalength is greater than maxMtuSize", ^{
                 context(@"recieves a byte", ^{
-                    it(@"transitions to DATA_PUMP_STATE", ^{
+                    it(@"transitions to START_STATE", ^{
                         testProcessor.serviceType = SDLServiceTypeControl;
                         testProcessor.dataLength = 200000;
+                        
+                        Byte testByte = 0x00;
+                        [testBuffer appendBytes:&testByte length:1];
                         
                         [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                             messageReadyHeader = header;
@@ -548,6 +575,9 @@ describe(@"The received message processor", ^{
                         expect(@(testProcessor.state)).to(equal(START_STATE));
                         expect(messageReadyHeader).toEventually(beNil());
                         expect(messageReadyPayload).toEventually(beNil());
+                        expect(@(testProcessor.serviceType)).toEventually(equal(0));
+                        expect(@(testProcessor.dataLength)).toEventually(equal(0));
+                        expect(@(testProcessor.version)).toEventually(equal(0));
                     });
                 });
             });
@@ -559,6 +589,9 @@ describe(@"The received message processor", ^{
                     testProcessor.version = 2;
                     testProcessor.dataLength = 0;
                     
+                    Byte testByte = 0x00;
+                    [testBuffer appendBytes:&testByte length:1];
+                    
                     [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                         messageReadyHeader = header;
                         messageReadyPayload = payload;
@@ -569,7 +602,6 @@ describe(@"The received message processor", ^{
                     expect(testProcessor.version).toEventually(equal(2));
                 });
             });
-    
         });
     });
     
@@ -630,6 +662,7 @@ describe(@"The received message processor", ^{
     context(@"in MESSAGE_4_STATE", ^{
         beforeEach(^{
             testProcessor.state = MESSAGE_4_STATE;
+            testProcessor.version = 2;
             //need a valid headerbuffer.
             Byte firstByte = ((testProcessor.version & 0x0f) << 4) + (0 << 3) + (1 & 0x07); //version 2 with no encryption, frametype 1
             UInt32 dataLength = 3;
@@ -662,6 +695,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(START_STATE));
                     expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
                     expect(messageReadyPayload).toEventually(equal(expectedPayloadBuffer));
+                    expect(testProcessor.version).toEventually(equal(0));
                 });
             });
         });
@@ -677,6 +711,7 @@ describe(@"The received message processor", ^{
                     expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
                     expect(messageReadyHeader).toEventually(beNil());
                     expect(messageReadyPayload).toEventually(beNil());
+                    expect(testProcessor.version).toEventually(equal(2));
                 });
             });
         });
@@ -714,6 +749,7 @@ describe(@"The received message processor", ^{
                 expect(messageReadyHeader).toEventually(beNil());
                 expect(messageReadyPayload).toEventually(beNil());
                 expect(testProcessor.dataBytesRemaining).toEventually(equal(1));
+                expect(testProcessor.version).toEventually(equal(3));
             });
         });
         context(@"dataBytesRemaining is 1", ^{
@@ -728,6 +764,7 @@ describe(@"The received message processor", ^{
                 expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
                 expect(messageReadyPayload).toEventually(equal(testBuffer));
                 expect(testProcessor.dataBytesRemaining).toEventually(equal(0));
+                expect(testProcessor.version).toEventually(equal(0));
             });
         });
     });

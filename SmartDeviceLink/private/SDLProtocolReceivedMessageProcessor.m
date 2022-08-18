@@ -59,6 +59,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
     _frameType = 0x00;
     _dataLength = 0;
     _dataBytesRemaining = 0;
+    _serviceType = 0x00;
 
     [self resetState];
     return self;
@@ -73,6 +74,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
     _frameType = 0x00;
     _dataLength = 0;
     _dataBytesRemaining = 0;
+    _serviceType = 0x00;
     
     // Reset state
     _state = START_STATE;
