@@ -724,7 +724,7 @@ describe(@"The received message processor", ^{
             Byte testByte = 0xBA;
             [testBuffer appendBytes:&testByte length:1];
         });
-        context(@"dataBytesRemaining is greater than 1", ^{
+        context(@"dataBytesRemaining is greater than 1 and it receives a byte", ^{
             it(@"Stays in DATA_PUMP_STATE", ^{
                 testProcessor.dataBytesRemaining = 2;
                 
@@ -739,7 +739,7 @@ describe(@"The received message processor", ^{
                 expect(testProcessor.version).toEventually(equal(3));
             });
         });
-        context(@"dataBytesRemaining is 1", ^{
+        context(@"dataBytesRemaining is 1 and it receives a byte", ^{
             it(@"transitions to START_STATE", ^{
                 testProcessor.dataBytesRemaining = 1;
                 
