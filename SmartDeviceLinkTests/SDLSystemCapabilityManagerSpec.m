@@ -96,9 +96,16 @@ describe(@"a system capability manager", ^{
         imageField.imageTypeSupported = @[SDLFileTypePNG];
         imageField.imageResolution = [[SDLImageResolution alloc] initWithWidth:42 height:4711];
         testDisplayCapabilities.imageFields = @[imageField];
-        testDisplayCapabilities.mediaClockFormats = @[];
+        testDisplayCapabilities.mediaClockFormats = @[SDLMediaClockFormatClock1, SDLMediaClockFormatClock2];
         testDisplayCapabilities.templatesAvailable = @[@"DEFAULT", @"MEDIA"];
         testDisplayCapabilities.numCustomPresetsAvailable = @(8);
+        SDLScreenParams *screenParams = [[SDLScreenParams alloc] init];
+        [screenParams setResolution:[[SDLImageResolution alloc] initWithWidth:675 height:960]];
+        [screenParams setTouchEventAvailable:[[SDLTouchEventCapabilities alloc] init]];
+        [screenParams.touchEventAvailable setPressAvailable:@YES];
+        [screenParams.touchEventAvailable setMultiTouchAvailable:@YES];
+        [screenParams.touchEventAvailable setDoublePressAvailable:@YES];
+        testDisplayCapabilities.screenParams = screenParams;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -139,16 +146,6 @@ describe(@"a system capability manager", ^{
 
         testDisplayCapabilities2 = [testDisplayCapabilities copy];
         testDisplayCapabilities2.templatesAvailable = @[@"DEFAULT", @"MEDIA", @"NON_MEDIA"];
-
-        testDisplayCapabilities3 = [testDisplayCapabilities copy];
-        testDisplayCapabilities3.mediaClockFormats = @[SDLMediaClockFormatClock1, SDLMediaClockFormatClock2];
-        SDLScreenParams *screenParams = [[SDLScreenParams alloc] init];
-        [screenParams setResolution:[[SDLImageResolution alloc] initWithWidth:675 height:960]];
-        [screenParams setTouchEventAvailable:[[SDLTouchEventCapabilities alloc] init]];
-        [screenParams.touchEventAvailable setPressAvailable:@YES];
-        [screenParams.touchEventAvailable setMultiTouchAvailable:@YES];
-        [screenParams.touchEventAvailable setDoublePressAvailable:@YES];
-        testDisplayCapabilities3.screenParams = screenParams;
     });
 
     afterEach(^{
@@ -727,6 +724,8 @@ describe(@"a system capability manager", ^{
     // when updating display capabilities with OnSystemCapabilityUpdated
     describe(@"when updating display capabilities with OnSystemCapabilityUpdated", ^{
         it(@"should properly update display capability including conversion two times", ^{
+            // Set to display capabilities that have screenParams and mediaClockFormats set
+            testSystemCapabilityManager.displayCapabilities = testDisplayCapabilities;
             // two times because capabilities are just saved in first run but merged/updated in subsequent runs
             for (int i = 0; i < 2; i++) {
                 testDisplayCapabilities.displayName = [NSString stringWithFormat:@"Display %i", i];
@@ -762,40 +761,6 @@ describe(@"a system capability manager", ^{
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
 #pragma clang diagnostic pop
             }
-        });
-
-        it(@"it should keep maintain screenParams and mediaClockFormats values in display capabilities", ^{
-            // Set to display capabilities that have screenParams and mediaClockFormats set
-            testSystemCapabilityManager.displayCapabilities = testDisplayCapabilities3;
-
-            SDLWindowTypeCapabilities *windowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:1];
-            SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:testDisplayCapabilities.displayName];
-            displayCapability.windowTypeSupported = @[windowTypeCapabilities];
-            SDLWindowCapability *defaultWindowCapability = [[SDLWindowCapability alloc] init];
-            defaultWindowCapability.windowID = @(SDLPredefinedWindowsDefaultWindow);
-            defaultWindowCapability.buttonCapabilities = testButtonCapabilities.copy;
-            defaultWindowCapability.softButtonCapabilities = testSoftButtonCapabilities.copy;
-            defaultWindowCapability.templatesAvailable = testDisplayCapabilities.templatesAvailable.copy;
-            defaultWindowCapability.numCustomPresetsAvailable = testDisplayCapabilities.numCustomPresetsAvailable.copy;
-            defaultWindowCapability.textFields = testDisplayCapabilities.textFields.copy;
-            defaultWindowCapability.imageFields = testDisplayCapabilities.imageFields.copy;
-            defaultWindowCapability.imageTypeSupported = testDisplayCapabilities.graphicSupported.boolValue ? @[SDLImageTypeStatic, SDLImageTypeDynamic] : @[SDLImageTypeStatic];
-            displayCapability.windowCapabilities = @[defaultWindowCapability];
-            NSArray<SDLDisplayCapability *> *newDisplayCapabilityList = testDisplayCapabilityList = @[displayCapability];
-
-            SDLSystemCapability *newCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:newDisplayCapabilityList];
-            SDLOnSystemCapabilityUpdated *testUpdateNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:newCapability];
-            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:testUpdateNotification];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-#pragma clang diagnostic push
-            expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
-#pragma clang diagnostic ignored "-Wdeprecated"
-            expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities3));
-            expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
-            expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
-            expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
-#pragma clang diagnostic pop
         });
     });
 
