@@ -157,7 +157,8 @@ typedef NSString * SDLServiceID;
         NSUInteger currentWindowID = windowCapability.windowID != nil ? windowCapability.windowID.unsignedIntegerValue : SDLPredefinedWindowsDefaultWindow;
         if (currentWindowID != windowID) { continue; }
 
-        windowCapability.windowID = [NSNumber<SDLUInt> numberWithUnsignedLong:windowID];
+        // A nil windowID is assumed to be the DefaultWindow according to the spec, but that can be hard for developers to check, so set it explicitly.
+        windowCapability.windowID = [NSNumber numberWithUnsignedLong:currentWindowID];
         return windowCapability;
     }
 
@@ -257,7 +258,7 @@ typedef NSString * SDLServiceID;
     convertedCapabilities.templatesAvailable = [defaultMainWindowCapabilities.templatesAvailable copy];
     convertedCapabilities.numCustomPresetsAvailable = [defaultMainWindowCapabilities.numCustomPresetsAvailable copy];
     // Set to an empty list if no formats are available
-    convertedCapabilities.mediaClockFormats = self.displayCapabilities.mediaClockFormats ? self.displayCapabilities.mediaClockFormats : @[];
+    convertedCapabilities.mediaClockFormats = self.displayCapabilities.mediaClockFormats ?: @[];
     convertedCapabilities.graphicSupported = @([defaultMainWindowCapabilities.imageTypeSupported containsObject:SDLImageTypeDynamic]);
     convertedCapabilities.screenParams = self.displayCapabilities.screenParams;
 
