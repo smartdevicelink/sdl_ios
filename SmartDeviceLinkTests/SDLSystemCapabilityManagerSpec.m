@@ -66,7 +66,6 @@ describe(@"a system capability manager", ^{
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
     __block SDLDisplayCapabilities *testDisplayCapabilities2 = nil;
-    __block SDLDisplayCapabilities *testDisplayCapabilities3 = nil;
 #pragma clang diagnostic pop
     __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
     __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
@@ -756,6 +755,8 @@ describe(@"a system capability manager", ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
                 expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+                expect(testSystemCapabilityManager.displayCapabilities.screenParams).to(equal(testDisplayCapabilities.screenParams));
+                expect(testSystemCapabilityManager.displayCapabilities.mediaClockFormats).to(equal(testDisplayCapabilities.mediaClockFormats));
                 expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
                 expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
