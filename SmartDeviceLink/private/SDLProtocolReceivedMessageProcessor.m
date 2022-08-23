@@ -10,7 +10,7 @@
 
 #import "SDLGlobals.h"
 #import "SDLLogMacros.h"
-#import "SDLProtocolReceivedMessageRouter.h"
+#import "SDLProtocolHeader.h"
 
 
 typedef NS_ENUM(NSUInteger, ProcessorState) {
@@ -268,11 +268,10 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                 //todo - still missing the payload
                 messageHasEnded = YES;
                 break;
-            } else {
-                self.state = DATA_PUMP_STATE;
             }
+
+            self.state = DATA_PUMP_STATE;
             [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
-            
             break;
         
         case DATA_PUMP_STATE:
