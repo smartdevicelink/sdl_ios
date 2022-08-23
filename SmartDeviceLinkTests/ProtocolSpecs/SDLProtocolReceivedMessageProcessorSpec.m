@@ -53,10 +53,6 @@ typedef NS_ENUM(NSInteger, ProcessorState) {
 
 QuickSpecBegin(SDLProtocolReceivedMessageProcessorSpec)
 
-// set up all test constants
-
-
-
 describe(@"The received message processor", ^{
     __block SDLProtocolReceivedMessageProcessor *testProcessor = nil;
     __block NSMutableData *testBuffer;
@@ -230,6 +226,8 @@ describe(@"The received message processor", ^{
             expect(messageReadyHeader).toEventually(beNil());
             expect(messageReadyPayload).toEventually(beNil());
             expect(testProcessor.version).toEventually(equal(0));
+            expect(testProcessor.headerBuffer).toEventually(equal([NSMutableData data]));
+            expect(testProcessor.payloadBuffer).toEventually(equal([NSMutableData data]));
         });
 
         it(@"should recieve a byte with a bad version 6", ^{
@@ -352,6 +350,8 @@ describe(@"The received message processor", ^{
         expect(messageReadyHeader).toEventually(beNil());
         expect(messageReadyPayload).toEventually(beNil());
         expect(@(testProcessor.serviceType)).toEventually(equal(SDLServiceTypeControl));
+        expect(testProcessor.headerBuffer).toEventually(equal([NSMutableData data]));
+        expect(testProcessor.payloadBuffer).toEventually(equal([NSMutableData data]));
     });
 
     it(@"transitions to SESSION_ID_STATE when in CONTROL_FRAME_INFO_STATE, it receives a valid byte", ^{
@@ -384,6 +384,8 @@ describe(@"The received message processor", ^{
         expect(messageReadyHeader).toEventually(beNil());
         expect(messageReadyPayload).toEventually(beNil());
         expect(@(testProcessor.frameType)).toEventually(equal(SDLFrameTypeControl));
+        expect(testProcessor.headerBuffer).toEventually(equal([NSMutableData data]));
+        expect(testProcessor.payloadBuffer).toEventually(equal([NSMutableData data]));
     });
 
     it(@"resets to START_STATE when in CONTROL_FRAME_INFO_STATE, it receives a byte where controlFrameInfo is not 0 and frameType is SDLFrameTypeSingle", ^{
@@ -400,6 +402,8 @@ describe(@"The received message processor", ^{
         expect(messageReadyHeader).toEventually(beNil());
         expect(messageReadyPayload).toEventually(beNil());
         expect(@(testProcessor.frameType)).toEventually(equal(SDLFrameTypeControl));
+        expect(testProcessor.headerBuffer).toEventually(equal([NSMutableData data]));
+        expect(testProcessor.payloadBuffer).toEventually(equal([NSMutableData data]));
     });
 
     it(@"transitions to DATA_SIZE_1_STATE when in SESSION_ID_STATE, it receives a byte", ^{
@@ -501,6 +505,8 @@ describe(@"The received message processor", ^{
             expect(messageReadyPayload).toEventually(equal(expectedPayloadBuffer));
             expect(@(testProcessor.dataLength)).toEventually(equal(0));
             expect(@(testProcessor.version)).toEventually(equal(0));
+            expect(testProcessor.headerBuffer).toEventually(equal([NSMutableData data]));
+            expect(testProcessor.payloadBuffer).toEventually(equal([NSMutableData data]));
         });
 
         it(@"transitions to DATA_PUMP_STATE it receives a byte and determines the data length is greater than 0", ^{
@@ -657,6 +663,8 @@ describe(@"The received message processor", ^{
             expect(messageReadyHeader).toEventually(equal(expectedMessageReadyHeader));
             expect(messageReadyPayload).toEventually(equal(expectedPayloadBuffer));
             expect(testProcessor.version).toEventually(equal(0));
+            expect(testProcessor.headerBuffer).toEventually(equal([NSMutableData data]));
+            expect(testProcessor.payloadBuffer).toEventually(equal([NSMutableData data]));
         });
 
         it(@"transitions to DATA_PUMP_STATE when datalength is greater than 0 and it receives a byte", ^{
