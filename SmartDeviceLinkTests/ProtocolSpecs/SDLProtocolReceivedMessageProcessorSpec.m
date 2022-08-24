@@ -42,7 +42,6 @@ typedef NS_ENUM(NSInteger, ProcessorState) {
 @property (strong, nonatomic) NSMutableData *headerBuffer;
 @property (strong, nonatomic) NSMutableData *payloadBuffer;
 
-// Error checking
 @property (assign, nonatomic) UInt8 version;
 @property (assign, nonatomic) BOOL encrypted;
 @property (assign, nonatomic) SDLFrameType frameType;
@@ -81,9 +80,8 @@ describe(@"The received message processor", ^{
         expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeControl));
     });
     
-    describe(@"transitions to SERVICE_TYPE_STATE when in START_STATE", ^{
-
-        it(@"should receive a byte with a good version 1", ^{
+    describe(@"when in START_STATE", ^{
+        it(@"should transition to next state when receiving version 1", ^{
             Byte testByte = 0x11;
             [testBuffer appendBytes:&testByte length:1];
 
@@ -91,11 +89,10 @@ describe(@"The received message processor", ^{
             [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
-                expect(messageReadyPayload).toEventually(beNil());
+                expect(messageReadyHeader).to(beNil());
+                expect(messageReadyPayload).to(beNil());
             }];
             expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
-            expect(messageReadyHeader).toEventually(beNil());
-            expect(messageReadyPayload).toEventually(beNil());
             expect(testProcessor.version).toEventually(equal(1));
         });
 
@@ -156,7 +153,7 @@ describe(@"The received message processor", ^{
             expect(testProcessor.version).toEventually(equal(5));
         });
 
-        it(@"should recieve a byte with a frameType of SDLFrameTypeControl", ^{
+        it(@"should receive a byte with a frameType of SDLFrameTypeControl", ^{
             Byte testByte = 0x10;
             [testBuffer appendBytes:&testByte length:1];
 

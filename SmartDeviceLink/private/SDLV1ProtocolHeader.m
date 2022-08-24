@@ -82,16 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
     return description;
 }
 
-- (bool)isEqual:(SDLV1ProtocolHeader *)other{
-    bool flag = YES;
-    if (self.version !=other.version) flag = NO;
-    if (self.encrypted !=other.encrypted) flag = NO;
-    if (self.frameType !=other.frameType) flag = NO;
-    if (self.serviceType !=other.serviceType) flag = NO;
-    if (self.frameData !=other.frameData) flag = NO;
-    if (self.sessionID !=other.sessionID) flag = NO;
-    if (self.bytesInPayload !=other.bytesInPayload) flag = NO;
-    return flag;
+- (BOOL)isEqual:(SDLV1ProtocolHeader *)object {
+    return (self.hash == object.hash);
 }
 
 @end

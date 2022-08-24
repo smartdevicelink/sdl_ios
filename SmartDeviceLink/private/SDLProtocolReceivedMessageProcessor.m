@@ -39,7 +39,6 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
 @property (strong, nonatomic) NSMutableData *headerBuffer;
 @property (strong, nonatomic) NSMutableData *payloadBuffer;
 
-// Error checking
 @property (assign, nonatomic) UInt8 version;
 @property (assign, nonatomic) BOOL encrypted;
 @property (assign, nonatomic) SDLFrameType frameType;
@@ -54,14 +53,8 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
     self = [super init];
     if (!self) { return nil; }
 
-    _version = 0;
-    _encrypted = NO;
-    _frameType = 0x00;
-    _dataLength = 0;
-    _dataBytesRemaining = 0;
-    _serviceType = 0x00;
-
     [self resetState];
+
     return self;
 }
 
