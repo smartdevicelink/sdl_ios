@@ -123,17 +123,12 @@ const int ProtocolV2HeaderByteSize = 12;
     return description;
 }
 
-- (bool)isEqual:(SDLV2ProtocolHeader *)other{
-    bool flag = YES;
-    if (self.version !=other.version) flag = NO;
-    if (self.encrypted !=other.encrypted) flag = NO;
-    if (self.frameType !=other.frameType) flag = NO;
-    if (self.serviceType !=other.serviceType) flag = NO;
-    if (self.frameData !=other.frameData) flag = NO;
-    if (self.sessionID !=other.sessionID) flag = NO;
-    if (self.bytesInPayload !=other.bytesInPayload) flag = NO;
-    //not comparing MessageID so that we can say that headers from two different messages can be equal
-    return flag;
+- (NSUInteger)hash {
+    return (self.data.hash) ^ (self.description.hash);
+}
+
+- (BOOL)isEqual:(SDLV2ProtocolHeader *)object {
+    return (self.hash == object.hash);
 }
 
 @end

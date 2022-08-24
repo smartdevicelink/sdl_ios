@@ -4,6 +4,8 @@
 
 #import "SDLV1ProtocolHeader.h"
 
+#import "SDLMacros.h"
+
 const int ProtocolV1HeaderByteSize = 8;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -80,6 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
                               self.sessionID,
                               (unsigned int)self.bytesInPayload];
     return description;
+}
+
+- (NSUInteger)hash {
+    return self.data.hash ^ self.description.hash;
 }
 
 - (BOOL)isEqual:(SDLV1ProtocolHeader *)object {
