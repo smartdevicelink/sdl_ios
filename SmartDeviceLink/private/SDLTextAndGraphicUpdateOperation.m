@@ -97,6 +97,23 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)updateStateDataWithErrorData:(SDLTextAndGraphicState *)errorData {
+    self.updatedState.textField1 = errorData.textField1 == self.updatedState.textField1 ? self.currentScreenData.textField1 : self.updatedState.textField1;
+    self.updatedState.textField2 = errorData.textField2 == self.updatedState.textField2 ? self.currentScreenData.textField2 : self.updatedState.textField2;
+    self.updatedState.textField3 = errorData.textField3 == self.updatedState.textField3 ? self.currentScreenData.textField3 : self.updatedState.textField3;
+    self.updatedState.textField4 = errorData.textField4 == self.updatedState.textField4 ? self.currentScreenData.textField4 : self.updatedState.textField4;
+    self.updatedState.mediaTrackTextField = errorData.mediaTrackTextField == self.updatedState.mediaTrackTextField ? self.currentScreenData.mediaTrackTextField : self.updatedState.mediaTrackTextField;
+    self.updatedState.title = errorData.title == self.updatedState.title ? self.currentScreenData.title : self.updatedState.title;
+    self.updatedState.primaryGraphic = errorData.primaryGraphic == self.updatedState.primaryGraphic ? self.currentScreenData.primaryGraphic : self.updatedState.primaryGraphic;
+    self.updatedState.secondaryGraphic = errorData.secondaryGraphic == self.updatedState.secondaryGraphic ? self.currentScreenData.secondaryGraphic : self.updatedState.secondaryGraphic;
+    self.updatedState.alignment = errorData.alignment == self.updatedState.alignment ? self.currentScreenData.alignment : self.updatedState.alignment;
+    self.updatedState.textField1Type = errorData.textField1Type == self.updatedState.textField1Type ? self.currentScreenData.textField1Type : self.updatedState.textField1Type;
+    self.updatedState.textField2Type = errorData.textField2Type == self.updatedState.textField2Type ? self.currentScreenData.textField2Type : self.updatedState.textField2Type;
+    self.updatedState.textField3Type = errorData.textField3Type == self.updatedState.textField3Type ? self.currentScreenData.textField3Type : self.updatedState.textField3Type;
+    self.updatedState.textField4Type = errorData.textField4Type == self.updatedState.textField4Type ? self.currentScreenData.textField4Type : self.updatedState.textField4Type;
+    self.updatedState.templateConfig = errorData.templateConfig == self.updatedState.templateConfig ? self.currentScreenData.templateConfig : self.updatedState.templateConfig;
+}
+
 #pragma mark - Send Show / Set Display Layout
 
 - (void)sdl_updateGraphicsAndShow:(SDLShow *)show {
@@ -159,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
         } else {
             SDLLogD(@"Text and Graphic Show failed");
-            self.currentDataUpdatedHandler(nil, error);
+            self.currentDataUpdatedHandler(nil, error, self.updatedState);
         }
 
         handler(error);
@@ -182,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
             [strongSelf sdl_updateCurrentScreenDataFromSetDisplayLayout:request];
         } else {
             SDLLogD(@"Text and Graphic SetDisplayLayout failed to change to new layout: %@", setLayout.displayLayout);
-            self.currentDataUpdatedHandler(nil, error);
+            self.currentDataUpdatedHandler(nil, error, nil);
         }
 
         handler(error);
@@ -498,7 +515,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.templateConfig = show.templateConfiguration ? self.updatedState.templateConfig : self.currentScreenData.templateConfig;
 
     if (self.currentDataUpdatedHandler != nil) {
-        self.currentDataUpdatedHandler(self.currentScreenData, nil);
+        self.currentDataUpdatedHandler(self.currentScreenData, nil, nil);
     }
 }
 
@@ -509,7 +526,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.templateConfig = [[SDLTemplateConfiguration alloc] initWithTemplate:setDisplayLayout.displayLayout dayColorScheme:setDisplayLayout.dayColorScheme nightColorScheme:setDisplayLayout.nightColorScheme];
 
     if (self.currentDataUpdatedHandler != nil) {
-        self.currentDataUpdatedHandler(self.currentScreenData, nil);
+        self.currentDataUpdatedHandler(self.currentScreenData, nil, nil);
     }
 }
 

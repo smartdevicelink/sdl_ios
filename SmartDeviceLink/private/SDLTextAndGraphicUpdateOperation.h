@@ -22,7 +22,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable error);
-typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newScreenData, NSError *__nullable error);
+typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newScreenData, NSError *__nullable error, SDLTextAndGraphicState *__nullable errorScreenData);
 
 @interface SDLTextAndGraphicUpdateOperation : SDLAsynchronousOperation
 
@@ -37,6 +37,10 @@ typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newS
 /// @param newState The new text and graphic manager state to be compared with currentData and sent in a Show update if needed.
 /// @param updateCompletionHandler The handler potentially passed by the developer to be called when the update finishes
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLTextAndGraphicState *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler;
+
+/// Changes updated state to remove potential errors from previous update operations
+/// @param errorData A updated state that failed in a previous operation that will be used to filter out erroneous data
+- (void)updateStateDataWithErrorData:(SDLTextAndGraphicState *)errorData;
 
 @end
 

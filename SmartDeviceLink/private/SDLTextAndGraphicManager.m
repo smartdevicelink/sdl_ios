@@ -173,16 +173,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __weak typeof(self) weakSelf = self;
-    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState *_Nullable newScreenData, NSError *_Nullable error) {
+    SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState *_Nullable newScreenData, NSError *_Nullable error, SDLTextAndGraphicState *_Nullable errorScreenData) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (newScreenData != nil) {
             // Update our current screen data
             strongSelf.currentScreenData = newScreenData;
-            [strongSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData];
+            [strongSelf sdl_updatePendingOperationsWithNewScreenData:newScreenData errorState:nil];
         } else if (error != nil) {
             // Invalidate data that's different from our current screen data if a Show or SetDisplayLayout fails. This will prevent subsequent `Show`s from failing if the request failed due to the developer setting invalid data or subsequent `SetDisplayLayout`s from failing if the template is not supported on the module. 
             [strongSelf sdl_resetFieldsToCurrentScreenData];
-            [strongSelf sdl_updatePendingOperationsWithNewScreenData:strongSelf.currentScreenData];
+            [strongSelf sdl_updatePendingOperationsWithNewScreenData:strongSelf.currentScreenData errorState:errorScreenData];
         }
     } updateCompletionHandler:handler];
 
@@ -195,12 +195,13 @@ NS_ASSUME_NONNULL_BEGIN
     [self.transactionQueue addOperation:updateOperation];
 }
 
-- (void)sdl_updatePendingOperationsWithNewScreenData:(SDLTextAndGraphicState *)newScreenData {
+- (void)sdl_updatePendingOperationsWithNewScreenData:(SDLTextAndGraphicState *)newScreenData errorState:(SDLTextAndGraphicState *_Nullable)errorData {
     for (NSOperation *operation in self.transactionQueue.operations) {
         if (operation.isExecuting) { continue; }
         SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
 
         updateOp.currentScreenData = newScreenData;
+        [updateOp updateStateDataWithErrorData:errorData];
     }
 }
 
