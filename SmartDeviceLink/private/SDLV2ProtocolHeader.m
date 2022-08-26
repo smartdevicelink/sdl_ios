@@ -124,7 +124,7 @@ const int ProtocolV2HeaderByteSize = 12;
 }
 
 - (NSUInteger)hash {
-    return (self.data.hash) ^ (self.description.hash);
+    return self.data.hash ^ self.description.hash;
 }
 
 - (BOOL)isEqual:(SDLV2ProtocolHeader *)object {
