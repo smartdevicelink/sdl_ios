@@ -91,9 +91,9 @@ describe(@"The received message processor", ^{
 
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(1));
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
             }];
+            expect(testProcessor.version).to(equal(1));
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
         });
 
         it(@"should transition to next state when receiving version 2", ^{
@@ -106,9 +106,9 @@ describe(@"The received message processor", ^{
 
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(2));
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
             }];
+            expect(testProcessor.version).to(equal(2));
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
         });
 
         it(@"should transition to next state when receiving version 3", ^{
@@ -121,10 +121,9 @@ describe(@"The received message processor", ^{
 
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(3));
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
-
             }];
+            expect(testProcessor.version).to(equal(3));
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
         });
 
         it(@"should transition to next state when receiving version 4", ^{
@@ -137,9 +136,9 @@ describe(@"The received message processor", ^{
 
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(4));
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
             }];
+            expect(testProcessor.version).to(equal(4));
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
         });
 
         it(@"should transition to next state when receiving version 5", ^{
@@ -152,9 +151,9 @@ describe(@"The received message processor", ^{
 
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(5));
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
             }];
+            expect(testProcessor.version).to(equal(5));
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
         });
 
         it(@"should transition to next state when receiving a byte with a frameType of SDLFrameTypeControl", ^{
@@ -165,10 +164,10 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
             }];
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
         });
 
         it(@"should transition to next state when receiving a byte with a frameType of SDLFrameTypeSingle", ^{
@@ -179,11 +178,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeSingle));
             }];
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
+            expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeSingle));
         });
 
         it(@"should transition to next state when receiving a byte with a frameType of SDLFrameTypeFirst", ^{
@@ -194,11 +193,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeFirst));
             }];
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
+            expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeFirst));
         });
 
         it(@"should transition to next state when receiving a byte with a frameType of SDLFrameTypeConsecutive", ^{
@@ -209,11 +208,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeConsecutive));
             }];
+            expect(@(testProcessor.state)).to(equal(SERVICE_TYPE_STATE));
+            expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeConsecutive));
         });
 
         it(@"should reset state when receiving a byte with a bad version 0", ^{
@@ -224,13 +223,13 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(0));
-                expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
-                expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
             }];
+            expect(@(testProcessor.state)).to(equal(START_STATE));
+            expect(testProcessor.version).to(equal(0));
+            expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
+            expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
         });
 
         it(@"should reset state when receiving a byte with a bad version 6", ^{
@@ -241,13 +240,13 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(0));
-                expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
-                expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
             }];
+            expect(@(testProcessor.state)).to(equal(START_STATE));
+            expect(testProcessor.version).to(equal(0));
+            expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
+            expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
         });
 
         it(@"should reset state when receiving a byte with an invalid frameType of 6", ^{
@@ -258,12 +257,12 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.frameType)).to(equal(0));
-                expect(testProcessor.version).to(equal(0));
             }];
+            expect(@(testProcessor.state)).to(equal(START_STATE));
+            expect(@(testProcessor.frameType)).to(equal(0));
+            expect(testProcessor.version).to(equal(0));
         });
     });
 
@@ -282,11 +281,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeControl));
             }];
+            expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
+            expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeControl));
         });
 
         it(@"should transition to next state when receiving a SDLServiceTypeRPC byte", ^{
@@ -297,11 +296,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeRPC));
             }];
+            expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
+            expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeRPC));
         });
 
         it(@"should transition to next state when receiving a SDLServiceTypeAudio byte", ^{
@@ -312,11 +311,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeAudio));
             }];
+            expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
+            expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeAudio));
         });
 
         it(@"should transition to next state when receiving a SDLServiceTypeVideo byte", ^{
@@ -327,11 +326,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeVideo));
             }];
+            expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
+            expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeVideo));
         });
 
         it(@"should transition to next state when receiving a SDLServiceTypeBulkData byte", ^{
@@ -342,11 +341,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeBulkData));
             }];
+            expect(@(testProcessor.state)).to(equal(CONTROL_FRAME_INFO_STATE));
+            expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeBulkData));
         });
 
         it(@"should reset state when receiving an invalid byte", ^{
@@ -357,13 +356,13 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeControl));
-                expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
-                expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
             }];
+            expect(@(testProcessor.state)).to(equal(START_STATE));
+            expect(@(testProcessor.serviceType)).to(equal(SDLServiceTypeControl));
+            expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
+            expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
         });
     });
 
@@ -382,11 +381,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(SESSION_ID_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeFirst));
             }];
+            expect(@(testProcessor.state)).to(equal(SESSION_ID_STATE));
+            expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeFirst));
         });
 
         it(@"should reset state when receiving a byte where controlFrameInfo is not 0 and frameType is SDLFrameTypeFirst", ^{
@@ -398,13 +397,13 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeControl));
-                expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
-                expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
             }];
+            expect(@(testProcessor.state)).to(equal(START_STATE));
+            expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeControl));
+            expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
+            expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
         });
 
         it(@"should resets state when receiving a byte where controlFrameInfo is not 0 and frameType is SDLFrameTypeSingle", ^{
@@ -416,13 +415,13 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeControl));
-                expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
-                expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
             }];
+            expect(@(testProcessor.state)).to(equal(START_STATE));
+            expect(@(testProcessor.frameType)).to(equal(SDLFrameTypeControl));
+            expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
+            expect(testProcessor.payloadBuffer).to(equal([NSMutableData data]));
         });
     });
 
@@ -434,12 +433,12 @@ describe(@"The received message processor", ^{
         [testProcessor processReceiveBuffer:testBuffer withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
             messageReadyHeader = header;
             messageReadyPayload = payload;
-            
-            expect(@(testProcessor.state)).to(equal(DATA_SIZE_1_STATE));
+
             expect(messageReadyHeader).to(beNil());
             expect(messageReadyPayload).to(beNil());
-            expect(@(testProcessor.dataLength)).to(equal(0));
         }];
+        expect(@(testProcessor.state)).to(equal(DATA_SIZE_1_STATE));
+        expect(@(testProcessor.dataLength)).to(equal(0));
     });
 
     it(@"should transition to DATA_SIZE_2_STATE when in DATA_SIZE_1_STATE and receiving a byte", ^{
@@ -451,11 +450,11 @@ describe(@"The received message processor", ^{
             messageReadyHeader = header;
             messageReadyPayload = payload;
 
-            expect(@(testProcessor.state)).to(equal(DATA_SIZE_2_STATE));
             expect(messageReadyHeader).to(beNil());
             expect(messageReadyPayload).to(beNil());
-            expect(@(testProcessor.dataLength)).to(equal((UInt32)(testByte & 0xFF) << 24));
         }];
+        expect(@(testProcessor.state)).to(equal(DATA_SIZE_2_STATE));
+        expect(@(testProcessor.dataLength)).to(equal((UInt32)(testByte & 0xFF) << 24));
     });
 
     it(@"should transitions to DATA_SIZE_3_STATE when in DATA_SIZE_2_STATE and receiving a byte", ^{
@@ -467,11 +466,11 @@ describe(@"The received message processor", ^{
             messageReadyHeader = header;
             messageReadyPayload = payload;
 
-            expect(@(testProcessor.state)).to(equal(DATA_SIZE_3_STATE));
             expect(messageReadyHeader).to(beNil());
             expect(messageReadyPayload).to(beNil());
-            expect(@(testProcessor.dataLength)).to(equal((UInt32)(testByte & 0xFF) << 16));
         }];
+        expect(@(testProcessor.state)).to(equal(DATA_SIZE_3_STATE));
+        expect(@(testProcessor.dataLength)).to(equal((UInt32)(testByte & 0xFF) << 16));
     });
 
     it(@"should transition to DATA_SIZE_4_STATE when in DATA_SIZE_3_STATE and receiving a byte", ^{
@@ -483,11 +482,11 @@ describe(@"The received message processor", ^{
             messageReadyHeader = header;
             messageReadyPayload = payload;
 
-            expect(@(testProcessor.state)).to(equal(DATA_SIZE_4_STATE));
             expect(messageReadyHeader).to(beNil());
             expect(messageReadyPayload).to(beNil());
-            expect(@(testProcessor.dataLength)).to(equal((UInt32)(testByte & 0xFF) << 8));
         }];
+        expect(@(testProcessor.state)).to(equal(DATA_SIZE_4_STATE));
+        expect(@(testProcessor.dataLength)).to(equal((UInt32)(testByte & 0xFF) << 8));
     });
 
     describe(@"when in DATA_SIZE_4_STATE and the version is 1", ^{
@@ -525,9 +524,8 @@ describe(@"The received message processor", ^{
 
                 expect(messageReadyHeader).to(equal(expectedMessageReadyHeader));
                 expect(messageReadyPayload).to(equal(expectedPayloadBuffer));
-                expect(@(testProcessor.dataLength)).to(equal(0));
             }];
-
+            expect(@(testProcessor.dataLength)).to(equal(0));
             expect(@(testProcessor.state)).to(equal(START_STATE));
             expect(@(testProcessor.version)).to(equal(0));
             expect(testProcessor.headerBuffer).to(equal([NSMutableData data]));
@@ -542,12 +540,12 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.dataLength)).to(equal(1));
-                expect(@(testProcessor.version)).to(equal(1));
             }];
+            expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
+            expect(@(testProcessor.dataLength)).to(equal(1));
+            expect(@(testProcessor.version)).to(equal(1));
         });
 
         it(@"should transition to START_STATE when receiving a byte and determines the data length is greater than maxMtuSize", ^{
@@ -561,13 +559,13 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(START_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(@(testProcessor.serviceType)).to(equal(0));
-                expect(@(testProcessor.dataLength)).to(equal(0));
-                expect(@(testProcessor.version)).to(equal(0));
             }];
+            expect(@(testProcessor.state)).to(equal(START_STATE));
+            expect(@(testProcessor.serviceType)).to(equal(0));
+            expect(@(testProcessor.dataLength)).to(equal(0));
+            expect(@(testProcessor.version)).to(equal(0));
         });
     });
 
@@ -605,11 +603,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(MESSAGE_1_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(2));
             }];
+            expect(@(testProcessor.state)).to(equal(MESSAGE_1_STATE));
+            expect(testProcessor.version).to(equal(2));
         });
     });
 
@@ -622,10 +620,10 @@ describe(@"The received message processor", ^{
             messageReadyHeader = header;
             messageReadyPayload = payload;
 
-            expect(@(testProcessor.state)).to(equal(MESSAGE_2_STATE));
             expect(messageReadyHeader).to(beNil());
             expect(messageReadyPayload).to(beNil());
         }];
+        expect(@(testProcessor.state)).to(equal(MESSAGE_2_STATE));
     });
 
     it(@"should transition to MESSAGE_3_STATE when in MESSAGE_2_STATE and  it receives a byte", ^{
@@ -637,10 +635,10 @@ describe(@"The received message processor", ^{
             messageReadyHeader = header;
             messageReadyPayload = payload;
 
-            expect(@(testProcessor.state)).to(equal(MESSAGE_3_STATE));
             expect(messageReadyHeader).to(beNil());
             expect(messageReadyPayload).to(beNil());
         }];
+        expect(@(testProcessor.state)).to(equal(MESSAGE_3_STATE));
     });
 
     it(@"should transition to MESSAGE_4_STATE when in MESSAGE_3_STATE and it receives a byte", ^{
@@ -652,10 +650,10 @@ describe(@"The received message processor", ^{
             messageReadyHeader = header;
             messageReadyPayload = payload;
 
-            expect(@(testProcessor.state)).to(equal(MESSAGE_4_STATE));
             expect(messageReadyHeader).to(beNil());
             expect(messageReadyPayload).to(beNil());
         }];
+        expect(@(testProcessor.state)).to(equal(MESSAGE_4_STATE));
     });
 
     describe(@"when in MESSAGE_4_STATE and version is greater than 1", ^{
@@ -706,11 +704,11 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.version).to(equal(2));
             }];
+            expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
+            expect(testProcessor.version).to(equal(2));
         });
     });
 
@@ -742,12 +740,12 @@ describe(@"The received message processor", ^{
                 messageReadyHeader = header;
                 messageReadyPayload = payload;
 
-                expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
                 expect(messageReadyHeader).to(beNil());
                 expect(messageReadyPayload).to(beNil());
-                expect(testProcessor.dataBytesRemaining).to(equal(1));
-                expect(testProcessor.version).to(equal(3));
             }];
+            expect(@(testProcessor.state)).to(equal(DATA_PUMP_STATE));
+            expect(testProcessor.dataBytesRemaining).to(equal(1));
+            expect(testProcessor.version).to(equal(3));
         });
 
         it(@"should transition to START_STATE when dataBytesRemaining is 1 and receiving a byte", ^{
@@ -759,8 +757,8 @@ describe(@"The received message processor", ^{
 
                 expect(messageReadyHeader).to(equal(expectedMessageReadyHeader));
                 expect(messageReadyPayload).to(equal(testBuffer));
-                expect(testProcessor.dataBytesRemaining).to(equal(0));
             }];
+            expect(testProcessor.dataBytesRemaining).to(equal(0));
             expect(@(testProcessor.state)).to(equal(START_STATE));
             expect(testProcessor.version).to(equal(0));
         });
