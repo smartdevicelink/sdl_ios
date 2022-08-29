@@ -167,10 +167,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updateAndCancelPreviousOperations:(BOOL)supersedePreviousOperations completionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     SDLLogD(@"Updating text and graphics");
-    if (self.transactionQueue.operationCount > 0 && supersedePreviousOperations) {
-        SDLLogV(@"Transactions already exist, cancelling them");
-        [self.transactionQueue cancelAllOperations];
-    }
 
     __weak typeof(self) weakSelf = self;
     SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState *_Nullable newScreenData, NSError *_Nullable error, SDLTextAndGraphicState *_Nullable errorScreenData) {
