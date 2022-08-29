@@ -197,7 +197,10 @@ NS_ASSUME_NONNULL_BEGIN
         SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
 
         updateOp.currentScreenData = newScreenData;
-        [updateOp updateStateDataWithErrorData:errorData];
+
+        if (errorData != nil) {
+            [updateOp updateStateDataWithErrorData:errorData];
+        }
     }
 }
 

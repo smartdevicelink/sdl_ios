@@ -140,19 +140,23 @@ describe(@"text and graphic manager", ^{
             });
         });
 
-        // when previous updates have bene cancelled
-        context(@"when previous updates have bene cancelled", ^{
+        // without batching
+        context(@"without batching", ^{
             beforeEach(^{
-                testManager.textField1 = @"Hello";
-
-                // This should cancel the first operation
-                testManager.textField2 = @"Goodbye";
+                testManager.batchUpdates = NO;
+                testManager.textField1 = @"test1";
+                testManager.textField2 = @"test2";
+                testManager.textField3 = @"test3";
+                testManager.textField4 = @"test4";
             });
 
-            it(@"should properly queue the new update", ^{
+            it(@"should create indiviudal operations and not be cancelled", ^{
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
-                expect(testManager.transactionQueue.operationCount).to(equal(2));
-                expect(testManager.transactionQueue.operations[0].cancelled).to(beTrue());
+                expect(testManager.transactionQueue.operationCount).to(equal(4));
+                expect(testManager.transactionQueue.operations[0].cancelled).to(beFalse());
+                expect(testManager.transactionQueue.operations[1].cancelled).to(beFalse());
+                expect(testManager.transactionQueue.operations[2].cancelled).to(beFalse());
+                expect(testManager.transactionQueue.operations[3].cancelled).to(beFalse());
             });
         });
 
@@ -450,6 +454,7 @@ describe(@"text and graphic manager", ^{
     describe(@"when the operation updates the current screen data", ^{
         __block SDLTextAndGraphicUpdateOperation *testOperation = nil;
         __block SDLTextAndGraphicUpdateOperation *testOperation2 = nil;
+        __block SDLTextAndGraphicUpdateOperation *testOperation3 = nil;
 
         beforeEach(^{
             testManager.textField1 = @"test";
@@ -461,7 +466,7 @@ describe(@"text and graphic manager", ^{
         // with good data
         context(@"with good data", ^{
             beforeEach(^{
-                testOperation.currentDataUpdatedHandler(testOperation.updatedState, nil);
+                testOperation.currentDataUpdatedHandler(testOperation.updatedState, nil, nil);
             });
 
             it(@"should update the manager's and pending operations' current screen data", ^{
@@ -475,11 +480,18 @@ describe(@"text and graphic manager", ^{
             beforeEach(^{
                 testManager.currentScreenData = [[SDLTextAndGraphicState alloc] init];
                 testManager.currentScreenData.textField1 = @"Test1";
-                testOperation.currentDataUpdatedHandler(nil, [NSError errorWithDomain:@"any" code:1 userInfo:nil]);
+
+                SDLTextAndGraphicState *errorState = [[SDLTextAndGraphicState alloc] init];
+                errorState.textField1 = @"Bad Data";
+                testManager.textField1 = errorState.textField1;
+                testManager.textField4 = @"Good Data";
+                testOperation3 = testManager.transactionQueue.operations[3];
+                testOperation.currentDataUpdatedHandler(nil, [NSError errorWithDomain:@"any" code:1 userInfo:nil], errorState);
             });
 
-            it(@"should reset the manager's data", ^{
+            it(@"should reset the manager's data and update other operations updated state", ^{
                 expect(testManager.textField1).to(equal(testManager.currentScreenData.textField1));
+                expect(testOperation3.updatedState.textField1).to(equal(@"Test1"));
             });
         });
     });
