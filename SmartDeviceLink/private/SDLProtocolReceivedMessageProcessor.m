@@ -206,7 +206,7 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                     self.header = [SDLProtocolHeader headerForVersion:self.version];
                     [self.header parse:self.headerBuffer];
                     //todo - Payload!
-                    messageHasEnded = YES; //TODO - test this
+                    messageHasEnded = YES;
                 } else {
                     self.state = DATA_PUMP_STATE;
                 }
@@ -253,18 +253,16 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
             break;
             
         case MESSAGE_4_STATE:
+            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             // If there is no payload, we are done.
             if (self.dataLength == 0) {
-                //TODO - what does the header and payload look like at this point.  What should they look like?
                 self.header = [SDLProtocolHeader headerForVersion:self.version];
                 [self.header parse:self.headerBuffer];
-                //todo - still missing the payload
                 messageHasEnded = YES;
                 break;
             }
 
             self.state = DATA_PUMP_STATE;
-            [self.headerBuffer appendBytes:&currentByte length:sizeof(currentByte)];
             break;
         
         case DATA_PUMP_STATE:
