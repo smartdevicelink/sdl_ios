@@ -780,7 +780,7 @@ describe(@"the text and graphic operation", ^{
                 updatedState.textField3 = field3String;
                 updatedState.textField4 = field4String;
 
-                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {
+                testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState *_Nullable newScreenData, NSError *_Nullable error) {
                     updatedData = newScreenData;
                 } updateCompletionHandler:nil];
                 [testOp start];

@@ -176,11 +176,10 @@ NS_ASSUME_NONNULL_BEGIN
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
         } else {
             SDLLogD(@"Text and Graphic Show failed");
-            NSDictionary *newUserInfo = @{
-                @"NSUnderlyingErrorKey": error.userInfo,
+            NSError *updateError = [NSError errorWithDomain:error.domain code:error.code userInfo:@{
+                NSUnderlyingErrorKey: error.userInfo,
                 @"failedScreenState": self.updatedState
-            };
-            NSError *updateError = [NSError errorWithDomain:error.domain code:error.code userInfo:newUserInfo];
+            }];
             self.currentDataUpdatedHandler(nil, updateError);
         }
 

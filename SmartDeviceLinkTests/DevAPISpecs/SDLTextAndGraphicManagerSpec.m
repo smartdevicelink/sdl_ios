@@ -150,7 +150,7 @@ describe(@"text and graphic manager", ^{
                 testManager.textField4 = @"test4";
             });
 
-            it(@"should create indiviudal operations and not be cancelled", ^{
+            it(@"should create individual operations and not be cancelled", ^{
                 expect(testManager.transactionQueue.isSuspended).to(beTrue());
                 expect(testManager.transactionQueue.operationCount).to(equal(4));
                 expect(testManager.transactionQueue.operations[0].cancelled).to(beFalse());
@@ -481,12 +481,16 @@ describe(@"text and graphic manager", ^{
                 testManager.currentScreenData = [[SDLTextAndGraphicState alloc] init];
                 testManager.currentScreenData.textField1 = @"Test1";
 
+                // Create a "bad data" text field 1, then set it in the manager, which should create an operation (op 2)
                 SDLTextAndGraphicState *errorState = [[SDLTextAndGraphicState alloc] init];
                 errorState.textField1 = @"Bad Data";
                 testManager.textField1 = errorState.textField1;
+                
+                // Create a "good data text field 4, which should create a second operation (op 3)
                 testManager.textField4 = @"Good Data";
                 testOperation3 = testManager.transactionQueue.operations[3];
 
+                // Simulate a failure of the first operation
                 NSDictionary *userInfo = @{
                     @"failedScreenState": errorState
                 };
@@ -495,7 +499,7 @@ describe(@"text and graphic manager", ^{
 
             it(@"should reset the manager's data and update other operations updated state", ^{
                 expect(testManager.textField1).to(equal(testManager.currentScreenData.textField1));
-                expect(testOperation3.updatedState.textField1).to(equal(@"Test1"));
+                expect(testOperation3.updatedState.textField1).to(equal(testManager.currentScreenData.textField1));
             });
         });
     });
