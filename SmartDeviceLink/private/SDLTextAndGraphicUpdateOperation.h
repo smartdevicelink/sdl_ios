@@ -21,6 +21,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString *const SDLTextAndGraphicFailedScreenStateErrorKey;
+
 typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable error);
 typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newScreenData, NSError *__nullable error);
 

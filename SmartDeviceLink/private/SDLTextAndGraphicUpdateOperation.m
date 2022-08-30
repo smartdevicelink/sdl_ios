@@ -26,6 +26,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString *const SDLTextAndGraphicFailedScreenStateErrorKey = @"failedScreenState";
+
 @interface SDLTextAndGraphicUpdateOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -178,7 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Text and Graphic Show failed: %@", error);
             NSError *updateError = [NSError errorWithDomain:error.domain code:error.code userInfo:@{
                 NSUnderlyingErrorKey: error.userInfo,
-                @"failedScreenState": self.updatedState
+                SDLTextAndGraphicFailedScreenStateErrorKey: self.updatedState
             }];
             self.currentDataUpdatedHandler(nil, updateError);
         }
