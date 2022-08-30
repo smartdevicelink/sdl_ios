@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateStateDataWithErrorData:(SDLTextAndGraphicState *)errorData {
-    self.updatedState.textField1 = errorData.textField1 == self.updatedState.textField1 ? self.currentScreenData.textField1 : self.updatedState.textField1;
+    self.updatedState.textField1 = (errorData.textField1 == self.updatedState.textField1) ? self.currentScreenData.textField1 : self.updatedState.textField1;
     self.updatedState.textField2 = errorData.textField2 == self.updatedState.textField2 ? self.currentScreenData.textField2 : self.updatedState.textField2;
     self.updatedState.textField3 = errorData.textField3 == self.updatedState.textField3 ? self.currentScreenData.textField3 : self.updatedState.textField3;
     self.updatedState.textField4 = errorData.textField4 == self.updatedState.textField4 ? self.currentScreenData.textField4 : self.updatedState.textField4;

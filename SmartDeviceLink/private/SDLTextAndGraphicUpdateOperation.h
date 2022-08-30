@@ -38,9 +38,9 @@ typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newS
 /// @param updateCompletionHandler The handler potentially passed by the developer to be called when the update finishes
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLTextAndGraphicState *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler;
 
-/// Changes updated state to remove potential errors from previous update operations
-/// @param errorData A updated state that failed in a previous operation that will be used to filter out erroneous data
-- (void)updateStateDataWithErrorData:(SDLTextAndGraphicState *)errorData;
+/// Changes updated state to remove failed updates from previous update operations. This will find and revert those failed updates back to current screen data so that we don't duplicate the failure.
+/// @param errorState A updated state that failed in a previous operation that will be used to filter out erroneous data
+- (void)updateTargetStateWithErrorState:(SDLTextAndGraphicState *)errorState;
 
 @end
 
