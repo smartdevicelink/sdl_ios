@@ -205,7 +205,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (operation.isExecuting) { continue; }
         SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
 
-        [updateOp updateStateDataWithErrorData:errorState];
+        [updateOp updateTargetStateWithErrorState:errorState];
     }
 }
 
