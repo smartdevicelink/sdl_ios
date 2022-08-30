@@ -176,7 +176,12 @@ NS_ASSUME_NONNULL_BEGIN
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
         } else {
             SDLLogD(@"Text and Graphic Show failed");
-            self.currentDataUpdatedHandler(nil, error, self.updatedState);
+            NSDictionary *newUserInfo = @{
+                @"NSUnderlyingErrorKey": error.userInfo,
+                @"failedScreenState": self.updatedState
+            };
+            NSError *updateError = [NSError errorWithDomain:error.domain code:error.code userInfo:newUserInfo];
+            self.currentDataUpdatedHandler(nil, updateError);
         }
 
         handler(error);
@@ -199,7 +204,7 @@ NS_ASSUME_NONNULL_BEGIN
             [strongSelf sdl_updateCurrentScreenDataFromSetDisplayLayout:request];
         } else {
             SDLLogD(@"Text and Graphic SetDisplayLayout failed to change to new layout: %@", setLayout.displayLayout);
-            self.currentDataUpdatedHandler(nil, error, nil);
+            self.currentDataUpdatedHandler(nil, error);
         }
 
         handler(error);
@@ -515,7 +520,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.templateConfig = show.templateConfiguration ? self.updatedState.templateConfig : self.currentScreenData.templateConfig;
 
     if (self.currentDataUpdatedHandler != nil) {
-        self.currentDataUpdatedHandler(self.currentScreenData, nil, nil);
+        self.currentDataUpdatedHandler(self.currentScreenData, nil);
     }
 }
 
@@ -526,7 +531,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.templateConfig = [[SDLTemplateConfiguration alloc] initWithTemplate:setDisplayLayout.displayLayout dayColorScheme:setDisplayLayout.dayColorScheme nightColorScheme:setDisplayLayout.nightColorScheme];
 
     if (self.currentDataUpdatedHandler != nil) {
-        self.currentDataUpdatedHandler(self.currentScreenData, nil, nil);
+        self.currentDataUpdatedHandler(self.currentScreenData, nil);
     }
 }
 

@@ -466,7 +466,7 @@ describe(@"text and graphic manager", ^{
         // with good data
         context(@"with good data", ^{
             beforeEach(^{
-                testOperation.currentDataUpdatedHandler(testOperation.updatedState, nil, nil);
+                testOperation.currentDataUpdatedHandler(testOperation.updatedState, nil);
             });
 
             it(@"should update the manager's and pending operations' current screen data", ^{
@@ -486,7 +486,11 @@ describe(@"text and graphic manager", ^{
                 testManager.textField1 = errorState.textField1;
                 testManager.textField4 = @"Good Data";
                 testOperation3 = testManager.transactionQueue.operations[3];
-                testOperation.currentDataUpdatedHandler(nil, [NSError errorWithDomain:@"any" code:1 userInfo:nil], errorState);
+
+                NSDictionary *userInfo = @{
+                    @"failedScreenState": errorState
+                };
+                testOperation.currentDataUpdatedHandler(nil, [NSError errorWithDomain:@"any" code:1 userInfo:userInfo]);
             });
 
             it(@"should reset the manager's data and update other operations updated state", ^{

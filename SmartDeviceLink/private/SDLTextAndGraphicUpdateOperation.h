@@ -22,7 +22,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable error);
-typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newScreenData, NSError *__nullable error, SDLTextAndGraphicState *__nullable errorScreenData);
+typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newScreenData, NSError *__nullable error);
 
 @interface SDLTextAndGraphicUpdateOperation : SDLAsynchronousOperation
 
