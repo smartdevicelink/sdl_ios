@@ -84,10 +84,6 @@ NS_ASSUME_NONNULL_BEGIN
     return description;
 }
 
-- (NSUInteger)hash {
-    return self.data.hash ^ self.description.hash;
-}
-
 - (BOOL)isEqual:(SDLV1ProtocolHeader *)object {
     return (self.hash == object.hash);
 }

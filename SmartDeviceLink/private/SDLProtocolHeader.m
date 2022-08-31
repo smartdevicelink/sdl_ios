@@ -3,8 +3,10 @@
 
 
 #import "SDLProtocolHeader.h"
+
 #import "SDLV1ProtocolHeader.h"
 #import "SDLV2ProtocolHeader.h"
+#import "SDLMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,6 +41,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)description {
     NSString *description = [NSString stringWithFormat:@"<%@: %p>", NSStringFromClass([self class]), self];
     return description;
+}
+
+- (NSUInteger)hash {
+    return NSUIntRotateCell(self.data.hash, NSUIntBitCell / 2)
+    ^ NSUIntRotateCell(self.version, NSUIntBitCell / 3)
+    ^ NSUIntRotateCell(self.encrypted, NSUIntBitCell / 4)
+    ^ NSUIntRotateCell(self.frameType, NSUIntBitCell / 5)
+    ^ NSUIntRotateCell(self.frameData, NSUIntBitCell / 6)
+    ^ NSUIntRotateCell(self.sessionID, NSUIntBitCell / 7);
 }
 
 + (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version {
