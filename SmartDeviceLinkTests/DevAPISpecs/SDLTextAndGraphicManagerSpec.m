@@ -492,7 +492,7 @@ describe(@"text and graphic manager", ^{
 
                 // Simulate a failure of the first operation
                 NSDictionary *userInfo = @{
-                    @"failedScreenState": errorState
+                    SDLTextAndGraphicFailedScreenStateErrorKey: errorState
                 };
                 testOperation.currentDataUpdatedHandler(nil, [NSError errorWithDomain:@"any" code:1 userInfo:userInfo]);
             });

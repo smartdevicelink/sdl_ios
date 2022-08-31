@@ -797,6 +797,47 @@ describe(@"the text and graphic operation", ^{
         });
     });
 
+    // updating with error state
+    describe(@"updating with error state", ^{
+        beforeEach(^{
+            updatedState = [[SDLTextAndGraphicState alloc] init];
+            updatedState.textField1 = field1String;
+            updatedState.primaryGraphic = testArtwork;
+            updatedState.secondaryGraphic = testArtwork2;
+
+            testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
+            [testOp start];
+        });
+
+        it(@"should reset to current screen data for equivalent properties in updated state and error state", ^{
+            // Create an error state that matches the updated state, which should reset the updated state
+            SDLTextAndGraphicState *errorState = [[SDLTextAndGraphicState alloc] init];
+            errorState.textField1 = updatedState.textField1;
+            errorState.primaryGraphic = updatedState.primaryGraphic;
+            errorState.secondaryGraphic = updatedState.secondaryGraphic;
+
+            [testOp updateTargetStateWithErrorState:errorState];
+
+            expect(updatedState.textField1).to(beNil());
+            expect(updatedState.primaryGraphic).to(beNil());
+            expect(updatedState.secondaryGraphic).to(beNil());
+        });
+
+        it(@"should not reset to current screen data for non equivalent properties in updated state and error state", ^{
+            // Create an error state that does not match the updated state, which should not reset the updated state
+            SDLTextAndGraphicState *errorState = [[SDLTextAndGraphicState alloc] init];
+            errorState.textField1 = nil;
+            errorState.primaryGraphic = nil;
+            errorState.secondaryGraphic = nil;
+
+            [testOp updateTargetStateWithErrorState:errorState];
+
+            expect(updatedState.textField1).toNot(beNil());
+            expect(updatedState.primaryGraphic).toNot(beNil());
+            expect(updatedState.secondaryGraphic).toNot(beNil());
+        });
+    });
+
     // updating image fields
     describe(@"updating image fields", ^{
         beforeEach(^{
@@ -933,6 +974,8 @@ describe(@"the text and graphic operation", ^{
                         // Then it should return a failure and finish
                         expect(receivedState).to(beNil());
                         expect(receivedError).toNot(beNil());
+                        expect(receivedError.userInfo[NSUnderlyingErrorKey]).toNot(beNil());
+                        expect(receivedError.userInfo[SDLTextAndGraphicFailedScreenStateErrorKey]).to(equal(updatedState));
                         expect(completionError).toNot(beNil());
 
                         expect(testOp.isFinished).to(beTrue());
@@ -1295,6 +1338,8 @@ describe(@"the text and graphic operation", ^{
                         [testConnectionManager respondToLastRequestWithResponse:failShowResponse];
                         expect(receivedState).to(beNil());
                         expect(receivedError).toNot(beNil());
+                        expect(receivedError.userInfo[NSUnderlyingErrorKey]).toNot(beNil());
+                        expect(receivedError.userInfo[SDLTextAndGraphicFailedScreenStateErrorKey]).to(equal(updatedState));
 
                         expect(testOp.isFinished).to(beTrue());
                     });
