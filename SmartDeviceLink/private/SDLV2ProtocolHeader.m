@@ -126,7 +126,7 @@ const int ProtocolV2HeaderByteSize = 12;
 }
 
 - (NSUInteger)hash {
-    return [super hash] ^ NSUIntRotateCell(self.messageID, NSUIntBitCell / 8);
+    return [super hash] ^ NSUIntRotateCell(self.messageID, NSUIntBitCell / 9);
 }
 
 - (BOOL)isEqual:(SDLV2ProtocolHeader *)object {

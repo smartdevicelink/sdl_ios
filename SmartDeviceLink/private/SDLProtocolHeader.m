@@ -49,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
     ^ NSUIntRotateCell(self.encrypted, NSUIntBitCell / 4)
     ^ NSUIntRotateCell(self.frameType, NSUIntBitCell / 5)
     ^ NSUIntRotateCell(self.frameData, NSUIntBitCell / 6)
-    ^ NSUIntRotateCell(self.sessionID, NSUIntBitCell / 7);
+    ^ NSUIntRotateCell(self.sessionID, NSUIntBitCell / 7)
+    ^ NSUIntRotateCell(self.bytesInPayload, NSUIntBitCell / 8);
 }
 
 + (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version {
