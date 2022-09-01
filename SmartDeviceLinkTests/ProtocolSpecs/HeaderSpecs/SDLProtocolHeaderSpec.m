@@ -38,15 +38,15 @@ describe(@"DetermineVersion Tests", ^ {
     });
 });
 
-describe(@"Hash Tests", ^ {
-    it(@"Should return equivalent hash values", ^ {
+describe(@"hashing tests", ^ {
+    it(@"should return equivalent hash values", ^ {
         SDLProtocolHeader *testHeader = [[SDLProtocolHeader alloc] init];
         SDLProtocolHeader *equalHeader = [[SDLProtocolHeader alloc] init];
 
         expect([testHeader hash]).to(equal([equalHeader hash]));
     });
 
-    it(@"Should return unequivalent hash values", ^ {
+    it(@"should return unequivalent hash values", ^ {
         SDLProtocolHeader *testHeader = [[SDLProtocolHeader alloc] init];
         SDLProtocolHeader *unequalHeader = [[SDLProtocolHeader alloc] init];
         unequalHeader.frameType = SDLFrameTypeFirst;
