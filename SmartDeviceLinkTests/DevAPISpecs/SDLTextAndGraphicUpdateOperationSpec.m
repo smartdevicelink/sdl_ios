@@ -802,8 +802,20 @@ describe(@"the text and graphic operation", ^{
         beforeEach(^{
             updatedState = [[SDLTextAndGraphicState alloc] init];
             updatedState.textField1 = field1String;
+            updatedState.textField2 = field2String;
+            updatedState.textField3 = field3String;
+            updatedState.textField4 = field4String;
+            updatedState.mediaTrackTextField = mediaTrackString;
+            updatedState.title = titleString;
             updatedState.primaryGraphic = testArtwork;
             updatedState.secondaryGraphic = testArtwork2;
+            updatedState.alignment = SDLTextAlignmentLeft;
+            updatedState.textField1Type = SDLMetadataTypeMediaTitle;
+            updatedState.textField2Type = SDLMetadataTypeMediaArtist;
+            updatedState.textField3Type = SDLMetadataTypeMediaAlbum;
+            updatedState.textField4Type = SDLMetadataTypeMediaYear;
+
+            emptyCurrentData = [[SDLTextAndGraphicState alloc] init];
 
             testOp = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager currentCapabilities:windowCapability currentScreenData:emptyCurrentData newState:updatedState currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState * _Nullable newScreenData, NSError * _Nullable error) {} updateCompletionHandler:nil];
             [testOp start];
@@ -811,30 +823,87 @@ describe(@"the text and graphic operation", ^{
 
         it(@"should reset to current screen data for equivalent properties in updated state and error state", ^{
             // Create an error state that matches the updated state, which should reset the updated state
-            SDLTextAndGraphicState *errorState = [[SDLTextAndGraphicState alloc] init];
-            errorState.textField1 = updatedState.textField1;
-            errorState.primaryGraphic = updatedState.primaryGraphic;
-            errorState.secondaryGraphic = updatedState.secondaryGraphic;
+            SDLTextAndGraphicState *errorState = [updatedState copy];
+            errorState.primaryGraphic = testArtwork;
+            errorState.secondaryGraphic = testArtwork2;
 
             [testOp updateTargetStateWithErrorState:errorState];
 
             expect(updatedState.textField1).to(beNil());
+            expect(updatedState.textField2).to(beNil());
+            expect(updatedState.textField3).to(beNil());
+            expect(updatedState.textField4).to(beNil());
+            expect(updatedState.mediaTrackTextField).to(beNil());
+            expect(updatedState.title).to(beNil());
             expect(updatedState.primaryGraphic).to(beNil());
             expect(updatedState.secondaryGraphic).to(beNil());
+            expect(updatedState.textField1Type).to(beNil());
+            expect(updatedState.textField2Type).to(beNil());
+            expect(updatedState.textField3Type).to(beNil());
+            expect(updatedState.textField4Type).to(beNil());
         });
 
         it(@"should not reset to current screen data for non equivalent properties in updated state and error state", ^{
+            // Save an original of the updatedState for confirming no changes later
+            SDLTextAndGraphicState *originalState = [updatedState copy];
+            originalState.primaryGraphic = testArtwork;
+            originalState.secondaryGraphic = testArtwork2;
+
             // Create an error state that does not match the updated state, which should not reset the updated state
             SDLTextAndGraphicState *errorState = [[SDLTextAndGraphicState alloc] init];
-            errorState.textField1 = nil;
-            errorState.primaryGraphic = nil;
-            errorState.secondaryGraphic = nil;
+            errorState.textField1 = @"Error Text";
+            errorState.textField2 = @"Error Text";
+            errorState.textField3 = @"Error Text";
+            errorState.textField4 = @"Error Text";
+            errorState.mediaTrackTextField = @"Error Text";
+            errorState.title = @"Error Text";
+            errorState.primaryGraphic = testArtwork2;
+            errorState.secondaryGraphic = testArtwork;
+            errorState.alignment = SDLTextAlignmentRight;
+            errorState.textField1Type = SDLMetadataTypeMediaYear;
+            errorState.textField2Type = SDLMetadataTypeMediaAlbum;
+            errorState.textField3Type = SDLMetadataTypeMediaArtist;
+            errorState.textField4Type = SDLMetadataTypeMediaTitle;
 
             [testOp updateTargetStateWithErrorState:errorState];
 
-            expect(updatedState.textField1).toNot(beNil());
-            expect(updatedState.primaryGraphic).toNot(beNil());
-            expect(updatedState.secondaryGraphic).toNot(beNil());
+            expect(updatedState.textField1).to(equal(originalState.textField1));
+            expect(updatedState.textField2).to(equal(originalState.textField2));
+            expect(updatedState.textField3).to(equal(originalState.textField3));
+            expect(updatedState.textField4).to(equal(originalState.textField4));
+            expect(updatedState.mediaTrackTextField).to(equal(originalState.mediaTrackTextField));
+            expect(updatedState.title).to(equal(originalState.title));
+            expect(updatedState.primaryGraphic).to(equal(originalState.primaryGraphic));
+            expect(updatedState.secondaryGraphic).to(equal(originalState.secondaryGraphic));
+            expect(updatedState.textField1Type).to(equal(originalState.textField1Type));
+            expect(updatedState.textField2Type).to(equal(originalState.textField2Type));
+            expect(updatedState.textField3Type).to(equal(originalState.textField3Type));
+            expect(updatedState.textField4Type).to(equal(originalState.textField4Type));
+        });
+
+        it(@"should not reset to current screen data for nil error state", ^{
+            // Save an original of the updatedState for confirming no changes later
+            SDLTextAndGraphicState *originalState = [updatedState copy];
+            originalState.primaryGraphic = testArtwork;
+            originalState.secondaryGraphic = testArtwork2;
+
+            // Create an empty error state
+            SDLTextAndGraphicState *errorState = [[SDLTextAndGraphicState alloc] init];
+
+            [testOp updateTargetStateWithErrorState:errorState];
+
+            expect(updatedState.textField1).to(equal(originalState.textField1));
+            expect(updatedState.textField2).to(equal(originalState.textField2));
+            expect(updatedState.textField3).to(equal(originalState.textField3));
+            expect(updatedState.textField4).to(equal(originalState.textField4));
+            expect(updatedState.mediaTrackTextField).to(equal(originalState.mediaTrackTextField));
+            expect(updatedState.title).to(equal(originalState.title));
+            expect(updatedState.primaryGraphic).to(equal(originalState.primaryGraphic));
+            expect(updatedState.secondaryGraphic).to(equal(originalState.secondaryGraphic));
+            expect(updatedState.textField1Type).to(equal(originalState.textField1Type));
+            expect(updatedState.textField2Type).to(equal(originalState.textField2Type));
+            expect(updatedState.textField3Type).to(equal(originalState.textField3Type));
+            expect(updatedState.textField4Type).to(equal(originalState.textField4Type));
         });
     });
 
