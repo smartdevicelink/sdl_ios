@@ -15,6 +15,18 @@
 
 QuickSpecBegin(SDLProtocolHeaderSpec)
 
+__block SDLProtocolHeader *testHeader;
+
+beforeSuite(^ {
+    testHeader = [[SDLProtocolHeader alloc] init];
+    testHeader.encrypted = YES;
+    testHeader.frameType = SDLFrameTypeControl;
+    testHeader.serviceType = SDLServiceTypeRPC;
+    testHeader.frameData = SDLFrameInfoStartService;
+    testHeader.sessionID = 0x53;
+    testHeader.bytesInPayload = 0x1234;
+});
+
 describe(@"HeaderForVersion Tests", ^ {
     it(@"Should return the correct header", ^ {
         expect([SDLProtocolHeader headerForVersion:1]).to(beAKindOf(SDLV1ProtocolHeader.class));
@@ -40,16 +52,25 @@ describe(@"DetermineVersion Tests", ^ {
 
 describe(@"hashing tests", ^ {
     it(@"should return equivalent hash values", ^ {
-        SDLProtocolHeader *testHeader = [[SDLProtocolHeader alloc] init];
         SDLProtocolHeader *equalHeader = [[SDLProtocolHeader alloc] init];
+        equalHeader.encrypted = YES;
+        equalHeader.frameType = SDLFrameTypeControl;
+        equalHeader.serviceType = SDLServiceTypeRPC;
+        equalHeader.frameData = SDLFrameInfoStartService;
+        equalHeader.sessionID = 0x53;
+        equalHeader.bytesInPayload = 0x1234;
 
         expect([testHeader hash]).to(equal([equalHeader hash]));
     });
 
     it(@"should return unequivalent hash values", ^ {
-        SDLProtocolHeader *testHeader = [[SDLProtocolHeader alloc] init];
         SDLProtocolHeader *unequalHeader = [[SDLProtocolHeader alloc] init];
+        unequalHeader.encrypted = NO;
         unequalHeader.frameType = SDLFrameTypeFirst;
+        unequalHeader.serviceType = SDLServiceTypeVideo;
+        unequalHeader.frameData = SDLFrameInfoStartService;
+        unequalHeader.sessionID = 0x54;
+        unequalHeader.bytesInPayload = 0x1234;
 
         expect([testHeader hash]).toNot(equal([unequalHeader hash]));
     });
