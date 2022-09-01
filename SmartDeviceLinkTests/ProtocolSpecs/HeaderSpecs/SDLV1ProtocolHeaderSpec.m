@@ -86,4 +86,21 @@ describe(@"RPCPayloadWithData Test", ^ {
     });
 });
 
+describe(@"IsEqual Tests", ^ {
+    it (@"Should be equal to copy of header", ^ {
+        // Create exact copy of test header
+        SDLV1ProtocolHeader *equalHeader = [testHeader copy];
+
+        expect([testHeader isEqual:equalHeader]).to(equal(@YES));
+    });
+
+    it (@"Should not be equal to a different header", ^ {
+        // create a slighty different version of test header
+        SDLV1ProtocolHeader *unequalHeader = [testHeader copy];
+        unequalHeader.encrypted = NO;
+
+        expect(([testHeader isEqual:unequalHeader])).to(equal(@NO));
+    });
+});
+
 QuickSpecEnd

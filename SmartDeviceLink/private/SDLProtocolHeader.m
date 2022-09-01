@@ -44,13 +44,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSUInteger)hash {
-    return NSUIntRotateCell(self.data.hash, NSUIntBitCell / 2)
-    ^ NSUIntRotateCell(self.version, NSUIntBitCell / 3)
+    return NSUIntRotateCell(self.version, NSUIntBitCell / 2)
+    ^ NSUIntRotateCell(self.size, NSUIntBitCell / 3)
     ^ NSUIntRotateCell(self.encrypted, NSUIntBitCell / 4)
     ^ NSUIntRotateCell(self.frameType, NSUIntBitCell / 5)
-    ^ NSUIntRotateCell(self.frameData, NSUIntBitCell / 6)
-    ^ NSUIntRotateCell(self.sessionID, NSUIntBitCell / 7)
-    ^ NSUIntRotateCell(self.bytesInPayload, NSUIntBitCell / 8);
+    ^ NSUIntRotateCell(self.serviceType, NSUIntBitCell / 6)
+    ^ NSUIntRotateCell(self.frameData, NSUIntBitCell / 7)
+    ^ NSUIntRotateCell(self.sessionID, NSUIntBitCell / 8)
+    ^ NSUIntRotateCell(self.bytesInPayload, NSUIntBitCell / 9);
 }
 
 + (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version {

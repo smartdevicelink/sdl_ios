@@ -205,7 +205,6 @@ typedef NS_ENUM(NSUInteger, ProcessorState) {
                 if (self.dataLength == 0) {
                     self.header = [SDLProtocolHeader headerForVersion:self.version];
                     [self.header parse:self.headerBuffer];
-                    //todo - Payload!
                     messageHasEnded = YES;
                 } else {
                     self.state = DATA_PUMP_STATE;
