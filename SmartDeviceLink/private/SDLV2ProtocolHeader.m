@@ -4,6 +4,8 @@
 
 #import "SDLV2ProtocolHeader.h"
 
+#import "SDLMacros.h"
+
 const int ProtocolV2HeaderByteSize = 12;
 
 
@@ -121,6 +123,14 @@ const int ProtocolV2HeaderByteSize = 12;
                               (unsigned int)self.bytesInPayload,
                               (unsigned int)self.messageID];
     return description;
+}
+
+- (NSUInteger)hash {
+    return [super hash] ^ NSUIntRotateCell(self.messageID, NSUIntBitCell / 10);
+}
+
+- (BOOL)isEqual:(SDLV2ProtocolHeader *)object {
+    return (self.hash == object.hash);
 }
 
 @end
