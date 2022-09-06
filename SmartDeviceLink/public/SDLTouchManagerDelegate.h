@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param point Center point of the pinch in the head unit's coordinate system
  @param scale Scale relative to the distance between touch points
  */
-- (void)touchManager:(SDLTouchManager *)manager didReceivePinchInView:(UIView *_Nullable)view atCenterPoint:(CGPoint)point withScale:(CGFloat)scale __deprecated_msg("Use didReceivePinchAtCenterPoint:withScale: instead");
+- (void)touchManager:(SDLTouchManager *)manager didReceivePinchInView:(UIView *_Nullable)view atCenterPoint:(CGPoint)point withScale:(CGFloat)scale __deprecated_msg("Use touchManager:didReceivePinchAtCenterPoint:withScale: instead");
 
 /**
  Pinch did end
