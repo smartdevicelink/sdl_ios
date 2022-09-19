@@ -107,7 +107,6 @@ NSString *const SDLTextAndGraphicFailedScreenStateErrorKey = @"failedScreenState
     self.updatedState.mediaTrackTextField = [errorState.mediaTrackTextField isEqualToString:self.updatedState.mediaTrackTextField] ? self.currentScreenData.mediaTrackTextField : self.updatedState.mediaTrackTextField;
     self.updatedState.title = [errorState.title isEqualToString:self.updatedState.title] ? self.currentScreenData.title : self.updatedState.title;
     self.updatedState.primaryGraphic = [errorState.primaryGraphic isEqual:self.updatedState.primaryGraphic] ? self.currentScreenData.primaryGraphic : self.updatedState.primaryGraphic;
-    [errorState.primaryGraphic isEqual:self.updatedState.primaryGraphic];
     self.updatedState.secondaryGraphic = [errorState.secondaryGraphic isEqual:self.updatedState.secondaryGraphic] ? self.currentScreenData.secondaryGraphic : self.updatedState.secondaryGraphic;
     self.updatedState.alignment = [errorState.alignment isEqualToEnum:self.updatedState.alignment] ? self.currentScreenData.alignment : self.updatedState.alignment;
     self.updatedState.textField1Type = [errorState.textField1Type isEqualToEnum:self.updatedState.textField1Type] ? self.currentScreenData.textField1Type : self.updatedState.textField1Type;
