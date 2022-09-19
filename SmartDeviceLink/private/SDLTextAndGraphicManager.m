@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
             // Invalidate data that's different from our current screen data if a Show or SetDisplayLayout fails. This will prevent subsequent `Show`s from failing if the request failed due to the developer setting invalid data or subsequent `SetDisplayLayout`s from failing if the template is not supported on the module. 
             [strongSelf sdl_resetFieldsToCurrentScreenData];
             SDLTextAndGraphicState *errorState = error.userInfo[SDLTextAndGraphicFailedScreenStateErrorKey];
-            if (errorState) {
+            if (errorState != nil) {
                 [strongSelf sdl_updatePendingOperationsWithFailedScreenState:errorState];
             }
         }
