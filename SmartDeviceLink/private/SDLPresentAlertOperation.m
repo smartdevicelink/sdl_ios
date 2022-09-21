@@ -213,7 +213,7 @@ static const int SDLAlertSoftButtonCount = 4;
             if ([self.fileManager fileNeedsUpload:object.currentState.artwork]) {
                 [artworksToBeUploaded addObject:object.currentState.artwork];
             } else if ([self.fileManager hasUploadedFile:object.currentState.artwork] || object.currentState.artwork.isStaticIcon) {
-                [self.uploadedImageNames addObject:self.alertView.icon.name];
+                [self.uploadedImageNames addObject:object.currentState.artwork.name];
             }
         }
     }
