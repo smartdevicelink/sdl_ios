@@ -21,6 +21,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString *const SDLTextAndGraphicFailedScreenStateErrorKey;
+
 typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable error);
 typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newScreenData, NSError *__nullable error);
 
@@ -37,6 +39,10 @@ typedef void(^CurrentDataUpdatedHandler)(SDLTextAndGraphicState *__nullable newS
 /// @param newState The new text and graphic manager state to be compared with currentData and sent in a Show update if needed.
 /// @param updateCompletionHandler The handler potentially passed by the developer to be called when the update finishes
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager currentCapabilities:(SDLWindowCapability *)currentCapabilities currentScreenData:(SDLTextAndGraphicState *)currentData newState:(SDLTextAndGraphicState *)newState currentScreenDataUpdatedHandler:(CurrentDataUpdatedHandler)currentDataUpdatedHandler updateCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)updateCompletionHandler;
+
+/// Changes updated state to remove failed updates from previous update operations. This will find and revert those failed updates back to current screen data so that we don't duplicate the failure.
+/// @param errorState A updated state that failed in a previous operation that will be used to filter out erroneous data
+- (void)updateTargetStateWithErrorState:(SDLTextAndGraphicState *)errorState;
 
 @end
 
