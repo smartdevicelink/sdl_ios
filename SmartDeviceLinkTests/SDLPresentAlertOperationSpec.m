@@ -42,7 +42,7 @@
 @property (strong, nonatomic, readwrite) SDLAlertView *alertView;
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
-@property (strong, nonatomic) NSSet<NSString *> *uploadedImageNames;
+@property (assign, nonatomic) BOOL alertIconUploaded;
 
 - (nullable NSError *)sdl_isValidAlertViewData:(SDLAlertView *)alertView;
 - (SDLAlert *)alertRPC;
@@ -372,7 +372,7 @@ describe(@"SDLPresentAlertOperation", ^{
             });
 
             it(@"should set the image if it is uploaded to the module", ^{
-                testPresentAlertOperation.uploadedImageNames = [NSSet setWithObject:testAlertView.icon.name];
+                testPresentAlertOperation.alertIconUploaded = YES;
 
                 SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
                 expect(testAlert.alertIcon.value).to(equal(testAlertView.icon.name));
@@ -782,7 +782,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 testAlertViewWithExtraSoftButtons = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:@(4) showWaitIndicator:@(YES) audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2, testAlertSoftButton3, testAlertSoftButton4, testAlertSoftButton5, testAlertSoftButton6] icon:testAlertIcon];
                 testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertViewWithExtraSoftButtons cancelID:testCancelID];
-                testPresentAlertOperation.uploadedImageNames = [NSSet setWithObject:testAlertViewWithExtraSoftButtons.icon.name];
+                testPresentAlertOperation.alertIconUploaded = YES;
 
                 testPresentAlertOperation.completionBlock = ^{
                     hasCalledOperationCompletionHandler = YES;
