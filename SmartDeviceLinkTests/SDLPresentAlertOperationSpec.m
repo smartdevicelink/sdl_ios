@@ -637,7 +637,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 OCMVerifyAll(strictMockCurrentWindowCapability);
             });
 
-            fit(@"should not upload the image if the alert icon is a static icon", ^{
+            it(@"should not upload the image if the alert icon is a static icon", ^{
                 SDLAlertView *alertView = [[SDLAlertView alloc] initWithText:@"Test" secondaryText:nil tertiaryText:nil timeout:nil showWaitIndicator:nil audioIndication:nil buttons:nil icon:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameKey]];
                 testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:strictMockFileManager systemCapabilityManager:strictMockSystemCapabilityManager currentWindowCapability:strictMockCurrentWindowCapability alertView:alertView cancelID:testCancelID];
 
