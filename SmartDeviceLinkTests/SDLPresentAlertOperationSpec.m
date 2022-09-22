@@ -636,6 +636,25 @@ describe(@"SDLPresentAlertOperation", ^{
                 OCMVerifyAll(strictMockSystemCapabilityManager);
                 OCMVerifyAll(strictMockCurrentWindowCapability);
             });
+
+            fit(@"should not upload the image if the alert icon is a static icon", ^{
+                SDLAlertView *alertView = [[SDLAlertView alloc] initWithText:@"Test" secondaryText:nil tertiaryText:nil timeout:nil showWaitIndicator:nil audioIndication:nil buttons:nil icon:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameKey]];
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:strictMockFileManager systemCapabilityManager:strictMockSystemCapabilityManager currentWindowCapability:strictMockCurrentWindowCapability alertView:alertView cancelID:testCancelID];
+
+                OCMStub([strictMockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
+                OCMStub([strictMockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
+                OCMStub([strictMockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
+
+                OCMReject([strictMockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+
+                [testPresentAlertOperation start];
+
+                OCMVerifyAll(strictMockFileManager);
+                OCMVerifyAll(strictMockSystemCapabilityManager);
+                OCMVerifyAll(strictMockCurrentWindowCapability);
+                expect(testPresentAlertOperation.alertIconUploaded).to(beTrue());
+                expect(testPresentAlertOperation.alertRPC.alertIcon).toNot(beNil());
+            });
         });
     });
 
