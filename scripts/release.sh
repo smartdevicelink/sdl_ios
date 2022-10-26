@@ -23,8 +23,6 @@ prompt_user() {
     fi
 }
 
-# TODO - phase 4 - github cli "gh" needs to be installed before we can use those commands. We could automate this or at least check if gh is installed.
-
 # Script start
 echo 
 echo "Starting SDL release script..."
@@ -43,23 +41,68 @@ fi
 develop_branch="develop"
 main_branch="master"
 
-# Stash any local changes to avoid errors during checkout
-git status
-prompt_user "Would you like to stash any local changes"
-if [[ $? == 1 ]]; then
-    # Stash local changes to prevent issues with checkout
-    git stash
-    echo "use \"git stash pop\" when this script is complete to restore your changes"
+# Checkout develop - so we can update versions.
+# We need to checkout the branch before we start modifying files.
+current_branch=$(git branch --show-current)
+if [ $current_branch == $develop_branch ]; then
+    echo
+    echo "$develop_branch is already checked out."
 else
-    # Dump local changes to prevent issues with checkout
-    git reset --hard
+    echo
+    echo "Checkout of $develop_branch is required for some steps"
+    prompt_user "Would you like to automatically checkout $develop_branch"
+    if [[ $? == 1 ]]; then
+
+        # Stash any local changes to avoid errors during checkout
+        git_status=$(git status)
+        git_uncommitted_changes=$(sed -n '/Changes not staged for commit:/{p;}' <<< "$git_status")
+        if [ ! -z "$git_uncommitted_changes" ]; then 
+            echo "There are uncommitted changes in these files"
+            file_changes=$(git diff-files)
+            file_changes=$(sed -n '/^[[:space:]]*/{s/^.*[[:space:]]//g;p;q;}' <<< "$file_changes")
+            echo $file_changes
+            prompt_user "Would you like to stash these local changes before checkout of $develop_branch"
+            if [[ $? == 1 ]]; then
+                # Stash local changes to prevent issues with checkout
+                git stash
+                echo "Local changes have been stashed."
+                echo "Use \"git stash pop\" when this script is complete to restore your changes"
+            else
+                # Dump local changes to prevent issues with checkout.  Reset cleans up any uncommitted changes to the index.
+                echo "Local changes were not stashed."
+                git reset --hard
+            fi
+        fi
+        
+        # Do a pull to make sure we are up to date.
+        pull_response=$(git pull --ff)
+        
+        # Check that the pull was successful  If we did not get a response, then we know the pull failed.
+        if [ -z "$pull_response" ]; then 
+            echo "git pull for automatic checkout has failed. Abort."
+            exit 0
+        fi
+
+        # Now do the checkout
+        git checkout $develop_branch
+        
+        # check if the checkout was successful
+        current_branch=$(git branch --show-current)
+        if [ $current_branch == $develop_branch ]; then
+            develop_checked_out=1
+        else
+            echo "Automatic checkout has failed. Abort."
+            exit 0
+        fi
+    fi
 fi
 
-# Checkout develop
-# We need to checkout the branch before we start modifying files.
-echo
-echo "Checking out $develop_branch"
-git checkout $develop_branch
+# Fix any header files that are in the wrong location according to the project file
+prompt_user "Would you like to run the project file header fixer"
+if [[ $? == 1 ]]; then
+    chmod u+x ./scripts/project_file_header_fix.sh
+    ./scripts/project_file_header_fix.sh
+fi
 
 # Bump version in projectFile
 echo
@@ -107,11 +150,11 @@ fi
 echo 
 echo "Checking SDLGlobals.m for RPC and Protocol versions"
 file="SmartDeviceLink/private/SDLGlobals.m"
-current_rpc_version=$(sed -n '/SDLMaxProxyProtocolVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
-current_protocol_version=$(sed -n '/SDLMaxProxyRPCVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
+current_rpc_version=$(sed -n '/SDLMaxProxyRPCVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
+current_protocol_version=$(sed -n '/SDLMaxProxyProtocolVersion/{s/^.*@//;s/[\;]//;s/[\"]//g;p;q;}' $file)
 echo "Current RPC Version: "$current_rpc_version
 echo "Current Protocol Version: "$current_protocol_version
-echo "If these are not correct, please update protocol versions in /SmartDeviceLink/private/SDLGlobals.m. Then press enter..."
+echo "If these are not correct, please update versions in /SmartDeviceLink/private/SDLGlobals.m. Then press enter..."
 read user_input
 
 # Update to the newest BSON submodule. Update Package.swift and CocoaPods dependency files to point to latest if necessary.
@@ -139,12 +182,11 @@ if [ ! -z "$submodule_info" ]; then
 fi
 
 # Update changelog
-# TODO - insert a template into the changelog that includes the version the users have selected above.
-#echo "A template for this release has been inserted into the changelog. Please update it."
+# TODO - we could insert a template into the changelog that includes the version the users have selected above.
 echo 
 echo "Please update CHANGELOG.md, then return here and press enter..."
 read user_input
-# TODO - check modified info before and after so we can detect if the user failed to update the file.
+# TODO - check modified info before and after so we can detect if the user updated the file.
 
 # Generate documentation
 prompt_user "Would you like to automatically generate documentation with Jazzy"
@@ -157,7 +199,15 @@ if [[ $? == 1 ]]; then
 
     # This runs Jazzy to generate the documentation.
     echo "Running Jazzy to generate documentation..."
-    jazzy --clean --objc --framework-root SmartDeviceLink --sdk iphonesimulator --umbrella-header SmartDeviceLink/public/SmartDeviceLink.h --theme theme --output docs
+    # generate-documentation.sh throws an error if we are not in the correct directory when we run it.
+    cd scripts
+    chmod u+x ./generate-documentation.sh
+    if [ $(uname -m) == "x86_64" ]; then
+        ./generate-documentation.sh
+    else
+        arch -x86_64 /bin/bash ./generate-documentation.sh
+    fi
+    cd ..
 fi
 
 # Ensure that the RPC_SPEC has released to the master branch and update the submodule to point to the new release tag (or to the HEAD of master, if no release of the RPC_SPEC is occurring).
@@ -167,63 +217,77 @@ echo "If there is, please update the rpc_spec submodule to point to the newest c
 read user_input
 
 # Git commands
-echo
-echo "$develop_branch has already been checked out for you."
+# Check to make sure the correct branch is checked out.
+current_branch=$(git branch --show-current)
+if [ $current_branch == $develop_branch ]; then
+    echo
+    echo "$develop_branch has already been checked out for you."
 
-prompt_user "Would you like to walk through the git commands for this release"
-if [[ $? == 1 ]]; then
-    
-    # commit release to develop
-    prompt_user "Would you like to commit and push these changes to the develop branch"
+    prompt_user "Would you like to walk through the git commands for this release"
     if [[ $? == 1 ]]; then
-        # Add, commit, and push changes
-        git add -A
-        git commit -m "Update for release $new_version_number"
-        git push --set-upstream origin $develop_branch
-    else
-        echo "Aborting script!"
-        exit 0
+        prompt_user "Would you like to commit and push the changes made so far to the develop branch"
+        if [[ $? == 1 ]]; then
+            # Add, commit, and push changes to develop
+            git add -A
+            git commit -m "Update for release $new_version_number"
+            git push --set-upstream origin $develop_branch
+        else
+            echo "Aborting script!"
+            exit 0
+        fi
+
+
+        # Merge release to master (update master from develop)
+        prompt_user "Would you like to merge this release from develop to master? (This will not push to master)"
+        if [[ $? == 1 ]]; then
+            # Checkout master
+            git checkout $main_branch
+
+            # Merge develop with master.
+            # This updates the checked out master with the contents of develop
+            git merge $develop_branch $main_branch
+
+            echo "Please check that everything is correct."
+        
+            # Tag it
+            prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
+            if [[ $? == 1 ]]; then
+                git tag $new_version_number
+            fi
+            
+            echo "If these changes are correct, please commit them manually and then push them to master..."
+            read user_input
+            # TODO - here are the commands if we decide to automate this.
+            # git commit -m "commit message here "
+            # git push --set-upstream origin $main_branch
+        else
+            echo "Aborting script!"
+            exit 0
+        fi
+
+        # Merge master back to develop
+        prompt_user "Would you like to merge master back into develop (You will need to push manually)"
+        if [[ $? == 1 ]]; then
+            git checkout $develop_branch
+            git merge $main_branch $develop_branch
+        else
+            echo "Aborting script!"
+            exit 0
+        fi
     fi
 
-    # Merge release to master
-    prompt_user "Would you like to merge this release to master? (This will not push to master)"
-    if [[ $? == 1 ]]; then
-        # Checkout master
-        git checkout $main_branch
-
-        # Merge develop with master
-        git merge $main_branch $develop_branch
-
-        echo "Please check that everything is correct. Then, assuming you have permissions, push to master, then press enter..."
-    else
-        echo "Aborting script!"
-        exit 0
-    fi
-
-    # Tag it
-    prompt_user "Would you like to tag this release with $new_version_number? (This will not push the tag)"
-    if [[ $? == 1 ]]; then
-        git tag $new_version_number
-        # IDEA - else condition that allows the user to enter a different tag
-    fi
-
-    # Merge master back to develop
-    prompt_user "Would you like to merge master back into develop (This will not push the branch)"
-    if [[ $? == 1 ]]; then
-        git merge $develop_branch $main_branch
-    else
-        echo "Aborting script!"
-        exit 0
-    fi
+else
+    echo "You do not have $develop_branch currently checked out."
 fi
 
+# TODO - can we provide templates for the release based on the changelog?
+# TODO - can we open directories for drag and drop to the release?
 # Create new release for tag
 prompt_user "Would you like to open to the Github releases page to create a release"
 if [[ $? == 1 ]]; then
     open "https://github.com/smartdevicelink/sdl_ios/releases"
 fi
 
-echo
 # Push new release to primary and secondary cocoapod using command line:
 prompt_user "Would you like to push the release to CocoaPods"
 if [[ $? == 1 ]]; then
@@ -237,7 +301,11 @@ if [[ $? == 1 ]]; then
     # We pass in the version so that the framework script does not need to ask
     # Give the user permissions to the framework script, then run the script.
     chmod u+x ./scripts/create_framework.sh
-    ./scripts/create_framework.sh $new_version_number
+    if [ $(uname -m) == "x86_64" ]; then
+        ./scripts/create_framework.sh $new_version_number
+    else
+        arch -x86_64 /bin/bash ./scripts/create_framework.sh $new_version_number
+    fi
     
     echo 
     zip_file_name="SmartDeviceLink-$new_version_number.xcframework.zip"
@@ -255,7 +323,6 @@ if [[ $? == 1 ]]; then
     echo 
     echo "Please add the docset at $docset_tar_file_name to the Github release, then press enter..."
     read user_input
-    # TODO - phase 4 - adding the docset to the release should also be automatic
 fi
 echo
 echo "Release complete."

@@ -7,6 +7,7 @@
 //
 
 #import "MenuManager.h"
+
 #import "AlertManager.h"
 #import "AudioManager.h"
 #import "AppConstants.h"
@@ -14,14 +15,16 @@
 #import "RPCPermissionsManager.h"
 #import "SmartDeviceLink.h"
 #import "VehicleDataManager.h"
+#import "RemoteControlManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation MenuManager
 
-+ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager {
++ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager remoteManager:(RemoteControlManager *)remoteControlManager {
     return @[[self sdlex_menuCellSpeakNameWithManager:manager],
              [self sdlex_menuCellGetAllVehicleDataWithManager:manager],
+             [self sdlex_menuCellRemoteWithManager:manager remoteManager:remoteControlManager],
              [self sdlex_menuCellShowPerformInteractionWithManager:manager performManager:performManager],
              [self sdlex_sliderMenuCellWithManager:manager],
              [self sdlex_scrollableMessageMenuCellWithManager:manager],
@@ -91,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLMenuCell *)sdlex_menuCellChangeTemplateWithManager:(SDLManager *)manager {
     
-    /// Lets give an example of 2 templates
+    // Lets give an example of 2 templates
     NSMutableArray *submenuItems = [NSMutableArray array];
     NSString *errorMessage = @"Changing the template failed";
     
@@ -134,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLMenuCell alloc] initWithTitle:ACSliderMenuName secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[ACSliderMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSlider *sliderRPC = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHeader:@"Select a letter" sliderFooters:@[@"A", @"B", @"C"] timeout:10000];
         [manager sendRequest:sliderRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+            if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
                 if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
                     [AlertManager sendAlertWithManager:manager image:nil textField1:AlertSliderTimedOutWarningText textField2:nil];
                 } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
@@ -151,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLMenuCell alloc] initWithTitle:ACScrollableMessageMenuName secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:@[ACScrollableMessageMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:@"This is a scrollable message\nIt can contain many lines"];
         [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-           if(![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+           if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
                 if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
                     [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageTimedOutWarningText textField2:nil];
                 } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
@@ -162,6 +165,50 @@ NS_ASSUME_NONNULL_BEGIN
            }
         }];
     }];
+}
+
++ (SDLMenuCell *)sdlex_menuCellRemoteWithManager:(SDLManager *)manager remoteManager:(RemoteControlManager *)remoteManager {
+    SDLArtwork *remoteControlIcon = [SDLArtwork artworkWithImage:[[UIImage imageNamed:RemoteControlIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG];
+
+    // Clicking on cell shows alert message when remote control permissions are disabled
+    if (!remoteManager.isEnabled) {
+        return [[SDLMenuCell alloc] initWithTitle:ACRemoteMenuName secondaryText:nil tertiaryText:nil icon:remoteControlIcon secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+            [AlertManager sendAlertWithManager:manager image:nil textField1:AlertRemoteControlNotEnabledWarningText textField2:nil];
+        }];
+    }
+
+    // Let's give an example of 2 templates
+    NSMutableArray *submenuItems = [NSMutableArray array];
+    NSString *errorMessage = @"Changing the template failed";
+
+    // Climate Control
+    SDLMenuCell *climateControlCell = [[SDLMenuCell alloc] initWithTitle:ACRemoteControlClimateMenuName secondaryText:nil tertiaryText:nil icon: nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [manager.screenManager changeLayout:[[SDLTemplateConfiguration alloc] initWithPredefinedLayout:SDLPredefinedLayoutTilesOnly] withCompletionHandler:^(NSError * _Nullable error) {
+            if (error != nil) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:errorMessage textField2:nil];
+                return;
+            }
+            [remoteManager showClimateControl];
+        }];
+    }];
+    [submenuItems addObject:climateControlCell];
+
+    // View Climate
+    SDLMenuCell *viewClimateCell = [[SDLMenuCell alloc] initWithTitle:ACRemoteViewClimateMenuName secondaryText:nil tertiaryText:nil icon:nil secondaryArtwork:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLScrollableMessage *messageRPC = [[SDLScrollableMessage alloc] initWithMessage:remoteManager.climateDataString];
+        [manager sendRequest:messageRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageTimedOutWarningText textField2:nil];
+            } else if ([response.resultCode isEqualToEnum:SDLResultAborted]) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageCancelledWarningText textField2:nil];
+            } else if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                [AlertManager sendAlertWithManager:manager image:nil textField1:AlertScrollableMessageGeneralWarningText textField2:nil];
+            }
+        }];
+    }];
+    [submenuItems addObject:viewClimateCell];
+
+    return [[SDLMenuCell alloc] initWithTitle:ACRemoteMenuName secondaryText:nil tertiaryText:nil icon:remoteControlIcon secondaryArtwork:nil submenuLayout:SDLMenuLayoutList subCells:[submenuItems copy]];
 }
 
 #pragma mark - Voice Commands

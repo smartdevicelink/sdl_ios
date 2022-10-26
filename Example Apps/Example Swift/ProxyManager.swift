@@ -26,7 +26,9 @@ class ProxyManager: NSObject {
     private var subscribeButtonManager: SubscribeButtonManager!
     private var vehicleDataManager: VehicleDataManager!
     private var performInteractionManager: PerformInteractionManager!
+    private var remoteControlManager: RemoteControlManager!
     private var firstHMILevelState: SDLHMILevel
+    private var isRemoteControlEnabled: Bool
     weak var delegate: ProxyManagerDelegate?
 
 
@@ -34,6 +36,7 @@ class ProxyManager: NSObject {
     static let sharedManager = ProxyManager()
     private override init() {
         firstHMILevelState = .none
+        isRemoteControlEnabled = false;
         super.init()
     }
 }
@@ -48,6 +51,7 @@ extension ProxyManager {
         delegate?.didChangeProxyState(ProxyState.searching)
 
         sdlManager = SDLManager(configuration: (proxyTransportType == .iap) ? ProxyManager.iapConfiguration : ProxyManager.tcpConfiguration, delegate: self)
+        self.isRemoteControlEnabled = (proxyTransportType == .tcp)
         startManager()
     }
 
@@ -74,7 +78,7 @@ private extension ProxyManager {
     /// - Returns: A SDLConfiguration object
     class var iapConfiguration: SDLConfiguration {
         let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, fullAppId: ExampleFullAppId)
-        return setupManagerConfiguration(with: lifecycleConfiguration)
+        return setupManagerConfiguration(with: lifecycleConfiguration, enableRemote: false)
     }
 
     /// Configures a TCP transport layer with the IP address and port of the remote SDL Core instance.
@@ -82,18 +86,25 @@ private extension ProxyManager {
     /// - Returns: A SDLConfiguration object
     class var tcpConfiguration: SDLConfiguration {
         let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, fullAppId: ExampleFullAppId, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!)
-        return setupManagerConfiguration(with: lifecycleConfiguration)
+        return setupManagerConfiguration(with: lifecycleConfiguration, enableRemote: true)
     }
 
     /// Helper method for setting additional configuration parameters for both TCP and iAP transport layers.
     ///
     /// - Parameter lifecycleConfiguration: The transport layer configuration
     /// - Returns: A SDLConfiguration object
-    class func setupManagerConfiguration(with lifecycleConfiguration: SDLLifecycleConfiguration) -> SDLConfiguration {
+    class func setupManagerConfiguration(with lifecycleConfiguration: SDLLifecycleConfiguration, enableRemote: Bool) -> SDLConfiguration {
         lifecycleConfiguration.shortAppName = ExampleAppNameShort
         let appIcon = UIImage(named: ExampleAppLogoName)?.withRenderingMode(.alwaysOriginal)
         lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
         lifecycleConfiguration.appType = .default
+
+        // On actual hardware, the app requires permissions to do remote control which this example app will not have.
+        // Only use the remote control type on the TCP connection.
+        if enableRemote {
+            lifecycleConfiguration.additionalAppTypes = [.remoteControl]
+        }
+
         lifecycleConfiguration.language = .enUs
         lifecycleConfiguration.languagesSupported = [.enUs, .esMx, .frCa]
         lifecycleConfiguration.ttsName = [SDLTTSChunk(text: "S D L", type: .text)]
@@ -114,7 +125,7 @@ private extension ProxyManager {
     /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
-        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "AlertManager", "AudioManager", "ButtonManager", "SubscribeButtonManager", "MenuManager", "PerformInteractionManager", "RPCPermissionsManager", "VehicleDataManager"])
+        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "AlertManager", "AudioManager", "ButtonManager", "SubscribeButtonManager", "MenuManager", "PerformInteractionManager", "RPCPermissionsManager", "VehicleDataManager", "RemoteControlManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
         logConfig.globalLogLevel = .debug // Filters the logs
@@ -136,6 +147,7 @@ private extension ProxyManager {
             self.subscribeButtonManager = SubscribeButtonManager(sdlManager: self.sdlManager)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
+            self.remoteControlManager = RemoteControlManager(sdlManager: self.sdlManager, enabled: self.isRemoteControlEnabled, homeButtons: self.buttonManager.allScreenSoftButtons())
 
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
@@ -168,6 +180,9 @@ extension ProxyManager: SDLManagerDelegate {
 
             // Subscribe to vehicle data.
             vehicleDataManager.subscribeToVehicleOdometer()
+
+            // Start Remote Control Connection
+            remoteControlManager.start()
 
             //Handle initial launch
             showInitialData()
@@ -306,7 +321,7 @@ private extension ProxyManager {
     func createMenuAndGlobalVoiceCommands() {
         // Send the root menu items
         let screenManager = sdlManager.screenManager
-        let menuItems = MenuManager.allMenuItems(with: sdlManager, choiceSetManager: performInteractionManager)
+        let menuItems = MenuManager.allMenuItems(with: sdlManager, choiceSetManager: performInteractionManager, remoteManager: remoteControlManager)
         let voiceMenuItems = MenuManager.allVoiceMenuItems(with: sdlManager)
 
         if !menuItems.isEmpty { screenManager.menu = menuItems }

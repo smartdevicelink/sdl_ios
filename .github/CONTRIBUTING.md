@@ -12,12 +12,12 @@ We use [Gitflow](http://nvie.com/posts/a-successful-git-branching-model/) as our
 
 ### Pull Requests
 * Please follow the repository's for all code and documentation.
-* All feature branches should be based on `develop` and have the format `feature/issue-#num-branch_name`.
-* Minor bug fixes, that is bug fixes that do not change, add, or remove any public API, should be based on `develop` and have the format `bugfix/issue-#num-branch_name`, unless they are slated for a hotfix release, in which case they should be based on `master`.
-* All pull requests should implement a single feature or fix a single bug related to an open issue. Pull Requests that involve multiple changes (it is our discretion what precisely this means) will be rejected with a reason.
+* All feature branches should be based on `develop` and have the format `feature/branch_name`.
+* Minor bug fixes, that is bug fixes that do not change, add, or remove any public API, should be based on `master` and have the format `hotfix/branch_name`.
+* All pull requests should implement a single feature or fix a single bug. Pull Requests that involve multiple changes (it is our discretion what precisely this means) will be rejected with a reason.
 * All commits should separated into logical units, i.e. unrelated changes should be in different commits within a pull request.
-* Work in progress pull requests should be Draft PRs. When you believe the pull request is ready to merge, mark them as ready for review to make them an open PR and @mention the appropriate SDL team to schedule a review.
-* All new code *must* include unit tests. Bug fixes should have a test that failed previously and now passes. All new features should have test coverage. If your code does not have tests, or regresses old tests, it will be rejected.
+* Work in progress pull requests should have "[WIP]" in front of the Pull Request title. When you believe the pull request is ready to merge, remove this tag and @mention the appropriate SDL team to schedule a review.
+* All new code *must* include unit tests. Bug fixes should have a test that fails previously and now passes. All new features should be covered. If your code does not have tests, or regresses old tests, it will be rejected.
 * Make sure you fill out all sections of the PR template. A great example of a [pull request can be found here](https://github.com/smartdevicelink/sdl_ios/pull/1688).
 
 ### Contributor's License Agreement (CLA)

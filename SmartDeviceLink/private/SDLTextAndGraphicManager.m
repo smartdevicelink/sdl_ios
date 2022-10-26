@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     } else if (self.isDirty) {
         self.isDirty = NO;
-        [self sdl_updateAndCancelPreviousOperations:YES completionHandler:handler];
+        [self sdl_createOperationWithCompletionHandler:handler];
     } else {
         if (handler != nil) {
             handler([NSError sdl_textAndGraphicManager_nothingToUpdate]);
@@ -165,12 +165,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)sdl_updateAndCancelPreviousOperations:(BOOL)supersedePreviousOperations completionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+- (void)sdl_createOperationWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     SDLLogD(@"Updating text and graphics");
-    if (self.transactionQueue.operationCount > 0 && supersedePreviousOperations) {
-        SDLLogV(@"Transactions already exist, cancelling them");
-        [self.transactionQueue cancelAllOperations];
-    }
 
     __weak typeof(self) weakSelf = self;
     SDLTextAndGraphicUpdateOperation *updateOperation = [[SDLTextAndGraphicUpdateOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager currentCapabilities:self.windowCapability currentScreenData:self.currentScreenData newState:[self currentState] currentScreenDataUpdatedHandler:^(SDLTextAndGraphicState *_Nullable newScreenData, NSError *_Nullable error) {
@@ -182,7 +178,10 @@ NS_ASSUME_NONNULL_BEGIN
         } else if (error != nil) {
             // Invalidate data that's different from our current screen data if a Show or SetDisplayLayout fails. This will prevent subsequent `Show`s from failing if the request failed due to the developer setting invalid data or subsequent `SetDisplayLayout`s from failing if the template is not supported on the module. 
             [strongSelf sdl_resetFieldsToCurrentScreenData];
-            [strongSelf sdl_updatePendingOperationsWithNewScreenData:strongSelf.currentScreenData];
+            SDLTextAndGraphicState *errorState = error.userInfo[SDLTextAndGraphicFailedScreenStateErrorKey];
+            if (errorState != nil) {
+                [strongSelf sdl_updatePendingOperationsWithFailedScreenState:errorState];
+            }
         }
     } updateCompletionHandler:handler];
 
@@ -201,6 +200,15 @@ NS_ASSUME_NONNULL_BEGIN
         SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
 
         updateOp.currentScreenData = newScreenData;
+    }
+}
+
+- (void)sdl_updatePendingOperationsWithFailedScreenState:(SDLTextAndGraphicState *)errorState {
+    for (NSOperation *operation in self.transactionQueue.operations) {
+        if (operation.isExecuting) { continue; }
+        SDLTextAndGraphicUpdateOperation *updateOp = (SDLTextAndGraphicUpdateOperation *)operation;
+
+        [updateOp updateTargetStateWithErrorState:errorState];
     }
 }
 
@@ -394,7 +402,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Auto-send an updated show
     if ([self sdl_hasData]) {
         // TODO: HAX: Capability updates cannot supersede earlier updates because of the case where a developer batched a `changeLayout` call w/ T&G changes on <6.0 systems could cause this to come in before the operation completes. That would cause the operation to report a "failure" (because it was superseded by this call) when in fact the operation didn't fail at all and is just being adjusted. Even though iOS is able to tell the developer that it was superseded, Java Suite cannot, and therefore we are matching functionality with their library.
-        [self sdl_updateAndCancelPreviousOperations:NO completionHandler:nil];
+        [self sdl_createOperationWithCompletionHandler:nil];
     }
 }
 

@@ -1,4 +1,31 @@
 # Changelog
+## 7.6.0
+* Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
+
+### Testing
+* Xcode 14.0
+* iOS 15.7 / iOS 16.0
+* Core:
+  * Manticore (Core v8.1.0, Generic HMI v0.12.0)
+  * Ford Sync 3.4 (19353_DEVTEST)
+  * Ford Sync 3.0 (17276_DEVTEST)
+  * Ford Sync 4.0 (20016_DEVTEST)
+  * Core v8.2.0-RC with sdl_hmi v5.8.0-RC and generic_hmi v0.13.0-RC
+
+### Bug Fixes
+* SDLProtocol message parsing should use a state machine (https://github.com/smartdevicelink/sdl_ios/issues/17)
+* Default cellID value passed in during openSubMenu method call (https://github.com/smartdevicelink/sdl_ios/issues/1633)
+* SDLTouchManagerDelegate's didReceivePinchInView is never called in the codebase (https://github.com/smartdevicelink/sdl_ios/issues/1637)
+* Setting bad data in one T&G field then good data quickly in another can lead to the good data failing (https://github.com/smartdevicelink/sdl_ios/issues/1781)
+* SystemCapabilityManager screenParams nil, mediaClockFormats empty, and windowID nil when they shouldn't be (https://github.com/smartdevicelink/sdl_ios/issues/2105)
+* Alert images that are flagged for overwrite fail to display (https://github.com/smartdevicelink/sdl_ios/issues/2109)
+* Fix iAP write data range error (https://github.com/smartdevicelink/sdl_ios/issues/2112)
+
+### Other
+* Use a script to include public header files based on project settings (https://github.com/smartdevicelink/sdl_ios/issues/179)
+* Missing a remote control example in example app (https://github.com/smartdevicelink/sdl_ios/issues/2101)
+* Release Script Bugs (https://github.com/smartdevicelink/sdl_ios/issues/2098)
+
 ## 7.5.0
 * Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
 

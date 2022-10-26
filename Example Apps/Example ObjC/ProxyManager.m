@@ -9,6 +9,7 @@
 #import "PerformInteractionManager.h"
 #import "Preferences.h"
 #import "ProxyManager.h"
+#import "RemoteControlManager.h"
 #import "RPCPermissionsManager.h"
 #import "SmartDeviceLink.h"
 #import "SubscribeButtonManager.h"
@@ -22,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMILevel firstHMILevel;
 
+@property (assign, nonatomic, getter=isRemoteControlEnabled) BOOL remoteControlEnabled;
+@property (strong, nonatomic) RemoteControlManager *remoteControlManager;
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
 @property (strong, nonatomic) PerformInteractionManager *performManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
@@ -50,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
+    _remoteControlEnabled = NO;
     _state = ProxyStateStopped;
     _firstHMILevel = SDLHMILevelNone;
 
@@ -69,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.performManager = [[PerformInteractionManager alloc] initWithManager:self.sdlManager];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
         self.subscribeButtonManager = [[SubscribeButtonManager alloc] initWithManager:self.sdlManager];
-
+        self.remoteControlManager = [[RemoteControlManager alloc] initWithManager:self.sdlManager isEnabled:self.isRemoteControlEnabled softButtons:[self.buttonManager allScreenSoftButtons]];
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
 
@@ -99,18 +103,19 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
 
     SDLConfiguration *config = (proxyTransportType == ProxyTransportTypeIAP) ? [self.class sdlex_iapConfiguration] : [self.class sdlex_tcpConfiguration];
+    self.remoteControlEnabled = (proxyTransportType == ProxyTransportTypeTCP);
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     [self sdlex_startManager];
 }
 
 + (SDLConfiguration *)sdlex_iapConfiguration {
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId] enableRemote:NO];
 
     return [self sdlex_setupManagerConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
 + (SDLConfiguration *)sdlex_tcpConfiguration {
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port] enableRemote:YES];
 
     return [self sdlex_setupManagerConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
@@ -121,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLConfiguration alloc] initWithLifecycle:lifecycleConfiguration lockScreen:lockScreenConfiguration logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration] encryption:[SDLEncryptionConfiguration defaultConfiguration]];
 }
 
-+ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
++ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config enableRemote:(BOOL)enableRemote {
     UIImage *appLogo = [[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:appLogo asImageFormat:SDLArtworkImageFormatPNG];
 
@@ -132,6 +137,12 @@ NS_ASSUME_NONNULL_BEGIN
     config.language = SDLLanguageEnUs;
     config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
     config.appType = SDLAppHMITypeDefault;
+
+    // On actual hardware, the app requires permissions to do remote control which this example app will not have.
+    // Only use the remote control type on the TCP connection.
+    if (enableRemote) {
+        config.additionalAppTypes = @[SDLAppHMITypeRemoteControl];
+    }
 
     SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
     SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
@@ -145,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLLogConfiguration *)sdlex_logConfiguration {
     SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
-    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Obj-C Example App" files:[NSSet setWithArray:@[@"ProxyManager", @"AlertManager", @"AudioManager", @"ButtonManager", @"SubscribeButtonManager", @"MenuManager", @"PerformInteractionManager", @"RPCPermissionsManager", @"VehicleDataManager"]]];
+    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Obj-C Example App" files:[NSSet setWithArray:@[@"ProxyManager", @"AlertManager", @"AudioManager", @"ButtonManager", @"SubscribeButtonManager", @"MenuManager", @"PerformInteractionManager", @"RPCPermissionsManager", @"VehicleDataManager", @"RemoteControlManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     logConfig.globalLogLevel = SDLLogLevelDebug;
@@ -156,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Screen UI Helpers
 
 - (void)sdlex_createMenus {
-    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager performManager:self.performManager];
+    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager performManager:self.performManager remoteManager:self.remoteControlManager];
     self.sdlManager.screenManager.voiceCommands = [MenuManager allVoiceMenuItemsWithManager:self.sdlManager];
 }
 
@@ -242,9 +253,12 @@ NS_ASSUME_NONNULL_BEGIN
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && ([self.firstHMILevel isEqualToEnum:SDLHMILevelNone])) {
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
-        
+
         // Subscribe to vehicle data.
         [self.vehicleDataManager subscribeToVehicleOdometer];
+
+        // Start Remote Control Connection
+        [self.remoteControlManager start];
 
         //Handle initial launch
         [self sdlex_showInitialData];

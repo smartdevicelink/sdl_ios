@@ -26,6 +26,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString *const SDLTextAndGraphicFailedScreenStateErrorKey = @"failedScreenState";
+
 @interface SDLTextAndGraphicUpdateOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -97,6 +99,23 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)updateTargetStateWithErrorState:(SDLTextAndGraphicState *)errorState {
+    self.updatedState.textField1 = [errorState.textField1 isEqualToString:self.updatedState.textField1] ? self.currentScreenData.textField1 : self.updatedState.textField1;
+    self.updatedState.textField2 = [errorState.textField2 isEqualToString:self.updatedState.textField2] ? self.currentScreenData.textField2 : self.updatedState.textField2;
+    self.updatedState.textField3 = [errorState.textField3 isEqualToString:self.updatedState.textField3] ? self.currentScreenData.textField3 : self.updatedState.textField3;
+    self.updatedState.textField4 = [errorState.textField4 isEqualToString:self.updatedState.textField4] ? self.currentScreenData.textField4 : self.updatedState.textField4;
+    self.updatedState.mediaTrackTextField = [errorState.mediaTrackTextField isEqualToString:self.updatedState.mediaTrackTextField] ? self.currentScreenData.mediaTrackTextField : self.updatedState.mediaTrackTextField;
+    self.updatedState.title = [errorState.title isEqualToString:self.updatedState.title] ? self.currentScreenData.title : self.updatedState.title;
+    self.updatedState.primaryGraphic = [errorState.primaryGraphic isEqual:self.updatedState.primaryGraphic] ? self.currentScreenData.primaryGraphic : self.updatedState.primaryGraphic;
+    self.updatedState.secondaryGraphic = [errorState.secondaryGraphic isEqual:self.updatedState.secondaryGraphic] ? self.currentScreenData.secondaryGraphic : self.updatedState.secondaryGraphic;
+    self.updatedState.alignment = [errorState.alignment isEqualToEnum:self.updatedState.alignment] ? self.currentScreenData.alignment : self.updatedState.alignment;
+    self.updatedState.textField1Type = [errorState.textField1Type isEqualToEnum:self.updatedState.textField1Type] ? self.currentScreenData.textField1Type : self.updatedState.textField1Type;
+    self.updatedState.textField2Type = [errorState.textField2Type isEqualToEnum:self.updatedState.textField2Type] ? self.currentScreenData.textField2Type : self.updatedState.textField2Type;
+    self.updatedState.textField3Type = [errorState.textField3Type isEqualToEnum:self.updatedState.textField3Type] ? self.currentScreenData.textField3Type : self.updatedState.textField3Type;
+    self.updatedState.textField4Type = [errorState.textField4Type isEqualToEnum:self.updatedState.textField4Type] ? self.currentScreenData.textField4Type : self.updatedState.textField4Type;
+    self.updatedState.templateConfig = [errorState.templateConfig isEqual:self.updatedState.templateConfig] ? self.currentScreenData.templateConfig : self.updatedState.templateConfig;
+}
+
 #pragma mark - Send Show / Set Display Layout
 
 - (void)sdl_updateGraphicsAndShow:(SDLShow *)show {
@@ -158,8 +177,12 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogD(@"Text and Graphic Show completed successfully");
             [strongSelf sdl_updateCurrentScreenDataFromShow:request];
         } else {
-            SDLLogD(@"Text and Graphic Show failed");
-            self.currentDataUpdatedHandler(nil, error);
+            SDLLogE(@"Text and Graphic Show failed: %@", error);
+            NSError *updateError = [NSError errorWithDomain:error.domain code:error.code userInfo:@{
+                NSUnderlyingErrorKey: error.userInfo,
+                SDLTextAndGraphicFailedScreenStateErrorKey: self.updatedState
+            }];
+            self.currentDataUpdatedHandler(nil, updateError);
         }
 
         handler(error);

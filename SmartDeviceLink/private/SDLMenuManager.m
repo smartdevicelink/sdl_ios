@@ -227,6 +227,16 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
 
+    // Check if a passed cell is a "re-created" cell without a cellID. If it is, then try to find the equivalent cell and use it instead
+    if (cell != nil && cell.cellId == UINT32_MAX) {
+        for (SDLMenuCell *headUnitCell in self.menuCells) {
+            if ([cell isEqual:headUnitCell]) {
+                cell = headUnitCell;
+                break;
+            }
+        }
+    }
+    
     // Create the operation
     SDLMenuShowOperation *showMenuOp = [[SDLMenuShowOperation alloc] initWithConnectionManager:self.connectionManager toMenuCell:cell completionHandler:^(NSError * _Nullable error) {
         if (error != nil) {

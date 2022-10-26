@@ -59,6 +59,7 @@ extern NSString * const AlertScrollableMessageCancelledWarningText;
 extern NSString * const AlertScrollableMessageGeneralWarningText;
 extern NSString * const AlertVehicleDataPermissionsWarningText;
 extern NSString * const AlertVehicleDataGeneralWarningText;
+extern NSString * const AlertRemoteControlNotEnabledWarningText;
 extern NSString * const AlertSpeechPermissionsWarningText;
 
 #pragma mark - SDL Text-To-Speech
@@ -119,6 +120,9 @@ extern NSString * const ACMyKeyMenuName;
 extern NSString * const ACOdometerMenuName;
 extern NSString * const ACPRNDLMenuName;
 extern NSString * const ACRPMMenuName;
+extern NSString * const ACRemoteMenuName;
+extern NSString * const ACRemoteControlClimateMenuName;
+extern NSString * const ACRemoteViewClimateMenuName;
 extern NSString * const ACSpeedMenuName;
 extern NSString * const ACSteeringWheelAngleMenuName;
 extern NSString * const ACTirePressureMenuName;
@@ -136,6 +140,7 @@ extern NSString * const PhoneBWIconImageName;
 extern NSString * const SpeakBWIconImageName;
 extern NSString * const BatteryEmptyBWIconName;
 extern NSString * const BatteryFullBWIconName;
+extern NSString * const RemoteControlIconName;
 
 #pragma mark - SDL App Name in Different Languages
 extern NSString * const ExampleAppNameSpanish;

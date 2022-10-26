@@ -22,6 +22,7 @@
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessageDisassembler.h"
+#import "SDLProtocolReceivedMessageProcessor.h"
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLRPCNotification.h"
 #import "SDLRPCPayload.h"
@@ -50,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLPrioritizedObjectCollection *_prioritizedCollection;
 }
 
+@property (nullable, strong, nonatomic) SDLProtocolReceivedMessageProcessor *receiveProcessor;
 @property (strong, nonatomic) NSMutableData *receiveBuffer;
 @property (nullable, strong, nonatomic) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
@@ -78,12 +80,11 @@ NS_ASSUME_NONNULL_BEGIN
     _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
     _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
     _serviceHeaders = [[NSMutableDictionary alloc] init];
+    _receiveProcessor = [[SDLProtocolReceivedMessageProcessor alloc] init];
     _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
     _messageRouter.delegate = self;
-
     _transport = transport;
     _transport.delegate = self;
-
     _encryptionLifecycleManager = encryptionManager;
 
     return self;
@@ -497,66 +498,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Turn received bytes into message objects.
 - (void)sdl_handleBytesFromTransport:(NSData *)receivedData {
-    // Initialize the receive buffer which will contain bytes while messages are constructed.
-    if (self.receiveBuffer == nil) {
-        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC])];
-    }
-
-    // Save the data
-    [self.receiveBuffer appendData:receivedData];
-
-    [self sdl_processMessages];
-}
-
-- (void)sdl_processMessages {
-    UInt8 incomingVersion = [SDLProtocolHeader determineVersion:self.receiveBuffer];
-
-    // If we have enough bytes, create the header.
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:incomingVersion];
-    NSUInteger headerSize = header.size;
-    if (self.receiveBuffer.length >= headerSize) {
-        [header parse:self.receiveBuffer];
-    } else {
-        return;
-    }
-
-    // If we have enough bytes, finish building the message.
-    SDLProtocolMessage *message = nil;
-    NSUInteger payloadSize = header.bytesInPayload;
-    NSUInteger messageSize = headerSize + payloadSize;
-    if (self.receiveBuffer.length >= messageSize) {
-        NSUInteger payloadOffset = headerSize;
-        NSUInteger payloadLength = payloadSize;
-        NSData *payload = [self.receiveBuffer subdataWithRange:NSMakeRange(payloadOffset, payloadLength)];
-
+    // Call the state machine, and pass it the bytes to be processed
+    [_receiveProcessor processReceiveBuffer:receivedData withMessageReadyBlock:^(SDLProtocolHeader *header, NSData *payload) {
         // If the message in encrypted and there is payload, try to decrypt it
-        if (header.encrypted && payload.length) {
-            NSError *decryptError = nil;
+        NSError *decryptError = nil;
+        if (header.encrypted && (payload.length > 0)) {
             payload = [self.securityManager decryptData:payload withError:&decryptError];
-
-            if (decryptError != nil) {
-                SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
-                return;
-            }
         }
 
-        message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
-    } else {
-        // Need to wait for more bytes.
-        SDLLogV(@"Protocol header complete, message incomplete, waiting for %ld more bytes. Header: %@", (long)(messageSize - self.receiveBuffer.length), header);
-        return;
-    }
-
-    // Need to maintain the receiveBuffer, remove the bytes from it which we just processed.
-    self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(messageSize, self.receiveBuffer.length - messageSize)] mutableCopy];
-
-    // Pass on the message to the message router.
-    [self.messageRouter handleReceivedMessage:message protocol:self];
-
-    // Call recursively until the buffer is empty or incomplete message is encountered
-    if (self.receiveBuffer.length > 0) {
-        [self sdl_processMessages];
-    }
+        if (decryptError != nil) {
+            return SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
+        }
+        
+        // Build the message and send it on to the router
+        SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
+        [self.messageRouter handleReceivedMessage:message protocol:self];
+    }];
 }
 
 

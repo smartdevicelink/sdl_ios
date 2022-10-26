@@ -95,9 +95,16 @@ describe(@"a system capability manager", ^{
         imageField.imageTypeSupported = @[SDLFileTypePNG];
         imageField.imageResolution = [[SDLImageResolution alloc] initWithWidth:42 height:4711];
         testDisplayCapabilities.imageFields = @[imageField];
-        testDisplayCapabilities.mediaClockFormats = @[];
+        testDisplayCapabilities.mediaClockFormats = @[SDLMediaClockFormatClock1, SDLMediaClockFormatClock2];
         testDisplayCapabilities.templatesAvailable = @[@"DEFAULT", @"MEDIA"];
         testDisplayCapabilities.numCustomPresetsAvailable = @(8);
+        SDLScreenParams *screenParams = [[SDLScreenParams alloc] init];
+        [screenParams setResolution:[[SDLImageResolution alloc] initWithWidth:675 height:960]];
+        [screenParams setTouchEventAvailable:[[SDLTouchEventCapabilities alloc] init]];
+        [screenParams.touchEventAvailable setPressAvailable:@YES];
+        [screenParams.touchEventAvailable setMultiTouchAvailable:@YES];
+        [screenParams.touchEventAvailable setDoublePressAvailable:@YES];
+        testDisplayCapabilities.screenParams = screenParams;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -702,18 +709,28 @@ describe(@"a system capability manager", ^{
                 expect(testSystemCapabilityManager.defaultMainWindowCapability.textFields).to(haveCount(38));
                 expect(testSystemCapabilityManager.defaultMainWindowCapability.imageFields).to(haveCount(18));
             });
+
+            it(@"should set the default window id if window id is missing", ^{
+                // Set window id to nil. windowID can be potentially nil in real applications
+                testSystemCapabilityManager.displays[0].windowCapabilities[0].windowID = nil;
+
+                expect(testSystemCapabilityManager.defaultMainWindowCapability.windowID).to(equal(SDLPredefinedWindowsDefaultWindow));
+                expect([testSystemCapabilityManager windowCapabilityWithWindowID:0].windowID).to(equal(SDLPredefinedWindowsDefaultWindow));
+            });
         });
     });
 
     // when updating display capabilities with OnSystemCapabilityUpdated
     describe(@"when updating display capabilities with OnSystemCapabilityUpdated", ^{
         it(@"should properly update display capability including conversion two times", ^{
+            // Set to display capabilities that have screenParams and mediaClockFormats set
+            testSystemCapabilityManager.displayCapabilities = testDisplayCapabilities;
             // two times because capabilities are just saved in first run but merged/updated in subsequent runs
             for (int i = 0; i < 2; i++) {
                 testDisplayCapabilities.displayName = [NSString stringWithFormat:@"Display %i", i];
                 testDisplayCapabilities.graphicSupported = i == 0 ? @(NO) : @(YES);
                 testDisplayCapabilities.templatesAvailable = @[[NSString stringWithFormat:@"Template %i", i]];
-                
+
                 SDLWindowTypeCapabilities *windowTypeCapabilities = [[SDLWindowTypeCapabilities alloc] initWithType:SDLWindowTypeMain maximumNumberOfWindows:1];
                 SDLDisplayCapability *displayCapability = [[SDLDisplayCapability alloc] initWithDisplayName:testDisplayCapabilities.displayName];
                 displayCapability.windowTypeSupported = @[windowTypeCapabilities];
@@ -728,16 +745,18 @@ describe(@"a system capability manager", ^{
                 defaultWindowCapability.imageTypeSupported = testDisplayCapabilities.graphicSupported.boolValue ? @[SDLImageTypeStatic, SDLImageTypeDynamic] : @[SDLImageTypeStatic];
                 displayCapability.windowCapabilities = @[defaultWindowCapability];
                 NSArray<SDLDisplayCapability *> *newDisplayCapabilityList = testDisplayCapabilityList = @[displayCapability];
-                
+
                 SDLSystemCapability *newCapability = [[SDLSystemCapability alloc] initWithDisplayCapabilities:newDisplayCapabilityList];
                 SDLOnSystemCapabilityUpdated *testUpdateNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:newCapability];
                 SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:testUpdateNotification];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
-                
+
                 expect(testSystemCapabilityManager.displays).to(equal(testDisplayCapabilityList));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
                 expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+                expect(testSystemCapabilityManager.displayCapabilities.screenParams).to(equal(testDisplayCapabilities.screenParams));
+                expect(testSystemCapabilityManager.displayCapabilities.mediaClockFormats).to(equal(testDisplayCapabilities.mediaClockFormats));
                 expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
                 expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
                 expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());

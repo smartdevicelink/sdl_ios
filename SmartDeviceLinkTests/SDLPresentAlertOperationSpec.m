@@ -42,6 +42,7 @@
 @property (strong, nonatomic, readwrite) SDLAlertView *alertView;
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
+@property (assign, nonatomic) BOOL alertIconUploaded;
 
 - (nullable NSError *)sdl_isValidAlertViewData:(SDLAlertView *)alertView;
 - (SDLAlert *)alertRPC;
@@ -365,16 +366,16 @@ describe(@"SDLPresentAlertOperation", ^{
                 testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertView cancelID:testCancelID];
             });
 
-            it(@"should set the image if icons are supported on the module", ^{
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
+            it(@"should not set the image if it fails to upload to the module", ^{
                 SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
-                expect(testAlert.alertIcon.value).to(equal(testAlertView.icon.name));
+                expect(testAlert.alertIcon.value).to(beNil());
             });
 
-            it(@"should not set the image if icons are not supported on the module", ^{
-                OCMStub([mockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(NO);
+            it(@"should set the image if it is uploaded to the module", ^{
+                testPresentAlertOperation.alertIconUploaded = YES;
+
                 SDLAlert *testAlert = testPresentAlertOperation.alertRPC;
-                expect(testAlert.alertIcon).to(beNil());
+                expect(testAlert.alertIcon.value).to(equal(testAlertView.icon.name));
             });
         });
     });
@@ -635,6 +636,25 @@ describe(@"SDLPresentAlertOperation", ^{
                 OCMVerifyAll(strictMockSystemCapabilityManager);
                 OCMVerifyAll(strictMockCurrentWindowCapability);
             });
+
+            it(@"should not upload the image if the alert icon is a static icon", ^{
+                SDLAlertView *alertView = [[SDLAlertView alloc] initWithText:@"Test" secondaryText:nil tertiaryText:nil timeout:nil showWaitIndicator:nil audioIndication:nil buttons:nil icon:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameKey]];
+                testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:strictMockFileManager systemCapabilityManager:strictMockSystemCapabilityManager currentWindowCapability:strictMockCurrentWindowCapability alertView:alertView cancelID:testCancelID];
+
+                OCMStub([strictMockCurrentWindowCapability hasImageFieldOfName:SDLImageFieldNameAlertIcon]).andReturn(YES);
+                OCMStub([strictMockFileManager hasUploadedFile:[OCMArg any]]).andReturn(NO);
+                OCMStub([strictMockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
+
+                OCMReject([strictMockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg any] completionHandler:[OCMArg any]]);
+
+                [testPresentAlertOperation start];
+
+                OCMVerifyAll(strictMockFileManager);
+                OCMVerifyAll(strictMockSystemCapabilityManager);
+                OCMVerifyAll(strictMockCurrentWindowCapability);
+                expect(testPresentAlertOperation.alertIconUploaded).to(beTrue());
+                expect(testPresentAlertOperation.alertRPC.alertIcon).toNot(beNil());
+            });
         });
     });
 
@@ -781,6 +801,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 testAlertViewWithExtraSoftButtons = [[SDLAlertView alloc] initWithText:@"text" secondaryText:@"secondaryText" tertiaryText:@"tertiaryText" timeout:@(4) showWaitIndicator:@(YES) audioIndication:testAlertAudioData buttons:@[testAlertSoftButton1, testAlertSoftButton2, testAlertSoftButton3, testAlertSoftButton4, testAlertSoftButton5, testAlertSoftButton6] icon:testAlertIcon];
                 testPresentAlertOperation = [[SDLPresentAlertOperation alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager systemCapabilityManager:mockSystemCapabilityManager currentWindowCapability:mockCurrentWindowCapability alertView:testAlertViewWithExtraSoftButtons cancelID:testCancelID];
+                testPresentAlertOperation.alertIconUploaded = YES;
 
                 testPresentAlertOperation.completionBlock = ^{
                     hasCalledOperationCompletionHandler = YES;
@@ -829,7 +850,7 @@ describe(@"SDLPresentAlertOperation", ^{
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
                 OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
-                OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:([OCMArg invokeBlockWithArgs: @[testAlertView.icon.name], [NSNull null], nil])]);
+                OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:([OCMArg invokeBlockWithArgs: @[], [NSNull null], nil])]);
                 OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                 SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:3 patch:0];
@@ -883,8 +904,8 @@ describe(@"SDLPresentAlertOperation", ^{
                 SDLSoftButtonCapabilities *testSoftButtonCapabilities = [[SDLSoftButtonCapabilities alloc] init];
                 testSoftButtonCapabilities.imageSupported = @YES;
                 OCMStub([mockCurrentWindowCapability softButtonCapabilities]).andReturn(@[testSoftButtonCapabilities]);
-                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(NO);
-                OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
+                OCMStub([mockFileManager fileNeedsUpload:[OCMArg any]]).andReturn(YES);
+                OCMStub([mockFileManager uploadArtworks:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:([OCMArg invokeBlockWithArgs: @[testAlertView.icon.name], [NSNull null], nil])]);
                 OCMStub([mockFileManager uploadFiles:[OCMArg any] progressHandler:[OCMArg invokeBlock] completionHandler:[OCMArg invokeBlock]]);
 
                 SDLVersion *supportedVersion = [SDLVersion versionWithMajor:6 minor:3 patch:0];

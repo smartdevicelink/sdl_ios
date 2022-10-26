@@ -66,6 +66,7 @@ static const int SDLAlertSoftButtonCount = 4;
 @property (assign, nonatomic) UInt16 cancelId;
 @property (copy, nonatomic, nullable) NSError *internalError;
 @property (assign, atomic) BOOL isAlertPresented;
+@property (assign, nonatomic) BOOL alertIconUploaded;
 
 @end
 
@@ -90,6 +91,7 @@ static const int SDLAlertSoftButtonCount = 4;
     _cancelId = cancelID;
     _operationId = [NSUUID UUID];
     _currentWindowCapability = currentWindowCapability;
+    _alertIconUploaded = NO;
 
     return self;
 }
@@ -193,8 +195,14 @@ static const int SDLAlertSoftButtonCount = 4;
 /// @param handler Called when all images have been uploaded.
 - (void)sdl_uploadImagesWithCompletionHandler:(void (^)(void))handler {
     NSMutableArray<SDLArtwork *> *artworksToBeUploaded = [NSMutableArray array];
-    if ([self sdl_supportsAlertIcon] && [self.fileManager fileNeedsUpload:self.alertView.icon]) {
-        [artworksToBeUploaded addObject:self.alertView.icon];
+    if ([self sdl_supportsAlertIcon] && (self.alertView.icon != nil)) {
+        if ([self.fileManager fileNeedsUpload:self.alertView.icon]) {
+            // If the file is not uploaded, attempt to upload it
+            [artworksToBeUploaded addObject:self.alertView.icon];
+        } else if ([self.fileManager hasUploadedFile:self.alertView.icon] || self.alertView.icon.isStaticIcon) {
+            // If the file is already uploaded, add it to the uploaded set so we can show it
+            self.alertIconUploaded = YES;
+        }
     }
 
     // Don't upload artworks for buttons that will not be shown.
@@ -219,12 +227,16 @@ static const int SDLAlertSoftButtonCount = 4;
 
         return YES;
     } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+        __strong typeof(weakself) strongself = weakself;
         if (error != nil) {
             SDLLogE(@"Error uploading alert images: %@", error);
         } else {
             SDLLogD(@"All alert images uploaded");
         }
 
+        if ([artworkNames containsObject:strongself.alertView.icon.name]) {
+            strongself.alertIconUploaded = YES;
+        }
         return handler();
     }];
 }
@@ -293,7 +305,7 @@ static const int SDLAlertSoftButtonCount = 4;
     SDLAlert *alert = [[SDLAlert alloc] init];
     [self sdl_assembleAlertText:alert];
     alert.duration = @((NSUInteger)(self.alertView.timeout * 1000));
-    alert.alertIcon = ([self sdl_supportsAlertIcon] && ![self.fileManager fileNeedsUpload:self.alertView.icon]) ? self.alertView.icon.imageRPC : nil;
+    alert.alertIcon = self.alertIconUploaded ? self.alertView.icon.imageRPC : nil;
     alert.progressIndicator = @(self.alertView.showWaitIndicator);
     alert.cancelID = @(self.cancelId);
 
