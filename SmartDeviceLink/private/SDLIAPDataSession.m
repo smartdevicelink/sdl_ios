@@ -58,10 +58,24 @@ NS_ASSUME_NONNULL_BEGIN
             if (bytesWritten >= 0) {
                 if (bytesWritten == bytesRemaining) {
                     [self.sendDataQueue popBuffer];
-                } else if (bytesRemaining > bytesWritten) {
+                } else if (bytesRemaining > bytesWritten && remainder.length > bytesWritten) {
                     // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
-                    SDLLogV(@"SDLIAPDataSession writeDataToSessionStream bytes written %ld", (long)bytesWritten);
-                    [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
+                    @try {
+                        SDLLogV(@"SDLIAPDataSession writeDataToSessionStream bytes written %ld", (long)bytesWritten);
+                        NSData *rem = [remainder subdataWithRange:NSMakeRange((NSUInteger)bytesWritten, remainder.length - 1)];
+                        [remainder setLength:[rem length]];
+                        [remainder setData:rem];
+                    } @catch (NSException __unused *exception) {
+                        SDLLogE(@"Unable to remove sent bytes using the subDataWithRange method. Will try with replaceBytesInRange:");
+                        @try {
+                            SDLLogV(@"SDLIAPDataSession writeDataToSessionStream bytes written %ld", (long)bytesWritten);
+                            [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
+                        } @catch (NSException *exception) {
+                            // Error processing current data. Remove corrupted buffer
+                            SDLLogE(@"Unable to remove sent bytes. Bytes remaining is less than bytes written %lu < %lu. Clearing buffer", bytesRemaining, bytesWritten);
+                            [self.sendDataQueue popBuffer];
+                        }
+                    }
                 } else {
                     // Error processing current data. Remove corrupted buffer
                     SDLLogE(@"Unable to remove sent bytes. Bytes remaining is less than bytes written %lu < %lu. Clearing buffer", bytesRemaining, bytesWritten);
