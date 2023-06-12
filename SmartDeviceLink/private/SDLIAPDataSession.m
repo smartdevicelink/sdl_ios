@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
                     // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
                     @try {
                         SDLLogV(@"SDLIAPDataSession writeDataToSessionStream bytes written %ld", (long)bytesWritten);
-                        NSData *rem = [remainder subdataWithRange:NSMakeRange((NSUInteger)bytesWritten, remainder.length - 1)];
+                        NSData *rem = [remainder subdataWithRange:NSMakeRange((NSUInteger)bytesWritten, remainder.length - (NSUInteger)bytesWritten)];
                         [remainder setLength:[rem length]];
                         [remainder setData:rem];
                     } @catch (NSException __unused *exception) {
