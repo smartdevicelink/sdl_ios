@@ -119,7 +119,7 @@ describe(@"a voice command operation", ^{
             });
 
             it(@"should return immediately with an error", ^{
-                expect(callbackError).toEventuallyNot(beNil());
+                expect(callbackError).toNot(beNil());
             });
         });
 

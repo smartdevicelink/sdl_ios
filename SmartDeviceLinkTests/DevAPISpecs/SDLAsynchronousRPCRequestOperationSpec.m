@@ -57,8 +57,8 @@ describe(@"sending asynchronous requests", ^{
 
             [testOperationQueue addOperation:testOperation];
 
-            expect(testSuccess).withTimeout(3.0).toEventually(beTrue());
-            expect(testError).withTimeout(3.0).toEventually(beNil());
+            expect(testSuccess).withTimeout(3.0).to(beTrue());
+            expect(testError).withTimeout(3.0).to(beNil());
         });
     });
 

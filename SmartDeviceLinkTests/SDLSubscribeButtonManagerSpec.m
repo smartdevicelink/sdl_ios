@@ -150,7 +150,7 @@ describe(@"subscribe button manager", ^{
 
             // Both observers should be added
             NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
-            expect(observers.count).toEventually(equal(2));
+            expect(observers.count).to(equal(2));
 
             expect(testConnectionManager.receivedRequests.count).toEventually(equal(2));
             expect(testConnectionManager.receivedRequests[0]).toEventually(beAKindOf(SDLSubscribeButton.class));
@@ -339,15 +339,15 @@ describe(@"subscribe button manager", ^{
             it(@"should notify block handler and observer/selector subscribers when a button event notification is received", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
-                expect(testHandler1Called).toEventually(beTrue());
-                expect(testHandle1Error).toEventually(beNil());
-                expect(testHandler1OnButtonEvent).toEventually(equal(testButtonEvent));
-                expect(testHandler1OnButtonPress).toEventually(beNil());
+                expect(testHandler1Called).to(beTrue());
+                expect(testHandle1Error).to(beNil());
+                expect(testHandler1OnButtonEvent).to(equal(testButtonEvent));
+                expect(testHandler1OnButtonPress).to(beNil());
 
-                expect(testHandler2Called).toEventually(beTrue());
-                expect(testHandler2Error).toEventually(beNil());
-                expect(testHandler2OnButtonEvent).toEventually(equal(testButtonEvent));
-                expect(testHandler2OnButtonPress).toEventually(beNil());
+                expect(testHandler2Called).to(beTrue());
+                expect(testHandler2Error).to(beNil());
+                expect(testHandler2OnButtonEvent).to(equal(testButtonEvent));
+                expect(testHandler2OnButtonPress).to(beNil());
 
                 expect(testObserver1.buttonNamesReceived.count).to(equal(1));
                 expect(testObserver1.buttonErrorsReceived).to(beEmpty());

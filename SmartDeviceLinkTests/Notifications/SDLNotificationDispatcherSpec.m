@@ -36,8 +36,8 @@ describe(@"a notification dispatcher", ^{
         });
         
         it(@"should post", ^{
-            expect(returnNotification.userInfo[SDLNotificationUserInfoObject]).toEventually(match(testUserInfo));
-            expect(returnNotification.object).toEventually(equal(testDispatcher));
+            expect(returnNotification.userInfo[SDLNotificationUserInfoObject]).to(match(testUserInfo));
+            expect(returnNotification.object).to(equal(testDispatcher));
         });
     });
 
@@ -59,9 +59,9 @@ describe(@"a notification dispatcher", ^{
         });
 
         it(@"should successfully post a response", ^{
-            expect(testNotification.name).toEventually(equal(testNotificationName));
-            expect(testNotification.response).toEventually(equal(testResponse));
-            expect(testNotification.object).toEventually(equal(testDispatcher));
+            expect(testNotification.name).to(equal(testNotificationName));
+            expect(testNotification.response).to(equal(testResponse));
+            expect(testNotification.object).to(equal(testDispatcher));
         });
     });
 
@@ -83,9 +83,9 @@ describe(@"a notification dispatcher", ^{
         });
 
         it(@"should successfully post a request", ^{
-            expect(testNotification.name).toEventually(equal(testNotificationName));
-            expect(testNotification.request).toEventually(equal(testRequest));
-            expect(testNotification.object).toEventually(equal(testDispatcher));
+            expect(testNotification.name).to(equal(testNotificationName));
+            expect(testNotification.request).to(equal(testRequest));
+            expect(testNotification.object).to(equal(testDispatcher));
         });
     });
 
@@ -107,9 +107,9 @@ describe(@"a notification dispatcher", ^{
         });
 
         it(@"should successfully post a notification", ^{
-            expect(testNotification.name).toEventually(equal(testNotificationName));
-            expect(testNotification.notification).toEventually(equal(testNotificationRequest));
-            expect(testNotification.object).toEventually(equal(testDispatcher));
+            expect(testNotification.name).to(equal(testNotificationName));
+            expect(testNotification.notification).to(equal(testNotificationRequest));
+            expect(testNotification.object).to(equal(testDispatcher));
         });
     });
 });

@@ -204,7 +204,7 @@ describe(@"a lifecycle manager", ^{
             });
             
             it(@"should set the hmi level", ^{
-                expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
+                expect(testManager.hmiLevel).to(equal(testHMILevel));
             });
         });
 
@@ -218,7 +218,7 @@ describe(@"a lifecycle manager", ^{
             });
             
             it(@"should set the hmi level", ^{
-                expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
+                expect(testManager.hmiLevel).to(equal(testHMILevel));
             });
         });
 
@@ -232,7 +232,7 @@ describe(@"a lifecycle manager", ^{
             });
             
             it(@"should set the hmi level", ^{
-                expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
+                expect(testManager.hmiLevel).to(equal(testHMILevel));
             });
         });
     });
@@ -245,7 +245,7 @@ describe(@"a lifecycle manager", ^{
         
         it(@"should do nothing", ^{
             expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
-            expect(testManager.lifecycleState).toEventuallyNot(match(SDLLifecycleStateStarted));
+            expect(testManager.lifecycleState).toNot(match(SDLLifecycleStateStarted));
         });
     });
 
@@ -280,7 +280,7 @@ describe(@"a lifecycle manager", ^{
                 // When we connect, we should be creating an sending an RAI
 
                 [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
-                expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateConnected));
+                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateConnected));
             });
             itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
 
@@ -318,7 +318,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should be in the started state", ^{
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReconnecting));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReconnecting));
                 });
             });
 
@@ -328,7 +328,7 @@ describe(@"a lifecycle manager", ^{
                     [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
                     [testManager stop];
                     
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateStopped));
                 });
             });
         });
@@ -375,7 +375,7 @@ describe(@"a lifecycle manager", ^{
                     testManager.hmiLevel = SDLHMILevelFull;
                     transitionToState(SDLLifecycleStateRegistered);
 
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReady));
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([(SDLSystemCapabilityManager *)systemCapabilityMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
@@ -457,11 +457,11 @@ describe(@"a lifecycle manager", ^{
 
                     OCMVerifyAllWithDelay(protocolMock, 0.5);
 
-                    expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
-                    expect(testManager.currentVRLanguage).toEventually(equal(SDLLanguageEnGb));
-                    expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
-                    expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"E"));
-                    expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(equal([SDLTTSChunk textChunksFromString:@"EnGb ttsName"]));
+                    expect(testManager.configuration.lifecycleConfig.language).to(equal(SDLLanguageEnGb));
+                    expect(testManager.currentVRLanguage).to(equal(SDLLanguageEnGb));
+                    expect(testManager.configuration.lifecycleConfig.appName).to(equal(@"EnGb"));
+                    expect(testManager.configuration.lifecycleConfig.shortAppName).to(equal(@"E"));
+                    expect(testManager.configuration.lifecycleConfig.ttsName).to(equal([SDLTTSChunk textChunksFromString:@"EnGb ttsName"]));
                 });
 
                 it(@"should not update the configuration when the app does not support the head unit language or display language", ^{
@@ -479,11 +479,11 @@ describe(@"a lifecycle manager", ^{
 
                     OCMVerifyAllWithDelay(protocolMock, 0.5);
 
-                    expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnUs));
-                    expect(testManager.currentVRLanguage).toEventually(equal(SDLLanguageEnUs));
-                    expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"Test App"));
-                    expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Short Name"));
-                    expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
+                    expect(testManager.configuration.lifecycleConfig.language).to(equal(SDLLanguageEnUs));
+                    expect(testManager.currentVRLanguage).to(equal(SDLLanguageEnUs));
+                    expect(testManager.configuration.lifecycleConfig.appName).to(equal(@"Test App"));
+                    expect(testManager.configuration.lifecycleConfig.shortAppName).to(equal(@"Short Name"));
+                    expect(testManager.configuration.lifecycleConfig.ttsName).to(beNil());
                 });
 
                 it(@"should update when the app supports the head unit display language", ^{
@@ -513,11 +513,11 @@ describe(@"a lifecycle manager", ^{
 
                     OCMVerifyAllWithDelay(protocolMock, 0.5);
 
-                    expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
-                    expect(testManager.currentVRLanguage).toEventually(equal(SDLLanguageEnUs));
-                    expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
-                    expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Gb"));
-                    expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
+                    expect(testManager.configuration.lifecycleConfig.language).to(equal(SDLLanguageEnGb));
+                    expect(testManager.currentVRLanguage).to(equal(SDLLanguageEnUs));
+                    expect(testManager.configuration.lifecycleConfig.appName).to(equal(@"EnGb"));
+                    expect(testManager.configuration.lifecycleConfig.shortAppName).to(equal(@"Gb"));
+                    expect(testManager.configuration.lifecycleConfig.ttsName).to(beNil());
                 });
             });
 
@@ -530,7 +530,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should enter the started state", ^{
-                    expect(testManager.lifecycleState).withTimeout(3.0).toEventually(equal(SDLLifecycleStateStarted));
+                    expect(testManager.lifecycleState).withTimeout(3.0).to(equal(SDLLifecycleStateStarted));
                 });
             });
 
@@ -591,9 +591,9 @@ describe(@"a lifecycle manager", ^{
                     
                     [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
 
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
-                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
-                    expect(readyHandlerError).toEventually(beNil());
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReady));
+                    expect(@(readyHandlerSuccess)).to(equal(@YES));
+                    expect(readyHandlerError).to(beNil());
                 });
             });
         });
@@ -613,8 +613,8 @@ describe(@"a lifecycle manager", ^{
                     
                     setToStateWithEnterTransition(nil, SDLLifecycleStateReady);
 
-                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
-                    expect(readyHandlerError).toEventually(beNil());
+                    expect(@(readyHandlerSuccess)).to(equal(@YES));
+                    expect(readyHandlerError).to(beNil());
                 });
             });
 
@@ -628,10 +628,10 @@ describe(@"a lifecycle manager", ^{
 
                     setToStateWithEnterTransition(nil, SDLLifecycleStateReady);
 
-                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
-                    expect(readyHandlerError).toEventuallyNot(beNil());
-                    expect(@(readyHandlerError.code)).toEventually(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
-                    expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).toEventually(match(response.info));
+                    expect(@(readyHandlerSuccess)).to(equal(@YES));
+                    expect(readyHandlerError).toNot(beNil());
+                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
+                    expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).to(match(response.info));
                 });
             });
         });
@@ -695,10 +695,10 @@ describe(@"a lifecycle manager", ^{
                     returnError = error;
                 }];
 
-                expect(returnRequest).toEventuallyNot(beNil());
-                expect(returnRequest).toEventually(beAnInstanceOf([SDLShow class]));
-                expect(returnResponse).toEventually(beNil());
-                expect(returnError).toEventuallyNot(beNil());
+                expect(returnRequest).toNot(beNil());
+                expect(returnRequest).to(beAnInstanceOf([SDLShow class]));
+                expect(returnResponse).to(beNil());
+                expect(returnError).toNot(beNil());
             });
 
             it(@"can send an RPC of type Response", ^{
@@ -737,7 +737,7 @@ describe(@"a lifecycle manager", ^{
                     SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAppUnregisteredNotification object:testManager.notificationDispatcher rpcNotification:unreg];
                     
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateStopped));
                 });
        
                 it(@"should attempt to stop the manager when an APP_UNAUTHORIZED notification is recieved", ^{
@@ -748,7 +748,7 @@ describe(@"a lifecycle manager", ^{
                     SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAppUnregisteredNotification object:testManager.notificationDispatcher rpcNotification:unreg];
                     
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateStopped));
                 });
             });
             
@@ -761,7 +761,7 @@ describe(@"a lifecycle manager", ^{
                 
                 it(@"should attempt to unregister", ^{
                     OCMVerify([protocolMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]] error:[OCMArg anyObjectRef]]);
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateUnregistering));
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateUnregistering));
                 });
                 
                 describe(@"when receiving an unregister response", ^{
@@ -777,7 +777,7 @@ describe(@"a lifecycle manager", ^{
                     });
                     
                     it(@"should stop", ^{
-                        expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
+                        expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
                     });
                 });
             });
@@ -801,7 +801,7 @@ describe(@"a lifecycle manager", ^{
                     });
                     
                     it(@"should set the hmi level", ^{
-                        expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
+                        expect(testManager.hmiLevel).to(equal(testHMILevel));
                     });
                     
                     it(@"should call the delegate", ^{
@@ -831,7 +831,7 @@ describe(@"a lifecycle manager", ^{
                     });
                     
                     it(@"should set the audio state", ^{
-                        expect(testManager.audioStreamingState).toEventually(equal(testAudioStreamingState));
+                        expect(testManager.audioStreamingState).to(equal(testAudioStreamingState));
                     });
                     
                     it(@"should call the delegate", ^{
@@ -862,7 +862,7 @@ describe(@"a lifecycle manager", ^{
                     });
 
                     it(@"should set the audio state", ^{
-                        expect(testManager.videoStreamingState).toEventually(equal(testVideoStreamingState));
+                        expect(testManager.videoStreamingState).to(equal(testVideoStreamingState));
                     });
 
                     it(@"should call the delegate", ^{
@@ -896,7 +896,7 @@ describe(@"a lifecycle manager", ^{
                     });
                     
                     it(@"should set the system context", ^{
-                        expect(testManager.systemContext).toEventually(equal(testSystemContext));
+                        expect(testManager.systemContext).to(equal(testSystemContext));
                     });
                     
                     it(@"should call the delegate", ^{

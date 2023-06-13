@@ -735,9 +735,9 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testPresentAlertOperation start];
 
-                    expect(testPresentAlertOperation.internalError).toEventually(equal([NSError sdl_alertManager_alertDataInvalid]));
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                    expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertDataInvalid]));
+                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(testPresentAlertOperation.isFinished).to(beTrue());
                 });
             });
 
@@ -953,7 +953,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 expect(testPresentAlertOperation.internalError).to(beNil());
                 expect(hasCalledOperationCompletionHandler).to(beTrue());
-                expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                expect(testPresentAlertOperation.isFinished).to(beTrue());
 
                 OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
             });
@@ -971,9 +971,9 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testPresentAlertOperation start];
 
-                    expect(testPresentAlertOperation.internalError).toEventually(beNil());
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                    expect(testPresentAlertOperation.internalError).to(beNil());
+                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(testPresentAlertOperation.isFinished).to(beTrue());
 
                     OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
@@ -989,10 +989,10 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testPresentAlertOperation start];
 
-                    expect(testPresentAlertOperation.internalError.userInfo[@"tryAgainTime"]).toEventually(equal(response.tryAgainTime));
-                    expect(testPresentAlertOperation.internalError.userInfo[@"error"]).toEventually(equal(defaultError));
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                    expect(testPresentAlertOperation.internalError.userInfo[@"tryAgainTime"]).to(equal(response.tryAgainTime));
+                    expect(testPresentAlertOperation.internalError.userInfo[@"error"]).to(equal(defaultError));
+                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(testPresentAlertOperation.isFinished).to(beTrue());
 
                     OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
