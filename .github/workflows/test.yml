@@ -26,7 +26,7 @@ jobs:
               run: ls /Applications | grep Xcode
 
             - name: Build
-              run: set -o pipefail && xcodebuild -scheme "${{ matrix.scheme }}" -destination "$DESTINATION" build | xcpretty --color --simple
+              run: set -o pipefail && xcodebuild -scheme "${{ matrix.scheme }}" -destination "$DESTINATION" build
 
     test:
         name: SmartDeviceLinkTests
@@ -56,7 +56,7 @@ jobs:
               run: xcodebuild build-for-testing -project "$PROJECT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}"
 
             - name: Running unit tests
-              run: set -o pipefail && xcodebuild test-without-building -project "$PROJECT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES | xcpretty --color --simple
+              run: set -o pipefail && xcodebuild test-without-building -project "$PROJECT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES
 
             # Upload coverage reports to Codecov
             - name: Upload coverage to Codecov
