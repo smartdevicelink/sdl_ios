@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
-#import <OCMock/OCMock.h>
+@import Quick;
+@import Nimble;
+@import OCMock;
 
 #import "SDLPinchGesture.h"
 #import "SDLTouchCoord.h"

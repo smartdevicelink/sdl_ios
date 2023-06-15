@@ -6,9 +6,9 @@
 //  Copyright © 2018 Xevo Inc. All rights reserved.
 //
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
-#import <OCMock/OCMock.h>
+@import Quick;
+@import Nimble;
+@import OCMock;
 
 #import "SDLBackgroundTaskManager.h"
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"

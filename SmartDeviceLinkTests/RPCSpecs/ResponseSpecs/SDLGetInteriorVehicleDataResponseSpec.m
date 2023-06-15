@@ -5,8 +5,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLGetInteriorVehicleDataResponse.h"
 #import "SDLModuleData.h"

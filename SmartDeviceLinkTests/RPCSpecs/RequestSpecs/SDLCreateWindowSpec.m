@@ -2,8 +2,8 @@
 //  SDLCreateWindowSpec.m
 //  SmartDeviceLinkTests
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLCreateWindow.h"
 #import "SDLWindowType.h"

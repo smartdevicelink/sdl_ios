@@ -1,0 +1,24 @@
+PODS:
+  - Nimble (10.0.0)
+  - OCMock (3.9.1)
+  - Quick (5.0.1)
+
+DEPENDENCIES:
+  - Nimble (= 10.0.0)
+  - OCMock (= 3.9.1)
+  - Quick (= 5.0.1)
+
+SPEC REPOS:
+  trunk:
+    - Nimble
+    - OCMock
+    - Quick
+
+SPEC CHECKSUMS:
+  Nimble: 5316ef81a170ce87baf72dd961f22f89a602ff84
+  OCMock: 9491e4bec59e0b267d52a9184ff5605995e74be8
+  Quick: 749aa754fd1e7d984f2000fe051e18a3a9809179
+
+PODFILE CHECKSUM: 690eb0bbc11e06a1190e9882a20851c6d5797e8e
+
+COCOAPODS: 1.12.1

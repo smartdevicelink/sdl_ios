@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "TestTCPServer.h"
 

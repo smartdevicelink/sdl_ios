@@ -6,8 +6,8 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLAppInfo.h"
 #import "SDLRPCParameterNames.h"

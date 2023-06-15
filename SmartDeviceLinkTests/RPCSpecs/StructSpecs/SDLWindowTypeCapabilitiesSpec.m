@@ -2,8 +2,8 @@
 //  SDLWindowTypeCapabilitiesSpec.m
 //  SmartDeviceLinkTests
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLRPCParameterNames.h"
 #import "SDLWindowTypeCapabilities.h"

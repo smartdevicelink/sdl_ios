@@ -2,8 +2,8 @@
 //  SDLAlertSpec.m
 //  SmartDeviceLink
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLAlert.h"
 #import "SDLImage.h"

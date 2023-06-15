@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 #import "SDLRTPH264Packetizer.h"
 
 @interface SDLRTPH264Packetizer ()

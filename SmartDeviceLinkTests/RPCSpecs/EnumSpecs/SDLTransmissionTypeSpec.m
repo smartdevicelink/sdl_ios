@@ -3,8 +3,8 @@
 //  SmartDeviceLinkTests
 //
 
-#import <Nimble/Nimble.h>
-#import <Quick/Quick.h>
+@import Quick;
+@import Nimble;
 #import "SDLTransmissionType.h"
 
 QuickSpecBegin(SDLTransmissionTypeSpec)

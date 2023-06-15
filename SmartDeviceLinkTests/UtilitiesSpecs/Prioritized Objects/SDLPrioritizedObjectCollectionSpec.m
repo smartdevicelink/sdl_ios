@@ -3,8 +3,8 @@
 //  SmartDeviceLink-iOS
 
 #import <UIKit/UIKit.h>
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLPrioritizedObjectCollection.h"
 

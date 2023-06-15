@@ -4,8 +4,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLEqualizerSettings.h"
 #import "SDLRPCParameterNames.h"

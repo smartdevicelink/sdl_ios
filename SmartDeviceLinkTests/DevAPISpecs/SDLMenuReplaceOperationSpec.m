@@ -6,9 +6,9 @@
 //  Copyright © 2021 smartdevicelink. All rights reserved.
 //
 
-#import <Nimble/Nimble.h>
-#import <OCMock/OCMock.h>
-#import <Quick/Quick.h>
+@import Quick;
+@import Nimble;
+@import OCMock;
 
 #import <SmartDeviceLink/SmartDeviceLink.h>
 #import "SDLGlobals.h"

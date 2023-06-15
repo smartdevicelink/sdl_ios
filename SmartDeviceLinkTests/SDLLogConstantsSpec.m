@@ -6,8 +6,8 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLLogConstants.h"
 

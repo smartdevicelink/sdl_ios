@@ -5,8 +5,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLMyKey.h"
 #import "SDLRPCParameterNames.h"

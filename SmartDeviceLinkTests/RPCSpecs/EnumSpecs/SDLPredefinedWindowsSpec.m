@@ -2,8 +2,8 @@
 //  SDLPredefinedWindowsSpec.m
 //  SmartDeviceLinkTests
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 #import "SDLPredefinedWindows.h"
 
 QuickSpecBegin(SDLPredefinedWindowsSpec)

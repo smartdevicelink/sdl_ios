@@ -10,8 +10,8 @@
 #import "SDLRPCFunctionNames.h"
 #import "SDLRPCParameterNames.h"
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 QuickSpecBegin(SDLCloseApplicationSpec)
 

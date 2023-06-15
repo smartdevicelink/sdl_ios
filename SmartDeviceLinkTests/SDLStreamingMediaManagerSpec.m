@@ -2,9 +2,9 @@
 //  SDLStreamingMediaManagerSpec.m
 //  SmartDeviceLink-iOS
 //
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
-#import <OCMock/OCMock.h>
+@import Quick;
+@import Nimble;
+@import OCMock;
 
 #import "SDLConfiguration.h"
 #import "SDLProtocol.h"

@@ -5,9 +5,9 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
-#import <OCMock/OCMock.h>
+@import Quick;
+@import Nimble;
+@import OCMock;
 
 #import "SDLFocusableItemLocator.h"
 #import "SDLHapticRect.h"

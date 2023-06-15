@@ -6,9 +6,9 @@
 //  Copyright © 2020 smartdevicelink. All rights reserved.
 //
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
-#import <OCMock/OCMock.h>
+@import Quick;
+@import Nimble;
+@import OCMock;
 
 #import "SDLAlertManager.h"
 #import "SDLAlertView.h"

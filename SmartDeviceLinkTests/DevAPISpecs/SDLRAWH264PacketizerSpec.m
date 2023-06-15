@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 #import "SDLRAWH264Packetizer.h"
 
 QuickSpecBegin(SDLRAWH264PacketizerSpec)

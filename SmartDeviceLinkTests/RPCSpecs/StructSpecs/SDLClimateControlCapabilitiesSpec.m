@@ -3,8 +3,8 @@
 //  SmartDeviceLink-iOS
 //
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLClimateControlCapabilities.h"
 #import "SDLDefrostZone.h"

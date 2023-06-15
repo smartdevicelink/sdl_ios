@@ -2,8 +2,8 @@
 //  SDLScrollableMessageSpec.m
 //  SmartDeviceLink
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLScrollableMessage.h"
 #import "SDLSoftButton.h"

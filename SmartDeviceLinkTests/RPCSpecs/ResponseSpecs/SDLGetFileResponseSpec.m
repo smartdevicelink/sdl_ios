@@ -6,8 +6,8 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLFileType.h"
 #import "SDLGetFileResponse.h"

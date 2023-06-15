@@ -2,8 +2,8 @@
 //  SDLSetDisplayLayoutSpec.m
 //  SmartDeviceLink
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"

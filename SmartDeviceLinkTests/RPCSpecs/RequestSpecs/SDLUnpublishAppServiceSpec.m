@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
+@import Quick;
+@import Nimble;
 
 #import "SDLUnpublishAppService.h"
 #import "SDLRPCParameterNames.h"
