@@ -4,7 +4,7 @@ name: SmartDeviceLink Tests
 on: [push, pull_request, workflow_dispatch]
 
 env:
-    PROJECT: 'SmartDeviceLink-iOS.xcodeproj'
+    PROJECT: 'SmartDeviceLink-iOS.xcworkspace'
     DESTINATION: 'platform=iOS Simulator,name=iPhone 14,OS=16.2'
 
 jobs:
@@ -25,10 +25,6 @@ jobs:
             - name: Get available Xcode versions on the server
               run: ls /Applications | grep Xcode
 
-            # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
-#            - name: Select Xcode version
-#              run: sudo xcode-select --install
-
             - name: Build
               run: set -o pipefail && xcodebuild -scheme "${{ matrix.scheme }}" -destination "$DESTINATION" build | xcpretty --color --simple
 
@@ -44,28 +40,15 @@ jobs:
             - name: Get available Xcode versions on the server
               run: ls /Applications | grep Xcode
 
-            # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
-            - name: Select Xcode version
-              run: sudo xcode-select --install
-
             - name: Checkout repository
               uses: actions/checkout@v2.3.1
               with:
                   submodules: true
 
-#            - name: Checking for cached dependencies
-#              uses: actions/cache@v2
-#              id: carthage-cache
-#              with:
-#                  path: Carthage
-#                  key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
-#                  restore-keys: ${{ runner.os }}-carthage-
-
             - name: Install Cocoapods
               run: sudo gem install cocoapods
 
             - name: Installing dependencies
-#              if: steps.carthage-cache.outputs.cache-hit != 'true'
               run: pod install
 
             # Split build into build-only and test-only as it is faster than building and running in one step
