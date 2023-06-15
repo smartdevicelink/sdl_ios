@@ -70,11 +70,15 @@ To prepare the library for development, you will need to take a few steps:
 When creating or updating an RPC, you will need to install and use the [RPC generator](https://github.com/smartdevicelink/sdl_ios/tree/master/generator). The generator must be used to ensure that the content is correct. To use the generator, the RPC must be updated on the [RPC spec repository](https://github.com/smartdevicelink/rpc_spec).
 
 #### Running Tests
-To run tests, you will need to bootstrap the Carthage testing libraries. To do so, first [install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
+To run tests, you will need to bootstrap the Cocoapods testing libraries. To do so, run:
+```bash
+sudo gem install cocoapods
+```
+For more information, [check Cocoapods](https://cocoapods.org/).
 
 Then, from the root project directory, run:
 ```bash
-carthage bootstrap --use-xcframeworks --platform ios
+pod install
 ```
 
 At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, see the [YAML document](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/workflows/test.yml) describing those tests. You can also check the [previously run CI tests](https://github.com/smartdevicelink/sdl_ios/actions?query=workflow%3A%22SmartDeviceLink+Tests%22) to see how they're currently being run.
