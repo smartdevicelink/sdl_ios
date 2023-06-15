@@ -34,6 +34,11 @@ Thumbs.db
 *.lock
 profile
 
+# Cocoapods #
+Pods/
+# Add back the Podfile.lock to our git repo after *.lock in previous block
+!Podfile.lock
+
 # Carthage #
 ############
 Carthage.pkg
