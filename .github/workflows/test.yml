@@ -26,8 +26,8 @@ jobs:
               run: ls /Applications | grep Xcode
 
             # Select the Xcode version (the platform/simulator/OS available for testing depend on the Xcode version)
-            - name: Select Xcode version
-              run: sudo xcode-select --install
+#            - name: Select Xcode version
+#              run: sudo xcode-select --install
 
             - name: Build
               run: set -o pipefail && xcodebuild -scheme "${{ matrix.scheme }}" -destination "$DESTINATION" build | xcpretty --color --simple
