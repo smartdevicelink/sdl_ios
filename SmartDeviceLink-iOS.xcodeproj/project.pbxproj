@@ -3296,7 +3296,6 @@
 		4ADBD1FA26FCEDFC00ABB045 /* ConnectionTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ConnectionTabBarController.m; path = "Example Apps/Example ObjC/ConnectionTabBarController.m"; sourceTree = SOURCE_ROOT; };
 		4AE8A7012537796E000666C0 /* SmartDeviceLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartDeviceLink.h; path = public/SmartDeviceLink.h; sourceTree = "<group>"; };
 		4AE8A707253779F9000666C0 /* EAAccessory+OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessory+OCMock.h"; sourceTree = "<group>"; };
-		59A8AE1FF858803CAA4721F8 /* Pods_SmartDeviceLink_Example_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartDeviceLink_Example_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityTypeSpec.m; sourceTree = "<group>"; };
 		5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationCapabilitySpec.m; sourceTree = "<group>"; };
 		5D0A9F941F15585B00CC80DD /* SDLPhoneCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPhoneCapabilitySpec.m; sourceTree = "<group>"; };
@@ -3711,7 +3710,6 @@
 		DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDateTimeSpec.m; sourceTree = "<group>"; };
 		DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOasisAddressSpec.m; sourceTree = "<group>"; };
 		DABB62161E4A900C0034C567 /* SDLH264VideoEncoderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLH264VideoEncoderSpec.m; sourceTree = "<group>"; };
-		EAF1BD0537753AFB304F0E31 /* Pods_SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE460E072066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadTransportEventUpdateSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadTransportEventUpdateSpec.m; sourceTree = "<group>"; };
 		EE460E092066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m; sourceTree = "<group>"; };
 		EE5D1B32208EBCA900D17216 /* SDLTCPTransportSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTCPTransportSpec.m; sourceTree = "<group>"; };
@@ -3723,7 +3721,6 @@
 		EF44EC2228A2F37E007BAA2B /* SDLProtocolReceivedMessageProcessorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolReceivedMessageProcessorSpec.m; sourceTree = "<group>"; };
 		EFEBDC9D287F103C00E035C2 /* SDLProtocolReceivedMessageProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLProtocolReceivedMessageProcessor.m; path = private/SDLProtocolReceivedMessageProcessor.m; sourceTree = "<group>"; };
 		EFEBDC9F287F1DD500E035C2 /* SDLProtocolReceivedMessageProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLProtocolReceivedMessageProcessor.h; path = private/SDLProtocolReceivedMessageProcessor.h; sourceTree = "<group>"; };
-		F350CA3C15A85BCB06B62C86 /* Pods_SmartDeviceLink_Example_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartDeviceLink_Example_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -7107,9 +7104,6 @@
 		B3476E18247437460025DC99 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				59A8AE1FF858803CAA4721F8 /* Pods_SmartDeviceLink_Example_ObjC.framework */,
-				F350CA3C15A85BCB06B62C86 /* Pods_SmartDeviceLink_Example_Swift.framework */,
-				EAF1BD0537753AFB304F0E31 /* Pods_SmartDeviceLinkSwift.framework */,
 				8B5B250EE0C2A1C25DBF3F99 /* Pods_SmartDeviceLinkTests.framework */,
 			);
 			name = Frameworks;
