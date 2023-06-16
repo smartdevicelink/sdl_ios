@@ -54,10 +54,10 @@ jobs:
 
             # Split build into build-only and test-only as it is faster than building and running in one step
             - name: Building unit tests
-              run: xcodebuild build-for-testing -project "$PROJECT_UT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}"
+              run: xcodebuild build-for-testing -workspace "$PROJECT_UT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}"
 
             - name: Running unit tests
-              run: set -o pipefail && xcodebuild test-without-building -project "$PROJECT_UT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES
+              run: set -o pipefail && xcodebuild test-without-building -workspace "$PROJECT_UT" -destination "$DESTINATION" -scheme "${{ matrix.scheme }}" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES
 
             # Upload coverage reports to Codecov
             - name: Upload coverage to Codecov
