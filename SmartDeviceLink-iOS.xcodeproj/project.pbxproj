@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,6 @@
 		000DD57622EF0971005AB7A7 /* SDLReleaseInteriorVehicleDataModuleResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 000DD57522EF0971005AB7A7 /* SDLReleaseInteriorVehicleDataModuleResponseSpec.m */; };
 		00EADD3322DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */; };
 		00EADD3522DFE5670088B608 /* SDLEncryptionConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */; };
-		09EEF602E5DCF60237DC4353 /* Pods_SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAF1BD0537753AFB304F0E31 /* Pods_SmartDeviceLinkSwift.framework */; };
 		106187B924AA75540045C4EC /* SDLRPCPermissionStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 106187B824AA75540045C4EC /* SDLRPCPermissionStatusSpec.m */; };
 		109566F6242986F300E24F66 /* SDLCacheFileManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */; };
 		1098F03824A39699004F53CC /* SDLPermissionElementSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1098F03724A39699004F53CC /* SDLPermissionElementSpec.m */; };
@@ -284,7 +283,6 @@
 		1EE8C4611F38865B00FDC2CF /* SDLSetInteriorVehicleDataResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE8C4601F38865B00FDC2CF /* SDLSetInteriorVehicleDataResponseSpec.m */; };
 		1FF7DAC01F75CF6C00B46C30 /* SDLHapticManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */; };
 		2BF2F85220ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2F85120ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m */; };
-		355F0D48FE2E50904F3FD7A2 /* Pods_SmartDeviceLink_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A8AE1FF858803CAA4721F8 /* Pods_SmartDeviceLink_Example_ObjC.framework */; };
 		4A1B036F24CF484E008C6B13 /* SDLDriverDistractionCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B036E24CF484E008C6B13 /* SDLDriverDistractionCapabilitySpec.m */; };
 		4A1FA09B25114833006B7851 /* SDLErrorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1FA09A25114833006B7851 /* SDLErrorConstants.m */; };
 		4A39C6FA25E84C87005C8943 /* SDLKeyboardCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A9D9DF25D2571000CDFD21 /* SDLKeyboardCapabilities.m */; };
@@ -1416,8 +1414,7 @@
 		4ADBD1F826FCED4000ABB045 /* ConnectionTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBD1F726FCED4000ABB045 /* ConnectionTabBarController.swift */; };
 		4ADBD1FB26FCEDFC00ABB045 /* ConnectionTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBD1FA26FCEDFC00ABB045 /* ConnectionTabBarController.m */; };
 		4AE8A7022537796E000666C0 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE8A7012537796E000666C0 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		506B8B037843FC19305A1DB8 /* Pods_SmartDeviceLink_Example_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F350CA3C15A85BCB06B62C86 /* Pods_SmartDeviceLink_Example_Swift.framework */; };
-		5C46AD7E178FA5AFFA04DC91 /* Pods_SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25AD004ABCB1438EA82CAE4A /* Pods_SmartDeviceLink.framework */; };
+		53BE26C6822EAB5212733F96 /* Pods_SmartDeviceLinkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B5B250EE0C2A1C25DBF3F99 /* Pods_SmartDeviceLinkTests.framework */; };
 		5D0A9F911F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */; };
 		5D0A9F931F15560B00CC80DD /* SDLNavigationCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */; };
 		5D0A9F951F15585B00CC80DD /* SDLPhoneCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F941F15585B00CC80DD /* SDLPhoneCapabilitySpec.m */; };
@@ -1565,7 +1562,6 @@
 		5DEF69611FD6FB75004B8C2F /* SDLAudioStreamManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEF69601FD6FB75004B8C2F /* SDLAudioStreamManagerSpec.m */; };
 		5DEF69661FD6FEF7004B8C2F /* SDLStreamingAudioManagerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEF69651FD6FEF7004B8C2F /* SDLStreamingAudioManagerMock.m */; };
 		5DF40B26208FA7DE00DD6FDA /* SDLMenuManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */; };
-		69C3CCE7D35C11FAE84C0442 /* Pods_SmartDeviceLink_SmartDeviceLinkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E09A1A92F6947A1190179A1D /* Pods_SmartDeviceLink_SmartDeviceLinkTests.framework */; };
 		752ECDB9228C42E100D945F4 /* SDLMenuRunScoreSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDB8228C42E100D945F4 /* SDLMenuRunScoreSpec.m */; };
 		752ECDBB228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */; };
 		7538765622DCAF5400FE8484 /* SDLShowAppMenuSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7538765522DCAF5400FE8484 /* SDLShowAppMenuSpec.m */; };
@@ -1886,8 +1882,6 @@
 		000DD57522EF0971005AB7A7 /* SDLReleaseInteriorVehicleDataModuleResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLReleaseInteriorVehicleDataModuleResponseSpec.m; sourceTree = "<group>"; };
 		00EADD3222DFE54B0088B608 /* SDLEncryptionLifecycleManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionLifecycleManagerSpec.m; sourceTree = "<group>"; };
 		00EADD3422DFE5670088B608 /* SDLEncryptionConfigurationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEncryptionConfigurationSpec.m; sourceTree = "<group>"; };
-		024BC9E23560544671567E8F /* Pods-SmartDeviceLink-Example-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLink-Example-Swift.debug.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLink-Example-Swift/Pods-SmartDeviceLink-Example-Swift.debug.xcconfig"; sourceTree = "<group>"; };
-		08C8DAD94AEE8AD6CE00991F /* Pods-SmartDeviceLink.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLink.release.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLink/Pods-SmartDeviceLink.release.xcconfig"; sourceTree = "<group>"; };
 		106187B824AA75540045C4EC /* SDLRPCPermissionStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCPermissionStatusSpec.m; sourceTree = "<group>"; };
 		109566F5242986F300E24F66 /* SDLCacheFileManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCacheFileManagerSpec.m; sourceTree = "<group>"; };
 		1098F03724A39699004F53CC /* SDLPermissionElementSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionElementSpec.m; sourceTree = "<group>"; };
@@ -2158,9 +2152,7 @@
 		1EE8C45E1F3884FF00FDC2CF /* SDLSetInteriorVehicleDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSetInteriorVehicleDataSpec.m; sourceTree = "<group>"; };
 		1EE8C4601F38865B00FDC2CF /* SDLSetInteriorVehicleDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSetInteriorVehicleDataResponseSpec.m; sourceTree = "<group>"; };
 		1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLHapticManagerSpec.m; path = ProxySpecs/SDLHapticManagerSpec.m; sourceTree = "<group>"; };
-		25AD004ABCB1438EA82CAE4A /* Pods_SmartDeviceLink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartDeviceLink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF2F85120ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAudioStreamingIndicatorSpec.m; sourceTree = "<group>"; };
-		329406B1C0E40788FCF2F431 /* Pods-SmartDeviceLink-Example-ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLink-Example-ObjC.release.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLink-Example-ObjC/Pods-SmartDeviceLink-Example-ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		4A1B036E24CF484E008C6B13 /* SDLDriverDistractionCapabilitySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDriverDistractionCapabilitySpec.m; sourceTree = "<group>"; };
 		4A1FA09A25114833006B7851 /* SDLErrorConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLErrorConstants.m; path = public/SDLErrorConstants.m; sourceTree = "<group>"; };
 		4A316E0A253F316700D4DDC7 /* test.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = test.yml; path = .github/workflows/test.yml; sourceTree = SOURCE_ROOT; };
@@ -3505,8 +3497,6 @@
 		752ECDBA228C532600D945F4 /* SDLMenuUpdateAlgorithmSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuUpdateAlgorithmSpec.m; sourceTree = "<group>"; };
 		7538765522DCAF5400FE8484 /* SDLShowAppMenuSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLShowAppMenuSpec.m; sourceTree = "<group>"; };
 		75FF2E3722DF9D5900D0C13B /* SDLShowAppMenuResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLShowAppMenuResponseSpec.m; sourceTree = "<group>"; };
-		7683A6191B8A52A5EF4890A5 /* Pods-SmartDeviceLink-SmartDeviceLinkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLink-SmartDeviceLinkTests.debug.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLink-SmartDeviceLinkTests/Pods-SmartDeviceLink-SmartDeviceLinkTests.debug.xcconfig"; sourceTree = "<group>"; };
-		84FC28A37FD6434A290C6C3C /* Pods-SmartDeviceLink-Example-ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLink-Example-ObjC.debug.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLink-Example-ObjC/Pods-SmartDeviceLink-Example-ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceDataSpec.m; sourceTree = "<group>"; };
 		880D267F220E038800B3F496 /* SDLWeatherServiceManifestSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceManifestSpec.m; sourceTree = "<group>"; };
 		880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManagerSpec.m; sourceTree = "<group>"; };
@@ -3607,6 +3597,7 @@
 		88FBF7C32501330F005EA0A4 /* TestHapticRectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestHapticRectViewController.h; sourceTree = "<group>"; };
 		88FBF7C42501330F005EA0A4 /* TestHapticRectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestHapticRectViewController.m; sourceTree = "<group>"; };
 		8B05F88822DD011300666CD8 /* SDLUnpublishAppServiceSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLUnpublishAppServiceSpec.m; sourceTree = "<group>"; };
+		8B5B250EE0C2A1C25DBF3F99 /* Pods_SmartDeviceLinkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartDeviceLinkTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7B31A81F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingProtocolSpec.m; sourceTree = "<group>"; };
 		8B7B31AA1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCodecSpec.m; sourceTree = "<group>"; };
 		8B7B31AE1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCapabilitySpec.m; sourceTree = "<group>"; };
@@ -3614,7 +3605,6 @@
 		8B9376DA1F33656C009605C4 /* SDLMetadataTagsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataTagsSpec.m; sourceTree = "<group>"; };
 		8BA12B1722DCF59700371E82 /* SDLUnpublishAppServiceResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLUnpublishAppServiceResponseSpec.m; sourceTree = "<group>"; };
 		8BBEA6081F324832003EEA26 /* SDLMetadataTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataTypeSpec.m; sourceTree = "<group>"; };
-		9D59F79B118B5B550D8905BB /* Pods-SmartDeviceLink.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLink.debug.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLink/Pods-SmartDeviceLink.debug.xcconfig"; sourceTree = "<group>"; };
 		9FA0CFF622DF0632009CF344 /* SDLWindowTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWindowTypeSpec.m; sourceTree = "<group>"; };
 		9FA0CFF922DF064D009CF344 /* SDLPredefinedWindowsSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPredefinedWindowsSpec.m; sourceTree = "<group>"; };
 		9FA0CFFC22DF0687009CF344 /* SDLTemplateConfigurationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateConfigurationSpec.m; sourceTree = "<group>"; };
@@ -3683,8 +3673,8 @@
 		B3DF19F1251225A90090D7BA /* TestSmartConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSmartConnection.m; sourceTree = "<group>"; };
 		B3DF19F2251225A90090D7BA /* TestSmartConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSmartConnection.h; sourceTree = "<group>"; };
 		B3EC9E6D2579AA010039F3AA /* SDLClimateDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLClimateDataSpec.m; sourceTree = "<group>"; };
-		B6ED11567F7F0B29B5DD449B /* Pods-SmartDeviceLink-SmartDeviceLinkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLink-SmartDeviceLinkTests.release.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLink-SmartDeviceLinkTests/Pods-SmartDeviceLink-SmartDeviceLinkTests.release.xcconfig"; sourceTree = "<group>"; };
 		BB3C600D221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+StoreSpec.m"; path = "DevAPISpecs/NSMutableDictionary+StoreSpec.m"; sourceTree = "<group>"; };
+		C830B1B9BDAE4EF873551E96 /* Pods-SmartDeviceLinkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLinkTests.release.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLinkTests/Pods-SmartDeviceLinkTests.release.xcconfig"; sourceTree = "<group>"; };
 		C93193DA26B1B57B008203EC /* SDLSecurityQueryPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLSecurityQueryPayload.h; path = private/SDLSecurityQueryPayload.h; sourceTree = "<group>"; };
 		C93193DB26B1B57B008203EC /* SDLSecurityQueryPayload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLSecurityQueryPayload.m; path = private/SDLSecurityQueryPayload.m; sourceTree = "<group>"; };
 		C9707D1625DEE786009D00F2 /* NSArray+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+Extensions.h"; path = "private/NSArray+Extensions.h"; sourceTree = "<group>"; };
@@ -3700,9 +3690,7 @@
 		C9DFFE77257ACE0000F7D57A /* SDLSeekStreamingIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSeekStreamingIndicator.m; path = public/SDLSeekStreamingIndicator.m; sourceTree = "<group>"; };
 		C9DFFE7C257AD07E00F7D57A /* SDLSeekIndicatorType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDLSeekIndicatorType.h; path = public/SDLSeekIndicatorType.h; sourceTree = "<group>"; };
 		C9DFFE7D257AD07E00F7D57A /* SDLSeekIndicatorType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSeekIndicatorType.m; path = public/SDLSeekIndicatorType.m; sourceTree = "<group>"; };
-		CE0668D506B8903866B418F3 /* Pods-SmartDeviceLinkSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLinkSwift.release.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLinkSwift/Pods-SmartDeviceLinkSwift.release.xcconfig"; sourceTree = "<group>"; };
-		CEB67215D61C6C8140196780 /* Pods-SmartDeviceLink-Example-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLink-Example-Swift.release.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLink-Example-Swift/Pods-SmartDeviceLink-Example-Swift.release.xcconfig"; sourceTree = "<group>"; };
-		D527DD6F9EB58ED4754131C8 /* Pods-SmartDeviceLinkSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLinkSwift.debug.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLinkSwift/Pods-SmartDeviceLinkSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		CA21AEA3F192A22835E0DC21 /* Pods-SmartDeviceLinkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartDeviceLinkTests.debug.xcconfig"; path = "Target Support Files/Pods-SmartDeviceLinkTests/Pods-SmartDeviceLinkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
 		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
 		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
@@ -3723,7 +3711,6 @@
 		DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDateTimeSpec.m; sourceTree = "<group>"; };
 		DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOasisAddressSpec.m; sourceTree = "<group>"; };
 		DABB62161E4A900C0034C567 /* SDLH264VideoEncoderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLH264VideoEncoderSpec.m; sourceTree = "<group>"; };
-		E09A1A92F6947A1190179A1D /* Pods_SmartDeviceLink_SmartDeviceLinkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartDeviceLink_SmartDeviceLinkTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAF1BD0537753AFB304F0E31 /* Pods_SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE460E072066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadTransportEventUpdateSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadTransportEventUpdateSpec.m; sourceTree = "<group>"; };
 		EE460E092066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m; sourceTree = "<group>"; };
@@ -3745,7 +3732,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */,
-				355F0D48FE2E50904F3FD7A2 /* Pods_SmartDeviceLink_Example_ObjC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3753,7 +3739,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C46AD7E178FA5AFFA04DC91 /* Pods_SmartDeviceLink.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3762,7 +3747,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				167ED93C1A9BCB8A00797BE5 /* SmartDeviceLink.framework in Frameworks */,
-				69C3CCE7D35C11FAE84C0442 /* Pods_SmartDeviceLink_SmartDeviceLinkTests.framework in Frameworks */,
+				53BE26C6822EAB5212733F96 /* Pods_SmartDeviceLinkTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3772,7 +3757,6 @@
 			files = (
 				88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */,
 				8829568B207CF68800EF056C /* SmartDeviceLink.framework in Frameworks */,
-				506B8B037843FC19305A1DB8 /* Pods_SmartDeviceLink_Example_Swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3780,7 +3764,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09EEF602E5DCF60237DC4353 /* Pods_SmartDeviceLinkSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7124,11 +7107,10 @@
 		B3476E18247437460025DC99 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				25AD004ABCB1438EA82CAE4A /* Pods_SmartDeviceLink.framework */,
 				59A8AE1FF858803CAA4721F8 /* Pods_SmartDeviceLink_Example_ObjC.framework */,
 				F350CA3C15A85BCB06B62C86 /* Pods_SmartDeviceLink_Example_Swift.framework */,
-				E09A1A92F6947A1190179A1D /* Pods_SmartDeviceLink_SmartDeviceLinkTests.framework */,
 				EAF1BD0537753AFB304F0E31 /* Pods_SmartDeviceLinkSwift.framework */,
+				8B5B250EE0C2A1C25DBF3F99 /* Pods_SmartDeviceLinkTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7283,16 +7265,8 @@
 		FB09FBC52308C80904CCF838 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9D59F79B118B5B550D8905BB /* Pods-SmartDeviceLink.debug.xcconfig */,
-				08C8DAD94AEE8AD6CE00991F /* Pods-SmartDeviceLink.release.xcconfig */,
-				84FC28A37FD6434A290C6C3C /* Pods-SmartDeviceLink-Example-ObjC.debug.xcconfig */,
-				329406B1C0E40788FCF2F431 /* Pods-SmartDeviceLink-Example-ObjC.release.xcconfig */,
-				024BC9E23560544671567E8F /* Pods-SmartDeviceLink-Example-Swift.debug.xcconfig */,
-				CEB67215D61C6C8140196780 /* Pods-SmartDeviceLink-Example-Swift.release.xcconfig */,
-				7683A6191B8A52A5EF4890A5 /* Pods-SmartDeviceLink-SmartDeviceLinkTests.debug.xcconfig */,
-				B6ED11567F7F0B29B5DD449B /* Pods-SmartDeviceLink-SmartDeviceLinkTests.release.xcconfig */,
-				D527DD6F9EB58ED4754131C8 /* Pods-SmartDeviceLinkSwift.debug.xcconfig */,
-				CE0668D506B8903866B418F3 /* Pods-SmartDeviceLinkSwift.release.xcconfig */,
+				CA21AEA3F192A22835E0DC21 /* Pods-SmartDeviceLinkTests.debug.xcconfig */,
+				C830B1B9BDAE4EF873551E96 /* Pods-SmartDeviceLinkTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -7925,7 +7899,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D4019D21A76EC350006B0C2 /* Build configuration list for PBXNativeTarget "SmartDeviceLink-Example-ObjC" */;
 			buildPhases = (
-				AC3BA0E8094D6C0024A7ADDA /* [CP] Check Pods Manifest.lock */,
 				5D4019AB1A76EC350006B0C2 /* Sources */,
 				5D4019AC1A76EC350006B0C2 /* Frameworks */,
 				5D4019AD1A76EC350006B0C2 /* Resources */,
@@ -7945,7 +7918,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D61FA351A84237100846EE7 /* Build configuration list for PBXNativeTarget "SmartDeviceLink" */;
 			buildPhases = (
-				0A86924A380D1FDA3C71F7BE /* [CP] Check Pods Manifest.lock */,
 				5D61FA171A84237100846EE7 /* Sources */,
 				5D61FA181A84237100846EE7 /* Frameworks */,
 				5D61FA191A84237100846EE7 /* Headers */,
@@ -7986,7 +7958,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 88295694207CF68800EF056C /* Build configuration list for PBXNativeTarget "SmartDeviceLink-Example-Swift" */;
 			buildPhases = (
-				3528C6471A0637E800D4B915 /* [CP] Check Pods Manifest.lock */,
 				88295680207CF68800EF056C /* Sources */,
 				8829568A207CF68800EF056C /* Frameworks */,
 				8829568C207CF68800EF056C /* Resources */,
@@ -8007,7 +7978,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 88802FEC20853AE600E9EBC6 /* Build configuration list for PBXNativeTarget "SmartDeviceLinkSwift" */;
 			buildPhases = (
-				6DCC48EACC037A51A661C75A /* [CP] Check Pods Manifest.lock */,
 				88802CD820853AE600E9EBC6 /* Sources */,
 				88802E5220853AE600E9EBC6 /* Frameworks */,
 				88802E5320853AE600E9EBC6 /* Headers */,
@@ -8149,28 +8119,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0A86924A380D1FDA3C71F7BE /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SmartDeviceLink-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		347D27B8551E58E978E95262 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -8186,29 +8134,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SmartDeviceLink-SmartDeviceLinkTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3528C6471A0637E800D4B915 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SmartDeviceLink-Example-Swift-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-SmartDeviceLinkTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -8221,7 +8147,10 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SmartDeviceLink-SmartDeviceLinkTests/Pods-SmartDeviceLink-SmartDeviceLinkTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-SmartDeviceLinkTests/Pods-SmartDeviceLinkTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -8231,51 +8160,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartDeviceLink-SmartDeviceLinkTests/Pods-SmartDeviceLink-SmartDeviceLinkTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6DCC48EACC037A51A661C75A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SmartDeviceLinkSwift-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AC3BA0E8094D6C0024A7ADDA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SmartDeviceLink-Example-ObjC-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartDeviceLinkTests/Pods-SmartDeviceLinkTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -9640,7 +9525,6 @@
 		};
 		5D4019D31A76EC350006B0C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84FC28A37FD6434A290C6C3C /* Pods-SmartDeviceLink-Example-ObjC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_COMPLETION_HANDLER_MISUSE = YES;
@@ -9660,7 +9544,6 @@
 		};
 		5D4019D41A76EC350006B0C2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 329406B1C0E40788FCF2F431 /* Pods-SmartDeviceLink-Example-ObjC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_COMPLETION_HANDLER_MISUSE = YES;
@@ -9680,7 +9563,6 @@
 		};
 		5D61FA361A84237100846EE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D59F79B118B5B550D8905BB /* Pods-SmartDeviceLink.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
@@ -9738,7 +9620,6 @@
 		};
 		5D61FA371A84237100846EE7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 08C8DAD94AEE8AD6CE00991F /* Pods-SmartDeviceLink.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
@@ -9766,6 +9647,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
@@ -9791,7 +9673,7 @@
 		};
 		5D61FA391A84237100846EE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7683A6191B8A52A5EF4890A5 /* Pods-SmartDeviceLink-SmartDeviceLinkTests.debug.xcconfig */;
+			baseConfigurationReference = CA21AEA3F192A22835E0DC21 /* Pods-SmartDeviceLinkTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -9829,7 +9711,7 @@
 		};
 		5D61FA3A1A84237100846EE7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B6ED11567F7F0B29B5DD449B /* Pods-SmartDeviceLink-SmartDeviceLinkTests.release.xcconfig */;
+			baseConfigurationReference = C830B1B9BDAE4EF873551E96 /* Pods-SmartDeviceLinkTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -9862,7 +9744,6 @@
 		};
 		88295695207CF68800EF056C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 024BC9E23560544671567E8F /* Pods-SmartDeviceLink-Example-Swift.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -9886,7 +9767,6 @@
 		};
 		88295696207CF68800EF056C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CEB67215D61C6C8140196780 /* Pods-SmartDeviceLink-Example-Swift.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -9909,7 +9789,6 @@
 		};
 		88802FED20853AE600E9EBC6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D527DD6F9EB58ED4754131C8 /* Pods-SmartDeviceLinkSwift.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
@@ -9964,7 +9843,6 @@
 		};
 		88802FEE20853AE600E9EBC6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE0668D506B8903866B418F3 /* Pods-SmartDeviceLinkSwift.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
