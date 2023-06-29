@@ -1,4 +1,21 @@
 # Changelog
+## 7.6.1
+* Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
+
+### Testing
+* Xcode 14.3.1
+* iOS 15.7.1 / iOS 16.2.1
+* Core:
+  * Manticore (Core v8.2.0, Generic HMI v0.12.0)
+  * Ford Sync 3.4 (19353_DEVTEST)
+  * Ford Sync 3.4 (19317_DEVTEST)
+  * Ford Sync 4.0 (20016_DEVTEST)
+  * Core v8.2.0 with sdl_hmi v5.8.0 and generic_hmi v0.13.0
+
+### Bug Fixes
+* Fatal Exception: NSRangeException (https://github.com/smartdevicelink/sdl_ios/issues/2116)
+* SDL App Crash (https://github.com/smartdevicelink/sdl_ios/issues/2112)
+
 ## 7.6.0
 * Supports [SDL RPC Spec 8.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/8.0.0) and [SDL Protocol Spec 5.4.1](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.4.1).
 
