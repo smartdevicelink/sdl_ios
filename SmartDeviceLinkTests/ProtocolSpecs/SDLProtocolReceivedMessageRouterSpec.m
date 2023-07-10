@@ -14,6 +14,7 @@
 #import "SDLRPCParameterNames.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
+#import "SDLExpect.h"
 
 QuickSpecBegin(SDLProtocolReceivedMessageRouterSpec)
 
@@ -156,7 +157,7 @@ describe(@"Handle received message tests", ^{
 
             [router handleReceivedMessage:testMessage protocol:mockProtocol];
             
-            expect(verified).toEventually(beTrue());
+            expect(verified).to(beTrue());
         });
     });
     
@@ -210,10 +211,13 @@ describe(@"Handle received message tests", ^{
             testMessage.header.frameData = 0;
             testMessage.payload = [payloadData subdataWithRange:NSMakeRange(offset, payloadData.length - offset)];
 
+            XCTestExpectation *myExpectation = [self expectationWithDescription:@"Expectation for the following async block"];
             __block BOOL verified = NO;
             [OCMStub([delegateMock protocol:mockProtocol didReceiveMessage:[OCMArg any]]) andDo:^(NSInvocation *invocation) {
+                [NSThread sleepForTimeInterval:0.5];
                 verified = YES;
-                
+                [myExpectation fulfill];
+
                 // Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
                 __unsafe_unretained SDLProtocolMessage *message;
                 [invocation getArgument:&message atIndex:3];
@@ -228,8 +232,9 @@ describe(@"Handle received message tests", ^{
             }];
 
             [router handleReceivedMessage:testMessage protocol:mockProtocol];
-            
-            expect(verified).toEventually(beTrue());
+
+            [self waitForExpectationsWithTimeout:SDLExpect.timeout handler:nil];
+            XCTAssertTrue(verified);
         });
     });
 });
