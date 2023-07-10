@@ -19,6 +19,7 @@
 #import "SDLSystemCapabilityManager.h"
 #import "SDLWindowCapability.h"
 #import "TestConnectionManager.h"
+#import "SDLExpect.h"
 
 @interface SDLAlertManager()
 
@@ -184,10 +185,13 @@ describe(@"alert manager tests", ^{
 
             SDLPresentAlertOperation *presentAlertOp1 = testAlertManager.transactionQueue.operations[0];
             SDLPresentAlertOperation *presentAlertOp2 = testAlertManager.transactionQueue.operations[1];
-            expect(presentAlertOp1.isExecuting).to(beTrue());
-            expect(presentAlertOp2.isExecuting).to(beFalse());
-            expect(presentAlertOp2.currentWindowCapability).to(equal(testWindowCapability));
-            expect(presentAlertOp1.currentWindowCapability).to(equal(testWindowCapability));
+
+            [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                expect(presentAlertOp1.isExecuting).to(beTrue());
+                expect(presentAlertOp2.isExecuting).to(beFalse());
+                expect(presentAlertOp2.currentWindowCapability).to(equal(testWindowCapability));
+                expect(presentAlertOp1.currentWindowCapability).to(equal(testWindowCapability));
+            }];
         });
     });
 

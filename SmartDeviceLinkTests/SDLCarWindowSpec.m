@@ -75,7 +75,7 @@ describe(@"test car window", ^{
         carWindow.rootViewController = rootViewController;
         it(@"make sure object created and all set", ^{
             expect(carWindow).toNot(beNil());
-            expect(carWindow.rootViewController).toEventually(equal(rootViewController));
+            expect(carWindow.rootViewController).to(equal(rootViewController));
         });
     });
 
@@ -86,7 +86,7 @@ describe(@"test car window", ^{
         carWindow.rootViewController = rootViewController;
         it(@"make sure object created and all set", ^{
             expect(carWindow).toNot(beNil());
-            expect(carWindow.rootViewController).toEventually(equal(rootViewController));
+            expect(carWindow.rootViewController).to(equal(rootViewController));
         });
     });
 

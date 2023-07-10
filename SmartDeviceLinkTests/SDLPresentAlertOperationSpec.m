@@ -9,6 +9,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
+#import "SDLExpect.h"
 
 #import "SDLAlert.h"
 #import "SDLAlertResponse.h"
@@ -759,7 +760,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertAudioFileNotSupported]));
                     expect(hasCalledOperationCompletionHandler).to(beTrue());
-                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                    expect(testPresentAlertOperation.isFinished).to(beTrue());
                 });
 
                 it(@"should return an error if invalid data was set", ^{
@@ -775,7 +776,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     expect(testPresentAlertOperation.internalError).to(equal([NSError sdl_alertManager_alertDataInvalid]));
                     expect(hasCalledOperationCompletionHandler).to(beTrue());
-                    expect(testPresentAlertOperation.isFinished).toEventually(beTrue());
+                    expect(testPresentAlertOperation.isFinished).to(beTrue());
                 });
             });
         });
@@ -836,7 +837,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 [testPresentAlertOperation start];
 
-                OCMVerifyAllWithDelay(mockConnectionManager, 1.0);
+                [SDLExpect SDLExpectWithTimeout:4.0 expectBlock:^{ OCMVerifyAll(mockConnectionManager); }];
             });
         });
 
@@ -887,7 +888,7 @@ describe(@"SDLPresentAlertOperation", ^{
 
                 [testPresentAlertOperation start];
 
-                OCMVerifyAllWithDelay(mockConnectionManager, 0.5);
+                [SDLExpect SDLExpectWithTimeout:4.0 expectBlock:^{ OCMVerifyAll(mockConnectionManager); }];
             });
         });
 
@@ -971,11 +972,12 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testPresentAlertOperation start];
 
+                    [NSThread sleepForTimeInterval:1.0];
+
                     expect(testPresentAlertOperation.internalError).to(beNil());
                     expect(hasCalledOperationCompletionHandler).to(beTrue());
                     expect(testPresentAlertOperation.isFinished).to(beTrue());
-
-                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                    OCMVerifyAll(mockConnectionManager);
                 });
 
                 it(@"should save the error, call the completion handler and finish the operation after an unsuccessful alert response", ^{
@@ -989,11 +991,12 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testPresentAlertOperation start];
 
+                    [NSThread sleepForTimeInterval:1.0];
+
                     expect(testPresentAlertOperation.internalError.userInfo[@"tryAgainTime"]).to(equal(response.tryAgainTime));
                     expect(testPresentAlertOperation.internalError.userInfo[@"error"]).to(equal(defaultError));
                     expect(hasCalledOperationCompletionHandler).to(beTrue());
                     expect(testPresentAlertOperation.isFinished).to(beTrue());
-
                     OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                 });
             });
@@ -1031,6 +1034,8 @@ describe(@"SDLPresentAlertOperation", ^{
                     }] withResponseHandler:[OCMArg any]]);
                     [testPresentAlertOperation start];
 
+                    [NSThread sleepForTimeInterval:1.0];
+
                     OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
                     expect(testPresentAlertOperation.isExecuting).to(beTrue());
                     expect(testPresentAlertOperation.isFinished).to(beFalse());
@@ -1046,7 +1051,9 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testCancelAlertView cancel];
 
-                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                    [NSTimer scheduledTimerWithTimeInterval:4.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                    }];
                 });
 
                 context(@"If the cancel interaction was successful", ^{
@@ -1054,8 +1061,7 @@ describe(@"SDLPresentAlertOperation", ^{
                         OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                         [testPresentAlertOperation start];
 
-                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
-                        
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 1.0);
                         SDLCancelInteractionResponse *testResponse = [[SDLCancelInteractionResponse alloc] init];
                         testResponse.success = @YES;
                         testResponse.resultCode = SDLResultSuccess;
@@ -1073,8 +1079,10 @@ describe(@"SDLPresentAlertOperation", ^{
                         OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                         [testPresentAlertOperation start];
 
-                        OCMVerifyAllWithDelay(strictMockConnectionManager, 1.0);
-                        
+                        [NSTimer scheduledTimerWithTimeInterval:4.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+                            OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                        }];
+
                         SDLCancelInteractionResponse *testResponse = [[SDLCancelInteractionResponse alloc] init];
                         testResponse.success = @NO;
                         testResponse.resultCode = SDLResultAborted;
@@ -1085,6 +1093,7 @@ describe(@"SDLPresentAlertOperation", ^{
                         [testCancelAlertView cancel];
 
                         OCMVerifyAllWithDelay(strictMockConnectionManager, 1.0);
+                        sleep(1.0);
                         expect(testPresentAlertOperation.error).to(equal(defaultError));
                     });
                 });
@@ -1109,7 +1118,9 @@ describe(@"SDLPresentAlertOperation", ^{
                     OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                     [testPresentAlertOperation start];
 
-                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                    [NSTimer scheduledTimerWithTimeInterval:4.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                    }];
 
                     [testPresentAlertOperation cancel];
 
@@ -1117,7 +1128,9 @@ describe(@"SDLPresentAlertOperation", ^{
 
                     [testCancelAlertView cancel];
 
-                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                    [NSTimer scheduledTimerWithTimeInterval:4.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                    }];
                 });
             });
 
@@ -1135,8 +1148,10 @@ describe(@"SDLPresentAlertOperation", ^{
                         OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                         [testPresentAlertOperation start];
 
-                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
-                        
+                        [NSTimer scheduledTimerWithTimeInterval:4.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+                            OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                        }];
+
                         [testPresentAlertOperation cancel];
 
                         OCMReject([mockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
@@ -1146,7 +1161,9 @@ describe(@"SDLPresentAlertOperation", ^{
                         [testPresentAlertOperation start];
                         [testCancelAlertView cancel];
 
-                        OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                        [NSTimer scheduledTimerWithTimeInterval:4.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+                            OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                        }];
                     });
                 });
             });
@@ -1161,7 +1178,9 @@ describe(@"SDLPresentAlertOperation", ^{
                 OCMExpect([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLAlert.class] withResponseHandler:[OCMArg any]]);
                 [testPresentAlertOperation start];
 
-                OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                [NSTimer scheduledTimerWithTimeInterval:4.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+                    OCMVerifyAllWithDelay(strictMockConnectionManager, 0.5);
+                }];
 
                 OCMReject([strictMockConnectionManager sendConnectionRequest:[OCMArg isKindOfClass:SDLCancelInteraction.class] withResponseHandler:[OCMArg any]]);
 

@@ -147,8 +147,8 @@ describe(@"a cache file manager", ^{
                     });
 
                     it(@"it should return downloaded image and no error", ^{
-                        expect(resultImage).toEventually(equal(testImage));
-                        expect(resultError).toEventually(beNil());
+                        expect(resultImage).to(equal(testImage));
+                        expect(resultError).to(beNil());
                     });
                 });
 
@@ -165,8 +165,8 @@ describe(@"a cache file manager", ^{
                     });
 
                     it(@"it should return downloaded image and no error", ^{
-                        expect(resultImage).toEventually(equal(testImage));
-                        expect(resultError).toEventually(beNil());
+                        expect(resultImage).to(equal(testImage));
+                        expect(resultError).to(beNil());
                     });
                 });
 
