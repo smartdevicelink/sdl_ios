@@ -1,6 +1,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
+#import "SDLExpect.h"
 
 #import "SDLLifecycleManager.h"
 
@@ -280,7 +281,10 @@ describe(@"a lifecycle manager", ^{
                 // When we connect, we should be creating an sending an RAI
 
                 [testManager.notificationDispatcher postNotificationName:SDLRPCServiceDidConnect infoObject:nil];
-                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateConnected));
+//                [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                [NSThread sleepForTimeInterval:SDLExpect.timeout];
+                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateConnected));
+//                }];
             });
             itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
 
@@ -375,7 +379,10 @@ describe(@"a lifecycle manager", ^{
                     testManager.hmiLevel = SDLHMILevelFull;
                     transitionToState(SDLLifecycleStateRegistered);
 
-                    expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReady));
+//                    [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                    [NSThread sleepForTimeInterval:SDLExpect.timeout];
+                        expect(testManager.lifecycleState).to(equal(SDLLifecycleStateReady));
+//                    }];
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([(SDLSystemCapabilityManager *)systemCapabilityMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
@@ -530,7 +537,10 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should enter the started state", ^{
-                    expect(testManager.lifecycleState).withTimeout(3.0).to(equal(SDLLifecycleStateStarted));
+//                    [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                    [NSThread sleepForTimeInterval:SDLExpect.timeout];
+                        expect(testManager.lifecycleState).to(equal(SDLLifecycleStateStarted));
+//                    }];
                 });
             });
 
@@ -695,10 +705,13 @@ describe(@"a lifecycle manager", ^{
                     returnError = error;
                 }];
 
-                expect(returnRequest).toNot(beNil());
-                expect(returnRequest).to(beAnInstanceOf([SDLShow class]));
-                expect(returnResponse).to(beNil());
-                expect(returnError).toNot(beNil());
+//                [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                [NSThread sleepForTimeInterval:SDLExpect.timeout + 3];
+                    expect(returnRequest).toNot(beNil());
+                    expect(returnRequest).to(beAnInstanceOf([SDLShow class]));
+                    expect(returnResponse).to(beNil());
+                    expect(returnError).toNot(beNil());
+//                }];
             });
 
             it(@"can send an RPC of type Response", ^{

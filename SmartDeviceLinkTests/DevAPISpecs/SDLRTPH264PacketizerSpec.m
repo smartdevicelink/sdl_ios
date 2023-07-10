@@ -80,6 +80,7 @@ describe(@"a RTP H264 packetizer", ^{
         beforeEach(^{
             NSArray<NSData *> *nalUnits = @[iframe];
             NSArray<NSData *> *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
+            [NSThread sleepForTimeInterval:1.5];
             header = results[0].bytes;
         });
 

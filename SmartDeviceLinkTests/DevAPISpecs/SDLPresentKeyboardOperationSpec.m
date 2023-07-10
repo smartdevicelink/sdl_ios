@@ -280,7 +280,7 @@ describe(@"present keyboard operation", ^{
                     });
 
                     it(@"should be finished", ^{
-                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                        expect(hasCalledOperationCompletionHandler).to(beTrue());
                         expect(testOp.isFinished).to(beTrue());
                     });
                 });
@@ -359,10 +359,10 @@ describe(@"present keyboard operation", ^{
                 });
 
                 it(@"should not finish", ^{
-                    expect(hasCalledOperationCompletionHandler).toEventually(beFalse());
-                    expect(testOp.isExecuting).toEventually(beTrue());
-                    expect(testOp.isFinished).toEventually(beFalse());
-                    expect(testOp.isCancelled).toEventually(beFalse());
+                    expect(hasCalledOperationCompletionHandler).to(beFalse());
+                    expect(testOp.isExecuting).to(beTrue());
+                    expect(testOp.isFinished).to(beFalse());
+                    expect(testOp.isCancelled).to(beFalse());
                 });
             });
         });
@@ -464,10 +464,10 @@ describe(@"present keyboard operation", ^{
                 });
 
                 it(@"should not attempt to send a cancel interaction but should finish", ^{
-                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
-                    expect(testOp.isExecuting).toEventually(beFalse());
-                    expect(testOp.isFinished).toEventually(beTrue());
-                    expect(testOp.isCancelled).toEventually(beTrue());
+                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(testOp.isExecuting).to(beFalse());
+                    expect(testOp.isFinished).to(beTrue());
+                    expect(testOp.isCancelled).to(beTrue());
 
                     SDLCancelInteraction *lastRequest = testConnectionManager.receivedRequests.lastObject;
                     expect(lastRequest).to(beNil());

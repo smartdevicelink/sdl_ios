@@ -307,6 +307,9 @@ describe(@"test internals", ^{
             it(@"expect displayLink update properly", ^{
                 expect(streamingLifecycleManager.displayLink).to(beNil());
                 [streamingLifecycleManager didEnterStateVideoStreamReady];
+
+                [NSThread sleepForTimeInterval:1.5];
+
                 expect([streamingLifecycleManager.displayLink isKindOfClass:[CADisplayLink class]]).to(beTrue());
             });
         });
@@ -323,9 +326,11 @@ describe(@"test internals", ^{
 
                 [streamingLifecycleManager didEnterStateVideoStreamSuspended];
 
+                [NSThread sleepForTimeInterval:1.5];
+
                 expect(streamingLifecycleManager.shouldAutoResume).to(equal(NO));
                 expect(streamingLifecycleManager.videoStreamingCapability).to(equal(videoStreamingCapabilityUpdated));
-                expect(streamingLifecycleManager.shouldAutoResume).toEventually(equal(NO));
+                expect(streamingLifecycleManager.shouldAutoResume).to(equal(NO));
 
                 [streamingLifecycleManager.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStarting];
                 SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);

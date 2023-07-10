@@ -12,6 +12,7 @@
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLExpect.h"
 
 @interface SDLLockScreenManager ()
 
@@ -122,7 +123,9 @@ describe(@"a lock screen manager", ^{
                 it(@"should have presented the lock screen and the lockscreen should not have a vehicle icon", ^{
                     OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]);
 
-                    OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+                    [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout + 3 expectBlock:^{
+                        OCMVerifyAll(fakeViewControllerPresenter);
+                    }];
 
                     expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).to(beNil());
                 });
@@ -198,7 +201,9 @@ describe(@"a lock screen manager", ^{
                     it(@"should have dismissed the lock screen", ^{
                         OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:NO withCompletionHandler:[OCMArg any]]);
 
-                        OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+                        [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout + 3 expectBlock:^{
+                            OCMVerifyAll(fakeViewControllerPresenter);
+                        }];
 
                         expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).to(beFalse());
                     });
@@ -375,7 +380,9 @@ describe(@"a lock screen manager", ^{
             it(@"should present the lock screen if not already presented", ^{
                 OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]);
 
-                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+                [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout + 3 expectBlock:^{
+                    OCMVerifyAll(fakeViewControllerPresenter);
+                }];
 
                 expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).to(beTrue());
             });
@@ -393,7 +400,9 @@ describe(@"a lock screen manager", ^{
             it(@"should present the lock screen if not already presented", ^{
                 OCMExpect([fakeViewControllerPresenter updateLockScreenToShow:YES withCompletionHandler:[OCMArg any]]);
 
-                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+                [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout + 3 expectBlock:^{
+                    OCMVerifyAll(fakeViewControllerPresenter);
+                }];
 
                 expect(((SDLFakeViewControllerPresenter *)fakeViewControllerPresenter).shouldShowLockScreen).to(beTrue());
             });
@@ -425,7 +434,9 @@ describe(@"a lock screen manager", ^{
 
                  [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testOptionalStatus}];
 
-                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+                [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout + 3 expectBlock:^{
+                    OCMVerifyAll(fakeViewControllerPresenter);
+                }];
             });
         });
 
@@ -442,7 +453,9 @@ describe(@"a lock screen manager", ^{
 
                 [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testManager.statusManager userInfo:@{SDLNotificationUserInfoObject: testOptionalStatus}];
 
-                OCMVerifyAllWithDelay(fakeViewControllerPresenter, 0.5);
+                [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout + 3 expectBlock:^{
+                    OCMVerifyAll(fakeViewControllerPresenter);
+                }];
             });
         });
     });

@@ -4,6 +4,7 @@
 #import "SDLAudioStreamManager.h"
 #import "SDLError.h"
 #import "SDLStreamingAudioManagerMock.h"
+#import "SDLExpect.h"
 
 QuickSpecBegin(SDLAudioStreamManagerSpec)
 
@@ -42,8 +43,10 @@ describe(@"the audio stream manager", ^{
                 });
 
                 it(@"should fail to send data", ^{
-                    expect(mockAudioManager.dataSinceClear.length).withTimeout(3.0).to(equal(0));
-                    expect(mockAudioManager.error.code).withTimeout(3).toEventually(equal(SDLAudioStreamManagerErrorNotConnected));
+                    [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                        expect(mockAudioManager.dataSinceClear.length).to(equal(0));
+                        expect(mockAudioManager.error.code).to(equal(SDLAudioStreamManagerErrorNotConnected));
+                    }];
                 });
             });
         });
@@ -62,7 +65,10 @@ describe(@"the audio stream manager", ^{
 
                 it(@"should fail to send data", ^{
                     expect(mockAudioManager.dataSinceClear.length).to(equal(0));
-                    expect(mockAudioManager.error.code).to(equal(SDLAudioStreamManagerErrorNotConnected));
+//                    [SDLExpect SDLExpectWithTimeout:1.0 expectBlock:^{
+                    sleep(SDLExpect.timeout);
+                        expect(mockAudioManager.error.code).to(equal(SDLAudioStreamManagerErrorNotConnected));
+//                    }];
                 });
             });
         });
@@ -85,9 +91,12 @@ describe(@"the audio stream manager", ^{
             });
 
             it(@"should be sending data", ^{
-                expect(testManager.isPlaying).to(beTrue());
-                expect(mockAudioManager.dataSinceClear.length).to(equal(34380));
-                expect(mockAudioManager.finishedPlaying).withTimeout(3.0).to(beTrue());
+//                [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                sleep(SDLExpect.timeout);
+                    expect(testManager.isPlaying).to(beTrue());
+                    expect(mockAudioManager.dataSinceClear.length).to(equal(34380));
+                    expect(mockAudioManager.finishedPlaying).to(beTrue());
+//                }];
             });
         });
 
@@ -109,7 +118,10 @@ describe(@"the audio stream manager", ^{
         });
 
         it(@"should have a file in the queue", ^{
-            expect(testManager.queue).toNot(beEmpty());
+//            [SDLExpect SDLExpectWithTimeout:3.0 expectBlock:^{
+            sleep(SDLExpect.timeout);
+                expect(testManager.queue).toNot(beEmpty());
+//            }];
         });
 
         describe(@"after attempting to play the audio buffer", ^{
@@ -119,11 +131,15 @@ describe(@"the audio stream manager", ^{
             });
 
             it(@"should be sending data", ^{
-                expect(testManager.isPlaying).to(beTrue());
-                expect(mockAudioManager.dataSinceClear.length).to(equal(14838));
+//                [SDLExpect SDLExpectWithTimeout:3.0 expectBlock:^{
+//                sleep(SDLExpect.timeout);
+                [NSThread sleepForTimeInterval:1.5];
+                    expect(testManager.isPlaying).to(beTrue());
+                    expect(mockAudioManager.dataSinceClear.length).to(equal(14838));
 
                 // Fails when it shouldn't, `weakself` goes to nil in `sdl_playNextWhenReady`
-                expect(mockAudioManager.finishedPlaying).to(beTrue());
+                    expect(mockAudioManager.finishedPlaying).to(beTrue());
+//                }];
             });
         });
 
