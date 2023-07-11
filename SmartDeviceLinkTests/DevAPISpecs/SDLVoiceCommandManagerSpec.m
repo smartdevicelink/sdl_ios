@@ -13,6 +13,7 @@
 #import "SDLVoiceCommandManager.h"
 #import "SDLVoiceCommandUpdateOperation.h"
 #import "TestConnectionManager.h"
+#import "SDLExpect.h"
 
 @interface SDLVoiceCommandUpdateOperation ()
 
@@ -166,7 +167,10 @@ describe(@"voice command manager", ^{
                     });
 
                     it(@"should update the second operation", ^{
-                        expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).to(equal(testVoiceCommand2));
+                        [NSThread sleepForTimeInterval:3.0];
+                        [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                            expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).to(equal(testVoiceCommand2));
+                        }];
                     });
                 });
             });

@@ -48,6 +48,7 @@
 #import "TestConnectionManager.h"
 #import "TestSmartConnectionManager.h"
 #import "TestStreamingMediaDelegate.h"
+#import "SDLExpect.h"
 
 // expose private methods to the test suite
 @interface SDLStreamingVideoLifecycleManager (test)
@@ -299,33 +300,49 @@ describe(@"test internals", ^{
     });
 
     context(@"init extended manager", ^{
-        id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
-        SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
-        SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+//        __block id<SDLConnectionManagerType> mockConnectionManager;
+//        __block SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager;
+
+//        beforeEach(^{
+//            mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+//            SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+//            streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+//        });
 
         context(@"test didEnterStateVideoStreamReady", ^{
             it(@"expect displayLink update properly", ^{
+                id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+                SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+                SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+                [streamingLifecycleManager useDisplayLink];
+
                 expect(streamingLifecycleManager.displayLink).to(beNil());
                 [streamingLifecycleManager didEnterStateVideoStreamReady];
-                expect([streamingLifecycleManager.displayLink isKindOfClass:[CADisplayLink class]]).toEventually(beTrue());
+//                [NSThread sleepForTimeInterval:1.5];
+                expect([streamingLifecycleManager.displayLink isKindOfClass:[CADisplayLink class]]).to(beTrue());
             });
         });
 
         context(@"test didEnterStateVideoStreamSuspended", ^{
-            SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
-            streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
             it(@"expect properties to update properly", ^{
+                id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+                SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+                SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+
+                SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
+                streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
+
                 streamingLifecycleManager.shouldAutoResume = YES;
 
                 expect(streamingLifecycleManager.shouldAutoResume).to(equal(YES));
-                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).notTo(beNil());
+                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).toNot(beNil());
                 expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).to(equal(videoStreamingCapabilityUpdated));
 
                 [streamingLifecycleManager didEnterStateVideoStreamSuspended];
 
                 expect(streamingLifecycleManager.shouldAutoResume).to(equal(NO));
-                expect(streamingLifecycleManager.videoStreamingCapability).toEventually(equal(videoStreamingCapabilityUpdated));
-                expect(streamingLifecycleManager.shouldAutoResume).toEventually(equal(NO));
+                expect(streamingLifecycleManager.videoStreamingCapability).to(equal(videoStreamingCapabilityUpdated));
+                expect(streamingLifecycleManager.shouldAutoResume).to(equal(NO));
 
                 [streamingLifecycleManager.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStarting];
                 SDLProtocol *protocolMock = OCMClassMock([SDLProtocol class]);
@@ -503,7 +520,7 @@ describe(@"runtime tests", ^{
                 });
 
                 it(@"should save the connected vehicle make but not the screen size", ^{
-                    expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).toEventually(equal(@YES));
+                    expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeZero))).to(equal(@YES));
                 });
             });
 
@@ -533,7 +550,7 @@ describe(@"runtime tests", ^{
                 });
 
                 it(@"should save the connected vehicle make and the screen size", ^{
-                    expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).toEventually(equal(@YES));
+                    expect(@(CGSizeEqualToSize(streamingLifecycleManager.videoScaleManager.displayViewportResolution, CGSizeMake(600, 100)))).to(equal(@YES));
                 });
             });
         });
@@ -565,7 +582,7 @@ describe(@"runtime tests", ^{
                             });
 
                             it(@"should close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                             });
                         });
 
@@ -575,7 +592,7 @@ describe(@"runtime tests", ^{
                             });
 
                             it(@"should close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                             });
                         });
 
@@ -585,7 +602,7 @@ describe(@"runtime tests", ^{
                             });
 
                             it(@"should not close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateReady));
+                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
                             });
                         });
 
@@ -595,7 +612,7 @@ describe(@"runtime tests", ^{
                             });
 
                             it(@"should not close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateReady));
+                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
                             });
                         });
 
@@ -605,7 +622,7 @@ describe(@"runtime tests", ^{
                             });
 
                             it(@"should close the stream", ^{
-                                expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                             });
                         });
                     });
@@ -634,7 +651,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should close the streams", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -644,7 +661,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -654,7 +671,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should not close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateReady));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
                         });
                     });
 
@@ -664,7 +681,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should not close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateReady));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateReady));
                         });
                     });
 
@@ -674,7 +691,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -685,7 +702,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -696,7 +713,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
                 });
@@ -720,7 +737,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                         });
                     });
 
@@ -730,7 +747,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                         });
                     });
 
@@ -740,7 +757,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should start the streams", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStarting));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStarting));
                         });
                     });
 
@@ -750,7 +767,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should start the streams", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStarting));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStarting));
                         });
                     });
 
@@ -760,7 +777,7 @@ describe(@"runtime tests", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentVideoStreamState).toEventually(equal(SDLVideoStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                         });
                     });
                 });

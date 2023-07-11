@@ -8,6 +8,7 @@
 
 #import "SDLGlobals.h"
 #import "TestConnectionManager.h"
+#import "SDLExpect.h"
 
 @interface SDLPreloadPresentChoicesOperation()
 
@@ -1020,9 +1021,9 @@ describe(@"a preload choices operation", ^{
                         });
 
                         it(@"should finish", ^{
-                            expect(testOp.isExecuting).toEventually(beFalse());
-                            expect(testOp.isFinished).toEventually(beTrue());
-                            expect(testOp.isCancelled).toEventually(beTrue());
+                            expect(testOp.isExecuting).to(beFalse());
+                            expect(testOp.isFinished).to(beTrue());
+                            expect(testOp.isCancelled).to(beTrue());
                         });
                     });
                 });

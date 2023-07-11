@@ -7,6 +7,7 @@
 
 #import "TestMultipleRequestsConnectionManager.h"
 #import "TestRequestProgressResponse.h"
+#import "SDLExpect.h"
 
 QuickSpecBegin(SDLAsynchronousRPCRequestOperationSpec)
 
@@ -57,8 +58,10 @@ describe(@"sending asynchronous requests", ^{
 
             [testOperationQueue addOperation:testOperation];
 
-            expect(testSuccess).withTimeout(3.0).toEventually(beTrue());
-            expect(testError).withTimeout(3.0).toEventually(beNil());
+            [SDLExpect SDLExpectWithTimeout:4.0 expectBlock:^{
+                expect(testSuccess).to(beTruthy());
+                expect(testError).withTimeout(3.0).to(beNil());
+            }];
         });
     });
 

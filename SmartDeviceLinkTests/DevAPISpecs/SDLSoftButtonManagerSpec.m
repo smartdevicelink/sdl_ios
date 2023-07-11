@@ -213,14 +213,16 @@ describe(@"a soft button manager", ^{
 
         // should set soft buttons correctly
         it(@"should set soft buttons correctly", ^{
-            expect(testManager.softButtonObjects).toEventuallyNot(beNil());
-            expect(testObject1.buttonId).toEventually(equal(1));
-            expect(testObject2.buttonId).toEventually(equal(2));
-            expect(testObject1.manager).toEventually(equal(testManager));
-            expect(testObject2.manager).toEventually(equal(testManager));
+            [NSThread sleepForTimeInterval:1.0];
+
+            expect(testManager.softButtonObjects).toNot(beNil());
+            expect(testObject1.buttonId).to(equal(1));
+            expect(testObject2.buttonId).to(equal(2));
+            expect(testObject1.manager).to(equal(testManager));
+            expect(testObject2.manager).to(equal(testManager));
 
             // One replace operation
-            expect(testManager.transactionQueue.operationCount).toEventually(equal(1));
+            expect(testManager.transactionQueue.operationCount).to(equal(1));
         });
 
         // should replace earlier operations when a replace operation is entered
@@ -229,10 +231,10 @@ describe(@"a soft button manager", ^{
             testManager.softButtonObjects = @[testObject1];
             [NSThread sleepForTimeInterval:0.5]; // Necessary to not get range exceptions with toEventually?
 
-            expect(testManager.transactionQueue.operationCount).withTimeout(3.0).toEventually(equal(3));
-            expect(testManager.transactionQueue.operations[0].isCancelled).withTimeout(3.0).toEventually(beTrue());
-            expect(testManager.transactionQueue.operations[1].isCancelled).withTimeout(3.0).toEventually(beTrue());
-            expect(testManager.transactionQueue.operations[2].isCancelled).withTimeout(3.0).toEventually(beFalse());
+            expect(testManager.transactionQueue.operationCount).to(equal(3));
+            expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
+            expect(testManager.transactionQueue.operations[1].isCancelled).to(beTrue());
+            expect(testManager.transactionQueue.operations[2].isCancelled).to(beFalse());
         });
 
         it(@"should retrieve soft buttons correctly", ^{

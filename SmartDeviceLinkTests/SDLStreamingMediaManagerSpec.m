@@ -248,10 +248,10 @@ describe(@"the streaming media manager", ^{
                 OCMVerifyAllWithDelay(mockVideoLifecycleManager, 0.5);
                 OCMVerifyAllWithDelay(mockSecondaryTransportManager, 0.5);
 
-                expect(testStreamingMediaManager.audioStarted).toEventually(beTrue());
-                expect(testStreamingMediaManager.videoStarted).toEventually(beTrue());
-                expect(testStreamingMediaManager.audioProtocol).toEventually(equal(mockNewProtocol));
-                expect(testStreamingMediaManager.videoProtocol).toEventually(equal(mockNewProtocol));
+                expect(testStreamingMediaManager.audioStarted).to(beTrue());
+                expect(testStreamingMediaManager.videoStarted).to(beTrue());
+                expect(testStreamingMediaManager.audioProtocol).to(equal(mockNewProtocol));
+                expect(testStreamingMediaManager.videoProtocol).to(equal(mockNewProtocol));
             });
         });
 
@@ -269,10 +269,10 @@ describe(@"the streaming media manager", ^{
                 OCMVerifyAllWithDelay(mockVideoLifecycleManager, 0.5);
                 OCMVerifyAllWithDelay(mockSecondaryTransportManager, 0.5);
 
-                expect(testStreamingMediaManager.audioStarted).toEventually(beFalse());
-                expect(testStreamingMediaManager.videoStarted).toEventually(beFalse());
-                expect(testStreamingMediaManager.audioProtocol).toEventually(beNil());
-                expect(testStreamingMediaManager.videoProtocol).toEventually(beNil());
+                expect(testStreamingMediaManager.audioStarted).to(beFalse());
+                expect(testStreamingMediaManager.videoStarted).to(beFalse());
+                expect(testStreamingMediaManager.audioProtocol).to(beNil());
+                expect(testStreamingMediaManager.videoProtocol).to(beNil());
             });
         });
 
@@ -298,10 +298,10 @@ describe(@"the streaming media manager", ^{
                 OCMVerifyAllWithDelay(mockVideoLifecycleManager, 0.5);
                 OCMVerifyAllWithDelay(mockSecondaryTransportManager, 0.5);
 
-                expect(testStreamingMediaManager.audioStarted).toEventually(beTrue());
-                expect(testStreamingMediaManager.videoStarted).toEventually(beTrue());
-                expect(testStreamingMediaManager.audioProtocol).toEventually(equal(mockNewAudioProtocol));
-                expect(testStreamingMediaManager.videoProtocol).toEventually(equal(mockNewVideoProtocol));
+                expect(testStreamingMediaManager.audioStarted).to(beTrue());
+                expect(testStreamingMediaManager.videoStarted).to(beTrue());
+                expect(testStreamingMediaManager.audioProtocol).to(equal(mockNewAudioProtocol));
+                expect(testStreamingMediaManager.videoProtocol).to(equal(mockNewVideoProtocol));
             });
         });
 
@@ -325,10 +325,10 @@ describe(@"the streaming media manager", ^{
                 OCMVerifyAllWithDelay(mockVideoLifecycleManager, 0.5);
                 OCMVerifyAllWithDelay(mockSecondaryTransportManager, 0.5);
 
-                expect(testStreamingMediaManager.videoStarted).toEventually(beTrue());
-                expect(testStreamingMediaManager.audioStarted).toEventually(beFalse());
-                expect(testStreamingMediaManager.audioProtocol).toEventually(beNil());
-                expect(testStreamingMediaManager.videoProtocol).toEventually(equal(mockNewProtocol));
+                expect(testStreamingMediaManager.videoStarted).to(beTrue());
+                expect(testStreamingMediaManager.audioStarted).to(beFalse());
+                expect(testStreamingMediaManager.audioProtocol).to(beNil());
+                expect(testStreamingMediaManager.videoProtocol).to(equal(mockNewProtocol));
             });
         });
 
@@ -352,10 +352,10 @@ describe(@"the streaming media manager", ^{
                 OCMVerifyAllWithDelay(mockVideoLifecycleManager, 0.5);
                 OCMVerifyAllWithDelay(mockSecondaryTransportManager, 0.5);
 
-                expect(testStreamingMediaManager.videoStarted).toEventually(beFalse());
-                expect(testStreamingMediaManager.audioStarted).toEventually(beTrue());
-                expect(testStreamingMediaManager.audioProtocol).toEventually(equal(mockNewProtocol));
-                expect(testStreamingMediaManager.videoProtocol).toEventually(beNil());
+                expect(testStreamingMediaManager.videoStarted).to(beFalse());
+                expect(testStreamingMediaManager.audioStarted).to(beTrue());
+                expect(testStreamingMediaManager.audioProtocol).to(equal(mockNewProtocol));
+                expect(testStreamingMediaManager.videoProtocol).to(beNil());
             });
         });
     });

@@ -59,7 +59,7 @@ describe(@"delete choices operation", ^{
             });
 
             it(@"should finish with success", ^{
-                expect(resultLoadedCells).toEventuallyNot(beNil());
+                expect(resultLoadedCells).toNot(beNil());
                 expect(resultError).to(beNil());
             });
         });
@@ -70,7 +70,7 @@ describe(@"delete choices operation", ^{
             });
 
             it(@"should finish with a failure", ^{
-                expect(resultLoadedCells).toEventuallyNot(beNil());
+                expect(resultLoadedCells).toNot(beNil());
                 expect(resultError).toNot(beNil());
             });
         });

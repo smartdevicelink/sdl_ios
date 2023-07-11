@@ -405,7 +405,7 @@ describe(@"the haptic manager", ^{
 
             it(@"should have one view", ^{
                 int expectedCount = 1;
-                expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
+                expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
 
                 if(sentHapticRequest.hapticRectData.count == expectedCount) {
                     NSArray<SDLHapticRect *> *hapticRectData = sentHapticRequest.hapticRectData;
@@ -426,7 +426,7 @@ describe(@"the haptic manager", ^{
 
             it(@"should have two views", ^{
                 int expectedCount = 2;
-                expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
+                expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
 
                 if(sentHapticRequest.hapticRectData.count == expectedCount) {
                     NSArray<SDLHapticRect *> *hapticRectData = sentHapticRequest.hapticRectData;
@@ -450,7 +450,7 @@ describe(@"the haptic manager", ^{
 
                 it(@"should have two views", ^{
                     int expectedCount = 2;
-                    expect(sentHapticRequest.hapticRectData.count).toEventually(equal(expectedCount));
+                    expect(sentHapticRequest.hapticRectData.count).to(equal(expectedCount));
                 });
             });
         });

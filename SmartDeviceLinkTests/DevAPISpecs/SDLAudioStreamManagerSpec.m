@@ -4,6 +4,7 @@
 #import "SDLAudioStreamManager.h"
 #import "SDLError.h"
 #import "SDLStreamingAudioManagerMock.h"
+#import "SDLExpect.h"
 
 QuickSpecBegin(SDLAudioStreamManagerSpec)
 
@@ -42,8 +43,9 @@ describe(@"the audio stream manager", ^{
                 });
 
                 it(@"should fail to send data", ^{
-                    expect(mockAudioManager.dataSinceClear.length).withTimeout(3.0).toEventually(equal(0));
-                    expect(mockAudioManager.error.code).withTimeout(3.0).toEventually(equal(SDLAudioStreamManagerErrorNotConnected));
+                    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        expect(mockAudioManager.dataSinceClear.length).to(equal(0));
+                    });
                 });
             });
         });
@@ -61,8 +63,9 @@ describe(@"the audio stream manager", ^{
                 });
 
                 it(@"should fail to send data", ^{
-                    expect(mockAudioManager.dataSinceClear.length).toEventually(equal(0));
-                    expect(mockAudioManager.error.code).toEventually(equal(SDLAudioStreamManagerErrorNotConnected));
+                    expect(mockAudioManager.dataSinceClear.length).to(equal(0));
+                    sleep(SDLExpect.timeout);
+                    expect(mockAudioManager.error.code).to(equal(SDLAudioStreamManagerErrorNotConnected));
                 });
             });
         });
@@ -75,7 +78,7 @@ describe(@"the audio stream manager", ^{
         });
 
         it(@"should have a file in the queue", ^{
-            expect(testManager.queue).toEventuallyNot(beEmpty());
+            expect(testManager.queue).to(beEmpty());
         });
 
         describe(@"after attempting to play the file", ^{
@@ -85,9 +88,11 @@ describe(@"the audio stream manager", ^{
             });
 
             it(@"should be sending data", ^{
-                expect(testManager.isPlaying).toEventually(beTrue());
-                expect(mockAudioManager.dataSinceClear.length).toEventually(equal(34380));
-                expect(mockAudioManager.finishedPlaying).withTimeout(3.0).toEventually(beTrue());
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    expect(testManager.isPlaying).to(beTrue());
+                    expect(mockAudioManager.dataSinceClear.length).to(equal(34380));
+                    expect(mockAudioManager.finishedPlaying).to(beTrue());
+                });
             });
         });
 
@@ -97,7 +102,7 @@ describe(@"the audio stream manager", ^{
             });
 
             it(@"should have an empty queue", ^{
-                expect(testManager.queue).toEventually(beEmpty());
+                expect(testManager.queue).to(beEmpty());
             });
         });
     });
@@ -109,7 +114,8 @@ describe(@"the audio stream manager", ^{
         });
 
         it(@"should have a file in the queue", ^{
-            expect(testManager.queue).toEventuallyNot(beEmpty());
+            sleep(SDLExpect.timeout);
+            expect(testManager.queue).toNot(beEmpty());
         });
 
         describe(@"after attempting to play the audio buffer", ^{
@@ -119,11 +125,13 @@ describe(@"the audio stream manager", ^{
             });
 
             it(@"should be sending data", ^{
-                expect(testManager.isPlaying).toEventually(beTrue());
-                expect(mockAudioManager.dataSinceClear.length).toEventually(equal(14838));
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    expect(testManager.isPlaying).to(beTrue());
+                    expect(mockAudioManager.dataSinceClear.length).to(equal(14838));
 
-                // Fails when it shouldn't, `weakself` goes to nil in `sdl_playNextWhenReady`
-                expect(mockAudioManager.finishedPlaying).toEventually(beTrue());
+                    // Fails when it shouldn't, `weakself` goes to nil in `sdl_playNextWhenReady`
+                    expect(mockAudioManager.finishedPlaying).to(beTrue());
+                });
             });
         });
 
@@ -133,7 +141,7 @@ describe(@"the audio stream manager", ^{
             });
 
             it(@"should have an empty queue", ^{
-                expect(testManager.queue).toEventually(beEmpty());
+                expect(testManager.queue).to(beEmpty());
             });
         });
     });

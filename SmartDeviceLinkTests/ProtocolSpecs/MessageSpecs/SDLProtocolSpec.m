@@ -67,7 +67,7 @@ describe(@"Send StartService Tests", ^{
             
             [testProtocol startServiceWithType:SDLServiceTypeBulkData payload:nil];
             
-            expect(verified).toEventually(beTrue());
+            expect(verified).to(beTrue());
         });
 
         it(@"Should reuse stored header of RPC service when starting other service", ^{
@@ -103,7 +103,7 @@ describe(@"Send StartService Tests", ^{
             [testProtocol storeHeader:header forServiceType:SDLServiceTypeRPC];
             [testProtocol startServiceWithType:serviceTypeToStart payload:nil];
 
-            expect(verified).toEventually(beTrue());
+            expect(verified).to(beTrue());
         });
     });
     
@@ -144,7 +144,7 @@ describe(@"Send EndSession Tests", ^{
             
             [testProtocol endServiceWithType:SDLServiceTypeRPC];
             
-            expect(verified).toEventually(beTrue());
+            expect(verified).to(beTrue());
         });
     });
     
@@ -172,7 +172,7 @@ describe(@"Send EndSession Tests", ^{
             
             [testProtocol endServiceWithType:SDLServiceTypeRPC];
             
-            expect(verified).toEventually(beTrue());
+            expect(verified).to(beTrue());
         });
     });
 });
@@ -208,7 +208,7 @@ describe(@"Send Register Secondary Transport Tests", ^{
 
         [testProtocol registerSecondaryTransport];
 
-        expect(verified).toEventually(beTrue());
+        expect(verified).to(beTrue());
     });
 });
 
@@ -258,7 +258,7 @@ describe(@"SendRPC Tests", ^{
             NSError *error = nil;
             BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
-            expect(verified).toEventually(beTrue());
+            expect(verified).to(beTrue());
             expect(sent).to(beTrue());
             expect(error).to(beNil());
         });
@@ -293,7 +293,7 @@ describe(@"SendRPC Tests", ^{
             NSError *error = nil;
             BOOL sent = [testProtocol sendRPC:mockRequest error:&error];
             
-            expect(numTimesCalled).toEventually(equal(1));
+            expect(numTimesCalled).to(equal(1));
             expect(sent).to(beTrue());
             expect(error).to(beNil());
         });
@@ -317,7 +317,7 @@ describe(@"SendRPC Tests", ^{
             [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:2 minor:0 patch:0];
             BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
 
-            expect(numTimesCalled).toEventually(equal(3));
+            expect(numTimesCalled).to(equal(3));
             expect(sent).to(beTrue());
             expect(error).to(beNil());
         });
@@ -344,7 +344,7 @@ describe(@"SendRPC Tests", ^{
                     [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
                     BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
 
-                    expect(numTimesCalled).toEventually(equal(0));
+                    expect(numTimesCalled).to(equal(0));
                     expect(sent).to(beFalse());
                     expect(error).toNot(beNil());
                 });
@@ -363,10 +363,13 @@ describe(@"SendRPC Tests", ^{
                     SDLEncryptionLifecycleManager *encryptionMock = OCMClassMock([SDLEncryptionLifecycleManager class]);
                     OCMStub(encryptionMock.isEncryptionReady).andReturn(YES);
 
+                    [NSThread sleepForTimeInterval:1.0];
+
                     id securityManager = OCMProtocolMock(@protocol(SDLSecurityType));
                     char dummyBytes[dataSize];
                     NSData *returnData = [NSData dataWithBytes:dummyBytes length:dataSize];
                     OCMStub([securityManager encryptData:[OCMArg any] withError:[OCMArg setTo:nil]]).andReturn(returnData);
+                    [NSThread sleepForTimeInterval:0.5];
 
                     testProtocol = [[SDLProtocol alloc] initWithTransport:transportMock encryptionManager:encryptionMock];
                     testProtocol.securityManager = securityManager;
@@ -384,7 +387,7 @@ describe(@"SendRPC Tests", ^{
                     [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
                     BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
 
-                    expect(numTimesCalled).toEventually(equal(3));
+                    expect(numTimesCalled).to(equal(3));
                     expect(sent).to(beTrue());
                     expect(error).to(beNil());
                 });

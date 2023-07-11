@@ -124,7 +124,7 @@ describe(@"the streaming audio manager", ^{
                             });
 
                             it(@"should close the streams", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
                             });
                         });
 
@@ -134,7 +134,7 @@ describe(@"the streaming audio manager", ^{
                             });
 
                             it(@"should close the stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateShuttingDown));
+                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
                             });
                         });
 
@@ -144,7 +144,7 @@ describe(@"the streaming audio manager", ^{
                             });
 
                             it(@"should not close the stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateReady));
+                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
                             });
                         });
 
@@ -154,7 +154,7 @@ describe(@"the streaming audio manager", ^{
                             });
 
                             it(@"should not close the stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateReady));
+                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
                             });
                         });
                     });
@@ -183,7 +183,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should close the streams", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -193,7 +193,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should close the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateShuttingDown));
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateShuttingDown));
                         });
                     });
 
@@ -203,7 +203,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should not close the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateReady));
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
                         });
                     });
 
@@ -213,7 +213,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should not close the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateReady));
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateReady));
                         });
                     });
                 });
@@ -235,7 +235,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
                         });
                     });
 
@@ -245,7 +245,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should not start the stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateStopped));
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStopped));
                         });
                     });
 
@@ -255,7 +255,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should start the streams", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateStarting));
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStarting));
                         });
                     });
 
@@ -265,7 +265,7 @@ describe(@"the streaming audio manager", ^{
                         });
 
                         it(@"should start the streams", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).toEventually(equal(SDLAudioStreamManagerStateStarting));
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamManagerStateStarting));
                         });
                     });
                 });

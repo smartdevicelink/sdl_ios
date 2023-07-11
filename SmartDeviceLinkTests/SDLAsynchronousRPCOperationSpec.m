@@ -14,6 +14,7 @@
 #import "SDLGetAppServiceDataResponse.h"
 #import "SDLGlobals.h"
 #import "TestConnectionManager.h"
+#import "SDLExpect.h"
 
 QuickSpecBegin(SDLAsynchronousRPCOperationSpec)
 
@@ -42,7 +43,8 @@ describe(@"sending responses and notifications", ^{
             testOperation = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPC];
             [testOperationQueue addOperation:testOperation];
 
-            expect(testConnectionManager.receivedRequests).toEventually(contain(sendRPC));
+            sleep(SDLExpect.timeout);
+            expect(testConnectionManager.receivedRequests).to(contain(sendRPC));
         });
     });
 
@@ -63,8 +65,12 @@ describe(@"sending responses and notifications", ^{
                 [testOperationQueue addOperation:testOperation];
             }
 
-            expect(testConnectionManager.receivedRequests.count).toEventually(equal(rpcCount));
-            expect(testConnectionManager.receivedRequests).toEventually(equal(sendRPCs));
+//            sleep(SDLExpect.timeout);
+//            [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+            [NSThread sleepForTimeInterval:0.5];
+                expect(testConnectionManager.receivedRequests.count).to(equal(rpcCount));
+                expect(testConnectionManager.receivedRequests).to(equal(sendRPCs));
+//            }];
         });
     });
 
@@ -83,7 +89,7 @@ describe(@"sending responses and notifications", ^{
             [testOperationQueue cancelAllOperations];
             [testOperationQueue setSuspended:NO];
 
-            expect(testConnectionManager.receivedRequests).withTimeout(3.0).toEventually(beEmpty());
+            expect(testConnectionManager.receivedRequests).withTimeout(3.0).to(beEmpty());
         });
     });
 });

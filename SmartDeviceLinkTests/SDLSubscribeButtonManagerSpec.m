@@ -125,12 +125,12 @@ describe(@"subscribe button manager", ^{
             expect(subscriptionID2).toNot(beNil());
 
             NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
-            expect(observers.count).toEventually(equal(2));
-            expect((id)observers[0].updateBlock).toEventually(equal((id)testUpdateHandler1));
-            expect((id)observers[1].updateBlock).toEventually(equal((id)testUpdateHandler2));
+            expect(observers.count).to(equal(2));
+            expect((id)observers[0].updateBlock).to(equal((id)testUpdateHandler1));
+            expect((id)observers[1].updateBlock).to(equal((id)testUpdateHandler2));
 
-            expect(testConnectionManager.receivedRequests.count).toEventually(equal(1));
-            expect(testConnectionManager.receivedRequests[0]).toEventually(beAKindOf(SDLSubscribeButton.class));
+            expect(testConnectionManager.receivedRequests.count).to(equal(1));
+            expect(testConnectionManager.receivedRequests[0]).to(beAKindOf(SDLSubscribeButton.class));
         });
 
         it(@"should send two subscription request for the same button name to the module if the second request is sent before the module responds to the first request and it should add both observers if the second request fails with a result code of IGNORED", ^{
@@ -150,11 +150,11 @@ describe(@"subscribe button manager", ^{
 
             // Both observers should be added
             NSArray<SDLSubscribeButtonObserver *> *observers = testManager.subscribeButtonObservers[testButtonName];
-            expect(observers.count).toEventually(equal(2));
+            expect(observers.count).to(equal(2));
 
-            expect(testConnectionManager.receivedRequests.count).toEventually(equal(2));
-            expect(testConnectionManager.receivedRequests[0]).toEventually(beAKindOf(SDLSubscribeButton.class));
-            expect(testConnectionManager.receivedRequests[1]).toEventually(beAKindOf(SDLSubscribeButton.class));
+            expect(testConnectionManager.receivedRequests.count).to(equal(2));
+            expect(testConnectionManager.receivedRequests[0]).to(beAKindOf(SDLSubscribeButton.class));
+            expect(testConnectionManager.receivedRequests[1]).to(beAKindOf(SDLSubscribeButton.class));
         });
 
         it(@"should not notify the observer when a success response is received for the subscribe button request", ^{
@@ -339,15 +339,15 @@ describe(@"subscribe button manager", ^{
             it(@"should notify block handler and observer/selector subscribers when a button event notification is received", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
 
-                expect(testHandler1Called).toEventually(beTrue());
-                expect(testHandle1Error).toEventually(beNil());
-                expect(testHandler1OnButtonEvent).toEventually(equal(testButtonEvent));
-                expect(testHandler1OnButtonPress).toEventually(beNil());
+                expect(testHandler1Called).to(beTrue());
+                expect(testHandle1Error).to(beNil());
+                expect(testHandler1OnButtonEvent).to(equal(testButtonEvent));
+                expect(testHandler1OnButtonPress).to(beNil());
 
-                expect(testHandler2Called).toEventually(beTrue());
-                expect(testHandler2Error).toEventually(beNil());
-                expect(testHandler2OnButtonEvent).toEventually(equal(testButtonEvent));
-                expect(testHandler2OnButtonPress).toEventually(beNil());
+                expect(testHandler2Called).to(beTrue());
+                expect(testHandler2Error).to(beNil());
+                expect(testHandler2OnButtonEvent).to(equal(testButtonEvent));
+                expect(testHandler2OnButtonPress).to(beNil());
 
                 expect(testObserver1.buttonNamesReceived.count).to(equal(1));
                 expect(testObserver1.buttonErrorsReceived).to(beEmpty());
@@ -363,15 +363,15 @@ describe(@"subscribe button manager", ^{
             it(@"should notify block handler and observer/selector subscribers when a button press notification is received", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
 
-                expect(testHandler1Called).toEventually(beTrue());
-                expect(testHandle1Error).toEventually(beNil());
-                expect(testHandler1OnButtonEvent).toEventually(beNil());
-                expect(testHandler1OnButtonPress).toEventually(equal(testButtonPress));
+                expect(testHandler1Called).to(beTrue());
+                expect(testHandle1Error).to(beNil());
+                expect(testHandler1OnButtonEvent).to(beNil());
+                expect(testHandler1OnButtonPress).to(equal(testButtonPress));
 
-                expect(testHandler2Called).toEventually(beTrue());
-                expect(testHandler2Error).toEventually(beNil());
-                expect(testHandler2OnButtonEvent).toEventually(beNil());
-                expect(testHandler2OnButtonPress).toEventually(equal(testButtonPress));
+                expect(testHandler2Called).to(beTrue());
+                expect(testHandler2Error).to(beNil());
+                expect(testHandler2OnButtonEvent).to(beNil());
+                expect(testHandler2OnButtonPress).to(equal(testButtonPress));
 
                 expect(testObserver1.buttonNamesReceived.count).to(equal(1));
                 expect(testObserver1.buttonErrorsReceived).to(beEmpty());

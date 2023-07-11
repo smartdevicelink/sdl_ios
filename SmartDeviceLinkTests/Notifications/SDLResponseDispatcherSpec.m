@@ -30,7 +30,7 @@
 #import "SDLTextAlignment.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeButtonResponse.h"
-
+#import "SDLExpect.h"
 
 QuickSpecBegin(SDLResponseDispatcherSpec)
 
@@ -112,7 +112,8 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should run the handler", ^{
-                expect(@(handlerCalled)).toEventually(beTrue());
+                sleep(SDLExpect.timeout);
+                expect(@(handlerCalled)).to(beTrue());
                 expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
                 expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
             });

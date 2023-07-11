@@ -14,6 +14,7 @@
 #import "SDLVersion.h"
 #import "TestConnectionManager.h"
 #import <zlib.h>
+#import "SDLExpect.h"
 
 @interface UploadFileOperationSpecHelpers : NSObject
 
@@ -212,8 +213,10 @@ describe(@"Streaming upload of data", ^{
                     [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
-                expect(testOperation.finished).toEventually(beTrue());
-                expect(testOperation.executing).toEventually(beFalse());
+                [SDLExpect SDLExpectWithTimeout:3 expectBlock:^{
+                    expect(testOperation.finished).to(beTrue());
+                    expect(testOperation.executing).to(beFalse());
+                }];
             });
 
             it(@"should split the data from a large image in memory correctly", ^{
@@ -245,8 +248,10 @@ describe(@"Streaming upload of data", ^{
                     [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
-                expect(testOperation.finished).toEventually(beTrue());
-                expect(testOperation.executing).toEventually(beFalse());
+                [SDLExpect SDLExpectWithTimeout:3 expectBlock:^{
+                    expect(testOperation.finished).to(beTrue());
+                    expect(testOperation.executing).to(beFalse());
+                }];
             });
 
             it(@"should split the data from a small text file correctly", ^{
@@ -279,8 +284,10 @@ describe(@"Streaming upload of data", ^{
                     [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
-                expect(testOperation.finished).toEventually(beTrue());
-                expect(testOperation.executing).toEventually(beFalse());
+                [SDLExpect SDLExpectWithTimeout:3 expectBlock:^{
+                    expect(testOperation.finished).to(beTrue());
+                    expect(testOperation.executing).to(beFalse());
+                }];
             });
 
             it(@"should split the data from a large image file correctly", ^{
@@ -314,8 +321,10 @@ describe(@"Streaming upload of data", ^{
                     [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
-                expect(testOperation.finished).toEventually(beTrue());
-                expect(testOperation.executing).toEventually(beFalse());
+                [SDLExpect SDLExpectWithTimeout:3 expectBlock:^{
+                    expect(testOperation.finished).to(beTrue());
+                    expect(testOperation.executing).to(beFalse());
+                }];
             });
         });
     });
@@ -356,12 +365,13 @@ describe(@"Streaming upload of data", ^{
                     [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
-                expect(successResult).toEventually(beTrue());
-                expect(bytesAvailableResult).toEventually(equal(spaceLeft));
-                expect(errorResult).toEventually(beNil());
+                [NSThread sleepForTimeInterval:1.0];
+                expect(successResult).to(beTrue());
+                expect(bytesAvailableResult).to(equal(spaceLeft));
+                expect(errorResult).to(beNil());
 
-                expect(testOperation.finished).toEventually(beTrue());
-                expect(testOperation.executing).toEventually(beFalse());
+                expect(testOperation.finished).to(beTrue());
+                expect(testOperation.executing).to(beFalse());
             });
         });
 
@@ -400,9 +410,11 @@ describe(@"Streaming upload of data", ^{
                 });
 
                 it(@"should have called the completion handler with error", ^{
-                    expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
-                    expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
-                    expect(successResult).toEventually(beFalse());
+                    [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                        expect(errorResult.localizedDescription).to(match(responseErrorDescription));
+                        expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
+                        expect(successResult).to(beFalse());
+                    }];
                 });
             });
 
@@ -426,9 +438,10 @@ describe(@"Streaming upload of data", ^{
                         [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
                     }
 
-                    expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
-                    expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
-                    expect(successResult).toEventually(beFalse());
+                    sleep(SDLExpect.timeout + 3);
+                    expect(errorResult.localizedDescription).to(match(responseErrorDescription));
+                    expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
+                    expect(successResult).to(beFalse());
                 });
             });
 
@@ -444,10 +457,10 @@ describe(@"Streaming upload of data", ^{
 
                         [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
                     }
-
-                    expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
-                    expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
-                    expect(successResult).toEventually(beFalse());
+                    [NSThread sleepForTimeInterval:1.0];
+                    expect(errorResult.localizedDescription).to(match(responseErrorDescription));
+                    expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
+                    expect(successResult).to(beFalse());
                 });
             });
         });

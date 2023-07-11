@@ -856,7 +856,7 @@ describe(@"a system capability manager", ^{
         });
 
         it(@"should properly update phone capability", ^{
-            expect(testSystemCapabilityManager.phoneCapability).toEventually(equal(phoneCapability));
+            expect(testSystemCapabilityManager.phoneCapability).to(equal(phoneCapability));
         });
     });
 
@@ -914,18 +914,18 @@ describe(@"a system capability manager", ^{
             });
 
             it(@"should not notify subscribers of new data because it was sent outside of the SCM", ^{
-                expect(handlerTriggeredCount).toEventually(equal(1));
+                expect(handlerTriggeredCount).to(equal(1));
 
-                expect(phoneObserver.selectorCalledCount).toEventually(equal(0));
-                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                expect(phoneObserver.selectorCalledCount).to(equal(0));
+                expect(navigationObserver.selectorCalledCount).to(equal(0));
 
-                expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
-                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(0));
-                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beNil());
+                expect(videoStreamingObserver.selectorCalledCount).to(equal(0));
+                expect(videoStreamingObserver.subscribedValuesReceived).to(haveCount(0));
+                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).to(beNil());
 
-                expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
-                expect(displaysObserver.subscribedValuesReceived).toEventually(haveCount(1));
-                expect(displaysObserver.subscribedValuesReceived.firstObject).toEventually(beTrue());
+                expect(displaysObserver.selectorCalledCount).to(equal(1));
+                expect(displaysObserver.subscribedValuesReceived).to(haveCount(1));
+                expect(displaysObserver.subscribedValuesReceived.firstObject).to(beTrue());
             });
 
             describe(@"unsubscribing", ^{
@@ -941,13 +941,13 @@ describe(@"a system capability manager", ^{
                 });
 
                 it(@"should not notify the subscriber of the new data", ^{
-                    expect(handlerTriggeredCount).toEventually(equal(1));
+                    expect(handlerTriggeredCount).to(equal(1));
 
-                    expect(phoneObserver.selectorCalledCount).toEventually(equal(0)); // No change from above
-                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
-                    expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
+                    expect(phoneObserver.selectorCalledCount).to(equal(0)); // No change from above
+                    expect(navigationObserver.selectorCalledCount).to(equal(0));
+                    expect(videoStreamingObserver.selectorCalledCount).to(equal(0));
 
-                    expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
+                    expect(displaysObserver.selectorCalledCount).to(equal(1));
                 });
             });
         });
@@ -967,18 +967,18 @@ describe(@"a system capability manager", ^{
             });
 
             it(@"should notify subscribers of the new data", ^{
-                expect(handlerTriggeredCount).toEventually(equal(2));
+                expect(handlerTriggeredCount).to(equal(2));
 
-                expect(phoneObserver.selectorCalledCount).toEventually(equal(1));
-                expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
+                expect(phoneObserver.selectorCalledCount).to(equal(1));
+                expect(navigationObserver.selectorCalledCount).to(equal(0));
 
-                expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
-                expect(videoStreamingObserver.subscribedValuesReceived).toEventually(haveCount(0));
-                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).toEventually(beNil());
+                expect(videoStreamingObserver.selectorCalledCount).to(equal(0));
+                expect(videoStreamingObserver.subscribedValuesReceived).to(haveCount(0));
+                expect(videoStreamingObserver.subscribedValuesReceived.firstObject).to(beNil());
 
-                expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
-                expect(displaysObserver.subscribedValuesReceived).toEventually(haveCount(1));
-                expect(displaysObserver.subscribedValuesReceived.firstObject).toEventually(beTrue());
+                expect(displaysObserver.selectorCalledCount).to(equal(1));
+                expect(displaysObserver.subscribedValuesReceived).to(haveCount(1));
+                expect(displaysObserver.subscribedValuesReceived.firstObject).to(beTrue());
             });
 
             describe(@"unsubscribing", ^{
@@ -993,10 +993,10 @@ describe(@"a system capability manager", ^{
                 });
 
                 it(@"should not notify the subscriber of the new data", ^{
-                    expect(phoneObserver.selectorCalledCount).toEventually(equal(1)); // No change from above
-                    expect(navigationObserver.selectorCalledCount).toEventually(equal(0));
-                    expect(videoStreamingObserver.selectorCalledCount).toEventually(equal(0));
-                    expect(displaysObserver.selectorCalledCount).toEventually(equal(1));
+                    expect(phoneObserver.selectorCalledCount).to(equal(1)); // No change from above
+                    expect(navigationObserver.selectorCalledCount).to(equal(0));
+                    expect(videoStreamingObserver.selectorCalledCount).to(equal(0));
+                    expect(displaysObserver.selectorCalledCount).to(equal(1));
                 });
             });
         });

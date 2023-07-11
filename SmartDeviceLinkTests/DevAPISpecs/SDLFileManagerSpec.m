@@ -127,9 +127,9 @@ describe(@"uploading / deleting single files with the file manager", ^{
         });
 
         it(@"should have queued a ListFiles request", ^{
-            expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateFetchingInitialList));
-            expect(testFileManager.pendingTransactions).toEventually(haveCount(@1));
-            expect(testFileManager.pendingTransactions.firstObject).toEventually(beAnInstanceOf([SDLListFilesOperation class]));
+            expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
+            expect(testFileManager.pendingTransactions).to(haveCount(@1));
+            expect(testFileManager.pendingTransactions.firstObject).to(beAnInstanceOf([SDLListFilesOperation class]));
         });
 
         describe(@"after going to the shutdown state and receiving a ListFiles response", ^{
@@ -544,14 +544,14 @@ describe(@"uploading / deleting single files with the file manager", ^{
                 });
 
                 it(@"should set the file manager state correctly", ^{
-                    expect(testFileManager.bytesAvailable).toEventually(equal(initialSpaceAvailable));
-                    expect(testFileManager.remoteFileNames).toEventuallyNot(contain(testFileName));
-                    expect(testFileManager.uploadedEphemeralFileNames).toEventuallyNot(contain(testUploadFile.name));
-                    expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
+                    expect(testFileManager.bytesAvailable).to(equal(initialSpaceAvailable));
+                    expect(testFileManager.remoteFileNames).toNot(contain(testFileName));
+                    expect(testFileManager.uploadedEphemeralFileNames).toNot(contain(testUploadFile.name));
+                    expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
 
                     expect(completionBytesAvailable).to(equal(failureSpaceAvailabe));
                     expect(completionSuccess).to(beFalse());
-                    expect(completionError).toEventuallyNot(beNil());
+                    expect(completionError).toNot(beNil());
                 });
             });
         });
