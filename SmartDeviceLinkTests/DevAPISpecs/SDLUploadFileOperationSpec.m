@@ -365,15 +365,13 @@ describe(@"Streaming upload of data", ^{
                     [testConnectionManager respondToRequestWithResponse:successResponse requestNumber:i error:nil];
                 }
 
-//                [SDLExpect SDLExpectWithTimeout:(SDLExpect.timeout + 3) expectBlock:^{
                 [NSThread sleepForTimeInterval:1.0];
-                    expect(successResult).to(beTrue());
-                    expect(bytesAvailableResult).to(equal(spaceLeft));
-                    expect(errorResult).to(beNil());
+                expect(successResult).to(beTrue());
+                expect(bytesAvailableResult).to(equal(spaceLeft));
+                expect(errorResult).to(beNil());
 
-                    expect(testOperation.finished).to(beTrue());
-                    expect(testOperation.executing).to(beFalse());
-//                }];
+                expect(testOperation.finished).to(beTrue());
+                expect(testOperation.executing).to(beFalse());
             });
         });
 
@@ -440,12 +438,10 @@ describe(@"Streaming upload of data", ^{
                         [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
                     }
 
-//                    [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
                     sleep(SDLExpect.timeout + 3);
-                        expect(errorResult.localizedDescription).to(match(responseErrorDescription));
-                        expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
-                        expect(successResult).to(beFalse());
-//                    }];
+                    expect(errorResult.localizedDescription).to(match(responseErrorDescription));
+                    expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
+                    expect(successResult).to(beFalse());
                 });
             });
 
@@ -461,13 +457,10 @@ describe(@"Streaming upload of data", ^{
 
                         [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
                     }
-//                    [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
-
                     [NSThread sleepForTimeInterval:1.0];
                     expect(errorResult.localizedDescription).to(match(responseErrorDescription));
-                        expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
-                        expect(successResult).to(beFalse());
-//                    }];
+                    expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
+                    expect(successResult).to(beFalse());
                 });
             });
         });

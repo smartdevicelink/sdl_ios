@@ -48,6 +48,7 @@
 #import "TestConnectionManager.h"
 #import "TestSmartConnectionManager.h"
 #import "TestStreamingMediaDelegate.h"
+#import "SDLExpect.h"
 
 // expose private methods to the test suite
 @interface SDLStreamingVideoLifecycleManager (test)
@@ -299,34 +300,45 @@ describe(@"test internals", ^{
     });
 
     context(@"init extended manager", ^{
-        id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
-        SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
-        SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+//        __block id<SDLConnectionManagerType> mockConnectionManager;
+//        __block SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager;
+
+//        beforeEach(^{
+//            mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+//            SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+//            streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+//        });
 
         context(@"test didEnterStateVideoStreamReady", ^{
             it(@"expect displayLink update properly", ^{
+                id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+                SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+                SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+                [streamingLifecycleManager useDisplayLink];
+
                 expect(streamingLifecycleManager.displayLink).to(beNil());
                 [streamingLifecycleManager didEnterStateVideoStreamReady];
-
-                [NSThread sleepForTimeInterval:1.5];
-
+//                [NSThread sleepForTimeInterval:1.5];
                 expect([streamingLifecycleManager.displayLink isKindOfClass:[CADisplayLink class]]).to(beTrue());
             });
         });
 
         context(@"test didEnterStateVideoStreamSuspended", ^{
-            SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
-            streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
             it(@"expect properties to update properly", ^{
+                id<SDLConnectionManagerType> mockConnectionManager = OCMProtocolMock(@protocol(SDLConnectionManagerType));
+                SDLConfiguration *configuration = [[SDLConfiguration alloc] init];
+                SDLStreamingVideoLifecycleTestManager *streamingLifecycleManager = [[SDLStreamingVideoLifecycleTestManager alloc] initWithConnectionManager:mockConnectionManager configuration:configuration systemCapabilityManager:nil];
+
+                SDLVideoStreamingCapability *videoStreamingCapabilityUpdated = OCMClassMock([SDLVideoStreamingCapability class]);
+                streamingLifecycleManager.videoStreamingCapabilityUpdated = videoStreamingCapabilityUpdated;
+
                 streamingLifecycleManager.shouldAutoResume = YES;
 
                 expect(streamingLifecycleManager.shouldAutoResume).to(equal(YES));
-                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).notTo(beNil());
+                expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).toNot(beNil());
                 expect(streamingLifecycleManager.videoStreamingCapabilityUpdated).to(equal(videoStreamingCapabilityUpdated));
 
                 [streamingLifecycleManager didEnterStateVideoStreamSuspended];
-
-                [NSThread sleepForTimeInterval:1.5];
 
                 expect(streamingLifecycleManager.shouldAutoResume).to(equal(NO));
                 expect(streamingLifecycleManager.videoStreamingCapability).to(equal(videoStreamingCapabilityUpdated));

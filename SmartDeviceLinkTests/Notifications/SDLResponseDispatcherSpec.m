@@ -112,13 +112,10 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should run the handler", ^{
-//                [NSThread sleepForTimeInterval:SDLExpect.timeout];
-//                [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
                 sleep(SDLExpect.timeout);
-                    expect(@(handlerCalled)).to(beTrue());
-                    expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
-                    expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
-//                }];
+                expect(@(handlerCalled)).to(beTrue());
+                expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
+                expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
             });
         });
     });

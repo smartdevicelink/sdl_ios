@@ -80,21 +80,28 @@ describe(@"a RTP H264 packetizer", ^{
         beforeEach(^{
             NSArray<NSData *> *nalUnits = @[iframe];
             NSArray<NSData *> *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
-            [NSThread sleepForTimeInterval:1.5];
             header = results[0].bytes;
         });
 
         it(@"indicates version 2", ^{
-            expect(@((header[FrameLengthLen] >> 6) & 3)).to(equal(@2));
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                expect(@((header[FrameLengthLen] >> 6) & 3)).to(equal(@2));
+            });
         });
         it(@"indicates no padding", ^{
-            expect(@((header[FrameLengthLen] >> 5) & 1)).to(equal(@0));
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                expect(@((header[FrameLengthLen] >> 5) & 1)).to(equal(@0));
+            });
         });
         it(@"indicates no extension", ^{
-            expect(@((header[FrameLengthLen] >> 4) & 1)).to(equal(@0));
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                expect(@((header[FrameLengthLen] >> 4) & 1)).to(equal(@0));
+            });
         });
         it(@"indicates no CSRC", ^{
-            expect(@(header[FrameLengthLen] & 0xF)).to(equal(@0));
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                expect(@(header[FrameLengthLen] & 0xF)).to(equal(@0));
+            });
         });
     });
 

@@ -222,7 +222,7 @@ describe(@"a soft button manager", ^{
             expect(testObject2.manager).to(equal(testManager));
 
             // One replace operation
-            expect(testManager.transactionQueue.operationCount).toEventually(equal(1));
+            expect(testManager.transactionQueue.operationCount).to(equal(1));
         });
 
         // should replace earlier operations when a replace operation is entered

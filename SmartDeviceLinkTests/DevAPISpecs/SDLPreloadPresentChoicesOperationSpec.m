@@ -1021,11 +1021,9 @@ describe(@"a preload choices operation", ^{
                         });
 
                         it(@"should finish", ^{
-//                            [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
-                                expect(testOp.isExecuting).to(beFalse());
-                                expect(testOp.isFinished).to(beTrue());
-                                expect(testOp.isCancelled).to(beTrue());
-//                            }];
+                            expect(testOp.isExecuting).to(beFalse());
+                            expect(testOp.isFinished).to(beTrue());
+                            expect(testOp.isCancelled).to(beTrue());
                         });
                     });
                 });

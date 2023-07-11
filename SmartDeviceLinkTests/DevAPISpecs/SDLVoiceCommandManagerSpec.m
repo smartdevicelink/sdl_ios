@@ -167,10 +167,10 @@ describe(@"voice command manager", ^{
                     });
 
                     it(@"should update the second operation", ^{
-                        [NSThread sleepForTimeInterval:1.0];
-//                        [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+                        [NSThread sleepForTimeInterval:3.0];
+                        [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
                             expect(((SDLVoiceCommandUpdateOperation *)testManager.transactionQueue.operations.firstObject).oldVoiceCommands.firstObject).to(equal(testVoiceCommand2));
-//                        }];
+                        }];
                     });
                 });
             });

@@ -387,9 +387,9 @@ describe(@"SendRPC Tests", ^{
                     [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithMajor:5 minor:0 patch:0];
                     BOOL sent = [testProtocol sendRPC:deleteRequest error:&error];
 
-//                    expect(numTimesCalled).to(equal(3));
-//                    expect(sent).to(beTrue());
-//                    expect(error).to(beNil());
+                    expect(numTimesCalled).to(equal(3));
+                    expect(sent).to(beTrue());
+                    expect(error).to(beNil());
                 });
             });
         });

@@ -65,11 +65,12 @@ describe(@"sending responses and notifications", ^{
                 [testOperationQueue addOperation:testOperation];
             }
 
-            sleep(SDLExpect.timeout);
-            [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+//            sleep(SDLExpect.timeout);
+//            [SDLExpect SDLExpectWithTimeout:SDLExpect.timeout expectBlock:^{
+            [NSThread sleepForTimeInterval:0.5];
                 expect(testConnectionManager.receivedRequests.count).to(equal(rpcCount));
                 expect(testConnectionManager.receivedRequests).to(equal(sendRPCs));
-            }];
+//            }];
         });
     });
 
