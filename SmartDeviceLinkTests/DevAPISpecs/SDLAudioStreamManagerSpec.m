@@ -32,7 +32,7 @@ describe(@"the audio stream manager", ^{
         context(@"with a file URL", ^{
             beforeEach(^{
                 mockAudioManager.audioConnected = NO;
-                [testManager pushWithFileURL:testAudioFileURL];
+                [testManager pushWithFileURL:testAudioFileURL forceInterrupt:true];
             });
 
             describe(@"after attempting to play the file", ^{
@@ -71,7 +71,7 @@ describe(@"the audio stream manager", ^{
     describe(@"after adding an audio file to the queue", ^{
         beforeEach(^{
             mockAudioManager.audioConnected = YES;
-            [testManager pushWithFileURL:testAudioFileURL];
+            [testManager pushWithFileURL:testAudioFileURL forceInterrupt:true];
         });
 
         it(@"should have a file in the queue", ^{
